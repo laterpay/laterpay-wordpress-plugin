@@ -554,15 +554,13 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 $access,
                 'attachment'
             );
-
-            return $url;
         }
 
         return $url;
     }
 
     /**
-     * Prevent attachments from prepend paid content.
+     * Prevent prepending of attachment before paid content.
      *
      * @wp-hook prepend_attachment
      *
