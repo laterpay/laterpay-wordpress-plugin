@@ -623,40 +623,40 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $sql = "
             CREATE TABLE $table_terms_price (
-                id                INT(11)            NOT NULL AUTO_INCREMENT,
-                term_id           INT(11)            NOT NULL,
-                price             DOUBLE             NOT NULL DEFAULT '0',
-                revenue_model     ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu',
+                id int(11) NOT NULL AUTO_INCREMENT,
+                term_id int(11) NOT NULL,
+                price double NOT NULL DEFAULT '0',
+                revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta( $sql );
 
         $sql = "
             CREATE TABLE $table_history (
-                id                INT(11)              NOT NULL AUTO_INCREMENT,
-                mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
-                post_id           INT(11)              NOT NULL DEFAULT 0,
-                currency_id       INT(11)              NOT NULL,
-                price             FLOAT                NOT NULL,
-                date              DATETIME             NOT NULL,
-                ip                INT                  NOT NULL,
-                hash              VARCHAR(32)          NOT NULL,
-                revenue_model     ENUM('ppu', 'sis')   NOT NULL DEFAULT 'ppu',
-                pass_id           INT(11)              NOT NULL DEFAULT 0,
-                code              VARCHAR(6)           NULL DEFAULT NULL,
+                id int(11) NOT NULL AUTO_INCREMENT,
+                mode enum('test','live') NOT NULL DEFAULT 'test',
+                post_id int(11) NOT NULL DEFAULT 0,
+                currency_id int(11) NOT NULL,
+                price float NOT NULL,
+                date datetime NOT NULL,
+                ip int NOT NULL,
+                hash varchar(32) NOT NULL,
+                revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
+                pass_id int(11) NOT NULL DEFAULT 0,
+                code varchar(6) NULL DEFAULT NULL,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
         $sql = "
             CREATE TABLE $table_post_views (
-                id                INT(11)              NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                post_id           INT(11)              NOT NULL,
-                mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
-                date              DATETIME             NOT NULL,
-                user_id           VARCHAR(32)          NOT NULL,
-                ip                VARBINARY(16)        NOT NULL,
-                has_access        INT(1)               NOT NULL DEFAULT 0,
+                id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                post_id int(11) NOT NULL,
+                mode enum('test','live') NOT NULL DEFAULT 'test',
+                date datetime NOT NULL,
+                user_id varchar(32) NOT NULL,
+                ip varbinary(16) NOT NULL,
+                has_access int(1) NOT NULL DEFAULT 0,
                 KEY idx_post_views_date_mode (date,mode),
                 KEY idx_post_views_post_id_date_mode (post_id,date,mode)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
@@ -664,16 +664,16 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $sql = "
             CREATE TABLE IF NOT EXISTS $table_passes (
-                pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
-                duration          INT(11)       NULL DEFAULT NULL,
-                period            INT(11)       NULL DEFAULT NULL,
-                access_to         INT(11)       NULL DEFAULT NULL,
-                access_category   BIGINT(20)    NULL DEFAULT NULL,
-                price             DECIMAL(10,2) NULL DEFAULT NULL,
-                revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
-                title             VARCHAR(255)  NULL DEFAULT NULL,
-                description       VARCHAR(255)  NULL DEFAULT NULL,
-                is_deleted        INT(1)        NOT NULL DEFAULT 0,
+                pass_id int(11) NOT NULL AUTO_INCREMENT,
+                duration int(11) NULL DEFAULT NULL,
+                period int(11) NULL DEFAULT NULL,
+                access_to int(11) NULL DEFAULT NULL,
+                access_category bigint(20) NULL DEFAULT NULL,
+                price decimal(10,2) NULL DEFAULT NULL,
+                revenue_model varchar(12) NULL DEFAULT NULL,
+                title varchar(255) NULL DEFAULT NULL,
+                description varchar(255) NULL DEFAULT NULL,
+                is_deleted int(1) NOT NULL DEFAULT 0,
                 PRIMARY KEY  (pass_id),
                 KEY access_to (access_to),
                 KEY period (period),
