@@ -43,6 +43,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             'is_rating_enabled'                   => $this->config->get( 'ratings_enabled' ),
             'purchase_button_positioned_manually' => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'time_passes_positioned_manually'     => get_option( 'laterpay_time_passes_positioned_manually' ),
+            'hide_free_posts'                     => get_option( 'laterpay_hide_free_posts' ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -199,6 +200,39 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                         array(
                             'success' => true,
                             'message' => __( 'Time passes are now rendered at their default position.', 'laterpay' ),
+                        )
+                    );
+                }
+                break;
+
+            case 'free_posts_visibility':
+                $hide_free_posts_form = new LaterPay_Form_HideFreePosts( $_POST );
+
+                if ( ! $hide_free_posts_form->is_valid() ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                }
+
+                $result = update_option( 'laterpay_hide_free_posts', ! ! $hide_free_posts_form->get_field_value( 'hide_free_posts' ) );
+
+                if ( $result ) {
+                    if ( get_option( 'laterpay_hide_free_posts' ) ) {
+                        wp_send_json(
+                            array(
+                                'success' => true,
+                                'message' => __( 'Free posts with premium content now hided from the homepage.', 'laterpay' ),
+                            )
+                        );
+                    }
+
+                    wp_send_json(
+                        array(
+                            'success' => true,
+                            'message' => __( 'Free posts with premium content now hided from the homepage.', 'laterpay' ),
                         )
                     );
                 }
