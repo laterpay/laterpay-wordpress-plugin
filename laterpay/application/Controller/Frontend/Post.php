@@ -512,7 +512,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         // loop through query and find free posts with premium content
         foreach ( $posts as $key => $post ) {
             if ( has_shortcode( $post->post_content, 'laterpay_premium_download' ) && ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
-                unset( $posts[$key] );
+                unset( $posts[ $key ] );
             }
         }
 
