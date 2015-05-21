@@ -109,6 +109,10 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                 {$this->table} (post_id, mode, user_id, date, ip, has_access)
             VALUES
                 ('%d', '%s', '%s', '%s', '%s', '%d')
+            ON DUPLICATE KEY UPDATE
+                post_id = VALUES(post_id),
+                mode    = VALUES(mode),
+                date    = VALUES(date)
             ;
         ";
         $sql = $wpdb->prepare(

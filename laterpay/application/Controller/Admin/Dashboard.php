@@ -189,7 +189,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
      *
      * @return void
      */
-    public function refresh_dasboard_data( $start_timestamp = null, $count = 10, $interval = 'week' ) {
+    public function refresh_dashboard_data( $start_timestamp = null, $count = 10, $interval = 'week' ) {
         set_time_limit( 0 );
 
         if ( $start_timestamp === null ) {
