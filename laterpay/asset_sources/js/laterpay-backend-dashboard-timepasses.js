@@ -68,7 +68,7 @@
                     if (!data || data.success) {
                         return;
                     }
-                    setMessage(data.message, data.success);
+                    $('.lp_navigation').showMessage(data);
                 });
 
                 return jqxhr;
@@ -233,14 +233,14 @@
                     var $element    = $(data[index]),
                         timePassId  = $element.data('id');
 
-                    showLoadingIndicator($element);
+                    $element.showLoadingIndicator();
 
                     loadTimePassData(timePassId)
                         .done(function(response) {
                             renderTimePass(response, $element);
                         })
                         .always(function() {
-                            removeLoadingIndicator($element);
+                            $element.removeLoadingIndicator();
                         });
                 });
             },

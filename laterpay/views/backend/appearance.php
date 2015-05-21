@@ -93,7 +93,6 @@ if ( ! defined( 'ABSPATH' ) ) {
             </form>
         </div>
 
-
         <h2><?php echo laterpay_sanitize_output( __( 'Display of LaterPay Time Passes', 'laterpay' ) ); ?></h2>
         <form method="post" class="lp_js_showHintOnTrue lp_mb++">
             <input type="hidden" name="form"    value="time_passes_position">
@@ -146,11 +145,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </table>
             </div>
         </form>
-
-
-
-
-
 
         <?php # TODO: remove this in release 0.9.12 ?>
         <a href="" id="lp_js_showDeprecatedFeatures"><?php echo laterpay_sanitize_output( __( 'Show deprecated features', 'laterpay' ) ); ?></a>
@@ -216,6 +210,29 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php echo laterpay_sanitize_output( __( 'Content rating lets users rate your content on a five star scale after purchasing.', 'laterpay' ) ); ?><br>
                     <?php echo laterpay_sanitize_output( __( 'These ratings will be displayed to users who have not purchased that content yet as a quality indicator.', 'laterpay' ) ); ?>
                 </dfn>
+            </div>
+            <hr class="lp_form-group-separator">
+
+            <div class="lp_clearfix">
+                <h2><?php echo laterpay_sanitize_output( __( 'Hide Free Posts', 'laterpay' ) ); ?></h2>
+                <div class="lp_mt+">
+                    <?php echo laterpay_sanitize_output( __( 'Hide free posts from homepage feature is', 'laterpay' ) ); ?><div class="lp_toggle">
+                        <form id="lp_js_laterpayHideFreePostsForm" method="post">
+                            <input type="hidden" name="form"    value="free_posts_visibility">
+                            <input type="hidden" name="action"  value="laterpay_appearance">
+                            <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                            <label class="lp_toggle__label">
+                                <input type="checkbox"
+                                       name="hide_free_posts"
+                                       id="lp_js_hideFreePostsToggle"
+                                       class="lp_toggle__input"
+                                        <?php if ( $laterpay['hide_free_posts'] ) : ?>checked<?php endif; ?>>
+                                <span class="lp_toggle__text" data-on="<?php echo laterpay_sanitize_output( __( 'on', 'laterpay' ) ); ?>" data-off="<?php echo laterpay_sanitize_output( __( 'off', 'laterpay' ) ); ?>"></span>
+                                <span class="lp_toggle__handle"></span>
+                            </label>
+                        </form>
+                    </div>
+                </div>
             </div>
             <hr class="lp_form-group-separator">
 

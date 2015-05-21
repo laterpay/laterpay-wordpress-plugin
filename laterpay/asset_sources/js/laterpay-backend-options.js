@@ -36,7 +36,7 @@
                         // show loading message and indicator
                         $o.statusHintText.text(lpVars.i18nFetchingUpdate);
                         $o.statusHintText.before($o.spinnerWrapper);
-                        showLoadingIndicator($($o.spinnerWrapperSelector));
+                        $($o.spinnerWrapperSelector).showLoadingIndicator();
 
                         $.post(
                             ajaxurl,
