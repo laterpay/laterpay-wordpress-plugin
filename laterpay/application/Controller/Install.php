@@ -7,8 +7,37 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Install extends LaterPay_Controller_Base
+class LaterPay_Controller_Install extends LaterPay_Controller_Base implements LaterPay_Core_Event_SubscriberInterface
 {
+
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_post_metadata' => array(
+                array( 'migrate_pricing_post_meta' ),
+            ),
+            'laterpay_init_finished' => array(
+                array( 'check_requirements' ),
+            ),
+            'laterpay_admin_notices' => array(
+                array( 'render_requirements_notices' ),
+                array( 'check_for_updates' ),
+                array( 'maybe_update_meta_keys' ),
+                array( 'maybe_update_terms_price_table' ),
+                array( 'maybe_update_currency_to_euro' ),
+                array( 'maybe_update_time_passes_table' ),
+                array( 'maybe_update_payment_history_add_revenue_model' ),
+                array( 'maybe_add_only_time_pass_purchase_option' ),
+                array( 'maybe_update_api_urls_options_names' ),
+                array( 'maybe_add_only_time_pass_purchase_option' ),
+                array( 'maybe_add_is_in_visible_test_mode_option' ),
+                array( 'maybe_clean_api_key_options' ),
+                array( 'maybe_update_unlimited_access' ),
+                array( 'maybe_update_post_views' ),
+                array( 'maybe_clear_dashboard_cache' ),
+                array( 'update_post_view_table_structure' ),
+            ),
+        );
+    }
 
     /**
      * Render admin notices, if requirements are not fulfilled.
@@ -442,15 +471,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     /**
      * Migrate old postmeta data to a single postmeta array.
      *
-     * @wp-hook get_post_metadata
-     *
-     * @param null      $return
-     * @param int       $post_id    the current post_id
-     * @param string    $meta_key   the meta_key
-     *
+     * @param LaterPay_Core_Event $event Event object.
      * @return null $return
      */
-    public function migrate_pricing_post_meta( $return, $post_id, $meta_key ) {
+    public function migrate_pricing_post_meta( LaterPay_Core_Event $event ) {
+        list($return, $post_id, $meta_key) = $event->get_arguments();
         // migrate the pricing postmeta to an array
         if ( $meta_key === 'laterpay_post_prices' ) {
             $meta_migration_mapping = array(
@@ -488,8 +513,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 add_post_meta( $post_id, 'laterpay_post_prices', $new_meta_values, true );
             }
         }
-
-        return $return;
+        $event->set_result( $return );
     }
 
     /**

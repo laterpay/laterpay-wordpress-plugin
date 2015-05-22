@@ -110,9 +110,6 @@ class LaterPay_Core_Bootstrap
      * @return void
      */
     private function register_global_actions() {
-        // migrate multiple pricing postmeta from older plugin versions to an array
-        add_filter( 'get_post_metadata', array( $this->get_controller( 'Install' ), 'migrate_pricing_post_meta' ), 10, 4 );
-
         $post_controller = $this->get_controller( 'Frontend_Post' );
         /**
          * ->   add filters to override post content
@@ -304,27 +301,7 @@ class LaterPay_Core_Bootstrap
             return;
         }
 
-        /**
-         * @var LaterPay_Controller_Install
-         */
-        $install_controller = $this->get_controller( 'Install' );
-        $install_controller->check_requirements();
-        add_action( 'admin_notices', array( $install_controller, 'render_requirements_notices' ) );
-        add_action( 'admin_notices', array( $install_controller, 'check_for_updates' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_update_meta_keys' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_update_terms_price_table' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_update_currency_to_euro' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_update_time_passes_table' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_update_payment_history_add_revenue_model' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_add_only_time_pass_purchase_option' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_update_api_urls_options_names' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_add_only_time_pass_purchase_option' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_add_is_in_visible_test_mode_option' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_clean_api_key_options' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_update_unlimited_access' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_update_post_views' ) );
-        add_action( 'admin_notices', array( $install_controller, 'maybe_clear_dashboard_cache' ) );
-        add_action( 'admin_notices', array( $install_controller, 'update_post_view_table_structure' ) );
+        laterpay_event_dispatcher()->add_subscriber( $this->get_controller( 'Install' ) );
     }
 
     /**

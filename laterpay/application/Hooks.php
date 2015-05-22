@@ -93,6 +93,7 @@ class LaterPay_Hooks {
         add_action( 'edit_attachment',                  array( $this, self::$wp_action_prefix . 'laterpay_attachment_edit' ) );
         add_action( 'transition_post_status',           array( $this, self::$wp_action_prefix . 'laterpay_transition_post_status' ), 10, 3 );
 
+        // cache helper to purge the cache on update_option()
         $options = array(
             'laterpay_global_price',
             'laterpay_global_price_revenue_model',

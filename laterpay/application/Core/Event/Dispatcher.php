@@ -49,7 +49,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         }
 
         if ( ! isset( $this->listeners[ $event_name ] ) ) {
-            $this->set_debug_data( $event_name, $event->get_debug() );
+            // $this->set_debug_data( $event_name, $event->get_debug() );
             return $event;
         }
 
