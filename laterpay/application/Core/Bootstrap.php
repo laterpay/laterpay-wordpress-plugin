@@ -78,7 +78,9 @@ class LaterPay_Core_Bootstrap
         $this->register_custom_actions();
         $this->register_cache_helper();
         $this->register_ajax_actions();
+
         $this->register_event_subscribers();
+        $this->register_wordpress_hooks();
 
         if ( is_admin() ) {
             $this->register_upgrade_checks();
@@ -456,5 +458,14 @@ class LaterPay_Core_Bootstrap
     private function register_event_subscribers() {
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Appearance() );
+    }
+
+    /**
+     * Internal function to register event subscribers.
+     *
+     * @return void
+     */
+    private function register_wordpress_hooks() {
+        LaterPay_Hooks::get_instance()->init();
     }
 }

@@ -72,4 +72,16 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         $event->set_argument( 'is_in_visible_test_mode', $is_in_visible_test_mode );
     }
 
+    /**
+     * Checks, if the current area is admin
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_admin_view( LaterPay_Core_Event $event ) {
+        if ( ! is_admin() ) {
+            $event->stop_propagation();
+        }
+    }
+
+
 }

@@ -12,10 +12,8 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      * @var LaterPay_Core_Event_Dispatcher
      */
     private static $dispatcher = null;
-    public $listeners = array();
-    public $sorted = array();
-    public $wp_actions = array();
-    private $wp_filters = array();
+    private $listeners = array();
+    private $sorted = array();
 
     protected $debug_enabled = false;
     protected $debug_data    = array();
@@ -33,45 +31,13 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         return self::$dispatcher;
     }
 
-    public function __call( $name, $args ) {
-        $method = substr( $name, 0, 10 );
-        laterpay_get_logger()->debug( __METHOD__, array( $name, $method, $args ) );
-        switch ( $method ) {
-            case 'wp_action_':
-                $action = substr( $name, 10 );
-                $this->run_wp_action( $action, $args );
-                break;
-            default:
-                throw new RuntimeException( sprintf( 'Method "%s" is not found within LaterPay_Core_Event_Dispatcher class.', $name ) );
-        }
-    }
-
     /**
-     * TODO
+     * Dispatches an event to all registered listeners.
      *
-     * @param $action
-     */
-    protected function add_wp_action( $action ) {
-        add_action( $action, array( $this, 'wp_action_' . $action ) );
-    }
-
-    /**
-     * TODO
+     * @param string $event_name The name of the event to dispatch.
+     * @param LaterPay_Core_Event|array|null $args The event to pass to the event handlers/listeners.
      *
-     * @param $action
-     * @param array $args
-     */
-    protected function run_wp_action( $action, $args = array() ) {
-        laterpay_get_logger()->debug( __METHOD__, array( $action, $args ) );
-        try {
-            laterpay_event_dispatcher()->dispatch( $action, $args );
-        } catch ( Exception $e ) {
-            // TODO: #612 handle exceptions
-        }
-    }
-
-    /**
-     * @see LaterPay_Core_Event_DispatcherInterface::dispatch()
+     * @return LaterPay_Core_Event
      */
     public function dispatch( $event_name, $args = null ) {
         if ( is_array( $args ) ) {
@@ -83,13 +49,14 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         }
 
         if ( ! isset( $this->listeners[ $event_name ] ) ) {
+            $this->set_debug_data( $event_name, $event->get_debug() );
             return $event;
         }
 
         $this->do_dispatch( $this->get_listeners( $event_name ), $event );
         if ( ! $event->is_propagation_stopped() ) {
             // apply registered in wordpress filters for the event result
-            $result = apply_filters( $event_name . '_filter', $event->get_result() );
+            $result = LaterPay_Hooks::apply_filters( $event_name, $event->get_result() );
             $event->set_result( $result );
             if ( $event->is_echo_enabled() ) {
                 echo laterpay_sanitized( $event->get_result() );
@@ -102,8 +69,8 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     /**
      * Triggers the listeners of an event.
      *
-     * @param callable[] $listeners The event listeners.
-     * @param LaterPay_Core_Event $event The event object to pass to the event handlers/listeners.
+     * @param callable[]            $listeners The event listeners.
+     * @param LaterPay_Core_Event   $event The event object to pass to the event handlers/listeners.
      *
      * @return null
      */
@@ -118,6 +85,8 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     }
 
     /**
+     * Processes callback description to get required list of arguments.
+     *
      * @param callable|array|object $callback The event listener.
      * @param LaterPay_Core_Event   $event The event object.
      * @param array                 $attributes The context to get attributes.
@@ -162,7 +131,11 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     }
 
     /**
-     * @see LaterPay_Core_Event_DispatcherInterface::get_listeners()
+     * Gets the listeners of a specific event or all listeners.
+     *
+     * @param string|null $event_name The event name to get listeners or null to get all.
+     *
+     * @return mixed
      */
     public function get_listeners( $event_name = null ) {
         if ( null !== $event_name ) {
@@ -199,16 +172,23 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     }
 
     /**
-     * @see LaterPay_Core_Event_DispatcherInterface::has_listeners()
+     * Checks whether an event has any registered listeners.
+     *
+     * @param string|null $event_name
+     *
+     * @return mixed
      */
     public function has_listeners( $event_name = null ) {
         return (bool) count( $this->get_listeners( $event_name ) );
     }
 
     /**
-     * @see LaterPay_Core_Event_DispatcherInterface::add_subscriber()
+     * Adds an event subscriber.
      *
-     * @api
+     * The subscriber is asked for all the events he is
+     * interested in and added as a listener for these events.
+     *
+     * @param LaterPay_Core_Event_SubscriberInterface $subscriber The subscriber.
      */
     public function add_subscriber( LaterPay_Core_Event_SubscriberInterface $subscriber ) {
         foreach ( $subscriber->get_subscribed_events() as $event_name => $params ) {
@@ -225,20 +205,25 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     }
 
     /**
-     * @see LaterPay_Core_Event_DispatcherInterface::add_listener()
+     * Adds an event listener that listens on the specified events.
+     *
+     * @param string $event_name The event name to listen on.
+     * @param callable $listener The event listener.
+     * @param int $priority The higher this value, the earlier an event
+     *                            listener will be triggered in the chain (defaults to 0)
+     *
+     * @return null
      */
     public function add_listener( $event_name, $listener, $priority = 0 ) {
-        if ( ! in_array( $event_name, $this->wp_actions ) ) {
-            $this->add_wp_action( $event_name );
-            $this->wp_actions[] = $event_name;
-        }
-
+        LaterPay_Hooks::register_laterpay_action( $event_name );
         $this->listeners[ $event_name ][ $priority ][] = $listener;
         unset( $this->sorted[ $event_name ] );
     }
 
     /**
-     * @see LaterPay_Core_Event_DispatcherInterface::remove_subscriber()
+     * Removes an event subscriber.
+     *
+     * @param LaterPay_Core_Event_SubscriberInterface $subscriber The subscriber
      */
     public function remove_subscriber( LaterPay_Core_Event_SubscriberInterface $subscriber ) {
         foreach ( $subscriber->get_subscribed_events() as $event_name => $params ) {
@@ -253,7 +238,12 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     }
 
     /**
-     * @see LaterPay_Core_Event_DispatcherInterface::remove_listener()
+     * Removes an event listener from the specified events.
+     *
+     * @param string $event_name The event name to listen on.
+     * @param callable $listener The event listener.
+     *
+     * @return mixed
      */
     public function remove_listener( $event_name, $listener ) {
         if ( ! isset( $this->listeners[ $event_name ] ) ) {
@@ -268,6 +258,8 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     }
 
     /**
+     * Enables collecting of the debug information about raised events.
+     *
      * @param boolean $debug_enabled
      * @return LaterPay_Core_Event_Dispatcher
      */
@@ -286,16 +278,20 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     }
 
     /**
+     * Formats and adds event debug information into collection.
+     *
      * @param string    $event_name  The name of the event.
      * @param array     $context Debug information.
      * @return LaterPay_Core_Event_Dispatcher
      */
     public function set_debug_data( $event_name, $context ) {
         if ( $this->debug_enabled ) {
+            $listeners = $this->get_listeners( $event_name );
             $record = array(
                 'message'       => (string) $event_name,
                 'context'       => $context,
-                'extra'         => array( 'listeners' => $this->get_listeners( $event_name ) ),
+                'extra'         => array( 'listeners' => $listeners ),
+                'level'         => count( $listeners ) > 0 ? LaterPay_Core_Logger::DEBUG : LaterPay_Core_Logger::WARNING,
             );
             $this->debug_data[] = $record;
         }

@@ -33,7 +33,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         add_action( 'admin_footer',          array( $this, 'render_records' ), 1000 );
         add_action( 'wp_enqueue_scripts',    array( $this, 'load_assets' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
-        add_action( 'admin_bar_menu',        array( &$this, 'admin_bar_menu' ), 1000 );
+        add_action( 'admin_bar_menu',        array( $this, 'admin_bar_menu' ), 1000 );
     }
 
     /**
