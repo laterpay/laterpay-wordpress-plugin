@@ -1382,12 +1382,13 @@
                     $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
                 }
 
+                var serializedForm = $form.serialize();
                 // disable button during Ajax request
                 $o.purchaseModeInput.prop('disabled', true);
 
                 $.post(
                     ajaxurl,
-                    $form.serialize(),
+                    serializedForm,
                     function(data) {
                         if (!data.success) {
                             $o.navigation.showMessage(data);
