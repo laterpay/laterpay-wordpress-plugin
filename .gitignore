@@ -1,3 +1,13 @@
+.idea/
+.sublime-gulp.cache
+laterpay/built_assets/
+laterpay/sftp-config.json
+nbproject/
+node_modules/
+.gulp
+# composer generated files and folders
+laterpay/vendor
+# selenium tests
 /laterpay/selenium-tests/nbproject/
 /laterpay/selenium-tests/vendor/
 /laterpay/codeception-tests/nbproject/private/
@@ -5,4 +15,3 @@
 /laterpay/selenium-tests/tests/_data/laterpay.zip
 /laterpay/selenium-tests/tests/_output
 /laterpay/selenium-tests/tests/backend.suite.yml
-.idea

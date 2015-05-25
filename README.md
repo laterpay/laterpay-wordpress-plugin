@@ -1,6 +1,8 @@
 laterpay-wordpress-plugin
 =========================
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c0535748-172c-4419-8403-e3be9715aa53/small.png)](https://insight.sensiolabs.com/projects/c0535748-172c-4419-8403-e3be9715aa53)  [![Build Status](https://travis-ci.org/laterpay/laterpay-wordpress-plugin.svg?branch=master)](https://travis-ci.org/laterpay/laterpay-wordpress-plugin)
+
 This is the official LaterPay plugin for selling digital content with WordPress.
 
 Feel free to fork the plugin and adapt it to your needs.
@@ -10,9 +12,7 @@ Please get involved in this project and contribute back changes other users woul
 
 ## Installation
 
-Grab the latest version from https://github.com/laterpay/laterpay-wordpress-plugin/releases/latest and upload it
-to the plugins folder of your WordPress installation.
-The plugin will soon also be available from http://wordpress.org/plugins/
+The plugin is available on http://wordpress.org/plugins/laterpay
 
 
 ## Contributing
@@ -23,22 +23,19 @@ The plugin will soon also be available from http://wordpress.org/plugins/
 4. Push to the branch (`git push origin feature/my_new_feature`)
 5. Create a new Pull Request
 
-Contributed PHP code must comply with the WordPress coding standards. We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards). 
+This project uses Gulp to build its assets.
+Gulp is a node.js module. If you have node.js running, you can install gulp with ```sudo npm install -g gulp```.
+Then go to the repository root folder and install the required gulp plugins with ```npm install```.
+Now you can run any of the tasks defined in the gulpfile from the repository root folder.
+During development you can either watch the repo for changes and automatically recompile the modified assets using ```gulp```.
+For exporting the assets for a release, you can also run ```gulp build```.
 
-Contributed JS code must be linted with JSHint.
+An [EditorConfig](http://editorconfig.org) file is supplied to make it easier to adjust your IDE to the project standards in applying whitespace.
 
+Contributed PHP code must comply with the WordPress coding standards.
+We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards).
 
-## Updating Translations
-
-* Go to a server the plugin is installed on
-* Make sure SVN is available (`apt-get install subversion`)
-* Make sure the WordPress translation tools are available (`svn checkout http://i18n.svn.wordpress.org/tools/trunk/`)
-* Extract POT file with translations (php makepot.php wp-plugin /path/to/my-plugin): e.g. `php makepot.php wp-plugin /var/www/wp-content/plugins/laterpay`
-* Download laterpay.pot to the languages folder of your local copy of the plugin
-* Open outdated PO file with Poedit (http://poedit.net)
-* Choose Catalog > Update from POT file… and select the new POT file
-* Update translations
-* Save to generate the new PO/MO files
+All pull requests are automatically linted with JSHint and the [.jshintrc](https://github.com/laterpay/laterpay-wordpress-plugin/blob/master/.jshintrc) included in this repository.
 
 
 ## Versioning

@@ -1,0 +1,288 @@
+// LaterPay debugger pane
+
+.lp_debugger {
+    background: $background--darker;
+    bottom: 0;
+    box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: $fs;
+    font-style: normal;
+    font-weight: normal;
+    height: ($fs * 35);
+    line-height: 1.3;
+    overflow-y: hidden;
+    position: fixed;
+    transition: 0.25s ease-in-out;
+    width: 100%;
+    z-index: $zindex--topmost-1;
+
+    &.lp_is-hidden {
+        bottom: -($fs * 32.5);
+
+        // rotate close icon in hidden state to make it point upward
+        .lp_debugger__close-link {
+            transform: rotate(-90deg) translate(1px, -3px);
+        }
+    }
+
+    // reset link styles
+    a {
+        box-shadow: none;
+        color: $clickable;
+        outline: 0 none;
+        padding: $fs--025;
+        text-decoration: none;
+
+        &:hover,
+        &:focus,
+        &:active {
+            outline: 0 none;
+            text-decoration: none;
+        }
+    }
+
+
+    // debugger pane header with LaterPay vector logo ------------------------------------------------------------------
+    .lp_debugger-header {
+        background: darken($background--darker, 13%);
+        cursor: pointer;
+        height: round($fs * 2.5);
+    }
+
+    .lp_debugger-header__title {
+        display: inline-block;
+        font-size: $fs--15;
+        font-weight: normal;
+        line-height: 1;
+        margin: $fs--05 $fs--075;
+        padding-left: ($fs * 9);
+        position: relative;
+
+        // LaterPay logo rendered from icon font
+        &:before {
+            display: block;
+            font-size: ($fs * 8.5);
+            height: 0;
+            left: -($fs * 9);
+            line-height: 0;
+            position: relative;
+            top: 10px;
+        }
+    }
+
+    .lp_debugger-header__text {
+        line-height: 1;
+        padding: $fs--075 $fs--05;
+    }
+
+    .lp_debugger__close-link {
+        color: $clickable;
+        display: inline-block;
+        height: $fs--2;
+        line-height: 2;
+        text-align: center;
+        transform: rotate(90deg) translate(2px, 3px);
+        transition: transform 0.2s;
+        width: $fs--2;
+
+        &:hover {
+            color: $clickable--highlight;
+        }
+    }
+
+
+    // debugger pane tabs --------------------------------------------------------------------------------------------------
+    .lp_debugger-tabs {
+        border-bottom: 1px solid $border--darker;
+        margin: $fs--075 $fs--075 0;
+        position: relative;
+        z-index: $zindex;
+    }
+
+    .lp_debugger-tabs__link {
+        color: $clickable;
+        display: block;
+        padding: $fs--05 $fs;
+
+        &:hover {
+            color: $clickable--highlight;
+
+            .lp_badge {
+                background-color: $clickable--highlight;
+            }
+        }
+
+        .lp_badge {
+            background: $clickable;
+            margin-left: $fs--05;
+        }
+    }
+
+    .lp_debugger-tabs__item {
+        border: 1px solid transparent;
+        border-radius: $border-radius $border-radius 0 0;
+        float: left;
+        height: ($fs * 2.5);
+        list-style: none outside none;
+        margin: 0 2px -1px 0;
+        padding: 0;
+
+        // 1. assign the background color to the bottom border to make it invisible
+        &:hover,
+        &.lp_is-selected {
+            border-color: $border--darker $border--darker $background--darker; /* 1 */
+        }
+
+        &.lp_is-selected {
+
+            .lp_debugger-tabs__link,
+            &:hover .lp_debugger-tabs__link {
+                color: $text;
+                cursor: default;
+            }
+
+            // 1. apply same background color as to pane header
+            .lp_badge,
+            &:hover .lp_badge {
+                background: darken($background--darker, 13%); /* 1 */
+            }
+        }
+    }
+
+
+    // debugging messages --------------------------------------------------------------------------------------------------
+    .lp_debugger-content-list,
+    .lp_debugger-content-list__item {
+        @extend %default-list;
+    }
+
+    .lp_debugger-content-list {
+        height: ($fs * 29);
+        margin: 0 $fs--075 $fs;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .lp_debugger-content-list__item {
+
+        // 1. separate nested list items with a border
+        .lp_debugger-content-list__item:not(:last-child) {
+            border-bottom: 1px solid $border--darker; /* 1 */
+        }
+
+        &.lp_is-hidden {
+            display: none;
+        }
+    }
+
+    // highlight the log level with vector icons
+    .lp_debugger__log-level:before {
+        font-size: $fs--175;
+        height: 0;
+        line-height: 0;
+        margin-right: $fs--025;
+        position: relative;
+        top: 0.23em;
+    }
+
+    // infos
+    .lp_debugger__log-level--100:before
+    .lp_debugger__log-level--200:before
+    .lp_debugger__log-level--250:before {
+        color: $text--lighter;
+        content: 'm';
+    }
+
+    // warnings
+    .lp_debugger__log-level--300:before {
+        color: adjust_hue(saturate(lighten($text, 17%), 100%), 39); // FIXME
+        content: 'n';
+    }
+
+    // errors
+    .lp_debugger__log-level--400:before
+    .lp_debugger__log-level--500:before
+    .lp_debugger__log-level--550:before
+    .lp_debugger__log-level--600:before {
+        color: adjust_hue(saturate(lighten($text, 17%), 100%), 6); // FIXME
+        content: 'o';
+    }
+
+    &:hover a,
+    a:hover {
+        color: $clickable--highlight;
+    }
+
+    code {
+        font-size: $fs;
+        line-height: 1.3;
+    }
+
+    .lp_debugger-content__table-title {
+        cursor: pointer;
+
+        .lp_debugger-content__table-th,
+        .lp_debugger-content__table-td {
+            transition: background 0.25s;
+        }
+
+        &:hover .lp_debugger-content__table-th,
+        &:hover .lp_debugger-content__table-td {
+            background: $background--highlight;
+        }
+
+        .lp_debugger-content__table-td:last-child {
+            color: $text--lighter;
+            max-width: ($fs * 10);
+            text-align: right;
+        }
+    }
+
+    .lp_debugger-content__table {
+        margin: 0;
+        width: 100%;
+
+        &.lp_is-hidden {
+
+            .lp_debugger-content__table-body .lp_debugger-content__table-th,
+            .lp_debugger-content__table-body .lp_debugger-content__table-td {
+                padding: 0 $fs--05 $fs--025;
+            }
+
+            .lp_debugger-content__table-body .lp_debugger-content__table-th {
+                padding-left: ($fs * 2.75);
+                width: ($fs * 12);
+            }
+        }
+    }
+
+    .lp_debugger-content__table,
+    .lp_debugger-content__table-th,
+    .lp_debugger-content__table-td {
+        border: 0 none;
+        border-collapse: collapse;
+    }
+
+    .lp_debugger-content__table-th,
+    .lp_debugger-content__table-td {
+        padding: $fs--05;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .lp_debugger-content__table-th {
+        color: $text--lighter;
+        font-weight: normal;
+        max-width: ($fs * 12);
+        overflow: hidden;
+        padding-left: $fs--05;
+        text-overflow: ellipsis;
+        width: ($fs * 12);
+    }
+}
+
+
+// admin bar menu for toggling debugger pane ---------------------------------------------------------------------------
+.ab-item { // WordPress selector
+    cursor: pointer;
+}

@@ -1,0 +1,30 @@
+{
+    "name": "laterpay/laterpay-wordpress-plugin",
+    "description": "This is the official LaterPay plugin for selling digital content with WordPress",
+    "license": "MIT",
+    "config": {
+        "vendor-dir": "laterpay/vendor"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "http://github.com/laterpay/laterpay-php-browscap-library.git"
+        },
+        {
+            "type": "vcs",
+            "url": "http://github.com/laterpay/laterpay-client-php.git"
+        }
+    ],
+    "require": {
+        "laterpay/laterpay-php-browscap-library": "dev-develop",
+        "laterpay/laterpay-client-php": "dev-develop"
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "dev-develop#9c4de8175ce1f82813f8c9c8f11809ee6c794efc"
+    },
+    "scripts": {
+        "phpcs": "\"laterpay/vendor/bin/phpcs\" -s -n -p --standard=ruleset.xml --extensions=php --ignore=laterpay/vendor/*,laterpay/cache/*,laterpay/languages/* laterpay",
+        "phpcbf": "\"laterpay/vendor/bin/phpcbf\" --no-patch --standard=ruleset.xml --extensions=php --ignore=laterpay/vendor/*,laterpay/cache/*,laterpay/languages/* laterpay",
+        "wpcs": "\"laterpay/vendor/bin/phpcs\" --config-set installed_paths laterpay/vendor/wp-coding-standards/wpcs"
+    }
+}

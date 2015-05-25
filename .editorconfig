@@ -1,0 +1,21 @@
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# Use UTF-8 as charset
+[*]
+charset = utf-8
+
+# Indent using 4 spaces
+[*]
+indent_style = space
+indent_size = 4
+
+# Apply 2 space indentation to json and yml files
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2

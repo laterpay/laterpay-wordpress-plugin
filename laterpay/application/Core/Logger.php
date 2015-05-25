@@ -1,8 +1,18 @@
 <?php
 
+/**
+ * LaterPay core logger.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger
 {
 
+    /**
+     * Logger levels
+     */
     const DEBUG     = 100;
     const INFO      = 200;
     const NOTICE    = 250;
@@ -12,12 +22,12 @@ class LaterPay_Core_Logger
     const ALERT     = 550;
     const EMERGENCY = 600;
 
-	/**
-	 * contains all debugging levels
+    /**
+     * Contains all debugging levels.
      *
-	 * @var array
-	 */
-	protected static $levels = array(
+     * @var array
+     */
+    protected $levels = array(
         100 => 'DEBUG',
         200 => 'INFO',
         250 => 'NOTICE',
@@ -29,85 +39,54 @@ class LaterPay_Core_Logger
     );
 
     /**
-     * @var LaterPay_Core_Logger
+     * @var \DateTimeZone
      */
-    protected static $_instance;
-
-	/**
-	 * @var null|string
-	 */
-	protected static $_uniqid = null;
+    protected $timezone;
 
     /**
-     * @var array
+     * @var string
      */
-    protected static $_options = array();
+    protected $name;
 
-	/**
-	 * @var string
-	 */
-	protected static $_name = 'default';
 
-    public static function init( $name, array $params ) {
-        self::$_name = $name;
-        if ( isset( $params[$name] ) ) {
-            self::$_options = $params[$name];
-        } else {
-            self::$_options = array();
-        }
-    }
-
-	/**
-	 *
-	 * @param   LaterPay_Core_Logger $instance
+    /**
+     * The handler stack
      *
-	 * @return  void
-	 */
-	public static function set_instance( $instance ) {
-        self::$_instance = $instance;
-    }
+     * @var LaterPay_Core_Logger_Handler_Interface[]
+     */
+    protected $handlers;
 
-	/**
-	 *
-	 * @return LaterPay_Core_Logger|LaterPay_Core_Logger_Handler_Null|LaterPay_Core_Logger_Handler_Stream
-	 */
-	public static function get_instance() {
+    /**
+     * Processors that will process all log records
+     *
+     * To process records of a single handler instead, add the processor on that specific handler
+     *
+     * @var LaterPay_Core_Logger_Processor_Interface[]
+     */
+    protected $processors;
 
-		/**
-		 * Contains the full path with filename to logfile
-		 * @var     string $log_file
-		 * @return  string $log_file
-		 */
-		$log_file = apply_filters(
-			'laterpay_log_file',
-			'/var/log/laterpay_api.log'
-		);
-
-        if ( empty( self::$_instance ) ) {
-            try {
-                if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                    self::$_instance = new LaterPay_Core_Logger_Handler_Stream( $log_file );
-                } else {
-                    self::$_instance = new LaterPay_Core_Logger_Handler_Null();
-                }
-            } catch ( Exception $e ) {
-                self::$_instance = new LaterPay_Core_Logger_Handler_Null();
-            }
-        }
-
-        return self::$_instance;
+    /**
+     * @param string $name                                           The logging channel
+     * @param LaterPay_Core_Logger_Handler_Interface[] $handlers     Optional stack of handlers, the first one in the array is called first, etc.
+     * @param LaterPay_Core_Logger_Processor_Interface[] $processors Optional array of processors
+     */
+    public function __construct( $name = 'default', array $handlers = array(), array $processors = array() ) {
+        $this->name         = $name;
+        $this->handlers     = $handlers;
+        $this->processors   = $processors;
+        $this->timezone     = new DateTimeZone( date_default_timezone_get() ? date_default_timezone_get() : 'UTC' );
     }
 
     /**
-     * Adds a log record at the DEBUG level.
+     * Add a log record at the DEBUG level.
      *
-     * @param   string $message The log message
-     * @param   array  $context The log context
+     * @param string $message The log message
+     * @param array  $context The log context
      *
-     * @return  boolean Whether the record has been processed
+     * @return boolean Whether the record has been processed
      */
-    public static function debug( $message, array $context = array() ) {
-        return self::log( self::DEBUG, $message, $context );
+    public function debug( $message, array $context = array() ) {
+        return $this->add_record( self::DEBUG, $message, $context );
     }
 
     /**
@@ -116,53 +95,232 @@ class LaterPay_Core_Logger
      * @param string $message The log message
      * @param array  $context The log context
      *
-     * @return Boolean Whether the record has been processed
+     * @return boolean Whether the record has been processed
      */
-    public static function error( $message, array $context = array() ) {
-        return self::log( self::ERROR, $message, $context );
+    public function error( $message, array $context = array() ) {
+        return $this->add_record( self::ERROR, $message, $context );
     }
 
-	/**
-	 *
-	 * @param   integer $level
-	 * @param   string  $message
-	 * @param   array $context
+    /**
+     * Add a log record at the INFO level.
      *
-	 * @return  bool
-	 */
-    public static function log( $level, $message, array $context = array() ) {
-        if ( ! self::$_uniqid ) {
-            self::$_uniqid = uniqid( getmypid() . '_' );
+     * @param  string  $message The log message
+     * @param  array   $context The log context
+     *
+     * @return boolean Whether the record has been processed
+     */
+    public function info( $message, array $context = array() ) {
+        return $this->add_record( self::INFO, $message, $context );
+    }
+
+    /**
+     * Add a log record at the NOTICE level.
+     *
+     * @param  string  $message The log message
+     * @param  array   $context The log context
+     *
+     * @return boolean Whether the record has been processed
+     */
+    public function notice( $message, array $context = array() ) {
+        return $this->add_record( self::NOTICE, $message, $context );
+    }
+
+    /**
+     * Add a log record at the WARNING level.
+     *
+     * @param  string  $message The log message
+     * @param  array   $context The log context
+     *
+     * @return boolean Whether the record has been processed
+     */
+    public function warning( $message, array $context = array() ) {
+        return $this->add_record( self::WARNING, $message, $context );
+    }
+
+    /**
+     * Add a log record at the CRITICAL level.
+     *
+     * @param  string  $message The log message
+     * @param  array   $context The log context
+     *
+     * @return boolean Whether the record has been processed
+     */
+    public function critical( $message, array $context = array() ) {
+        return $this->add_record( self::CRITICAL, $message, $context );
+    }
+
+    /**
+     * Add a log record at the ALERT level.
+     *
+     * @param  string  $message The log message
+     * @param  array   $context The log context
+     *
+     * @return boolean Whether the record has been processed
+     */
+    public function alert( $message, array $context = array() ) {
+        return $this->add_record( self::ALERT, $message, $context );
+    }
+
+    /**
+     * Add a log record at the EMERGENCY level.
+     *
+     * @param  string  $message The log message
+     * @param  array   $context The log context
+     *
+     * @return boolean Whether the record has been processed
+     */
+    public function emergency( $message, array $context = array() ) {
+        return $this->add_record( self::EMERGENCY, $message, $context );
+    }
+
+    /**
+     * Add a record to the log.
+     *
+     * @param integer $level
+     * @param string  $message
+     * @param array   $context
+     *
+     * @return boolean
+     */
+    public function add_record( $level, $message, array $context = array() ) {
+        if ( ! $this->handlers ) {
+            $this->push_handler( new LaterPay_Core_Logger_Handler_Null( ) );
         }
-        $date = new DateTime();
+
+        $date_time = new DateTime( 'now', $this->timezone );
+
         $record = array(
             'message'       => (string) $message,
-            'pid'           => self::$_uniqid,
             'context'       => $context,
             'level'         => $level,
             'level_name'    => self::get_level_name( $level ),
-            'channel'       => self::$_name,
-            'datetime'      => $date,
+            'channel'       => $this->name,
+            'datetime'      => $date_time,
             'extra'         => array(),
         );
-        try {
-            $result = self::get_instance()->handle( $record );
-        } catch ( Exception $e ) {
+
+        // check, if any handler will handle this message
+        $handler_key = null;
+        foreach ( $this->handlers as $key => $handler ) {
+            if ( $handler->is_handling( $record ) ) {
+                $handler_key = $key;
+                break;
+            }
+        }
+
+        if ( $handler_key === null ) {
+            // no handler found
             return false;
         }
 
-        return $result;
+        // found at least one handler, so process message and dispatch it
+        foreach ( $this->processors as $processor ) {
+            $record = $processor->process( $record );
+        }
+        while (
+           isset( $this->handlers[ $handler_key ] ) &&
+           $this->handlers[ $handler_key ]->handle( $record ) === false
+        ) {
+            $handler_key++;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_name() {
+        return $this->name;
+    }
+
+    /**
+     * Push a handler onto the stack.
+     *
+     * @param LaterPay_Core_Logger_Handler_Interface $handler
+     */
+    public function push_handler( LaterPay_Core_Logger_Handler_Interface $handler ) {
+        array_unshift( $this->handlers, $handler );
+    }
+
+    /**
+     * Pop a handler from the stack.
+     *
+     * @return LaterPay_Core_Logger_Handler_Interface
+     */
+    public function pop_handler() {
+        if ( ! $this->handlers ) {
+            throw new \LogicException( 'You tried to pop from an empty handler stack.' );
+        }
+
+        return array_shift( $this->handlers );
+    }
+
+    /**
+     * @return LaterPay_Core_Logger_Handler_Interface[]
+     */
+    public function get_handlers() {
+        return $this->handlers;
+    }
+
+    /**
+     * Add a processor to the stack.
+     *
+     * @param LaterPay_Core_Logger_Processor_Interface $callback
+     */
+    public function push_processor( LaterPay_Core_Logger_Processor_Interface $callback ) {
+        array_unshift( $this->processors, $callback );
+    }
+
+    /**
+     * Remove the processor on top of the stack and return it.
+     *
+     * @return callable
+     */
+    public function pop_processor() {
+        if ( ! $this->processors ) {
+            throw new \LogicException( 'You tried to pop from an empty processor stack.' );
+        }
+
+        return array_shift( $this->processors );
+    }
+
+    /**
+     * @return callable[]
+     */
+    public function get_processors() {
+        return $this->processors;
+    }
+
+    /**
+     * Check, if the logger has a handler that listens on the given level.
+     *
+     * @param integer $level
+     *
+     * @return boolean
+     */
+    public function is_handling( $level ) {
+        $record = array(
+            'level' => $level,
+        );
+
+        foreach ( $this->handlers as $handler ) {
+            if ( $handler->is_handling( $record ) ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
      * Get the name of the logging level.
      *
-     * @param   integer $level
+     * @param integer $level
      *
-     * @return  string  $level_name
+     * @return string $level_name
      */
-    public static function get_level_name( $level ) {
-        return self::$levels[$level];
+    public function get_level_name( $level ) {
+        return $this->levels[ $level ];
     }
-
 }

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay category price model.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Model_CategoryPrice
 {
 
@@ -39,9 +46,11 @@ class LaterPay_Model_CategoryPrice
         global $wpdb;
         $sql = "
             SELECT
+                tp.id AS id,
                 tm.name AS category_name,
                 tm.term_id AS category_id,
-                tp.price AS category_price
+                tp.price AS category_price,
+                tp.revenue_model AS revenue_model
             FROM
                 {$this->term_table} AS tm
                 LEFT JOIN
@@ -60,13 +69,13 @@ class LaterPay_Model_CategoryPrice
         return $categories;
     }
 
-	/**
-	 * Get categories with defined category default prices by list of category ids.
-	 *
-	 * @param   array $ids
+    /**
+     * Get categories with defined category default prices by list of category ids.
      *
-	 * @return  array category_price_data
-	 */
+     * @param array $ids
+     *
+     * @return array category_price_data
+     */
     public function get_category_price_data_by_category_ids( $ids ) {
         global $wpdb;
 
@@ -76,7 +85,8 @@ class LaterPay_Model_CategoryPrice
             SELECT
                 tm.name AS category_name,
                 tm.term_id AS category_id,
-                tp.price AS category_price
+                tp.price AS category_price,
+                tp.revenue_model AS revenue_model
             FROM
                 {$this->term_table} AS tm
                 LEFT JOIN
@@ -98,46 +108,42 @@ class LaterPay_Model_CategoryPrice
     /**
      * Get categories without defined category default prices by search term.
      *
-     * @param string $term         term string to find categories
-     * @param int    $limit        limit categories
-     * @param int    $excluding_id excluding id
+     * @param array $args       query args for get_categories
      *
-     * @return array categories
+     * @return array $categories
      */
-    public function get_categories_without_price_by_term( $term, $limit, $excluding_id = 0 ) {
-        global $wpdb;
+    public function get_categories_without_price_by_term( $args ) {
+        $default_args = array(
+            'hide_empty'    => false,
+            'number'        => 10,
+        );
 
-        if ( $excluding_id == '' ) {
-            $excluding_id = 0;
-        }
+        $args = wp_parse_args(
+            $args,
+            $default_args
+        );
 
-        $term = like_escape( esc_sql( $term ) ) . '%';
-        $sql = "
-            SELECT
-                tp.term_id AS id,
-                tm.name AS text
-            FROM
-                {$this->term_table} AS tm
-                LEFT JOIN
-                    {$this->term_table_prices} AS tp
-                ON
-                    tp.term_id = tm.term_id
-            WHERE
-                (
-                    tp.term_id IS NULL
-                    AND name LIKE %s
-                ) OR (
-                    tp.term_id = %d
-                    AND name LIKE %s
-                )
-            ORDER BY
-                name
-            LIMIT
-                %d
-            ;
-        ";
-        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $excluding_id, $term, $limit ) );
+        add_filter( 'terms_clauses', array( $this, 'filter_terms_clauses_for_categories_without_price' ) );
+        $categories = get_categories( $args );
+        remove_filter( 'terms_clauses', array( $this, 'filter_terms_clauses_for_categories_without_price' ) );
+
         return $categories;
+    }
+
+    /**
+     * Filter for get_categories_without_price_by_term(), to load all categories without a price.
+     *
+     * @wp-hook terms_clauses
+     *
+     * @param array $clauses
+     *
+     * @return array $clauses
+     */
+    public function filter_terms_clauses_for_categories_without_price( $clauses ) {
+        $clauses['join']  .= ' LEFT JOIN ' . $this->term_table_prices . ' AS tp ON tp.term_id = t.term_id ';
+        $clauses['where'] .= ' AND tp.term_id IS NULL ';
+
+        return $clauses;
     }
 
     /**
@@ -146,20 +152,34 @@ class LaterPay_Model_CategoryPrice
      * @param string $term  term string to find categories
      * @param int    $limit limit categories
      *
+     * @deprecated please use get_terms( 'category', array( 'name__like' => '$term', 'number' => $limit, 'fields' => 'id=>name' ) );
+     *
      * @return array categories
      */
     public function get_categories_by_term( $term, $limit ) {
-        global $wpdb;
+        global $wpdb, $wp_version;
 
-        $term = like_escape( esc_sql( $term ) ) . '%';
+        if ( version_compare( $wp_version, '4.0', '>=' ) ) {
+            $term = $wpdb->esc_like( $term );
+        } else {
+            $term = like_escape( $term );
+        }
+
+        $term = esc_sql( $term ) . '%';
         $sql = "
             SELECT
                 tm.term_id AS id,
                 tm.name AS text
             FROM
                 {$this->term_table} AS tm
+            INNER JOIN
+                {$wpdb->term_taxonomy} as tt
+            ON
+                tt.term_id = tm.term_id
             WHERE
                 tm.name LIKE %s
+            AND
+                tt.taxonomy = 'category'
             ORDER BY
                 name
             LIMIT
@@ -167,48 +187,57 @@ class LaterPay_Model_CategoryPrice
             ;
         ";
         $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $limit ) );
+
         return $categories;
     }
 
     /**
      * Set category default price.
      *
-     * @param integer $id_category id category
-     * @param float   $price       price for category
-     * @param integer $id          id price for category
+     * @param integer $id_category      id category
+     * @param float   $price            price for category
+     * @param string  $revenue_model    revenue model of category
+     * @param integer $id               id price for category
      *
-     * @return  int|false Number of rows affected/selected or false on error
+     * @return int|false number of rows affected / selected or false on error
      */
-    public function set_category_price( $id_category, $price, $id = 0 ) {
+    public function set_category_price( $id_category, $price, $revenue_model, $id = 0 ) {
         global $wpdb;
 
         if ( ! empty( $id ) ) {
-            return $wpdb->update(
+            $success = $wpdb->update(
                 $this->term_table_prices,
                 array(
-                    'term_id'   => $id_category,
-                    'price'     => $price,
+                    'term_id'       => $id_category,
+                    'price'         => $price,
+                    'revenue_model' => $revenue_model,
                 ),
                 array( 'ID' => $id ),
                 array(
                     '%d',
                     '%f',
+                    '%s',
                 ),
                 array( '%d' )
             );
         } else {
-	        return $wpdb->insert(
+            $success = $wpdb->insert(
                 $this->term_table_prices,
                 array(
-                    'term_id'   => $id_category,
-                    'price'     => $price,
+                    'term_id'       => $id_category,
+                    'price'         => $price,
+                    'revenue_model' => $revenue_model,
                 ),
                 array(
                     '%d',
                     '%f',
+                    '%s',
                 )
             );
         }
+
+        LaterPay_Helper_Cache::purge_cache();
+        return $success;
     }
 
     /**
@@ -268,11 +297,39 @@ class LaterPay_Model_CategoryPrice
     }
 
     /**
-     * Check if category exists by getting the category id by category name.
+     * Get revenue model by category id.
+     *
+     * @param integer $id  category id
+     *
+     * @return string|null category renevue model
+     */
+    public function get_revenue_model_by_category_id( $id ) {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                revenue_model
+            FROM
+                {$this->term_table_prices}
+            WHERE
+                term_id = %d
+            ;
+        ";
+        $revenue_model = $wpdb->get_row( $wpdb->prepare( $sql, $id ) );
+
+        if ( empty( $revenue_model ) ) {
+            return null;
+        }
+
+        return $revenue_model->revenue_model;
+    }
+
+    /**
+     * Check, if category exists by getting the category id by category name.
      *
      * @param string $name name category
      *
-     * @return integer category id
+     * @return integer category_id
      */
     public function check_existence_of_category_by_name( $name ) {
         global $wpdb;
@@ -302,18 +359,32 @@ class LaterPay_Model_CategoryPrice
     /**
      * Delete price by category id.
      *
-     * @param   integer $id category id
+     * @param integer $id category id
      *
-     * @return  int|false The number of rows updated, or false on error.
+     * @return int|false the number of rows updated, or false on error
      */
     public function delete_prices_by_category_id( $id ) {
         global $wpdb;
 
-	    $where = array(
-		    'term_id' => (int) $id
-	    );
+        $where = array(
+            'term_id' => (int) $id,
+        );
 
-	    return $wpdb->delete( $this->term_table_prices, $where, '%d' );
+        $success = $wpdb->delete( $this->term_table_prices, $where, '%d' );
+        LaterPay_Helper_Cache::purge_cache();
+        return $success;
     }
 
+    /**
+     * Delete all category prices from table.
+     *
+     * @return int|false the number of rows updated, or false on error
+     */
+    public function delete_all_category_prices() {
+        global $wpdb;
+
+        $success = $wpdb->query( 'TRUNCATE TABLE ' . $this->term_table_prices );
+
+        return $success;
+    }
 }

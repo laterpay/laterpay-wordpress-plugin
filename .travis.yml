@@ -1,0 +1,18 @@
+language: php
+sudo: false
+php:
+- 5.5
+env:
+  global:
+  - secure: Hnmno610194Z/ZXESCE685pkyHip4GmgBKbBVZYm+zhGLW+bvEc8n6Ojfw1IteLVJahnCaZ0tgKqRebRlrhebtmWD4y+n5D80pHPZFaUHKo+ulBZ0ThxjcDfUDcXrPkgUPimP0/uwt34gy6PmJMk0tc9DmGpnJPqVIshMBCu5cc=
+  - secure: m6KO5Y9+1kOks4u8Ko0isBMGYQDOYdqbWE+qfrz4/NDx17x8wqeGMN5/QiQCHgdSMRaRJuB0FDTzzQwkSg7Ea5f4UbJZgEy2224870A6jB+X7kW1CopwmdE0b4rD1nDj6BKvMr6bO7iBxmahUlego7SStJoEPlj452TQUN6KZ3Y=
+install:
+    - composer update --no-autoloader
+    - composer run-script wpcs
+    - npm install jshint
+script:
+    - composer run-script phpcs
+    - jshint laterpay/asset_sources/js
+notifications:
+    slack: laterpay:KtlgyYUZft7naQWn3yjM6yCu
+

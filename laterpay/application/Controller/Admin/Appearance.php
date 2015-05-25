@@ -1,43 +1,52 @@
 <?php
 
-class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
+/**
+ * LaterPay appearance controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
+class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Base
 {
 
-	/**
-	 * @see LaterPay_Controller_Abstract::load_assets()
-	 */
-	public function load_assets() {
+    /**
+     * @see LaterPay_Core_View::load_assets()
+     */
+    public function load_assets() {
         parent::load_assets();
 
         // load page-specific JS
         wp_register_script(
-            'laterpay-ezmark',
-            $this->config->js_url . 'vendor/jquery.ezmark.min.js',
+            'laterpay-backend-appearance',
+            $this->config->js_url . '/laterpay-backend-appearance.js',
             array( 'jquery' ),
             $this->config->version,
             true
         );
-        wp_register_script(
-            'laterpay-backend-appearance',
-            $this->config->js_url . '/laterpay-backend-appearance.js',
-            array( 'jquery', 'laterpay-ezmark' ),
-            $this->config->version,
-            true
-        );
-        wp_enqueue_script( 'laterpay-ezmark' );
         wp_enqueue_script( 'laterpay-backend-appearance' );
     }
 
-	/**
-	 * @see LaterPay_Controller_Abstract::render_page()
-	 */
+    /**
+     * @see LaterPay_Core_View::render_page()
+     */
     public function render_page() {
         $this->load_assets();
 
-        $this->assign( 'plugin_is_in_live_mode',     get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
-        $this->assign( 'show_teaser_content_only',   get_option( 'laterpay_teaser_content_only' ) == 1 );
-        $this->assign( 'top_nav',                    $this->get_menu() );
-        $this->assign( 'admin_menu',                 LaterPay_Helper_View::get_admin_menu() );
+        $menu = LaterPay_Helper_View::get_admin_menu();
+
+        $view_args = array(
+            'plugin_is_in_live_mode'              => $this->config->get( 'is_in_live_mode' ),
+            'show_teaser_content_only'            => get_option( 'laterpay_teaser_content_only' ) == 1,
+            'top_nav'                             => $this->get_menu(),
+            'admin_menu'                          => add_query_arg( array( 'page' => $menu['account']['url'] ), admin_url( 'admin.php' ) ),
+            'is_rating_enabled'                   => $this->config->get( 'ratings_enabled' ),
+            'purchase_button_positioned_manually' => get_option( 'laterpay_purchase_button_positioned_manually' ),
+            'time_passes_positioned_manually'     => get_option( 'laterpay_time_passes_positioned_manually' ),
+            'hide_free_posts'                     => get_option( 'laterpay_hide_free_posts' ),
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         $this->render( 'backend/appearance' );
     }
@@ -48,61 +57,196 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
      * @return void
      */
     public static function process_ajax_requests() {
-        if ( isset( $_POST['form'] ) ) {
-            // check for required capabilities to perform action
-            if ( ! current_user_can( 'edit_plugins' ) ) {
-	            wp_send_json(
-                    array(
-                        'success' => false,
-                        'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
-                    )
-                );
-            }
-            if ( function_exists('check_admin_referer') ) {
-                check_admin_referer( 'laterpay_form' );
-            }
+        // check for required capabilities to perform action
+        if ( ! current_user_can( 'activate_plugins' ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
+                )
+            );
+        }
+        if ( function_exists( 'check_admin_referer' ) ) {
+            check_admin_referer( 'laterpay_form' );
+        }
 
-            switch ( $_POST['form'] ) {
-                // update presentation mode for paid content
-                case 'teaser_content_only':
-                    $result = update_option( 'laterpay_teaser_content_only', $_POST['teaser_content_only'] );
-                    if ( $result ) {
-                        if ( get_option( 'laterpay_teaser_content_only' ) ) {
-	                        wp_send_json(
-                                array(
-                                    'success' => true,
-                                    'message' => __( 'Visitors will now see only the teaser content of paid posts.', 'laterpay' )
-                                )
-                            );
-                        } else {
-	                        wp_send_json(
-                                array(
-                                    'success' => true,
-                                    'message' => __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.', 'laterpay' )
-                                )
-                            );
-                        }
-                    } else {
-	                    wp_send_json(
-                            array(
-                                'success' => false,
-                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                            )
-                        );
-                    }
-                    die;
-                    break;
+        switch ( $_POST['form'] ) {
+            // update presentation mode for paid content
+            case 'paid_content_preview':
+                $paid_content_preview_form = new LaterPay_Form_PaidContentPreview();
 
-                default:
-	                wp_send_json(
+                if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {
+                    wp_send_json(
                         array(
                             'success' => false,
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
-                    break;
-            }
-        }
-    }
+                }
 
+                $result = update_option( 'laterpay_teaser_content_only', $paid_content_preview_form->get_field_value( 'paid_content_preview' ) );
+
+                if ( $result ) {
+                    if ( get_option( 'laterpay_teaser_content_only' ) ) {
+                        wp_send_json(
+                            array(
+                                'success' => true,
+                                'message' => __( 'Visitors will now see only the teaser content of paid posts.', 'laterpay' )
+                            )
+                        );
+                    }
+
+                    wp_send_json(
+                        array(
+                            'success' => true,
+                            'message' => __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.', 'laterpay' )
+                        )
+                    );
+                }
+                break;
+
+            // update rating functionality (on / off) for purchased items
+            case 'ratings':
+                $ratings_form = new LaterPay_Form_Rating();
+
+                if ( ! $ratings_form->is_valid( $_POST ) ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                }
+
+                $result = update_option( 'laterpay_ratings', ! ! $ratings_form->get_field_value( 'enable_ratings' ) );
+
+                if ( $result ) {
+                    if ( get_option( 'laterpay_ratings' ) ) {
+                        wp_send_json(
+                            array(
+                                'success' => true,
+                                'message' => __( 'Visitors can now rate the posts they have purchased.', 'laterpay' ),
+                            )
+                        );
+                    }
+
+                    wp_send_json(
+                        array(
+                            'success' => true,
+                            'message' => __( 'The rating of posts has been disabled.', 'laterpay' ),
+                        )
+                    );
+                }
+                break;
+
+            case 'purchase_button_position':
+                $purchase_button_pos_form = new LaterPay_Form_PurchaseButtonPosition( $_POST );
+
+                if ( ! $purchase_button_pos_form->is_valid( ) ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                }
+
+                $result = update_option( 'laterpay_purchase_button_positioned_manually', ! ! $purchase_button_pos_form->get_field_value( 'purchase_button_positioned_manually' ) );
+
+                if ( $result ) {
+                    if ( get_option( 'laterpay_purchase_button_positioned_manually' ) ) {
+                        wp_send_json(
+                            array(
+                                'success' => true,
+                                'message' => __( 'Purchase buttons are now rendered at a custom position.', 'laterpay' ),
+                            )
+                        );
+                    }
+
+                    wp_send_json(
+                        array(
+                            'success' => true,
+                            'message' => __( 'Purchase buttons are now rendered at their default position.', 'laterpay' ),
+                        )
+                    );
+                }
+                break;
+
+            case 'time_passes_position':
+                $time_passes_pos_form = new LaterPay_Form_TimePassPosition( $_POST );
+
+                if ( ! $time_passes_pos_form->is_valid() ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                }
+
+                $result = update_option( 'laterpay_time_passes_positioned_manually', ! ! $time_passes_pos_form->get_field_value( 'time_passes_positioned_manually' ) );
+
+                if ( $result ) {
+                    if ( get_option( 'laterpay_time_passes_positioned_manually' ) ) {
+                        wp_send_json(
+                            array(
+                                'success' => true,
+                                'message' => __( 'Time passes are now rendered at a custom position.', 'laterpay' ),
+                            )
+                        );
+                    }
+
+                    wp_send_json(
+                        array(
+                            'success' => true,
+                            'message' => __( 'Time passes are now rendered at their default position.', 'laterpay' ),
+                        )
+                    );
+                }
+                break;
+
+            case 'free_posts_visibility':
+                $hide_free_posts_form = new LaterPay_Form_HideFreePosts( $_POST );
+
+                if ( ! $hide_free_posts_form->is_valid() ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                }
+
+                $result = update_option( 'laterpay_hide_free_posts', ! ! $hide_free_posts_form->get_field_value( 'hide_free_posts' ) );
+
+                if ( $result ) {
+                    if ( get_option( 'laterpay_hide_free_posts' ) ) {
+                        wp_send_json(
+                            array(
+                                'success' => true,
+                                'message' => __( 'Free posts with premium content now hided from the homepage.', 'laterpay' ),
+                            )
+                        );
+                    }
+
+                    wp_send_json(
+                        array(
+                            'success' => true,
+                            'message' => __( 'Free posts with premium content now hided from the homepage.', 'laterpay' ),
+                        )
+                    );
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
+    }
 }

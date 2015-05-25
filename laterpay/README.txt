@@ -1,9 +1,9 @@
 === LaterPay ===
 
-Contributors: dominik-rodler, mihail-turalenka
+Contributors: laterpay, dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 3.9.2
+Tested up to: 4.2.2
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -40,6 +40,31 @@ You may also change the plugin's currency and apply a dynamic pricing scheme to 
   E.g. you can offer a breaking news post for 0.49 Euro for the first two days and then automatically reduce the price
   to 0.05 Euro until the fith day to increase your sales.
 
+With time passes, you can sell time-limited access to all the LaterPay content
+* on your entire website
+* in a specific category
+* on your entire website except for a specific category.
+The user will have access to all the covered content during the validity period and afterwards, this access will expire automatically.
+Time passes are displayed within a dedicated sidebar widget that automatically sorts available time passes by relevance.
+Be careful when deleting a time pass: Users, who have bought the respective time pass, will lose the access to the covered content. Deleted time passes cannot be restored.
+
+For each time pass, you can create any number of voucher codes that enable your users to purchase a time pass for a reduced price.
+A user can enter a voucher code in the time pass sidebar widget by clicking "I have a voucher". The price for the respective time pass will then be updated.
+Voucher codes are not user specific and can be used for any number of times until you delete them. Deleting a voucher code will not affect the access to time passes which have already been purchased with this code.
+
+The plugin also comes with a mighty bulk price editor: It allows you to change many prices at once by
+* making all posts free
+* setting one specific price for all posts
+* increasing or decreasing the prices of all posts by a specific percentage or absolute amount
+* resetting all posts to the global default price
+Whenever possible, the plugin will maintain the current pricing structure: So if possible, after a bulk action
+* posts with individual price will still use the individual price
+* posts with category default price will still use the category default price and
+* posts with global default price will still use the global default price.
+
+If you change all prices by a certain percentage, the lower limit is always 0.05 EUR - so rounding will never accidentally make posts free.
+
+
 = Presentation =
 * LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button at the beginning of the
   post content. You can choose to not show this button and instead render it from within your theme by calling
@@ -55,8 +80,15 @@ You have the choice between two presentation modes for your teaser content:
 * Teaser + overlay: This mode shows the teaser, an excerpt of the full content under a semi-transparent overlay
      that briefly explains LaterPay's benefits. The plugin never loads the full content before a user has bought it.
 
+The plugin provides two shortcodes that will allow you to sell additional content directly from within another post:
+
+* [laterpay_premium_download] renders a 300px x 300px box containing information about a linked premium content and a LaterPay purchase button. A user can purchase the linked content directly via this shortcode. You can sell attachments from your WordPress media library or other posts via a shortcode. If a user purchases an attachment via a shortcode, it will be downloaded after the purchase. If he purchases another post, he will be redirected to that post after the purchase.
+* [laterpay_box_wrapper] aligns multiple [laterpay_premim_download] boxes.
+Please note: Shortcodes and the respective parameters are extensively documented in the "appearance" tab.
+
 Furthermore, the plugin provides:
 
+* Content Rating: If you enable content rating, users who have purchased a post, will be able to rate it on a five star scale. Users, who haven't bought a post yet will see a summary of all prior ratings below the LaterPay purchase button.
 * LaterPay invoice indicator: The plugin provides a code snippet you can insert into your theme that displays
   the user's current LaterPay invoice total and provides a direct link to his LaterPay user backend.
   You don't have to integrate this snippet, but we recommend it for transparency reasons.
@@ -110,7 +142,8 @@ Some plugin features may not be available for certain user roles, based on the W
 * Contributors: can edit the teaser content and see the statistics of their **own** posts
 * Authors: can **additionally** edit the individual prices of their **own** posts
 * Editors: can edit the teaser content and individual prices of **all** posts and can see the statistics of **all** posts
-* Super Admins and Admins: Can **additionally** access the plugin backend, edit the plugin settings and (un-)install and (de-)activate the LaterPay WordPress plugin.
+* Super Admins and Admins: Can **additionally** access the plugin backend, edit the plugin settings and (un-)install
+and (de-)activate the LaterPay WordPress plugin.
 
 
 == Installation ==
@@ -118,161 +151,58 @@ Some plugin features may not be available for certain user roles, based on the W
 # Upload the LaterPay WordPress plugin on the ‘Install Plugins’ page of your WordPress installation
   (/wp-admin/plugin-install.php?tab=upload) and activate it on the ‘Plugins’ page (/wp-admin/plugins.php).
   The WordPress plugin will show up in the admin sidebar with a callout pointing at it.
-# Click on the LaterPay entry in the admin sidebar. You will be taken to the ‘Get Started’ page.
-# Choose a global default price on the ‘Get Started’ page. This price will be set for all your blog posts.
-  If you choose 0.00 Euro, all posts remain free. You can later adjust your prices in detail.
-  After clicking the ‘Activate LaterPay in Test Mode’ button, LaterPay is active on your blog in Test mode.
-  In Test mode, the plugin is not visible to visitors, but only to admins.
+# The plugin is now in Test mode, i.e. the plugin is not visible to visitors, but only to admins.
   You can test and configure everything to your liking.
   If you want to start earning money, you have to first register a LaterPay merchant account and request your
   Live API credentials.
+# Click on the LaterPay entry in the admin sidebar to adjust the plugin preferences and prices.
 
 The plugin will notify you about available updates that you can install with a single click.
 
 
 == Advanced Configuration ==
 
-The plugin has a number of advanced configuration options that are not available from the graphical user interface, but
-instead must be set using filters.
+The plugin's settings page (Settings > LaterPay) allows you to adjust some parameters, which are too advanced to list
+them in the regular LaterPay plugin backend:
 
-# Edit API Settings
+= Caching Compatibility Mode =
+The plugin detects on activation or update, if you are using one of the common caching plugins and automatically
+switches to caching compatibility mode.
+You can manually turn this mode on (or off), if you have installed a caching plugin after installing the LaterPay
+plugin or if you are using a caching plugin that is not detected.
 
-## Filter
+= LaterPay-enabled Post Types =
+You can enable or disable LaterPay for any standard or custom post type. By default, LaterPay is enabled for all
+post types.
 
-'laterpay_get_api_settings'
+= Automatically Generated Teaser Content =
+The plugin will automatically generate teaser content, if you leave the teaser empty.
+This functionality was introduced to handle the case that the LaterPay plugin is installed to monetize a large number
+of existing posts and it would be too much effort to create individual teaser content or that work simply has not yet
+been done. With the setting in this section, you can control, how many words of the full content the plugin should use
+as teaser content. (E.g. 500 will use the first 500 words of the full content as teaser content,
+if there is no teaser content.)
 
-## Example
+= Excerpt under Teaser Overlay =
+If you choose the preview mode "Teaser + excerpt of the full text under overlay" in the appearance tab,
+you can define the length of the excerpt under the overlay with the three settings in this section.
 
-``php
-add_filter( 'laterpay_get_api_settings', 'demo_filter_laterpay_get_api_settings' );
-/**
- * Demo callback to change the settings
- *
- * @param array $settings array(
- *    'api.sandbox_url'           => String,
- *    'api.sandbox_web_url'       => String
- *    'api.live_url'              => String
- *    'api.live_web_url'          => String
- *  )
- *
- * @return array $settings
-function demo_filter_laterpay_get_api_settings( array $settings ) {
-  /* do something with settings */
+= Unlimited Access to Paid Content =
+This setting gives all logged in users with a specific role full access to all paid content on your website.
+To use this feature, you have to create at least one custom user role (e.g. with the free plugin 'User Role Editor')
+and add the respective users to this group.
 
-  return $settings;
-}
-``
+= Access Logging for Generating Sales Statistics =
+By default, the plugin will store anonymous usage and sales data on your server to provide sales statistics.
+This data will not be sent to LaterPay and will be automatically deleted after three months.
+If you don't need any sales statistics, you can disable the access logging in this section.
 
-# Activate / Deactivate Caching-compatible Mode
+= LaterPay API URLs =
+Attention: This is an option primarily used for LaterPay's demo and test purposes:
+Changing the API endpoints (more precisely: using the sandbox endpoints as live endpoints) makes the plugin
+(e.g. on laterpaydemo.com) behave like in live mode while still talking to the sandbox environment.
+We highly discourage changing the default setting.
 
-## Filter
-
-'laterpay_get_caching_compatible_mode'
-
-## Example
-
-``php
-add_filter( 'laterpay_get_caching_compatible_mode', 'demo_filter_laterpay_get_caching_compatible_mode' );
-/**
- * Demo callback to manually set the caching mode
- *
- * @param bool $mode  - true = activated | false = deactivated
- *
- * @return bool $mode
-*/
-function demo_filter_laterpay_get_caching_compatible_mode( $mode ) {
-  if ( /* something */ ) {
-    $mode = true;
-  } else {
-    $mode = false;
-  }
-
-  return $mode;
-}
-``
-
-# Edit Content Settings
-
-## Filter
-
-'laterpay_get_content_settings'
-
-## Example
-
-``php
-add_filter( 'laterpay_get_content_settings', 'demo_filter_laterpay_get_content_settings' );
-/**
- * Demo callback to change the settings
- *
- * @param Array $settings array(
- *    'content.auto_generated_teaser_content_word_count'  => Integer - Number of words used for automatically extracting teaser content for paid posts,
- *    'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
- *    'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
- *    'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
- *    'content.allowed_post_types'                         => Array - allowed post_types that support LaterPay purchases
- *      'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
- *  )
- * @return Array $settings
- */
-function demo_filter_laterpay_get_content_settings( array $settings ) {
-  /* do something with settings */
-
-  return $settings;
-}
-``
-
-# activate / Deactivate Access Logging
-
-## Filter
-'later_pay_access_logging_enabled'
-
-## Example
-
-``php
-add_filter( 'later_pay_access_logging_enabled', 'demo_filter_later_pay_access_logging_enabled' );
-/**
- * Demo callback to manually set the logging mode
- *
- * @param bool $logging - true = activated | false = deactivated
- *
- * @return bool $logging
-*/
-function demo_filter_laterpay_later_pay_access_logging_enabled( $logging ) {
-  if ( /* something */ ) {
-    $logging = true;
-  } else {
-    $logging = false;
-  }
-
-  return $logging;
-}
-``
-
-# Edit Browscap Settings
-
-## Filter
-'laterpay_get_browscap_settings'
-
-## Example
-
-``php
-add_filter( 'laterpay_get_browscap_settings', 'demo_filter_laterpay_get_browscap_settings' );
-/**
- * Demo callback to change the settings
- *
- * @param Array $settings array(
- *    'browscap.autoupdate'             => Boolean - When set to true, the plugin will automatically fetch updates of this library from browscap.org
- *    'browscap.manually_updated_copy'  => String - If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file on your server
- *  )
- *
- * @return Array $settings
- */
-function demo_filter_laterpay_get_browscap_settings( array $settings ) {
-  /* do something with settings */
-
-  return $settings;
-}
-``
 
 == Modification, Bug Reports, and Feature Requests ==
 
@@ -302,29 +232,158 @@ support.laterpay.net
 
 = How do I get my LaterPay Live API credentials? =
 To get your LaterPay Live API credentials, please send us the signed merchant contract and all necessary identification
-documents that are listed in the merchant contract. After we've checked your documents, we will send you an e-mail with
-your LaterPay Live API credentials.
-
-= My theme looks broken after activating the LaterPay plugin =
-The LaterPay WordPress plugin has been tested to work fine with most WordPress standard themes.
-Given the sheer mass of available WordPress themes, it is still likely that you will have to make some adjustments to
-your theme after installing the LaterPay WordPress plugin.
+documents that are listed in the merchant contract. You can find the merchant contract on the ’Account’ tab of the
+plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
 
 
 == Screenshots ==
 
-1. Get started with three simple steps.
-2. LaterPay lets you easily enter teaser content and set an individual or...
-3. Dynamic price for your blogposts.
-4. In the Pricing tab, you can set default prices for the entire blog or specific categories.
-5. In the Appearance tab, you can choose between two preview modes for your content.
+1. LaterPay lets you easily enter teaser content and set an individual price for a post starting at 0.05 EUR ...
+2. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
+3. The statistics dashboard gives you detailed insights about your sales performance.
+4. In the Pricing tab, you can set the default prices for the entire plugin or specific categories. And you can create time passes, which enable you to sell time-limited access to all the content on your website or in a specific category.
+5. The appearance tab allows you to adjust the position of the purchase button and time passes. Furthermore, you can choose between two preview modes for your paid content.
 6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
-7. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
-8. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
-9. The statistics pane provides sales statistics for each post.
-
+7. Option 2 additionally shows an excerpt of the full content under an overlay and a short explanation of LaterPay.
+8. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode. In test mode, you can choose, if LaterPay should be visible for regular visitors or not.
+9. The plugin comes with its own debugger.
 
 == Changelog ==
+
+= 0.9.11.4 (May 8, 2015): Bugfix Release (v1.0 RC4) =
+* Completely revised plugin backend user interface with clearer layout and smoother user interaction
+* Added functionality to automatically remove logged page view data after three months
+* Added advanced option to manually update the Browscap database from the advanced settings page
+* Added advanced option to define the plugin behavior in case the LaterPay API is not responding
+* Improved behavior of deleting time passes (only mark as deleted instead of actually removing from database)
+* Changed mechanism for including vendor libraries from git submodules to Composer
+* Fixed several internals regarding the calculation of sales statistics
+* Adjusted copy in teaser content overlay for Time Passes and Single Sale purchases
+* Fixed various visual bugs
+* Lots of internal structural improvements
+
+= 0.9.11.3 (April 7, 2015): Bugfix Release (v1.0 RC3) =
+* Added parameter 'id' to the shortcode [laterpay_time_passes] to display only one specific time pass
+* Fixed display of voucher code statistics in pricing tab
+* Visual fixes for LaterPay purchase button
+* Fixed attachment download via the shortcode [laterpay_premium_download] in caching mode
+* Fixed redeeming voucher codes via the shortcode [laterpay_redeem_voucher]
+* Fixed undefined index in time_pass partial
+* Fixed a few visual bugs in post price form
+* More ongoing refactoring of markup and SCSS files
+
+= 0.9.11.2 (March 5, 2015): Bugfix Release (v1.0 RC2) =
+* Fixed undefined variable on dashboard
+* Removed sourcemaps from production assets
+
+= 0.9.11.1 (March 5, 2015): Bugfix Release (v1.0 RC1) =
+* Added capability to also allow users with role 'editor' to see the dashboards in the plugin backend
+* Fixed bug that caused link checker plugins to report broken links
+* Fixed bug that prevented time passes widget to render, if a specific time pass id was not provided
+* Visual fixes for redeem voucher code form in some themes
+* Fixed bug that caused custom columns in posts page to not be rendered
+* Improved dashboard behavior: running Ajax requests are aborted now, when changing the dashboard configuration
+* Improved performance: do not check LaterPay token on free posts
+* Removed default values for VAT, which were made obsolete by VATMOSS
+* Removed filters from plugin config, because of recent introduction of advanced settings page
+* Removed commented out function to switch the default currency
+* Lots of internal refactoring and clean-up
+
+= 0.9.11 (February 25, 2015): Time Pass Additions Release =
+* Added option to allow only time pass purchases or time pass and individual post purchases
+* Added dashboard page for time pass customer lifecycle that shows how many time passes are sold and active, and when
+  the currently active time passes will expire
+* Added shortcode for rendering time passes
+* Added option to have the plugin visible or invisible for visitors in test mode
+* Added advanced setting for defining unrestricted access for a user role on a per category basis
+* Added proper handling of subcategories for time pass access checks
+* Added proper handling of subcategories for category prices
+* Added separation of analytics data between data collected in test mode and in live mode
+* Fixed bug where category-specific time pass would give access to entire site
+* Fixed bug where number of page views was not rendered correctly in post statistics pane
+* Fixed a lot of usability and rendering bugs of the dynamic pricing widget
+* Fixed bug where custom position of purchase was not respected in admin preview
+* Fixed bug where custom position of time passes was not respected in admin preview
+* Fixed bug with day names in dashboard
+* Added missing documentation and fixed inconsistencies in coding style
+* The post statistics pane is now rendered again in debug mode after WordPress update 4.1.1 was released
+
+= 0.9.10 (January 21, 2015): Gift Cards Release =
+* Added gift cards for time passes to allow giving away time passes as a present
+* Added two shortcodes: [laterpay_gift_card] to render gift cards and [laterpay_redeem_voucher] to render a form for
+  redeeming gift card codes.
+* Changed time pass behavior to render below the content by default
+* Added shortcode [laterpay_time_passes] as alternative for the action 'laterpay_time_passes'.
+* Added shortcode [laterpay_account_links] and action 'laterpay_account_links' to render stylable links to log in to /
+  out of LaterPay
+* Implemented filters for dashboard
+* Fixed various bugs related to the dashboard
+* Changed config mechanism to use a WordPress settings page for advanced settings
+* Added support for caching plugin WP Rocket
+* Restored option to give unlimited access to a specific user group
+* Fixed bug that shortcode [laterpay_premium_download] always uses global default price
+* Fixed bug where teaser would not save with price type "global default" and "category default"
+* Fixed bug where its price could not be updated after a post was published
+* Fixed bug where post statistics pane was not visible
+* Fixed bug where Youtube videos in paid content are not loaded
+* Fixed bug where '?' was appended to the URL
+* Fixed bug where the category default price was not automatically applied, if the category affiliation of a post changed
+* Various bug fixes on dynamic pricing widget
+* Various smaller bug fixes
+KNOWN BUGS:
+* The post statistics pane is not rendered in debug mode because of a WordPress bug that will be resolved with WP 4.1.1
+
+= 0.9.9 (December 2, 2014): Time Passes Release =
+* Added time passes and vouchers for selling access to the entire site or parts of it for a limited amount of time
+* Added sales dashboard (pre-release) for monitoring sales performance
+* Added quality rating functionality to let users who bought an article rate it on a five-star scale
+* Purchases from shortcode now directly trigger a download, if it is an attachment
+* Improved functionality of dynamic pricing widget (added option to enter exact price values, added option to restart
+  dynamic pricing, automatically adjust scaling of y-axis, depending on revenue model, etc.)
+* Fixed bug that broke the installation ("Unrecognized Address in line 78")
+* Fixed loading of youtube videos in paid content
+* Around 8784126852 other small bugfixes and improvements
+KNOWN BUGS:
+* Shortcode always uses global default price https://github.com/laterpay/laterpay-wordpress-plugin/issues/503
+
+= 0.9.8.3 (October 28, 2014): Bugfix Release =
+* Added bulk price editor to make editing large numbers of posts easier
+* Fixed saving of global default and category default prices with German number format
+* Fixed bug where user was not immediately forwarded to purchases content but had to click purchase button a second time
+* Fixed IPv6 bug in logger / debugger functionality
+* Fixed plugin mode toggle
+* Fixed loading of youtube videos in paid posts
+* Fixed displaying of custom teaser images in laterpay_premium_download shortcode
+* Ensured shortcode plain text is hidden to visitors in test mode
+* Improved server-side validation of forms
+
+= 0.9.8.2 (October 9, 2014): Integration Support Release =
+* Added debugger pane to help with integration of plugin (pane is displayed in debug mode: define('WP_DEBUG', true);)
+* Documented UI options and shortcode usage in appearance tab
+* Made post statistics logging compatible with page caching
+* Ensured that LaterPay can be enabled on attachment pages
+* Extended file protection in paid posts to all files on current host
+* Disabled option to select currency as currently only Euro is supported
+
+= 0.9.8.1 (September 30, 2014): Bugfix Release =
+* Made sure the LaterPay client is included in the release
+
+= 0.9.8 (September 30, 2014): Single Sales Release =
+* Added option to sell content as single sale (SIS), allowing prices up to 149.99 Euro
+* Added configuration option for enabled post types in appearance tab
+* Added the action 'laterpay_invoice_indicator' to render the invoice indicator from within a theme
+* Huge improvements on RAM consumption and CPU usage
+* Ensured compatibility with WordPress 4.0
+* Added plugin icon for WordPress 4.0 plugins page
+* Rewrote all CSS using Stylus CSS preprocessor
+* Rewrote all Javascript to encapsulate all variables and functions
+* Added hint text for premium posts to feeds
+* Fixed bug caused by checking for edit_plugins capability, which might be disabled
+* Restricted querying for categories to taxonomy 'category'
+* Improved uninstall action
+* Extracted LaterPay PHP client into separate repository and included it as vendor library
+* Fixed paths to LaterPay libraries depending on plugin mode
+* Extensive refactoring plus various smaller bugfixes and improvements
 
 = 0.9.7.2: Migration to wordpress.org =
 

@@ -1,0 +1,158 @@
+// 'Pricing' tab in plugin backend
+
+// global / category default prices ------------------------------------------------------------------------------------
+.lp_table--form {
+    margin: 0;
+
+    th,
+    td {
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    th {
+        color: $text--lighter;
+        font-weight: normal;
+        padding-left: 0;
+    }
+
+    td {
+        padding-right: 0;
+    }
+
+    thead th {
+        color: $text;
+        font-size: $fs--125;
+        padding: $fs--05 0 $fs;
+    }
+
+    tfoot td {
+        padding-top: $fs;
+        padding-bottom: 0;
+    }
+}
+
+.lp_price-section {
+    .lp_badge {
+        margin-left: $fs--025;
+        width: $fs--2;
+    }
+}
+
+
+// category default prices ---------------------------------------------------------------------------------------------
+.lp_category-price-form {
+
+    .select2-container,
+    .select2-drop,
+    .select2-search,
+    .select2-search input {
+        width: round($fs * 12.75);
+    }
+}
+
+
+// time passes ---------------------------------------------------------------------------------------------------------
+.lp_time-passes__item {
+    @extend %lp_greybox;
+
+    margin: 0 ($fs * 4) $fs round($fs * 3.5);
+    padding-bottom: $fs--05;
+    position: relative;
+    width: round($fs * 27.5);
+
+    .lp_time-pass__id-wrapper {
+        background: $background--darker;
+        border-radius: 4px 0 0 4px;
+        left: - round($fs * 3.5);
+        line-height: 1.2;
+        padding: $fs--05 $fs--025;
+        position: absolute;
+        text-align: center;
+        width: $fs--3;
+    }
+
+    .lp_time-pass__id {
+        font-size: $fs--2;
+    }
+
+    .lp_time-pass {
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+}
+
+.lp_time-pass-editor {
+    display: inline-block;
+    float: left;
+    vertical-align: top;
+
+    .lp_time-pass-editor__column {
+        margin-top: $fs;
+
+        td {
+            padding: 0;
+            vertical-align: middle;
+        }
+
+        .lp_rowspan-label {
+            padding-top: $fs--05;
+            padding-right: $fs--05;
+            vertical-align: top;
+        }
+    }
+
+    .lp_timePass_description-input {
+        height: round($fs * 4.75);
+    }
+
+    .lp_toggle__label-pass {
+        width: round($fs * 3.5);
+
+        .lp_toggle__input:checked ~ .lp_toggle__text {
+            background: darken($background, 16%);
+        }
+    }
+}
+
+// voucher editor
+.lp_voucher {
+    margin-top: $fs--05;
+    margin-bottom: $fs--025;
+}
+
+.lp_vouchers .lp_voucher {
+    float: left;
+}
+
+
+// bulk price editor ---------------------------------------------------------------------------------------------------
+/**
+ * 1. Remove arrows from select
+ */
+select.lp_is-disabled {
+    appearance: none; /* 1 */
+    background-color: transparent;
+    border-color: transparent;
+    color: darken($text, 13%);
+
+    &::-ms-expand {
+        display: none; /* 1 - IE */
+    }
+}
+
+.lp_saved-bulk-operation {
+    width: 600px;
+
+    .lp_saved-bulk-operation__message {
+        line-height: 2.25;
+    }
+
+    a {
+        float: right;
+    }
+}
+
+.button.button-primary.lp_ml\+ {
+    margin-left: $fs--2;
+}

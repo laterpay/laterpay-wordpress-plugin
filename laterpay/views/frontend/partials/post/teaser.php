@@ -1,3 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
+?>
 
-<?php echo '<div class="laterpay-teaser-content">' . $laterpay['teaser_content'] . '</div>'; ?>
+<div class="lp_teaser-content"><?php echo laterpay_sanitize_output( $laterpay['teaser_content'] ); ?></div>
