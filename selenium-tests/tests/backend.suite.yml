@@ -6,28 +6,45 @@ modules:
         - Db
     config:
         WebDriver:
-            url: 'http://src.wordpress-develop.dev/'
+            host: 'atsumarov:563a0772-2100-4fcc-b22f-df38c890d17b@ondemand.saucelabs.com'
+            url: 'http://54.235.193.4/'
             browser: firefox
             restart: false
             clear_cookies: false
             window_size: 1280x1024
             capabilities:
                 unexpectedAlertBehaviour: 'accept'
+                "max-duration": 7200
+        Db:
+            dsn: 'mysql:host=54.235.193.4;dbname=wordpress_default'
+            host: '54.235.193.4'
+            user: 'wp'
+            password: 'wp'
+            dump: tests/_data/refresh.sql
+            populate: true
 env:
-    firefox_aws:
+    firefox_win:
         config:
             WebDriver:
+                host: 'atsumarov:563a0772-2100-4fcc-b22f-df38c890d17b@ondemand.saucelabs.com'
                 url: 'http://54.235.193.4/'
+                os: "Windows 7"
                 browser: firefox
                 restart: false
                 clear_cookies: false
                 window_size: 1280x1024
                 capabilities:
                     unexpectedAlertBehaviour: 'accept'
-            Db:
-                dsn: 'mysql:host=localhost;dbname=wordpress_default'
-                host: 'localhost'
-                user: 'root'
-                password: 'root'
-                dump: tests/_data/refresh.sql
-                populate: true
+    safari_mac:
+        config:
+            WebDriver:
+                host: 'atsumarov:563a0772-2100-4fcc-b22f-df38c890d17b@ondemand.saucelabs.com'
+                url: 'http://54.235.193.4/'
+                os: "OS X 10.6"
+                browser: safari
+                restart: false
+                clear_cookies: false
+                window_size: 1280x1024
+                capabilities:
+                    unexpectedAlertBehaviour: 'accept'
+

@@ -8,10 +8,9 @@ node_modules/
 # composer generated files and folders
 laterpay/vendor
 # selenium tests
-/laterpay/selenium-tests/nbproject/
-/laterpay/selenium-tests/vendor/
-/laterpay/codeception-tests/nbproject/private/
-/laterpay/selenium-tests/tests/nbproject/private/
-/laterpay/selenium-tests/tests/_data/laterpay.zip
-/laterpay/selenium-tests/tests/_output
-/laterpay/selenium-tests/tests/backend.suite.yml
+selenium-tests/nbproject/
+selenium-tests/vendor/
+selenium-tests/tests/nbproject/private/
+selenium-tests/tests/_data/
+selenium-tests/tests/_output
+selenium-tests/tests/backend.suite.yml

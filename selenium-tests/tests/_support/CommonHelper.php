@@ -82,6 +82,8 @@ class CommonHelper extends \Codeception\Module {
             $I->click($string);
         } catch (\PHPUnit_Framework_AssertionFailedError $f) {
 
+        } catch (Exception $e) {
+
         };
     }
 
@@ -116,6 +118,27 @@ class CommonHelper extends \Codeception\Module {
 
             $this->getModule('WebDriver')->_resetConfig();
         };
+    }
+
+    /**
+     * Save variable
+     * @param string $url
+     * @param mixed $url
+     * @return void
+     */
+    public function setVar($k, $v) {
+
+        $this->k = $v;
+    }
+
+    /**
+     * Get variable
+     * @param null $url
+     * @return mixed
+     */
+    public function getVar($k) {
+
+        return $this->k;
     }
 
 }

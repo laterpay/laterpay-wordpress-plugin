@@ -15,4 +15,3 @@ script:
     - jshint laterpay/asset_sources/js
 notifications:
     slack: laterpay:KtlgyYUZft7naQWn3yjM6yCu
-
