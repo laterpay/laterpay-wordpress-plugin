@@ -925,9 +925,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $time_passes_array[ $time_pass['pass_id'] ] = $time_pass;
         }
 
-        $time_passes_array = json_encode( $time_passes_array );
-
-        return $time_passes_array;
+        return wp_json_encode( $time_passes_array );
     }
 
     /**
@@ -973,17 +971,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     private function save_landing_page() {
         $landing_page_form  = new LaterPay_Form_LandingPage( $_POST );
 
-        if ( $landing_page_form->is_valid() ) {
-            // save URL and confirm with flash message, if the URL is valid
-            update_option( 'laterpay_landing_page', $landing_page_form->get_field_value( 'landing_url' ) );
-
-            wp_send_json(
-                array(
-                    'success' => true,
-                    'message' => __( 'Landing page saved.', 'laterpay' ),
-                )
-            );
-        } else {
+        if ( ! $landing_page_form->is_valid() ) {
             // show an error message, if the provided URL is not valid
             wp_send_json(
                 array(
@@ -992,6 +980,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 )
             );
         }
+
+        // save URL and confirm with flash message, if the URL is valid
+        update_option( 'laterpay_landing_page', $landing_page_form->get_field_value( 'landing_url' ) );
+
+        wp_send_json(
+            array(
+                'success' => true,
+                'message' => __( 'Landing page saved.', 'laterpay' ),
+            )
+        );
     }
 
     /**
@@ -1009,18 +1007,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $only_time_pass = 0; // allow individual and time pass purchases
         }
 
-        if ( $only_time_pass == 1 ) {
-            if ( ! LaterPay_Helper_TimePass::get_time_passes_count() ) {
-                wp_send_json(
-                    array(
-                        'success' => false,
-                        'message' => __( 'You have to create a time pass, before you can disable individual purchases.', 'laterpay' ),
-                    )
-                );
-            }
-
-            // enable "show time passes on free posts" option
-            update_option( 'laterpay_show_time_passes_widget_on_free_posts', 1 );
+        if ( $only_time_pass === 1 && ! LaterPay_Helper_TimePass::get_time_passes_count() ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'You have to create a time pass, before you can disable individual purchases.', 'laterpay' ),
+                )
+            );
         }
 
         update_option( 'laterpay_only_time_pass_purchases_allowed', $only_time_pass );
