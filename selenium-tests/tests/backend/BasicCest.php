@@ -6,7 +6,7 @@ use \BackendTester;
  * Installation
  * @group C1
  */
-class SetupPluginCest {
+class BasicCest {
 
     /**
      * UI1: Can the plugin be installed and activated?

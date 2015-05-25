@@ -5,6 +5,11 @@ namespace Codeception\Module;
 class CommonHelper extends \Codeception\Module {
 
     /**
+     * @var array
+     */
+    public $var = array();
+
+    /**
      * For test development purposes.
      * Usage examples:
      * mod($I,'BackendModule','login');
@@ -13,95 +18,7 @@ class CommonHelper extends \Codeception\Module {
      * @param \BackendTester $I
      */
     public function mod($I, $module, $method) {
-
         $module::of($I)->$method($I);
-    }
-
-    /**
-     * Helper to have ability if-then-else condition for seeInField method
-     * @param \BackendTester $I
-     * @param String $I
-     */
-    public function trySeeInField($I, $string, $value) {
-
-        try {
-
-            $I->seeInField($string, $value);
-            return true;
-        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
-
-            return false;
-        };
-    }
-
-    /**
-     * Helper to have ability if-then-else condition for see method
-     * @param \BackendTester $I
-     * @param String $I
-     */
-    public function trySee($I, $string) {
-
-        try {
-
-            $I->see($string);
-            return true;
-        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
-
-            return false;
-        };
-    }
-
-    /**
-     * Helper to have ability non mandatory mouse click for seeOptionIsSelected method
-     * @param \BackendTester $I
-     * @param String $I
-     */
-    public function tryOption($I, $select, $option) {
-
-        try {
-
-            $I->seeOptionIsSelected($select, $option);
-            return true;
-        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
-
-            return false;
-        };
-
-        return true;
-    }
-
-    /**
-     * Helper to have ability non mandatory mouse click for click method
-     * @param \BackendTester $I
-     * @param String $I
-     */
-    public function tryClick($I, $string) {
-
-        try {
-
-            $I->click($string);
-        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
-
-        } catch (Exception $e) {
-
-        };
-    }
-
-    /**
-     * Helper to have ability non mandatory mouse click for seeCheckboxIsChecked method
-     * @param \BackendTester $I
-     * @param String $I
-     */
-    public function tryCheckbox($I, $string) {
-
-        try {
-
-            $I->seeCheckboxIsChecked($string);
-            return true;
-        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
-
-            return false;
-        };
     }
 
     /**
@@ -109,37 +26,51 @@ class CommonHelper extends \Codeception\Module {
      * @param null $url
      * @return void
      */
-    public function setDomain($url = null) {
-
-        if ($url) {
-
-            $this->getModule('WebDriver')->_reconfigure(array('url' => $url));
+    public function setDomain( $url = null ) {
+        if ( $url ) {
+            $this->getModule( 'WebDriver' )->_reconfigure( array( 'url' => $url ) );
         } else {
-
-            $this->getModule('WebDriver')->_resetConfig();
+            $this->getModule( 'WebDriver' )->_resetConfig();
         };
     }
 
     /**
+     * Helper to have ability non mandatory mouse click for seeOptionIsSelected method
+     * @param \BackendTester $I
+     * @param string         $select
+     * @param string         $option
+     */
+    public function tryOption($I, $select, $option) {
+        try {
+            $I->seeOptionIsSelected($select, $option);
+        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Save variable
-     * @param string $url
-     * @param mixed $url
+     *
+     * @param mixed $key
+     * @param mixed $value
+     *
      * @return void
      */
-    public function setVar($k, $v) {
-
-        $this->k = $v;
+    public function setVar( $key, $value ) {
+        $this->var[ $key ] = $value;
     }
 
     /**
      * Get variable
-     * @param null $url
+     *
+     * @param  mixed $key
+     *
      * @return mixed
      */
-    public function getVar($k) {
-
-        return $this->k;
+    public function getVar( $key ) {
+        return $this->var[ $key ];
     }
-
 }
 

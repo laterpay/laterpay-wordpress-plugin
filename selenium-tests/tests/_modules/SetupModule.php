@@ -72,13 +72,11 @@ class SetupModule extends BaseModule {
         $I = $this->BackendTester;
 
         $I->amOnPage(SetupModule::$url_plugin_list);
-        if ($I->trySee($I, SetupModule::$assertPluginName)) {
-
-            //Remove plugin before install
-            $I->tryClick($I, SetupModule::$pluginDeactivateLink);
-            $I->tryClick($I, SetupModule::$pluginDeleteLink);
-            $I->tryClick($I, SetupModule::$pluginDeleteConfirmLink);
-        };
+        $I->see($I, SetupModule::$assertPluginName);
+        //Remove plugin before install
+        $I->click($I, SetupModule::$pluginDeactivateLink);
+        $I->click($I, SetupModule::$pluginDeleteLink);
+        $I->click($I, SetupModule::$pluginDeleteConfirmLink);
 
         return $this;
     }
@@ -124,8 +122,8 @@ class SetupModule extends BaseModule {
         $I->see(SetupModule::$pluginNavigationLabel, SetupModule::$backNavigateTab);
 
         //floated popup
-        if ($I->trySee($I, '.wp-pointer-content'))
-            $I->tryClick($I, '.wp-pointer-content .close');
+        $I->see($I, '.wp-pointer-content');
+        $I->click($I, '.wp-pointer-content .close');
 
         return $this;
     }
@@ -149,7 +147,7 @@ class SetupModule extends BaseModule {
 
         //Empty Merchant ID and API Key fields
         $I->amOnPage(SetupModule::$pluginBackLink);
-        $I->tryClick($I, SetupModule::$linkDismissWPMessage);
+        $I->click($I, SetupModule::$linkDismissWPMessage);
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, '');
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
         $I->click(SetupModule::$pluginActivateFormButton);
@@ -252,16 +250,11 @@ class SetupModule extends BaseModule {
         $I = $this->BackendTester;
 
         //Change Currency
-
         $I->amOnPage(SetupModule::$pluginBackLink);
-
-        if (!$I->tryOption($I, SetupModule::$globalDefaultCurrencySelect, $currency)) {
-
-            $I->selectOption(SetupModule::$globalDefaultCurrencySelect, $currency);
-            $I->wait(BaseModule::$veryShortTimeout);
-            $I->seeInPageSource(str_replace('{currency}', $currency, SetupModule::$assertCurrencySelected));
-            $I->seeOptionIsSelected(SetupModule::$globalDefaultCurrencySelect, $currency);
-        };
+        $I->selectOption(SetupModule::$globalDefaultCurrencySelect, $currency);
+        $I->wait(BaseModule::$veryShortTimeout);
+        $I->seeInPageSource(str_replace('{currency}', $currency, SetupModule::$assertCurrencySelected));
+        $I->seeOptionIsSelected(SetupModule::$globalDefaultCurrencySelect, $currency);
 
         return $this;
     }
@@ -271,6 +264,7 @@ class SetupModule extends BaseModule {
      * @return $this
      */
     public function validateGlobalPrice() {
+
         $I = $this->BackendTester;
 
         $I->amOnPage(SetupModule::$pluginBackLink);

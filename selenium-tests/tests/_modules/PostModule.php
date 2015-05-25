@@ -407,8 +407,8 @@ class PostModule extends BaseModule {
         $I->amOnPage($laterpayPage);
         $I->wait(PostModule::$averageTimeout);
 
-        $I->tryClick($I, PostModule::$lpServerVisitorLoginClass);
-        $I->tryClick($I, PostModule::$lpServerVisitorLoginLink);
+        $I->click($I, PostModule::$lpServerVisitorLoginClass);
+        $I->click($I, PostModule::$lpServerVisitorLoginLink);
         $I->wait(BaseModule::$averageTimeout);
 
         $I->switchToIFrame(PostModule::$lpServerVisitorLoginFrameName);
@@ -418,7 +418,7 @@ class PostModule extends BaseModule {
         $I->click(PostModule::$lpServerVisitorLoginBtn);
 
         $I->wait(PostModule::$shortTimeout);
-        $I->tryClick($I, PostModule::$lpServerVisitorBuyBtn);
+        $I->click($I, PostModule::$lpServerVisitorBuyBtn);
 
         $I->setDomain();
         $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));

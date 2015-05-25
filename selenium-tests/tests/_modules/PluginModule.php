@@ -100,12 +100,6 @@ abstract class PluginModule {
     public static $linkDismissWPMessage            = '.test_linkDismissWPMessage'; //.wp-pointer-content .close
     public static $assertPluginName                = '.test_assertPluginName'; //laterpay
     public static $assertFieldStepOneDone          = '.test_assertFieldStepOneDone'; //span[class="lp_step-1 lp_step-done"]
-    public static $pluginPricingTab                = '.test_pluginPricingTab'; //a[text="Pricing"]
-    public static $adminMenuPluginButton           = '.test_adminMenuPluginButton'; //#toplevel_page_laterpay-plugin
-    public static $pricingAddCategoryButton        = '.test_pricingAddCategoryButton'; //#add_category_button
-    public static $pricingCategorySelect           = '.test_pricingCategorySelect'; //#select2-drop-mask
-    public static $pricingSaveLink                 = '.test_pricingSaveLink'; //.edit-link .laterpay-save-link
-    public static $pricingCancelLink               = '.test_pricingCancelLink'; //.edit-link .laterpay-cancel-link
     public static $laterpayChangeLink              = '.test_laterpayChangeLink'; //Change
     public static $globalDefaultPriceField         = '.test_globalDefaultPriceField'; //#lp_global-default-price
     public static $laterpaySaveLink                = '.test_laterpaySaveLink'; //Save

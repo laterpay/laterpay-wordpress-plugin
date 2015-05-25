@@ -1,7 +1,6 @@
 <?php
 
 class BackendModule extends BaseModule {
-
     //in
     public static $URL = '/wp-admin/';
     public static $usernameField = 'log';
@@ -19,19 +18,14 @@ class BackendModule extends BaseModule {
      * @return $this
      */
     public function login() {
-
         $I = $this->BackendTester;
 
         //Login backend
-
         $I->amOnPage(BackendModule::$URL);
-
-        if (!$I->trySee($I, BackendModule::$expectedBackTitle)) {
-
-            $I->fillField(BackendModule::$usernameField, BackendModule::$usernameValue);
-            $I->fillField(BackendModule::$passwordField, BackendModule::$passwordValue);
-            $I->click(BackendModule::$loginButton);
-        };
+        $I->see( $I, BackendModule::$expectedBackTitle );
+        $I->fillField(BackendModule::$usernameField, BackendModule::$usernameValue);
+        $I->fillField(BackendModule::$passwordField, BackendModule::$passwordValue);
+        $I->click(BackendModule::$loginButton);
 
         return $this;
     }
@@ -41,15 +35,11 @@ class BackendModule extends BaseModule {
      * @return $this
      */
     public function logout() {
-
         $I = $this->BackendTester;
 
-        if ($I->trySee($I, BackendModule::$expectedBackTitle)) {
-
-            $I->moveMouseOver(BackendModule::$logoutMenu);
-
-            $I->click(BackendModule::$logoutButton);
-        };
+        $I->see( $I, BackendModule::$expectedBackTitle );
+        $I->moveMouseOver(BackendModule::$logoutMenu);
+        $I->click(BackendModule::$logoutButton);
 
         return $this;
     }
@@ -62,22 +52,25 @@ class BackendModule extends BaseModule {
      * @param null $confirmation_link
      */
     public function validatePrice($price_input, $change_link = null, $confirmation_link = null) {
-
         $I = $this->BackendTester;
 
-        foreach (SetupModule::$priceValidationArray as $expectedValue => $arrayOfInputValues)
+        foreach (SetupModule::$priceValidationArray as $expectedValue => $arrayOfInputValues) {
             foreach ($arrayOfInputValues as $InputValue) {
+                if ( $change_link ) {
+                    $I->click( $I, $change_link );
+                }
 
-                if ($change_link)
-                    $I->tryClick($I, $change_link);
+                $I->fillField( $price_input, $InputValue );
 
-                $I->fillField($price_input, $InputValue);
-
-                if ($confirmation_link)
-                    $I->click($confirmation_link);
+                if ( $confirmation_link ) {
+                    $I->click( $confirmation_link );
+                }
 
                 $I->seeInField($price_input, $expectedValue);
             };
+        }
+
+        return $this;
     }
 
 }
