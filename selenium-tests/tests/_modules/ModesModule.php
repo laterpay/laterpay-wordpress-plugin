@@ -46,35 +46,29 @@ class ModesModule extends BaseModule {
      * @return $this
      */
     public function changePreviewMode($preview_mode) {
-
         $I = $this->BackendTester;
 
         //Change Preview Mode
-
         $I->amOnPage(self::$baseUrl);
         $I->click(self::$adminMenuPluginButton);
         $I->click(self::$pluginAppearanceTab);
 
         switch ($preview_mode) {
             case 'teaser only':
-                if ($I->tryOption($I, self::$linkPreviewModeSwitcher, '0')) {
-
+                if ( $I->tryOption($I, self::$linkPreviewModeSwitcher, '0') ) {
                     $I->selectOption(self::$linkPreviewModeSwitcher, '1');
                     $I->wait(BaseModule::$shortTimeout);
                     $I->seeInPageSource(self::$messageTeaserOnly);
                 } else {
-
                     $I->comment('Teaser mode already set');
                 };
                 break;
             case 'overlay':
-                if ($I->tryOption($I, self::$linkPreviewModeSwitcher, '1')) {
-
+                if ( $I->tryOption($I, self::$linkPreviewModeSwitcher, '1') ) {
                     $I->selectOption(self::$linkPreviewModeSwitcher, '0');
                     $I->wait(BaseModule::$shortTimeout);
                     $I->seeInPageSource(self::$messageOverlay);
                 } else {
-
                     $I->comment('Overview mode already set');
                 };
                 break;
@@ -90,12 +84,11 @@ class ModesModule extends BaseModule {
      * @return $this
      */
     public function checkPreviewMode() {
-
         $I = $this->BackendTester;
 
         $I->amOnPage(ModesModule::$url_plugin_appearence);
 
-        if ($I->trySeeInField($I, 'input[name="teaser_content_only"]:checked', 0))
+        if ( $I->trySeeInField($I, 'input[name="teaser_content_only"]:checked', 0))
             return 'overlay';
 
         return 'teaser_only';
@@ -116,8 +109,8 @@ class ModesModule extends BaseModule {
         //Reset plugin Live credentials
         $I->fillField(self::$fieldLaterpayLiveMerchantId, '');
         $I->fillField(self::$fieldLaterpayLiveApiKey, '');
-        if ($I->tryCheckbox($I, self::$linkPluginModeToggle))
-            $I->click(self::$linkPluginModeToggle);
+        $I->seeCheckboxIsChecked(self::$linkPluginModeToggle);
+        $I->click(self::$linkPluginModeToggle);
 
         //Start verify plugin switch to Live mode
         $I->click(self::$linkPluginModeToggle);
@@ -190,8 +183,8 @@ class ModesModule extends BaseModule {
         //Reset plugin Live credentials if it is.
         $I->fillField(self::$fieldLaterpayLiveMerchantId, '');
         $I->fillField(self::$fieldLaterpayLiveApiKey, '');
-        if ($I->tryCheckbox($I, self::$linkPluginModeToggle))
-            $I->click(self::$linkPluginModeToggle);
+        $I->seeCheckboxIsChecked(self::$linkPluginModeToggle);
+        $I->click(self::$linkPluginModeToggle);
 
         $I->fillField($merchant_id_input, self::$testData1);
         $I->wait(BaseModule::$shortTimeout);

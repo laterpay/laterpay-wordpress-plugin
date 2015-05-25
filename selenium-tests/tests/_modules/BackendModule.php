@@ -13,11 +13,16 @@ class BackendModule extends BaseModule {
     //expected
     public static $expectedBackTitle = 'Dashboard';
 
+    //new constants
+    public static $c_url_test_system = '';
+    public static $c_user            = '';
+    public static $c_password        = '';
+
     /**
      * Login
      * @return $this
      */
-    public function login() {
+    public function login( $p_url_test_system = null, $p_name = null, $p_password = null ) {
         $I = $this->BackendTester;
 
         //Login backend
@@ -57,7 +62,7 @@ class BackendModule extends BaseModule {
         foreach (SetupModule::$priceValidationArray as $expectedValue => $arrayOfInputValues) {
             foreach ($arrayOfInputValues as $InputValue) {
                 if ( $change_link ) {
-                    $I->click( $I, $change_link );
+                    $I->click( $change_link );
                 }
 
                 $I->fillField( $price_input, $InputValue );

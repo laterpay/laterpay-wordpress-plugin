@@ -1,67 +1,10 @@
 <?php
 
 class SetupModule extends BaseModule {
+    //defaults
+    public static $c_current_plugin_version  = '0.9.14';
+    public static $c_previous_plugin_version = '0.9.13';
 
-    public static $url_plugin_list                     = '/wp-admin/plugins.php';
-    public static $url_plugin_add                      = '/wp-admin/plugin-install.php';
-    public static $url_plugin_upload                   = '/wp-admin/plugin-install.php?tab=upload';
-    public static $pluginSearchField                   = 's';
-    public static $pluginSearchForm                    = '.search-form';
-    public static $pluginSearchValue                   = 'laterpay';
-    public static $pluginUploadField                   = 'pluginzip';
-    public static $pluginUploadFilename                = 'laterpay.zip';
-    public static $pluginUploadSubmitField             = 'install-plugin-submit';
-    public static $pluginDeactivateLink                = '#laterpay .deactivate > a';
-    public static $pluginDeleteLink                    = '#laterpay .delete > a';
-    public static $pluginDeleteConfirmLink             = '#submit';
-    public static $pluginActivateLink                  = '#laterpay .activate > a';
-    public static $pluginNavigationLabel               = 'LaterPay';
-    public static $backNavigateTab                     = '#adminmenuwrap';
-    public static $pluginBackLink                      = '/wp-admin/admin.php?page=laterpay-plugin';
-    public static $laterpaySandboxMerchantField        = 'get_started[laterpay_sandbox_merchant_id]';
-    public static $laterpaySandboxMerchantInvalidValue = 'a1b2c3d4e5f6g7h8i9j0';
-    public static $laterpaySandboxMerchantSandboxValue = 'LaterPay-WordPressDemo';
-    public static $laterpaySandboxApiKeyField          = 'get_started[laterpay_sandbox_api_key]';
-    public static $laterpaySandboxApiKeyInitValue      = 'a1b2c3d4e5f6g7h8i9j0';
-    public static $laterpaySandboxApiKeyInvalidValue   = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5';
-    public static $laterpaySandboxApiKeyValidValue     = 'decafbaddecafbaddecafbaddecafbad';
-    public static $pluginActivateFormButton            = '.activate-lp';
-    public static $globalDefaultPrice                  = '400';
-    public static $globalDefaultCurrencyField          = 'get_started[laterpay_currency]';
-    public static $globalDefaultCurrencySelect         = '#lp_currency-select';
-    public static $globalDefaultCurrency               = 'EUR';
-    //expected
-    public static $linkDismissWPMessage                = '.wp-pointer-content .close';
-    public static $assertPluginName                    = 'laterpay';
-    public static $assertInstalled                     = 'Plugin installed successfully';
-    public static $assertNoLaterPayApiKey              = 'Please enter your LaterPay API key to activate LaterPay on this site.';
-    public static $assertInvalidMerchantId             = 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!';
-    public static $assertEmptyDemoMerchantId           = 'Please enter your LaterPay API key to activate LaterPay on this site.';
-    public static $assertInvalidDemoMerchantId         = 'The API key you entered is not a valid LaterPay Sandbox API key!';
-    public static $assertFieldStepOneDone              = 'span[class="lp_step-1 lp_step-done"]';
-    public static $pluginActivateSuccesRedirectUrl     = '/wp-admin/post-new.php';
-    //second
-    public static $pluginPricingTab                    = 'a[text="Pricing"]';
-    public static $adminMenuPluginButton               = '#toplevel_page_laterpay-plugin';
-    public static $pricingAddCategoryButton            = '#add_category_button';
-    public static $pricingCategorySelect               = '#select2-drop-mask';
-    public static $pricingSaveLink                     = ".edit-link .laterpay-save-link";
-    public static $pricingCancelLink                   = ".edit-link .laterpay-cancel-link";
-    public static $laterpayChangeLink                  = 'Change';
-    public static $globalDefaultPriceField             = '#lp_global-default-price';
-    public static $laterpaySaveLink                    = 'Save';
-    public static $laterpayCancelLink                  = 'Cancel';
-    public static $globalPriceText                     = '#lp_global-price-text';
-    //expected
-    public static $assertPluginListed                  = 'LaterPay';
-    public static $assertNewPriceSet                   = 'Every post costs ';
-    public static $assertNewPriceConfirmation          = 'The global default price for all posts is ';
-    public static $assertFreePriceConfirmation         = 'All posts are free by default now.';
-    public static $priceValidationArray                = array(
-        '0.15' => array('0,15', '0.15', '0,15 EUR', '0,15EUR'),
-        '5.00' => array('0;89', '550', '8,00', '9.00', '10EUR', '10 EUR')
-    );
-    public static $assertCurrencySelected              = 'The currency for this website is {currency} now.';
 
     /**
      * Uninstall Laterpay plugin
@@ -74,9 +17,9 @@ class SetupModule extends BaseModule {
         $I->amOnPage(SetupModule::$url_plugin_list);
         $I->see($I, SetupModule::$assertPluginName);
         //Remove plugin before install
-        $I->click($I, SetupModule::$pluginDeactivateLink);
-        $I->click($I, SetupModule::$pluginDeleteLink);
-        $I->click($I, SetupModule::$pluginDeleteConfirmLink);
+        $I->click(SetupModule::$pluginDeactivateLink);
+        $I->click(SetupModule::$pluginDeleteLink);
+        $I->click(SetupModule::$pluginDeleteConfirmLink);
 
         return $this;
     }
@@ -123,7 +66,7 @@ class SetupModule extends BaseModule {
 
         //floated popup
         $I->see($I, '.wp-pointer-content');
-        $I->click($I, '.wp-pointer-content .close');
+        $I->click('.wp-pointer-content .close');
 
         return $this;
     }
@@ -147,7 +90,7 @@ class SetupModule extends BaseModule {
 
         //Empty Merchant ID and API Key fields
         $I->amOnPage(SetupModule::$pluginBackLink);
-        $I->click($I, SetupModule::$linkDismissWPMessage);
+        $I->click(SetupModule::$linkDismissWPMessage);
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, '');
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
         $I->click(SetupModule::$pluginActivateFormButton);

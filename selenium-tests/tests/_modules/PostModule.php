@@ -61,6 +61,14 @@ class PostModule extends BaseModule {
     //file
     public static $samplePdfFile                   = 'pdf-sample.pdf';
 
+    //new constants
+    public static $c_post_title = '';
+    public static $c_fulltext = '';
+    public static $c_teaser = '';
+    public static $c_revenue_model_ppu = '';
+    public static $c_price_ppu = '';
+    public static $c_price_type_individual = '';
+
     /**
      * Create test post
      * @param $title
@@ -80,7 +88,7 @@ class PostModule extends BaseModule {
         //Set post title
         $I->fillField(PostModule::$fieldTitle, $title);
 
-        $content = str_replace(array("\r", "\n"), '', $content);
+        $content = str_replace( array( "\r", "\n" ), '', $content );
 
         //Set post content
         $I->click(PostModule::$contentText);
@@ -110,12 +118,12 @@ class PostModule extends BaseModule {
 
             case 'global default price':
                 //Choose global default price type
-                $I->tryClick($I, PostModule::$linkGlobalDefaultPrice);
+                $I->click(PostModule::$linkGlobalDefaultPrice);
                 break;
 
             case 'category default price':
                 //Choose category default price typ
-                $I->tryClick($I, PostModule::$linkCategoryPrice);
+                $I->click(PostModule::$linkCategoryPrice);
                 break;
 
             case 'individual price':
@@ -214,7 +222,7 @@ class PostModule extends BaseModule {
                 break;
 
             case 'category default price':
-                $I->tryClick($I, PostModule::$linkCategoryPrice);
+                $I->click(PostModule::$linkCategoryPrice);
                 break;
 
             case 'individual price':
@@ -249,8 +257,9 @@ class PostModule extends BaseModule {
 
             $I->comment('Switch Preview toggle to “Visitor”');
             $I->click(PostModule::$linkViewPost);
-            if (!$I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
+            if ( $I->dontSeeCheckboxIsChecked(PostModule::$linkPreviewSwitcherElement) ) {
                 $I->click(PostModule::$linkPreviewSwitcher);
+            }
             $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
             $I->seeInPageSource($currency);
             $I->seeInPageSource($price);
@@ -261,8 +270,9 @@ class PostModule extends BaseModule {
             }
 
             $I->comment('Switch Preview toggle to “Admin”');
-            if ($I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
+            if ( $I->seeCheckboxIsChecked($I, PostModule::$linkPreviewSwitcherElement) ) {
                 $I->click(PostModule::$linkPreviewSwitcher);
+            }
             $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
             $I->waitForElementNotVisible(PostModule::$visibleLaterpayPurchaseButton, BaseModule::$shortTimeout);
 
@@ -407,8 +417,8 @@ class PostModule extends BaseModule {
         $I->amOnPage($laterpayPage);
         $I->wait(PostModule::$averageTimeout);
 
-        $I->click($I, PostModule::$lpServerVisitorLoginClass);
-        $I->click($I, PostModule::$lpServerVisitorLoginLink);
+        $I->click(PostModule::$lpServerVisitorLoginClass);
+        $I->click(PostModule::$lpServerVisitorLoginLink);
         $I->wait(BaseModule::$averageTimeout);
 
         $I->switchToIFrame(PostModule::$lpServerVisitorLoginFrameName);
@@ -418,7 +428,7 @@ class PostModule extends BaseModule {
         $I->click(PostModule::$lpServerVisitorLoginBtn);
 
         $I->wait(PostModule::$shortTimeout);
-        $I->click($I, PostModule::$lpServerVisitorBuyBtn);
+        $I->click(PostModule::$lpServerVisitorBuyBtn);
 
         $I->setDomain();
         $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
