@@ -28,6 +28,10 @@ class PostModule extends BaseModule {
     public static $selectorFrontPurchaseButton     = '.lp_purchase-button';
     public static $selectorFrontPurchaseLink       = '.lp_purchase-link';
     public static $selectorFrontTimepasses         = '#lp_js_timePassWidget';
+    public static $selectorFrontYuiIframe          = '.yui3-widget-bd > iframe';
+
+    //js
+    public static $jsGetMainIframeName             = " var name = jQuery('.yui3-widget-bd').find('iframe').attr('name'); return name; ";
 
     //defaults
     public static $c_post_title                    = 'Test Post';
@@ -162,19 +166,20 @@ class PostModule extends BaseModule {
     public function checkPost( $post_id, $p_post_title = null, $p_options = array() ) {
         $I = $this->BackendTester;
 
+        if ( ! isset( $p_post_title ) ) {
+            $p_post_title = self::$c_post_title;
+        }
+
+        //Check post title
+        $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostViewPage ) );
+        $I->see( $p_post_title, self::$selectorFrontTitleEntry );
+
         if ( ! isset( $p_options ) ) {
             $p_options = self::$c_post_check_options;
         }
 
         // init options
         $this->options = $p_options;
-
-        if ( ! isset( $p_post_title ) ) {
-            $p_post_title = self::$c_post_title;
-        }
-
-        $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostViewPage ) );
-        $I->see( $p_post_title, self::$selectorFrontTitleEntry );
 
         //Check visibilities
         $this->_checkVisibility( 'fulltext_visible', self::$selectorFrontContentEntry );
@@ -189,110 +194,30 @@ class PostModule extends BaseModule {
 
     /**
      * Purchase post
-     * @param $post
+     *
+     * @param int         $post_id
+     * @param null|string $p_post_title
+     *
      * @return $this
      */
-    public function purchasePost($post, $price = null, $currency = null, $title = null, $content = null) {
-
+    public function purchasePost( $post_id, $p_post_title = null ) {
         $I = $this->BackendTester;
 
-        //purchase post
+        if ( ! isset( $p_post_title ) ) {
+            $p_post_title = self::$c_post_title;
+        }
 
-        $content = str_replace("\r\n", '', $content);
+        //Check post title
+        $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostViewPage ) );
+        $I->see( $p_post_title, self::$selectorFrontTitleEntry );
 
-        $url = $I->grabFromCurrentUrl();
-
-        $previewMode = ModesModule::of($I)->checkPreviewMode();
-
-        BackendModule::of($I)->logout();
-
-        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
-
-        if ($currency)
-            $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
-
-        if ($price != '0.00') {
-
-            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
-
-            if ($price)
-                $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
-
-            if ($previewMode == 'teaser_only') {
-
-                $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
-                $I->see($price, 'a');
-                $I->see($currency, 'a');
-            } elseif ($previewMode == 'overlay') {
-
-                $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
-                ////CHECK TEASER HERE
-                $I->see($price, 'a');
-                $I->see($currency, 'a');
-            };
-
-            //Click the LaterPay Purchase Button and purchase the content
-            $this->purschaseAtServer($post);
-            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
-            $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseButton);
-            $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseLink);
-            $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseBenefits);
-            $I->seeInPageSource($content);
-        } else {
-            //Skip because of empty price: Click the LaterPay Purchase Button and purchase the content.
-        };
-
-        BackendModule::of($I)->login();
-
-        $I->amOnPage($url);
-
-        return $this;
-    }
-
-    /**
-     * Proceed with post purschase throught LaterPay Server
-     * Can`t get iframe content with codeception. The iframe has no name attribute and target iframe placed into child iframe (document->iframe->iframe)
-     * Can`t use javascript while error "Blocked a frame from accessing a cross-origin frame."
-     * So used switching "WebDriver config url"
-     * As note: $I->executeJS(" document.getElementsByTagName('iframe')[0].contentDocument.getElementById('id_username').value = 'atsumarov@scnsoft.com'; ");
-     * @param $category_id
-     * @param null $post
-     * @return $this
-     */
-    public function purschaseAtServer($post) {
-
-        $I = $this->BackendTester;
-
-        BackendModule::of($I)->logout();
-
-        //Purshase the post
-        //It must be there. Cause of switching domain issue.
-        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
-
-        $laterpayPath      = (string) $I->executeJS(PostModule::$lpServerLinkJsGetter);
-        $laterpayPathArray = (array) parse_url($laterpayPath);
-        $laterpayDomain    = "{$laterpayPathArray['scheme']}://{$laterpayPathArray['host']}/";
-        $laterpayPage      = str_replace($laterpayDomain, '', $laterpayPath);
-
-        $I->setDomain($laterpayDomain);
-        $I->amOnPage($laterpayPage);
-        $I->wait(PostModule::$averageTimeout);
-
-        $I->click(PostModule::$lpServerVisitorLoginClass);
-        $I->click(PostModule::$lpServerVisitorLoginLink);
-        $I->wait(BaseModule::$averageTimeout);
-
-        $I->switchToIFrame(PostModule::$lpServerVisitorLoginFrameName);
-        $I->waitForElement(PostModule::$lpServerVisitorEmailField, BaseModule::$averageTimeout);
-        $I->fillField(PostModule::$lpServerVisitorEmailField, PostModule::$lpServerVisitorEmailValue);
-        $I->fillField(PostModule::$lpServerVisitorPasswordField, PostModule::$lpServerVisitorPasswordValue);
-        $I->click(PostModule::$lpServerVisitorLoginBtn);
-
-        $I->wait(PostModule::$shortTimeout);
-        $I->click(PostModule::$lpServerVisitorBuyBtn);
-
-        $I->setDomain();
-        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
+        //Start purchase process
+        $I->click( self::$selectorFrontPurchaseButton );
+        $I->switchToIFrame( (string) $I->executeJS( self::$jsGetMainIframeName ) );
+        $I->switchToIFrame( 'wrapper' );
+        $I->checkOption( 'input[name=agree]' );
+        $I->click( '#nextbuttons' );
+        $I->seeElement( '.flash-message' );
 
         return $this;
     }
@@ -399,12 +324,14 @@ class PostModule extends BaseModule {
      * @return void
      */
     private function _checkVisibility( $option, $selector ) {
+        $I = $this->BackendTester;
+
         if ( isset( $this->options[ $option ] ) && $this->options[ $option ] ) {
             // check if fulltext visible
-            $this->BackendTester->seeElement( $selector );
+            $I->seeElement( $selector );
         } else {
             // check if fulltext invisible
-            $this->BackendTester->dontSeeElement( $selector );
+            $I->dontSeeElement( $selector );
         }
     }
 }
