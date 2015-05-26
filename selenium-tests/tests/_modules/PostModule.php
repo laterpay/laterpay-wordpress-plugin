@@ -50,6 +50,8 @@ class PostModule extends BaseModule {
                                                         'timepasses_visible'      => false,
                                                      );
 
+    protected $options;
+
     /**
      * Create post
      *
@@ -164,6 +166,9 @@ class PostModule extends BaseModule {
             $p_options = self::$c_post_check_options;
         }
 
+        // init options
+        $this->options = $p_options;
+
         if ( ! isset( $p_post_title ) ) {
             $p_post_title = self::$c_post_title;
         }
@@ -171,60 +176,13 @@ class PostModule extends BaseModule {
         $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostViewPage ) );
         $I->see( $p_post_title, self::$selectorFrontTitleEntry );
 
-        //Go through options
-        //Fulltext visibility
-        if ( isset( $p_options['fulltext_visible'] ) && $p_options['fulltext_visible'] ) {
-            // check if fulltext visible
-            $I->seeElement( self::$selectorFrontContentEntry );
-        } else {
-            // check if fulltext invisible
-            $I->dontSeeElement( self::$selectorFrontContentEntry );
-        }
-
-        //Teaser visibility
-        if ( isset( $p_options['teaser_visible'] ) && $p_options['teaser_visible'] ) {
-            // check if fulltext visible
-            $I->seeElement( self::$selectorFrontTeaserContent);
-        } else {
-            // check if fulltext invisible
-            $I->dontSeeElement( self::$selectorFrontTeaserContent );
-        }
-
-        //Purchase button visibility
-        if ( isset( $p_options['purchase_button_visible'] ) && $p_options['purchase_button_visible'] ) {
-            // check if fulltext visible
-            $I->seeElement( self::$selectorFrontPurchaseButton );
-        } else {
-            // check if fulltext invisible
-            $I->dontSeeElement( self::$selectorFrontPurchaseButton );
-        }
-
-        //Purchase link visibility
-        if ( isset( $p_options['purchase_link_visible'] ) && $p_options['purchase_link_visible'] ) {
-            // check if fulltext visible
-            $I->seeElement( self::$selectorFrontPurchaseLink );
-        } else {
-            // check if fulltext invisible
-            $I->dontSeeElement( self::$selectorFrontPurchaseLink );
-        }
-
-        //Overlay visibility
-        if ( isset( $p_options['overlay_visible'] ) && $p_options['overlay_visible'] ) {
-            // check if fulltext visible
-            $I->seeElement( self::$selectorFrontOverlay );
-        } else {
-            // check if fulltext invisible
-            $I->dontSeeElement( self::$selectorFrontOverlay );
-        }
-
-        //Timepasses visibility
-        if ( isset( $p_options['timepasses_visible'] ) && $p_options['timepasses_visible'] ) {
-            // check if fulltext visible
-            $I->seeElement( self::$selectorFrontTimepasses );
-        } else {
-            // check if fulltext invisible
-            $I->dontSeeElement( self::$selectorFrontTimepasses );
-        }
+        //Check visibilities
+        $this->_checkVisibility( 'fulltext_visible', self::$selectorFrontContentEntry );
+        $this->_checkVisibility( 'teaser_visible', self::$selectorFrontTeaserContent );
+        $this->_checkVisibility( 'purchase_button_visible', self::$selectorFrontPurchaseButton );
+        $this->_checkVisibility( 'purchase_link_visible', self::$selectorFrontPurchaseLink );
+        $this->_checkVisibility( 'overlay_visible', self::$selectorFrontOverlay );
+        $this->_checkVisibility( 'timepasses_visible', self::$selectorFrontTimepasses );
 
         return $this;
     }
@@ -430,5 +388,23 @@ class PostModule extends BaseModule {
         }
         $teaser_content = explode( ' ', strip_tags( $content ), $teaser - 1 );
         return join( ' ', $teaser_content ) . '...';
+    }
+
+    /**
+     * Check visibility of element
+     *
+     * @param string        $option_name
+     * @param string        $selector
+     *
+     * @return void
+     */
+    private function _checkVisibility( $option, $selector ) {
+        if ( isset( $this->options[ $option ] ) && $this->options[ $option ] ) {
+            // check if fulltext visible
+            $this->BackendTester->seeElement( $selector );
+        } else {
+            // check if fulltext invisible
+            $this->BackendTester->dontSeeElement( $selector );
+        }
     }
 }
