@@ -38,7 +38,7 @@ class SetupModule extends BaseModule {
         $I->amOnPage( self::$linkPluginsInstallPage );
         $I->attachFile( self::$selectorUploadedFile, $file_name );
         $I->click( self::$selectorInstallButton );
-        $I->wait(2);
+        $I->wait( self::$shortTimeout );
 
         //Check plugin listed
         $I->amOnPage( self::$linkPluginsMainPage );
@@ -100,7 +100,7 @@ class SetupModule extends BaseModule {
         //Delete plugin
         $I->click( self::$selectorLpPlugin, self::$selectorDeleteLpPlugin );
         $I->click( self::$selectorConfirmDelete );
-        $I->wait(2);
+        $I->wait( self::$shortTimeout );
 
         //Check plugin not listed
         $I->dontSeeElement( self::$selectorLpPlugin );

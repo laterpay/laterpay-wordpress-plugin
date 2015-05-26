@@ -4,6 +4,8 @@ class PostModule extends BaseModule {
     //links
     public static $linkPostListPage                = 'wp-admin/edit.php';
     public static $linkAddNewPostPage              = 'wp-admin/post-new.php';
+    public static $linkPostEditPage                = 'wp-admin/post.php?post={post}&action=edit';
+    public static $linkPostViewPage                = '/?p={post}';
 
     //selectors
     public static $selectorPostTitleInput          = 'input[name=post_title]';
@@ -15,7 +17,17 @@ class PostModule extends BaseModule {
     public static $selectorContentInput            = '#content';
     public static $selectorCategories              = '#categorychecklist';
     public static $selectorIndividualPrice         = '#lp_js_useIndividualPrice';
+    public static $selectorGlobalPrice             = '#lp_js_useGlobalDefaultPrice';
+    public static $selectorCategoryPrice           = '#lp_js_useCategoryDefaultPrice';
     public static $selectorRevenueModel            = '#lp_js_postPriceRevenueModel';
+    public static $selectorTitleRows               = '.post-title';
+    public static $selectorFrontTitleEntry         = '.entry-title';
+    public static $selectorFrontContentEntry       = '.entry-content';
+    public static $selectorFrontTeaserContent      = '.lp_teaser-content';
+    public static $selectorFrontOverlay            = '.lp_benefits';
+    public static $selectorFrontPurchaseButton     = '.lp_purchase-button';
+    public static $selectorFrontPurchaseLink       = '.lp_purchase-link';
+    public static $selectorFrontTimepasses         = '#lp_js_timePassWidget';
 
     //defaults
     public static $c_post_title                    = 'Test Post';
@@ -29,6 +41,14 @@ class PostModule extends BaseModule {
     public static $c_price_type_individual_dynamic = 'Individual Dynamic';
     public static $c_price_type_category           = 'Category Default';
     public static $c_price_type_global             = 'Global Default';
+    public static $c_post_check_options            = array(
+                                                        'fulltext_visible'        => false,
+                                                        'teaser_visible'          => true,
+                                                        'purchase_button_visible' => true,
+                                                        'overlay_visible'         => false,
+                                                        'purchase_link_visible'   => true,
+                                                        'timepasses_visible'      => false,
+                                                     );
 
     /**
      * Create post
@@ -61,236 +81,150 @@ class PostModule extends BaseModule {
         $I->click( self::$selectorContentTypeSwitcher );
         $I->fillField( self::$selectorContentInput, $p_fulltext );
 
-        //$this->_createTeaserContent
-
-        //create teaser content
-        if ($teaser) {
-            $teaser_content = $this->_createTeaserContent($content, $teaser);
-
+        //Prepare teaser
+        if ( ! isset( $p_teaser ) ) {
             //Set teaser content
-            $I->click(PostModule::$teaserContentText);
-            $I->fillField(PostModule::$teaserContentId, $teaser_content);
+            $I->click( self::$selectorTeaserTypeSwitcher );
+            $I->fillField( self::$selectorTeaserInput, $this->_createTeaserContent( $p_fulltext, self::$c_teaser ) );
         }
 
-        if ($categories) {
+        if ( isset( $p_category ) ) {
             //Set categories to post
-            if (is_array($categories)) {
-                foreach ($categories as $category_id) {
-                    $this->assignPostToCategory($category_id);
+            if ( is_array( $p_category ) ) {
+                foreach ($p_category as $category_id) {
+                    $this->assignPostToCategory( $category_id );
                 }
             } else {
-                $this->assignPostToCategory($categories);
+                $this->assignPostToCategory( $p_category );
             }
         }
 
-        switch ($price_type) {
+        //Set revenue model
+        if ( ! isset( $p_revenue_model ) ) {
+            if ( ! isset( $p_price ) ) {
+                $p_revenue_model = self::$c_revenue_model_ppu;
+            } else {
+                $p_revenue_model = ( $p_price < 5 ) ? self::$c_revenue_model_ppu : self::$c_revenue_model_sis;
+            }
+        }
 
-            case 'global default price':
+        //Set price
+        if ( ! isset( $p_price ) ) {
+            $p_price = ( $p_revenue_model === self::$c_revenue_model_ppu ) ? self::$c_price_ppu : self::$c_price_sis;
+        }
+
+        //Select price type, price and revenue model if possible
+        switch ( $p_price_type ) {
+            case self::$c_price_type_global:
                 //Choose global default price type
-                $I->click(PostModule::$linkGlobalDefaultPrice);
+                $I->click( self::$selectorGlobalPrice );
                 break;
 
-            case 'category default price':
+            case self::$c_price_type_category:
                 //Choose category default price typ
-                $I->click(PostModule::$linkCategoryPrice);
+                $I->click( self::$selectorCategoryPrice );
                 break;
 
-            case 'individual price':
+            case self::$c_price_type_individual:
                 //Choose individual price type
-                $I->click(PostModule::$linkIndividualPrice);
-                if ($price) {
-                    //Set price
-                    $I->fillField(PostModule::$fieldPrice, $price);
-                }
-                break;
-
-            case 'dynamic individual price':
-                //Choose individual dynamic price type
-
-                if (is_array($price)) {
-                    $start_price = $price['start_price'];
-                    $period      = $price['period'];
-                    $end_price   = $price['end_price'];
-
-                    $I->click(PostModule::$linkIndividualPrice);
-                    $I->click(PostModule::$linkDynamicPricing);
-                    $I->executeJS("
-                        var new_data = [
-                            {x:0, y:$start_price},
-                            {x:1, y:$start_price},
-                            {x:$period, y:$end_price},
-                            {x:30, y:$end_price}
-                        ];
-                        window.lpc.set_data(new_data);
-                    ");
-                }
-
+                $I->click( self::$selectorIndividualPrice );
+                $I->fillField( self::$selectorPostPrice, $p_price );
+                $I->click( self::$selectorRevenueModel . ' > input[value=' . strtolower( $p_revenue_model ) . ']' );
                 break;
 
             default:
                 break;
         }
 
-        if ($files) {
-            //Attach files to post
-            $I->click(PostModule::$linkAddMedia);
-            $I->click('Upload Files', PostModule::$linkMediaRouter);
-            $I->click(PostModule::$linkAttachFile);
-            $I->attachFile(PostModule::$fileInput, $files);
-            $I->click(PostModule::$linkAddFileLinkToContent);
-        }
-
         //Publish post
-        $I->click(PostModule::$linkPublish);
-        $I->wait(PostModule::$veryShortTimeout);
+        $I->click( self::$selectorPublishButton );
+        $I->wait( self::$shortTimeout );
 
         $this->_storeCreatedPostId();
 
-        $I->amOnPage(PostModule::$pagePostList);
-
-        $I->see($title);
+        $I->amOnPage( self::$linkPostListPage );
+        $I->see( $p_post_title, self::$selectorTitleRows );
 
         return $this;
     }
 
     /**
-     * Check Post for LaterPay Elements
-     * @param $post
-     * @param null $price_type
-     * @param null $price
-     * @param null $currency
-     * @param null $categories
-     * @param $title
-     * @param null $content
-     * @param $teaser
+     * Check post
+     *
+     * @param int         $post_id
+     * @param null|string $p_post_title
+     * @param array       $p_options    post check options
+     *
      * @return $this
      */
-    public function checkTestPostForLaterPayElements($post, $price_type = null, $price = null, $currency = null, $title = null, $content = null, $teaser = null) {
-
+    public function checkPost( $post_id, $p_post_title = null, $p_options = array() ) {
         $I = $this->BackendTester;
 
-        $content = str_replace("\r\n", '', $content);
-
-        //Check Post For LaterPay Elements
-        if ((int) $post > 0) {
-            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
-        } elseif ($title) {
-            $I->amOnPage(PostModule::$pagePostList);
-            $I->click($title);
-        };
-
-        if ($title)
-            $I->seeInField(PostModule::$fieldTitle, $title);
-
-        $content = str_replace(array("\r", "\n"), '', $content);
-
-        switch ($price_type) {
-
-            case 'global default price':
-                $I->click(PostModule::$linkGlobalDefaultPrice);
-                break;
-
-            case 'category default price':
-                $I->click(PostModule::$linkCategoryPrice);
-                break;
-
-            case 'individual price':
-                $I->click(PostModule::$linkIndividualPrice);
-                break;
-
-            case 'dynamic individual price':
-                $I->click(PostModule::$linkIndividualPrice);
-                $I->seeElement(PostModule::$visibleLaterpayWidgetContainer);
-                break;
-
-            default:
-                break;
+        if ( ! isset( $p_options ) ) {
+            $p_options = self::$c_post_check_options;
         }
 
-        //Publish post
-        $I->click(PostModule::$linkPublish);
-        $I->wait(PostModule::$veryShortTimeout);
+        if ( ! isset( $p_post_title ) ) {
+            $p_post_title = self::$c_post_title;
+        }
 
-        //Edit post
-        if ((int) $post > 0) {
-            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
-        } elseif ($title) {
-            $I->amOnPage(PostModule::$pagePostList);
-            $I->click($title);
-        };
+        $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostViewPage ) );
+        $I->see( $p_post_title, self::$selectorFrontTitleEntry );
 
-        if ($title)
-            $I->seeInField(PostModule::$fieldTitle, $title);
-
-        if ($price != '0.00') {
-
-            $I->comment('Switch Preview toggle to “Visitor”');
-            $I->click(PostModule::$linkViewPost);
-            if ( $I->dontSeeCheckboxIsChecked(PostModule::$linkPreviewSwitcherElement) ) {
-                $I->click(PostModule::$linkPreviewSwitcher);
-            }
-            $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
-            $I->seeInPageSource($currency);
-            $I->seeInPageSource($price);
-            $teaser_content = null;
-            if ($teaser) {
-                $teaser_content = $this->_createTeaserContent($content, $teaser);
-                $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
-            }
-
-            $I->comment('Switch Preview toggle to “Admin”');
-            if ( $I->seeCheckboxIsChecked($I, PostModule::$linkPreviewSwitcherElement) ) {
-                $I->click(PostModule::$linkPreviewSwitcher);
-            }
-            $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
-            $I->waitForElementNotVisible(PostModule::$visibleLaterpayPurchaseButton, BaseModule::$shortTimeout);
-
-            //Must be there, such as contect with short codes can`t be checked
-            if ($content)
-                $I->seeInPageSource($content);
-
-            if ($teaser)
-                $I->cantSee($teaser_content, PostModule::$visibleLaterpayTeaserContent);
-
-            $I->comment('Go to the Post Overview page');
-            $I->amOnPage(PostModule::$pagePostList);
-            $I->see($price, PostModule::$pageListPriceCol);
-            $I->see($price_type, PostModule::$pageListPricetypeCol);
-
-            //Check If plugin is tested in live mode
-            if (!ModesModule::of($I)->checkIsTestMode()) {
-
-                $previewModeTeaserOnly = ModesModule::of($I)->checkPreviewMode();
-                //Check post on front
-                BackendModule::of($I)->logout();
-                $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
-                $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
-                $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
-                $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
-                if ($previewModeTeaserOnly) {
-
-                    $I->comment('Teaser mode');
-                    $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
-                    $I->see($price, 'a');
-                    $I->see($currency, 'a');
-                } else {
-
-                    $I->comment('Overlay mode');
-                    $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
-                    if ($teaser) {
-                        $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
-                    }
-                    $I->see($price, 'a');
-                    $I->see($currency, 'a');
-                };
-            };
+        //Go through options
+        //Fulltext visibility
+        if ( isset( $p_options['fulltext_visible'] ) && $p_options['fulltext_visible'] ) {
+            // check if fulltext visible
+            $I->seeElement( self::$selectorFrontContentEntry );
         } else {
-            //Skip because of empty price:
-            //Switch Preview toggle to “Visitor”.
-            //Switch Preview toggle to “Admin”.
-            //Go to the Post Overview page.
-            //Check If plugin is tested in live mode.
-        };
+            // check if fulltext invisible
+            $I->dontSeeElement( self::$selectorFrontContentEntry );
+        }
+
+        //Teaser visibility
+        if ( isset( $p_options['teaser_visible'] ) && $p_options['teaser_visible'] ) {
+            // check if fulltext visible
+            $I->seeElement( self::$selectorFrontTeaserContent);
+        } else {
+            // check if fulltext invisible
+            $I->dontSeeElement( self::$selectorFrontTeaserContent );
+        }
+
+        //Purchase button visibility
+        if ( isset( $p_options['purchase_button_visible'] ) && $p_options['purchase_button_visible'] ) {
+            // check if fulltext visible
+            $I->seeElement( self::$selectorFrontPurchaseButton );
+        } else {
+            // check if fulltext invisible
+            $I->dontSeeElement( self::$selectorFrontPurchaseButton );
+        }
+
+        //Purchase link visibility
+        if ( isset( $p_options['purchase_link_visible'] ) && $p_options['purchase_link_visible'] ) {
+            // check if fulltext visible
+            $I->seeElement( self::$selectorFrontPurchaseLink );
+        } else {
+            // check if fulltext invisible
+            $I->dontSeeElement( self::$selectorFrontPurchaseLink );
+        }
+
+        //Overlay visibility
+        if ( isset( $p_options['overlay_visible'] ) && $p_options['overlay_visible'] ) {
+            // check if fulltext visible
+            $I->seeElement( self::$selectorFrontOverlay );
+        } else {
+            // check if fulltext invisible
+            $I->dontSeeElement( self::$selectorFrontOverlay );
+        }
+
+        //Timepasses visibility
+        if ( isset( $p_options['timepasses_visible'] ) && $p_options['timepasses_visible'] ) {
+            // check if fulltext visible
+            $I->seeElement( self::$selectorFrontTimepasses );
+        } else {
+            // check if fulltext invisible
+            $I->dontSeeElement( self::$selectorFrontTimepasses );
+        }
 
         return $this;
     }
@@ -407,25 +341,26 @@ class PostModule extends BaseModule {
 
     /**
      * Unassign post from category
-     * @param $category
-     * @param null $post
+     *
+     * @param int      $category_id
+     * @param null|int $post_id
+     *
      * @return $this
      */
-    public function unassignPostFromCategory($category_id, $post = null) {
-
+    public function unassignPostFromCategory( $category_id, $post_id = null ) {
         $I = $this->BackendTester;
 
-        if ((int) $post > 0) {
-            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+        if ( $post_id > 0 ) {
+            $I->amOnPage( str_replace( '{post}', $post_id, PostModule::$linkPostEditPage ) );
 
             $option = '#in-category-' . $category_id;
-            $I->uncheckOption($option);
+            $I->uncheckOption( $option );
 
-            $I->click(PostModule::$linkPublish);
-            $I->wait(PostModule::$veryShortTimeout);
+            $I->click( self::$selectorPublishButton );
+            $I->wait( self::$shortTimeout );
         } else {
             $option = '#in-category-' . $category_id;
-            $I->uncheckOption($option);
+            $I->uncheckOption( $option );
         }
 
         return $this;
@@ -433,25 +368,26 @@ class PostModule extends BaseModule {
 
     /**
      * Assign post to category
-     * @param $category_id
-     * @param null $post
+     *
+     * @param int      $category_id
+     * @param null|int $post_id
+     *
      * @return $this
      */
-    public function assignPostToCategory($category_id, $post = null) {
-
+    public function assignPostToCategory( $category_id, $post_id = null ) {
         $I = $this->BackendTester;
 
-        if ((int) $post > 0) {
-            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+        if ( $post_id > 0 ) {
+            $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostEditPage ) );
 
             $option = '#in-category-' . $category_id;
             $I->checkOption($option);
 
-            $I->click(PostModule::$linkPublish);
-            $I->wait(PostModule::$veryShortTimeout);
+            $I->click( self::$selectorPublishButton );
+            $I->wait( self::$shortTimeout );
         } else {
             $option = '#in-category-' . $category_id;
-            $I->checkOption($option);
+            $I->checkOption( $option );
         }
 
         return $this;
@@ -459,132 +395,25 @@ class PostModule extends BaseModule {
 
     /**
      * Store created post ID
+     *
      * @param $post
+     *
      * @return $this
      */
     private function _storeCreatedPostId() {
-
         $I = $this->BackendTester;
 
         $postId = null;
+        $url = parse_url( $I->grabFromCurrentUrl() );
+        parse_str( $url['query'], $array );
 
-        $url = $I->grabFromCurrentUrl();
-
-        $url = substr($url, strpos($url, '?') + 1);
-
-        parse_str($url, $array);
-
-        if (isset($array['post']))
+        if ( isset( $array['post'] ) ) {
             $postId = $array['post'];
+        }
 
-        $I->setVar('post', $postId);
+        $I->setVar( 'post', $postId );
 
         return $postId;
-    }
-
-    /**
-     * Change Individual Price
-     * @param $post
-     * @param $price
-     * @return $this
-     */
-    public function changeIndividualPrice($post, $price) {
-        $I = $this->BackendTester;
-
-        //Open post for edit
-        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
-
-        //Change individual price
-        $I->click(PostModule::$linkIndividualPrice);
-        $I->fillField(PostModule::$fieldPrice, $price);
-
-        //Update post
-        $I->click(PostModule::$linkPublish);
-        $I->wait(PostModule::$veryShortTimeout);
-
-        return $this;
-    }
-
-    /**
-     * Check if Files are Protected
-     * @param $post
-     * @param $file_name
-     * @return $this
-     */
-    public function checkIfFilesAreProtected($post, $file_name) {
-        $I = $this->BackendTester;
-
-        //Open post for edit
-        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
-
-        $I->click(self::$linkViewPost);
-
-        //selected admin
-        $I->seeElement(self::$linkFileLink);
-        $parsed = explode('.', $file_name);
-        $link   = $I->executeJS("var link = jQuery('a:contains(" . $parsed[0] . ")').attr('href'); return link;");
-
-        $I->amOnPage($link);
-        $I->wait(1);
-        //TODO: check that this is PDF file
-
-        BackendModule::of($I)
-            ->logout();
-
-        $I->amOnPage($link);
-        $I->wait(1);
-        $I->see('0');
-
-        return $this;
-    }
-
-    /**
-     * Check if a Correct Shortcode is Displayed Correctly
-     * @param $post
-     * @param $price
-     * @return $this
-     */
-    public function checkIfCorrectShortcodeIsDisplayedCorrectly($post, $price) {
-        $I = $this->BackendTester;
-
-        //Check how correct shortcode displayed
-        if ($price > 0) {
-
-            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
-
-            $I->click(PostModule::$linkViewPost);
-            if ((int) $price > 0)
-                $I->click(PostModule::$linkPreviewSwitcher); //In case of zero price stat tab not displayed
-
-            $I->see($price, PostModule::$linkShortCode);
-            $I->seeInPageSource('?p=' . $post, PostModule::$linkShortCode);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Check if a Wrong Shortcode is Displayed Correctly
-     * @param $post
-     * @param $price
-     * @return $this
-     */
-    public function checkIfWrongShortcodeIsDisplayedCorrectly($post, $price) {
-
-        $I = $this->BackendTester;
-
-        //Check how wrong shortcode displayed
-
-        if ($price > 0) {
-
-            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
-
-            $I->click(self::$linkViewPost);
-            $I->click(self::$linkPreviewSwitcher);
-            $I->seeElement(self::$messageShortcodeError);
-        }
-
-        return $this;
     }
 
     /**
