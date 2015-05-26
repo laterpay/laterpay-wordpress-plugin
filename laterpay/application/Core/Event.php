@@ -10,6 +10,13 @@
 class LaterPay_Core_Event {
 
     /**
+     * Event name.
+     *
+     * @var string Event name.
+     */
+    protected $name;
+
+    /**
      * Should be event result output
      */
     protected $echo = false;
@@ -201,6 +208,24 @@ class LaterPay_Core_Event {
             'arguments'                 => $this->get_arguments(),
             'result'                    => $this->get_result(),
         );
+    }
+
+    /**
+     * Set event name.
+     *
+     * @return string
+     */
+    public function get_name() {
+        return $this->name;
+    }
+
+    /**
+     * Get event name.
+     *
+     * @param string $name
+     */
+    public function set_name( $name ) {
+        $this->name = $name;
     }
 
 }

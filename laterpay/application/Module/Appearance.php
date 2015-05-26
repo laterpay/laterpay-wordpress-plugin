@@ -12,6 +12,48 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      */
     public static function get_subscribed_events() {
         return array(
+            'laterpay_admin_init' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugin_is_active', 100 ),
+            ),
+            'laterpay_admin_head' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugin_is_active', 100 ),
+            ),
+            'laterpay_admin_menu' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugin_is_active', 100 ),
+            ),
+            'laterpay_admin_footer_scripts' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugin_is_active', 100 ),
+            ),
+            'laterpay_post_edit' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugin_is_active', 100 ),
+            ),
+            'laterpay_post_new' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugin_is_active', 100 ),
+            ),
+            'laterpay_admin_enqueue_scripts' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugin_is_active', 100 ),
+            ),
+            'laterpay_delete_term_taxonomy' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugin_is_active', 100 ),
+            ),
+            'laterpay_post_custom_column' => array(
+                array( 'on_admin_view', 200 ),
+            ),
+            'laterpay_post_custom_column_data' => array(
+                array( 'on_admin_view', 200 ),
+            ),
+            'laterpay_admin_notices' => array(
+                array( 'on_admin_view', 200 ),
+                array( 'on_plugins_page_view', 100 ),
+            ),
             'laterpay_purchase_button' => array(
                 array( 'on_preview_post_as_admin', 10 ),
                 array( 'on_view_purchased_post_as_visitor', 10 ),
@@ -83,5 +125,42 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         }
     }
 
+    /**
+     * Checks, if the current area is plugins manage page.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_plugins_page_view( LaterPay_Core_Event $event ) {
+        if ( empty ( $GLOBALS['pagenow'] ) || $GLOBALS['pagenow'] !== 'plugins.php' ) {
+            $event->stop_propagation();
+        }
+    }
 
+    /**
+     * Checks, if the plugin is active.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_plugin_is_active( LaterPay_Core_Event $event ) {
+        if ( ! function_exists( 'is_plugin_active' ) ) {
+            include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        }
+
+        // continue, if plugin is active
+        if ( ! is_plugin_active( laterpay_get_plugin_config()->get( 'plugin_base_name' ) ) ) {
+            $event->stop_propagation();
+        }
+    }
+
+    /**
+     * Checks, if the plugin is active.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_plugin_is_working( LaterPay_Core_Event $event ) {
+        // check, if the plugin is correctly configured and working
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            $event->stop_propagation();
+        }
+    }
 }

@@ -7,9 +7,23 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
+class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base implements LaterPay_Core_Event_SubscriberInterface
 {
     private $has_custom_roles = false;
+
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_admin_init' => array(
+                array( 'init_laterpay_advanced_settings' ),
+            ),
+            'laterpay_admin_menu' => array(
+                array( 'add_laterpay_advanced_settings_page' ),
+            ),
+        );
+    }
 
     /**
      * @see LaterPay_Core_View::load_assets

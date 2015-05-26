@@ -7,17 +7,30 @@
  * Author URI: https://laterpay.net/
  */
 
-class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
+class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base implements LaterPay_Core_Event_SubscriberInterface
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_post_custom_column' => array(
+                array( 'add_columns_to_posts_table' ),
+            ),
+            'laterpay_post_custom_column_data' => array(
+                array( 'add_data_to_posts_table' ),
+            ),
+        );
+    }
 
     /**
      * Add custom columns to posts table.
      *
-     * @param array $columns
-     *
+     * @param LaterPay_Core_Event $event
      * @return array $extended_columns
      */
-    public function add_columns_to_posts_table( $columns ) {
+    public function add_columns_to_posts_table( LaterPay_Core_Event $event ) {
+        list( $columns ) = $event->get_arguments();
         $extended_columns   = array();
         $insert_after       = 'title';
 
@@ -28,8 +41,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                 $extended_columns['post_price_type']    = __( 'Price Type', 'laterpay' );
             }
         }
-
-        return $extended_columns;
+        $event->set_result( $extended_columns );
     }
 
     /**
@@ -37,12 +49,14 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
      *
      * @wp-hook manage_post_posts_custom_column
      *
-     * @param string $column_name
-     * @param int    $post_id
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function add_data_to_posts_table( $column_name, $post_id ) {
+    public function add_data_to_posts_table( LaterPay_Core_Event $event ) {
+        list( $column_name, $post_id ) = $event->get_arguments();
+        $event->set_echo( true );
+
         switch ( $column_name ) {
             case 'post_price':
                 $price              = (float) LaterPay_Helper_Pricing::get_post_price( $post_id );
@@ -51,9 +65,9 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 
                 // render the price of the post, if it exists
                 if ( $price > 0 ) {
-                    echo laterpay_sanitize_output( "<strong>$localized_price</strong> <span>$currency</span>" );
+                    $event->set_result( laterpay_sanitize_output( "<strong>$localized_price</strong> <span>$currency</span>" ) );
                 } else {
-                    echo '&mdash;';
+                    $event->set_result( '&mdash;' );
                 }
                 break;
 
@@ -89,15 +103,15 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                             $post_price_type = '&mdash;';
                     }
 
-                    echo laterpay_sanitize_output( $post_price_type );
+                    $event->set_result( laterpay_sanitize_output( $post_price_type ) );
                 } else {
                     // label the post to use the global default price, if a positive  global default price is defined,
                     // but the post does not have a price type defined
                     $global_default_price = (float) get_option( 'laterpay_global_price' );
                     if ( $global_default_price > 0 ) {
-                        echo laterpay_sanitize_output( __( 'global default price', 'laterpay' ) );
+                        $event->set_result( laterpay_sanitize_output( __( 'global default price', 'laterpay' ) ) );
                     } else {
-                        echo '&mdash;';
+                        $event->set_result( '&mdash;' );
                     }
                 }
                 break;

@@ -75,6 +75,7 @@ class LaterPay_Hooks {
         add_action( 'template_redirect',                array( $this, self::$wp_action_prefix . 'laterpay_loaded' ) );
         add_action( 'wp_enqueue_scripts',               array( $this, self::$wp_action_prefix . 'laterpay_enqueue_scripts' ) );
 
+        add_action( 'admin_init',                       array( $this, self::$wp_action_prefix . 'laterpay_admin_init' ) );
         add_action( 'admin_head',                       array( $this, self::$wp_action_prefix . 'laterpay_admin_head' ) );
         add_action( 'admin_menu',                       array( $this, self::$wp_action_prefix . 'laterpay_admin_menu' ) );
         add_action( 'admin_notices',                    array( $this, self::$wp_action_prefix . 'laterpay_admin_notices' ) );

@@ -47,6 +47,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         } else {
             $event = new LaterPay_Core_Event();
         }
+        $event->set_name( $event_name );
 
         if ( ! isset( $this->listeners[ $event_name ] ) ) {
             // $this->set_debug_data( $event_name, $event->get_debug() );
@@ -285,6 +286,9 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      * @return LaterPay_Core_Event_Dispatcher
      */
     public function set_debug_data( $event_name, $context ) {
+        if ( in_array( $event_name, array( 'laterpay_post_metadata' ) ) ) {
+            return;
+        }
         if ( $this->debug_enabled ) {
             $listeners = $this->get_listeners( $event_name );
             $record = array(

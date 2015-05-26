@@ -7,8 +7,38 @@
  * Author URI: https://laterpay.net/
  */
 
-class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
+class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base implements LaterPay_Core_Event_SubscriberInterface
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_meta_boxes' => array(
+                array( 'add_teaser_meta_box' ),
+                array( 'add_pricing_meta_box' ),
+            ),
+            'laterpay_post_save' => array(
+                array( 'save_laterpay_post_data' ),
+            ),
+            'laterpay_attachment_edit' => array(
+                array( 'save_laterpay_post_data' ),
+            ),
+            'laterpay_transition_post_status' => array(
+                array( 'update_post_publication_date' ),
+            ),
+            'laterpay_admin_enqueue_styles_post_edit' => array(
+                array( 'load_assets' ),
+            ),
+            'laterpay_admin_enqueue_styles_post_new' => array(
+                array( 'load_assets' ),
+            ),
+        );
+    }
+
+    public function save_post() {
+
+    }
 
     /**
      * @see LaterPay_Core_View::load_assets()
@@ -107,7 +137,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      *
      * @return void
      */
-    public function add_meta_boxes() {
+    public function add_teaser_meta_box() {
         $post_types = $this->config->get( 'content.enabled_post_types' );
 
         foreach ( $post_types as $post_type ) {
@@ -120,7 +150,20 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'normal',
                 'high'
             );
+        }
+    }
 
+    /**
+     * Add pricing edit box to add / edit post page.
+     *
+     * @wp-hook add_meta_boxes
+     *
+     * @return void
+     */
+    public function add_pricing_meta_box() {
+        $post_types = $this->config->get( 'content.enabled_post_types' );
+
+        foreach ( $post_types as $post_type ) {
             if ( ! get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
                 // add post price metabox in sidebar
                 add_meta_box(
@@ -453,15 +496,12 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      *
      * @wp-hook publish_post
      *
-     * @param string    $status_after_update
-     * @param string    $status_before_update
-     * @param WP_Post   $post
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function update_post_publication_date( $status_after_update, $status_before_update, WP_Post $post ) {
-        // skip infinite loop
-        remove_action( 'publish_post', array( $this, 'update_post_publication_date' ) );
+    public function update_post_publication_date( LaterPay_Core_Event $event ) {
+        list( $status_after_update, $status_before_update, $post ) = $event->get_arguments();
 
         // skip on insufficient permission
         if ( ! $this->has_permission( $post->ID ) ) {
