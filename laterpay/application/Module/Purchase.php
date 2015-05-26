@@ -18,6 +18,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 array( 'on_purchase_button' ),
                 array( 'is_purchasable', 100 ),
             ),
+            'laterpay_check_user_access' => array(
+                array( 'check_user_access' ),
+            ),
         );
     }
 
@@ -50,6 +53,45 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $event->set_result( $html )
             ->set_echo( true )
             ->set_arguments( $view_args );
+    }
+
+    /**
+     * Check if user has access to the post
+     *
+     * @wp-hook laterpay_check_user_access
+     * @param LaterPay_Core_Event $event
+     *
+     * @return bool $has_access
+     */
+    public function check_user_access( LaterPay_Core_Event $event ) {
+        list( $has_access, $post_id ) = $event->get_arguments();
+        $event->set_result( false );
+        // get post
+        if ( ! isset( $post_id ) ) {
+            $post = get_post();
+        } else {
+            $post = get_post( $post_id );
+        }
+
+        if ( $post === null ) {
+            $event->set_result( (bool) $has_access );
+            return;
+        }
+
+        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+
+        // user has unlimited access
+        if ( $user_has_unlimited_access ) {
+            $event->set_result( true );
+            return;
+        }
+
+        // user has access to the post
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
+            $event->set_result( true );
+            return;
+        }
+
     }
 
     /**

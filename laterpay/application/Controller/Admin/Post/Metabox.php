@@ -341,11 +341,12 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base im
      *
      * @wp-hook save_post, edit_attachments
      *
-     * @param int $post_id
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function save_laterpay_post_data( $post_id ) {
+    public function save_laterpay_post_data( LaterPay_Core_Event $event ) {
+        list( $post_id ) = $event->get_arguments();
         if ( ! $this->has_permission( $post_id ) ) {
             return;
         }

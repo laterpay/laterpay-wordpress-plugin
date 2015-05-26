@@ -133,12 +133,12 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_scripts' ) );
 
         // add custom action to render the LaterPay invoice indicator
-        $invoice_controller = self::get_controller( 'Frontend_Invoice' );
-        add_action( 'wp_enqueue_scripts',           array( $invoice_controller, 'add_frontend_scripts' ) );
+        //$invoice_controller = self::get_controller( 'Frontend_Invoice' );
+        //add_action( 'wp_enqueue_scripts',           array( $invoice_controller, 'add_frontend_scripts' ) );
 
         // add account links action
-        $account_controller = self::get_controller( 'Frontend_Account' );
-        add_action( 'wp_enqueue_scripts',           array( $account_controller, 'add_frontend_scripts' ) );
+        //$account_controller = self::get_controller( 'Frontend_Account' );
+        //add_action( 'wp_enqueue_scripts',           array( $account_controller, 'add_frontend_scripts' ) );
 
         // set up unique visitors tracking
         $statistics_controller = self::get_controller( 'Frontend_Statistic' );
@@ -205,28 +205,17 @@ class LaterPay_Core_Bootstrap
     private function register_custom_actions() {
         // custom action to refresh the dashboard
         $dashboard_controller = self::get_controller( 'Admin_Dashboard' );
-        add_action( 'laterpay_refresh_dashboard_data',  array( $dashboard_controller, 'refresh_dashboard_data' ), 10, 3 );
-
-        // add action to delete old post views from table
-        add_action( 'laterpay_delete_old_post_views',   array( $dashboard_controller, 'delete_old_post_views' ), 10, 1 );
-
-        $post_controller = self::get_controller( 'Frontend_Post' );
-        // add custom action to echo the LaterPay purchase button
-        //add_action( 'laterpay_purchase_button',         array( $post_controller, 'the_purchase_button' ) ); // TODO: #612 proof of concept
+        laterpay_event_dispatcher()->add_subscriber( $dashboard_controller );
 
         // add custom filter to check if current user has access to the post content
-        add_filter( 'laterpay_check_user_access',       array( $post_controller, 'check_user_access' ), 10, 2 );
-
-        // add custom action to echo the LaterPay time passes
-        add_action( 'laterpay_time_passes',             array( $post_controller, 'the_time_passes_widget' ), 10, 4 );
+        LaterPay_Hooks::add_wp_filter( 'laterpay_check_user_access', 'laterpay_check_user_access' );
 
         // add custom action to echo the LaterPay invoice indicator
         $invoice_controller = self::get_controller( 'Frontend_Invoice' );
-        add_action( 'laterpay_invoice_indicator',       array( $invoice_controller, 'the_invoice_indicator' ) );
-
+        laterpay_event_dispatcher()->add_subscriber( $invoice_controller );
         // add account links action
         $account_controller = self::get_controller( 'Frontend_Account' );
-        add_action( 'laterpay_account_links',           array( $account_controller, 'render_account_links' ), 10, 4 );
+        laterpay_event_dispatcher()->add_subscriber( $account_controller );
     }
 
     /**

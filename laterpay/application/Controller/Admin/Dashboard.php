@@ -9,6 +9,19 @@
  */
 class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_refresh_dashboard_data' => array(
+                array( 'refresh_dashboard_data' ),
+            ),
+            'laterpay_delete_old_post_views' => array(
+                array( 'delete_old_post_views' ),
+            ),
+        );
+    }
 
     /**
      * Sections are used by the Ajax laterpay_get_dashboard callback.
@@ -183,17 +196,22 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
      *
      * @wp-hook laterpay_refresh_dashboard_data
      *
-     * @param int       $start_timestamp
-     * @param int       $count
-     * @param string    $interval
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function refresh_dashboard_data( $start_timestamp = null, $count = 10, $interval = 'week' ) {
+    public function refresh_dashboard_data( LaterPay_Core_Event $event ) {
         set_time_limit( 0 );
+        list( $start_timestamp, $count, $interval ) = $event->get_arguments();
 
         if ( $start_timestamp === null ) {
             $start_timestamp = strtotime( 'today GMT' );
+        }
+        if ( empty( $count ) ) {
+            $count = 10;
+        }
+        if ( empty( $interval ) ) {
+            $count = 'week';
         }
 
         $args = array(
@@ -219,11 +237,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
      *
      * @wp-hook laterpay_delete_old_post_views
      *
-     * @param string $modifier
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function delete_old_post_views( $modifier = '3 month' ) {
+    public function delete_old_post_views( LaterPay_Core_Event $event ) {
+        list( $modifier ) = $event->get_arguments();
+        if ( empty( $modifier ) ) {
+            $modifier = '3 month';
+        }
         // delete old post views
         $post_views_model = new LaterPay_Model_Post_View();
         $post_views_model->delete_old_data( $modifier );
