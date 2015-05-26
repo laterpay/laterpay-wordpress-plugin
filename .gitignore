@@ -11,6 +11,5 @@ laterpay/vendor
 selenium-tests/nbproject/
 selenium-tests/vendor/
 selenium-tests/tests/nbproject/private/
-selenium-tests/tests/_data/
 selenium-tests/tests/_output
 selenium-tests/tests/backend.suite.yml

@@ -1,7 +1,8 @@
 <?php
 
 class AuthModule extends BaseModule {
-    public static $page = 'wp-admin/';
+    //links
+    public static $linkAdminArea        = 'wp-admin/';
 
     //selectors
     public static $selectorUserName     = '#user_login';
@@ -9,6 +10,8 @@ class AuthModule extends BaseModule {
     public static $selectorSubmitButton = '#wp-submit';
     public static $selectorAccountMenu  = '#wp-admin-bar-my-account';
     public static $selectorLogoutButton = '#wp-admin-bar-logout';
+    public static $selectorLoginForm    = '#loginform';
+    public static $selectorAdminBar     = '#wpadminbar';
 
     //defaults
     public static $c_url_test_system    = 'http://127.0.0.1/';
@@ -31,7 +34,7 @@ class AuthModule extends BaseModule {
         if ( ! isset( $p_url_test_system ) ) {
             $p_url_test_system = self::$c_url_test_system;
         }
-        $p_url_test_system .= self::$page;
+        $p_url_test_system .= self::$linkAdminArea;
         // user name
         if ( ! isset( $p_name ) ) {
             $p_name = self::$c_user;
@@ -46,6 +49,7 @@ class AuthModule extends BaseModule {
         $I->fillField( self::$selectorUserName, $p_name );
         $I->fillField( self::$selectorUserPassword, $p_password );
         $I->click( self::$selectorSubmitButton );
+        $I->waitForElement( self::$selectorAdminBar );
 
         return $this;
     }
@@ -61,6 +65,7 @@ class AuthModule extends BaseModule {
         // mouse over account menu and logout
         $I->moveMouseOver( self::$selectorAccountMenu );
         $I->click( self::$selectorLogoutButton );
+        $I->waitForElement( self::$selectorLoginForm );
 
         return $this;
     }

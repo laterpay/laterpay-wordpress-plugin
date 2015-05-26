@@ -1,98 +1,67 @@
 <?php
 
 class PostModule extends BaseModule {
-
-    //pages
-    public static $pagePostNew                     = '/wp-admin/post-new.php';
-    public static $pagePostList                    = '/wp-admin/edit.php';
-    public static $pagePostEdit                    = '/wp-admin/post.php?post={post}&action=edit';
-    public static $pagePostFrontView               = '/?p={post}';
-    //fields
-    public static $fieldTitle                      = '#title';
-    public static $fieldContent                    = '#content_ifr';
-    public static $fieldTeaser                     = '#laterpay_teaser_content';
-    public static $fieldPrice                      = 'input[name="post-price"]';
-    public static $contentId                       = '#content';
-    public static $teaserContentId                 = '#postcueeditor';
-    public static $fileInput                       = 'input[type="file"]';
-    //mcetabs
-    public static $contentText                     = '#content-html';
-    public static $teaserContentText               = '#postcueeditor-html';
     //links
-    public static $linkGlobalDefaultPrice          = '#lp_use-global-default-price';
-    public static $linkIndividualPrice             = '#lp_use-individual-price';
-    public static $linkDynamicPricing              = '#lp_use-dynamic-pricing';
-    public static $linkCategoryPrice               = '#lp_use-category-default-price';
-    public static $linkAddMedia                    = '#insert-media-button';
-    public static $linkMediaRouter                 = '.media-router';
-    public static $linkAttachFile                  = '#__wp-uploader-id-1';
-    public static $linkAddFileLinkToContent        = '.media-toolbar-primary .media-button-insert';
-    public static $linkPublish                     = '#publish';
-    public static $linkViewPost                    = '#view-post-btn a';
-    public static $linkPreviewSwitcher             = '.switch-handle';
-    public static $linkPreviewSwitcherElement      = 'preview_post_checkbox';
-    public static $linkShortCode                   = 'a[class="lp_purchase-link-without-function lp_button"]';
-    public static $linkFileLink                    = 'a[href*="wp-admin/admin-ajax.php?action=laterpay_load_files"]';
-    //should be visible
-    public static $visibleLaterpayWidgetContainer  = '#lp_dynamic-pricing-widget-container';
-    public static $visibleLaterpayStatistics       = '.lp_post-statistics-details';
-    public static $visibleLaterpayPurchaseButton   = 'a[class="lp_purchase-link lp_button"]';
-    public static $visibleLaterpayPurchaseLink     = '.lp_purchase-link';
-    public static $visibleLaterpayPurchaseBenefits = '.lp_benefits';
-    public static $visibleLaterpayTeaserContent    = '.lp_teaser-content';
-    public static $visibleLaterpayContent          = '.entry-content';
-    public static $visibleInTablePostTitle         = '.post-title';
-    public static $visibleInTablePostPrice         = '.post-price';
-    public static $pageListPriceCol                = 'td[class="post_price column-post_price"]';
-    public static $pageListPricetypeCol            = 'td[class="post_price_type column-post_price_type"]';
-    //messages
-    public static $messageShortcodeError           = '.laterpay-shortcode-error';
-    //purschase at LaterPay server
-    public static $lpServerLinkJsGetter            = " var str = jQuery('a[class=\"lp_purchase-link lp_button\"]').last().attr('data-laterpay'); return str; ";
-    public static $lpServerVisitorLoginLink        = 'Log in to LaterPay';
-    public static $lpServerVisitorLoginClass       = '.selen-button-login';
-    public static $lpServerVisitorLoginFrameName   = 'wrapper';
-    public static $lpServerVisitorEmailField       = '#id_username';
-    public static $lpServerVisitorEmailValue       = 'atsumarov@scnsoft.com';
-    public static $lpServerVisitorPasswordField    = '#id_password';
-    public static $lpServerVisitorPasswordValue    = 'atsumarov@scnsoft.com1';
-    public static $lpServerVisitorLoginBtn         = 'Log In';
-    public static $lpServerVisitorBuyBtn           = '#nextbuttons';
-    //file
-    public static $samplePdfFile                   = 'pdf-sample.pdf';
+    public static $linkPostListPage                = 'wp-admin/edit.php';
+    public static $linkAddNewPostPage              = 'wp-admin/post-new.php';
 
-    //new constants
-    public static $c_post_title = '';
-    public static $c_fulltext = '';
-    public static $c_teaser = '';
-    public static $c_revenue_model_ppu = '';
-    public static $c_price_ppu = '';
-    public static $c_price_type_individual = '';
+    //selectors
+    public static $selectorPostTitleInput          = 'input[name=post_title]';
+    public static $selectorPostPrice               = 'input[name=post-price]';
+    public static $selectorPublishButton           = '#publish';
+    public static $selectorTeaserInput             = '#postcueeditor';
+    public static $selectorTeaserTypeSwitcher      = '#postcueeditor-html';
+    public static $selectorContentTypeSwitcher     = '#content-html';
+    public static $selectorContentInput            = '#content';
+    public static $selectorCategories              = '#categorychecklist';
+    public static $selectorIndividualPrice         = '#lp_js_useIndividualPrice';
+    public static $selectorRevenueModel            = '#lp_js_postPriceRevenueModel';
+
+    //defaults
+    public static $c_post_title                    = 'Test Post';
+    public static $c_teaser                        = 200;
+    public static $c_fulltext                      = 1000;
+    public static $c_revenue_model_ppu             = 'PPU';
+    public static $c_revenue_model_sis             = 'SIS';
+    public static $c_price_ppu                     = 29;
+    public static $c_price_sis                     = 259;
+    public static $c_price_type_individual         = 'Individual';
+    public static $c_price_type_individual_dynamic = 'Individual Dynamic';
+    public static $c_price_type_category           = 'Category Default';
+    public static $c_price_type_global             = 'Global Default';
 
     /**
-     * Create test post
-     * @param $title
-     * @param $content
-     * @param null $categories
-     * @param null $price_type
-     * @param null $price
-     * @param null $teaser
-     * @param null $files
+     * Create post
+     *
+     * @param null|string $p_post_title
+     * @param null|string $p_fulltext
+     * @param null|string $p_teaser
+     * @param null|string $p_revenue_model
+     * @param null|int    $p_price
+     * @param null|string $p_price_type
+     * @param null|string $p_category
+     *
      * @return $this
      */
-    public function createTestPost($title, $content, $categories = null, $price_type = null, $price = null, $teaser = null, $files = null) {
-
+    public function createPost( $p_post_title = null, $p_fulltext = null, $p_teaser = null, $p_revenue_model = null, $p_price = null, $p_price_type = null, $p_category = null ) {
         $I = $this->BackendTester;
 
-        $I->amOnPage(PostModule::$pagePostNew);
+        $I->amOnPage( self::$linkAddNewPostPage );
         //Set post title
-        $I->fillField(PostModule::$fieldTitle, $title);
+        $I->fillField( self::$selectorPostTitleInput, $p_post_title ? $p_post_title : self::$c_post_title );
 
-        $content = str_replace( array( "\r", "\n" ), '', $content );
+        //Prepare fulltext
+        if ( ! isset( $p_fulltext ) ) {
+            //Get content from file
+            $p_fulltext = file_get_contents( './_data/content.txt' );
+            $p_fulltext = str_replace( array( "\r", "\n" ), '', $p_fulltext );
+        }
 
         //Set post content
-        $I->click(PostModule::$contentText);
-        $I->fillField(PostModule::$contentId, $content);
+        $I->click( self::$selectorContentTypeSwitcher );
+        $I->fillField( self::$selectorContentInput, $p_fulltext );
+
+        //$this->_createTeaserContent
 
         //create teaser content
         if ($teaser) {
@@ -560,7 +529,7 @@ class PostModule extends BaseModule {
         //TODO: check that this is PDF file
 
         BackendModule::of($I)
-                ->logout();
+            ->logout();
 
         $I->amOnPage($link);
         $I->wait(1);
@@ -620,33 +589,17 @@ class PostModule extends BaseModule {
 
     /**
      * Create teaser content
-     * @param $content
-     * @param $teaser
+     *
+     * @param string $content
+     * @param int    $teaser  number or words in teaser
+     *
      * @return string
      */
-    private function _createTeaserContent($content, $teaser) {
-        //original $teaser_content = explode(' ', strip_tags($content), $teaser + 1);
-        $teaser_content = explode(' ', strip_tags($content), $teaser);
-        array_pop($teaser_content);
-        //original join(' ', $teaser_content) . '...'
-        return join(' ', $teaser_content);
+    private function _createTeaserContent( $content, $teaser ) {
+        if ( ! $content || $teaser < 1 ) {
+            return '';
+        }
+        $teaser_content = explode( ' ', strip_tags( $content ), $teaser - 1 );
+        return join( ' ', $teaser_content ) . '...';
     }
-
-    /**
-     * Validate individual price
-     * @param $post
-     * @return $this
-     */
-    public function validateIndividualPrice($post) {
-        $I = $this->BackendTester;
-        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
-
-        //Validate Individual Price
-        BackendModule::of($I)
-                ->validatePrice(PostModule::$fieldPrice, PostModule::$linkIndividualPrice, PostModule::$linkPublish);
-
-        return $this;
-    }
-
 }
-

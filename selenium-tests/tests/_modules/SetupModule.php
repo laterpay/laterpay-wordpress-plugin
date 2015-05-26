@@ -1,222 +1,111 @@
 <?php
 
 class SetupModule extends BaseModule {
+    //links
+    public static $linkPluginsMainPage        = 'wp-admin/plugins.php';
+    public static $linkPluginsInstallPage     = 'wp-admin/plugin-install.php?tab=upload';
+
+    //selectors
+    public static $selectorUploadedFile       = '#pluginzip';
+    public static $selectorInstallButton      = '#install-plugin-submit';
+    public static $selectorLpPlugin           = '#laterpay';
+    public static $selectorActivateLpPlugin   = '.activate > a';
+    public static $selectorDeactivateLpPlugin = '.deactivate > a';
+    public static $selectorDeleteLpPlugin     = '.delete > a';
+    public static $selectorConfirmDelete      = 'form[action~=delete-selected] > #submit';
+
     //defaults
-    public static $c_current_plugin_version  = '0.9.14';
-    public static $c_previous_plugin_version = '0.9.13';
-
-
-    /**
-     * Uninstall Laterpay plugin
-     * @return $this
-     */
-    public function uninstallPlugin() {
-
-        $I = $this->BackendTester;
-
-        $I->amOnPage(SetupModule::$url_plugin_list);
-        $I->see($I, SetupModule::$assertPluginName);
-        //Remove plugin before install
-        $I->click(SetupModule::$pluginDeactivateLink);
-        $I->click(SetupModule::$pluginDeleteLink);
-        $I->click(SetupModule::$pluginDeleteConfirmLink);
-
-        return $this;
-    }
+    public static $c_current_plugin_version   = '0.9.14';
+    public static $c_previous_plugin_version  = '0.9.13';
 
     /**
      * Install Laterpay plugin
-     * @param null $version
+     *
+     * @param null|string $p_plugin_version
+     *
      * @return $this
      */
-    public function installPlugin($version = null) {
-
+    public function installPlugin( $p_plugin_version = null ) {
         $I = $this->BackendTester;
 
+        //init plugin version and create file name
+        if ( ! isset( $p_plugin_version ) ) {
+            $p_plugin_version = self::$c_current_plugin_version;
+        }
+        $file_name = 'laterpay' . '_' . $p_plugin_version . '.zip';
+
         //Install plugin
-        $I->amOnPage(SetupModule::$url_plugin_add);
-        $I->amOnPage(SetupModule::$url_plugin_upload);
-        $I->attachFile(SetupModule::$pluginUploadField, SetupModule::$pluginUploadFilename);
-        $I->click(SetupModule::$pluginUploadSubmitField);
-        $I->see(SetupModule::$assertInstalled);
+        $I->amOnPage( self::$linkPluginsInstallPage );
+        $I->attachFile( self::$selectorUploadedFile, $file_name );
+        $I->click( self::$selectorInstallButton );
+        $I->wait(2);
 
         //Check plugin listed
-        $I->amOnPage(SetupModule::$url_plugin_list);
-        $I->see(SetupModule::$assertPluginListed);
+        $I->amOnPage( self::$linkPluginsMainPage );
+        $I->seeElement( self::$selectorLpPlugin );
 
         return $this;
     }
 
     /**
      * Activate Laterpay plugin
+     *
      * @return $this
      */
     public function activatePlugin() {
-
         $I = $this->BackendTester;
+
+        //Check plugin listed
+        $I->amOnPage( self::$linkPluginsMainPage );
+        $I->seeElement( self::$selectorLpPlugin );
 
         //Activate plugin
-        $I->amOnPage(SetupModule::$url_plugin_list);
-        $I->click(SetupModule::$pluginActivateLink);
-        $I->waitForElement(SetupModule::$pluginDeactivateLink);
-
-        //Plugin link into navigation tab
-        $I->amOnPage(SetupModule::$url_plugin_list);
-        $I->see(SetupModule::$pluginNavigationLabel, SetupModule::$backNavigateTab);
-
-        //floated popup
-        $I->see($I, '.wp-pointer-content');
-        $I->click('.wp-pointer-content .close');
+        $I->click( self::$selectorLpPlugin, self::$selectorActivateLpPlugin );
+        $I->waitForElement( self::$selectorLpPlugin . ' ' . self::$selectorDeactivateLpPlugin );
 
         return $this;
     }
 
     /**
-     * Go through Get Started Tab {global default price, currency}
-     * Can the user successfully complete the “Get Started”
-     * @param null $price
-     * @param null $currency
+     * Deactivate Laterpay plugin
+     *
      * @return $this
      */
-    public function goThroughGetStartedTab($price = null, $currency = null) {
-
+    public function deactivatePlugin() {
         $I = $this->BackendTester;
 
-        if (!$price)
-            $price = SetupModule::$globalDefaultPrice;
+        //Check plugin listed
+        $I->amOnPage( self::$linkPluginsMainPage );
+        $I->seeElement( self::$selectorLpPlugin );
 
-        if (!$currency)
-            $currency = SetupModule::$globalDefaultCurrency;
-
-        //Empty Merchant ID and API Key fields
-        $I->amOnPage(SetupModule::$pluginBackLink);
-        $I->click(SetupModule::$linkDismissWPMessage);
-        $I->fillField(SetupModule::$laterpaySandboxMerchantField, '');
-        $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
-        $I->click(SetupModule::$pluginActivateFormButton);
-        $I->wait(BaseModule::$veryShortTimeout);
-        $I->see(SetupModule::$assertNoLaterPayApiKey);
-
-        //Set wrong Merchant ID
-        $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantInvalidValue);
-        $I->click(SetupModule::$pluginActivateFormButton);
-        $I->wait(BaseModule::$veryShortTimeout);
-        $I->see(SetupModule::$assertInvalidMerchantId);
-
-        //Set Sandbox Merchant ID
-        $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
-        $I->click(SetupModule::$pluginActivateFormButton);
-        $I->wait(BaseModule::$veryShortTimeout);
-        $I->see(SetupModule::$assertEmptyDemoMerchantId);
-
-        //Set Sandbox Merchant ID and invalid API Key
-        $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
-        $I->fillField(SetupModule::$laterpaySandboxApiKeyField, SetupModule::$laterpaySandboxApiKeyInvalidValue);
-        $I->click(SetupModule::$pluginActivateFormButton);
-        $I->wait(BaseModule::$veryShortTimeout);
-        $I->seeInPageSource(SetupModule::$assertInvalidDemoMerchantId);
-
-        //Set Sandbox Merchant ID and valid API Key
-        $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
-        $I->fillField(SetupModule::$laterpaySandboxApiKeyField, SetupModule::$laterpaySandboxApiKeyValidValue);
-        //$I->seeElement(SetupModule::$assertFieldStepOneDone);
-        //Activate LaterPay
-        $I->fillField(SetupModule::$globalDefaultPriceField, $price);
-        $I->selectOption(SetupModule::$globalDefaultCurrencyField, $currency);
-        $I->click(SetupModule::$pluginActivateFormButton);
-
-        //Check redirect to New Post page
-        $I->wait(BaseModule::$shortTimeout);
-        $I->seeCurrentUrlEquals(SetupModule::$pluginActivateSuccesRedirectUrl);
+        //Deactivate plugin
+        $I->click( self::$selectorLpPlugin, self::$selectorDeactivateLpPlugin );
+        $I->waitForElement( self::$selectorLpPlugin . ' ' . self::$selectorActivateLpPlugin );
 
         return $this;
     }
 
     /**
-     * Change Global Default Price {new global default price}
-     * Can the user successfully change the global default price?
-     * @param null $price
+     * Delete Laterpay plugin
+     *
      * @return $this
      */
-    public function changeGlobalDefaultPrice($price = null) {
-
+    public function deletePlugin() {
         $I = $this->BackendTester;
 
-        //Click on the “Change” link next to the global default price
-        $I->amOnPage(SetupModule::$pluginBackLink);
-        $I->click(SetupModule::$laterpayChangeLink);
-        $I->seeElement(SetupModule::$globalDefaultPriceField);
-        $I->seeLink(SetupModule::$laterpaySaveLink);
-        $I->seeLink(SetupModule::$laterpayCancelLink);
+        //Check plugin listed
+        $I->amOnPage( self::$linkPluginsMainPage );
+        $I->seeElement( self::$selectorLpPlugin );
 
-        //Click on the “Cancel”
-        $I->amOnPage(SetupModule::$pluginBackLink);
-        $I->click(SetupModule::$laterpayChangeLink);
-        $I->click(SetupModule::$laterpayCancelLink);
-        $I->seeLink(SetupModule::$laterpayChangeLink);
-        $I->cantSeeLink(SetupModule::$laterpaySaveLink);
-        $I->cantSeeLink(SetupModule::$laterpayCancelLink);
+        //Delete plugin
+        $I->click( self::$selectorLpPlugin, self::$selectorDeleteLpPlugin );
+        $I->click( self::$selectorConfirmDelete );
+        $I->wait(2);
 
-        //Click on the “Change”
-        $I->amOnPage(SetupModule::$pluginBackLink);
-        $I->click(SetupModule::$laterpayChangeLink);
-        $I->cantSeeLink(SetupModule::$laterpayChangeLink);
-        $I->seeLink(SetupModule::$laterpaySaveLink);
-        $I->seeLink(SetupModule::$laterpayCancelLink);
-
-        //Set new price
-        $I->amOnPage(SetupModule::$pluginBackLink);
-        $I->click(SetupModule::$laterpayChangeLink);
-        $I->fillField(SetupModule::$globalDefaultPriceField, $price);
-        $I->click(SetupModule::$laterpaySaveLink);
-        $I->seeLink(SetupModule::$laterpayChangeLink);
-        $I->cantSeeLink(SetupModule::$laterpaySaveLink);
-        $I->cantSeeLink(SetupModule::$laterpayCancelLink);
-        $I->see($price, SetupModule::$globalPriceText);
-
-        if ($price == '0.00')
-            $I->seeInPageSource(SetupModule::$assertFreePriceConfirmation);
-        else
-            $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . $price);
+        //Check plugin not listed
+        $I->dontSeeElement( self::$selectorLpPlugin );
 
         return $this;
     }
-
-    /**
-     * Change Currency {new currency}
-     * {currency} = string
-     * @param string $currency
-     * @return $this
-     */
-    public function changeCurrency($currency = 'USD') {
-
-        $I = $this->BackendTester;
-
-        //Change Currency
-        $I->amOnPage(SetupModule::$pluginBackLink);
-        $I->selectOption(SetupModule::$globalDefaultCurrencySelect, $currency);
-        $I->wait(BaseModule::$veryShortTimeout);
-        $I->seeInPageSource(str_replace('{currency}', $currency, SetupModule::$assertCurrencySelected));
-        $I->seeOptionIsSelected(SetupModule::$globalDefaultCurrencySelect, $currency);
-
-        return $this;
-    }
-
-    /**
-     * Validate Global Price
-     * @return $this
-     */
-    public function validateGlobalPrice() {
-
-        $I = $this->BackendTester;
-
-        $I->amOnPage(SetupModule::$pluginBackLink);
-
-        //Validate global price
-        BackendModule::of($I)->validatePrice(SetupModule::$globalDefaultPriceField, SetupModule::$laterpayChangeLink, SetupModule::$laterpaySaveLink);
-
-        return $this;
-    }
-
 }
 
