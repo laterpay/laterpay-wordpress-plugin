@@ -925,7 +925,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $time_passes_array[ $time_pass['pass_id'] ] = $time_pass;
         }
 
-        return wp_json_encode( $time_passes_array );
+        return json_encode( $time_passes_array );
     }
 
     /**
