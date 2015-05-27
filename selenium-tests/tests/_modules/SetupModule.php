@@ -21,18 +21,18 @@ class SetupModule extends BaseModule {
     /**
      * Install Laterpay plugin
      *
-     * @param null|string $p_plugin_version
+     * @param null|string $plugin_version
      *
      * @return $this
      */
-    public function installPlugin( $p_plugin_version = null ) {
+    public function installPlugin( $plugin_version = null ) {
         $I = $this->BackendTester;
 
         //init plugin version and create file name
-        if ( ! isset( $p_plugin_version ) ) {
-            $p_plugin_version = self::$c_current_plugin_version;
+        if ( ! isset( $plugin_version ) ) {
+            $plugin_version = self::$c_current_plugin_version;
         }
-        $file_name = 'laterpay' . '_' . $p_plugin_version . '.zip';
+        $file_name = 'laterpay' . '_' . $plugin_version . '.zip';
 
         //Install plugin
         $I->amOnPage( self::$linkPluginsInstallPage );

@@ -29,6 +29,9 @@ class PostModule extends BaseModule {
     public static $selectorFrontPurchaseLink       = '.lp_purchase-link';
     public static $selectorFrontTimepasses         = '#lp_js_timePassWidget';
     public static $selectorFrontYuiIframe          = '.yui3-widget-bd > iframe';
+    public static $selectorIframeAgreeCheckbox     = 'input[name=agree]';
+    public static $selectorIframeProceedButton     = '#nextbuttons';
+    public static $selectorIframeMessage           = '.flash-message';
 
     //js
     public static $jsGetMainIframeName             = " var name = jQuery('.yui3-widget-bd').find('iframe').attr('name'); return name; ";
@@ -37,14 +40,6 @@ class PostModule extends BaseModule {
     public static $c_post_title                    = 'Test Post';
     public static $c_teaser                        = 200;
     public static $c_fulltext                      = 1000;
-    public static $c_revenue_model_ppu             = 'PPU';
-    public static $c_revenue_model_sis             = 'SIS';
-    public static $c_price_ppu                     = 29;
-    public static $c_price_sis                     = 259;
-    public static $c_price_type_individual         = 'Individual';
-    public static $c_price_type_individual_dynamic = 'Individual Dynamic';
-    public static $c_price_type_category           = 'Category Default';
-    public static $c_price_type_global             = 'Global Default';
     public static $c_post_check_options            = array(
                                                         'fulltext_visible'        => false,
                                                         'teaser_visible'          => true,
@@ -59,68 +54,64 @@ class PostModule extends BaseModule {
     /**
      * Create post
      *
-     * @param null|string $p_post_title
-     * @param null|string $p_fulltext
-     * @param null|string $p_teaser
-     * @param null|string $p_revenue_model
-     * @param null|int    $p_price
-     * @param null|string $p_price_type
-     * @param null|string $p_category
+     * @param array $args
      *
      * @return $this
      */
-    public function createPost( $p_post_title = null, $p_fulltext = null, $p_teaser = null, $p_revenue_model = null, $p_price = null, $p_price_type = null, $p_category = null ) {
+    public function createPost( $args = array() ) {
         $I = $this->BackendTester;
 
         $I->amOnPage( self::$linkAddNewPostPage );
         //Set post title
-        $I->fillField( self::$selectorPostTitleInput, $p_post_title ? $p_post_title : self::$c_post_title );
+        $I->fillField( self::$selectorPostTitleInput, isset( $args['post_title'] ) ? $args['post_title'] : self::$c_post_title );
 
         //Prepare fulltext
-        if ( ! isset( $p_fulltext ) ) {
+        if ( ! isset( $args['fulltext'] ) ) {
             //Get content from file
-            $p_fulltext = file_get_contents( './_data/content.txt' );
-            $p_fulltext = str_replace( array( "\r", "\n" ), '', $p_fulltext );
+            $args['fulltext'] = file_get_contents( './_data/content.txt' );
+            $args['fulltext'] = str_replace( array( "\r", "\n" ), '', $args['fulltext'] );
         }
 
         //Set post content
         $I->click( self::$selectorContentTypeSwitcher );
-        $I->fillField( self::$selectorContentInput, $p_fulltext );
+        $I->fillField( self::$selectorContentInput, $args['fulltext'] );
 
         //Prepare teaser
-        if ( ! isset( $p_teaser ) ) {
-            //Set teaser content
-            $I->click( self::$selectorTeaserTypeSwitcher );
-            $I->fillField( self::$selectorTeaserInput, $this->_createTeaserContent( $p_fulltext, self::$c_teaser ) );
+        if ( ! isset( $args['teaser'] ) ) {
+            $args['teaser'] = $this->_createTeaserContent( $args['fulltext'], self::$c_teaser );
         }
 
-        if ( isset( $p_category ) ) {
+        //Set teaser content
+        $I->click( self::$selectorTeaserTypeSwitcher );
+        $I->fillField( self::$selectorTeaserInput, $args['teaser'] );
+
+        if ( isset( $args['category'] ) ) {
             //Set categories to post
-            if ( is_array( $p_category ) ) {
-                foreach ($p_category as $category_id) {
+            if ( is_array( $args['category'] ) ) {
+                foreach ( $args['category'] as $category_id) {
                     $this->assignPostToCategory( $category_id );
                 }
             } else {
-                $this->assignPostToCategory( $p_category );
+                $this->assignPostToCategory( $args['category'] );
             }
         }
 
         //Set revenue model
-        if ( ! isset( $p_revenue_model ) ) {
-            if ( ! isset( $p_price ) ) {
-                $p_revenue_model = self::$c_revenue_model_ppu;
+        if ( ! isset( $args['revenue_model'] ) ) {
+            if ( ! isset( $args['price'] ) ) {
+                $args['revenue_model'] = self::$c_revenue_model_ppu;
             } else {
-                $p_revenue_model = ( $p_price < 5 ) ? self::$c_revenue_model_ppu : self::$c_revenue_model_sis;
+                $args['revenue_model'] = ( $args['price'] < 5 ) ? self::$c_revenue_model_ppu : self::$c_revenue_model_sis;
             }
         }
 
         //Set price
-        if ( ! isset( $p_price ) ) {
-            $p_price = ( $p_revenue_model === self::$c_revenue_model_ppu ) ? self::$c_price_ppu : self::$c_price_sis;
+        if ( ! isset( $args['price'] ) ) {
+            $args['price'] = ( $args['revenue_model'] === self::$c_revenue_model_ppu ) ? self::$c_price_ppu : self::$c_price_sis;
         }
 
         //Select price type, price and revenue model if possible
-        switch ( $p_price_type ) {
+        switch ( $args['price'] ) {
             case self::$c_price_type_global:
                 //Choose global default price type
                 $I->click( self::$selectorGlobalPrice );
@@ -134,8 +125,8 @@ class PostModule extends BaseModule {
             case self::$c_price_type_individual:
                 //Choose individual price type
                 $I->click( self::$selectorIndividualPrice );
-                $I->fillField( self::$selectorPostPrice, $p_price );
-                $I->click( self::$selectorRevenueModel . ' > input[value=' . strtolower( $p_revenue_model ) . ']' );
+                $I->fillField( self::$selectorPostPrice, $args['price'] );
+                $I->click( self::$selectorRevenueModel . ' > input[value=' . strtolower( $args['revenue_model'] ) . ']' );
                 break;
 
             default:
@@ -149,7 +140,7 @@ class PostModule extends BaseModule {
         $this->_storeCreatedPostId();
 
         $I->amOnPage( self::$linkPostListPage );
-        $I->see( $p_post_title, self::$selectorTitleRows );
+        $I->see( $args['post_title'], self::$selectorTitleRows );
 
         return $this;
     }
@@ -158,28 +149,28 @@ class PostModule extends BaseModule {
      * Check post
      *
      * @param int         $post_id
-     * @param null|string $p_post_title
-     * @param array       $p_options    post check options
+     * @param null|string $post_title
+     * @param array       $options    post check options
      *
      * @return $this
      */
-    public function checkPost( $post_id, $p_post_title = null, $p_options = array() ) {
+    public function checkPost( $post_id, $post_title = null, $options = array() ) {
         $I = $this->BackendTester;
 
-        if ( ! isset( $p_post_title ) ) {
-            $p_post_title = self::$c_post_title;
+        if ( ! isset( $post_title ) ) {
+            $post_title = self::$c_post_title;
         }
 
         //Check post title
         $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostViewPage ) );
-        $I->see( $p_post_title, self::$selectorFrontTitleEntry );
+        $I->see( $post_title, self::$selectorFrontTitleEntry );
 
-        if ( ! isset( $p_options ) ) {
-            $p_options = self::$c_post_check_options;
+        if ( ! isset( $options ) ) {
+            $options = self::$c_post_check_options;
         }
 
         // init options
-        $this->options = $p_options;
+        $this->options = $options;
 
         //Check visibilities
         $this->_checkVisibility( 'fulltext_visible', self::$selectorFrontContentEntry );
@@ -196,28 +187,28 @@ class PostModule extends BaseModule {
      * Purchase post
      *
      * @param int         $post_id
-     * @param null|string $p_post_title
+     * @param null|string $post_title
      *
      * @return $this
      */
-    public function purchasePost( $post_id, $p_post_title = null ) {
+    public function purchasePost( $post_id, $post_title = null ) {
         $I = $this->BackendTester;
 
         if ( ! isset( $p_post_title ) ) {
-            $p_post_title = self::$c_post_title;
+            $post_title = self::$c_post_title;
         }
 
         //Check post title
         $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostViewPage ) );
-        $I->see( $p_post_title, self::$selectorFrontTitleEntry );
+        $I->see( $post_title, self::$selectorFrontTitleEntry );
 
         //Start purchase process
         $I->click( self::$selectorFrontPurchaseButton );
         $I->switchToIFrame( (string) $I->executeJS( self::$jsGetMainIframeName ) );
         $I->switchToIFrame( 'wrapper' );
-        $I->checkOption( 'input[name=agree]' );
-        $I->click( '#nextbuttons' );
-        $I->seeElement( '.flash-message' );
+        $I->checkOption( self::$selectorIframeAgreeCheckbox );
+        $I->click( self::$selectorIframeProceedButton );
+        $I->seeElement( self::$selectorIframeMessage );
 
         return $this;
     }

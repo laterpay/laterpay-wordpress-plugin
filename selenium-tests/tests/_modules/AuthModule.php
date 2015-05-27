@@ -21,33 +21,33 @@ class AuthModule extends BaseModule {
     /**
      * Login into system
      *
-     * @param null|string $p_url_test_system
-     * @param null|string $p_name
-     * @param null|string $p_password
+     * @param null|string $url_test_system
+     * @param null|string $name
+     * @param null|string $password
      *
      * @return $this
      */
-    public function login( $p_url_test_system = null, $p_name = null, $p_password = null ) {
+    public function login( $url_test_system = null, $name = null, $password = null ) {
         $I = $this->BackendTester;
 
         // login url
-        if ( ! isset( $p_url_test_system ) ) {
-            $p_url_test_system = self::$c_url_test_system;
+        if ( ! isset( $url_test_system ) ) {
+            $url_test_system = self::$c_url_test_system;
         }
-        $p_url_test_system .= self::$linkAdminArea;
+        $url_test_system .= self::$linkAdminArea;
         // user name
-        if ( ! isset( $p_name ) ) {
-            $p_name = self::$c_user;
+        if ( ! isset( $name ) ) {
+            $name = self::$c_user;
         }
         // password
-        if ( ! isset( $p_password ) ) {
-            $p_password = self::$c_password;
+        if ( ! isset( $password ) ) {
+            $password = self::$c_password;
         }
 
         // login in backend
-        $I->amOnPage( $p_url_test_system );
-        $I->fillField( self::$selectorUserName, $p_name );
-        $I->fillField( self::$selectorUserPassword, $p_password );
+        $I->amOnPage( $url_test_system );
+        $I->fillField( self::$selectorUserName, $name );
+        $I->fillField( self::$selectorUserPassword, $password );
         $I->click( self::$selectorSubmitButton );
         $I->waitForElement( self::$selectorAdminBar );
 

@@ -1,16 +1,22 @@
 <?php
 
 abstract class BaseModule {
-    //shared data
-    public static $baseUrl               = 'wp-admin/';
-    public static $adminMenuPluginButton = '#toplevel_page_laterpay-plugin';
-    public static $messageArea           = "#message";
-    //plugin tabs
-    public static $pluginPricingTab      = 'a[href$="laterpay-plugin"]';
-    public static $pluginAppearanceTab   = 'a[href$="laterpay-appearance-tab"]';
-    public static $pluginAccountTab      = 'a[href$="laterpay-account-tab"]';
+    //admin tabs links
+    public static $linkAdminMainPage               = 'wp-admin/admin.php?page=laterpay-plugin';
+    public static $linkAdminPricingTab             = 'wp-admin/admin.php?page=laterpay-pricing-tab';
+
     //timeouts
-    public static $shortTimeout          = 2;
+    public static $shortTimeout                    = 2;
+
+    //defaults
+    public static $c_revenue_model_ppu             = 'PPU';
+    public static $c_revenue_model_sis             = 'SIS';
+    public static $c_price_ppu                     = 29;
+    public static $c_price_sis                     = 259;
+    public static $c_price_type_individual         = 'Individual';
+    public static $c_price_type_individual_dynamic = 'Individual Dynamic';
+    public static $c_price_type_category           = 'Category Default';
+    public static $c_price_type_global             = 'Global Default';
 
     /**
      * @var BackendTester
@@ -33,6 +39,5 @@ abstract class BaseModule {
     static public function of($I) {
         return new static($I);
     }
-
 }
 
