@@ -10,6 +10,7 @@
     "gulp-autoprefixer": "^2.1.0",
     "gulp-cached": "^1.0.1",
     "gulp-csslint": "^0.1.5",
+    "gulp-csso": "^1.0.0",
     "gulp-git": "^0.5.2",
     "gulp-jsbeautifier": "0.0.3",
     "gulp-jshint": "^1.8.5",
