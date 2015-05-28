@@ -4,6 +4,7 @@ abstract class BaseModule {
     //admin tabs links
     public static $linkAdminMainPage               = 'wp-admin/admin.php?page=laterpay-plugin';
     public static $linkAdminPricingTab             = 'wp-admin/admin.php?page=laterpay-pricing-tab';
+    public static $linkPostViewPage                = '/?p={post}';
 
     //timeouts
     public static $shortTimeout                    = 2;

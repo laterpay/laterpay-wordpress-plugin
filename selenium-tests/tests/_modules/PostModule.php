@@ -5,7 +5,6 @@ class PostModule extends BaseModule {
     public static $linkPostListPage                = 'wp-admin/edit.php';
     public static $linkAddNewPostPage              = 'wp-admin/post-new.php';
     public static $linkPostEditPage                = 'wp-admin/post.php?post={post}&action=edit';
-    public static $linkPostViewPage                = '/?p={post}';
 
     //selectors
     public static $selectorPostTitleInput          = 'input[name=post_title]';
