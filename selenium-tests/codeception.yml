@@ -11,6 +11,7 @@ settings:
 modules:
     config:
         Db:
-            dsn: 'mysql:host=localhost;dbname=wordpress_default'
+            dsn: 'mysql:dbname=wp;host=localhost'
             user: 'root'
-            dump: tests/_data/refresh.sql
+            pass: ''
+            dump: ''

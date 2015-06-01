@@ -106,7 +106,7 @@ class TimepassModule extends BaseModule {
         $I->switchToIFrame( 'wrapper' );
         $I->checkOption( self::$selectorIframeAgreeCheckbox );
         $I->click( self::$selectorIframeProceedButton );
-        $I->seeElement( self::$selectorIframeMessage );
+        $I->waitForElementVisible( self::$selectorIframeMessage );
 
         return $this;
     }

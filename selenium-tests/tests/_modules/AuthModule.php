@@ -9,12 +9,12 @@ class AuthModule extends BaseModule {
     public static $selectorUserPassword = '#user_pass';
     public static $selectorSubmitButton = '#wp-submit';
     public static $selectorAccountMenu  = '#wp-admin-bar-my-account';
-    public static $selectorLogoutButton = '#wp-admin-bar-logout';
+    public static $selectorLogoutButton = '#wp-admin-bar-logout > a';
     public static $selectorLoginForm    = '#loginform';
     public static $selectorAdminBar     = '#wpadminbar';
 
     //defaults
-    public static $c_url_test_system    = 'http://127.0.0.1/';
+    public static $c_url_test_system    = 'wp-admin/';
     public static $c_user               = 'admin';
     public static $c_password           = 'admin';
 
@@ -34,7 +34,7 @@ class AuthModule extends BaseModule {
         if ( ! isset( $url_test_system ) ) {
             $url_test_system = self::$c_url_test_system;
         }
-        $url_test_system .= self::$linkAdminArea;
+
         // user name
         if ( ! isset( $name ) ) {
             $name = self::$c_user;

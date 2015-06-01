@@ -12,11 +12,14 @@ class SetupModule extends BaseModule {
     public static $selectorActivateLpPlugin   = '.activate > a';
     public static $selectorDeactivateLpPlugin = '.deactivate > a';
     public static $selectorDeleteLpPlugin     = '.delete > a';
-    public static $selectorConfirmDelete      = 'form[action~=delete-selected] > #submit';
+    public static $selectorConfirmDelete      = 'form[action*=delete-selected] > #submit';
+    public static $selectorUploadArea         = '.upload-plugin';
+    public static $selectorVisibilityToggle   = '#lp_js_toggleVisibilityInTestMode';
+    public static $selectorFlashMessagesArea  = '#lp_js_flashMessage';
 
     //defaults
-    public static $c_current_plugin_version   = '0.9.14';
-    public static $c_previous_plugin_version  = '0.9.13';
+    public static $c_current_plugin_version   = '0.9.11.4';
+    public static $c_previous_plugin_version  = '0.9.11.3';
 
     /**
      * Install Laterpay plugin
@@ -32,13 +35,13 @@ class SetupModule extends BaseModule {
         if ( ! isset( $plugin_version ) ) {
             $plugin_version = self::$c_current_plugin_version;
         }
-        $file_name = 'laterpay' . '_' . $plugin_version . '.zip';
+        $file_name = 'laterpay' . '.v' . $plugin_version . '.zip';
 
         //Install plugin
         $I->amOnPage( self::$linkPluginsInstallPage );
         $I->attachFile( self::$selectorUploadedFile, $file_name );
         $I->click( self::$selectorInstallButton );
-        $I->wait( self::$shortTimeout );
+        $I->waitForElementNotVisible( self::$selectorUploadArea );
 
         //Check plugin listed
         $I->amOnPage( self::$linkPluginsMainPage );
@@ -60,8 +63,13 @@ class SetupModule extends BaseModule {
         $I->seeElement( self::$selectorLpPlugin );
 
         //Activate plugin
-        $I->click( self::$selectorLpPlugin, self::$selectorActivateLpPlugin );
+        $I->click( self::$selectorActivateLpPlugin, self::$selectorLpPlugin );
         $I->waitForElement( self::$selectorLpPlugin . ' ' . self::$selectorDeactivateLpPlugin );
+
+        //Enable plugin test visible mode by default
+        $I->amOnPage( self::$linkAdminAccountTab );
+        $I->click( self::$selectorVisibilityToggle );
+        $I->waitForElementVisible( self::$selectorFlashMessagesArea );
 
         return $this;
     }
@@ -79,7 +87,7 @@ class SetupModule extends BaseModule {
         $I->seeElement( self::$selectorLpPlugin );
 
         //Deactivate plugin
-        $I->click( self::$selectorLpPlugin, self::$selectorDeactivateLpPlugin );
+        $I->click( self::$selectorDeactivateLpPlugin, self::$selectorLpPlugin );
         $I->waitForElement( self::$selectorLpPlugin . ' ' . self::$selectorActivateLpPlugin );
 
         return $this;
@@ -98,9 +106,9 @@ class SetupModule extends BaseModule {
         $I->seeElement( self::$selectorLpPlugin );
 
         //Delete plugin
-        $I->click( self::$selectorLpPlugin, self::$selectorDeleteLpPlugin );
+        $I->click( self::$selectorDeleteLpPlugin, self::$selectorLpPlugin );
         $I->click( self::$selectorConfirmDelete );
-        $I->wait( self::$shortTimeout );
+        $I->waitForElementNotVisible( self::$selectorConfirmDelete );
 
         //Check plugin not listed
         $I->dontSeeElement( self::$selectorLpPlugin );

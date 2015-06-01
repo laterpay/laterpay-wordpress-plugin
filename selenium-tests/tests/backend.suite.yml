@@ -6,8 +6,7 @@ modules:
         - Db
     config:
         WebDriver:
-            host: ''
-            url: ''
+            url: 'http://wordpress.loc/'
             browser: firefox
             restart: false
             clear_cookies: false
@@ -16,11 +15,10 @@ modules:
                 unexpectedAlertBehaviour: 'accept'
                 "max-duration": 7200
         Db:
-            dsn: ''
-            host: ''
-            user: 'wp'
-            password: 'wp'
-            dump: tests/_data/refresh.sql
+            dsn: 'mysql:dbname=wp;host=localhost'
+            user: 'root'
+            password: ''
+            dump: ''
             populate: true
 env:
     firefox_win:
