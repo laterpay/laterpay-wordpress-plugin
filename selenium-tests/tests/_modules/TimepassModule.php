@@ -78,6 +78,7 @@ class TimepassModule extends BaseModule {
         if ( ! isset( $args['price'] ) ) {
             $args['price'] = ( $args['revenue_model'] === self::$c_revenue_model_ppu ) ? self::$c_price_ppu : self::$c_price_sis;
         }
+        $I->fillField( self::$selectorTimePassPrice, $args['price'] / 100 );
 
         if ( $args['revenue_model'] === self::$c_revenue_model_sis ) {
             $I->checkOption( self::$selectorTimePassRevenueModel );
