@@ -47,6 +47,7 @@ gulp.task('css-build', function() {
         }))
         .on('error', plugins.notify.onError())
         .pipe(plugins.autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8')) // vendorize properties for supported browsers
+        .pipe(plugins.csso())                                                   // compress
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
