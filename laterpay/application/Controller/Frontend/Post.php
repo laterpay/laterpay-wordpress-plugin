@@ -628,6 +628,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return array $posts
      */
     public function prefetch_post_access( $posts ) {
+        // prevent exec if admin
+        if ( is_admin() ) {
+            return $posts;
+        }
+
         $post_ids = array();
         // as posts can also be loaded by widgets (e.g. recent posts and popular posts), we loop through all posts
         // and bundle them in one API request to LaterPay, to avoid the overhead of multiple API requests

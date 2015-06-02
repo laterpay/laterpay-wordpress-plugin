@@ -125,9 +125,9 @@ class LaterPay_Core_Bootstrap
         add_action( 'template_redirect',                  array( $post_controller, 'create_token' ) );
 
         // prefetch the post_access for loops
-        add_filter( 'the_posts',                          array( $post_controller, 'prefetch_post_access' ) );
-        add_filter( 'the_posts',                          'LaterPay_Helper_Post::hide_paid_posts', 1 );
-        add_action( 'the_posts',                          array( $post_controller, 'hide_free_posts_with_premium_content' ) );
+        add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );
+        add_filter( 'the_posts',                    'LaterPay_Helper_Post::hide_paid_posts', 1 );
+        add_filter( 'the_posts',                    array( $post_controller, 'hide_free_posts_with_premium_content' ) );
 
         // prevent direct access to the attachments
         add_filter( 'wp_get_attachment_image_attributes', array( $post_controller, 'encrypt_image_source' ), 10, 3 );

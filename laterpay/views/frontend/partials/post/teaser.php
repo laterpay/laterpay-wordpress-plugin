@@ -5,4 +5,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<div class="lp_teaser-content"><?php echo laterpay_sanitize_output( $laterpay['teaser_content'] ); ?></div>
+<div class="lp_teaser-content"><?php echo laterpay_sanitized( $laterpay['teaser_content'] ); ?></div>
