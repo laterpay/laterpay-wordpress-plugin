@@ -496,6 +496,102 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
+     * Encrypt image source to prevent direct access.
+     *
+     * @wp-hook wp_get_attachment_image_attributes
+     *
+     * @param array        $attr Attributes for the image markup
+     * @param WP_Post      $post Image attachment post
+     * @param string|array $size Requested size
+     *
+     * @return mixed
+     */
+    public function encrypt_image_source( $attr, $post, $size ) {
+        $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post->ID );
+        if ( $is_purchasable ) {
+            $access         = LaterPay_Helper_Post::has_access_to_post( $post );
+            $attr['src']    = LaterPay_Helper_File::get_encrypted_resource_url(
+                $post->ID,
+                $attr['src'],
+                $access,
+                'attachment'
+            );
+        }
+
+        return $attr;
+    }
+
+    /**
+     * Encrypt attachment URL to prevent direct access.
+     *
+     * @wp-hook wp_get_attachment_url
+     *
+     * @param string $url     URL for the given attachment
+     * @param int    $post_id Attachment ID
+     *
+     * @return string
+     */
+    public function encrypt_attachment_url( $url, $post_id ) {
+        // get current post
+        $current_post = get_post();
+        if ( $current_post === null ) {
+            return $url;
+        }
+
+        $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $current_post->ID );
+        if ( $is_purchasable && $current_post->ID === $post_id ) {
+            $access = LaterPay_Helper_Post::has_access_to_post( $current_post );
+
+            // prevent from exec, if attachment is an image and user does not have access
+            if ( ! $access && strpos( $current_post->post_mime_type, 'image' ) !== false ) {
+                return '';
+            }
+
+            // encrypt attachment URL
+            $url = LaterPay_Helper_File::get_encrypted_resource_url(
+                $post_id,
+                $url,
+                $access,
+                'attachment'
+            );
+        }
+
+        return $url;
+    }
+
+    /**
+     * Prevent prepending of attachment before paid content.
+     *
+     * @wp-hook prepend_attachment
+     *
+     * @param string $attachment The attachment HTML output
+     *
+     * @return string
+     */
+    public function prepend_attachment( $attachment ) {
+        // get current post
+        $current_post = get_post();
+        if ( $current_post === null ) {
+            return $attachment;
+        }
+
+        $is_purchasable          = LaterPay_Helper_Pricing::is_purchasable( $current_post->ID );
+        $access                  = LaterPay_Helper_Post::has_access_to_post( $current_post );
+        $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $current_post );;
+        if ( $is_purchasable && ! $access || $preview_post_as_visitor ) {
+            return '';
+        }
+
+        $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
+        $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
+        if ( $is_ajax_and_caching_is_active ) {
+            return '';
+        }
+
+        return $attachment;
+    }
+
+    /**
      * Hide free posts with premium content from the homepage
      *
      * @wp-hook the_posts
