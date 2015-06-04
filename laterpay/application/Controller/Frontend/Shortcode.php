@@ -9,6 +9,34 @@
  */
 class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_shortcode_premium_download' => array(
+                array( 'render_premium_download_box' ),
+            ),
+            'laterpay_shortcode_box_wrapper' => array(
+                array( 'render_premium_download_box_wrapper' ),
+            ),
+            'laterpay_shortcode_laterpay' => array(
+                array( 'render_premium_download_box' ),
+            ),
+            'laterpay_shortcode_time_passes' => array(
+                array( 'render_time_passes_widget' ),
+            ),
+            'laterpay_shortcode_gift_card' => array(
+                array( 'render_gift_card' ),
+            ),
+            'laterpay_shortcode_redeem_voucher' => array(
+                array( 'render_redeem_gift_code' ),
+            ),
+            'laterpay_shortcode_account_links' => array(
+                array( 'render_account_links' ),
+            ),
+        );
+    }
 
     /**
      * Contains all settings for the plugin.

@@ -8,11 +8,13 @@
  */
 
 class LaterPay_Hooks {
-    private static $wp_action_prefix = 'wp_action_';
-    private static $wp_filter_prefix = 'wp_filter_';
-    private static $lp_filter_suffix = '_filter';
-    private static $instance = null;
-    private static $lp_actions = array();
+    private static $wp_action_prefix    = 'wp_action_';
+    private static $wp_filter_prefix    = 'wp_filter_';
+    private static $wp_shortcode_prefix = 'wp_shcode_';
+    private static $lp_filter_suffix    = '_filter';
+    private static $instance            = null;
+    private static $lp_actions          = array();
+    private static $lp_shortcodes       = array();
 
     /**
      * Singleton to get only one event dispatcher
@@ -36,14 +38,16 @@ class LaterPay_Hooks {
      */
     public function __call( $name, $args ) {
         $method = substr( $name, 0, 10 );
+        $action = substr( $name, 10 );
         switch ( $method ) {
             case self::$wp_action_prefix:
-                $action = substr( $name, 10 );
                 $result = $this->run_wp_action( $action, $args );
                 break;
             case self::$wp_filter_prefix:
-                $action = substr( $name, 10 );
                 $result = $this->run_wp_filter( $action, $args );
+                break;
+            case self::$wp_shortcode_prefix:
+                $result = $this->run_wp_shortcode( $action, $args );
                 break;
             default:
                 throw new RuntimeException( sprintf( 'Method "%s" is not found within LaterPay_Core_Event_Dispatcher class.', $name ) );
@@ -137,6 +141,21 @@ class LaterPay_Hooks {
     }
 
     /**
+     * Registers LaterPay event in WordPress shortcode pool.
+     *
+     * @param string $event_name Event name.
+     */
+    public static function register_laterpay_shortcode( $event_name ) {
+        if ( ! in_array( $event_name, self::$lp_shortcodes ) ) {
+            if ( strpos( $event_name, 'laterpay_shortcode_' ) !== false ) {
+                $name = substr( $event_name, 19 );
+            }
+            self::add_wp_shortcode( $name, $event_name );
+            self::$lp_shortcodes[] = $event_name;
+        }
+    }
+
+    /**
      * Allows to register dynamic WordPress filters.
      *
      * @param string        $name Wordpress hook name.
@@ -147,6 +166,20 @@ class LaterPay_Hooks {
             $event_name = 'laterpay_' . $name;
         }
         add_filter( $name, array( self::get_instance(), self::$wp_filter_prefix . $event_name ) );
+
+    }
+
+    /**
+     * Allows to register WordPress shortcodes.
+     *
+     * @param string        $name Wordpress hook name.
+     * @param string|null   $event_name LaterPay internal event name.
+     */
+    public static function add_wp_shortcode( $name, $event_name = null) {
+        if ( empty( $event_name ) ) {
+            $event_name = 'laterpay_' . $name;
+        }
+        add_shortcode( $name, array( self::get_instance(), self::$wp_shortcode_prefix . $event_name ) );
 
     }
 
@@ -183,6 +216,27 @@ class LaterPay_Hooks {
         } catch ( Exception $e ) {
             // TODO: #612 handle exceptions
             $result = $default;
+        }
+        return $result;
+    }
+
+    /**
+     * Triggered by WordPress for registered shortcode.
+     *
+     * @param string    $event_name Event name.
+     * @param array     $args Shortcode arguments.
+     * @return mixed Filtered result
+     */
+    protected function run_wp_shortcode( $event_name, $args = array() ) {
+        try {
+            $event = new LaterPay_Core_Event( $args );
+
+            laterpay_event_dispatcher()->dispatch( $event_name, $event );
+
+            $result = $event->get_result();
+        } catch ( Exception $e ) {
+            // TODO: #612 handle exceptions
+            $result = null;
         }
         return $result;
     }

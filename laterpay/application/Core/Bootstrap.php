@@ -76,7 +76,6 @@ class LaterPay_Core_Bootstrap
     public function run() {
         $this->register_wordpress_hooks();
 
-        $this->register_custom_actions();
         $this->register_cache_helper();
         $this->register_ajax_actions();
 
@@ -88,6 +87,7 @@ class LaterPay_Core_Bootstrap
             return;
         }
 
+        $this->register_custom_actions();
         $this->register_event_subscribers();
 
         // backend actions part 2
@@ -154,20 +154,15 @@ class LaterPay_Core_Bootstrap
     private function register_shortcodes() {
         $shortcode_controller = self::get_controller( 'Frontend_Shortcode' );
         // add 'free to read' shortcodes
-        add_shortcode( 'laterpay_premium_download', array( $shortcode_controller, 'render_premium_download_box' ) );
-        add_shortcode( 'laterpay_box_wrapper',      array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
-        // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
-        add_shortcode( 'laterpay',                  array( $shortcode_controller, 'render_premium_download_box' ) );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_premium_download', 'laterpay_shortcode_premium_download' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_box_wrapper', 'laterpay_shortcode_box_wrapper' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay', 'laterpay_shortcode_laterpay' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_time_passes', 'laterpay_shortcode_time_passes' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_gift_card', 'laterpay_shortcode_gift_card' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_redeem_voucher', 'laterpay_shortcode_redeem_voucher' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_account_links', 'laterpay_shortcode_account_links' );
 
-        // add time passes shortcode (as alternative to action 'laterpay_time_passes')
-        add_shortcode( 'laterpay_time_passes',      array( $shortcode_controller, 'render_time_passes_widget' ) );
-
-        // add gift cards shortcodes
-        add_shortcode( 'laterpay_gift_card',        array( $shortcode_controller, 'render_gift_card' ) );
-        add_shortcode( 'laterpay_redeem_voucher',   array( $shortcode_controller, 'render_redeem_gift_code' ) );
-
-        // add account links shortcode
-        add_shortcode( 'laterpay_account_links',    array( $shortcode_controller, 'render_account_links' ) );
+        laterpay_event_dispatcher()->add_subscriber( $shortcode_controller );
     }
 
     /**
@@ -226,17 +221,8 @@ class LaterPay_Core_Bootstrap
     private function register_cache_helper() {
         // cache helper to purge the cache on update_option()
         $cache_helper = new LaterPay_Helper_Cache();
-        $options = array(
-            'laterpay_global_price',
-            'laterpay_global_price_revenue_model',
-            'laterpay_currency',
-            'laterpay_enabled_post_types',
-            'laterpay_teaser_content_only',
-            'laterpay_plugin_is_in_live_mode',
-        );
-        foreach ( $options as $option_name ) {
-            add_action( 'update_option_' . $option_name, array( $cache_helper, 'purge_cache' ) );
-        }
+
+        laterpay_event_dispatcher()->add_listener( 'laterpay_option_update', array( $cache_helper, 'purge_cache' ) );
     }
 
     /**
