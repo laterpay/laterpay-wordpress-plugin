@@ -112,6 +112,11 @@ class LaterPay_Core_Bootstrap
         laterpay_event_dispatcher()->add_subscriber( $post_controller );
         add_filter( 'the_posts',                    'LaterPay_Helper_Post::hide_paid_posts', 1 );
 
+        // prevent direct access to the attachments
+        add_filter( 'wp_get_attachment_image_attributes', array( $post_controller, 'encrypt_image_source' ), 10, 3 );
+        add_filter( 'wp_get_attachment_url',              array( $post_controller, 'encrypt_attachment_url' ), 10, 2 );
+        add_filter( 'prepend_attachment',                 array( $post_controller, 'prepend_attachment' ) );
+
         // add custom action to render the LaterPay invoice indicator
         //$invoice_controller = self::get_controller( 'Frontend_Invoice' );
         //add_action( 'wp_enqueue_scripts',           array( $invoice_controller, 'add_frontend_scripts' ) );

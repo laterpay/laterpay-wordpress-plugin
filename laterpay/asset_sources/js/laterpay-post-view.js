@@ -305,14 +305,12 @@
             loadPremiumUrls = function() {
                 var ids   = [],
                     types = [],
-                    urls  = [],
                     boxes = $($o.premiumBox);
 
                 // get all pass ids from wrappers
                 $.each(boxes, function(i) {
                     ids.push($(boxes[i]).data('post-id'));
                     types.push($(boxes[i]).data('content-type'));
-                    urls.push($(boxes[i]).data('page-url'));
                 });
 
                 $.get(
@@ -322,7 +320,6 @@
                         nonce   : lpVars.nonces.premium,
                         ids     : ids,
                         types   : types,
-                        urls    : urls,
                         post_id : lpVars.post_id,
                     },
                     function(r) {
@@ -435,7 +432,6 @@
                     {
                         action   : 'laterpay_post_load_purchased_content',
                         post_id  : lpVars.post_id,
-                        is_front : true,
                         nonce    : lpVars.nonces.content
                     },
                     function(postContent) {

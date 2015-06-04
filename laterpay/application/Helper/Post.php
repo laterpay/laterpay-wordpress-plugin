@@ -269,11 +269,6 @@ class LaterPay_Helper_Post
      * @return array
      */
     public static function the_purchase_button_args( WP_Post $post, $current_post_id = null ) {
-        // don't render the purchase button, if the current post is not purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
-            return;
-        };
-
         // render purchase button for administrator always in preview mode, too prevent accidental purchase by admin.
         $preview_mode = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( current_user_can( 'administrator' ) ) {
@@ -281,12 +276,6 @@ class LaterPay_Helper_Post
         }
 
         $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! get_option( 'laterpay_plugin_is_in_live_mode' );
-
-        // don't render the purchase button, if the current post was already purchased
-        // also even if item was purchased in visible test mode by admin it must be displayed
-        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_mode ) {
-            return;
-        };
 
         $view_args = array(
             'post_id'                   => $post->ID,
