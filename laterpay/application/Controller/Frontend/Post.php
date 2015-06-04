@@ -9,6 +9,32 @@
  */
 class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_post_content' => array(
+                array( 'modify_post_content' ),
+            ),
+            'laterpay_post_footer' => array(
+                array( 'modify_footer' ),
+            ),
+            'laterpay_loaded' => array(
+                array( 'buy_post' ),
+                array( 'buy_time_pass' ),
+                array( 'create_token' ),
+            ),
+            'laterpay_posts' => array(
+                array( 'prefetch_post_access' ),
+                array( 'hide_free_posts_with_premium_content' ),
+            ),
+            'laterpay_enqueue_scripts' => array(
+                array( 'add_frontend_stylesheets' ),
+                array( 'add_frontend_scripts' ),
+            ),
+        );
+    }
 
     /**
      * Ajax method to get the cached article.
@@ -613,13 +639,15 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @wp-hook the_content
      *
-     * @param string $content
+     * @param LaterPay_Core_Event $event
      * @internal WP_Embed $wp_embed
      *
      * @return string $content
      */
-    public function modify_post_content( $content ) {
+    public function modify_post_content( LaterPay_Core_Event $event ) {
         global $wp_embed;
+
+        list( $content ) = $event->get_arguments();
 
         $post = get_post();
         if ( $post === null ) {

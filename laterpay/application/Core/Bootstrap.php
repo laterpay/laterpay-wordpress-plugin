@@ -99,7 +99,7 @@ class LaterPay_Core_Bootstrap
         $this->register_global_actions();
 
         // late load event
-        add_action( 'wp_loaded', array( $this, 'late_load' ), 0 );
+        //add_action( 'wp_loaded', array( $this, 'late_load' ), 0 );
     }
 
     /**
@@ -109,28 +109,8 @@ class LaterPay_Core_Bootstrap
      */
     private function register_global_actions() {
         $post_controller = self::get_controller( 'Frontend_Post' );
-        /**
-         * ->   add filters to override post content
-         * ->   we're using these filters in Ajax requests, so they have to stay outside the is_admin() check
-         * ->   the priority has to be 1 (first filter triggered)
-         *      to fetch and manipulate content first and before other filters are triggered (wp_embed, wpautop, external plugins / themes, ...)
-         */
-        add_filter( 'the_content',                  array( $post_controller, 'modify_post_content' ), 1 );
-        add_filter( 'wp_footer',                    array( $post_controller, 'modify_footer' ) );
-
-        // prefetch get posts
-        add_action( 'template_redirect',            array( $post_controller, 'buy_post' ) );
-        add_action( 'template_redirect',            array( $post_controller, 'buy_time_pass' ) );
-        add_action( 'template_redirect',            array( $post_controller, 'create_token' ) );
-
-        // prefetch the post_access for loops
-        add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );
+        laterpay_event_dispatcher()->add_subscriber( $post_controller );
         add_filter( 'the_posts',                    'LaterPay_Helper_Post::hide_paid_posts', 1 );
-        add_filter( 'the_posts',                    array( $post_controller, 'hide_free_posts_with_premium_content' ) );
-
-        // enqueue the frontend assets
-        add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_stylesheets' ) );
-        add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_scripts' ) );
 
         // add custom action to render the LaterPay invoice indicator
         //$invoice_controller = self::get_controller( 'Frontend_Invoice' );
