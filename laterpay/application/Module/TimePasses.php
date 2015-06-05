@@ -389,7 +389,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         }
         $content = $event->get_result();
 
-
         $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
 
         if ( $only_time_passes_allowed ) {
