@@ -67,6 +67,10 @@ class LaterPay_Hooks {
         add_filter( 'terms_clauses',                    array( $this, self::$wp_filter_prefix . 'laterpay_terms_clauses' ) );
         add_filter( 'date_query_valid_columns',         array( $this, self::$wp_filter_prefix . 'laterpay_date_query_valid_columns' ) );
 
+        add_filter( 'wp_get_attachment_image_attributes', array( $this, self::$wp_filter_prefix . 'laterpay_attachment_image_attributes' ), 10, 3 );
+        add_filter( 'wp_get_attachment_url',            array( $this, self::$wp_filter_prefix . 'laterpay_attachment_get_url' ), 10, 2 );
+        add_filter( 'prepend_attachment',               array( $this, self::$wp_filter_prefix . 'laterpay_attachment_prepend' ) );
+
         // setup custom columns for each allowed post_type, if allowed purchases aren't restricted to time passes
         if ( ! get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
             foreach ( laterpay_get_plugin_config()->get( 'content.enabled_post_types' ) as $post_type ) {

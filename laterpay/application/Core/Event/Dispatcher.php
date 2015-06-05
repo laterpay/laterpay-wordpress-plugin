@@ -215,7 +215,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      *
      * @return null
      */
-    public function add_listener( $event_name, $listener, $priority = 0 ) {
+    public function add_listener( $event_name, $listener, $priority = 10 ) {
         LaterPay_Hooks::register_laterpay_action( $event_name );
         $this->listeners[ $event_name ][ $priority ][] = $listener;
         unset( $this->sorted[ $event_name ] );

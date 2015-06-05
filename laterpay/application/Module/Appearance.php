@@ -59,6 +59,9 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
                 array( 'on_view_purchased_post_as_visitor', 10 ),
                 array( 'on_visible_test_mode', 10 ),
             ),
+            'laterpay_post_content' => array(
+                array( 'modify_post_content', 0 ),
+            ),
         );
     }
 
@@ -162,5 +165,26 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             $event->stop_propagation();
         }
+    }
+
+    /**
+     * Modify the post content of paid posts.
+     *
+     * @wp-hook the_content
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return string $content
+     */
+    public function modify_post_content( LaterPay_Core_Event $event ) {
+        $content            = $event->get_result();
+        $caching_is_active  = (bool) $this->config->get( 'caching.compatible_mode' );
+        if ( $caching_is_active ) {
+            // if caching is enabled, wrap the teaser in a div, so it can be replaced with the full content,
+            // if the post is / has already been purchased
+            $content = '<div id="lp_js_postContentPlaceholder">' . $content . '</div>';
+        }
+
+        $event->set_result( $content );
     }
 }

@@ -14,6 +14,10 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      */
     public static function get_subscribed_events() {
         return array(
+            'laterpay_loaded' => array(
+                array( 'buy_post' ),
+                array( 'create_token' ),
+            ),
             'laterpay_purchase_button' => array(
                 array( 'on_purchase_button' ),
                 array( 'is_purchasable', 100 ),
@@ -103,5 +107,159 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         if ( ! LaterPay_Helper_Pricing::is_purchasable() ) {
             $event->stop_propagation();
         }
+    }
+
+    /**
+     * Save purchase in purchase history.
+     *
+     * @wp-hook template_redirect
+     * @return void
+     */
+    public function buy_post() {
+        // return, if the request was not a redirect after a purchase
+        if ( ! isset( $_GET['buy'] ) ) {
+            return;
+        }
+
+        // data to create and hash-check the URL
+        $get_post_id        = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : null;
+        $get_id_currency    = isset( $_GET['id_currency'] ) ? sanitize_text_field( $_GET['id_currency'] ) : null;
+        $get_price          = isset( $_GET['price'] ) ? sanitize_text_field( $_GET['price'] ) : null;
+        $get_date           = isset( $_GET['date'] ) ? sanitize_text_field( $_GET['date'] ) : null;
+        $get_ip             = isset( $_GET['ip'] ) ? sanitize_text_field( $_GET['ip'] ) : null;
+        $get_revenue_model  = isset( $_GET['revenue_model'] ) ? sanitize_text_field( $_GET['revenue_model'] ) : null;
+        $get_buy            = isset( $_GET['buy'] ) ? sanitize_text_field( $_GET['buy'] ) : null;
+        $get_hash           = isset( $_GET['hash'] ) ? sanitize_text_field( $_GET['hash'] ) : null;
+
+        $url_data = array(
+            'post_id'       => $get_post_id,
+            'id_currency'   => $get_id_currency,
+            'price'         => $get_price,
+            'date'          => $get_date,
+            'buy'           => $get_buy,
+            'ip'            => $get_ip,
+            'revenue_model' => $get_revenue_model,
+        );
+
+        if ( isset( $_GET['download_attached'] ) ) {
+            $url_data['download_attached'] = sanitize_text_field( $_GET['download_attached'] );
+        }
+        $url = $this->get_after_purchase_redirect_url( $url_data );
+        $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+        // update lptoken, if we got it
+        if ( isset( $_GET['lptoken'] ) ) {
+            LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ) );
+        }
+
+        $post_id = absint( $_GET['post_id'] );
+        if ( isset( $_GET['download_attached'] ) ) {
+            $post_id = absint( $_GET['download_attached'] );
+        }
+
+        // check, if the parameters of $_GET are valid and not manipulated
+        if ( $hash === $_GET['hash'] ) {
+            $data = array(
+                'post_id'       => $post_id,
+                'id_currency'   => $get_id_currency,
+                'price'         => $get_price,
+                'date'          => $get_date,
+                'ip'            => $get_ip,
+                'hash'          => $get_hash,
+                'revenue_model' => $get_revenue_model,
+            );
+
+//            $this->logger->info(
+//                __METHOD__ . ' - set payment history',
+//                $data
+//            );
+
+            $payment_history_model = new LaterPay_Model_Payment_History();
+            $payment_history_model->set_payment_history( $data );
+        }
+
+        $redirect_url = get_permalink( $get_post_id );
+
+        // prepare attachment URL for download
+        if ( isset( $_GET['download_attached'] ) ) {
+            $post_id = absint( $_GET['download_attached'] );
+            $post    = get_post( $post_id );
+            $access  = LaterPay_Helper_Post::has_access_to_post( $post );
+
+            $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
+                $post_id,
+                wp_get_attachment_url( $post_id ),
+                $access,
+                'attachment'
+            );
+
+            // set cookie to notify post that we need to start attachment download
+            setcookie(
+                'laterpay_download_attached',
+                $attachment_url,
+                time() + 60,
+                '/'
+            );
+        }
+
+        wp_redirect( $redirect_url );
+        // exit script after redirect was set
+        exit;
+    }
+
+    /**
+     * Generate the URL to which the user is redirected to after buying a given post.
+     *
+     * @param array $data
+     *
+     * @return string $url
+     */
+    protected function get_after_purchase_redirect_url( array $data ) {
+        $url = isset( $data['post_id'] ) ? get_permalink( $data['post_id'] ) : get_permalink();
+
+        if ( ! $url ) {
+            return $url;
+        }
+
+        $url = add_query_arg( $data, $url );
+
+        return $url;
+    }
+
+    /**
+     * Update incorrect token or create one, if it doesn't exist.
+     *
+     * @wp-hook template_redirect
+     *
+     * @return void
+     */
+    public function create_token() {
+        $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
+        $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
+
+        // don't assign tokens to crawlers and other user agents that can't handle cookies
+        if ( ! $browser_supports_cookies || $browser_is_crawler ) {
+            return;
+        }
+
+        // don't check or create the 'lptoken' on single pages with non-purchasable posts
+        if ( is_single() && ! LaterPay_Helper_Pricing::is_purchasable( ) ) {
+            return;
+        }
+
+//        $context = array(
+//            'support_cookies'   => $browser_supports_cookies,
+//            'is_crawler'        => $browser_is_crawler,
+//        );
+
+//        $this->logger->info(
+//            __METHOD__,
+//            $context
+//        );
+
+        if ( isset( $_GET['lptoken'] ) ) {
+            LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ), true );
+        }
+
+        LaterPay_Helper_Request::laterpay_api_acquire_token();
     }
 }

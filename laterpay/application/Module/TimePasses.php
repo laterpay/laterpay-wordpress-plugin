@@ -14,6 +14,9 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      */
     public static function get_subscribed_events() {
         return array(
+            'laterpay_post_content' => array(
+                array( 'modify_post_content' ),
+            ),
             'laterpay_post_save' => array(
                 array( 'remove_metabox_save_hook', 200 ),
                 array( 'save_laterpay_post_data_without_pricing' ),
@@ -30,6 +33,9 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             ),
             'laterpay_time_passes' => array(
                 array( 'the_time_passes_widget' ),
+            ),
+            'laterpay_loaded' => array(
+                array( 'buy_time_pass' ),
             ),
         );
     }
@@ -253,5 +259,160 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         }
 
         return $time_passes_with_access;
+    }
+
+    /**
+     * Save time pass info after purchase.
+     *
+     * @wp-hook template_reditect
+     *
+     * @return  void
+     */
+    public function buy_time_pass() {
+        if ( ! isset( $_GET['pass_id'] ) && ! isset( $_GET['link'] ) ) {
+            return;
+        }
+
+        // data to create and hash-check the URL
+        $get_pass_id        = sanitize_text_field( $_GET['pass_id'] );
+        $get_id_currency    = isset( $_GET['id_currency'] ) ? sanitize_text_field( $_GET['id_currency'] ) : null;
+        $get_price          = isset( $_GET['price'] ) ? sanitize_text_field( $_GET['price'] ) : null;
+        $get_date           = isset( $_GET['date'] ) ? sanitize_text_field( $_GET['date'] ) : null;
+        $get_ip             = isset( $_GET['ip'] ) ? sanitize_text_field( $_GET['ip'] ) : null;
+        $get_revenue_model  = isset( $_GET['revenue_model'] ) ? sanitize_text_field( $_GET['revenue_model'] ) : null;
+        $get_voucher        = isset( $_GET['voucher'] ) ? sanitize_text_field( $_GET['voucher'] ) : null;
+        $get_hash           = isset( $_GET['hash'] ) ? sanitize_text_field( $_GET['hash'] ) : null;
+        $get_link           = esc_url_raw( $_GET['link'] );
+
+        $url_data = array(
+            'pass_id'       => $get_pass_id,
+            'id_currency'   => $get_id_currency,
+            'price'         => $get_price,
+            'date'          => $get_date,
+            'ip'            => $get_ip,
+            'revenue_model' => $get_revenue_model,
+            'link'          => $get_link,
+        );
+
+        // additional fields
+        if ( isset( $_GET['voucher'] ) ) {
+            $url_data['voucher'] = $get_voucher;
+        }
+
+        if ( isset( $_GET['is_gift'] ) ) {
+            $url_data['is_gift'] = sanitize_text_field( $_GET['is_gift'] );
+        }
+
+        $url     = add_query_arg( $url_data, $get_link );
+        $hash    = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+
+        $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $get_pass_id );
+
+        $post_id = 0;
+        $post    = get_post();
+        if ( $post !== null ) {
+            $post_id = $post->ID;
+        }
+
+        if ( $hash === $_GET['hash'] ) {
+            // process vouchers
+            if ( ! LaterPay_Helper_Voucher::check_voucher_code( $get_voucher ) ) {
+                if ( ! LaterPay_Helper_Voucher::check_voucher_code( $get_voucher, true ) ) {
+                    // save the pre-generated gift code as valid voucher code now that the purchase is complete
+                    $gift_cards = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id, true );
+                    $gift_cards[ $get_voucher ] = 0;
+                    LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true, true );
+                    // set cookie to store information that gift card was purchased
+                    setcookie(
+                        'laterpay_purchased_gift_card',
+                        $get_voucher . '|' . $pass_id,
+                        time() + 30,
+                        '/'
+                    );
+                } else {
+                    // update gift code statistics
+                    LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $get_voucher, true );
+                }
+            } else {
+                // update voucher statistics
+                LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $get_voucher );
+            }
+
+            // save payment history
+            $data = array(
+                'id_currency'   => $get_id_currency,
+                'post_id'       => $post_id,
+                'price'         => $get_price,
+                'date'          => $get_date,
+                'ip'            => $get_ip,
+                'hash'          => $get_hash,
+                'revenue_model' => $get_revenue_model,
+                'pass_id'       => $pass_id,
+                'code'          => $get_voucher,
+            );
+
+//            $this->logger->info(
+//                __METHOD__ . ' - set payment history',
+//                $data
+//            );
+
+            $payment_history_model = new LaterPay_Model_Payment_History();
+            $payment_history_model->set_payment_history( $data );
+        }
+
+        wp_redirect( $get_link );
+        // exit script after redirect was set
+        exit;
+    }
+
+    /**
+     * Modify the post content of paid posts.
+     *
+     * @wp-hook the_content
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return string $content
+     */
+    public function modify_post_content( LaterPay_Core_Event $event ) {
+        $post = get_post();
+        if ( $post === null ) {
+            return;
+        }
+        // do nothing, if post is not in the enabled post types
+        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
+            return;
+        }
+        $timepasses_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
+        if ( $timepasses_positioned_manually ) {
+            return;
+        }
+        $content = $event->get_result();
+
+
+        $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
+
+        if ( $only_time_passes_allowed ) {
+            $content .= laterpay_sanitize_output( __( 'Buy a time pass to read the full content.', 'laterpay' ) );
+        }
+        $time_pass_event = laterpay_event_dispatcher()->dispatch( 'laterpay_time_passes' );
+        $content .= $time_pass_event->get_result();
+
+        $event->set_result( $content );
+    }
+
+    /**
+     * Check, if LaterPay is enabled for the given post type.
+     *
+     * @param string $post_type
+     *
+     * @return bool true|false
+     */
+    protected function is_enabled_post_type( $post_type ) {
+        if ( ! in_array( $post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
+            return false;
+        }
+
+        return true;
     }
 }
