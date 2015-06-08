@@ -514,7 +514,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         // get pricing data
         $currency                       = get_option( 'laterpay_currency' );
         $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
-        $revenue_model                  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
 
         // return the full content, if no price was found for the post
         if ( $price == 0 ) {
@@ -542,15 +541,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             return;
         }
 
-        // get purchase link
-        $purchase_link                  = LaterPay_Helper_Post::get_laterpay_purchase_link( $post_id );
-
         // get values for output states
         $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
         $user_can_read_statistics       = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
-
-        $is_in_visible_test_mode        = get_option( 'laterpay_is_in_visible_test_mode' )
-                                            && ! $this->config->get( 'is_in_live_mode' );
 
         // check, if user has access to content (because he already bought it)
         $access = LaterPay_Helper_Post::has_access_to_post( $post );
@@ -566,18 +559,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         // assign all required vars to the view templates
         $view_args = array(
-            'post_id'                               => $post_id,
-            'content'                               => $content,
-            'teaser_content'                        => $wp_embed->autoembed( $teaser_content ),
-            'teaser_content_only'                   => $teaser_content_only,
-            'currency'                              => $currency,
-            'price'                                 => $price,
-            'revenue_model'                         => $revenue_model,
-            'link'                                  => $purchase_link,
-            'preview_post_as_visitor'               => $preview_post_as_visitor,
-            'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
-            'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
-            'is_in_visible_test_mode'               => $is_in_visible_test_mode,
+            'teaser_content' => $wp_embed->autoembed( $teaser_content ),
         );
         $this->assign( 'laterpay', $view_args );
 

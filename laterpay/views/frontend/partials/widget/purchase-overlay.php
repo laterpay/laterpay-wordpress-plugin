@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php echo laterpay_sanitize_output( __( 'Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay' ) ); ?>
     </div>
 
-    <?php $overlay_content = LaterPay_Helper_Post::collect_overlay_content( $laterpay['revenue_model'], $laterpay['only_time_pass_purchases_allowed'] ); ?>
+    <?php $overlay_content = $laterpay['overlay_content']; ?>
     <div class="lp_overlay-text">
         <div class="lp_benefits">
             <header class="lp_benefits__header">
