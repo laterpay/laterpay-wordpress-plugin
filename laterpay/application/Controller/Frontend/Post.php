@@ -489,46 +489,16 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         $content = $event->get_result();
 
-        $post = get_post();
-        if ( $post === null ) {
-            return $content;
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
         }
-
         $post_id = $post->ID;
 
-        // return the full content, if post is not in the enabled post types
-        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-            $context = array(
-                'post'                  => $post,
-                'supported_post_types'  => $this->config->get( 'content.enabled_post_types' )
-            );
-
-            $this->logger->info(
-                __METHOD__ . ' - post_type not supported ',
-                $context
-            );
-
-            return;
-        }
-
         // get pricing data
-        $currency                       = get_option( 'laterpay_currency' );
-        $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
-
-        // return the full content, if no price was found for the post
-        if ( $price == 0 ) {
-            $context = array(
-                'post'  => $post,
-                'price' => $price,
-            );
-
-            $this->logger->info(
-                __METHOD__ . ' - post is not purchasable',
-                $context
-            );
-
-            return;
-        }
+        $currency   = get_option( 'laterpay_currency' );
+        $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
 
         $teaser_event = laterpay_event_dispatcher()->dispatch( 'laterpay_post_teaser' );
         $teaser_content = $teaser_event->get_result();
@@ -640,43 +610,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $this->assign( 'laterpay', $view_args );
 
         echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/identify-iframe' ) );
-    }
-
-    /**
-     * Render time pass HTML.
-     *
-     * @param array $pass
-     *
-     * @return string
-     */
-    public function render_time_pass( $pass = array() ) {
-        $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is_in_live_mode' );
-
-        $defaults = array(
-            'pass_id'     => 0,
-            'title'       => LaterPay_Helper_TimePass::get_default_options( 'title' ),
-            'description' => LaterPay_Helper_TimePass::get_description(),
-            'price'       => LaterPay_Helper_TimePass::get_default_options( 'price' ),
-            'url'         => '',
-        );
-
-        $laterpay_pass = array_merge( $defaults, $pass );
-        if ( ! empty( $laterpay_pass['pass_id'] ) ) {
-            $laterpay_pass['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $laterpay_pass['pass_id'] );
-        }
-
-        $laterpay_pass['preview_post_as_visitor'] = LaterPay_Helper_User::preview_post_as_visitor( get_post() );
-        $laterpay_pass['is_in_visible_test_mode'] = $is_in_visible_test_mode;
-
-        $args = array(
-            'standard_currency' => get_option( 'laterpay_currency' ),
-        );
-        $this->assign( 'laterpay',      $args );
-        $this->assign( 'laterpay_pass', $laterpay_pass );
-
-        $string = $this->get_text_view( 'backend/partials/time-pass' );
-
-        return $string;
     }
 
     /**

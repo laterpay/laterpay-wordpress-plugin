@@ -34,6 +34,9 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             'laterpay_time_passes' => array(
                 array( 'the_time_passes_widget' ),
             ),
+            'laterpay_time_pass_render' => array(
+                array( 'render_time_pass' ),
+            ),
             'laterpay_loaded' => array(
                 array( 'buy_time_pass' ),
             ),
@@ -165,6 +168,12 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * @return void
      */
     public function the_time_passes_widget( LaterPay_Core_Event $event ) {
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+
         list( $introductory_text, $call_to_action_text, $time_pass_id ) = $event->get_arguments();
         if ( empty( $introductory_text ) ) {
             $introductory_text = '';
@@ -204,7 +213,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             );
         } else {
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
-                get_the_ID(),
+                ! empty($post)? $post->ID: null,
                 $time_passes_with_access,
                 true
             );
@@ -233,8 +242,47 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         );
 
         $this->assign( 'laterpay_widget', $view_args );
+        $html = $event->get_result();
+        $html .= $this->get_text_view( 'frontend/partials/widget/time-passes' );
 
-        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/time-passes' ) );
+        $event->set_result( $html );
+    }
+
+    /**
+     * Render time pass HTML.
+     *
+     * @param array $pass
+     *
+     * @return string
+     */
+    public function render_time_pass( $pass = array() ) {
+        $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is_in_live_mode' );
+
+        $defaults = array(
+            'pass_id'     => 0,
+            'title'       => LaterPay_Helper_TimePass::get_default_options( 'title' ),
+            'description' => LaterPay_Helper_TimePass::get_description(),
+            'price'       => LaterPay_Helper_TimePass::get_default_options( 'price' ),
+            'url'         => '',
+        );
+
+        $laterpay_pass = array_merge( $defaults, $pass );
+        if ( ! empty( $laterpay_pass['pass_id'] ) ) {
+            $laterpay_pass['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $laterpay_pass['pass_id'] );
+        }
+
+        $laterpay_pass['preview_post_as_visitor'] = LaterPay_Helper_User::preview_post_as_visitor( get_post() );
+        $laterpay_pass['is_in_visible_test_mode'] = $is_in_visible_test_mode;
+
+        $args = array(
+            'standard_currency' => get_option( 'laterpay_currency' ),
+        );
+        $this->assign( 'laterpay',      $args );
+        $this->assign( 'laterpay_pass', $laterpay_pass );
+
+        $string = $this->get_text_view( 'backend/partials/time-pass' );
+
+        return $string;
     }
 
     /**
@@ -351,11 +399,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 'code'          => $get_voucher,
             );
 
-//            $this->logger->info(
-//                __METHOD__ . ' - set payment history',
-//                $data
-//            );
-
             $payment_history_model = new LaterPay_Model_Payment_History();
             $payment_history_model->set_payment_history( $data );
         }
@@ -375,14 +418,16 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * @return string $content
      */
     public function modify_post_content( LaterPay_Core_Event $event ) {
-        $post = get_post();
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+
         if ( $post === null ) {
             return;
         }
-        // do nothing, if post is not in the enabled post types
-        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-            return;
-        }
+
         $timepasses_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
         if ( $timepasses_positioned_manually ) {
             return;
@@ -398,20 +443,5 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $content .= $time_pass_event->get_result();
 
         $event->set_result( $content );
-    }
-
-    /**
-     * Check, if LaterPay is enabled for the given post type.
-     *
-     * @param string $post_type
-     *
-     * @return bool true|false
-     */
-    protected function is_enabled_post_type( $post_type ) {
-        if ( ! in_array( $post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
-            return false;
-        }
-
-        return true;
     }
 }

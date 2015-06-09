@@ -61,6 +61,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             ),
             'laterpay_post_content' => array(
                 array( 'modify_post_content', 0 ),
+                array( 'is_enabled_post_type', 100 ),
             ),
         );
     }
@@ -156,13 +157,30 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
     }
 
     /**
-     * Checks, if the plugin is active.
+     * Checks, if the plugin is working.
      *
      * @param LaterPay_Core_Event $event
      */
     public function on_plugin_is_working( LaterPay_Core_Event $event ) {
         // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            $event->stop_propagation();
+        }
+    }
+
+    /**
+     * Stops bubbling if post is not in enabled post type list.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function is_enabled_post_type( LaterPay_Core_Event $event ) {
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+
+        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
             $event->stop_propagation();
         }
     }

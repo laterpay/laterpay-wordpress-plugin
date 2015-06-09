@@ -30,6 +30,10 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 array( 'on_purchase_link' ),
                 array( 'is_purchasable', 100 ),
             ),
+            'laterpay_post_content' => array(
+                array( 'is_purchasable', 100 ),
+                array( 'modify_post_content', 5 ),
+            ),
             'laterpay_check_user_access' => array(
                 array( 'check_user_access' ),
             ),
@@ -86,13 +90,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $revenue_model              = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
         $only_time_passes_allowed   = get_option( 'laterpay_only_time_pass_purchases_allowed' );
 
-        $view_args      = array(
+        $view_args = array(
             'content'                           => $content,
             'overlay_content'                   => $this->generate_overlay_content( $revenue_model, $only_time_passes_allowed ),
             'only_time_pass_purchases_allowed'  => $only_time_passes_allowed, // FIXME: #612 move to Timepass Module
         );
 
-        //TODO: #612 add logger call
         $this->assign( 'laterpay', $view_args );
         $html = $this->get_text_view( 'frontend/partials/widget/purchase-overlay' );
 
@@ -146,7 +149,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      *
      * @return array $overlay_content
      */
-    protected function generate_overlay_content( $revenue_model, $time_passes_only = false ) {
+    protected function generate_overlay_content( $revenue_model, $time_passes_only = false ) { // FIXME: #612 move timepass into module
         // determine overlay title to show
         if ( $revenue_model == 'sis' || $time_passes_only ) {
             $overlay_title = __( 'Read Now', 'laterpay' );
@@ -396,20 +399,34 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             return;
         }
 
-//        $context = array(
-//            'support_cookies'   => $browser_supports_cookies,
-//            'is_crawler'        => $browser_is_crawler,
-//        );
-
-//        $this->logger->info(
-//            __METHOD__,
-//            $context
-//        );
-
         if ( isset( $_GET['lptoken'] ) ) {
             LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ), true );
         }
 
         LaterPay_Helper_Request::laterpay_api_acquire_token();
+    }
+
+    /**
+     * Modify the post content of paid posts.
+     *
+     * @wp-hook the_content
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return string $content
+     */
+    public function modify_post_content( LaterPay_Core_Event $event ) {
+        $content = $event->get_result();
+        $html = '';
+        // add the purchase button as very first element of the content, if it is not positioned manually
+        if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) == false ) {
+            $html .= '<div class="lp_purchase-button-wrapper">';
+            $button_event = laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button' );
+            $html .= $button_event->get_result();
+            $html .= '</div>';
+            $content = $html . $content;
+        }
+
+        $event->set_result( $content );
     }
 }
