@@ -59,6 +59,11 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
                 array( 'on_view_purchased_post_as_visitor', 10 ),
                 array( 'on_visible_test_mode', 10 ),
             ),
+            'laterpay_purchase_link' => array(
+                array( 'on_preview_post_as_admin', 10 ),
+                array( 'on_view_purchased_post_as_visitor', 10 ),
+                array( 'on_visible_test_mode', 10 ),
+            ),
             'laterpay_post_content' => array(
                 array( 'modify_post_content', 0 ),
                 array( 'is_enabled_post_type', 100 ),
@@ -83,7 +88,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
             $event->stop_propagation();
         }
-        $event->add_argument( 'attributes', array( 'preview_post_as_visitor' => $preview_post_as_visitor ) );
+        $event->add_argument( 'attributes', array( 'data-preview-post-as-visitor' => $preview_post_as_visitor ) );
         $event->set_argument( 'preview_post_as_visitor', $preview_post_as_visitor );
     }
 
@@ -101,7 +106,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
 
         $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
-            return;
+            $event->stop_propagation();
         }
     }
 
@@ -114,7 +119,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' )
                                    && ! $this->config->get( 'is_in_live_mode' );
 
-        $event->add_argument( 'attributes', array( 'is_in_visible_test_mode' => $is_in_visible_test_mode ) );
+        $event->add_argument( 'attributes', array( 'data-is-in-visible-test-mode' => $is_in_visible_test_mode ) );
         $event->set_argument( 'is_in_visible_test_mode', $is_in_visible_test_mode );
     }
 

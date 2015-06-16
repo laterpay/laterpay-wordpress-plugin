@@ -60,7 +60,6 @@ class LaterPay_Hooks {
      */
     public function init() {
         add_filter( 'the_content',                      array( $this, self::$wp_filter_prefix . 'laterpay_post_content' ), 1 );
-        add_filter( 'wp_footer',                        array( $this, self::$wp_filter_prefix . 'laterpay_post_footer' ) );
         add_filter( 'get_post_metadata',                array( $this, self::$wp_filter_prefix . 'laterpay_post_metadata' ), 10, 4 );
         add_filter( 'the_posts',                        array( $this, self::$wp_filter_prefix . 'laterpay_posts' ) );
 
@@ -79,6 +78,7 @@ class LaterPay_Hooks {
             }
         }
 
+        add_action( 'wp_footer',                        array( $this, self::$wp_filter_prefix . 'laterpay_post_footer' ) );
         add_action( 'wp_loaded',                        array( $this, self::$wp_action_prefix . 'laterpay_init_finished' ), 0 );
         add_action( 'template_redirect',                array( $this, self::$wp_action_prefix . 'laterpay_loaded' ) );
         add_action( 'wp_enqueue_scripts',               array( $this, self::$wp_action_prefix . 'laterpay_enqueue_scripts' ) );
@@ -213,6 +213,7 @@ class LaterPay_Hooks {
         try {
             $event = new LaterPay_Core_Event( $args );
             $event->set_result( $default );
+            $event->set_echo( false );
 
             laterpay_event_dispatcher()->dispatch( $event_name, $event );
 
@@ -234,6 +235,7 @@ class LaterPay_Hooks {
     protected function run_wp_shortcode( $event_name, $args = array() ) {
         try {
             $event = new LaterPay_Core_Event( $args );
+            $event->set_echo( false );
 
             laterpay_event_dispatcher()->dispatch( $event_name, $event );
 

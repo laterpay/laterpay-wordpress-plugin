@@ -17,6 +17,9 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
             'laterpay_post_content' => array(
                 array( 'modify_post_content' ),
             ),
+            'laterpay_purchase_button' => array(
+                array( 'modify_purchase_button' ),
+            ),
         );
     }
 
@@ -34,10 +37,7 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
         if ( $post === null ) {
             return;
         }
-        // do nothing, if post is not in the enabled post types
-        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-            return;
-        }
+
         $post_id = $post->ID;
         // get pricing data
         $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
@@ -86,6 +86,30 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
             );
             $this->assign( 'laterpay', $view_args );
             $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating-form' ) );
+        }
+
+        $event->set_result( $content );
+    }
+
+    /**
+     * Modify the post content of paid posts.
+     *
+     * @wp-hook the_content
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return string $content
+     */
+    public function modify_purchase_button( LaterPay_Core_Event $event ) {
+        $post = get_post();
+        if ( $post === null ) {
+            return;
+        }
+
+        $show_post_ratings = get_option( 'laterpay_ratings' );
+        $content = $event->get_result();
+        if ( $show_post_ratings ) {
+            $content .= '<div id="lp_js_postRatingPlaceholder"></div>';
         }
 
         $event->set_result( $content );

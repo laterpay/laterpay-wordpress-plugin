@@ -19,7 +19,7 @@ class LaterPay_Core_Event {
     /**
      * Should be event result output
      */
-    protected $echo = false;
+    protected $echo = true;
 
     /**
      * Event result

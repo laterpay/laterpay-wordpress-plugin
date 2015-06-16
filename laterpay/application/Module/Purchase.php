@@ -21,6 +21,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             'laterpay_purchase_button' => array(
                 array( 'on_purchase_button' ),
                 array( 'is_purchasable', 100 ),
+                array( 'purchase_button_position', 0 ),
             ),
             'laterpay_purchase_overlay' => array(
                 array( 'on_purchase_overlay' ),
@@ -62,12 +63,10 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $event->get_arguments()
         );
 
-        //TODO: #612 add logger call
         $this->assign( 'laterpay', $view_args );
         $html = $this->get_text_view( 'frontend/partials/widget/purchase-button' );
 
         $event->set_result( $html )
-            ->set_echo( true )
             ->set_arguments( $view_args );
     }
 
@@ -118,9 +117,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $currency                       = get_option( 'laterpay_currency' );
         $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
         $revenue_model                  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
-        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
-        $is_in_visible_test_mode        = get_option( 'laterpay_is_in_visible_test_mode' )
-                                          && ! $this->config->get( 'is_in_live_mode' );
+
         // get purchase link
         $purchase_link                  = LaterPay_Helper_Post::get_laterpay_purchase_link( $post_id );
 
@@ -128,17 +125,14 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             'currency'                              => $currency,
             'price'                                 => $price,
             'revenue_model'                         => $revenue_model,
-            'preview_post_as_visitor'               => $preview_post_as_visitor,
             'link'                                  => $purchase_link,
             'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
-            'is_in_visible_test_mode'               => $is_in_visible_test_mode,
         );
-
-        //TODO: #612 add logger call
         $this->assign( 'laterpay', $view_args );
-        $html = $this->get_text_view( 'frontend/partials/widget/purchase-overlay' );
+        $html = $this->get_text_view( 'frontend/partials/widget/purchase-link' );
 
-        $event->set_result( $html );
+        $event->set_result( $html )
+              ->set_arguments( $view_args );
     }
 
     /**
@@ -428,5 +422,18 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
 
         $event->set_result( $content );
+    }
+
+    /**
+     * @param LaterPay_Core_Event $event
+     */
+    public function purchase_button_position( LaterPay_Core_Event $event ) {
+        $html = $event->get_result();
+        // add the purchase button as very first element of the content, if it is not positioned manually
+        if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) == false ) {
+            $html = '<div class="lp_purchase-button-wrapper">' . $html . '</div>';
+        }
+
+        $event->set_result( $html );
     }
 }
