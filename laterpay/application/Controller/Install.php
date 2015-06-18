@@ -475,7 +475,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base implements La
      * @return null $return
      */
     public function migrate_pricing_post_meta( LaterPay_Core_Event $event ) {
-        list($return, $post_id, $meta_key) = $event->get_arguments();
+        list($return, $post_id, $meta_key) = $event->get_arguments() + array( '', '', '' );
         // migrate the pricing postmeta to an array
         if ( $meta_key === 'laterpay_post_prices' ) {
             $meta_migration_mapping = array(

@@ -12,7 +12,6 @@
 
 
 // Kick-off
-add_action( 'muplugins_loaded', 'laterpay_before_start' );
 add_action( 'plugins_loaded', 'laterpay_init' );
 
 register_activation_hook( __FILE__, 'laterpay_activate' );
@@ -26,6 +25,7 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
  * @return void
  */
 function laterpay_init() {
+    laterpay_before_start();
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
 
@@ -42,6 +42,7 @@ function laterpay_init() {
  * @return void
  */
 function laterpay_activate() {
+    laterpay_before_start();
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
 
@@ -58,6 +59,7 @@ function laterpay_activate() {
  * @return void
  */
 function laterpay_deactivate() {
+    laterpay_before_start();
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
 

@@ -120,7 +120,7 @@ class LaterPay_Core_View
         ob_end_clean();
         $html = $thread;
 
-        $this->init_assignments();
+        // $this->init_assignments();
 
         return $html;
     }

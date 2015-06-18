@@ -270,7 +270,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return mixed
      */
     public function encrypt_image_source( LaterPay_Core_Event $event ) {
-        list( $attr, $post, $size ) = $event->get_arguments();
+        list( $attr, $post, $size ) = $event->get_arguments() + array( '', '', '' );
         $attr = $event->get_result();
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post->ID );
         if ( $is_purchasable ) {
@@ -298,7 +298,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return string
      */
     public function encrypt_attachment_url( LaterPay_Core_Event $event ) {
-        list( $url, $post_id ) = $event->get_arguments();
+        list( $url, $post_id ) = $event->get_arguments() + array( '', '' );
         $url = $event->get_result();
 
         // get current post
@@ -526,7 +526,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $currency   = get_option( 'laterpay_currency' );
         $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
 
-        $teaser_event = laterpay_event_dispatcher()->dispatch( 'laterpay_post_teaser' );
+        $teaser_event = new LaterPay_Core_Event();
+        $teaser_event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_post_teaser', $teaser_event );
         $teaser_content = $teaser_event->get_result();
 
         // check, if user has admin rights
@@ -578,14 +580,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             return;
         }
 
-        // add the purchase button as very first element of the content, if it is not positioned manually
-        if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) == false ) {
-            $button_event = new LaterPay_Core_Event();
-            $button_event->set_echo( false );
-            laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $button_event );
-            $html .= $button_event->get_result();
-        }
-
         // add the teaser content
         $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
 
@@ -599,6 +593,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             // add excerpt of full content, covered by an overlay with a purchase button
             $overlay_event = new LaterPay_Core_Event();
             $overlay_event->set_echo( false );
+            $overlay_event->set_argument( 'content', $content );
             laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_overlay', $overlay_event );
             $html .= $overlay_event->get_result();
         }
@@ -773,7 +768,12 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @param LaterPay_Core_Event $event
      */
     public function generate_post_teaser( LaterPay_Core_Event $event ) {
-        $post = get_post();
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+
         if ( $post === null ) {
             return;
         }

@@ -30,7 +30,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base imp
      * @return array $extended_columns
      */
     public function add_columns_to_posts_table( LaterPay_Core_Event $event ) {
-        list( $columns ) = $event->get_arguments();
+        list( $columns ) = $event->get_arguments() + array( array() );
         $extended_columns   = array();
         $insert_after       = 'title';
 
@@ -54,7 +54,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base imp
      * @return void
      */
     public function add_data_to_posts_table( LaterPay_Core_Event $event ) {
-        list( $column_name, $post_id ) = $event->get_arguments();
+        list( $column_name, $post_id ) = $event->get_arguments() + array( '', '' );
         $event->set_echo( true );
 
         switch ( $column_name ) {

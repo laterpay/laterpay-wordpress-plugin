@@ -121,12 +121,16 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         // get purchase link
         $purchase_link                  = LaterPay_Helper_Post::get_laterpay_purchase_link( $post_id );
 
-        $view_args      = array(
-            'currency'                              => $currency,
-            'price'                                 => $price,
-            'revenue_model'                         => $revenue_model,
-            'link'                                  => $purchase_link,
-            'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
+        $view_args = array_merge( array(
+                'post_id'                               => $post_id,
+                'currency'                              => $currency,
+                'price'                                 => $price,
+                'revenue_model'                         => $revenue_model,
+                'link'                                  => $purchase_link,
+                'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
+                'attributes'                            => array(),
+            ),
+            $event->get_arguments()
         );
         $this->assign( 'laterpay', $view_args );
         $html = $this->get_text_view( 'frontend/partials/widget/purchase-link' );
@@ -215,7 +219,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      * @return bool $has_access
      */
     public function check_user_access( LaterPay_Core_Event $event ) {
-        list( $has_access, $post_id ) = $event->get_arguments();
+        list( $has_access, $post_id ) = $event->get_arguments() + array( '', '' );
         $event->set_result( false );
         // get post
         if ( ! isset( $post_id ) ) {
@@ -415,9 +419,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         // add the purchase button as very first element of the content, if it is not positioned manually
         if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) == false ) {
             $html .= '<div class="lp_purchase-button-wrapper">';
-            $button_event = laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button' );
+            $button_event = new LaterPay_Core_Event();
+            $button_event->set_echo( false );
+            laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $button_event );
             $html .= $button_event->get_result();
             $html .= '</div>';
+
             $content = $html . $content;
         }
 

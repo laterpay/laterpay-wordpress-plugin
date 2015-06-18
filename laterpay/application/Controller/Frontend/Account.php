@@ -38,27 +38,12 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
      * @return void
      */
     public function render_account_links( LaterPay_Core_Event $event ) {
-        list( $css, $forcelang, $show, $next ) = $event->get_arguments();
-
-        if ( empty( $css ) ) {
-            // use laterpay-account-links CSS file to style the login / logout links by default
-            $css = $this->config->get( 'css_url' ) . 'laterpay-account-links.css';
-        }
-
-        if ( empty( $next ) ) {
-            // forward to current page after login by default
-            $next = is_singular() ? get_permalink() : home_url();
-        }
-
-        if ( empty( $show ) ) {
-            // render the login / logout link with greeting by default
-            $show = 'lg';
-        }
-
-        if ( empty( $forcelang ) ) {
-            // render account links in the language of the blog by default
-            $forcelang = substr( get_locale(), 0, 2 );
-        }
+        list( $css, $forcelang, $show, $next ) = $event->get_arguments() + array(
+            $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
+            is_singular() ? get_permalink() : home_url(),
+            'lg',
+            substr( get_locale(), 0, 2 ),
+        );
 
         // create account links URL with passed parameters
         $client_options = LaterPay_Helper_Config::get_php_client_options();

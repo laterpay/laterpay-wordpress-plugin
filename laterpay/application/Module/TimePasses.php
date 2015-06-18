@@ -15,7 +15,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_content' => array(
-                array( 'modify_post_content' ),
+                array( 'modify_post_content', 5 ),
             ),
             'laterpay_post_save' => array(
                 array( 'remove_metabox_save_hook', 200 ),
@@ -89,7 +89,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * @return void
      */
     public function save_laterpay_post_data_without_pricing( LaterPay_Core_Event $event ) {
-        list( $post_id ) = $event->get_arguments();
+        list( $post_id ) = $event->get_arguments() + array( '' );
         if ( ! $this->has_permission( $post_id ) ) {
             return;
         }
@@ -174,7 +174,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $post = get_post();
         }
 
-        list( $introductory_text, $call_to_action_text, $time_pass_id ) = $event->get_arguments();
+        list( $introductory_text, $call_to_action_text, $time_pass_id ) = $event->get_arguments() + array( '', '', null );
         if ( empty( $introductory_text ) ) {
             $introductory_text = '';
         }
@@ -439,7 +439,9 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         if ( $only_time_passes_allowed ) {
             $content .= laterpay_sanitize_output( __( 'Buy a time pass to read the full content.', 'laterpay' ) );
         }
-        $time_pass_event = laterpay_event_dispatcher()->dispatch( 'laterpay_time_passes' );
+        $time_pass_event = new LaterPay_Core_Event();
+        $time_pass_event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_time_passes', $time_pass_event );
         $content .= $time_pass_event->get_result();
 
         $event->set_result( $content );

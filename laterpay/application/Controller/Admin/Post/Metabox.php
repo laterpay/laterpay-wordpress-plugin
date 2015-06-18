@@ -346,7 +346,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base im
      * @return void
      */
     public function save_laterpay_post_data( LaterPay_Core_Event $event ) {
-        list( $post_id ) = $event->get_arguments();
+        list( $post_id ) = $event->get_arguments() + array( '' );
         if ( ! $this->has_permission( $post_id ) ) {
             return;
         }
@@ -502,7 +502,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base im
      * @return void
      */
     public function update_post_publication_date( LaterPay_Core_Event $event ) {
-        list( $status_after_update, $status_before_update, $post ) = $event->get_arguments();
+        list( $status_after_update, $status_before_update, $post ) = $event->get_arguments() + array( '', '', '' );
 
         // skip on insufficient permission
         if ( ! $this->has_permission( $post->ID ) ) {

@@ -202,17 +202,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
      */
     public function refresh_dashboard_data( LaterPay_Core_Event $event ) {
         set_time_limit( 0 );
-        list( $start_timestamp, $count, $interval ) = $event->get_arguments();
-
-        if ( $start_timestamp === null ) {
-            $start_timestamp = strtotime( 'today GMT' );
-        }
-        if ( empty( $count ) ) {
-            $count = 10;
-        }
-        if ( empty( $interval ) ) {
-            $count = 'week';
-        }
+        list( $start_timestamp, $count, $interval ) = $event->get_arguments() + array( strtotime( 'today GMT' ), 10, 'week' );
 
         $args = array(
             'start_timestamp'   => $start_timestamp,
@@ -242,7 +232,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
      * @return void
      */
     public function delete_old_post_views( LaterPay_Core_Event $event ) {
-        list( $modifier ) = $event->get_arguments();
+        list( $modifier ) = $event->get_arguments() + array( '3 month' );
         if ( empty( $modifier ) ) {
             $modifier = '3 month';
         }

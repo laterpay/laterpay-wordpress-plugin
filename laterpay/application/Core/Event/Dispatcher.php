@@ -8,6 +8,7 @@
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherInterface {
+    const DEFAULT_PRIORITY = 10;
     /**
      * @var LaterPay_Core_Event_Dispatcher
      */
@@ -196,10 +197,10 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             if ( is_string( $params ) ) {
                 $this->add_listener( $event_name, array( $subscriber, $params ) );
             } elseif ( is_string( $params[0] ) ) {
-                $this->add_listener( $event_name, array( $subscriber, $params[0] ), isset( $params[1] ) ? $params[1] : 0 );
+                $this->add_listener( $event_name, array( $subscriber, $params[0] ), isset( $params[1] ) ? $params[1] : self::DEFAULT_PRIORITY );
             } else {
                 foreach ( $params as $listener ) {
-                    $this->add_listener( $event_name, array( $subscriber, $listener[0] ), isset( $listener[1] ) ? $listener[1] : 0 );
+                    $this->add_listener( $event_name, array( $subscriber, $listener[0] ), isset( $listener[1] ) ? $listener[1] : self::DEFAULT_PRIORITY );
                 }
             }
         }
@@ -211,11 +212,11 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      * @param string $event_name The event name to listen on.
      * @param callable $listener The event listener.
      * @param int $priority The higher this value, the earlier an event
-     *                            listener will be triggered in the chain (defaults to 0)
+     *                            listener will be triggered in the chain (defaults to self::DEFAULT_PRIORITY)
      *
      * @return null
      */
-    public function add_listener( $event_name, $listener, $priority = 10 ) {
+    public function add_listener( $event_name, $listener, $priority = self::DEFAULT_PRIORITY ) {
         LaterPay_Hooks::register_laterpay_action( $event_name );
         $this->listeners[ $event_name ][ $priority ][] = $listener;
         unset( $this->sorted[ $event_name ] );
