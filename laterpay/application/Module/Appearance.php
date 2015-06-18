@@ -55,17 +55,18 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
                 array( 'on_plugins_page_view', 100 ),
             ),
             'laterpay_purchase_button' => array(
-                array( 'on_preview_post_as_admin', 10 ),
-                array( 'on_view_purchased_post_as_visitor', 10 ),
-                array( 'on_visible_test_mode', 10 ),
+                array( 'on_preview_post_as_admin', 100 ),
+                array( 'on_view_purchased_post_as_visitor', 100 ),
+                array( 'on_visible_test_mode', 100 ),
             ),
             'laterpay_purchase_link' => array(
-                array( 'on_preview_post_as_admin', 10 ),
-                array( 'on_view_purchased_post_as_visitor', 10 ),
-                array( 'on_visible_test_mode', 10 ),
+                array( 'on_preview_post_as_admin', 100 ),
+                array( 'on_view_purchased_post_as_visitor', 100 ),
+                array( 'on_visible_test_mode', 100 ),
             ),
             'laterpay_post_content' => array(
                 array( 'modify_post_content', 0 ),
+                array( 'on_preview_post_as_admin', 100 ),
                 array( 'is_enabled_post_type', 100 ),
             ),
         );

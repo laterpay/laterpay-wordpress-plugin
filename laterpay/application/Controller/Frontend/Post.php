@@ -555,12 +555,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $content = LaterPay_Helper_File::get_encrypted_content( $post_id, $content, $access );
         $content = $wp_embed->autoembed( $content );
 
-        // assign all required vars to the view templates
-        $view_args = array(
-            'teaser_content' => $wp_embed->autoembed( $teaser_content ),
-        );
-        $this->assign( 'laterpay', $view_args );
-
         // start collecting the output
         $html = '';
 
@@ -575,13 +569,13 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 );
             }
 
-            $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
+            $html .= $teaser_content;
             $event->set_result( $html );
             return;
         }
 
         // add the teaser content
-        $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
+        $html .= $teaser_content;
 
         if ( $teaser_content_only ) {
             // add teaser content plus a purchase link after the teaser content
@@ -768,6 +762,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @param LaterPay_Core_Event $event
      */
     public function generate_post_teaser( LaterPay_Core_Event $event ) {
+        global $wp_embed;
         if ( $event->has_argument( 'post' ) ) {
             $post = $event->get_argument( 'post' );
         } else {
@@ -785,6 +780,15 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
         // add paragraphs to teaser content through wpautop
         $teaser_content = wpautop( $teaser_content );
-        $event->set_result( $teaser_content );
+
+        // assign all required vars to the view templates
+        $view_args = array(
+            'teaser_content' => $wp_embed->autoembed( $teaser_content ),
+        );
+        $this->assign( 'laterpay', $view_args );
+        $html = $event->get_result();
+        $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
+
+        $event->set_result( $html );
     }
 }
