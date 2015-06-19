@@ -235,7 +235,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $pass_id        = $request->get_param( 'pass_id' );
         $link           = $request->get_param( 'link' );
 
-        if ( ! isset( $request_method ) && ! isset( $link ) ) {
+        if ( ! isset( $pass_id ) || ! isset( $link ) ) {
             return;
         }
 
