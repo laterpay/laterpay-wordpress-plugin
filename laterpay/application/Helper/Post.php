@@ -199,14 +199,11 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post_id;
         }
 
-        $url  = self::get_after_purchase_redirect_url( $url_params );
-        $hash = self::get_hash_by_url( $url );
-
         // parameters for LaterPay purchase form
         $params = array(
             'article_id' => $post_id,
             'pricing'    => $currency . ( $price * 100 ),
-            'url'        => $url . '&hash=' . $hash,
+            'url'        => $client->sign_and_encode( $url_params, get_permalink( $url_params['post_id'] ) ),
             'title'      => $post->post_title,
         );
 
@@ -214,48 +211,13 @@ class LaterPay_Helper_Post
             __METHOD__, $params
         );
 
-        if ( $revenue_model == 'sis' ) {
+        if ( $revenue_model === 'sis' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
         } else {
             // Pay-per-Use purchase
             return $client->get_add_url( $params );
         }
-    }
-
-    /**
-     * Return the URL hash for a given URL.
-     *
-     * @param string $url
-     *
-     * @return string $hash
-     */
-    public static function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . wp_salt() );
-    }
-
-    /**
-     * Generate the URL to which the user is redirected to after buying a given post.
-     *
-     * @param array $data
-     *
-     * @return string $url
-     */
-    public static function get_after_purchase_redirect_url( array $data ) {
-        $url = get_permalink( $data['post_id'] );
-
-        if ( ! $url ) {
-            laterpay_get_logger()->error(
-                __METHOD__ . ' could not find an URL for the given post_id.',
-                array( 'data' => $data )
-            );
-
-            return $url;
-        }
-
-        $url = add_query_arg( $data, $url );
-
-        return $url;
     }
 
     /**
