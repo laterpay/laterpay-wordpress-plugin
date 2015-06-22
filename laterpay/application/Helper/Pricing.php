@@ -848,17 +848,6 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Return the URL hash for a given URL.
-     *
-     * @param string $url
-     *
-     * @return string $hash
-     */
-    public static function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . wp_salt() );
-    }
-
-    /**
      * Get posts by category price id with meta check
      *
      * @param int $category_id
