@@ -640,7 +640,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 price float NOT NULL,
                 date datetime NOT NULL,
                 ip int NOT NULL,
-                hash varchar(32) NOT NULL,
+                hash varchar(56) NOT NULL,
                 revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
                 pass_id int(11) NOT NULL DEFAULT 0,
                 code varchar(6) NULL DEFAULT NULL,
