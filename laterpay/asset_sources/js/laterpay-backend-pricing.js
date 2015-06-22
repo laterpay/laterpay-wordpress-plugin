@@ -234,6 +234,7 @@
                 // change period
                 $o.timePassEditor
                 .on('change', $o.timePassPeriod, function() {
+                    changeDurationOptions($(this), $(this).parents($o.timePassWrapper));
                     updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
                 });
 
@@ -1104,6 +1105,32 @@
             toggleTimePassRevenueModel = function($form) {
                 // validate price
                 validatePrice($form, false, $($o.timePassPrice, $form));
+            },
+
+            changeDurationOptions = function($period, $form) {
+                var i, options = '',
+                    limit = 24,
+                    period = $period.val(),
+                    duration = $($o.timePassDuration, $form).val();
+
+
+                // change duration options
+                if (period === '4') {
+                    limit = 1;
+                } else if (period === '3') {
+                    limit = 12;
+                }
+
+                for(i = 1; i <= limit; i++) {
+                    options += '<option value="' + i +'">' + i + '</option>';
+                }
+
+                $($o.timePassDuration, $form)
+                    .find('option')
+                    .remove()
+                    .end()
+                .append(options)
+                .val(duration && duration <= limit ? duration : 1);
             },
 
             generateVoucherCode = function($timePass) {
