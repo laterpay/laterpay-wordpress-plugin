@@ -837,7 +837,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $time_pass_model     = new LaterPay_Model_TimePass();
 
         if ( $save_time_pass_form->is_valid() ) {
-            $data = $save_time_pass_form->get_form_values( true, null, array( 'voucher_code' , 'voucher_price', 'voucher_title' ) );
+            $data = $save_time_pass_form->get_form_values( true, null, array( 'voucher_code', 'voucher_price', 'voucher_title' ) );
 
             // check and set revenue model
             if ( ! isset( $data['revenue_model'] ) ) {
@@ -856,7 +856,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $voucher_prices = $save_time_pass_form->get_field_value( 'voucher_price' );
             $voucher_titles = $save_time_pass_form->get_field_value( 'voucher_title' );
             foreach ( $voucher_codes as $idx => $code ) {
-                $vouchers_data[ $code ] =  array(
+                $vouchers_data[ $code ] = array(
                     'price' => $voucher_prices[ $idx ],
                     'title' => $voucher_titles[ $idx ],
                 );
