@@ -1177,10 +1177,10 @@
             addVoucherToList = function(code, voucherData, $timePass) {
                 var passId          = $timePass.data('pass-id'),
                     timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
-                    title           = voucherData.title ? '<span class=""><b>' + voucherData.title + '</b></span>' : '',
+                    title           = voucherData.title ? voucherData.title : '',
                     price           = voucherData.price + ' ' + lpVars.defaultCurrency,
                     voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
-                                            title +
+                                            '<span class=""><b>' + title + '</b></span>' +
                                             '<span class="lp_voucher__code">' + code + '</span>' +
                                             '<span class="lp_voucher__code-infos">' +
                                                 lpVars.i18n.voucherText + ' ' + price + '.<br>' +
