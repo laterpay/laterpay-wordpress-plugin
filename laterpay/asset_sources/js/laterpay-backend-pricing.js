@@ -846,8 +846,8 @@
                 // re-generate vouchers list
                 clearVouchersList($timePass);
                 if (vouchers instanceof Object) {
-                    $.each(vouchers, function(code, priceValue) {
-                        addVoucher(code, priceValue, $timePass);
+                    $.each(vouchers, function(code, voucherData) {
+                        addVoucher(code, voucherData, $timePass);
                     });
                 }
             },
@@ -926,8 +926,8 @@
                 // re-generate vouchers list
                 clearVouchersList($timePass);
                 if (lpVars.vouchers_list[passId] instanceof Object) {
-                    $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
-                        addVoucherToList(code, priceValue, $timePass);
+                    $.each(lpVars.vouchers_list[passId], function(code, voucherData) {
+                        addVoucherToList(code, voucherData, $timePass);
                     });
 
                     // show vouchers
@@ -973,8 +973,8 @@
                                         // re-generate vouchers list
                                         clearVouchersList($timePass);
                                         if (lpVars.vouchers_list[passId] instanceof Object) {
-                                            $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
-                                                addVoucherToList(code, priceValue, $timePass);
+                                            $.each(lpVars.vouchers_list[passId], function(code, voucherData) {
+                                                addVoucherToList(code, voucherData, $timePass);
                                             });
 
                                             // show vouchers
@@ -1017,8 +1017,8 @@
                                         // re-generate vouchers list
                                         clearVouchersList($newTimePass);
                                         if (lpVars.vouchers_list[passId] instanceof Object) {
-                                            $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
-                                                addVoucherToList(code, priceValue, $newTimePass);
+                                            $.each(lpVars.vouchers_list[passId], function(code, voucherData) {
+                                                addVoucherToList(code, voucherData, $newTimePass);
                                             });
 
                                             // show vouchers
@@ -1151,14 +1151,18 @@
                 );
             },
 
-            addVoucher = function(code, priceValue, $timePass) {
-                var price   = priceValue + ' ' + lpVars.defaultCurrency,
+            addVoucher = function(code, voucherData, $timePass) {
+                var priceValue = voucherData.price ? voucherData.price : voucherData,
+                    price      = priceValue + ' ' + lpVars.defaultCurrency,
+                    title      = voucherData.title ? voucherData.title : '',
                     voucher = '<div class="lp_js_voucher lp_voucher" data-code="' + code + '" style="display:none;">' +
-                                '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
+                                '<input type="hidden" name="voucher_code[]" value="' + code + '">' +
+                                '<input type="hidden" name="voucher_price[]" value="' + priceValue + '">' +
                                 '<span class="lp_voucher__code">' + code + '</span> ' + // space at end is intentional
                                 '<span class="lp_voucher__code-infos">' +
                                     lpVars.i18n.voucherText + ' ' + price +
                                 '</span>' +
+                                '<input type="text" name="voucher_title[]" value="' + title + '">' +
                                 '<a href="#" class="lp_js_deleteVoucher lp_edit-link--bold" data-icon="g"></a>' +
                             '</div>';
 
@@ -1170,11 +1174,12 @@
                             .velocity('slideDown', { duration: 250, easing: 'ease-out' });
             },
 
-            addVoucherToList = function(code, priceValue, $timePass) {
+            addVoucherToList = function(code, voucherData, $timePass) {
                 var passId          = $timePass.data('pass-id'),
                     timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
-                    price           = priceValue + ' ' + lpVars.defaultCurrency,
+                    price           = voucherData.price + ' ' + lpVars.defaultCurrency,
                     voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
+                                            ( voucherData.title ? '<span class=""><b>' + voucherData.title + '</b></span>' : '' ) +
                                             '<span class="lp_voucher__code">' + code + '</span>' +
                                             '<span class="lp_voucher__code-infos">' +
                                                 lpVars.i18n.voucherText + ' ' + price + '.<br>' +

@@ -837,8 +837,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $time_pass_model     = new LaterPay_Model_TimePass();
 
         if ( $save_time_pass_form->is_valid() ) {
-            $voucher = $save_time_pass_form->get_field_value( 'voucher' );
-            $data    = $save_time_pass_form->get_form_values( true, null, array( 'voucher') );
+            $data = $save_time_pass_form->get_form_values( true, null, array( 'voucher_code' , 'voucher_price', 'voucher_title' ) );
 
             // check and set revenue model
             if ( ! isset( $data['revenue_model'] ) ) {
@@ -849,8 +848,22 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             // update time pass data or create new time pass
             $data    = $time_pass_model->update_time_pass( $data );
             $pass_id = $data['pass_id'];
+
+            // set vouchers data
+            $vouchers_data  = array();
+            $voucher_codes  = (array) $save_time_pass_form->get_field_value( 'voucher_code' );
+            // TODO: normalize prices and format with 2 digits in form
+            $voucher_prices = $save_time_pass_form->get_field_value( 'voucher_price' );
+            $voucher_titles = $save_time_pass_form->get_field_value( 'voucher_title' );
+            foreach ( $voucher_codes as $idx => $code ) {
+                $vouchers_data[ $code ] =  array(
+                    'price' => $voucher_prices[ $idx ],
+                    'title' => $voucher_titles[ $idx ],
+                );
+            }
+
             // save vouchers for this pass
-            LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $voucher );
+            LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $vouchers_data );
 
             $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
             $hmtl_data             = $data;

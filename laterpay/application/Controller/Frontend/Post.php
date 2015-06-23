@@ -277,8 +277,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher, true ) ) {
                     // save the pre-generated gift code as valid voucher code now that the purchase is complete
                     $gift_cards = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id, true );
-                    $gift_cards[ $voucher ] = 0;
-                    LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true, true );
+                    $gift_cards[ $voucher ] = array(
+                        'price' => 0,
+                        'title' => null,
+                    );
+                    LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true );
                     // set cookie to store information that gift card was purchased
                     setcookie(
                         'laterpay_purchased_gift_card',
