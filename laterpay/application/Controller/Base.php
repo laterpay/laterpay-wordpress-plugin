@@ -15,6 +15,14 @@ class LaterPay_Controller_Base extends LaterPay_Core_View implements LaterPay_Co
     public static function get_subscribed_events() {
         return array();
     }
+
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_shared_events()
+     */
+    public static function get_shared_events() {
+        return array();
+    }
+
     /**
      * Contains the logger instance.
      *

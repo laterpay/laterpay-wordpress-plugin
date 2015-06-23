@@ -27,4 +27,6 @@ interface LaterPay_Core_Event_SubscriberInterface {
      * @return array The event names to listen to
      */
     public static function get_subscribed_events();
+
+    public static function get_shared_events();
 }

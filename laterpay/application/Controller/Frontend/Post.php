@@ -531,14 +531,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         laterpay_event_dispatcher()->dispatch( 'laterpay_post_teaser', $teaser_event );
         $teaser_content = $teaser_event->get_result();
 
-        // check, if user has admin rights
-        $user_has_unlimited_access      = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
-        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
-
-        if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
-            return;
-        }
-
         // get values for output states
         $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
         $user_can_read_statistics       = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
@@ -571,6 +563,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
             $html .= $teaser_content;
             $event->set_result( $html );
+            $event->stop_propagation();
             return;
         }
 

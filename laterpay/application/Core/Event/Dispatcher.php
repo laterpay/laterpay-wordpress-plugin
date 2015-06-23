@@ -14,6 +14,11 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      */
     private static $dispatcher = null;
     private $listeners = array();
+    /**
+     * Shared events, that could be called from any place
+     * @var array
+     */
+    private $shared_listeners = array();
     private $sorted = array();
 
     protected $debug_enabled = false;
@@ -196,11 +201,24 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         foreach ( $subscriber->get_subscribed_events() as $event_name => $params ) {
             if ( is_string( $params ) ) {
                 $this->add_listener( $event_name, array( $subscriber, $params ) );
-            } elseif ( is_string( $params[0] ) ) {
-                $this->add_listener( $event_name, array( $subscriber, $params[0] ), isset( $params[1] ) ? $params[1] : self::DEFAULT_PRIORITY );
             } else {
                 foreach ( $params as $listener ) {
-                    $this->add_listener( $event_name, array( $subscriber, $listener[0] ), isset( $listener[1] ) ? $listener[1] : self::DEFAULT_PRIORITY );
+                    if ( method_exists( $subscriber, $listener[0] ) ) {
+                        $this->add_listener( $event_name, array( $subscriber, $listener[0] ), isset( $listener[1] ) ? $listener[1] : self::DEFAULT_PRIORITY );
+                    } elseif ( ($callable = $this->get_shared_listener( $listener[0] )) !== null ) {
+                        $this->add_listener( $event_name, array( $callable, $listener[0] ), isset( $listener[1] ) ? $listener[1] : self::DEFAULT_PRIORITY );
+                    }
+                }
+            }
+        }
+        foreach ( $subscriber->get_shared_events() as $event_name => $params ) {
+            if ( is_string( $params ) ) {
+                $this->add_shared_listener( $event_name, array( $subscriber, $params ) );
+            } elseif ( is_string( $params[0] ) ) {
+                $this->add_shared_listener( $event_name, array( $subscriber, $params[0] ) );
+            } else {
+                foreach ( $params as $listener ) {
+                    $this->add_shared_listener( $event_name, array( $subscriber, $listener[0] ) );
                 }
             }
         }
@@ -220,6 +238,32 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         LaterPay_Hooks::register_laterpay_action( $event_name );
         $this->listeners[ $event_name ][ $priority ][] = $listener;
         unset( $this->sorted[ $event_name ] );
+    }
+
+    /**
+     * Adds an shared event listener that listens on the specified events.
+     *
+     * @param string $event_name The event name to listen on.
+     * @param callable $listener The event listener.
+     *
+     * @return null
+     */
+    public function add_shared_listener( $event_name, $listener ) {
+        $this->shared_listeners[ $event_name ] = $listener;
+    }
+
+    /**
+     * Returns shared event listener.
+     *
+     * @param string $event_name The event name.
+     *
+     * @return callable|null
+     */
+    public function get_shared_listener( $event_name ) {
+        if ( isset( $this->shared_listeners[ $event_name ] ) ) {
+            return $this->shared_listeners[ $event_name ];
+        }
+        return null;
     }
 
     /**

@@ -7,6 +7,39 @@
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_Core_Event_SubscriberInterface {
+
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_shared_events()
+     */
+    public static function get_shared_events() {
+        return array(
+            'laterpay_on_admin_view' => array(
+                array( 'on_admin_view' ),
+            ),
+            'laterpay_on_plugin_is_active' => array(
+                array( 'on_plugin_is_active' ),
+            ),
+            'laterpay_on_plugins_page_view' => array(
+                array( 'on_plugins_page_view' ),
+            ),
+            'laterpay_on_plugin_is_working' => array(
+                array( 'on_plugin_is_working' ),
+            ),
+            'laterpay_on_preview_post_as_admin' => array(
+                array( 'on_preview_post_as_admin' ),
+            ),
+            'laterpay_on_view_purchased_post_as_visitor' => array(
+                array( 'on_view_purchased_post_as_visitor' ),
+            ),
+            'laterpay_on_visible_test_mode' => array(
+                array( 'on_visible_test_mode' ),
+            ),
+            'laterpay_on_enabled_post_type' => array(
+                array( 'on_enabled_post_type' ),
+            ),
+        );
+    }
+
     /**
      * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
      */
@@ -67,7 +100,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             'laterpay_post_content' => array(
                 array( 'modify_post_content', 0 ),
                 array( 'on_preview_post_as_admin', 100 ),
-                array( 'is_enabled_post_type', 100 ),
+                array( 'on_enabled_post_type', 100 ),
             ),
         );
     }
@@ -179,7 +212,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      *
      * @param LaterPay_Core_Event $event
      */
-    public function is_enabled_post_type( LaterPay_Core_Event $event ) {
+    public function on_enabled_post_type( LaterPay_Core_Event $event ) {
         if ( $event->has_argument( 'post' ) ) {
             $post = $event->get_argument( 'post' );
         } else {

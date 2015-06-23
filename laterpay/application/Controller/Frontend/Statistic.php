@@ -9,6 +9,19 @@
  */
 class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_loaded' => array(
+                array( 'add_unique_visitors_tracking' ),
+            ),
+            'laterpay_post_footer' => array(
+                array( 'modify_footer' ),
+            ),
+        );
+    }
 
     /**
      * Check requirements for logging and rendering the post statistic pane via Ajax callback.
@@ -136,10 +149,11 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      * Callback to add the statistics placeholder to the footer.
      *
      * @wp-hook wp_footer
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function modify_footer() {
+    public function modify_footer( LaterPay_Core_Event $event ) {
         if ( ! $this->check_requirements() ) {
             return;
         }
@@ -157,8 +171,9 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
 
             return;
         }
-
-        echo '<div id="lp_js_postStatisticsPlaceholder"></div>';
+        $footer = $event->get_result();
+        $footer .= '<div id="lp_js_postStatisticsPlaceholder"></div>';
+        $event->set_result( $footer );
     }
 
     /**

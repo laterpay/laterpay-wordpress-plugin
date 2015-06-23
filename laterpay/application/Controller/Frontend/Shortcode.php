@@ -15,24 +15,27 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_shortcode_premium_download' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_premium_download_box' ),
             ),
             'laterpay_shortcode_box_wrapper' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_premium_download_box_wrapper' ),
             ),
             'laterpay_shortcode_laterpay' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_premium_download_box' ),
             ),
-            'laterpay_shortcode_time_passes' => array(
-                array( 'render_time_passes_widget' ),
-            ),
             'laterpay_shortcode_gift_card' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_gift_card' ),
             ),
             'laterpay_shortcode_redeem_voucher' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_redeem_gift_code' ),
             ),
             'laterpay_shortcode_account_links' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_account_links' ),
             ),
         );
@@ -71,15 +74,12 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * description_text="Full HD video of the entire concept, including behind the scenes action."
      * teaser_image_path="/uploads/images/concert-video-still.jpg"]
      *
-     * @param array $atts
+     * @var array $atts
+     * @param LaterPay_Core_Event $event
      *
-     * @return string $html
      */
-    public function render_premium_download_box( $atts ) {
-        // check, if the plugin is correctly configured and working
-        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
-            return;
-        }
+    public function render_premium_download_box( LaterPay_Core_Event $event ) {
+        list( $atts ) = $event->get_arguments() + array( array() );
 
         // provide default values for empty shortcode attributes
         $a = shortcode_atts( array(
@@ -171,7 +171,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 array( 'args' => $a, )
             );
 
-            return $error_message;
+            $event->set_result( $error_message );
+            $event->stop_propagation();
         }
         $page_id = $page->ID;
 
@@ -190,7 +191,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 array( 'args' => $a, )
             );
 
-            return $error_message;
+            $event->set_result( $error_message );
+            $event->stop_propagation();
         }
 
         // check, if page has a custom post type
@@ -290,7 +292,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         $html .= '    </div>';
         $html .= '</div>';
 
-        return $html;
+        $event->set_result( $html );
     }
 
     /**
@@ -301,17 +303,17 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * Example:
      * [laterpay_box_wrapper][laterpay_premium_download target_post_title="Vocabulary list"][laterpay_premium_download target_post_title="Excercises"][/laterpay_box_wrapper]
      *
-     * @param  array   $atts
-     * @param  string  $content
+     * @var  array   $atts
+     * @var  string  $content
+     * @param  LaterPay_Core_Event $event
      *
      * @return string
      */
-    function render_premium_download_box_wrapper( $atts, $content = null ) {
+    function render_premium_download_box_wrapper( LaterPay_Core_Event $event ) {
+        list( $atts, $content ) = $event->get_arguments() + array( array(), null );
         // check, if the plugin is correctly configured and working
-        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
-            return;
-        }
-        return '<div class="lp_premium-file-box__wrapper lp_clearfix">' . do_shortcode( $content ) . '</div>';
+        $html = '<div class="lp_premium-file-box__wrapper lp_clearfix">' . do_shortcode( $content ) . '</div>';
+        $event->set_result( $html );
     }
 
     /**
@@ -429,51 +431,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
     }
 
     /**
-     * Render time passes widget from shortcode [laterpay_time_passes].
-     *
-     * The shortcode [laterpay_time_passes] accepts two optional parameters:
-     * introductory_text     additional text rendered at the top of the widget
-     * call_to_action_text   additional text rendered after the time passes and before the voucher code input
-     *
-     * You can find the ID of a time pass on the pricing page on the left side of the time pass (e.g. "Pass 3").
-     * If no parameters are provided, the shortcode renders the time pass widget w/o parameters.
-     *
-     * Example:
-     * [laterpay_time_passes]
-     * or:
-     * [laterpay_time_passes call_to_action_text="Get yours now!"]
-     *
-     * @param array $atts
-     *
-     * @return string
-     */
-    public function render_time_passes_widget( $atts ) {
-        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
-            return;
-        }
-
-        $data = shortcode_atts( array(
-            'id'                  => null,
-            'introductory_text'   => '',
-            'call_to_action_text' => '',
-        ), $atts );
-
-        if ( isset( $data['id'] ) && ! LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true ) ) {
-            $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
-            return $error_message;
-        }
-
-        $view_args = array(
-            'id'                  => $data['id'],
-            'introductory_text'   => $data['introductory_text'],
-            'call_to_action_text' => $data['call_to_action_text'],
-        );
-        $this->assign( 'laterpay', $view_args );
-
-        return $this->get_text_view( 'frontend/partials/post/time-pass/time-pass' );
-    }
-
-    /**
      * Render gift cards for time passes from shortcode [laterpay_gift_card].
      *
      * The shortcode [laterpay_gift_card] accepts one optional parameter:
@@ -486,16 +443,13 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * or:
      * [laterpay_gift_card]
      *
-     * @param array $atts
+     * @var array $atts
+     * @param LaterPay_Core_Event $event
      *
      * @return string
      */
-    public function render_gift_card( $atts ) {
-        // check, if the plugin is correctly configured and working
-        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
-            return;
-        }
-
+    public function render_gift_card( LaterPay_Core_Event $event ) {
+        list( $atts ) = $event->get_arguments() + array( array() );
         $data = shortcode_atts( array(
             'id' => null,
         ), $atts );
@@ -510,7 +464,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // don't render any gift cards, if there are no time passes
         if ( ! $time_passes_list ) {
             $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
-            return $error_message;
+            $event->set_result( $error_message );
+            $event->stop_propagation();
         }
 
         $view_args = array(
@@ -521,7 +476,9 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        return $this->get_text_view( 'frontend/partials/post/gift/gift-card' );
+        $html = $this->get_text_view( 'frontend/partials/post/gift/gift-card' );
+
+        $event->set_result( $html );
     }
 
     /**
@@ -530,14 +487,12 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * If the user enters his gift code and clicks the 'Redeem' button, a purchase dialog is opened,
      * where the user has to confirm the purchase of the associated time pass for a price of 0.00 Euro.
      * This step is done to ensure that this user accepts the LaterPay terms of use.
+     * @param LaterPay_Core_Event $event
      *
      * @return string
      */
-    public function render_redeem_gift_code( $atts ) {
-        // check, if the plugin is correctly configured and working
-        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
-            return;
-        }
+    public function render_redeem_gift_code( LaterPay_Core_Event $event ) {
+        list( $atts) = $event->get_arguments() + array( array() );
 
         $data = shortcode_atts( array(
             'id' => null,
@@ -548,7 +503,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true );
             if ( ! $time_pass ) {
                 $error_message = $this->get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
-                return $error_message;
+                $event->set_result( $error_message );
+                $event->stop_propagation();
             }
         } else {
             $time_pass = array();
@@ -561,7 +517,9 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        return $this->get_text_view( 'frontend/partials/post/gift/gift-redeem' );
+        $html = $this->get_text_view( 'frontend/partials/post/gift/gift-redeem' );
+
+        $event->set_result( $html );
     }
 
     /**
@@ -603,7 +561,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      *
      * @return array
      */
-    public function add_free_codes_to_passes( $time_passes, $link = null ) {
+    protected function add_free_codes_to_passes( $time_passes, $link = null ) {
         if ( is_array( $time_passes ) ) {
             foreach ( $time_passes as $id => $time_pass ) {
                 // create URL with the generated voucher code
@@ -714,15 +672,13 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * Advanced example:
      * [laterpay_account_links css="http://assets.yoursite.com/your-styles.css" forcelang="de"]
      *
-     * @param array $atts
+     * @var array $atts
+     * @param LaterPay_Core_Event $event
      *
      * @return string
      */
-    public function render_account_links( $atts ) {
-        // check, if the plugin is correctly configured and working
-        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
-            return;
-        }
+    public function render_account_links( LaterPay_Core_Event $event ) {
+        list( $atts ) = $event->get_arguments() + array( array() );
 
         // provide default values for empty shortcode attributes
         $data = shortcode_atts( array(
@@ -740,7 +696,9 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        return $this->get_text_view( 'frontend/partials/post/account-links-iframe' );
+        $html = $this->get_text_view( 'frontend/partials/post/account-links-iframe' );
+
+        $event->set_result( $html );
     }
 
     /**

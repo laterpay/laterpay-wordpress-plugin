@@ -7,7 +7,7 @@
  * Author URI: https://laterpay.net/
  */
 
-class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base implements LaterPay_Core_Event_SubscriberInterface
+class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 {
     /**
      * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()

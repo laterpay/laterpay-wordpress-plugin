@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Install extends LaterPay_Controller_Base implements LaterPay_Core_Event_SubscriberInterface
+class LaterPay_Controller_Install extends LaterPay_Controller_Base
 {
 
     public static function get_subscribed_events() {

@@ -82,6 +82,8 @@ class LaterPay_Core_Bootstrap
         $this->register_upgrade_checks();
         $this->register_admin_actions_step1();
 
+        $this->register_shortcodes();
+
         // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
@@ -95,7 +97,6 @@ class LaterPay_Core_Bootstrap
             $this->register_admin_actions_step2();
         }
 
-        $this->register_shortcodes();
         $this->register_global_actions();
 
         // late load event
@@ -113,8 +114,7 @@ class LaterPay_Core_Bootstrap
 
         // set up unique visitors tracking
         $statistics_controller = self::get_controller( 'Frontend_Statistic' );
-        add_action( 'template_redirect',            array( $statistics_controller, 'add_unique_visitors_tracking' ) );
-        add_action( 'wp_footer',                    array( $statistics_controller, 'modify_footer' ) );
+        laterpay_event_dispatcher()->add_subscriber( $statistics_controller );
     }
 
     /**

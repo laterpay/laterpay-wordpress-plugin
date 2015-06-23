@@ -10,6 +10,13 @@
 class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_Core_Event_SubscriberInterface {
 
     /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_shared_events()
+     */
+    public static function get_shared_events() {
+        return array();
+    }
+
+    /**
      * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
      */
     public static function get_subscribed_events() {
@@ -39,6 +46,10 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             ),
             'laterpay_loaded' => array(
                 array( 'buy_time_pass' ),
+            ),
+            'laterpay_shortcode_time_passes' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'render_time_passes_widget' ),
             ),
         );
     }
@@ -445,5 +456,49 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $content .= $time_pass_event->get_result();
 
         $event->set_result( $content );
+    }
+
+    /**
+     * Render time passes widget from shortcode [laterpay_time_passes].
+     *
+     * The shortcode [laterpay_time_passes] accepts two optional parameters:
+     * introductory_text     additional text rendered at the top of the widget
+     * call_to_action_text   additional text rendered after the time passes and before the voucher code input
+     *
+     * You can find the ID of a time pass on the pricing page on the left side of the time pass (e.g. "Pass 3").
+     * If no parameters are provided, the shortcode renders the time pass widget w/o parameters.
+     *
+     * Example:
+     * [laterpay_time_passes]
+     * or:
+     * [laterpay_time_passes call_to_action_text="Get yours now!"]
+     *
+     * @var array $atts
+     * @param LaterPay_Core_Event $event
+     *
+     * @return string
+     */
+    public function render_time_passes_widget( LaterPay_Core_Event $event ) {
+        list( $atts ) = $event->get_arguments();
+
+        $data = shortcode_atts( array(
+            'id'                  => null,
+            'introductory_text'   => '',
+            'call_to_action_text' => '',
+        ), $atts );
+
+        if ( isset( $data['id'] ) && ! LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true ) ) {
+            $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
+            $event->set_result( $error_message );
+            $event->stop_propagation();
+        }
+
+        // $introductory_text, $call_to_action_text, $time_pass_id
+        $timepass_event = new LaterPay_Core_Event( array( $data['introductory_text'], $data['call_to_action_text'], $data['id'] ) );
+        $timepass_event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_time_passes', $timepass_event );
+
+        $html = $timepass_event->get_result();
+        $event->set_result( $html );
     }
 }
