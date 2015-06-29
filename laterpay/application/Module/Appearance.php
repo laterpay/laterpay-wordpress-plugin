@@ -37,6 +37,9 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             'laterpay_on_enabled_post_type' => array(
                 array( 'on_enabled_post_type' ),
             ),
+            'laterpay_on_ajax_send_json' => array(
+                array( 'on_ajax_send_json' ),
+            ),
         );
     }
 
@@ -243,5 +246,14 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         }
 
         $event->set_result( $content );
+    }
+
+    /**
+     * Stops bubbling if post is not in enabled post type list.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_ajax_send_json( LaterPay_Core_Event $event ) {
+        wp_send_json( $event->get_result() );
     }
 }

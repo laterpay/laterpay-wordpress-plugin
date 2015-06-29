@@ -9,6 +9,21 @@
  */
 class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'wp_ajax_laterpay_pricing' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'process_ajax_requests' ),
+            ),
+            'wp_ajax_laterpay_get_category_prices' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'process_ajax_requests' ),
+            ),
+        );
+    }
 
     /**
      * @see LaterPay_Core_View::load_assets()
@@ -137,15 +152,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Process Ajax requests from pricing tab.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    public function process_ajax_requests() {
+    public function process_ajax_requests( LaterPay_Core_Event $event ) {
+        // invalid request
+        $event->set_result(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
         // save changes in submitted form
         if ( isset( $_POST['form'] ) ) {
             // check for required capabilities to perform action
             if ( ! current_user_can( 'activate_plugins' ) ) {
-                wp_send_json(
-                    array(
+                $event->set_result( array(
                         'success' => false,
                         'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
                     )
@@ -153,15 +176,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             }
             switch ( sanitize_text_field( $_POST['form'] ) ) {
                 case 'global_price_form':
-                    $this->update_global_default_price();
+                    $this->update_global_default_price( $event );
                     break;
 
                 case 'price_category_form':
-                    $this->set_category_default_price();
+                    $this->set_category_default_price( $event );
                     break;
 
                 case 'price_category_form_delete':
-                    $this->delete_category_default_price();
+                    $this->delete_category_default_price( $event );
                     break;
 
                 case 'laterpay_get_category_prices':
@@ -169,19 +192,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                         $_POST['category_ids'] = array();
                     }
                     $categories = array_map( 'sanitize_text_field', $_POST['category_ids'] );
-                    $this->get_category_prices( $categories );
+                    $event->set_result( $this->get_category_prices( $categories ) );
                     break;
 
                 case 'bulk_price_form':
-                    $this->change_posts_price();
+                    $this->change_posts_price( $event );
                     break;
 
                 case 'bulk_price_form_save':
-                    $this->save_bulk_operation();
+                    $this->save_bulk_operation( $event );
                     break;
 
                 case 'bulk_price_form_delete':
-                    $this->delete_bulk_operation();
+                    $this->delete_bulk_operation( $event );
                     break;
 
                 case 'reset_post_publication_date':
@@ -189,23 +212,21 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                         $post = get_post( sanitize_text_field( $_POST['post_id'] ) );
                         if ( $post !== null ) {
                             LaterPay_Helper_Pricing::reset_post_publication_date( $post );
-                            wp_send_json(
+                            $event->set_result(
                                 array(
                                     'success' => true,
                                 )
                             );
-
-                            return;
                         }
                     }
                     break;
 
                 case 'time_pass_form_save':
-                    $this->pass_form_save();
+                    $this->pass_form_save( $event );
                     break;
 
                 case 'time_pass_delete':
-                    $this->time_pass_delete();
+                    $this->time_pass_delete( $event );
                     break;
 
                 case 'generate_voucher_code':
@@ -226,7 +247,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                             $args['name__like'] = sanitize_text_field( $_POST['term'] );
                         }
 
-                        wp_send_json(
+                        $event->set_result(
                             $category_price_model->get_categories_without_price_by_term( $args )
                         );
                     }
@@ -244,32 +265,24 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
                     $categories = get_categories( $args );
 
-                    wp_send_json(
+                    $event->set_result(
                         $categories
                     );
                     break;
-
                 case 'change_purchase_mode_form':
                     $this->change_purchase_mode();
                     break;
 
                 default:
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => false,
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                         )
                     );
+                    break;
             }
         }
-
-        // invalid request
-        wp_send_json(
-            array(
-                'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-            )
-        );
     }
 
     /**
@@ -277,14 +290,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * The global price is applied to every posts by default, if
      * - it is > 0 and
      * - there isn't a more specific price for a given post.
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    protected function update_global_default_price() {
+    protected function update_global_default_price( LaterPay_Core_Event $event ) {
         $global_price_form = new LaterPay_Form_GlobalPrice();
 
         if ( ! $global_price_form->is_valid( $_POST ) ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success'       => false,
                     'price'         => get_option( 'laterpay_global_price' ),
@@ -292,6 +306,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     'message'       => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' ),
                 )
             );
+            return;
         }
 
         $delocalized_global_price   = $global_price_form->get_field_value( 'laterpay_global_price' );
@@ -315,7 +330,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             );
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success'       => true,
                 'price'         => $localized_global_price,
@@ -327,19 +342,21 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
     /**
      * Set the category price, if a given category does not have a category price yet.
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    protected function set_category_default_price() {
+    protected function set_category_default_price( LaterPay_Core_Event $event ) {
         $price_category_form = new LaterPay_Form_PriceCategory();
 
         if ( ! $price_category_form->is_valid( $_POST ) ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' )
                 )
             );
+            return;
         }
 
         $post_category_id               = $price_category_form->get_field_value( 'category_id' );
@@ -349,12 +366,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $updated_post_ids               = null;
 
         if ( ! $term ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                 )
             );
+            return;
         }
 
         $category_id                  = $term->term_id;
@@ -363,12 +381,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $delocalized_category_price   = $price_category_form->get_field_value( 'price' );
 
         if ( empty( $category_id ) ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'There is no such category on this website.', 'laterpay' ),
                 )
             );
+            return;
         }
 
         if ( ! $post_category_id ) {
@@ -391,7 +410,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $currency_name              = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
         $localized_category_price   = LaterPay_Helper_View::format_number( $delocalized_category_price );
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success'           => true,
                 'category'          => $category,
@@ -412,19 +431,21 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
     /**
      * Delete the category price for a given category.
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    protected function delete_category_default_price() {
+    protected function delete_category_default_price( LaterPay_Core_Event $event ) {
         $price_category_delete_form = new LaterPay_Form_PriceCategory();
 
         if ( ! $price_category_delete_form->is_valid( $_POST ) ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                 )
             );
+            return;
         }
 
         $category_id = $price_category_delete_form->get_field_value( 'category_id' );
@@ -434,12 +455,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $success              = $category_price_model->delete_prices_by_category_id( $category_id );
 
         if ( ! $success ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                 )
             );
+            return;
         }
 
         // get all posts with the deleted $category_id and loop through them
@@ -465,7 +487,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             LaterPay_Helper_Pricing::update_post_data_after_category_delete( $post_id );
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => true,
                 'message' => sprintf(
@@ -486,7 +508,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     protected function get_category_prices( $category_ids ) {
         $categories_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $category_ids );
 
-        wp_send_json( $categories_price_data );
+        return $categories_price_data;
     }
 
     /**
@@ -497,9 +519,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * price, or global default price.
      * It also ensures that the resulting price and revenue model is valid.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    protected function change_posts_price() {
+    protected function change_posts_price( LaterPay_Core_Event $event ) {
         $bulk_price_form = new LaterPay_Form_BulkPrice( $_POST );
 
         if ( $bulk_price_form->is_valid() ) {
@@ -507,12 +531,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             if ( $bulk_operation_id !== null ) {
                 $operation_data = LaterPay_Helper_Pricing::get_bulk_operation_data_by_id( $bulk_operation_id );
                 if ( ! $bulk_price_form->is_valid( $operation_data ) ) {
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => false,
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                         )
                     );
+                    return;
                 }
             }
 
@@ -631,13 +656,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     break;
 
                 default:
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => false,
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
-                    break;
+                    return;
             }
 
             // update post prices
@@ -707,15 +732,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             }
 
             // render flash message
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => true,
                     'message' => trim( preg_replace( '/\s+/', ' ', join( ' ', $message_parts ) ) ) . '.',
                 )
             );
+            return;
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => false,
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
@@ -748,17 +774,24 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
     /**
      * Save bulk operation.
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    protected function save_bulk_operation() {
+    protected function save_bulk_operation( LaterPay_Core_Event $event ) {
         $save_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
+        $event->set_result(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
         if ( $save_bulk_operation_form->is_valid() ) {
             // create data array
             $data         = $save_bulk_operation_form->get_form_values( true, 'bulk_', array( 'bulk_message' ) );
             $bulk_message = $save_bulk_operation_form->get_field_value( 'bulk_message' );
 
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => true,
                     'data'    => array(
@@ -769,28 +802,28 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 )
             );
         }
+    }
 
-        wp_send_json(
+    /**
+     * Delete bulk operation.
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    protected function delete_bulk_operation( LaterPay_Core_Event $event ) {
+        $remove_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
+        $event->set_result(
             array(
                 'success' => false,
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
             )
         );
-    }
-
-    /**
-     * Delete bulk operation.
-     *
-     * @return void
-     */
-    protected function delete_bulk_operation() {
-        $remove_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
         if ( $remove_bulk_operation_form->is_valid() ) {
             $bulk_operation_id = $remove_bulk_operation_form->get_field_value( 'bulk_operation_id' );
 
             $result = LaterPay_Helper_Pricing::delete_bulk_operation_by_id( $bulk_operation_id );
             if ( $result ) {
-                wp_send_json(
+                $event->set_result(
                     array(
                         'success' => true,
                         'message' => __( 'Bulk operation deleted.', 'laterpay' ),
@@ -798,13 +831,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 );
             }
         }
-
-        wp_send_json(
-            array(
-                'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-            )
-        );
     }
 
     /**
@@ -830,12 +856,20 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
     /**
      * Save bulk operation.
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    protected function pass_form_save() {
+    protected function pass_form_save( LaterPay_Core_Event $event ) {
         $save_time_pass_form = new LaterPay_Form_Pass( $_POST );
         $time_pass_model     = new LaterPay_Model_TimePass();
+        $event->set_result(
+            array(
+                'success' => false,
+                'errors'  => $save_time_pass_form->get_errors(),
+                'message' => __( 'An error occurred when trying to save the time pass. Please try again.', 'laterpay' ),
+            )
+        );
 
         if ( $save_time_pass_form->is_valid() ) {
             $voucher = $save_time_pass_form->get_field_value( 'voucher' );
@@ -858,7 +892,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $data['price']         = LaterPay_Helper_View::format_number( $data['price'] );
             $vouchers              = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id );
 
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success'  => true,
                     'data'     => $data,
@@ -868,14 +902,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 )
             );
         }
-
-        wp_send_json(
-            array(
-                'success' => false,
-                'errors'  => $save_time_pass_form->get_errors(),
-                'message' => __( 'An error occurred when trying to save the time pass. Please try again.', 'laterpay' ),
-            )
-        );
     }
 
     /**
@@ -883,7 +909,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      *
      * @return void
      */
-    protected function time_pass_delete() {
+    protected function time_pass_delete( LaterPay_Core_Event $event ) {
         if ( isset( $_POST['pass_id'] ) ) {
             $time_pass_id    = sanitize_text_field( $_POST['pass_id'] );
             $time_pass_model = new LaterPay_Model_TimePass();
@@ -894,14 +920,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             // remove vouchers
             LaterPay_Helper_Voucher::delete_voucher_code( $time_pass_id );
 
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => true,
                     'message' => __( 'Time pass deleted.', 'laterpay' ),
                 )
             );
         } else {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'The selected pass was deleted already.', 'laterpay' ),
@@ -930,32 +956,35 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
     /**
      * Get generated voucher code.
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    private function generate_voucher_code() {
+    private function generate_voucher_code( LaterPay_Core_Event $event ) {
         if ( ! isset( $_POST['price'] ) ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'Incorrect voucher price.', 'laterpay' ),
                 )
             );
+            return;
         }
         $price = sanitize_text_field( $_POST['price'] );
         if ( ! ( $price >= 0 && $price <= 149.99 ) ||
              ( $price > 0 && $price < 0.05 )
         ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'Incorrect voucher price.', 'laterpay' ),
                 )
             );
+            return;
         }
 
         // generate voucher code
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => true,
                 'code'    => LaterPay_Helper_Voucher::generate_voucher_code(),

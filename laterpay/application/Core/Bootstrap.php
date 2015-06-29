@@ -213,8 +213,7 @@ class LaterPay_Core_Bootstrap
     private function register_ajax_actions() {
         // plugin backend
         $controller = self::get_controller( 'Admin_Pricing' );
-        add_action( 'wp_ajax_laterpay_pricing',                             array( $controller, 'process_ajax_requests' ) );
-        add_action( 'wp_ajax_laterpay_get_category_prices',                 array( $controller, 'process_ajax_requests' ) );
+        laterpay_event_dispatcher()->add_subscriber( $controller );
 
         $controller = self::get_controller( 'Admin_Appearance' );
         add_action( 'wp_ajax_laterpay_appearance',                          array( $controller, 'process_ajax_requests' ) );

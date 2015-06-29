@@ -10,6 +10,13 @@
 class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_Event_SubscriberInterface {
 
     /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_shared_events()
+     */
+    public static function get_shared_events() {
+        return array();
+    }
+
+    /**
      * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
      */
     public static function get_subscribed_events() {
