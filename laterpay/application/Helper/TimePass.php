@@ -35,7 +35,7 @@ class LaterPay_Helper_TimePass
             'description'            => __( '24 hours access to all content on this website', 'laterpay' ),
         );
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $defaults[ $key ] ) ) {
                 return $defaults[ $key ];
             }
@@ -59,7 +59,7 @@ class LaterPay_Helper_TimePass
             19, 20, 21, 22, 23, 24,
         );
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $durations[ $key ] ) ) {
                 return $durations[ $key ];
             }
@@ -97,7 +97,7 @@ class LaterPay_Helper_TimePass
 
         $selected_array = $pluralized ? $periods_pluralized : $periods;
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $selected_array[ $key ] ) ) {
                 return $selected_array[ $key ];
             }
@@ -119,7 +119,7 @@ class LaterPay_Helper_TimePass
             'sis' => __( 'immediately', 'laterpay' ),
         );
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $revenues[ $key ] ) ) {
                 return $revenues[ $key ];
             }
@@ -142,7 +142,7 @@ class LaterPay_Helper_TimePass
             __( 'All content in category', 'laterpay' ),
         );
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $access_to[ $key ] ) ) {
                 return $access_to[ $key ];
             }
@@ -435,7 +435,7 @@ class LaterPay_Helper_TimePass
             return '';
         }
 
-        if ( ! isset ($data) ) {
+        if ( ! isset( $data ) ) {
             $data = array();
         }
 

@@ -301,7 +301,7 @@ class LaterPay_Core_Bootstrap
      * @return void
      */
     private function register_upgrade_checks() {
-        if ( empty ( $GLOBALS['pagenow'] ) || $GLOBALS['pagenow'] !== 'plugins.php' ) {
+        if ( empty( $GLOBALS['pagenow'] ) || $GLOBALS['pagenow'] !== 'plugins.php' ) {
             return;
         }
 
