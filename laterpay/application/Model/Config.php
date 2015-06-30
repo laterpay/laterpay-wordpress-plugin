@@ -79,7 +79,7 @@ class LaterPay_Model_Config
         }
 
         $this->properties[ $name ] = $value;
-        unset ( $this->deleted[ $name ] );
+        unset( $this->deleted[ $name ] );
 
         return $this;
     }
@@ -119,11 +119,11 @@ class LaterPay_Model_Config
      * @return mixed
      */
     public function get( $name ) {
-        if ( isset ( $this->properties[ $name ] ) ) {
+        if ( isset( $this->properties[ $name ] ) ) {
             return $this->properties[ $name ];
         }
 
-        if ( isset ( $this->deleted[ $name ] ) ) {
+        if ( isset( $this->deleted[ $name ] ) ) {
             return null;
         }
 
@@ -163,11 +163,11 @@ class LaterPay_Model_Config
      * @return boolean
      */
     public function has( $name ) {
-        if ( isset ( $this->properties[ $name ] ) ) {
+        if ( isset( $this->properties[ $name ] ) ) {
             return true;
         }
 
-        if ( isset ( $this->deleted[ $name ] ) ) {
+        if ( isset( $this->deleted[ $name ] ) ) {
             return false;
         }
 
@@ -193,7 +193,7 @@ class LaterPay_Model_Config
         }
 
         $this->deleted[ $name ] = true;
-        unset ( $this->properties[ $name ] );
+        unset( $this->properties[ $name ] );
 
         return $this;
     }

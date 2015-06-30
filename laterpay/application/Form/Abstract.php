@@ -276,7 +276,7 @@ abstract class LaterPay_Form_Abstract
             }
         }
 
-        return empty($this->errors);
+        return empty( $this->errors );
     }
 
     public function get_errors() {
