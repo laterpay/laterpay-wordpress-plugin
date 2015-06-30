@@ -468,9 +468,11 @@ class LaterPay_Helper_TimePass
 
         // cut params from link and merge with other params
         $parsed_link = parse_url( $link );
-        parse_str( $parsed_link['query'], $link_params );
-        $url_params  = array_merge( $link_params, $url_params );
-        list( $link, $last ) = explode( '?', $link );
+        if ( isset( $parsed_link['query'] ) ) {
+            parse_str( $parsed_link['query'], $link_params );
+            $url_params = array_merge( $link_params, $url_params );
+            list( $link, $last ) = explode( '?', $link );
+        }
 
         // parameters for LaterPay purchase form
         $params = array(
