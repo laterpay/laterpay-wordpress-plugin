@@ -52,6 +52,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
             $this->config->get( 'version' ),
             true
         );
+        /* MOVED: #797 Comment out sales statistics
         wp_enqueue_script(
             'laterpay-backend-dashboard',
             $this->config->get( 'js_url' ) . 'laterpay-backend-dashboard.js',
@@ -59,7 +60,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
             $this->config->get( 'version' ),
             true
         );
-
+        */
         // pass localized strings and variables to script
         $i18n = array(
             'noData'    => __( 'No data available', 'laterpay' ),

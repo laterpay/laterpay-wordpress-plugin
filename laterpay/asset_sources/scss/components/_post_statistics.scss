@@ -241,3 +241,31 @@
     border-radius: 0 0 0 $border-radius;
     padding: $fs $fs--075 $fs--075;
 }
+
+// post statistic empty states --------------------------------------------------------------------------------------------------------
+.lp_statistics-empty {
+  color: $text--lighter;
+  margin: $fs--4 auto;
+  padding: $fs $fs--15;
+  width: ($fs * 21);
+  text-align: center;
+  h2 {
+    color: $text--lighter;
+    font-size: $fs--125;
+    font-weight: bold;
+    margin: $fs--05 0 $fs;
+    line-height: $fs--125;
+    font-family: "Open Sans",sans-serif;
+  }
+
+  p:not(:last-child) {
+    margin: 0 0 $fs--025;
+  }
+
+  p:last-child {
+    margin: 0;
+  }
+  a {
+    color: #0074A2;
+  }
+}
