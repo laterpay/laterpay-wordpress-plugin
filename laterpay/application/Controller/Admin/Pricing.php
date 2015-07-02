@@ -850,20 +850,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $pass_id = $data['pass_id'];
 
             // set vouchers data
-            $vouchers_data  = array();
-            $voucher_codes  = (array) $save_time_pass_form->get_field_value( 'voucher_code' );
-            // TODO: normalize prices and format with 2 digits in form
-            $voucher_prices = $save_time_pass_form->get_field_value( 'voucher_price' );
-            $voucher_titles = $save_time_pass_form->get_field_value( 'voucher_title' );
-            foreach ( $voucher_codes as $idx => $code ) {
-                $vouchers_data[ $code ] = array(
-                    'price' => $voucher_prices[ $idx ],
-                    'title' => $voucher_titles[ $idx ],
-                );
-            }
+            $voucher_codes = $save_time_pass_form->get_field_value( 'voucher_code' );
+            if ( $voucher_codes && is_array( $voucher_codes ) ) {
+                $vouchers_data = array();
+                $voucher_prices = $save_time_pass_form->get_field_value( 'voucher_price' );
+                $voucher_titles = $save_time_pass_form->get_field_value( 'voucher_title' );
+                foreach ( $voucher_codes as $idx => $code ) {
+                    // normalize prices and format with 2 digits in form
+                    $voucher_price = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
+                    $vouchers_data[ $code ] = array(
+                        'price' => LaterPay_Helper_View::normalize( LaterPay_Helper_View::format_number( $voucher_price ) ),
+                        'title' => isset( $voucher_titles[ $idx ] ) ? $voucher_titles[ $idx ] : '',
+                    );
+                }
 
-            // save vouchers for this pass
-            LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $vouchers_data );
+                // save vouchers for this pass
+                LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $vouchers_data );
+            }
 
             $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
             $hmtl_data             = $data;
