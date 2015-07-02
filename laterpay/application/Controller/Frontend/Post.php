@@ -194,25 +194,26 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             }
             // get new URL for this time pass
             $pass_id    = $code_data['pass_id'];
-            // get price, delocalize it, and format it
-            $price      = number_format( LaterPay_Helper_View::normalize( $code_data['price'] ), 2 );
             // prepare URL before use
             $data       = array(
+                'voucher' => $code,
                 'link'    => $is_gift ? home_url() : esc_url_raw( $_GET['link'] ),
-                'price'   => $price,
+                'price'   => $code_data['price'],
             );
 
             // get new purchase URL
             $url = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
 
-            wp_send_json(
-                array(
-                    'success' => true,
-                    'pass_id' => $pass_id,
-                    'price'   => LaterPay_Helper_View::format_number( $price ),
-                    'url'     => $url,
-                )
-            );
+            if ( $url ) {
+                wp_send_json(
+                    array(
+                        'success' => true,
+                        'pass_id' => $pass_id,
+                        'price'   => LaterPay_Helper_View::format_number( $code_data['price'] ),
+                        'url'     => $url,
+                    )
+                );
+            }
         }
 
         wp_send_json(
@@ -272,6 +273,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 $laterpay_client->acquire_token();
             }
 
+            $code = null;
             // process vouchers
             if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher ) ) {
                 if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher, true ) ) {
@@ -282,6 +284,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                         'title' => null,
                     );
                     LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true );
+                    // set param for purchase history
+                    $code = $voucher;
                     // set cookie to store information that gift card was purchased
                     setcookie(
                         'laterpay_purchased_gift_card',
@@ -308,7 +312,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 'hash'          => $hmac,
                 'revenue_model' => $revenue_model,
                 'pass_id'       => $pass_id,
-                'code'          => $voucher,
+                'code'          => $code,
             );
 
             $this->logger->info(

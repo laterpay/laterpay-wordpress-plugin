@@ -161,15 +161,16 @@ class LaterPay_Helper_Voucher
 
         // search code
         foreach ( $vouchers as $pass_id => $pass_vouchers ) {
-            foreach ( $pass_vouchers as $voucher_code => $voucher_price ) {
+            foreach ( $pass_vouchers as $voucher_code => $voucher_data ) {
                 if ( $code === $voucher_code ) {
-                    $voucher_data = array(
+                    $data = array(
                         'pass_id' => $pass_id,
                         'code'    => $voucher_code,
-                        'price'   => $voucher_price,
+                        'price'   => $voucher_data['price'],
+                        'title'   => $voucher_data['title'],
                     );
 
-                    return $voucher_data;
+                    return $data;
                 }
             }
         }
@@ -320,7 +321,7 @@ class LaterPay_Helper_Voucher
      *
      * @param $code
      *
-     * @return bool
+     * @return void
      */
     public static function update_gift_code_usages( $code ) {
         $usages = get_option( 'laterpay_gift_codes_usages' );
@@ -329,7 +330,6 @@ class LaterPay_Helper_Voucher
         }
         isset( $usages[ $code ] ) ? $usages[ $code ] += 1 : $usages[ $code ] = 1;
         update_option( 'laterpay_gift_codes_usages', $usages );
-        return true;
     }
 
     /**

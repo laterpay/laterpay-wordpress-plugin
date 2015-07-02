@@ -422,12 +422,13 @@ class LaterPay_Helper_TimePass
     /**
      * Get the LaterPay purchase link for a time pass.
      *
-     * @param int  $time_pass_id pass id
-     * @param null $data additional data
+     * @param int  $time_pass_id     pass id
+     * @param null $data             additional data
+     * @param bool $is_code_purchase code purchase link generation
      *
      * @return string url || empty string if something went wrong
      */
-    public static function get_laterpay_purchase_link( $time_pass_id, $data = null ) {
+    public static function get_laterpay_purchase_link( $time_pass_id, $data = null, $is_code_purchase = false ) {
         $time_pass_model = new LaterPay_Model_TimePass();
 
         $time_pass = $time_pass_model->get_pass_data( $time_pass_id );
@@ -435,7 +436,12 @@ class LaterPay_Helper_TimePass
             return '';
         }
 
-        if ( ! isset ($data) ) {
+        // return empty url if code not specified for gift code purchase
+        if ( $is_code_purchase && ! isset( $data['voucher'] ) ) {
+            return '';
+        }
+
+        if ( ! isset( $data ) ) {
             $data = array();
         }
 
@@ -466,6 +472,10 @@ class LaterPay_Helper_TimePass
             'link'          => $link,
         );
 
+        if ( isset( $data['voucher'] ) ) {
+            $url_params['voucher'] = $data['voucher'];
+        }
+
         // cut params from link and merge with other params
         $parsed_link = parse_url( $link );
         parse_str( $parsed_link['query'], $link_params );
@@ -474,11 +484,11 @@ class LaterPay_Helper_TimePass
 
         // parameters for LaterPay purchase form
         $params = array(
-            'article_id'    => isset( $data['voucher'] ) ? '[#' . $data['voucher'] . ']' : self::get_tokenized_time_pass_id( $time_pass_id ),
+            'article_id'    => $is_code_purchase ? '[#' . $data['voucher'] . ']' : self::get_tokenized_time_pass_id( $time_pass_id ),
             'pricing'       => $currency . ( $price * 100 ),
             'expiry'        => '+' . self::get_time_pass_expiry_time( $time_pass ),
             'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
-            'title'         => isset( $data['voucher'] ) ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
+            'title'         => $is_code_purchase ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
         );
 
         if ( $revenue_model === 'sis' ) {
@@ -567,13 +577,12 @@ class LaterPay_Helper_TimePass
                         }
 
                         // check, if there are unredeemed gift codes
-                        if ( $hist->code && ! LaterPay_Helper_Voucher::get_gift_code_usages_count( $hist->code ) ) {
-                            $unredeemed++;
-                            $summary_unredeemed++;
-                        }
-
                         if ( $hist->code ) {
                             $has_unredeemed = true;
+                            if ( ! LaterPay_Helper_Voucher::get_gift_code_usages_count( $hist->code ) ) {
+                                $unredeemed++;
+                                $summary_unredeemed++;
+                            }
                         }
 
                         // check, if pass is still active
