@@ -1029,7 +1029,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
 
         // add the purchase button as very first element of the content, if it is not positioned manually
-        if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) == false ) {
+        if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) === false ) {
             $html .= '<div class="lp_purchase-button-wrapper">';
             $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase-button' ) );
             $html .= '</div>';
