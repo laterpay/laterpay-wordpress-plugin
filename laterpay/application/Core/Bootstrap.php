@@ -217,15 +217,9 @@ class LaterPay_Core_Bootstrap
         // add the metaboxes
         add_action( 'add_meta_boxes',                   array( $post_metabox_controller, 'add_meta_boxes' ) );
 
-        // save LaterPay post data. If only time pass purchases are allowed, then pricing information need not be saved.
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-            add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
-            add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
-        } else {
-            add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data' ) );
-            add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data' ) );
-        }
-
+        // save LaterPay post data
+        add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+        add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data' ) );
         add_action( 'transition_post_status',           array( $post_metabox_controller, 'update_post_publication_date' ), 10, 3 );
 
         // load scripts for the admin pages
@@ -233,12 +227,10 @@ class LaterPay_Core_Bootstrap
         add_action( 'admin_print_styles-post-new.php',  array( $post_metabox_controller, 'load_assets' ) );
 
         // setup custom columns for each allowed post_type, if allowed purchases aren't restricted to time passes
-        if ( ! get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-            $column_controller = $this->get_controller( 'Admin_Post_Column' );
-            foreach ( $this->config->get( 'content.enabled_post_types' ) as $post_type ) {
-                add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
-                add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
-            }
+        $column_controller = $this->get_controller( 'Admin_Post_Column' );
+        foreach ( $this->config->get( 'content.enabled_post_types' ) as $post_type ) {
+            add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
+            add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
         }
     }
 

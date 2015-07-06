@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <?php echo laterpay_sanitize_output( __( 'cannot be purchased individually.', 'laterpay' ) ); ?>
         </div>
 
-        <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++"<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo ' style="display:none;"'; } ?>>
+        <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++">
             <div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
                 <h2><?php echo laterpay_sanitize_output( __( 'Global Default Price', 'laterpay' ) ); ?></h2>
 
