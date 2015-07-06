@@ -619,8 +619,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         if ( $voucher_codes ) {
             foreach ( $voucher_codes as $pass_id => $codes ) {
                 foreach ( $codes as $code => $price ) {
-                    if ( is_array( $price ) ) continue;
-                    $data[$pass_id][ $code ] = array(
+                    if ( is_array( $price ) ) {
+                        continue;
+                    }
+
+                    $data[ $pass_id ][ $code ] = array(
                         'price' => number_format( LaterPay_Helper_View::normalize( $price ), 2 ),
                         'title' => '',
                     );
@@ -637,8 +640,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         if ( $gift_codes ) {
             foreach ( $gift_codes as $pass_id => $codes ) {
                 foreach ( $codes as $code => $price ) {
-                    if ( is_array( $price ) ) continue;
-                    $data[$pass_id][ $code ] = array(
+                    if ( is_array( $price ) ) {
+                        continue;
+                    }
+
+                    $data[ $pass_id ][ $code ] = array(
                         'price' => 0,
                         'title' => '',
                     );
