@@ -1411,6 +1411,7 @@
                     function(data) {
                         if (!data.success) {
                             $o.navigation.showMessage(data);
+                            $o.purchaseModeInput.prop('checked', false);
                         }
                     },
                     'json'
