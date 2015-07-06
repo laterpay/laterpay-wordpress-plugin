@@ -281,7 +281,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     $gift_cards = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id, true );
                     $gift_cards[ $voucher ] = array(
                         'price' => 0,
-                        'title' => null,
+                        'title' => '',
                     );
                     LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true );
                     // set param for purchase history
