@@ -17,7 +17,7 @@ class LaterPay_Model_TimePass
      *
      * @access public
      */
-    public $time_passes_table;
+    public $table;
 
     /**
      * Constructor for class LaterPay_Model_TimePass, load table name.
@@ -25,7 +25,7 @@ class LaterPay_Model_TimePass
     function __construct() {
         global $wpdb;
 
-        $this->passes_table = $wpdb->prefix . 'laterpay_passes';
+        $this->table = $wpdb->prefix . 'laterpay_passes';
     }
 
     /**
@@ -43,7 +43,7 @@ class LaterPay_Model_TimePass
             SELECT
                 *
             FROM
-                {$this->passes_table}
+                {$this->table}
             WHERE
                 pass_id = %d
         ";
@@ -93,14 +93,14 @@ class LaterPay_Model_TimePass
 
         if ( empty( $time_pass_id ) ) {
             $wpdb->insert(
-                $this->passes_table,
+                $this->table,
                 $data,
                 $format
             );
             $data['pass_id'] = $wpdb->insert_id;
         } else {
             $wpdb->update(
-                $this->passes_table,
+                $this->table,
                 $data,
                 array( 'pass_id' => $time_pass_id ),
                 $format,
@@ -135,7 +135,7 @@ class LaterPay_Model_TimePass
             SELECT
                 *
             FROM
-                {$this->passes_table}";
+                {$this->table}";
 
         if ( $ignore_deleted ) {
             $sql .= '
@@ -169,7 +169,7 @@ class LaterPay_Model_TimePass
             SELECT
                 *
             FROM
-                {$this->passes_table} AS pt
+                {$this->table} AS pt
             WHERE
         ";
 
@@ -223,7 +223,7 @@ class LaterPay_Model_TimePass
             'pass_id' => (int) $time_pass_id,
         );
 
-        return $wpdb->update( $this->passes_table, array( 'is_deleted' => 1 ), $where, array( '%d' ), array( '%d' ) );
+        return $wpdb->update( $this->table, array( 'is_deleted' => 1 ), $where, array( '%d' ), array( '%d' ) );
     }
 
     /**
@@ -238,7 +238,7 @@ class LaterPay_Model_TimePass
             SELECT
                 count(*) AS c_passes
             FROM
-                {$this->passes_table}
+                {$this->table}
             WHERE
                 is_deleted = 0
             ;

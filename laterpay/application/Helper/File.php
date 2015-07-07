@@ -319,7 +319,7 @@ class LaterPay_Helper_File
 
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
-        $file   = ABSPATH . $cipher->decrypt( $file );
+        $file   = ( isset( $_SERVER['DOCUMENT_ROOT'] ) ? sanitize_text_field( $_SERVER['DOCUMENT_ROOT'] ) : ABSPATH ) . $cipher->decrypt( $file );
 
         return $file;
     }

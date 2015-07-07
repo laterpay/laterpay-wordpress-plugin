@@ -289,18 +289,20 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      * @param string $event_name The event name to listen on.
      * @param callable $listener The event listener.
      *
-     * @return mixed
+     * @return bool
      */
     public function remove_listener( $event_name, $listener ) {
         if ( ! isset( $this->listeners[ $event_name ] ) ) {
-            return;
+            return false;
         }
-
+        $result = false;
         foreach ( $this->listeners[ $event_name ] as $priority => $listeners ) {
             if ( false !== ( $key = array_search( $listener, $listeners, true ) ) ) {
                 unset( $this->listeners[ $event_name ][ $priority ][ $key ], $this->sorted[ $event_name ] );
+                $result = true;
             }
         }
+        return $result;
     }
 
     /**

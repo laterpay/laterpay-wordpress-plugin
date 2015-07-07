@@ -24,20 +24,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             'laterpay_post_content' => array(
                 array( 'modify_post_content', 5 ),
             ),
-            'laterpay_post_save' => array(
-                array( 'remove_metabox_save_hook', 200 ),
-                array( 'save_laterpay_post_data_without_pricing' ),
-            ),
-            'laterpay_attachment_edit' => array(
-                array( 'remove_metabox_save_hook', 200 ),
-                array( 'save_laterpay_post_data_without_pricing' ),
-            ),
-            'laterpay_post_custom_column' => array(
-                array( 'remove_post_custom_column', 200 ),
-            ),
-            'laterpay_post_custom_column_data' => array(
-                array( 'remove_post_custom_column_data', 200 ),
-            ),
             'laterpay_time_passes' => array(
                 array( 'the_time_passes_widget' ),
             ),
@@ -66,83 +52,10 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
     public function remove_laterpay_post_statistic( LaterPay_Core_Event $event ) {
         if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
             $listener = LaterPay_Core_Bootstrap::get_controller( 'Frontend_Statistic' );
-            laterpay_event_dispatcher()->remove_listener( $event->get_name(), array( $listener, 'ajax_render_tab' ) );
-            laterpay_event_dispatcher()->add_listener( $event->get_name(), array( $this, 'ajax_render_tab_without_statistics' ) );
-        }
-    }
-
-    /**
-     * Remove hook on save metabox data.
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function remove_metabox_save_hook( LaterPay_Core_Event $event ) {
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-            $listener = LaterPay_Core_Bootstrap::get_controller( 'Admin_Post_Metabox' );
-            laterpay_event_dispatcher()->remove_listener( $event->get_name(), array( $listener, 'save_laterpay_post_data' ) );
-        }
-    }
-
-    /**
-     * Remove filter for the posts columns.
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function remove_post_custom_column( LaterPay_Core_Event $event ) {
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-            $listener = LaterPay_Core_Bootstrap::get_controller( 'Admin_Post_Column' );
-            laterpay_event_dispatcher()->remove_listener( $event->get_name(), array( $listener, 'add_columns_to_posts_table' ) );
-        }
-    }
-
-    /**
-     * Remove action for the posts columns.
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function remove_post_custom_column_data( LaterPay_Core_Event $event ) {
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-            $listener = LaterPay_Core_Bootstrap::get_controller( 'Admin_Post_Column' );
-            laterpay_event_dispatcher()->remove_listener( $event->get_name(), array( $listener, 'add_data_to_posts_table' ) );
-        }
-    }
-
-    /**
-     * Save LaterPay post data without saving price data.
-     *
-     * @wp-hook save_post, edit_attachments
-     *
-     * LaterPay_Core_Event $event
-     *
-     * @return void
-     */
-    public function save_laterpay_post_data_without_pricing( LaterPay_Core_Event $event ) {
-        list( $post_id ) = $event->get_arguments() + array( '' );
-        if ( ! $this->has_permission( $post_id ) ) {
-            return;
-        }
-
-        // no post found -> do nothing
-        $post = get_post( $post_id );
-        if ( $post === null ) {
-            return;
-        }
-
-        // set up new form
-        $post_form = new LaterPay_Form_PostWithoutPricing( $_POST );
-        $condition = array(
-            'verify_nonce' => array(
-                'action' => $this->config->get( 'plugin_base_name' ),
-            )
-        );
-        $post_form->add_validation( 'laterpay_teaser_content_box_nonce', $condition );
-
-        // nonce not valid -> do nothing
-        if ( $post_form->is_valid() ) {
-            // no rights to edit laterpay_edit_teaser_content -> do nothing
-            if ( LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
-                $teaser = $post_form->get_field_value( 'laterpay_post_teaser' );
-                LaterPay_Helper_Post::add_teaser_to_the_post( $post, $teaser );
+            $result = laterpay_event_dispatcher()->remove_listener( $event->get_name(), array( $listener, 'ajax_render_tab' ) );
+            if ( $result ) {
+                laterpay_event_dispatcher()->add_listener( $event->get_name(),
+                    array( $this, 'ajax_render_tab_without_statistics' ) );
             }
         }
     }

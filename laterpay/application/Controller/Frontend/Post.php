@@ -308,6 +308,274 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Save time pass info after purchase.
+     *
+     * @wp-hook template_reditect
+     *
+     * @return  void
+     */
+    public function buy_time_pass() {
+        $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+        $request        = new LaterPay_Core_Request();
+        $pass_id        = $request->get_param( 'pass_id' );
+        $link           = $request->get_param( 'link' );
+
+        if ( ! isset( $pass_id ) || ! isset( $link ) ) {
+            return;
+        }
+
+        $id_currency    = $request->get_param( 'id_currency' );
+        $price          = $request->get_param( 'price' );
+        $date           = $request->get_param( 'date' );
+        $ip             = $request->get_param( 'ip' );
+        $revenue_model  = $request->get_param( 'revenue_model' );
+        $voucher        = $request->get_param( 'voucher' );
+        $hmac           = $request->get_param( 'hmac' );
+        $lptoken        = $request->get_param( 'lptoken' );
+
+        $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $pass_id );
+        $post_id = 0;
+        $post    = get_post();
+        if ( $post !== null ) {
+            $post_id = $post->ID;
+        }
+
+        $client_options  = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+            // check token
+            if ( ! empty( $lptoken ) ) {
+                $laterpay_client->set_token( $lptoken );
+            } elseif ( ! $laterpay_client->has_token() ) {
+                $laterpay_client->acquire_token();
+            }
+
+            // process vouchers
+            if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher ) ) {
+                if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher, true ) ) {
+                    // save the pre-generated gift code as valid voucher code now that the purchase is complete
+                    $gift_cards = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id, true );
+                    $gift_cards[ $voucher ] = 0;
+                    LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true, true );
+                    // set cookie to store information that gift card was purchased
+                    setcookie(
+                        'laterpay_purchased_gift_card',
+                        $voucher . '|' . $pass_id,
+                        time() + 30,
+                        '/'
+                    );
+                } else {
+                    // update gift code statistics
+                    LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher, true );
+                }
+            } else {
+                // update voucher statistics
+                LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher );
+            }
+
+            // save payment history
+            $data = array(
+                'id_currency'   => $id_currency,
+                'post_id'       => $post_id,
+                'price'         => $price,
+                'date'          => $date,
+                'ip'            => $ip,
+                'hash'          => $hmac,
+                'revenue_model' => $revenue_model,
+                'pass_id'       => $pass_id,
+                'code'          => $voucher,
+            );
+
+            $this->logger->info(
+                __METHOD__ . ' - set payment history',
+                $data
+            );
+
+            $payment_history_model = new LaterPay_Model_Payment_History();
+            $payment_history_model->set_payment_history( $data );
+        }
+
+        wp_redirect( $link );
+        // exit script after redirect was set
+        exit;
+    }
+
+    /**
+     * Save purchase in purchase history.
+     *
+     * @wp-hook template_redirect
+     * @return void
+     */
+    public function buy_post() {
+        $request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+        $request           = new LaterPay_Core_Request();
+        $buy               = $request->get_param( 'buy' );
+
+        // return, if the request was not a redirect after a purchase
+        if ( ! isset( $buy ) ) {
+            return;
+        }
+
+        $post_id           = $request->get_param( 'post_id' );
+        $id_currency       = $request->get_param( 'id_currency' );
+        $price             = $request->get_param( 'price' );
+        $date              = $request->get_param( 'date' );
+        $ip                = $request->get_param( 'ip' );
+        $revenue_model     = $request->get_param( 'revenue_model' );
+        $hmac              = $request->get_param( 'hmac' );
+        $lptoken           = $request->get_param( 'lptoken' );
+        $download_attached = $request->get_param( 'download_attached' );
+
+        $request         = new LaterPay_Core_Request();
+        $client_options  = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        if ( $download_attached ) {
+            $post_id = $download_attached;
+        }
+
+        if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+            // check token
+            if ( ! empty( $lptoken ) ) {
+                $laterpay_client->set_token( $lptoken );
+            } elseif ( ! $laterpay_client->has_token() ) {
+                $laterpay_client->acquire_token();
+            }
+
+            $data = array(
+                'post_id'       => $post_id,
+                'id_currency'   => $id_currency,
+                'price'         => $price,
+                'date'          => $date,
+                'ip'            => $ip,
+                'hash'          => $hmac,
+                'revenue_model' => $revenue_model,
+            );
+
+            $this->logger->info(
+                __METHOD__ . ' - set payment history',
+                $data
+            );
+
+            $payment_history_model = new LaterPay_Model_Payment_History();
+            $payment_history_model->set_payment_history( $data );
+        }
+
+        // prepare attachment URL for download
+        if ( $download_attached ) {
+            $post    = get_post( $post_id );
+            $access  = LaterPay_Helper_Post::has_access_to_post( $post );
+
+            $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
+                $post_id,
+                wp_get_attachment_url( $post_id ),
+                $access,
+                'attachment'
+            );
+
+            // set cookie to notify post that we need to start attachment download
+            setcookie(
+                'laterpay_download_attached',
+                $attachment_url,
+                time() + 60,
+                '/'
+            );
+        }
+
+        wp_redirect( get_permalink( $post_id ) );
+        // exit script after redirect was set
+        exit;
+    }
+
+    /**
+     * Update incorrect token or create one, if it doesn't exist.
+     *
+     * @wp-hook template_redirect
+     *
+     * @return void
+     */
+    public function create_token() {
+        $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
+        $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
+
+        // don't assign tokens to crawlers and other user agents that can't handle cookies
+        if ( ! $browser_supports_cookies || $browser_is_crawler ) {
+            return;
+        }
+
+        // don't check or create the 'lptoken' on single pages with non-purchasable posts
+        if ( is_single() && ! LaterPay_Helper_Pricing::is_purchasable( ) ) {
+            return;
+        }
+
+        $context = array(
+            'support_cookies'   => $browser_supports_cookies,
+            'is_crawler'        => $browser_is_crawler,
+        );
+
+        $this->logger->info(
+            __METHOD__,
+            $context
+        );
+
+        if ( isset( $_GET['lptoken'] ) ) {
+            LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ), true );
+        }
+
+        LaterPay_Helper_Request::laterpay_api_acquire_token();
+    }
+
+    /**
+     * Check if user has access to the post
+     *
+     * @wp-hook laterpay_check_user_access
+     *
+     * @return bool $has_access
+     */
+    public function check_user_access( $has_access, $post_id = null ) {
+        // get post
+        if ( ! isset( $post_id ) ) {
+            $post = get_post();
+        } else {
+            $post = get_post( $post_id );
+        }
+
+        if ( $post === null ) {
+            return (bool) $has_access;
+        }
+
+        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+
+        // user has unlimited access
+        if ( $user_has_unlimited_access ) {
+            return true;
+        }
+
+        // user has access to the post
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+>>>>>>> e0e1f038177ea87810514b08459573b70ddc1c27
      * Encrypt image source to prevent direct access.
      *
      * @wp-hook wp_get_attachment_image_attributes
@@ -509,8 +777,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         foreach ( $access_result['articles'] as $post_id => $state ) {
             LaterPay_Helper_Post::set_access_state( $post_id, (bool) $state['access'] );
         }
-
-        return;
     }
 
     /**

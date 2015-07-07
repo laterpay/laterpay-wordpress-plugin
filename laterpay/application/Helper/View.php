@@ -59,6 +59,7 @@ class LaterPay_Helper_View
             'url'       => 'laterpay-plugin',
             'title'     => __( 'Dashboard', 'laterpay' ),
             'cap'       => 'moderate_comments',
+            /* MOVED: #797 Comment out sales statistics
             'submenu'   => array(
                 'name'      => 'time_passes',
                 'url'       => 'laterpay-timepass-dashboard-tab',
@@ -68,7 +69,7 @@ class LaterPay_Helper_View
                     'view'      => 'time-passes',
                     'label'     => __( 'Standard KPIs', 'laterpay' ),
                 ),
-            ),
+            ),*/
         );
 
         $menu['pricing'] = array(

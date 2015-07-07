@@ -589,7 +589,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 // create URL with the generated voucher code
                 $data = array(
                     'voucher' => LaterPay_Helper_Voucher::generate_voucher_code(),
-                    'is_gift' => true,
                     'link'    => $link ? $link : get_permalink(),
                 );
 
