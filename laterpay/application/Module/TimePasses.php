@@ -54,8 +54,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $listener = LaterPay_Core_Bootstrap::get_controller( 'Frontend_Statistic' );
             $result = laterpay_event_dispatcher()->remove_listener( $event->get_name(), array( $listener, 'ajax_render_tab' ) );
             if ( $result ) {
-                laterpay_event_dispatcher()->add_listener( $event->get_name(),
-                    array( $this, 'ajax_render_tab_without_statistics' ) );
+                laterpay_event_dispatcher()->add_listener( $event->get_name(), array( $this, 'ajax_render_tab_without_statistics' ) );
             }
         }
     }
@@ -154,7 +153,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             );
         } else {
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
-                ! empty($post)? $post->ID: null,
+                ! empty( $post )? $post->ID: null,
                 $time_passes_with_access,
                 true
             );

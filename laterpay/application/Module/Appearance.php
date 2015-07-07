@@ -177,7 +177,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      * @param LaterPay_Core_Event $event
      */
     public function on_plugins_page_view( LaterPay_Core_Event $event ) {
-        if ( empty ( $GLOBALS['pagenow'] ) || $GLOBALS['pagenow'] !== 'plugins.php' ) {
+        if ( empty( $GLOBALS['pagenow'] ) || $GLOBALS['pagenow'] !== 'plugins.php' ) {
             $event->stop_propagation();
         }
     }

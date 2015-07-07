@@ -610,7 +610,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 );
             }
 
-
             $html .= $teaser_content;
             $event->set_result( $html );
             $event->stop_propagation();
