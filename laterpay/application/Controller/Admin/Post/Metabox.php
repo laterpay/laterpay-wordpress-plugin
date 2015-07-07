@@ -33,6 +33,18 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             'laterpay_admin_enqueue_styles_post_new' => array(
                 array( 'load_assets' ),
             ),
+            'wp_ajax_laterpay_reset_post_publication_date' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'reset_post_publication_date' ),
+            ),
+            'wp_ajax_laterpay_get_dynamic_pricing_data' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'get_dynamic_pricing_data' ),
+            ),
+            'wp_ajax_laterpay_remove_post_dynamic_pricing' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'remove_dynamic_pricing_data' ),
+            ),
         );
     }
 
@@ -531,23 +543,25 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      * Reset post publication date.
      *
      * @wp-hook wp_ajax_laterpay_reset_post_publication_date
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function reset_post_publication_date() {
+    public function reset_post_publication_date( LaterPay_Core_Event $event ) {
         if ( ! empty( $_POST['post_id'] ) ) {
             $post = get_post( sanitize_text_field( $_POST['post_id'] ) );
             if ( $post !== null ) {
                 LaterPay_Helper_Pricing::reset_post_publication_date( $post );
-                wp_send_json(
+                $event->set_result(
                     array(
                         'success' => true,
                     )
                 );
+                return;
             }
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => false,
             )
@@ -558,22 +572,24 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      * Get dynamic pricing data.
      *
      * @wp-hook wp_ajax_laterpay_get_dynamic_pricing_data
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function get_dynamic_pricing_data() {
+    public function get_dynamic_pricing_data( LaterPay_Core_Event $event ) {
         $dynamic_pricing_data_form = new LaterPay_Form_DynamicPricingData();
 
         if ( $dynamic_pricing_data_form->is_valid( $_POST ) ) {
             $post         = get_post( $dynamic_pricing_data_form->get_field_value( 'post_id' ) );
             $post_price   = $dynamic_pricing_data_form->get_field_value( 'post_price' );
 
-            wp_send_json(
-                LaterPay_Helper_Pricing::get_dynamic_prices( $post, $post_price )
+            $event->set_result(
+                LaterPay_Helper_Pricing::get_dynamic_prices( $post, $post_price ) + array( 'success' => true, )
             );
+            return;
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => false,
             )
@@ -584,16 +600,18 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      * Remove dynamic pricing data.
      *
      * @wp-hook wp_ajax_laterpay_remove_post_dynamic_pricing
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function remove_dynamic_pricing_data() {
+    public function remove_dynamic_pricing_data( LaterPay_Core_Event $event ) {
         if ( ! isset( $_POST['post_id'] ) ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                 )
             );
+            return;
         }
         $post_id = sanitize_text_field( $_POST['post_id'] );
 
@@ -612,14 +630,15 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 $post_id
             );
 
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => true,
                 )
             );
+            return;
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => false,
             )

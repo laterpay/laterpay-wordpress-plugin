@@ -51,7 +51,24 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_time_passes_widget' ),
             ),
+            'wp_ajax_laterpay_post_statistic_render' => array(
+                array( 'remove_laterpay_post_statistic', 200 ),
+            ),
         );
+    }
+
+    /**
+     * Post statistics are irrelevant, if only time pass purchases are allowed, but we still need to have the
+     * option to switch the preview mode for the given post, so we only render that switch in this case
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function remove_laterpay_post_statistic( LaterPay_Core_Event $event ) {
+        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
+            $listener = LaterPay_Core_Bootstrap::get_controller( 'Frontend_Statistic' );
+            laterpay_event_dispatcher()->remove_listener( $event->get_name(), array( $listener, 'ajax_render_tab' ) );
+            laterpay_event_dispatcher()->add_listener( $event->get_name(), array( $this, 'ajax_render_tab_without_statistics' ) );
+        }
     }
 
     /**
@@ -500,5 +517,45 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
 
         $html = $timepass_event->get_result();
         $event->set_result( $html );
+    }
+
+    /**
+     * Ajax callback to render the statistics pane.
+     *
+     * @wp-hook wp_ajax_laterpay_post_statistic_render
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function ajax_render_tab_without_statistics( LaterPay_Core_Event $event ) {
+        $statistic_form = new LaterPay_Form_Statistic( $_GET );
+
+        $condition = array(
+            'verify_nonce' => array(
+                'action' => $statistic_form->get_field_value( 'action' ),
+            )
+        );
+        $statistic_form->add_validation( 'nonce', $condition );
+
+        if ( ! $statistic_form->is_valid() ) {
+            $event->stop_propagation();
+            return;
+        }
+
+        $post_id = $statistic_form->get_field_value( 'post_id' );
+        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+            $event->stop_propagation();
+            return;
+        }
+
+        $post = get_post( $post_id );
+        // assign variables
+        $view_args = array(
+            'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'hide_statistics_pane'      => LaterPay_Helper_User::statistics_pane_is_hidden(),
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        $event->set_result( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
     }
 }

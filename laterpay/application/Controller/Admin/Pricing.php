@@ -230,11 +230,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     break;
 
                 case 'generate_voucher_code':
-                    $this->generate_voucher_code();
+                    $this->generate_voucher_code( $event );
                     break;
 
                 case 'save_landing_page':
-                    $this->save_landing_page();
+                    $this->save_landing_page( $event );
                     break;
 
                 case 'laterpay_get_categories_with_price':
@@ -995,25 +995,28 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Save landing page URL the user is forwarded to after redeeming a gift card voucher.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    private function save_landing_page() {
+    private function save_landing_page( LaterPay_Core_Event $event ) {
         $landing_page_form  = new LaterPay_Form_LandingPage( $_POST );
 
         if ( ! $landing_page_form->is_valid() ) {
             // show an error message, if the provided URL is not valid
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'The landing page you entered is not a valid URL.', 'laterpay' ),
                 )
             );
+            return;
         }
 
         // save URL and confirm with flash message, if the URL is valid
         update_option( 'laterpay_landing_page', $landing_page_form->get_field_value( 'landing_url' ) );
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => true,
                 'message' => __( 'Landing page saved.', 'laterpay' ),
@@ -1027,9 +1030,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * (2) time pass purchases only.
      * Do nothing and render an error message, if no time pass is defined when trying to switch to time pass only mode.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    private function change_purchase_mode() {
+    private function change_purchase_mode( LaterPay_Core_Event $event ) {
         if ( isset( $_POST['only_time_pass_purchase_mode'] ) ) {
             $only_time_pass = 1; // allow time pass purchases only
         } else {
@@ -1037,17 +1042,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         }
 
         if ( $only_time_pass === 1 && ! LaterPay_Helper_TimePass::get_time_passes_count() ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'You have to create a time pass, before you can disable individual purchases.', 'laterpay' ),
                 )
             );
+            return;
         }
 
         update_option( 'laterpay_only_time_pass_purchases_allowed', $only_time_pass );
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => true,
             )

@@ -38,6 +38,22 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_account_links' ),
             ),
+            'wp_ajax_laterpay_get_gift_card_actions' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'ajax_load_gift_action' ),
+            ),
+            'wp_ajax_nopriv_laterpay_get_gift_card_actions' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'ajax_load_gift_action' ),
+            ),
+            'wp_ajax_laterpay_get_premium_shortcode_link' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'ajax_get_premium_shortcode_link' ),
+            ),
+            'wp_ajax_nopriv_laterpay_get_premium_shortcode_link' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'ajax_get_premium_shortcode_link' ),
+            ),
         );
     }
 
@@ -320,28 +336,33 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * Get premium shortcode link
      *
      * @hook wp_ajax_laterpay_get_premium_content_url, wp_ajax_nopriv_laterpay_get_premium_content_url
+     * @param LaterPay_Core_Event $event
      *
      * @return string
      */
-    public function ajax_get_premium_shortcode_link() {
+    public function ajax_get_premium_shortcode_link( LaterPay_Core_Event $event ) {
         if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_premium_shortcode_link' ) {
             // exit Ajax request, if action is not set or has incorrect value
-            wp_die();
+            $event->stop_propagation();
+            return;
         }
 
         if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
             // exit Ajax request, if nonce is not set or not correct
-            wp_die();
+            $event->stop_propagation();
+            return;
         }
 
         if ( ! isset( $_GET['ids'] ) || ! isset( $_GET['types'] ) || ! isset( $_GET['post_id'] ) ) {
             // exit Ajax request, if additional parameters aren't set
-            wp_die();
+            $event->stop_propagation();
+            return;
         }
 
         $current_post_id = absint( $_GET['post_id'] );
         if ( ! get_post( $current_post_id ) ) {
-            wp_die();
+            $event->stop_propagation();
+            return;
         }
 
         $ids    = array_map( 'sanitize_text_field', $_GET['ids'] );
@@ -423,9 +444,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $result[ $id ] = $html_button;
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
-                'data' => $result,
+                'success'   => true,
+                'data'      => $result,
             )
         );
     }
@@ -583,23 +605,27 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * Get gift cards through Ajax.
      *
      * @hook wp_ajax_laterpay_get_gift_card_actions, wp_ajax_nopriv_laterpay_get_gift_card_actions
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function ajax_load_gift_action() {
+    public function ajax_load_gift_action( LaterPay_Core_Event $event ) {
         if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_gift_card_actions' ) {
             // exit Ajax request, if action is not set or has incorrect value
-            wp_die();
+            $event->stop_propagation();
+            return;
         }
 
         if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
             // exit Ajax request, if nonce is not set or not correct
-            wp_die();
+            $event->stop_propagation();
+            return;
         }
 
         if ( ! isset( $_GET['pass_id'] ) || ! isset( $_GET['link'] ) ) {
             // exit Ajax request, if additional parameters aren't set
-            wp_die();
+            $event->stop_propagation();
+            return;
         }
 
         $data           = array();
@@ -649,9 +675,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             }
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
-                'data' => array_values( $data ),
+                'success'   => true,
+                'data'      => array_values( $data ),
             )
         );
     }

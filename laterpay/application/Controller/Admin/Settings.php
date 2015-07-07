@@ -22,6 +22,10 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'laterpay_admin_menu' => array(
                 array( 'add_laterpay_advanced_settings_page' ),
             ),
+            'wp_ajax_laterpay_backend_options' => array(
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'process_ajax_requests' ),
+            ),
         );
     }
 
@@ -74,17 +78,20 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Process Ajax requests from appearance tab.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    public static function process_ajax_requests() {
+    public static function process_ajax_requests( LaterPay_Core_Event $event ) {
         // check for required capabilities to perform action
         if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
                 )
             );
+            return;
         }
         $from = isset( $_POST['form'] ) ? sanitize_text_field( $_POST['form'] ) : '';
         switch ( $from ) {
@@ -97,44 +104,48 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 $remote_version = $browscap->getRemoteVersionNumber();
                 $current_version = $browscap->getSourceVersion();
                 if ( $current_version == $remote_version ) {
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => true,
                             'message' => __( 'Your database is already up to date', 'laterpay' ),
                         )
                     );
+                    return;
                 }
                 try {
                     $result = $browscap->updateCache();
                     if ( ! $result ) {
-                        wp_send_json(
+                        $event->set_result(
                             array(
                                 'success' => false,
                                 'message' => __( 'Browscap cache update has failed', 'laterpay' ),
                             )
                         );
+                        return;
                     }
                 } catch (Exception $e) {
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => false,
                             'message' => __( 'Browscap cache update has failed', 'laterpay' ),
                         )
                     );
+                    return;
                 }
 
-                wp_send_json(
+                $event->set_result(
                     array(
                         'success' => true,
                         'message' => __( 'Browscap cache has been updated', 'laterpay' ),
                     )
                 );
+                return;
                 break;
             default:
                 break;
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => false,
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),

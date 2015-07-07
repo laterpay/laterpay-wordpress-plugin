@@ -77,7 +77,6 @@ class LaterPay_Core_Bootstrap
         $this->register_wordpress_hooks();
 
         $this->register_cache_helper();
-        $this->register_ajax_actions();
 
         $this->register_upgrade_checks();
         $this->register_admin_actions_step1();
@@ -148,6 +147,20 @@ class LaterPay_Core_Bootstrap
 
         $settings_controller = self::get_controller( 'Admin_Settings' );
         laterpay_event_dispatcher()->add_subscriber( $settings_controller );
+
+        // plugin backend
+        $controller = self::get_controller( 'Admin_Pricing' );
+        laterpay_event_dispatcher()->add_subscriber( $controller );
+
+        $controller = self::get_controller( 'Admin_Appearance' );
+        laterpay_event_dispatcher()->add_subscriber( $controller );
+
+        $controller = self::get_controller( 'Admin_Account' );
+        laterpay_event_dispatcher()->add_subscriber( $controller );
+
+        // time passes
+        $controller = self::get_controller( 'Admin_TimePass' );
+        laterpay_event_dispatcher()->add_subscriber( $controller );
     }
 
     /**
@@ -203,83 +216,6 @@ class LaterPay_Core_Bootstrap
      */
     private function register_upgrade_checks() {
         laterpay_event_dispatcher()->add_subscriber( self::get_controller( 'Install' ) );
-    }
-
-    /**
-     * Internal function to register all Ajax requests.
-     *
-     * @return void
-     */
-    private function register_ajax_actions() {
-        // plugin backend
-        $controller = self::get_controller( 'Admin_Pricing' );
-        laterpay_event_dispatcher()->add_subscriber( $controller );
-
-        $controller = self::get_controller( 'Admin_Appearance' );
-        add_action( 'wp_ajax_laterpay_appearance',                          array( $controller, 'process_ajax_requests' ) );
-
-        $controller = self::get_controller( 'Admin_Account' );
-        add_action( 'wp_ajax_laterpay_account',                             array( $controller, 'process_ajax_requests' ) );
-
-        $controller = self::get_controller( 'Admin_Dashboard' );
-        add_action( 'wp_ajax_laterpay_get_dashboard_data',                  array( $controller, 'ajax_get_dashboard_data' ) );
-
-        // settings page
-        $controller = self::get_controller( 'Admin_Settings' );
-        add_action( 'wp_ajax_laterpay_backend_options',                     array( $controller, 'process_ajax_requests' ) );
-
-        // edit post
-        $controller = self::get_controller( 'Admin_Post_Metabox' );
-        add_action( 'wp_ajax_laterpay_reset_post_publication_date',         array( $controller, 'reset_post_publication_date' ) );
-        add_action( 'wp_ajax_laterpay_get_dynamic_pricing_data',            array( $controller, 'get_dynamic_pricing_data' ) );
-        add_action( 'wp_ajax_laterpay_remove_post_dynamic_pricing',         array( $controller, 'remove_dynamic_pricing_data' ) );
-
-        // view post
-        $controller = self::get_controller( 'Frontend_Post' );
-        add_action( 'wp_ajax_laterpay_post_load_purchased_content',         array( $controller, 'ajax_load_purchased_content' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',  array( $controller, 'ajax_load_purchased_content' ) );
-
-        add_action( 'wp_ajax_laterpay_post_rate_purchased_content',         array( $controller, 'ajax_rate_purchased_content' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_post_rate_purchased_content',  array( $controller, 'ajax_rate_purchased_content' ) );
-
-        add_action( 'wp_ajax_laterpay_post_rating_summary',                 array( $controller, 'ajax_load_rating_summary' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_post_rating_summary',          array( $controller, 'ajax_load_rating_summary' ) );
-
-        add_action( 'wp_ajax_laterpay_redeem_voucher_code',                 array( $controller, 'ajax_redeem_voucher_code' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_redeem_voucher_code',          array( $controller, 'ajax_redeem_voucher_code' ) );
-
-        // post statistics
-        $controller = self::get_controller( 'Frontend_Statistic' );
-        // post statistics are irrelevant, if only time pass purchases are allowed, but we still need to have the
-        // option to switch the preview mode for the given post, so we only render that switch in this case
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === true ) {
-            add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $controller, 'ajax_render_tab_without_statistics' ) );
-        } else {
-            add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $controller, 'ajax_render_tab' ) );
-        }
-
-        add_action( 'wp_ajax_laterpay_post_statistic_visibility',           array( $controller, 'ajax_toggle_visibility' ) );
-        add_action( 'wp_ajax_laterpay_post_statistic_toggle_preview',       array( $controller, 'ajax_toggle_preview' ) );
-        add_action( 'wp_ajax_laterpay_post_track_views',                    array( $controller, 'ajax_track_views' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_post_track_views',             array( $controller, 'ajax_track_views' ) );
-
-        // protected files within posts
-        $file_helper = new LaterPay_Helper_File();
-        add_action( 'wp_ajax_laterpay_load_files',                          array( $file_helper, 'load_file' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_load_files',                   array( $file_helper, 'load_file' ) );
-
-        // time passes
-        $controller = self::get_controller( 'Admin_TimePass' );
-        add_action( 'wp_ajax_laterpay_get_time_passes_data',                array( $controller, 'ajax_get_time_passes_data' ) );
-
-        // gift cards
-        $controller = self::get_controller( 'Frontend_Shortcode' );
-        add_action( 'wp_ajax_laterpay_get_gift_card_actions',               array( $controller, 'ajax_load_gift_action' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_get_gift_card_actions',        array( $controller, 'ajax_load_gift_action' ) );
-
-        // premium content links
-        add_action( 'wp_ajax_laterpay_get_premium_shortcode_link',          array( $controller, 'ajax_get_premium_shortcode_link' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_get_premium_shortcode_link',   array( $controller, 'ajax_get_premium_shortcode_link' ) );
     }
 
     /**
