@@ -1028,6 +1028,22 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
 
         register_setting( 'laterpay', 'laterpay_api_fallback_behavior' );
+
+        add_settings_field(
+            'laterpay_api_enabled_on_homepage',
+            __( 'Enabled on home page', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_api_settings',
+            array(
+                'name'  => 'laterpay_api_enabled_on_homepage',
+                'value' => 1,
+                'type'  => 'checkbox',
+                'label' => __( 'I want to enable requests to LaterPay API on home page', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_api_enabled_on_homepage' );
     }
 
     /**
@@ -1037,7 +1053,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function get_laterpay_api_description() {
         echo laterpay_sanitize_output( '<p>' .
-            __( 'Define fallback behavior in case LaterPay API is not responding', 'laterpay' ) .
+            __( 'Define fallback behavior in case LaterPay API is not responding and option to disallow plugin to contact LaterPay API on homepage', 'laterpay' ) .
         '</p>' );
     }
 

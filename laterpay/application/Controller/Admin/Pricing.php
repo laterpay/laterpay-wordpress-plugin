@@ -53,7 +53,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         // pass localized strings and variables to script
         $time_passes_model  = new LaterPay_Model_TimePass();
-
         $time_passes_list   = $time_passes_model->get_active_time_passes();
         $vouchers_list      = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
@@ -201,7 +200,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     break;
 
                 case 'time_pass_form_save':
-                    $this->pass_form_save();
+                    $this->time_pass_save();
                     break;
 
                 case 'time_pass_delete':
@@ -829,18 +828,17 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     }
 
     /**
-     * Save bulk operation.
+     * Save time pass
      *
      * @return void
      */
-    protected function pass_form_save() {
+    protected function time_pass_save() {
         $save_time_pass_form = new LaterPay_Form_Pass( $_POST );
         $time_pass_model     = new LaterPay_Model_TimePass();
 
         if ( $save_time_pass_form->is_valid() ) {
             $voucher = $save_time_pass_form->get_field_value( 'voucher' );
             $data    = $save_time_pass_form->get_form_values( true, null, array( 'voucher') );
-            $pass_id = $data['pass_id'];
 
             // check and set revenue model
             if ( ! isset( $data['revenue_model'] ) ) {
@@ -849,7 +847,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             // ensure valid revenue model
             $data['revenue_model'] = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $data['revenue_model'], $data['price'] );
             // update time pass data or create new time pass
-            $data = $time_pass_model->update_time_pass( $data );
+            $data    = $time_pass_model->update_time_pass( $data );
+            $pass_id = $data['pass_id'];
             // save vouchers for this pass
             LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $voucher );
 

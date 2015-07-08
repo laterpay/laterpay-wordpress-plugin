@@ -117,35 +117,39 @@ class LaterPay_Core_Bootstrap
          * ->   the priority has to be 1 (first filter triggered)
          *      to fetch and manipulate content first and before other filters are triggered (wp_embed, wpautop, external plugins / themes, ...)
          */
-        add_filter( 'the_content',                  array( $post_controller, 'modify_post_content' ), 1 );
-        add_filter( 'wp_footer',                    array( $post_controller, 'modify_footer' ) );
+        add_filter( 'the_content',                        array( $post_controller, 'modify_post_content' ), 1 );
+        add_filter( 'wp_footer',                          array( $post_controller, 'modify_footer' ) );
 
-        // prefetch get posts
-        add_action( 'template_redirect',            array( $post_controller, 'buy_post' ) );
-        add_action( 'template_redirect',            array( $post_controller, 'buy_time_pass' ) );
-        add_action( 'template_redirect',            array( $post_controller, 'create_token' ) );
+        add_action( 'template_redirect',                  array( $post_controller, 'buy_post' ) );
+        add_action( 'template_redirect',                  array( $post_controller, 'buy_time_pass' ) );
+        add_action( 'template_redirect',                  array( $post_controller, 'create_token' ) );
 
         // prefetch the post_access for loops
         add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );
         add_filter( 'the_posts',                    'LaterPay_Helper_Post::hide_paid_posts', 1 );
         add_filter( 'the_posts',                    array( $post_controller, 'hide_free_posts_with_premium_content' ) );
 
+        // prevent direct access to the attachments
+        add_filter( 'wp_get_attachment_image_attributes', array( $post_controller, 'encrypt_image_source' ), 10, 3 );
+        add_filter( 'wp_get_attachment_url',              array( $post_controller, 'encrypt_attachment_url' ), 10, 2 );
+        add_filter( 'prepend_attachment',                 array( $post_controller, 'prepend_attachment' ) );
+
         // enqueue the frontend assets
-        add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_stylesheets' ) );
-        add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_scripts' ) );
+        add_action( 'wp_enqueue_scripts',                 array( $post_controller, 'add_frontend_stylesheets' ) );
+        add_action( 'wp_enqueue_scripts',                 array( $post_controller, 'add_frontend_scripts' ) );
 
         // add custom action to render the LaterPay invoice indicator
         $invoice_controller = $this->get_controller( 'Frontend_Invoice' );
-        add_action( 'wp_enqueue_scripts',           array( $invoice_controller, 'add_frontend_scripts' ) );
+        add_action( 'wp_enqueue_scripts',                 array( $invoice_controller, 'add_frontend_scripts' ) );
 
         // add account links action
         $account_controller = $this->get_controller( 'Frontend_Account' );
-        add_action( 'wp_enqueue_scripts',           array( $account_controller, 'add_frontend_scripts' ) );
+        add_action( 'wp_enqueue_scripts',                 array( $account_controller, 'add_frontend_scripts' ) );
 
         // set up unique visitors tracking
         $statistics_controller = $this->get_controller( 'Frontend_Statistic' );
-        add_action( 'template_redirect',            array( $statistics_controller, 'add_unique_visitors_tracking' ) );
-        add_action( 'wp_footer',                    array( $statistics_controller, 'modify_footer' ) );
+        add_action( 'template_redirect',                  array( $statistics_controller, 'add_unique_visitors_tracking' ) );
+        add_action( 'wp_footer',                          array( $statistics_controller, 'modify_footer' ) );
     }
 
     /**
@@ -213,15 +217,9 @@ class LaterPay_Core_Bootstrap
         // add the metaboxes
         add_action( 'add_meta_boxes',                   array( $post_metabox_controller, 'add_meta_boxes' ) );
 
-        // save LaterPay post data. If only time pass purchases are allowed, then pricing information need not be saved.
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-            add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
-            add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
-        } else {
-            add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data' ) );
-            add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data' ) );
-        }
-
+        // save LaterPay post data
+        add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+        add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data' ) );
         add_action( 'transition_post_status',           array( $post_metabox_controller, 'update_post_publication_date' ), 10, 3 );
 
         // load scripts for the admin pages
@@ -229,12 +227,10 @@ class LaterPay_Core_Bootstrap
         add_action( 'admin_print_styles-post-new.php',  array( $post_metabox_controller, 'load_assets' ) );
 
         // setup custom columns for each allowed post_type, if allowed purchases aren't restricted to time passes
-        if ( ! get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-            $column_controller = $this->get_controller( 'Admin_Post_Column' );
-            foreach ( $this->config->get( 'content.enabled_post_types' ) as $post_type ) {
-                add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
-                add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
-            }
+        $column_controller = $this->get_controller( 'Admin_Post_Column' );
+        foreach ( $this->config->get( 'content.enabled_post_types' ) as $post_type ) {
+            add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
+            add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
         }
     }
 
@@ -297,7 +293,7 @@ class LaterPay_Core_Bootstrap
      * @return void
      */
     private function register_upgrade_checks() {
-        if ( empty ( $GLOBALS['pagenow'] ) || $GLOBALS['pagenow'] !== 'plugins.php' ) {
+        if ( empty( $GLOBALS['pagenow'] ) || $GLOBALS['pagenow'] !== 'plugins.php' ) {
             return;
         }
 

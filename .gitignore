@@ -12,3 +12,4 @@ selenium-tests/vendor/
 selenium-tests/tests/_output
 selenium-tests/tests/backend.suite.yml
 selenium-tests/tests/_data/*.zip
+composer.lock

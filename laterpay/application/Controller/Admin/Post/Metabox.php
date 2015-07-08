@@ -121,17 +121,15 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'high'
             );
 
-            if ( ! get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-                // add post price metabox in sidebar
-                add_meta_box(
-                    'lp_post-pricing',
-                    __( 'Pricing for this Post', 'laterpay' ),
-                    array( $this, 'render_post_pricing_form' ),
-                    $post_type,
-                    'side',
-                    'high'
-                );
-            }
+            // add post price metabox in sidebar
+            add_meta_box(
+                'lp_post-pricing',
+                __( 'Pricing for this Post', 'laterpay' ),
+                array( $this, 'render_post_pricing_form' ),
+                $post_type,
+                'side',
+                'high'
+            );
         }
     }
 
@@ -388,45 +386,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                     $meta_values,
                     $post_id
                 );
-            }
-        }
-    }
-
-    /**
-     * Save LaterPay post data without saving price data.
-     *
-     * @wp-hook save_post, edit_attachments
-     *
-     * @param int $post_id
-     *
-     * @return void
-     */
-    public function save_laterpay_post_data_without_pricing( $post_id ) {
-        if ( ! $this->has_permission( $post_id ) ) {
-            return;
-        }
-
-        // no post found -> do nothing
-        $post = get_post( $post_id );
-        if ( $post === null ) {
-            return;
-        }
-
-        // set up new form
-        $post_form = new LaterPay_Form_PostWithoutPricing( $_POST );
-        $condition = array(
-            'verify_nonce' => array(
-                'action' => $this->config->get( 'plugin_base_name' ),
-            )
-        );
-        $post_form->add_validation( 'laterpay_teaser_content_box_nonce', $condition );
-
-        // nonce not valid -> do nothing
-        if ( $post_form->is_valid() ) {
-            // no rights to edit laterpay_edit_teaser_content -> do nothing
-            if ( LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
-                $teaser = $post_form->get_field_value( 'laterpay_post_teaser' );
-                LaterPay_Helper_Post::add_teaser_to_the_post( $post, $teaser );
             }
         }
     }

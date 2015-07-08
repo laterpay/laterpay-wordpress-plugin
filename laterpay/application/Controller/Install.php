@@ -640,7 +640,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 price float NOT NULL,
                 date datetime NOT NULL,
                 ip int NOT NULL,
-                hash varchar(32) NOT NULL,
+                hash varchar(56) NOT NULL,
                 revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
                 pass_id int(11) NOT NULL DEFAULT 0,
                 code varchar(6) NULL DEFAULT NULL,
@@ -720,7 +720,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_show_time_passes_widget_on_free_posts',   '' );
         add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
         add_option( 'laterpay_debugger_enabled',                        defined( 'WP_DEBUG' ) && WP_DEBUG );
-        add_option( 'laterpay_api_fallback_behavior',                  0 );
+        add_option( 'laterpay_api_fallback_behavior',                   0 );
+        add_option( 'laterpay_api_enabled_on_homepage',                 1 );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );

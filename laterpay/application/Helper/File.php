@@ -22,7 +22,7 @@ class LaterPay_Helper_File
      *
      * @var string
      */
-    const SCRIPT_PATH = 'admin-ajax.php?action=laterpay_load_files';
+    const SCRIPT_PATH = 'admin-ajax.php';
 
     /**
      * Default file disposition.
@@ -151,7 +151,10 @@ class LaterPay_Helper_File
             $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
         }
 
-        return $new_url . '&' . $client->sign_and_encode( $params, $new_url );
+        //add action param
+        $params['action'] = 'laterpay_load_files';
+
+        return $new_url . '?' . $client->sign_and_encode( $params, $new_url );
     }
 
     /**
@@ -160,7 +163,6 @@ class LaterPay_Helper_File
      * @return void
      */
     public function load_file() {
-        unset( $_GET['action'] );
         // register libraries
         $request    = new LaterPay_Core_Request();
         $response   = new LaterPay_Core_Response();
@@ -242,26 +244,17 @@ class LaterPay_Helper_File
         if ( ! empty( $lptoken ) ) {
             laterpay_get_logger()->debug( 'RESOURCE:: set token and make redirect' );
             // change URL
-            LaterPay_Helper_Request::laterpay_api_set_token( $lptoken );
-            $params = array(
-                    'aid'   => $aid,
-                    'file'  => $file,
-            );
+            $client->set_token( $lptoken );
             if ( ! empty( $auth ) ) {
-                $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
-                $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
+                $tokenInstance = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
+                $auth          = $tokenInstance->sign( $client->get_laterpay_token() );
             }
-            $new_url  = admin_url( LaterPay_Helper_File::SCRIPT_PATH );
-            $new_url .= '?' . $client->sign_and_encode( $params, $new_url );
-
-            $response->set_header( 'Location', $new_url );
-            $response->set_http_response_code( 302 );
-            $response->send_response();
-            // exit script after response was created
-            exit();
+        } else {
+            if ( ! $client->has_token() ) {
+                laterpay_get_logger()->debug( 'RESOURCE:: No token found. Acquiring token' );
+                $client->acquire_token();
+            }
         }
-
-        LaterPay_Helper_Request::laterpay_api_acquire_token();
 
         if ( ! empty( $auth ) ) {
             laterpay_get_logger()->debug( 'RESOURCE:: Auth param exists. Checking ...' );
@@ -324,7 +317,7 @@ class LaterPay_Helper_File
 
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
-        $file   = ABSPATH . $cipher->decrypt( $file );
+        $file   = ( isset( $_SERVER['DOCUMENT_ROOT'] ) ? sanitize_text_field( $_SERVER['DOCUMENT_ROOT'] ) : ABSPATH ) . $cipher->decrypt( $file );
 
         return $file;
     }

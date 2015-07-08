@@ -848,17 +848,6 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Return the URL hash for a given URL.
-     *
-     * @param string $url
-     *
-     * @return string $hash
-     */
-    public static function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . wp_salt() );
-    }
-
-    /**
      * Get posts by category price id with meta check
      *
      * @param int $category_id
@@ -866,25 +855,29 @@ class LaterPay_Helper_Pricing
      * @return array post ids
      */
     public static function get_posts_by_category_price_id( $category_id ) {
-        $ids     = array();
-        $posts   = self::get_all_posts_with_price();
-        $parents = array();
+        $ids      = array();
+        $posts    = self::get_all_posts_with_price();
+        $parents  = array();
+        $category = get_category( $category_id );
 
-        // get all parents
-        $parent_id = get_category( $category_id )->parent;
-        while ( $parent_id ) {
-            $parents[] = $parent_id;
-            $parent_id = get_category( $parent_id )->parent;
-        }
-
-        foreach ( $posts as $post ) {
-            $meta = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
-            if ( ! is_array( $meta ) ) {
-                continue;
+        if ( $category && is_object( $category ) ) {
+            // get all parents
+            $parent_id = $category->parent;
+            while ( $parent_id ) {
+                $parents[]       = $parent_id;
+                $parent_category = get_category( $parent_id );
+                $parent_id       = isset( $parent_category ) ? $parent_category->parent : null;
             }
 
-            if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] || in_array( $meta['category_id'], $parents ) ) ) {
-                $ids[ $post->ID ] = $meta;
+            foreach ( $posts as $post ) {
+                $meta = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
+                if ( ! is_array( $meta ) ) {
+                    continue;
+                }
+
+                if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] || in_array( $meta['category_id'], $parents ) ) ) {
+                    $ids[ $post->ID ] = $meta;
+                }
             }
         }
 

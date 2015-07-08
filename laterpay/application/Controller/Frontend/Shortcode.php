@@ -304,7 +304,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             wp_die();
         }
 
-        if ( ! isset( $_GET['ids'] ) || ! isset( $_GET['types'] ) || ! isset( $_GET['urls'] ) || ! isset( $_GET['post_id'] ) ) {
+        if ( ! isset( $_GET['ids'] ) || ! isset( $_GET['types'] ) || ! isset( $_GET['post_id'] ) ) {
             // exit Ajax request, if additional parameters aren't set
             wp_die();
         }
@@ -316,7 +316,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         $ids    = array_map( 'sanitize_text_field', $_GET['ids'] );
         $types  = array_map( 'sanitize_text_field', $_GET['types'] );
-        $urls   = array_map( 'esc_url_raw', $_GET['urls'] );
         $result = array();
 
         foreach ( $ids as $key => $id ) {
@@ -325,15 +324,13 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 continue;
             }
 
-            $content_type = $types[ $key ];
-            $page_url     = $urls[ $key ];
-
-            $html_button   = '';
-            $is_attachment = $post->post_type == 'attachment';
+            $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $id );
+            $content_type   = $types[ $key ];
+            $is_attachment  = $post->post_type === 'attachment';
 
             $access = LaterPay_Helper_Post::has_access_to_post( $post, $is_attachment, $current_post_id );
 
-            if ( $access ) {
+            if ( $access || ! $is_purchasable ) {
                 // the user has already purchased the item
                 switch ( $content_type ) {
                     case 'file':
@@ -355,7 +352,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                         break;
                 };
 
-                if ( $is_attachment ) {
+                if ( $is_attachment && $is_purchasable ) {
                     // render link to purchased attachment
                     $button_page_url = LaterPay_Helper_File::get_encrypted_resource_url(
                         $post->ID,
@@ -364,9 +361,15 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                         'attachment'
                     );
                 } else {
-                    // render link to purchased post
-                    $button_page_url = $page_url;
+                    if ( $is_attachment ) {
+                        // render link to attachment
+                        $button_page_url = wp_get_attachment_url( $post->ID );
+                    } else {
+                        // render link to purchased post
+                        $button_page_url = get_permalink( $post );
+                    }
                 }
+
                 $html_button = '<a href="' . $button_page_url . '" ' .
                     'class="lp_js_purchaseLink lp_purchase-button lp_purchase-button--shortcode" ' .
                     'rel="prefetch" ' .
@@ -380,14 +383,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                         'url' => get_permalink( $post->ID ),
                     );
                     $this->assign( 'laterpay', $view_args );
-
                     $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-link' );
                 } else {
-                    $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post, $current_post_id );
-                    if ( is_array( $view_args ) ) {
-                        $this->assign( 'laterpay', $view_args );
-                        $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-button' );
-                    };
+                    $this->assign( 'laterpay', LaterPay_Helper_Post::the_purchase_button_args( $post, $current_post_id ) );
+                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-button' );
                 }
             }
 
@@ -582,7 +581,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 // create URL with the generated voucher code
                 $data = array(
                     'voucher' => LaterPay_Helper_Voucher::generate_voucher_code(),
-                    'is_gift' => true,
                     'link'    => $link ? $link : get_permalink(),
                 );
 

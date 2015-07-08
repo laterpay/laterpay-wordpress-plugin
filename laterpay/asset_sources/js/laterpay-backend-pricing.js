@@ -234,6 +234,7 @@
                 // change period
                 $o.timePassEditor
                 .on('change', $o.timePassPeriod, function() {
+                    changeDurationOptions($(this), $(this).parents($o.timePassWrapper));
                     updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
                 });
 
@@ -1106,6 +1107,32 @@
                 validatePrice($form, false, $($o.timePassPrice, $form));
             },
 
+            changeDurationOptions = function($period, $form) {
+                var i, options = '',
+                    limit = 24,
+                    period = $period.val(),
+                    duration = $($o.timePassDuration, $form).val();
+
+
+                // change duration options
+                if (period === '4') {
+                    limit = 1;
+                } else if (period === '3') {
+                    limit = 12;
+                }
+
+                for(i = 1; i <= limit; i++) {
+                    options += '<option value="' + i +'">' + i + '</option>';
+                }
+
+                $($o.timePassDuration, $form)
+                    .find('option')
+                    .remove()
+                    .end()
+                .append(options)
+                .val(duration && duration <= limit ? duration : 1);
+            },
+
             generateVoucherCode = function($timePass) {
                 $.post(
                     ajaxurl,
@@ -1374,14 +1401,6 @@
             },
 
             changePurchaseMode = function($form) {
-                // toggle visibility of form elements
-                var onlyTimePassModeChecked = $o.purchaseModeInput.is(':checked');
-                if (onlyTimePassModeChecked) {
-                    $o.timePassOnlyHideElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
-                } else {
-                    $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
-                }
-
                 var serializedForm = $form.serialize();
                 // disable button during Ajax request
                 $o.purchaseModeInput.prop('disabled', true);
@@ -1392,17 +1411,14 @@
                     function(data) {
                         if (!data.success) {
                             $o.navigation.showMessage(data);
-
-                            // restore standard mode (individual and time pass purchases)
-                            $o.purchaseModeInput.attr('checked', false);
-                            $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
+                            $o.purchaseModeInput.prop('checked', false);
                         }
-
-                        // re-enable button after Ajax request
-                        $o.purchaseModeInput.prop('disabled', false);
                     },
                     'json'
                 );
+
+                // re-enable button after Ajax request
+                $o.purchaseModeInput.prop('disabled', false);
             },
 
             // throttle the execution of a function by a given delay

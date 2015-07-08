@@ -35,7 +35,7 @@ class LaterPay_Helper_TimePass
             'description'            => __( '24 hours access to all content on this website', 'laterpay' ),
         );
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $defaults[ $key ] ) ) {
                 return $defaults[ $key ];
             }
@@ -59,7 +59,7 @@ class LaterPay_Helper_TimePass
             19, 20, 21, 22, 23, 24,
         );
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $durations[ $key ] ) ) {
                 return $durations[ $key ];
             }
@@ -97,7 +97,7 @@ class LaterPay_Helper_TimePass
 
         $selected_array = $pluralized ? $periods_pluralized : $periods;
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $selected_array[ $key ] ) ) {
                 return $selected_array[ $key ];
             }
@@ -119,7 +119,7 @@ class LaterPay_Helper_TimePass
             'sis' => __( 'immediately', 'laterpay' ),
         );
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $revenues[ $key ] ) ) {
                 return $revenues[ $key ];
             }
@@ -142,7 +142,7 @@ class LaterPay_Helper_TimePass
             __( 'All content in category', 'laterpay' ),
         );
 
-        if ( isset ( $key ) ) {
+        if ( isset( $key ) ) {
             if ( isset( $access_to[ $key ] ) ) {
                 return $access_to[ $key ];
             }
@@ -435,7 +435,7 @@ class LaterPay_Helper_TimePass
             return '';
         }
 
-        if ( ! isset ($data) ) {
+        if ( ! isset( $data ) ) {
             $data = array();
         }
 
@@ -443,6 +443,7 @@ class LaterPay_Helper_TimePass
         $currency_model = new LaterPay_Model_Currency();
         $price          = isset( $data['price'] ) ? $data['price'] : $time_pass['price'];
         $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $time_pass['revenue_model'], $price );
+        $link           = isset( $data['link'] ) ? $data['link'] : get_permalink();
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
@@ -452,8 +453,6 @@ class LaterPay_Helper_TimePass
             $client_options['web_root'],
             $client_options['token_name']
         );
-
-        $link = isset( $data['link'] ) ? $data['link'] : get_permalink();
 
         // prepare URL
         $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
@@ -467,20 +466,29 @@ class LaterPay_Helper_TimePass
             'link'          => $link,
         );
 
-        $url  = add_query_arg( array_merge( $url_params, $data ) , $link );
-        $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-        $url  = $url . '&hash=' . $hash;
+        // set voucher param
+        if ( isset( $data['voucher'] ) ) {
+            $url_params['voucher'] = $data['voucher'];
+        }
+
+        // cut params from link and merge with other params
+        $parsed_link = parse_url( $link );
+        if ( isset( $parsed_link['query'] ) ) {
+            parse_str( $parsed_link['query'], $link_params );
+            $url_params = array_merge( $link_params, $url_params );
+            list( $link, $last ) = explode( '?', $link );
+        }
 
         // parameters for LaterPay purchase form
         $params = array(
             'article_id'    => isset( $data['voucher'] ) ? '[#' . $data['voucher'] . ']' : self::get_tokenized_time_pass_id( $time_pass_id ),
             'pricing'       => $currency . ( $price * 100 ),
             'expiry'        => '+' . self::get_time_pass_expiry_time( $time_pass ),
-            'url'           => $url,
+            'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
             'title'         => isset( $data['voucher'] ) ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
         );
 
-        if ( $revenue_model == 'sis' ) {
+        if ( $revenue_model === 'sis' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
         } else {

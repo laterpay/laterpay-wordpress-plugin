@@ -199,14 +199,22 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post_id;
         }
 
-        $url  = self::get_after_purchase_redirect_url( $url_params );
-        $hash = self::get_hash_by_url( $url );
+        // get current post link
+        $link = get_permalink( $url_params['post_id'] );
+
+        // cut params from link and merge with other params
+        $parsed_link = parse_url( $link );
+        if ( isset( $parsed_link['query'] ) ) {
+            parse_str( $parsed_link['query'], $link_params );
+            $url_params = array_merge( $link_params, $url_params );
+            list( $link, $last ) = explode( '?', $link );
+        }
 
         // parameters for LaterPay purchase form
         $params = array(
             'article_id' => $post_id,
             'pricing'    => $currency . ( $price * 100 ),
-            'url'        => $url . '&hash=' . $hash,
+            'url'        => $link . '?' . $client->sign_and_encode( $url_params, $link ),
             'title'      => $post->post_title,
         );
 
@@ -214,48 +222,13 @@ class LaterPay_Helper_Post
             __METHOD__, $params
         );
 
-        if ( $revenue_model == 'sis' ) {
+        if ( $revenue_model === 'sis' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
         } else {
             // Pay-per-Use purchase
             return $client->get_add_url( $params );
         }
-    }
-
-    /**
-     * Return the URL hash for a given URL.
-     *
-     * @param string $url
-     *
-     * @return string $hash
-     */
-    public static function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . wp_salt() );
-    }
-
-    /**
-     * Generate the URL to which the user is redirected to after buying a given post.
-     *
-     * @param array $data
-     *
-     * @return string $url
-     */
-    public static function get_after_purchase_redirect_url( array $data ) {
-        $url = get_permalink( $data['post_id'] );
-
-        if ( ! $url ) {
-            laterpay_get_logger()->error(
-                __METHOD__ . ' could not find an URL for the given post_id.',
-                array( 'data' => $data )
-            );
-
-            return $url;
-        }
-
-        $url = add_query_arg( $data, $url );
-
-        return $url;
     }
 
     /**
@@ -269,11 +242,6 @@ class LaterPay_Helper_Post
      * @return array
      */
     public static function the_purchase_button_args( WP_Post $post, $current_post_id = null ) {
-        // don't render the purchase button, if the current post is not purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
-            return;
-        };
-
         // render purchase button for administrator always in preview mode, too prevent accidental purchase by admin.
         $preview_mode = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( current_user_can( 'administrator' ) ) {
@@ -281,12 +249,6 @@ class LaterPay_Helper_Post
         }
 
         $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! get_option( 'laterpay_plugin_is_in_live_mode' );
-
-        // don't render the purchase button, if the current post was already purchased
-        // also even if item was purchased in visible test mode by admin it must be displayed
-        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_mode ) {
-            return;
-        };
 
         $view_args = array(
             'post_id'                   => $post->ID,
