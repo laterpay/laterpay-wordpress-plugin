@@ -15,9 +15,11 @@ class LaterPay_Controller_Frontend_Invoice extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_invoice_indicator' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'the_invoice_indicator' ),
             ),
             'laterpay_enqueue_scripts' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'add_frontend_scripts' ),
             ),
         );

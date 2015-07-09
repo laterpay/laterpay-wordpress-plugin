@@ -15,9 +15,11 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_account_links' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_account_links' ),
             ),
             'laterpay_enqueue_scripts' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'add_frontend_scripts' ),
             ),
         );

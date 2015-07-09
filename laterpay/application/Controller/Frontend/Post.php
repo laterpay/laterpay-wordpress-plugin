@@ -15,66 +15,84 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_content' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'modify_post_content' ),
             ),
             'laterpay_post_footer' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'modify_footer' ),
             ),
             'laterpay_posts' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'prefetch_post_access' ),
                 array( 'hide_free_posts_with_premium_content' ),
                 array( 'hide_paid_posts' ),
             ),
             'laterpay_attachment_image_attributes' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'encrypt_image_source' ),
             ),
             'laterpay_attachment_get_url' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'encrypt_attachment_url' ),
             ),
             'laterpay_attachment_prepend' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'prepend_attachment' ),
             ),
             'laterpay_enqueue_scripts' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'add_frontend_stylesheets' ),
                 array( 'add_frontend_scripts' ),
             ),
             'laterpay_post_teaser' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'generate_post_teaser' ),
             ),
             'wp_ajax_laterpay_post_load_purchased_content' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_load_purchased_content' ),
             ),
             'wp_ajax_nopriv_laterpay_post_load_purchased_content' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_load_purchased_content' ),
             ),
             'wp_ajax_laterpay_post_rate_purchased_content' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_rate_purchased_content' ),
             ),
             'wp_ajax_nopriv_laterpay_post_rate_purchased_content' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_rate_purchased_content' ),
             ),
             'wp_ajax_laterpay_post_rating_summary' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_load_rating_summary' ),
             ),
             'wp_ajax_nopriv_laterpay_post_rating_summary' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_load_rating_summary' ),
             ),
             'wp_ajax_laterpay_redeem_voucher_code' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_redeem_voucher_code' ),
             ),
             'wp_ajax_nopriv_laterpay_redeem_voucher_code' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_redeem_voucher_code' ),
             ),
             'wp_ajax_laterpay_load_files' => array(
-                array( 'load_files' ),
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'ajax_load_files' ),
             ),
             'wp_ajax_nopriv_laterpay_load_files' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_load_files' ),
             ),
         );

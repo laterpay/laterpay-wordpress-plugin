@@ -75,31 +75,14 @@ class LaterPay_Core_Bootstrap
      */
     public function run() {
         $this->register_wordpress_hooks();
+        $this->register_modules();
 
         $this->register_cache_helper();
-
         $this->register_upgrade_checks();
-        $this->register_admin_actions_step1();
 
+        $this->register_admin_actions();
+        $this->register_frontend_actions();
         $this->register_shortcodes();
-
-        // check, if the plugin is correctly configured and working
-        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
-            return;
-        }
-
-        $this->register_custom_actions();
-        $this->register_event_subscribers();
-
-        // backend actions part 2
-        if ( is_admin() ) {
-            $this->register_admin_actions_step2();
-        }
-
-        $this->register_global_actions();
-
-        // late load event
-        //add_action( 'wp_loaded', array( $this, 'late_load' ), 0 );
     }
 
     /**
@@ -107,13 +90,23 @@ class LaterPay_Core_Bootstrap
      *
      * @return void
      */
-    private function register_global_actions() {
+    private function register_frontend_actions() {
         $post_controller = self::get_controller( 'Frontend_Post' );
         laterpay_event_dispatcher()->add_subscriber( $post_controller );
 
         // set up unique visitors tracking
         $statistics_controller = self::get_controller( 'Frontend_Statistic' );
         laterpay_event_dispatcher()->add_subscriber( $statistics_controller );
+
+        // add custom filter to check if current user has access to the post content
+        LaterPay_Hooks::add_wp_filter( 'laterpay_check_user_access', 'laterpay_check_user_access' );
+
+        // add custom action to echo the LaterPay invoice indicator
+        $invoice_controller = self::get_controller( 'Frontend_Invoice' );
+        laterpay_event_dispatcher()->add_subscriber( $invoice_controller );
+        // add account links action
+        $account_controller = self::get_controller( 'Frontend_Account' );
+        laterpay_event_dispatcher()->add_subscriber( $account_controller );
     }
 
     /**
@@ -136,11 +129,11 @@ class LaterPay_Core_Bootstrap
     }
 
     /**
-     * Internal function to register the admin actions step 1.
+     * Internal function to register the admin actions step 2 after the 'plugin_is_working' check.
      *
      * @return void
      */
-    private function register_admin_actions_step1() {
+    private function register_admin_actions() {
         // add the admin panel
         $admin_controller = self::get_controller( 'Admin' );
         laterpay_event_dispatcher()->add_subscriber( $admin_controller );
@@ -161,40 +154,17 @@ class LaterPay_Core_Bootstrap
         // time passes
         $controller = self::get_controller( 'Admin_TimePass' );
         laterpay_event_dispatcher()->add_subscriber( $controller );
-    }
 
-    /**
-     * Internal function to register the admin actions step 2 after the 'plugin_is_working' check.
-     *
-     * @return void
-     */
-    private function register_admin_actions_step2() {
-        // register callbacks for adding meta_boxes
-        $post_metabox_controller    = self::get_controller( 'Admin_Post_Metabox' );
-        $column_controller          = self::get_controller( 'Admin_Post_Column' );
-        laterpay_event_dispatcher()->add_subscriber( $post_metabox_controller );
-        laterpay_event_dispatcher()->add_subscriber( $column_controller );
-    }
-
-    /**
-     * Internal function to register custom actions for LaterPay.
-     *
-     * @return void
-     */
-    private function register_custom_actions() {
         // custom action to refresh the dashboard
         $dashboard_controller = self::get_controller( 'Admin_Dashboard' );
         laterpay_event_dispatcher()->add_subscriber( $dashboard_controller );
 
-        // add custom filter to check if current user has access to the post content
-        LaterPay_Hooks::add_wp_filter( 'laterpay_check_user_access', 'laterpay_check_user_access' );
+        // register callbacks for adding meta_boxes
+        $post_metabox_controller    = self::get_controller( 'Admin_Post_Metabox' );
+        laterpay_event_dispatcher()->add_subscriber( $post_metabox_controller );
 
-        // add custom action to echo the LaterPay invoice indicator
-        $invoice_controller = self::get_controller( 'Frontend_Invoice' );
-        laterpay_event_dispatcher()->add_subscriber( $invoice_controller );
-        // add account links action
-        $account_controller = self::get_controller( 'Frontend_Account' );
-        laterpay_event_dispatcher()->add_subscriber( $account_controller );
+        $column_controller          = self::get_controller( 'Admin_Post_Column' );
+        laterpay_event_dispatcher()->add_subscriber( $column_controller );
     }
 
     /**
@@ -268,9 +238,9 @@ class LaterPay_Core_Bootstrap
      *
      * @return void
      */
-    private function register_event_subscribers() {
-        laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
+    private function register_modules() {
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Appearance() );
+        laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_TimePasses() );
     }
 

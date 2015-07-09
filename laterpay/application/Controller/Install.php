@@ -13,12 +13,15 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_metadata' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'migrate_pricing_post_meta' ),
             ),
             'laterpay_init_finished' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'check_requirements' ),
             ),
             'laterpay_admin_notices' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'render_requirements_notices' ),
                 array( 'check_for_updates' ),
                 array( 'maybe_update_meta_keys' ),

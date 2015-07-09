@@ -15,33 +15,42 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_meta_boxes' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'add_teaser_meta_box' ),
                 array( 'add_pricing_meta_box' ),
             ),
             'laterpay_post_save' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'save_laterpay_post_data' ),
             ),
             'laterpay_attachment_edit' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'save_laterpay_post_data' ),
             ),
             'laterpay_transition_post_status' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'update_post_publication_date' ),
             ),
             'laterpay_admin_enqueue_styles_post_edit' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'load_assets' ),
             ),
             'laterpay_admin_enqueue_styles_post_new' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'load_assets' ),
             ),
             'wp_ajax_laterpay_reset_post_publication_date' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'reset_post_publication_date' ),
             ),
             'wp_ajax_laterpay_get_dynamic_pricing_data' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'get_dynamic_pricing_data' ),
             ),
             'wp_ajax_laterpay_remove_post_dynamic_pricing' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'remove_dynamic_pricing_data' ),
             ),

@@ -15,9 +15,11 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_custom_column' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'add_columns_to_posts_table' ),
             ),
             'laterpay_post_custom_column_data' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'add_data_to_posts_table' ),
             ),
         );
