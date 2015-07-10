@@ -20,25 +20,39 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_admin_head' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'add_html5shiv_to_admin_head' ),
             ),
             'laterpay_admin_menu' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'add_to_admin_panel' ),
             ),
             'laterpay_admin_footer_scripts' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'modify_footer' ),
             ),
             'laterpay_post_edit' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'help_wp_edit_post' ),
             ),
             'laterpay_post_new' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'help_wp_add_post' ),
             ),
             'laterpay_admin_enqueue_scripts' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'add_plugin_admin_assets' ),
                 array( 'add_admin_pointers_script' ),
             ),
             'laterpay_delete_term_taxonomy' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'update_post_prices_after_category_delete' ),
             ),
         );

@@ -14,6 +14,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     public static function get_subscribed_events() {
         return array(
             'wp_ajax_laterpay_account' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'process_ajax_requests' ),
             ),

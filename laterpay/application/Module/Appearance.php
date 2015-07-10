@@ -48,58 +48,6 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      */
     public static function get_subscribed_events() {
         return array(
-            'laterpay_admin_init' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugin_is_active', 100 ),
-            ),
-            'laterpay_admin_head' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugin_is_active', 100 ),
-            ),
-            'laterpay_admin_menu' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugin_is_active', 100 ),
-            ),
-            'laterpay_admin_footer_scripts' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugin_is_active', 100 ),
-            ),
-            'laterpay_post_edit' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugin_is_active', 100 ),
-            ),
-            'laterpay_post_new' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugin_is_active', 100 ),
-            ),
-            'laterpay_admin_enqueue_scripts' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugin_is_active', 100 ),
-            ),
-            'laterpay_delete_term_taxonomy' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugin_is_active', 100 ),
-            ),
-            'laterpay_post_custom_column' => array(
-                array( 'on_admin_view', 200 ),
-            ),
-            'laterpay_post_custom_column_data' => array(
-                array( 'on_admin_view', 200 ),
-            ),
-            'laterpay_admin_notices' => array(
-                array( 'on_admin_view', 200 ),
-                array( 'on_plugins_page_view', 100 ),
-            ),
-            'laterpay_purchase_button' => array(
-                array( 'on_preview_post_as_admin', 100 ),
-                array( 'on_view_purchased_post_as_visitor', 100 ),
-                array( 'on_visible_test_mode', 100 ),
-            ),
-            'laterpay_purchase_link' => array(
-                array( 'on_preview_post_as_admin', 100 ),
-                array( 'on_view_purchased_post_as_visitor', 100 ),
-                array( 'on_visible_test_mode', 100 ),
-            ),
             'laterpay_post_content' => array(
                 array( 'modify_post_content', 0 ),
                 array( 'on_preview_post_as_admin', 100 ),
@@ -254,6 +202,17 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      * @param LaterPay_Core_Event $event
      */
     public function on_ajax_send_json( LaterPay_Core_Event $event ) {
-        wp_send_json( $event->get_result() );
+        $debug = laterpay_get_plugin_config()->get( 'debug_mode' );
+        $result = $event->get_result();
+        if ( $debug && is_array( $result ) ) {
+            $listeners = laterpay_event_dispatcher()->get_listeners( $event->get_name() );
+            foreach ( $listeners as $key => $listener ) {
+                if ( is_array( $listener ) && is_object( $listener[0] ) ) {
+                    $listeners[ $key ] = array( get_class( $listener[0] ) ) + $listener;
+                }
+            }
+            $result['listeners'] = $listeners;
+        }
+        wp_send_json( $result );
     }
 }

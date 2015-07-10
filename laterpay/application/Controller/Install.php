@@ -22,6 +22,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             ),
             'laterpay_admin_notices' => array(
                 array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugins_page_view', 200 ),
                 array( 'render_requirements_notices' ),
                 array( 'check_for_updates' ),
                 array( 'maybe_update_meta_keys' ),

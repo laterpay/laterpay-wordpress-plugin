@@ -15,6 +15,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
     public static function get_subscribed_events() {
         return array(
             'wp_ajax_laterpay_appearance' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'process_ajax_requests' ),
             ),

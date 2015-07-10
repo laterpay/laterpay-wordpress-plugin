@@ -17,12 +17,16 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_admin_init' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'init_laterpay_advanced_settings' ),
             ),
             'laterpay_admin_menu' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'add_laterpay_advanced_settings_page' ),
             ),
             'wp_ajax_laterpay_backend_options' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'process_ajax_requests' ),
             ),

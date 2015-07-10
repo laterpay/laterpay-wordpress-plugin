@@ -15,12 +15,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_refresh_dashboard_data' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'refresh_dashboard_data' ),
             ),
             'laterpay_delete_old_post_views' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'delete_old_post_views' ),
             ),
             'wp_ajax_laterpay_get_dashboard_data' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_get_dashboard_data' ),
             ),

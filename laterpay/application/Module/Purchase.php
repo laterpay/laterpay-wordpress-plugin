@@ -26,8 +26,11 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 array( 'create_token' ),
             ),
             'laterpay_purchase_button' => array(
-                array( 'on_purchase_button' ),
+                array( 'laterpay_on_preview_post_as_admin', 200 ),
+                array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
+                array( 'laterpay_on_visible_test_mode', 200 ),
                 array( 'is_purchasable', 100 ),
+                array( 'on_purchase_button' ),
                 array( 'purchase_button_position', 0 ),
             ),
             'laterpay_purchase_overlay' => array(
@@ -35,8 +38,11 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 array( 'is_purchasable', 100 ),
             ),
             'laterpay_purchase_link' => array(
-                array( 'on_purchase_link' ),
+                array( 'laterpay_on_preview_post_as_admin', 200 ),
+                array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
+                array( 'laterpay_on_visible_test_mode', 200 ),
                 array( 'is_purchasable', 100 ),
+                array( 'on_purchase_link' ),
             ),
             'laterpay_post_content' => array(
                 array( 'is_purchasable', 100 ),

@@ -198,19 +198,6 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      * @param LaterPay_Core_Event_SubscriberInterface $subscriber The subscriber.
      */
     public function add_subscriber( LaterPay_Core_Event_SubscriberInterface $subscriber ) {
-        foreach ( $subscriber->get_subscribed_events() as $event_name => $params ) {
-            if ( is_string( $params ) ) {
-                $this->add_listener( $event_name, array( $subscriber, $params ) );
-            } else {
-                foreach ( $params as $listener ) {
-                    if ( method_exists( $subscriber, $listener[0] ) ) {
-                        $this->add_listener( $event_name, array( $subscriber, $listener[0] ), isset( $listener[1] ) ? $listener[1] : self::DEFAULT_PRIORITY );
-                    } elseif ( ($callable = $this->get_shared_listener( $listener[0] )) !== null ) {
-                        $this->add_listener( $event_name, array( $callable, $listener[0] ), isset( $listener[1] ) ? $listener[1] : self::DEFAULT_PRIORITY );
-                    }
-                }
-            }
-        }
         foreach ( $subscriber->get_shared_events() as $event_name => $params ) {
             if ( is_string( $params ) ) {
                 $this->add_shared_listener( $event_name, array( $subscriber, $params ) );
@@ -219,6 +206,20 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             } else {
                 foreach ( $params as $listener ) {
                     $this->add_shared_listener( $event_name, array( $subscriber, $listener[0] ) );
+                }
+            }
+        }
+
+        foreach ( $subscriber->get_subscribed_events() as $event_name => $params ) {
+            if ( is_string( $params ) ) {
+                $this->add_listener( $event_name, array( $subscriber, $params ) );
+            } else {
+                foreach ( $params as $listener ) {
+                    if ( method_exists( $subscriber, $listener[0] ) ) {
+                        $this->add_listener( $event_name, array( $subscriber, $listener[0] ), isset( $listener[1] ) ? $listener[1] : self::DEFAULT_PRIORITY );
+                    } elseif ( ($callable = $this->get_shared_listener( $listener[0] )) !== null ) {
+                        $this->add_listener( $event_name, $callable, isset( $listener[1] ) ? $listener[1] : self::DEFAULT_PRIORITY );
+                    }
                 }
             }
         }
@@ -334,14 +335,14 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      */
     public function set_debug_data( $event_name, $context ) {
         if ( in_array( $event_name, array( 'laterpay_post_metadata' ) ) ) {
-            return;
+            return $this;
         }
         if ( $this->debug_enabled ) {
             $listeners = $this->get_listeners( $event_name );
             $record = array(
                 'message'       => (string) $event_name,
                 'context'       => $context,
-                'extra'         => array( 'listeners' => $listeners ),
+                'extra'         => (array) $listeners,
                 'level'         => count( $listeners ) > 0 ? LaterPay_Core_Logger::DEBUG : LaterPay_Core_Logger::WARNING,
             );
             $this->debug_data[] = $record;

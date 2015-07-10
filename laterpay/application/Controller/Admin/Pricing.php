@@ -15,10 +15,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     public static function get_subscribed_events() {
         return array(
             'wp_ajax_laterpay_pricing' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'process_ajax_requests' ),
             ),
             'wp_ajax_laterpay_get_category_prices' => array(
+                array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'process_ajax_requests' ),
             ),
