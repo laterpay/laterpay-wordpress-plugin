@@ -16,8 +16,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'migrate_pricing_post_meta' ),
             ),
-            'laterpay_init_finished' => array(
+            'laterpay_admin_init' => array(
                 array( 'laterpay_on_admin_view', 200 ),
+                array( 'trigger_requirements_check' ),
+            ),
+            'laterpay_check_requirements' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugins_page_view', 200 ),
                 array( 'check_requirements' ),
             ),
             'laterpay_admin_notices' => array(
@@ -56,6 +61,15 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             $out = join( "\n", $notices );
             echo laterpay_sanitize_output( '<div class="error">' . $out . '</div>' );
         }
+    }
+
+    /**
+     * Trigger requirements check
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function trigger_requirements_check( LaterPay_Core_Event $event ) {
+        laterpay_event_dispatcher()->dispatch( 'laterpay_check_requirements', $event );
     }
 
     /**

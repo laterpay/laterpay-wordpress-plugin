@@ -149,7 +149,6 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             if ( ! isset( $this->sorted[ $event_name ] ) ) {
                 $this->sort_listeners( $event_name );
             }
-
             return $this->sorted[ $event_name ];
         }
 
@@ -174,7 +173,16 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
 
         if ( isset( $this->listeners[ $event_name ] ) ) {
             krsort( $this->listeners[ $event_name ] );
-            $this->sorted[ $event_name ] = call_user_func_array( 'array_merge', $this->listeners[ $event_name ] );
+            // we should make resulted array unique to avoid duplicated calls.
+            // php function `array_unique` works wrong and has bugs working with objects/arrays.
+            $temp_array = call_user_func_array( 'array_merge', $this->listeners[ $event_name ] );
+            $result = array();
+            foreach ( $temp_array as $callback ) {
+                if ( ! in_array( $callback, $result ) ) {
+                    $result[] = $callback;
+                }
+            }
+            $this->sorted[ $event_name ] = $result;
         }
     }
 
