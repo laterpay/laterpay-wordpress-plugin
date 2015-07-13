@@ -40,6 +40,11 @@ class LaterPay_Core_Event {
     private $propagations_stopped = false;
 
     /**
+     * @var bool who has stopped event
+     */
+    private $propagations_stopped_by = '';
+
+    /**
      * Encapsulate an event with $args.
      *
      * @param array $arguments Arguments to store in the event.
@@ -55,6 +60,15 @@ class LaterPay_Core_Event {
      */
     public function is_propagation_stopped() {
         return $this->propagations_stopped;
+    }
+
+    public function set_propagations_stopped_by( $listener ) {
+        if ( is_array( $listener ) && is_object( $listener[0] ) ) {
+            $name = '[[object] (' . get_class( $listener[0] ) .  ': {}),"' . ( isset( $listener[1] ) ? $listener[1] : '__invoke' ) . '"]';
+        } else {
+            $name = (string) $listener;
+        }
+        $this->propagations_stopped_by = $name;
     }
 
     /**
@@ -205,6 +219,7 @@ class LaterPay_Core_Event {
         return array(
             'is_echo_enabled'           => $this->is_echo_enabled() ? 'true' : 'false',
             'is_propagation_stopped'    => $this->is_propagation_stopped() ? 'true' : 'false',
+            'propagation_stopped_by'    => $this->propagations_stopped_by,
             'arguments'                 => $this->get_arguments(),
             'result'                    => $this->get_result(),
         );

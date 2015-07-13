@@ -86,6 +86,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             $arguments = $this->get_arguments( $listener, $event );
             call_user_func_array( $listener, $arguments );
             if ( $event->is_propagation_stopped() ) {
+                $event->set_propagations_stopped_by( $listener );
                 break;
             }
         }
