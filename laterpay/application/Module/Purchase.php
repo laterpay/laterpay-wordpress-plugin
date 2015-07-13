@@ -13,7 +13,11 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      * @see LaterPay_Core_Event_SubscriberInterface::get_shared_events()
      */
     public static function get_shared_events() {
-        return array();
+        return array(
+            'laterpay_is_purchasable' => array(
+                array( 'is_purchasable' ),
+            ),
+        );
     }
 
     /**
@@ -35,6 +39,10 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             ),
             'laterpay_purchase_overlay' => array(
                 array( 'on_purchase_overlay' ),
+                array( 'is_purchasable', 100 ),
+            ),
+            'laterpay_purchase_overlay_content' => array(
+                array( 'on_purchase_overlay_content' ),
                 array( 'is_purchasable', 100 ),
             ),
             'laterpay_purchase_link' => array(
@@ -100,12 +108,14 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $content = the_content();
         }
         $revenue_model              = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
-        $only_time_passes_allowed   = get_option( 'laterpay_only_time_pass_purchases_allowed' );
+        // get overlay content
+        $overlay_content_event = new LaterPay_Core_Event( array($revenue_model) );
+        $overlay_content_event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_overlay_content', $overlay_content_event );
 
         $view_args = array(
             'content'                           => $content,
-            'overlay_content'                   => $this->generate_overlay_content( $revenue_model, $only_time_passes_allowed ),
-            'only_time_pass_purchases_allowed'  => $only_time_passes_allowed, // FIXME: #612 move to Timepass Module
+            'overlay_content'                   => (array) $overlay_content_event->get_result(),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -155,34 +165,21 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
     /**
      * Collect content of benefits overlay.
      *
-     * @param  string  $revenue_model       LaterPay revenue model applied to content
-     * @param  boolean $time_passes_only    can posts be purchased individually, or only by time passes?
+     * @param LaterPay_Core_Event $event
+     * @var string                $revenue_model       LaterPay revenue model applied to content
      *
      * @return array $overlay_content
      */
-    protected function generate_overlay_content( $revenue_model, $time_passes_only = false ) { // FIXME: #612 move timepass into module
+    public function on_purchase_overlay_content( LaterPay_Core_Event $event ) {
+        list( $revenue_model ) = $event->get_arguments() + array( 'sis' );
         // determine overlay title to show
-        if ( $revenue_model == 'sis' || $time_passes_only ) {
+        if ( $revenue_model == 'sis' ) {
             $overlay_title = __( 'Read Now', 'laterpay' );
         } else {
             $overlay_title = __( 'Read Now, Pay Later', 'laterpay' );
         }
 
-        // determine benefits to show
-        if ( $time_passes_only ) {
-            $overlay_benefits = array(
-                array(
-                    'title' => __( 'Buy Time Pass', 'laterpay' ),
-                    'text'  => __( 'Buy a LaterPay time pass and pay with a payment method you trust.', 'laterpay' ),
-                    'class' => 'lp_benefit--buy-now',
-                ),
-                array(
-                    'title' => __( 'Read Immediately', 'laterpay' ),
-                    'text'  => __( 'Immediately access your content. <br>A time pass is not a subscription, it expires automatically.', 'laterpay' ),
-                    'class' => 'lp_benefit--use-immediately',
-                ),
-            );
-        } else if ( ! $time_passes_only && $revenue_model == 'sis' ) {
+        if ( $revenue_model == 'sis' ) {
             $overlay_benefits = array(
                 array(
                     'title' => __( 'Buy Now', 'laterpay' ),
@@ -215,12 +212,17 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             );
         }
 
+        $action_event = new LaterPay_Core_Event();
+        $action_event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $action_event );
+
         $overlay_content = array(
             'title'      => $overlay_title,
             'benefits'   => $overlay_benefits,
+            'action'     => (string) $action_event->get_result(),
         );
 
-        return $overlay_content;
+        $event->set_result( $overlay_content );
     }
 
     /**

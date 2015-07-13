@@ -35,9 +35,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 array( 'maybe_update_currency_to_euro' ),
                 array( 'maybe_update_time_passes_table' ),
                 array( 'maybe_update_payment_history_add_revenue_model' ),
-                array( 'maybe_add_only_time_pass_purchase_option' ),
                 array( 'maybe_update_api_urls_options_names' ),
-                array( 'maybe_add_only_time_pass_purchase_option' ),
                 array( 'maybe_add_is_in_visible_test_mode_option' ),
                 array( 'maybe_clean_api_key_options' ),
                 array( 'maybe_update_unlimited_access' ),
@@ -370,25 +368,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // if need to add is_deleted field
         if ( ! $is_deleted_flag_present ) {
             $wpdb->query( 'ALTER TABLE ' . $table . ' ADD `is_deleted` int(1) NOT NULL DEFAULT 0;' );
-        }
-    }
-
-    /**
-     * Adding option to allow only time pass purchases.
-     *
-     * @since 0.9.11
-     * @wp-hook admin_notices
-     *
-     * @return void
-     */
-    public function maybe_add_only_time_pass_purchase_option() {
-        $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
-            return;
-        }
-
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === null ) {
-            add_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
         }
     }
 
