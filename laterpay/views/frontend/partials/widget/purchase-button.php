@@ -41,7 +41,3 @@ $title = sprintf(
 ?>
 
 <a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $title ); ?></a>
-
-<?php if ( isset( $laterpay['show_post_ratings'] ) && $laterpay['show_post_ratings'] ) : //TODO: #612 move to another module?>
-    <div id="lp_js_postRatingPlaceholder"></div>
-<?php endif; ?>
