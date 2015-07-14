@@ -67,7 +67,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @param LaterPay_Core_Event $event
      */
     public function trigger_requirements_check( LaterPay_Core_Event $event ) {
-        laterpay_event_dispatcher()->dispatch( 'laterpay_check_requirements', $event );
+        $new_event = new LaterPay_Core_Event( $event->get_arguments() );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_check_requirements', $new_event );
     }
 
     /**
