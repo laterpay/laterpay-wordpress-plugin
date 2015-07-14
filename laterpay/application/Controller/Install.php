@@ -9,7 +9,9 @@
  */
 class LaterPay_Controller_Install extends LaterPay_Controller_Base
 {
-
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_metadata' => array(

@@ -28,9 +28,6 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             'laterpay_on_preview_post_as_admin' => array(
                 array( 'on_preview_post_as_admin' ),
             ),
-            'laterpay_on_view_purchased_post_as_visitor' => array(
-                array( 'on_view_purchased_post_as_visitor' ),
-            ),
             'laterpay_on_visible_test_mode' => array(
                 array( 'on_visible_test_mode' ),
             ),
@@ -75,24 +72,6 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         }
         $event->add_argument( 'attributes', array( 'data-preview-post-as-visitor' => $preview_post_as_visitor ) );
         $event->set_argument( 'preview_post_as_visitor', $preview_post_as_visitor );
-    }
-
-    /**
-     * Stops event bubbling if the current post was already purchased and current user is not an admin
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function on_view_purchased_post_as_visitor( LaterPay_Core_Event $event ) {
-        if ( $event->has_argument( 'post' ) ) {
-            $post = $event->get_argument( 'post' );
-        } else {
-            $post = get_post();
-        }
-
-        $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
-        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
-            $event->stop_propagation();
-        }
     }
 
     /**

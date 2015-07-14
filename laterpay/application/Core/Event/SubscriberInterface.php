@@ -28,5 +28,13 @@ interface LaterPay_Core_Event_SubscriberInterface {
      */
     public static function get_subscribed_events();
 
+    /**
+     * Returns an array of shared event names this subscriber wants to distribute.
+     *
+     * For instance:
+     *  * array( 'eventName' => array( 'methodName' ) )
+     *
+     * @return array The shared event names to distribute
+     */
     public static function get_shared_events();
 }

@@ -489,7 +489,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         // don't render any gift cards, if there are no time passes
         if ( ! $time_passes_list ) {
-            $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
+            $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
             $event->set_result( $error_message );
             $event->stop_propagation();
         }
@@ -528,7 +528,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         if ( $data['id'] ) {
             $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true );
             if ( ! $time_pass ) {
-                $error_message = $this->get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
+                $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
                 $event->set_result( $error_message );
                 $event->stop_propagation();
             }
@@ -729,27 +729,5 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         $html = $this->get_text_view( 'frontend/partials/post/account-links-iframe' );
 
         $event->set_result( $html );
-    }
-
-    /**
-     * Get error message for shortcode.
-     *
-     * @param string  $error_reason
-     * @param array   $atts         shortcode attributes
-     *
-     * @return string $error_message
-     */
-    public function get_error_message( $error_reason, $atts ) {
-        $error_message  = '<div class="lp_shortcodeError">';
-        $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-        $error_message .= $error_reason;
-        $error_message .= '</div>';
-
-        $this->logger->error(
-            __METHOD__ . ' - ' . $error_reason,
-            array( 'args' => $atts, )
-        );
-
-        return $error_message;
     }
 }

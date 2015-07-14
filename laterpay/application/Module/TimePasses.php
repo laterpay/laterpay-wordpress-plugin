@@ -263,93 +263,81 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * @return  void
      */
     public function buy_time_pass() {
-        if ( ! isset( $_GET['pass_id'] ) && ! isset( $_GET['link'] ) ) {
+        $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+        $request        = new LaterPay_Core_Request();
+        $pass_id        = $request->get_param( 'pass_id' );
+        $link           = $request->get_param( 'link' );
+        if ( ! isset( $pass_id ) || ! isset( $link ) ) {
             return;
         }
-
-        // data to create and hash-check the URL
-        $get_pass_id        = sanitize_text_field( $_GET['pass_id'] );
-        $get_id_currency    = isset( $_GET['id_currency'] ) ? sanitize_text_field( $_GET['id_currency'] ) : null;
-        $get_price          = isset( $_GET['price'] ) ? sanitize_text_field( $_GET['price'] ) : null;
-        $get_date           = isset( $_GET['date'] ) ? sanitize_text_field( $_GET['date'] ) : null;
-        $get_ip             = isset( $_GET['ip'] ) ? sanitize_text_field( $_GET['ip'] ) : null;
-        $get_revenue_model  = isset( $_GET['revenue_model'] ) ? sanitize_text_field( $_GET['revenue_model'] ) : null;
-        $get_voucher        = isset( $_GET['voucher'] ) ? sanitize_text_field( $_GET['voucher'] ) : null;
-        $get_hash           = isset( $_GET['hash'] ) ? sanitize_text_field( $_GET['hash'] ) : null;
-        $get_link           = esc_url_raw( $_GET['link'] );
-
-        $url_data = array(
-            'pass_id'       => $get_pass_id,
-            'id_currency'   => $get_id_currency,
-            'price'         => $get_price,
-            'date'          => $get_date,
-            'ip'            => $get_ip,
-            'revenue_model' => $get_revenue_model,
-            'link'          => $get_link,
-        );
-
-        // additional fields
-        if ( isset( $_GET['voucher'] ) ) {
-            $url_data['voucher'] = $get_voucher;
-        }
-
-        if ( isset( $_GET['is_gift'] ) ) {
-            $url_data['is_gift'] = sanitize_text_field( $_GET['is_gift'] );
-        }
-
-        $url     = add_query_arg( $url_data, $get_link );
-        $hash    = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-
-        $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $get_pass_id );
-
+        $id_currency    = $request->get_param( 'id_currency' );
+        $price          = $request->get_param( 'price' );
+        $date           = $request->get_param( 'date' );
+        $ip             = $request->get_param( 'ip' );
+        $revenue_model  = $request->get_param( 'revenue_model' );
+        $voucher        = $request->get_param( 'voucher' );
+        $hmac           = $request->get_param( 'hmac' );
+        $lptoken        = $request->get_param( 'lptoken' );
+        $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $pass_id );
         $post_id = 0;
         $post    = get_post();
         if ( $post !== null ) {
             $post_id = $post->ID;
         }
-
-        if ( $hash === $_GET['hash'] ) {
+        $client_options  = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+        if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+            // check token
+            if ( ! empty( $lptoken ) ) {
+                $laterpay_client->set_token( $lptoken );
+            } elseif ( ! $laterpay_client->has_token() ) {
+                $laterpay_client->acquire_token();
+            }
             // process vouchers
-            if ( ! LaterPay_Helper_Voucher::check_voucher_code( $get_voucher ) ) {
-                if ( ! LaterPay_Helper_Voucher::check_voucher_code( $get_voucher, true ) ) {
+            if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher ) ) {
+                if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher, true ) ) {
                     // save the pre-generated gift code as valid voucher code now that the purchase is complete
                     $gift_cards = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id, true );
-                    $gift_cards[ $get_voucher ] = 0;
+                    $gift_cards[ $voucher ] = 0;
                     LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true, true );
                     // set cookie to store information that gift card was purchased
                     setcookie(
                         'laterpay_purchased_gift_card',
-                        $get_voucher . '|' . $pass_id,
+                        $voucher . '|' . $pass_id,
                         time() + 30,
                         '/'
                     );
                 } else {
                     // update gift code statistics
-                    LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $get_voucher, true );
+                    LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher, true );
                 }
             } else {
                 // update voucher statistics
-                LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $get_voucher );
+                LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher );
             }
-
             // save payment history
             $data = array(
-                'id_currency'   => $get_id_currency,
+                'id_currency'   => $id_currency,
                 'post_id'       => $post_id,
-                'price'         => $get_price,
-                'date'          => $get_date,
-                'ip'            => $get_ip,
-                'hash'          => $get_hash,
-                'revenue_model' => $get_revenue_model,
+                'price'         => $price,
+                'date'          => $date,
+                'ip'            => $ip,
+                'hash'          => $hmac,
+                'revenue_model' => $revenue_model,
                 'pass_id'       => $pass_id,
-                'code'          => $get_voucher,
+                'code'          => $voucher,
             );
 
             $payment_history_model = new LaterPay_Model_Payment_History();
             $payment_history_model->set_payment_history( $data );
         }
-
-        wp_redirect( $get_link );
+        wp_redirect( $link );
         // exit script after redirect was set
         exit;
     }
@@ -423,7 +411,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         ), $atts );
 
         if ( isset( $data['id'] ) && ! LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true ) ) {
-            $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
+            $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
             $event->set_result( $error_message );
             $event->stop_propagation();
         }

@@ -111,8 +111,6 @@ class LaterPay_Hooks {
         foreach ( $options as $option_name ) {
             add_action( 'update_option_' . $option_name, array( $this, self::$wp_action_prefix . 'laterpay_option_update' ) );
         }
-
-        //add_filter( 'laterpay_check_user_access',       array( $this, self::$wp_filter_prefix . 'laterpay_check_user_access' ), 10, 2 );
     }
 
     /**

@@ -305,4 +305,21 @@ class LaterPay_Helper_View
 
         return $is_hidden;
     }
+
+    /**
+     * Get error message for shortcode.
+     *
+     * @param string  $error_reason
+     * @param array   $atts         shortcode attributes
+     *
+     * @return string $error_message
+     */
+    public static function get_error_message( $error_reason, $atts ) {
+        $error_message  = '<div class="lp_shortcodeError">';
+        $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+        $error_message .= $error_reason;
+        $error_message .= '</div>';
+
+        return $error_message;
+    }
 }

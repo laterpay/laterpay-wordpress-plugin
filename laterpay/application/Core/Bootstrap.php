@@ -98,9 +98,6 @@ class LaterPay_Core_Bootstrap
         $statistics_controller = self::get_controller( 'Frontend_Statistic' );
         laterpay_event_dispatcher()->add_subscriber( $statistics_controller );
 
-        // add custom filter to check if current user has access to the post content
-        LaterPay_Hooks::add_wp_filter( 'laterpay_check_user_access', 'laterpay_check_user_access' );
-
         // add custom action to echo the LaterPay invoice indicator
         $invoice_controller = self::get_controller( 'Frontend_Invoice' );
         laterpay_event_dispatcher()->add_subscriber( $invoice_controller );
@@ -242,6 +239,7 @@ class LaterPay_Core_Bootstrap
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Appearance() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_TimePasses() );
+        laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Rates() );
     }
 
     /**

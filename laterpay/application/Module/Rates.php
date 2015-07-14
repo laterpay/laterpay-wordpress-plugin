@@ -40,7 +40,11 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
      * @return string $content
      */
     public function modify_post_content( LaterPay_Core_Event $event ) {
-        $post = get_post();
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
         if ( $post === null ) {
             return;
         }

@@ -17,6 +17,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             'laterpay_is_purchasable' => array(
                 array( 'is_purchasable' ),
             ),
+            'laterpay_on_view_purchased_post_as_visitor' => array(
+                array( 'on_view_purchased_post_as_visitor' ),
+            ),
         );
     }
 
@@ -38,8 +41,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 array( 'purchase_button_position', 0 ),
             ),
             'laterpay_purchase_overlay' => array(
-                array( 'on_purchase_overlay' ),
+                array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
                 array( 'is_purchasable', 100 ),
+                array( 'on_purchase_overlay' ),
             ),
             'laterpay_purchase_overlay_content' => array(
                 array( 'on_purchase_overlay_content' ),
@@ -53,6 +57,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 array( 'on_purchase_link' ),
             ),
             'laterpay_post_content' => array(
+                array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
                 array( 'is_purchasable', 100 ),
                 array( 'modify_post_content', 5 ),
             ),
@@ -105,7 +110,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         if ( $event->has_argument( 'content' ) ) {
             $content = $event->get_argument( 'content' );
         } else {
-            $content = the_content();
+            $content = get_the_content();
         }
         $revenue_model              = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
         // get overlay content
@@ -236,6 +241,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
     public function check_user_access( LaterPay_Core_Event $event ) {
         list( $has_access, $post_id ) = $event->get_arguments() + array( '', '' );
         $event->set_result( false );
+        $event->set_echo( false );
         // get post
         if ( ! isset( $post_id ) ) {
             $post = get_post();
@@ -282,82 +288,64 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      * @return void
      */
     public function buy_post() {
+        $request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+        $request           = new LaterPay_Core_Request();
+        $buy               = $request->get_param( 'buy' );
         // return, if the request was not a redirect after a purchase
-        if ( ! isset( $_GET['buy'] ) ) {
+        if ( ! isset( $buy ) ) {
             return;
         }
-
-        // data to create and hash-check the URL
-        $get_post_id        = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : null;
-        $get_id_currency    = isset( $_GET['id_currency'] ) ? sanitize_text_field( $_GET['id_currency'] ) : null;
-        $get_price          = isset( $_GET['price'] ) ? sanitize_text_field( $_GET['price'] ) : null;
-        $get_date           = isset( $_GET['date'] ) ? sanitize_text_field( $_GET['date'] ) : null;
-        $get_ip             = isset( $_GET['ip'] ) ? sanitize_text_field( $_GET['ip'] ) : null;
-        $get_revenue_model  = isset( $_GET['revenue_model'] ) ? sanitize_text_field( $_GET['revenue_model'] ) : null;
-        $get_buy            = isset( $_GET['buy'] ) ? sanitize_text_field( $_GET['buy'] ) : null;
-        $get_hash           = isset( $_GET['hash'] ) ? sanitize_text_field( $_GET['hash'] ) : null;
-
-        $url_data = array(
-            'post_id'       => $get_post_id,
-            'id_currency'   => $get_id_currency,
-            'price'         => $get_price,
-            'date'          => $get_date,
-            'buy'           => $get_buy,
-            'ip'            => $get_ip,
-            'revenue_model' => $get_revenue_model,
+        $post_id           = $request->get_param( 'post_id' );
+        $id_currency       = $request->get_param( 'id_currency' );
+        $price             = $request->get_param( 'price' );
+        $date              = $request->get_param( 'date' );
+        $ip                = $request->get_param( 'ip' );
+        $revenue_model     = $request->get_param( 'revenue_model' );
+        $hmac              = $request->get_param( 'hmac' );
+        $lptoken           = $request->get_param( 'lptoken' );
+        $download_attached = $request->get_param( 'download_attached' );
+        $request         = new LaterPay_Core_Request();
+        $client_options  = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
         );
-
-        if ( isset( $_GET['download_attached'] ) ) {
-            $url_data['download_attached'] = sanitize_text_field( $_GET['download_attached'] );
+        if ( $download_attached ) {
+            $post_id = $download_attached;
         }
-        $url = $this->get_after_purchase_redirect_url( $url_data );
-        $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-        // update lptoken, if we got it
-        if ( isset( $_GET['lptoken'] ) ) {
-            LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ) );
-        }
-
-        $post_id = absint( $_GET['post_id'] );
-        if ( isset( $_GET['download_attached'] ) ) {
-            $post_id = absint( $_GET['download_attached'] );
-        }
-
-        // check, if the parameters of $_GET are valid and not manipulated
-        if ( $hash === $_GET['hash'] ) {
+        if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+            // check token
+            if ( ! empty( $lptoken ) ) {
+                $laterpay_client->set_token( $lptoken );
+            } elseif ( ! $laterpay_client->has_token() ) {
+                $laterpay_client->acquire_token();
+            }
             $data = array(
                 'post_id'       => $post_id,
-                'id_currency'   => $get_id_currency,
-                'price'         => $get_price,
-                'date'          => $get_date,
-                'ip'            => $get_ip,
-                'hash'          => $get_hash,
-                'revenue_model' => $get_revenue_model,
+                'id_currency'   => $id_currency,
+                'price'         => $price,
+                'date'          => $date,
+                'ip'            => $ip,
+                'hash'          => $hmac,
+                'revenue_model' => $revenue_model,
             );
-
-//            $this->logger->info(
-//                __METHOD__ . ' - set payment history',
-//                $data
-//            );
 
             $payment_history_model = new LaterPay_Model_Payment_History();
             $payment_history_model->set_payment_history( $data );
         }
-
-        $redirect_url = get_permalink( $get_post_id );
-
         // prepare attachment URL for download
-        if ( isset( $_GET['download_attached'] ) ) {
-            $post_id = absint( $_GET['download_attached'] );
+        if ( $download_attached ) {
             $post    = get_post( $post_id );
             $access  = LaterPay_Helper_Post::has_access_to_post( $post );
-
             $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
                 $post_id,
                 wp_get_attachment_url( $post_id ),
                 $access,
                 'attachment'
             );
-
             // set cookie to notify post that we need to start attachment download
             setcookie(
                 'laterpay_download_attached',
@@ -366,29 +354,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 '/'
             );
         }
-
-        wp_redirect( $redirect_url );
+        wp_redirect( get_permalink( $post_id ) );
         // exit script after redirect was set
         exit;
-    }
-
-    /**
-     * Generate the URL to which the user is redirected to after buying a given post.
-     *
-     * @param array $data
-     *
-     * @return string $url
-     */
-    protected function get_after_purchase_redirect_url( array $data ) {
-        $url = isset( $data['post_id'] ) ? get_permalink( $data['post_id'] ) : get_permalink();
-
-        if ( ! $url ) {
-            return $url;
-        }
-
-        $url = add_query_arg( $data, $url );
-
-        return $url;
     }
 
     /**
@@ -457,5 +425,23 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
 
         $event->set_result( $html );
+    }
+
+    /**
+     * Stops event bubbling if the current post was already purchased and current user is not an admin
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_view_purchased_post_as_visitor( LaterPay_Core_Event $event ) {
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+
+        $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
+            $event->stop_propagation();
+        }
     }
 }
