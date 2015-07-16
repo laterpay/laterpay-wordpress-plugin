@@ -22,7 +22,7 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_content' => array(
-                array( 'modify_post_content' ),
+                array( 'modify_post_content', 250 ),
             ),
             'laterpay_purchase_button' => array(
                 array( 'modify_purchase_button' ),
@@ -91,12 +91,13 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
         if ( $access && ! $preview_post_as_visitor && ( ! $caching_is_active || $is_ajax_and_caching_is_active ) && $show_post_ratings ) {
             $user_has_already_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
             // append rating form to content, if content rating is enabled
-            $view_args = array(
-                'post_id'                   => $post_id,
-                'user_has_already_voted'    => $user_has_already_voted,
-            );
-            $this->assign( 'laterpay', $view_args );
-            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating-form' ) );
+            if ( ! $user_has_already_voted ) {
+                $view_args = array(
+                    'post_id' => $post_id,
+                );
+                $this->assign( 'laterpay', $view_args );
+                $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating-form' ) );
+            }
         }
 
         $event->set_result( $content );
