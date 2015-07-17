@@ -59,6 +59,8 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             // $this->set_debug_data( $event_name, $event->get_debug() );
             return $event;
         }
+        $arguments = LaterPay_Hooks::apply_arguments_filters( $event_name, $event->get_arguments() );
+        $event->set_arguments( $arguments );
 
         $this->do_dispatch( $this->get_listeners( $event_name ), $event );
         if ( ! $event->is_propagation_stopped() ) {
@@ -122,15 +124,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
                 } elseif ( $param->isDefaultValueAvailable() ) {
                     $arguments[] = $param->getDefaultValue();
                 } else {
-                    if ( is_array( $callback ) ) {
-                        $repr = sprintf( '%s::%s()', get_class( $callback[0] ), $callback[1] );
-                    } elseif ( is_object( $callback ) ) {
-                        $repr = get_class( $callback );
-                    } else {
-                        $repr = $callback;
-                    }
-
-                    throw new RuntimeException( sprintf( 'Callback "%s" requires that you provide a value for the "$%s" argument (because there is no default value or because there is a non optional argument after this one).', $repr, $param->name ) );
+                    $arguments[] = $event;
                 }
             }
         }

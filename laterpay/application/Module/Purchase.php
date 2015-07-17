@@ -83,7 +83,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 'link'                            => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
                 'currency'                        => get_option( 'laterpay_currency' ),
                 'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-                'purchase_button_is_hidden'       => LaterPay_Helper_View::purchase_button_is_hidden(),
                 'attributes'                      => array(),
             ),
             $event->get_arguments()
@@ -155,7 +154,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 'price'                                 => $price,
                 'revenue_model'                         => $revenue_model,
                 'link'                                  => $purchase_link,
-                'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
                 'attributes'                            => array(),
             ),
             $event->get_arguments()

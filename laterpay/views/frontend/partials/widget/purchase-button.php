@@ -12,12 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * We can't use line-breaks in this template, otherwise wpautop() would add <br> before every attribute
  */
 
-if ( $laterpay['purchase_button_is_hidden'] ) : ?>
-    <div>&nbsp;</div>
-<?php
-    return;
-endif;
-
 $args = array_merge( array(
         'href'                          => '#',
         'class'                         => 'lp_js_doPurchase lp_purchase-button',
@@ -33,11 +27,15 @@ foreach ( $args as $key => $value ) {
     $arg_str .= ' ' . $key . '="' . esc_attr( $value ) . '" ';
 }
 
-$title = sprintf(
+$link_text = sprintf(
     __( '%s<small class="lp_purchase-link__currency">%s</small>', 'laterpay' ),
     LaterPay_Helper_View::format_number( $laterpay['price'] ),
     $laterpay['currency']
 );
+if ( isset( $laterpay['link_text'] ) ) {
+    $link_text = $laterpay['link_text'];
+    $link_text = str_replace( array('{price}', '{currency}'), array( LaterPay_Helper_View::format_number( $laterpay['price'] ), $laterpay['currency'] ), $link_text );
+}
 ?>
 
-<a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $title ); ?></a>
+<a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $link_text ); ?></a>

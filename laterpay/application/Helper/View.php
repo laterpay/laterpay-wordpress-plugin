@@ -285,28 +285,6 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Check, if purchase link should be hidden.
-     *
-     * @return bool
-     */
-    public static function purchase_link_is_hidden() {
-        $is_hidden = get_option( 'laterpay_only_time_pass_purchases_allowed' ) && get_option( 'laterpay_teaser_content_only' );
-
-        return $is_hidden;
-    }
-
-    /**
-     * Check, if purchase button should be hidden.
-     *
-     * @return bool
-     */
-    public static function purchase_button_is_hidden() {
-        $is_hidden = get_option( 'laterpay_only_time_pass_purchases_allowed' );
-
-        return $is_hidden;
-    }
-
-    /**
      * Get error message for shortcode.
      *
      * @param string  $error_reason

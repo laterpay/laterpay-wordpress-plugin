@@ -46,6 +46,15 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             'wp_ajax_laterpay_post_statistic_render' => array(
                 array( 'remove_laterpay_post_statistic', 200 ),
             ),
+            'laterpay_purchase_button' => array(
+                array( 'check_only_time_pass_purchases_allowed', 200 ),
+            ),
+            'laterpay_purchase_link' => array(
+                array( 'check_only_time_pass_purchases_allowed', 200 ),
+            ),
+            'laterpay_purchase_overlay' => array(
+                array( 'check_only_time_pass_purchases_allowed', 200 ),
+            ),
         );
     }
 
@@ -516,6 +525,18 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 'action'     => $this->get_text_view( 'frontend/partials/widget/time-passes-link' ),
             );
             $event->set_result( $overlay_content );
+        }
+    }
+
+    /**
+     * Hide purchase information if only time-passes are allowed
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function check_only_time_pass_purchases_allowed( LaterPay_Core_Event $event ) {
+        $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
+        if ( $only_time_passes_allowed ) {
+            $event->stop_propagation();
         }
     }
 }

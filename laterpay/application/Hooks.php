@@ -12,6 +12,7 @@ class LaterPay_Hooks {
     private static $wp_filter_prefix    = 'wp_filter_';
     private static $wp_shortcode_prefix = 'wp_shcode_';
     private static $lp_filter_suffix    = '_filter';
+    private static $lp_filter_args_suffix = '_arguments';
     private static $instance            = null;
     private static $lp_actions          = array();
     private static $lp_shortcodes       = array();
@@ -76,6 +77,7 @@ class LaterPay_Hooks {
         }
 
         add_action( 'wp_footer',                        array( $this, self::$wp_action_prefix . 'laterpay_post_footer' ) );
+        add_action( 'wp_loaded',                        array( $this, 'late_load' ), 0 );
         add_action( 'wp_loaded',                        array( $this, self::$wp_action_prefix . 'laterpay_init_finished' ), 0 );
         add_action( 'template_redirect',                array( $this, self::$wp_action_prefix . 'laterpay_loaded' ) );
         add_action( 'wp_enqueue_scripts',               array( $this, self::$wp_action_prefix . 'laterpay_enqueue_scripts' ) );
@@ -251,5 +253,30 @@ class LaterPay_Hooks {
      */
     public static function apply_filters( $action, $value ) {
         return apply_filters( $action . self::$lp_filter_suffix, $value );
+    }
+
+    /**
+     * Applies filters to triggered by LaterPay events.
+     *
+     * @param string        $action Action name.
+     * @param array         $value Value to filter.
+     * @return string|array
+     */
+    public static function apply_arguments_filters( $action, $value ) {
+        return apply_filters( $action . self::$lp_filter_args_suffix, $value );
+    }
+
+    /**
+     * Late load event for other plugins to remove / add own actions to the LaterPay plugin.
+     *
+     * @return void
+     */
+    public function late_load() {
+        /**
+         * Late loading event for LaterPay.
+         *
+         * @param LaterPay_Core_Bootstrap $this
+         */
+        do_action( 'laterpay_ready', $this );
     }
 }
