@@ -49,6 +49,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'generate_post_teaser' ),
             ),
+            'laterpay_teaser_content_mode' => array(
+                array( 'get_teaser_mode' ),
+            ),
             'wp_ajax_laterpay_post_load_purchased_content' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_load_purchased_content' ),
@@ -599,7 +602,12 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $teaser_content = $teaser_event->get_result();
 
         // get values for output states
-        $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
+        $teaser_mode_event = new LaterPay_Core_Event();
+        $teaser_mode_event->set_echo( false );
+        $teaser_mode_event->set_argument( 'post_id', $post_id );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_teaser_content_mode', $teaser_mode_event );
+        $teaser_content_only = $teaser_mode_event->get_result();
+
         $user_can_read_statistics       = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
 
         // check, if user has access to content (because he already bought it)
@@ -850,6 +858,15 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
 
         $event->set_result( $html );
+    }
+
+    /**
+     * Setup default teaser content preview mode
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function get_teaser_mode( LaterPay_Core_Event $event ) {
+        $event->set_result( get_option( 'laterpay_teaser_content_only' ) );
     }
 
     /**
