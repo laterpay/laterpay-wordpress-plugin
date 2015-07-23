@@ -9,6 +9,12 @@
  */
 class LaterPay_Core_Capability
 {
+    protected $allowed_capabilities = array(
+        'laterpay_read_post_statistics',
+        'laterpay_edit_individual_price',
+        'laterpay_edit_teaser_content',
+        'laterpay_has_full_access_to_content',
+    );
 
     /**
      * Create LaterPay roles for the various plugin versions.
@@ -35,7 +41,7 @@ class LaterPay_Core_Capability
             if ( is_array( $capabilities ) && isset( $capabilities['add'] ) ) {
                 $collection = (array) $capabilities['add'];
                 foreach ( $collection as $capability ) {
-                    if ( ! $role->has_cap( $capability ) ) {
+                    if ( ! $role->has_cap( $capability ) && in_array( $capability, $this->allowed_capabilities ) ) {
                         $role->add_cap( $capability );
                     }
                 }
@@ -43,7 +49,7 @@ class LaterPay_Core_Capability
             if ( is_array( $capabilities ) && isset( $capabilities['remove'] ) ) {
                 $collection = (array) $capabilities['remove'];
                 foreach ( $collection as $capability ) {
-                    if ( $role->has_cap( $capability ) ) {
+                    if ( $role->has_cap( $capability ) && in_array( $capability, $this->allowed_capabilities ) ) {
                         $role->remove_cap( $capability );
                     }
                 }
