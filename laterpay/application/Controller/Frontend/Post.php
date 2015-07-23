@@ -880,18 +880,18 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         } else {
             $teaser_content = '';
         }
+        if ( $event->has_argument( 'hint' ) ) {
+            $feed_hint = $event->get_argument( 'feed_hint' );
+        } else {
+            $feed_hint = __( '&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}', 'laterpay' );
+        }
         $post_id = $post->ID;
         // get pricing data
         $currency   = get_option( 'laterpay_currency' );
         $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
 
         $html = $event->get_result();
-        $html .= sprintf(
-            __( '&mdash; Visit the post to buy its full content for %s %s &mdash; ', 'laterpay' ),
-            LaterPay_Helper_View::format_number( $price ),
-            $currency
-        );
-        $html .= $teaser_content;
+        $html .= str_replace( array( '{price}', '{currency}', '{teaser_content}'), array( $price, $currency, $teaser_content ), $feed_hint );
 
         $event->set_result( $html );
     }
