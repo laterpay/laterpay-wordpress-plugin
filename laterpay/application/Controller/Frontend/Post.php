@@ -49,6 +49,10 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'generate_post_teaser' ),
             ),
+            'laterpay_feed_content' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'generate_feed_content' ),
+            ),
             'laterpay_teaser_content_mode' => array(
                 array( 'get_teaser_mode' ),
             ),
@@ -629,14 +633,16 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         if ( ! is_singular() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
             // prepend hint to feed items that reading the full content requires purchasing the post
             if ( is_feed() ) {
-                $html .= sprintf(
-                    __( '&mdash; Visit the post to buy its full content for %s %s &mdash; ', 'laterpay' ),
-                    LaterPay_Helper_View::format_number( $price ),
-                    $currency
-                );
+                $feed_event = new LaterPay_Core_Event();
+                $feed_event->set_echo( false );
+                $feed_event->set_argument( 'post', $post );
+                $feed_event->set_argument( 'teaser_content', $teaser_content );
+                laterpay_event_dispatcher()->dispatch( 'laterpay_feed_content', $feed_event );
+                $html .= $feed_event->get_result();
+            } else {
+                $html .= $teaser_content;
             }
 
-            $html .= $teaser_content;
             $event->set_result( $html );
             $event->stop_propagation();
             return;
@@ -856,6 +862,36 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $this->assign( 'laterpay', $view_args );
         $html = $event->get_result();
         $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
+
+        $event->set_result( $html );
+    }
+
+    /**
+     * @param LaterPay_Core_Event $event
+     */
+    public function generate_feed_content( LaterPay_Core_Event $event ) {
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+        if ( $event->has_argument( 'teaser_content' ) ) {
+            $teaser_content = $event->get_argument( 'teaser_content' );
+        } else {
+            $teaser_content = '';
+        }
+        $post_id = $post->ID;
+        // get pricing data
+        $currency   = get_option( 'laterpay_currency' );
+        $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
+
+        $html = $event->get_result();
+        $html .= sprintf(
+            __( '&mdash; Visit the post to buy its full content for %s %s &mdash; ', 'laterpay' ),
+            LaterPay_Helper_View::format_number( $price ),
+            $currency
+        );
+        $html .= $teaser_content;
 
         $event->set_result( $html );
     }
