@@ -21,6 +21,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             'laterpay_admin_init' => array(
                 array( 'laterpay_on_admin_view', 200 ),
                 array( 'trigger_requirements_check' ),
+                array( 'update_capabilities' ),
             ),
             'laterpay_check_requirements' => array(
                 array( 'laterpay_on_admin_view', 200 ),
@@ -759,5 +760,17 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // update capabilities
         $laterpay_capabilities = new LaterPay_Core_Capability();
         $laterpay_capabilities->populate_roles();
+    }
+
+    /**
+     * Update user roles capabilities.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function update_capabilities( LaterPay_Core_Event $event ) {
+        list( $roles ) = $event->get_arguments() + array( array() );
+        // update capabilities
+        $laterpay_capabilities = new LaterPay_Core_Capability();
+        $laterpay_capabilities->update_roles( $roles );
     }
 }

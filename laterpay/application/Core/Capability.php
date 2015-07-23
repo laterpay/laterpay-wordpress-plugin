@@ -20,6 +20,38 @@ class LaterPay_Core_Capability
     }
 
     /**
+     * Update LaterPay roles.
+     *
+     * @param array $roles
+     *
+     * @return void
+     */
+    public function update_roles( array $roles ) {
+        foreach ( $roles as $role => $capabilities ) {
+            $role = get_role( $role );
+            if ( empty( $role ) ) {
+                continue;
+            }
+            if ( is_array( $capabilities ) && isset( $capabilities['add'] ) ) {
+                $collection = (array) $capabilities['add'];
+                foreach ( $collection as $capability ) {
+                    if ( ! $role->has_cap( $capability ) ) {
+                        $role->add_cap( $capability );
+                    }
+                }
+            }
+            if ( is_array( $capabilities ) && isset( $capabilities['remove'] ) ) {
+                $collection = (array) $capabilities['remove'];
+                foreach ( $collection as $capability ) {
+                    if ( $role->has_cap( $capability ) ) {
+                        $role->remove_cap( $capability );
+                    }
+                }
+            }
+        }
+    }
+
+    /**
     * Create and modify LaterPay roles.
     *
     * @return void
