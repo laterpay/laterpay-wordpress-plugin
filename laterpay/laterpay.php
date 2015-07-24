@@ -102,7 +102,14 @@ function laterpay_get_plugin_config() {
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
     $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
-    $config->set( 'debug_mode',         (bool) get_option( 'laterpay_debugger_enabled', false ) );
+
+    $client_address         = isset( $_SERVER['REMOTE_ADDR'] ) ? laterpay_sanitized( $_SERVER['REMOTE_ADDR'] ) : null;
+    $debug_mode_enabled     = (bool) get_option( 'laterpay_debugger_enabled', false );
+    $debug_mode_addresses   = (string) get_option( 'laterpay_debugger_addresses', '' );
+    $debug_mode_addresses   = explode( ',', $debug_mode_addresses );
+    $debug_mode_addresses   = array_map( 'trim', $debug_mode_addresses );
+
+    $config->set( 'debug_mode',         $debug_mode_enabled && ! empty( $debug_mode_addresses ) && in_array( $client_address, $debug_mode_addresses ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {

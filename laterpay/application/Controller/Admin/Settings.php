@@ -238,6 +238,21 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
 
         register_setting( 'laterpay', 'laterpay_debugger_enabled' );
+
+        add_settings_field(
+            'laterpay_debugger_addresses',
+            __( 'LaterPay Debugger', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_debugger',
+            array(
+                'name'  => 'laterpay_debugger_addresses',
+                'type'  => 'text',
+                'label' => __( 'List of allowed addresses to view debug(Ex.: 127.0.0.1,192.168.1.1)', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_debugger_addresses' );
     }
 
     /**
@@ -250,7 +265,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             __( 'The LaterPay debugger pane contains a lot of helpful plugin- and system-related information
                for debugging the LaterPay plugin and fixing configuration problems.<br>
                When activated, the debugger pane is rendered at the bottom of the screen.<br>
-               It is visible both for logged in not logged in users!<br>
+               It is visible both for users from address list<br>
                On a production installation you should switch it off again as soon as you don\'t need it anymore.', 'laterpay' ) .
         '</p>' );
     }
