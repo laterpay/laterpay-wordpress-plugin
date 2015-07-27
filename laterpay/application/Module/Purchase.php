@@ -274,7 +274,13 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      * @param LaterPay_Core_Event $event
      */
     public function is_purchasable( LaterPay_Core_Event $event ) {
-        if ( ! LaterPay_Helper_Pricing::is_purchasable() ) {
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+        $post_id = $post->ID;
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post_id ) ) {
             $event->stop_propagation();
         }
     }

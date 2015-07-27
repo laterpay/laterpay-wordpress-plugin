@@ -435,16 +435,14 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                     '</a>';
             } else {
                 // the user has not purchased the item yet
-                if ( LaterPay_Helper_View::purchase_button_is_hidden() ) {
-                    $view_args = array(
-                        'url' => get_permalink( $post->ID ),
-                    );
-                    $this->assign( 'laterpay', $view_args );
-                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-link' );
-                } else {
-                    $this->assign( 'laterpay', LaterPay_Helper_Post::the_purchase_button_args( $post, $current_post_id ) );
-                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-button' );
-                }
+                $button_event = new LaterPay_Core_Event();
+                $button_event->set_echo( false );
+                $button_event->set_argument( 'post', $post );
+                $button_event->set_argument( 'attributes', array(
+                    'class' => 'lp_js_doPurchase lp_purchase-button lp_purchase-link--shortcode',
+                ) );
+                laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $button_event );
+                $html_button = $button_event->get_result();
             }
 
             $result[ $id ] = $html_button;
