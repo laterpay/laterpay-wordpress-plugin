@@ -423,6 +423,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
             $event->set_result( $error_message );
             $event->stop_propagation();
+            return;
         }
 
         // $introductory_text, $call_to_action_text, $time_pass_id

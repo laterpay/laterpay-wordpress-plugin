@@ -193,6 +193,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
             $event->set_result( $error_message );
             $event->stop_propagation();
+            return;
         }
         $page_id = $page->ID;
 
@@ -213,6 +214,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
             $event->set_result( $error_message );
             $event->stop_propagation();
+            return;
         }
 
         // check, if page has a custom post type
@@ -492,6 +494,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
             $event->set_result( $error_message );
             $event->stop_propagation();
+            return;
         }
 
         $view_args = array(
@@ -531,6 +534,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
                 $event->set_result( $error_message );
                 $event->stop_propagation();
+                return;
             }
         } else {
             $time_pass = array();
