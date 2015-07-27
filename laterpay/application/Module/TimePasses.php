@@ -52,9 +52,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             'laterpay_purchase_link' => array(
                 array( 'check_only_time_pass_purchases_allowed', 200 ),
             ),
-            'laterpay_purchase_overlay' => array(
-                array( 'check_only_time_pass_purchases_allowed', 200 ),
-            ),
         );
     }
 
