@@ -57,10 +57,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
         );
     }
 
-    public function save_post() {
-
-    }
-
     /**
      * @see LaterPay_Core_View::load_assets()
      */
