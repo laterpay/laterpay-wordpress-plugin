@@ -443,6 +443,13 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 ) );
                 laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $button_event );
                 $html_button = $button_event->get_result();
+                if ( empty( $html_button ) ) {
+                    $view_args = array(
+                        'url' => get_permalink( $post->ID ),
+                    );
+                    $this->assign( 'laterpay', $view_args );
+                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-link' );
+                }
             }
 
             $result[ $id ] = $html_button;
