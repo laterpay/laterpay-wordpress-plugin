@@ -42,9 +42,9 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
     public function render_account_links( LaterPay_Core_Event $event ) {
         list( $css, $forcelang, $show, $next ) = $event->get_arguments() + array(
             $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
-            is_singular() ? get_permalink() : home_url(),
-            'lg',
             substr( get_locale(), 0, 2 ),
+            'lg',
+            is_singular() ? get_permalink() : home_url(),
         );
 
         // create account links URL with passed parameters

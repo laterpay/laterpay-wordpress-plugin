@@ -724,10 +724,11 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             'next'      => $data['next'],
             'forcelang' => $data['forcelang'],
         );
-        $this->assign( 'laterpay', $view_args );
 
-        $html = $this->get_text_view( 'frontend/partials/post/account-links-iframe' );
+        $links_event = new LaterPay_Core_Event( $view_args );
+        $links_event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_account_links', $links_event );
 
-        $event->set_result( $html );
+        $event->set_result( $links_event->get_result() );
     }
 }
