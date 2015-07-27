@@ -494,11 +494,15 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @param array        $attr Attributes for the image markup
      * @param WP_Post      $post Image attachment post
-     * @param string|array $size Requested size
      *
      * @return mixed
      */
-    public function encrypt_image_source( $attr, $post, $size ) {
+    public function encrypt_image_source( $attr, $post ) {
+        $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
+        $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
+        if ( is_admin() && ! $is_ajax_and_caching_is_active ) {
+            return $attr;
+        }
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post->ID );
         if ( $is_purchasable ) {
             $access         = LaterPay_Helper_Post::has_access_to_post( $post );
