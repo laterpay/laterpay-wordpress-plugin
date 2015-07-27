@@ -21,7 +21,7 @@ class LaterPay_Core_View
      *
      * @var array
      */
-    public $variables = array();
+    protected $variables = array();
 
     /**
      * @param LaterPay_Model_Config $config
@@ -120,7 +120,15 @@ class LaterPay_Core_View
         ob_end_clean();
         $html = $thread;
 
+        $this->init_assignments();
+
         return $html;
+    }
+
+    protected function init_assignments() {
+        $this->variables = array();
+        // assign the config to the views
+        $this->assign( 'config', $this->config );
     }
 }
 

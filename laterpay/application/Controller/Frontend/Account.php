@@ -10,38 +10,42 @@
 class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
 {
     /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_account_links' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'render_account_links' ),
+            ),
+            'laterpay_enqueue_scripts' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'add_frontend_scripts' ),
+            ),
+        );
+    }
+
+    /**
      * Callback to render LaterPay account links by making an API request to /controls/links.
      * (see https://laterpay.net/developers/docs/inpage-api#GET/controls/links)
      *
      * @wp-hook laterpay_account_links
      *
-     * @param $show         'show' attribute for the API request as documented in the LaterPay API docs
-     * @param $css          'css' attribute for the API request as documented in the LaterPay API docs
-     * @param $next         'next' attribute for the API request as documented in the LaterPay API docs
-     * @param $forcelang    'forcelang' attribute for the API request as documented in the LaterPay API docs
+     * @var $show         'show' attribute for the API request as documented in the LaterPay API docs
+     * @var $css          'css' attribute for the API request as documented in the LaterPay API docs
+     * @var $next         'next' attribute for the API request as documented in the LaterPay API docs
+     * @var $forcelang    'forcelang' attribute for the API request as documented in the LaterPay API docs
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function render_account_links( $css = null, $forcelang = null, $show = null, $next = null ) {
-        if ( empty( $css ) ) {
-            // use laterpay-account-links CSS file to style the login / logout links by default
-            $css = $this->config->get( 'css_url' ) . 'laterpay-account-links.css';
-        }
-
-        if ( empty( $next ) ) {
-            // forward to current page after login by default
-            $next = is_singular() ? get_permalink() : home_url();
-        }
-
-        if ( empty( $show ) ) {
-            // render the login / logout link with greeting by default
-            $show = 'lg';
-        }
-
-        if ( empty( $forcelang ) ) {
-            // render account links in the language of the blog by default
-            $forcelang = substr( get_locale(), 0, 2 );
-        }
+    public function render_account_links( LaterPay_Core_Event $event ) {
+        list( $css, $forcelang, $show, $next ) = $event->get_arguments() + array(
+            $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
+            substr( get_locale(), 0, 2 ),
+            'lg',
+            is_singular() ? get_permalink() : home_url(),
+        );
 
         // create account links URL with passed parameters
         $client_options = LaterPay_Helper_Config::get_php_client_options();
@@ -65,8 +69,8 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
 
         $this->assign( 'laterpay_account', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/account-links' ) );
-
+        $event->set_echo( true );
+        $event->set_result( laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/account-links' ) ) );
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-account-links' );
     }

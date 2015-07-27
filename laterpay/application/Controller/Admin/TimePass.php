@@ -7,8 +7,19 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Admin_Base
-{
+class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Admin_Base {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'wp_ajax_laterpay_get_time_passes_data' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'ajax_get_time_passes_data' ),
+            ),
+        );
+    }
 
     private $ajax_nonce = 'laterpay_time_passes';
 
@@ -95,8 +106,10 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Admin_Base
      *
      * @return void
      */
-    public function ajax_get_time_passes_data() {
-        $this->validate_ajax_nonce();
+    public function ajax_get_time_passes_data( LaterPay_Core_Event $event ) {
+        if ( ! $this->validate_ajax_nonce( $event ) ) {
+            return;
+        }
 
         $pass_id    = 0;
         if ( isset( $_GET['pass_id'] ) ) {
@@ -110,22 +123,25 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Admin_Base
             'success'   => true,
         );
 
-        wp_send_json( $response );
+        $event->set_result( $response );
     }
 
     /**
      * Internal function to check the wpnonce on Ajax requests.
      *
-     * @return void
+     * @param LaterPay_Core_Event $event
+     *
+     * @return bool
      */
-    private function validate_ajax_nonce() {
+    private function validate_ajax_nonce( LaterPay_Core_Event $event ) {
         if ( ! isset( $_POST['_wpnonce'] ) || empty( $_POST['_wpnonce'] ) ) {
             $error = array(
                 'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 1,
                 'success'   => false,
             );
-            wp_send_json( $error );
+            $event->set_result( $error );
+            return false;
         }
 
         $nonce = sanitize_text_field( $_POST['_wpnonce'] );
@@ -135,7 +151,9 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Admin_Base
                 'step'      => 2,
                 'success'   => false,
             );
-            wp_send_json( $error );
+            $event->set_result( $error );
+            return false;
         }
+        return true;
     }
 }

@@ -537,7 +537,7 @@ class LaterPay_Helper_Pricing
      */
     public static function get_dynamic_prices( WP_Post $post, $price = null ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
-            return;
+            return array( 'success' => false, );
         }
 
         $post_prices = get_post_meta( $post->ID, 'laterpay_post_prices', true );

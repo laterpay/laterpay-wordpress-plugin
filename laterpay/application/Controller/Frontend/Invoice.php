@@ -9,17 +9,33 @@
  */
 class LaterPay_Controller_Frontend_Invoice extends LaterPay_Controller_Base
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_invoice_indicator' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'the_invoice_indicator' ),
+            ),
+            'laterpay_enqueue_scripts' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'add_frontend_scripts' ),
+            ),
+        );
+    }
 
     /**
      * Callback to generate a LaterPay invoice indicator button within the theme that can be freely positioned.
      *
      *
      * @wp-hook laterpay_invoice_indicator
-     *
+     * @param LaterPay_Core_Event $event
      * @return void
      */
-    public function the_invoice_indicator() {
-        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/invoice-indicator' ) );
+    public function the_invoice_indicator( LaterPay_Core_Event $event ) {
+        $event->set_echo( true );
+        $event->set_result( laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/invoice-indicator' ) ) );
 
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-invoice-indicator' );

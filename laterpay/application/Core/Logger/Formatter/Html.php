@@ -73,12 +73,12 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return string
      */
     private function add_head_row( $message = '', $level ) {
-        $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . __( 'Details', 'laterpay' ) . '</a>';
+        $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . laterpay_sanitize_output( __( 'Details', 'laterpay' ) ) . '</a>';
 
         $html = '<thead class="lp_js_debuggerContentTableTitle lp_debugger-content__table-title">
             <tr>
-                <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--' . $level . ' lp_vectorIcon"></span>' . $message . '</td>
-                <td class="lp_debugger-content__table-td">' . $show_details_link . '</td>
+                <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--' . esc_attr( $level ) . ' lp_vectorIcon"></span>' . laterpay_sanitize_output( $message ) . '</td>
+                <td class="lp_debugger-content__table-td">' . laterpay_sanitize_output( $show_details_link ) . '</td>
             </tr>
         </thead>';
 
@@ -101,10 +101,10 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
             $td = htmlspecialchars( $td, ENT_NOQUOTES, 'UTF-8' );
         }
 
-        $html = "<tr>
-                    <th class='lp_debugger-content__table-th' title=\"$th\">$th</th>
-                    <td class='lp_debugger-content__table-td'>$td</td>
-                </tr>";
+        $html = '<tr>
+                    <th class="lp_debugger-content__table-th" title="'. esc_attr( $th ) . '">' . $th . '</th>
+                    <td class="lp_debugger-content__table-td">' . $td . '</td>
+                </tr>';
 
         return $html;
     }

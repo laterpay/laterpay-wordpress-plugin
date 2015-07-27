@@ -12,6 +12,28 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     private $has_custom_roles = false;
 
     /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_admin_init' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'init_laterpay_advanced_settings' ),
+            ),
+            'laterpay_admin_menu' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'add_laterpay_advanced_settings_page' ),
+            ),
+            'wp_ajax_laterpay_backend_options' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'process_ajax_requests' ),
+            ),
+        );
+    }
+
+    /**
      * @see LaterPay_Core_View::load_assets
      */
     public function load_assets() {
@@ -60,17 +82,20 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Process Ajax requests from appearance tab.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    public static function process_ajax_requests() {
+    public static function process_ajax_requests( LaterPay_Core_Event $event ) {
         // check for required capabilities to perform action
         if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json(
+            $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
                 )
             );
+            return;
         }
         $from = isset( $_POST['form'] ) ? sanitize_text_field( $_POST['form'] ) : '';
         switch ( $from ) {
@@ -83,44 +108,48 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 $remote_version = $browscap->getRemoteVersionNumber();
                 $current_version = $browscap->getSourceVersion();
                 if ( $current_version == $remote_version ) {
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => true,
                             'message' => __( 'Your database is already up to date', 'laterpay' ),
                         )
                     );
+                    return;
                 }
                 try {
                     $result = $browscap->updateCache();
                     if ( ! $result ) {
-                        wp_send_json(
+                        $event->set_result(
                             array(
                                 'success' => false,
                                 'message' => __( 'Browscap cache update has failed', 'laterpay' ),
                             )
                         );
+                        return;
                     }
                 } catch (Exception $e) {
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => false,
                             'message' => __( 'Browscap cache update has failed', 'laterpay' ),
                         )
                     );
+                    return;
                 }
 
-                wp_send_json(
+                $event->set_result(
                     array(
                         'success' => true,
                         'message' => __( 'Browscap cache has been updated', 'laterpay' ),
                     )
                 );
+                return;
                 break;
             default:
                 break;
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => false,
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
@@ -209,6 +238,21 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
 
         register_setting( 'laterpay', 'laterpay_debugger_enabled' );
+
+        add_settings_field(
+            'laterpay_debugger_addresses',
+            __( 'LaterPay Debugger', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_debugger',
+            array(
+                'name'  => 'laterpay_debugger_addresses',
+                'type'  => 'text',
+                'label' => __( 'List of allowed addresses to view debug(Ex.: 127.0.0.1,192.168.1.1)', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_debugger_addresses' );
     }
 
     /**
@@ -221,7 +265,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             __( 'The LaterPay debugger pane contains a lot of helpful plugin- and system-related information
                for debugging the LaterPay plugin and fixing configuration problems.<br>
                When activated, the debugger pane is rendered at the bottom of the screen.<br>
-               It is visible both for logged in not logged in users!<br>
+               It is visible both for users from address list<br>
                On a production installation you should switch it off again as soon as you don\'t need it anymore.', 'laterpay' ) .
         '</p>' );
     }

@@ -15,6 +15,50 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
 
     /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_admin_head' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'add_html5shiv_to_admin_head' ),
+            ),
+            'laterpay_admin_menu' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'add_to_admin_panel' ),
+            ),
+            'laterpay_admin_footer_scripts' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'modify_footer' ),
+            ),
+            'laterpay_post_edit' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'help_wp_edit_post' ),
+            ),
+            'laterpay_post_new' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'help_wp_add_post' ),
+            ),
+            'laterpay_admin_enqueue_scripts' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'add_plugin_admin_assets' ),
+                array( 'add_admin_pointers_script' ),
+            ),
+            'laterpay_delete_term_taxonomy' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'update_post_prices_after_category_delete' ),
+            ),
+        );
+    }
+
+    /**
      * Show plugin in administrator panel.
      *
      * @return void
@@ -54,7 +98,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                     array( $this, 'run_' . $sub_page['name'] )
                 );
             }
-            add_action( 'load-' . $page_id, array( $this, 'help_' . $name ) );
+            LaterPay_Hooks::add_wp_action( 'load-' . $page_id, 'laterpay_load_' . $page_id );
+            laterpay_event_dispatcher()->add_listener( 'laterpay_load_' . $page_id, array( $this, 'help_' . $name ) );
             $page_number++;
         }
     }
@@ -125,10 +170,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      * Add html5shim to the admin_head() for Internet Explorer < 9.
      *
      * @wp-hook admin_head
-     *
+     * @param LaterPay_Core_Event $event
      * @return void
      */
-    public function add_html5shiv_to_admin_head() {
+    public function add_html5shiv_to_admin_head( LaterPay_Core_Event $event ) {
+        $event->set_echo( true );
         $view_args = array(
             'scripts' => array(
                 '//html5shim.googlecode.com/svn/trunk/html5.js',
@@ -136,7 +182,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'backend/partials/html5shiv' ) );
+        $event->set_result( laterpay_sanitized( $this->get_text_view( 'backend/partials/html5shiv' ) ) );
     }
 
     /**
@@ -698,9 +744,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
     /**
      * Add WordPress pointers to pages.
      *
+     * @param LaterPay_Core_Event $event
      * @return void
      */
-    public function modify_footer() {
+    public function modify_footer( LaterPay_Core_Event $event ) {
+        $event->set_echo( true );
         $pointers = LaterPay_Controller_Admin::get_pointers_to_be_shown();
 
         // don't render the partial, if there are no pointers to be shown
@@ -715,7 +763,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
         $this->assign( 'laterpay', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer-scripts' ) );
+        $event->set_result( laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer-scripts' ) ) );
     }
 
     /**

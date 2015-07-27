@@ -160,9 +160,11 @@ class LaterPay_Helper_File
     /**
      * Ajax callback to load a file through a script to prevent direct access.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    public function load_file() {
+    public function load_file( LaterPay_Core_Event $event ) {
         // register libraries
         $request    = new LaterPay_Core_Request();
         $response   = new LaterPay_Core_Response();

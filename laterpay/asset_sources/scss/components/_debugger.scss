@@ -156,7 +156,7 @@
         @extend %default-list;
     }
 
-    .lp_debugger-content-list {
+    & > .lp_debugger-content-list {
         height: ($fs * 29);
         margin: 0 $fs--075 $fs;
         overflow-x: hidden;

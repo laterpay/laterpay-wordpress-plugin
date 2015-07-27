@@ -10,8 +10,9 @@
  * Domain Path: /languages
  */
 
+
 // Kick-off
-add_action( 'plugins_loaded', 'laterpay_init', 0 );
+add_action( 'plugins_loaded', 'laterpay_init' );
 
 register_activation_hook( __FILE__, 'laterpay_activate' );
 register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
@@ -25,10 +26,12 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
  */
 function laterpay_init() {
     laterpay_before_start();
-
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
+
+    laterpay_event_dispatcher()->dispatch( 'laterpay_init_before' );
     $laterpay->run();
+    laterpay_event_dispatcher()->dispatch( 'laterpay_init_after' );
 }
 
 /**
@@ -40,10 +43,12 @@ function laterpay_init() {
  */
 function laterpay_activate() {
     laterpay_before_start();
-
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
+
+    laterpay_event_dispatcher()->dispatch( 'laterpay_activate_before' );
     $laterpay->activate();
+    laterpay_event_dispatcher()->dispatch( 'laterpay_activate_after' );
 }
 
 /**
@@ -55,10 +60,12 @@ function laterpay_activate() {
  */
 function laterpay_deactivate() {
     laterpay_before_start();
-
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
+
+    laterpay_event_dispatcher()->dispatch( 'laterpay_deactivate_before' );
     $laterpay->deactivate();
+    laterpay_event_dispatcher()->dispatch( 'laterpay_deactivate_after' );
 }
 
 /**
@@ -95,7 +102,14 @@ function laterpay_get_plugin_config() {
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
     $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
-    $config->set( 'debug_mode',         (bool) get_option( 'laterpay_debugger_enabled', false ) );
+
+    $client_address         = isset( $_SERVER['REMOTE_ADDR'] ) ? laterpay_sanitized( $_SERVER['REMOTE_ADDR'] ) : null;
+    $debug_mode_enabled     = (bool) get_option( 'laterpay_debugger_enabled', false );
+    $debug_mode_addresses   = (string) get_option( 'laterpay_debugger_addresses', '' );
+    $debug_mode_addresses   = explode( ',', $debug_mode_addresses );
+    $debug_mode_addresses   = array_map( 'trim', $debug_mode_addresses );
+
+    $config->set( 'debug_mode',         $debug_mode_enabled && ! empty( $debug_mode_addresses ) && in_array( $client_address, $debug_mode_addresses ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {
@@ -274,7 +288,7 @@ function laterpay_get_logger() {
         new LaterPay_Core_Logger_Processor_MemoryUsage(),
         new LaterPay_Core_Logger_Processor_MemoryPeakUsage(),
     );
-
+    laterpay_event_dispatcher()->set_debug_enabled( true );
     $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
 
     // cache the config
@@ -308,5 +322,14 @@ function laterpay_sanitize_output( $string ) {
  */
 function laterpay_sanitized( $string ) {
     return $string;
+}
+
+/**
+ * Alias for the LaterPay Event Dispatcher
+ *
+ * @return LaterPay_Core_Event_Dispatcher
+ */
+function laterpay_event_dispatcher() {
+    return LaterPay_Core_Event_Dispatcher::get_dispatcher();
 }
 

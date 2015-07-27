@@ -33,7 +33,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         add_action( 'admin_footer',          array( $this, 'render_records' ), 1000 );
         add_action( 'wp_enqueue_scripts',    array( $this, 'load_assets' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
-        add_action( 'admin_bar_menu',        array( &$this, 'admin_bar_menu' ), 1000 );
+        add_action( 'admin_bar_menu',        array( $this, 'admin_bar_menu' ), 1000 );
     }
 
     /**
@@ -125,22 +125,32 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
      * @return array $tabs
      */
     protected function get_tabs() {
+        $events = laterpay_event_dispatcher()->get_debug_data();
         return array(
             array(
                 'name'      => __( 'Requests', 'laterpay' ),
                 'content'   => array_merge( $_GET, $_POST ),
+                'type'      => 'array',
             ),
             array(
                 'name'      => sprintf( __( 'Cookies<span class="lp_badge">%s</span>', 'laterpay' ), count( $_COOKIE ) ),
                 'content'   => $_COOKIE,
+                'type'      => 'array',
             ),
             array(
                 'name'      => __( 'System Config', 'laterpay' ),
                 'content'   => $this->get_system_info(),
+                'type'      => 'array',
             ),
             array(
                 'name'      => __( 'Plugin Config', 'laterpay' ),
                 'content'   => $this->config->get_all(),
+                'type'      => 'array',
+            ),
+            array(
+                'name'      => sprintf( __( 'Plugin Hooks<span class="lp_badge">%s</span>', 'laterpay' ), count( $events ) ),
+                'content'   => $this->get_formatter()->format_batch( $events ),
+                'type'      => 'html',
             ),
         );
     }
