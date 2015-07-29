@@ -26,12 +26,17 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
  */
 function laterpay_init() {
     laterpay_before_start();
-    $config     = laterpay_get_plugin_config();
-    $laterpay   = new LaterPay_Core_Bootstrap( $config );
+    $config   = laterpay_get_plugin_config();
+    $laterpay = new LaterPay_Core_Bootstrap( $config );
 
-    laterpay_event_dispatcher()->dispatch( 'laterpay_init_before' );
-    $laterpay->run();
-    laterpay_event_dispatcher()->dispatch( 'laterpay_init_after' );
+    try {
+        laterpay_event_dispatcher()->dispatch( 'laterpay_init_before' );
+        $laterpay->run();
+        laterpay_event_dispatcher()->dispatch( 'laterpay_init_after' );
+    } catch ( Exception $e ) {
+        laterpay_get_logger()->critical( __( 'Unexpected error during plugin init', 'laterpay' ), $e->getTrace() );
+        // disable laterpay plugin
+    }
 }
 
 /**
@@ -242,15 +247,19 @@ function laterpay_get_plugin_config() {
  * @return void
  */
 function laterpay_before_start() {
-    $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
+    try {
+        $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
-    if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
-        require_once( $dir . 'laterpay-load.php' );
+        if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
+            require_once( $dir . 'laterpay-load.php' );
+        }
+
+        LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
+        LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
+        LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-php-browscap-library' );
+    } catch ( Exception $e ) {
+        //disable plugin
     }
-
-    LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
-    LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
-    LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-php-browscap-library' );
 
     // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
     // to register the required script and style filters

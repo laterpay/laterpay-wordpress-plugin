@@ -85,8 +85,14 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      */
     protected function do_dispatch( $listeners, LaterPay_Core_Event $event ) {
         foreach ( $listeners as $listener ) {
-            $arguments = $this->get_arguments( $listener, $event );
-            call_user_func_array( $listener, $arguments );
+            try {
+                $arguments = $this->get_arguments( $listener, $event );
+                call_user_func_array( $listener, $arguments );
+            } catch ( LaterPay_Core_Exception $e ) {
+                laterpay_get_logger()->error( $e->getMessage(), $e->getTrace() );
+                $event->stop_propagation();
+            }
+
             if ( $event->is_propagation_stopped() ) {
                 $event->set_propagations_stopped_by( $listener );
                 break;

@@ -40,19 +40,26 @@ class LaterPay_Hooks {
     public function __call( $name, $args ) {
         $method = substr( $name, 0, 10 );
         $action = substr( $name, 10 );
-        switch ( $method ) {
-            case self::$wp_action_prefix:
-                $result = $this->run_wp_action( $action, $args );
-                break;
-            case self::$wp_filter_prefix:
-                $result = $this->run_wp_filter( $action, $args );
-                break;
-            case self::$wp_shortcode_prefix:
-                $result = $this->run_wp_shortcode( $action, $args );
-                break;
-            default:
-                throw new RuntimeException( sprintf( 'Method "%s" is not found within LaterPay_Core_Event_Dispatcher class.', $name ) );
+        $result = null;
+
+        try {
+            switch ( $method ) {
+                case self::$wp_action_prefix:
+                    $this->run_wp_action( $action, $args );
+                    break;
+                case self::$wp_filter_prefix:
+                    $result = $this->run_wp_filter( $action, $args );
+                    break;
+                case self::$wp_shortcode_prefix:
+                    $result = $this->run_wp_shortcode( $action, $args );
+                    break;
+                default:
+                    throw new RuntimeException( sprintf( 'Method "%s" is not found within LaterPay_Core_Event_Dispatcher class.', $name ) );
+            }
+        } catch ( Exception $e ) {
+            laterpay_get_logger()->error( $e->getMessage(), $e->getTrace() );
         }
+
         return $result;
     }
 
@@ -189,13 +196,10 @@ class LaterPay_Hooks {
      *
      * @param string    $action Action name.
      * @param array     $args Action arguments.
+     * @return null
      */
     protected function run_wp_action( $action, $args = array() ) {
-        try {
-            laterpay_event_dispatcher()->dispatch( $action, $args );
-        } catch ( Exception $e ) {
-            // TODO: #612 handle exceptions
-        }
+        laterpay_event_dispatcher()->dispatch( $action, $args );
     }
 
     /**
@@ -216,7 +220,7 @@ class LaterPay_Hooks {
 
             $result = $event->get_result();
         } catch ( Exception $e ) {
-            // TODO: #612 handle exceptions
+            laterpay_get_logger()->error( $e->getMessage(), $e->getTrace() );
             $result = $default;
         }
         return $result;
@@ -230,18 +234,11 @@ class LaterPay_Hooks {
      * @return mixed Filtered result
      */
     protected function run_wp_shortcode( $event_name, $args = array() ) {
-        try {
-            $event = new LaterPay_Core_Event( $args );
-            $event->set_echo( false );
+        $event = new LaterPay_Core_Event( $args );
+        $event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( $event_name, $event );
 
-            laterpay_event_dispatcher()->dispatch( $event_name, $event );
-
-            $result = $event->get_result();
-        } catch ( Exception $e ) {
-            // TODO: #612 handle exceptions
-            $result = null;
-        }
-        return $result;
+        return $event->get_result();
     }
 
     /**

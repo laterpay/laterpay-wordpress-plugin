@@ -116,29 +116,25 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      */
     public function ajax_load_purchased_content( LaterPay_Core_Event $event ) {
         if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_post_load_purchased_content' ) {
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
         if ( ! isset( $_GET['nonce'] )
              || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
         }
 
         if ( ! isset( $_GET['post_id'] ) ) {
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'post_id' );
         }
 
         global $post;
 
-        $post_id    = absint( $_GET['post_id'] );
-        $post       = get_post( $post_id );
+        $post_id = absint( $_GET['post_id'] );
+        $post    = get_post( $post_id );
 
         if ( $post === null ) {
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_InvalidData( sprintf( __( '"%s" doesn\'t exist', 'laterpay' ), $post_id ) );
         }
 
         if ( ! is_user_logged_in() && ! LaterPay_Helper_Post::has_access_to_post( $post ) ) {
@@ -171,40 +167,42 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public function ajax_rate_purchased_content( LaterPay_Core_Event $event ) {
         $post_rating_form = new LaterPay_Form_PostRating( $_POST );
 
-        if ( $post_rating_form->is_valid( $_POST ) ) {
-            $post_id       = $post_rating_form->get_field_value( 'post_id' );
-            $rating_value  = $post_rating_form->get_field_value( 'rating_value' );
-            $is_user_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
-
-            if ( $is_user_voted ) {
-                $event->set_result(
-                    array(
-                        'success' => false,
-                    )
-                );
-                return;
-            }
-
-            // update rating data with submitted rating
-            $rating       = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
-            $rating_index = (string) $rating_value;
-            $rating[ $rating_index ] += 1;
-
-            update_post_meta( $post_id, 'laterpay_rating', $rating );
-            LaterPay_Helper_Rating::set_user_voted( $post_id );
-
+        try {
+            $post_rating_form->validate( $_POST );
+        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+            laterpay_get_logger()->error();
             $event->set_result(
                 array(
-                    'success' => true,
-                    'message' => __( 'Thank you very much for rating!', 'laterpay' ),
+                    'success' => false,
+                )
+            );
+        }
+
+        $post_id       = $post_rating_form->get_field_value( 'post_id' );
+        $rating_value  = $post_rating_form->get_field_value( 'rating_value' );
+        $is_user_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
+
+        if ( $is_user_voted ) {
+            $event->set_result(
+                array(
+                    'success' => false,
                 )
             );
             return;
         }
 
+        // update rating data with submitted rating
+        $rating       = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
+        $rating_index = (string) $rating_value;
+        $rating[ $rating_index ] += 1;
+
+        update_post_meta( $post_id, 'laterpay_rating', $rating );
+        LaterPay_Helper_Rating::set_user_voted( $post_id );
+
         $event->set_result(
             array(
-                'success' => false,
+                'success' => true,
+                'message' => __( 'Thank you very much for rating!', 'laterpay' ),
             )
         );
     }
@@ -810,16 +808,25 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return array $posts
      */
     public function hide_paid_posts( LaterPay_Core_Event $event ) {
-        $posts = (array) $event->get_result();
-        $api_available  = LaterPay_Helper_Request::laterpay_api_check_availability();
-        $behavior       = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
+        try {
+            $api_available = LaterPay_Helper_Request::laterpay_api_check_availability();
+        } catch ( Exception $e ) {
+            $api_available = false;
+            $context = array(
+                'method' => __METHOD__,
+            );
+            laterpay_get_logger()->error( __( 'Unexpected error during health check', 'laterpay' ), $context );
+        }
 
-        if ( ! $api_available && $behavior == 2 ) {
+        $posts    = (array) $event->get_result();
+        $behavior = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
+
+        if ( ! $api_available && $behavior === 2 ) {
             $result = array();
             $count = 0;
 
             foreach ( $posts as $post ) {
-                $paid = LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0;
+                $paid = LaterPay_Helper_Pricing::get_post_price( $post->ID ) !== 0;
                 if ( ! $paid ) {
                     $result[] = $post;
                 } else {
