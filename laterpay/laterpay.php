@@ -29,9 +29,7 @@ function laterpay_init() {
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
 
-    laterpay_event_dispatcher()->dispatch( 'laterpay_init_before' );
     $laterpay->run();
-    laterpay_event_dispatcher()->dispatch( 'laterpay_init_after' );
 }
 
 /**

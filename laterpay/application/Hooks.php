@@ -76,10 +76,8 @@ class LaterPay_Hooks {
             add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $this, self::$wp_action_prefix . 'laterpay_post_custom_column_data' ), 10, 2 );
         }
 
-        add_action( 'wp_footer',                        array( $this, self::$wp_action_prefix . 'laterpay_post_footer' ) );
-        add_action( 'wp_loaded',                        array( $this, 'late_load' ), 0 );
-        add_action( 'wp_loaded',                        array( $this, self::$wp_action_prefix . 'laterpay_init_finished' ), 0 );
         add_action( 'template_redirect',                array( $this, self::$wp_action_prefix . 'laterpay_loaded' ) );
+        add_action( 'wp_footer',                        array( $this, self::$wp_action_prefix . 'laterpay_post_footer' ) );
         add_action( 'wp_enqueue_scripts',               array( $this, self::$wp_action_prefix . 'laterpay_enqueue_scripts' ) );
 
         add_action( 'admin_init',                       array( $this, self::$wp_action_prefix . 'laterpay_admin_init' ) );
@@ -271,7 +269,7 @@ class LaterPay_Hooks {
      *
      * @return void
      */
-    public function late_load() {
+    public function laterpay_ready() {
         /**
          * Late loading event for LaterPay.
          *
