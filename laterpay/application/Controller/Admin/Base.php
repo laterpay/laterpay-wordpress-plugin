@@ -33,12 +33,6 @@ class LaterPay_Controller_Admin_Base extends LaterPay_Controller_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-
-        $this->logger->info(
-            __METHOD__ . ' - ' . $file,
-            $view_args
-        );
-
         return $this->get_text_view( $file, $view_dir );
     }
 }

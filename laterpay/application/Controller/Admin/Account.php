@@ -79,58 +79,64 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
      * @return void
      */
     public static function process_ajax_requests( LaterPay_Core_Event $event ) {
-        if ( isset( $_POST['form'] ) ) {
-            // check for required capabilities to perform action
-            if ( ! current_user_can( 'activate_plugins' ) ) {
-                $event->set_result(
-                    array(
-                        'success' => false,
-                        'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
-                    )
-                );
-                return;
-            }
-            if ( function_exists( 'check_admin_referer' ) ) {
-                check_admin_referer( 'laterpay_form' );
-            }
+        $event->set_result(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
 
-            switch ( sanitize_text_field( $_POST['form'] ) ) {
-                case 'laterpay_sandbox_merchant_id':
-                    $event->set_argument( 'is_live', false );
-                    self::update_merchant_id( $event );
-                    break;
+        if ( ! isset( $_POST['form'] ) ) {
+            // invalid request
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'form' );
+        }
 
-                case 'laterpay_sandbox_api_key':
-                    $event->set_argument( 'is_live', false );
-                    self::update_api_key( $event );
-                    break;
+        // check for required capabilities to perform action
+        if ( ! current_user_can( 'activate_plugins' ) ) {
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
+                )
+            );
+            return;
+        }
 
-                case 'laterpay_live_merchant_id':
-                    $event->set_argument( 'is_live', true );
-                    self::update_merchant_id( $event );
-                    break;
+        if ( function_exists( 'check_admin_referer' ) ) {
+            check_admin_referer( 'laterpay_form' );
+        }
 
-                case 'laterpay_live_api_key':
-                    $event->set_argument( 'is_live', true );
-                    self::update_api_key( $event );
-                    break;
+        switch ( sanitize_text_field( $_POST['form'] ) ) {
+            case 'laterpay_sandbox_merchant_id':
+                $event->set_argument( 'is_live', false );
+                self::update_merchant_id( $event );
+                break;
 
-                case 'laterpay_plugin_mode':
-                    self::update_plugin_mode( $event );
-                    break;
+            case 'laterpay_sandbox_api_key':
+                $event->set_argument( 'is_live', false );
+                self::update_api_key( $event );
+                break;
 
-                case 'laterpay_test_mode':
-                    self::update_plugin_visibility_in_test_mode( $event );
-                    break;
+            case 'laterpay_live_merchant_id':
+                $event->set_argument( 'is_live', true );
+                self::update_merchant_id( $event );
+                break;
 
-                default:
-                    $event->set_result(
-                        array(
-                            'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-                        )
-                    );
-            }
+            case 'laterpay_live_api_key':
+                $event->set_argument( 'is_live', true );
+                self::update_api_key( $event );
+                break;
+
+            case 'laterpay_plugin_mode':
+                self::update_plugin_mode( $event );
+                break;
+
+            case 'laterpay_test_mode':
+                self::update_plugin_visibility_in_test_mode( $event );
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -146,23 +152,33 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         if ( $event->has_argument( 'is_live' ) ) {
             $is_live = $event->get_argument( 'is_live' );
         }
-        $merchant_id_form   = new LaterPay_Form_MerchantId( $_POST );
-        $merchant_id        = $merchant_id_form->get_field_value( 'merchant_id' );
-        $merchant_id_type   = $is_live ? 'live' : 'sandbox';
+        $merchant_id_form = new LaterPay_Form_MerchantId( $_POST );
+        $merchant_id      = $merchant_id_form->get_field_value( 'merchant_id' );
+        $merchant_id_type = $is_live ? 'live' : 'sandbox';
 
-        if ( $merchant_id_form->is_valid() ) {
-            update_option( sprintf( 'laterpay_%s_merchant_id', $merchant_id_type ), $merchant_id );
+        try {
+            $merchant_id_form->validate( $_POST );
+        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+            $context = array(
+                'trace'  => $e->getTrace(),
+                'form'   => 'LaterPay_Form_MerchantId',
+                'errors' => $merchant_id_form->get_errors(),
+            );
+            laterpay_get_logger()->error( $e->getMessage(), $context );
             $event->set_result(
                 array(
-                    'success' => true,
+                    'success' => false,
                     'message' => sprintf(
-                        __( '%s Merchant ID verified and saved.', 'laterpay' ),
+                        __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
                         ucfirst( $merchant_id_type )
                     ),
                 )
             );
             return;
-        } elseif ( strlen( $merchant_id ) == 0 ) {
+        }
+
+
+        if ( strlen( $merchant_id ) === 0 ) {
             update_option( sprintf( 'laterpay_%s_merchant_id', $merchant_id_type ), '' );
             $event->set_result(
                 array(
@@ -176,15 +192,17 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             return;
         }
 
+        update_option( sprintf( 'laterpay_%s_merchant_id', $merchant_id_type ), $merchant_id );
         $event->set_result(
             array(
-                'success' => false,
+                'success' => true,
                 'message' => sprintf(
-                    __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
+                    __( '%s Merchant ID verified and saved.', 'laterpay' ),
                     ucfirst( $merchant_id_type )
                 ),
             )
         );
+        return;
     }
 
     /**
@@ -199,30 +217,25 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         if ( $event->has_argument( 'is_live' ) ) {
             $is_live = $event->get_argument( 'is_live' );
         }
-        $api_key_form       = new LaterPay_Form_ApiKey( $_POST );
-        $api_key            = $api_key_form->get_field_value( 'api_key' );
-        $api_key_type       = $is_live ? 'live' : 'sandbox';
-        $transaction_type   = $is_live ? 'REAL' : 'TEST';
+        $api_key_form     = new LaterPay_Form_ApiKey( $_POST );
+        $api_key          = $api_key_form->get_field_value( 'api_key' );
+        $api_key_type     = $is_live ? 'live' : 'sandbox';
+        $transaction_type = $is_live ? 'REAL' : 'TEST';
 
-        if ( $api_key_form->is_valid() ) {
-            update_option( sprintf( 'laterpay_%s_api_key', $api_key_type ), $api_key );
-            $event->set_result(
-                array(
-                    'success' => true,
-                    'message' => sprintf(
-                        __( 'Your %s API key is valid. You can now make %s transactions.', 'laterpay' ),
-                        ucfirst( $api_key_type ), $transaction_type
-                    ),
-                )
+        try {
+            $api_key_form->validate( $_POST );
+        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+            $context = array(
+                'trace'  => $e->getTrace(),
+                'form'   => 'LaterPay_Form_ApiKey',
+                'errors' => $api_key_form->get_errors(),
             );
-            return;
-        } elseif ( strlen( $api_key ) == 0 ) {
-            update_option( sprintf( 'laterpay_%s_api_key', $api_key_type ), '' );
+            laterpay_get_logger()->error( $e->getMessage(), $context );
             $event->set_result(
                 array(
-                    'success' => true,
+                    'success' => false,
                     'message' => sprintf(
-                        __( 'The %s API key has been removed.', 'laterpay' ),
+                        __( 'The API key you entered is not a valid LaterPay %s API key!', 'laterpay' ),
                         ucfirst( $api_key_type )
                     ),
                 )
@@ -230,16 +243,31 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             return;
         }
 
+        if ( strlen( $api_key ) === 0 ) {
+            update_option(sprintf('laterpay_%s_api_key', $api_key_type), '');
+            $event->set_result(
+                array(
+                    'success' => true,
+                    'message' => sprintf(
+                        __('The %s API key has been removed.', 'laterpay'),
+                        ucfirst($api_key_type)
+                    ),
+                )
+            );
+            return;
+        }
+
+        update_option( sprintf( 'laterpay_%s_api_key', $api_key_type ), $api_key );
         $event->set_result(
             array(
-                'success' => false,
+                'success' => true,
                 'message' => sprintf(
-                    __( 'The API key you entered is not a valid LaterPay %s API key!', 'laterpay' ),
-                    ucfirst( $api_key_type )
+                    __( 'Your %s API key is valid. You can now make %s transactions.', 'laterpay' ),
+                    ucfirst( $api_key_type ), $transaction_type
                 ),
             )
         );
-
+        return;
     }
 
     /**
@@ -250,7 +278,15 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     protected static function update_plugin_mode( LaterPay_Core_Event $event ) {
         $plugin_mode_form = new LaterPay_Form_PluginMode();
 
-        if ( ! $plugin_mode_form->is_valid( $_POST ) ) {
+        try {
+            $plugin_mode_form->validate( $_POST );
+        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+            $context = array(
+                'trace'  => $e->getTrace(),
+                'form'   => 'LaterPay_Form_PluginMode',
+                'errors' => $plugin_mode_form->get_errors(),
+            );
+            laterpay_get_logger()->error( $e->getMessage(), $context );
             $event->set_result(
                 array(
                     'success' => false,
@@ -260,8 +296,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             return;
         }
 
-        $plugin_mode    = $plugin_mode_form->get_field_value( 'plugin_is_in_live_mode' );
-        $result         = update_option( 'laterpay_plugin_is_in_live_mode', $plugin_mode );
+        $plugin_mode = $plugin_mode_form->get_field_value( 'plugin_is_in_live_mode' );
+        $result      = update_option( 'laterpay_plugin_is_in_live_mode', $plugin_mode );
 
         if ( $result ) {
             // delete dashboard cache directory after mode was changed
@@ -314,7 +350,15 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     public static function update_plugin_visibility_in_test_mode( LaterPay_Core_Event $event ) {
         $plugin_test_mode_form = new LaterPay_Form_TestMode();
 
-        if ( ! $plugin_test_mode_form->is_valid( $_POST ) ) {
+        try {
+            $plugin_test_mode_form->validate( $_POST );
+        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+            $context = array(
+                'trace'  => $e->getTrace(),
+                'form'   => 'LaterPay_Form_TestMode',
+                'errors' => $plugin_test_mode_form->get_errors(),
+            );
+            laterpay_get_logger()->error( $e->getMessage(), $context );
             $event->set_result(
                 array(
                     'success'   => false,

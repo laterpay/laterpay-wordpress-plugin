@@ -71,6 +71,18 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
      * @return void
      */
     public static function process_ajax_requests( LaterPay_Core_Event $event ) {
+        $event->set_result(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+            )
+        );
+
+        if ( ! isset( $_POST['form'] ) ) {
+            // invalid request
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'form' );
+        }
+
         // check for required capabilities to perform action
         if ( ! current_user_can( 'activate_plugins' ) ) {
             $event->set_result(
@@ -81,6 +93,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             );
             return;
         }
+
         if ( function_exists( 'check_admin_referer' ) ) {
             check_admin_referer( 'laterpay_form' );
         }
@@ -90,13 +103,15 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'paid_content_preview':
                 $paid_content_preview_form = new LaterPay_Form_PaidContentPreview();
 
-                if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {
-                    $event->set_result(
-                        array(
-                            'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                        )
+                try {
+                    $paid_content_preview_form->validate( $_POST );
+                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+                    $context = array(
+                        'trace'  => $e->getTrace(),
+                        'form'   => 'LaterPay_Form_PaidContentPreview',
+                        'errors' => $paid_content_preview_form->get_errors(),
                     );
+                    laterpay_get_logger()->error( $e->getMessage(), $context );
                     return;
                 }
 
@@ -127,13 +142,15 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'ratings':
                 $ratings_form = new LaterPay_Form_Rating();
 
-                if ( ! $ratings_form->is_valid( $_POST ) ) {
-                    $event->set_result(
-                        array(
-                            'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-                        )
+                try {
+                    $ratings_form->validate( $_POST );
+                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+                    $context = array(
+                        'trace'  => $e->getTrace(),
+                        'form'   => 'LaterPay_Form_Rating',
+                        'errors' => $ratings_form->get_errors(),
                     );
+                    laterpay_get_logger()->error( $e->getMessage(), $context );
                     return;
                 }
 
@@ -163,13 +180,15 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'purchase_button_position':
                 $purchase_button_pos_form = new LaterPay_Form_PurchaseButtonPosition( $_POST );
 
-                if ( ! $purchase_button_pos_form->is_valid( ) ) {
-                    $event->set_result(
-                        array(
-                            'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-                        )
+                try {
+                    $purchase_button_pos_form->validate( $_POST );
+                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+                    $context = array(
+                        'trace'  => $e->getTrace(),
+                        'form'   => 'LaterPay_Form_PurchaseButtonPosition',
+                        'errors' => $purchase_button_pos_form->get_errors(),
                     );
+                    laterpay_get_logger()->error( $e->getMessage(), $context );
                     return;
                 }
 
@@ -199,13 +218,15 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'time_passes_position':
                 $time_passes_pos_form = new LaterPay_Form_TimePassPosition( $_POST );
 
-                if ( ! $time_passes_pos_form->is_valid() ) {
-                    $event->set_result(
-                        array(
-                            'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-                        )
+                try {
+                    $time_passes_pos_form->validate( $_POST );
+                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+                    $context = array(
+                        'trace'  => $e->getTrace(),
+                        'form'   => 'LaterPay_Form_TimePassPosition',
+                        'errors' => $time_passes_pos_form->get_errors(),
                     );
+                    laterpay_get_logger()->error( $e->getMessage(), $context );
                     return;
                 }
 
@@ -235,13 +256,15 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'free_posts_visibility':
                 $hide_free_posts_form = new LaterPay_Form_HideFreePosts( $_POST );
 
-                if ( ! $hide_free_posts_form->is_valid() ) {
-                    $event->set_result(
-                        array(
-                            'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-                        )
+                try {
+                    $hide_free_posts_form->validate( $_POST );
+                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+                    $context = array(
+                        'trace'  => $e->getTrace(),
+                        'form'   => 'LaterPay_Form_HideFreePosts',
+                        'errors' => $hide_free_posts_form->get_errors(),
                     );
+                    laterpay_get_logger()->error( $e->getMessage(), $context );
                     return;
                 }
 
@@ -271,12 +294,5 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             default:
                 break;
         }
-
-        $event->set_result(
-            array(
-                'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-            )
-        );
     }
 }

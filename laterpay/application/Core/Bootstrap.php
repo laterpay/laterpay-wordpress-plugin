@@ -54,9 +54,7 @@ class LaterPay_Core_Bootstrap
         if ( ! class_exists( $class ) ) {
             $msg = __( '%s: <code>%s</code> not found', 'laterpay' );
             $msg = sprintf( $msg, __METHOD__, $class );
-            laterpay_get_logger()->critical( $msg );
-
-            return false;
+            throw new LaterPay_Core_Exception( $msg );
         }
 
         if ( ! array_key_exists( $class, self::$controllers ) ) {

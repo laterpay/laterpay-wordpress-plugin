@@ -34,7 +34,11 @@ function laterpay_init() {
         $laterpay->run();
         laterpay_event_dispatcher()->dispatch( 'laterpay_init_after' );
     } catch ( Exception $e ) {
-        laterpay_get_logger()->critical( __( 'Unexpected error during plugin init', 'laterpay' ), array( 'trace' => $e->getTrace() ) );
+        $context = array(
+            'message' => $e->getMessage(),
+            'trace'   => $e->getTrace(),
+        );
+        laterpay_get_logger()->critical( __( 'Unexpected error during plugin init', 'laterpay' ), $context );
     }
 }
 

@@ -192,8 +192,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             );
 
             $event->set_result( $error_message );
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception( $error_message );
         }
         $page_id = $page->ID;
 
@@ -213,8 +212,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             );
 
             $event->set_result( $error_message );
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception( $error_message );
         }
 
         // check, if page has a custom post type
@@ -348,27 +346,28 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      */
     public function ajax_get_premium_shortcode_link( LaterPay_Core_Event $event ) {
         if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_premium_shortcode_link' ) {
-            // exit Ajax request, if action is not set or has incorrect value
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
         if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
-            // exit Ajax request, if nonce is not set or not correct
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
         }
 
-        if ( ! isset( $_GET['ids'] ) || ! isset( $_GET['types'] ) || ! isset( $_GET['post_id'] ) ) {
-            // exit Ajax request, if additional parameters aren't set
-            $event->stop_propagation();
-            return;
+        if ( ! isset( $_GET['ids'] ) ) {
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
+        }
+
+        if ( ! isset( $_GET['types'] ) ) {
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
+        }
+
+        if ( ! isset( $_GET['post_id'] ) ) {
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
         }
 
         $current_post_id = absint( $_GET['post_id'] );
         if ( ! get_post( $current_post_id ) ) {
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_PostNotFound( $current_post_id );
         }
 
         $ids    = array_map( 'sanitize_text_field', $_GET['ids'] );
@@ -498,8 +497,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         if ( ! $time_passes_list ) {
             $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
             $event->set_result( $error_message );
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception( $error_message );
         }
 
         $view_args = array(
@@ -538,8 +536,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             if ( ! $time_pass ) {
                 $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
                 $event->set_result( $error_message );
-                $event->stop_propagation();
-                return;
+                throw new LaterPay_Core_Exception( $error_message );
             }
         } else {
             $time_pass = array();
@@ -623,21 +620,19 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      */
     public function ajax_load_gift_action( LaterPay_Core_Event $event ) {
         if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_gift_card_actions' ) {
-            // exit Ajax request, if action is not set or has incorrect value
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
         if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
-            // exit Ajax request, if nonce is not set or not correct
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
         }
 
-        if ( ! isset( $_GET['pass_id'] ) || ! isset( $_GET['link'] ) ) {
-            // exit Ajax request, if additional parameters aren't set
-            $event->stop_propagation();
-            return;
+        if ( ! isset( $_GET['pass_id'] ) ) {
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'pass_id' );
+        }
+
+        if ( ! isset( $_GET['link'] ) ) {
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'link' );
         }
 
         $data           = array();

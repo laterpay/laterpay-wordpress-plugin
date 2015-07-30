@@ -61,7 +61,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
         // don't collect statistics data, if logging is disabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
             $this->logger->warning( __METHOD__ . ' - access logging is not enabled' );
-
             return false;
         }
 
@@ -74,7 +73,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                         'post' => $post,
                     )
                 );
-
                 return false;
             }
 
@@ -100,7 +98,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                     'allowed_post_types'    => $allowed_post_types,
                 )
             );
-
             return false;
         }
 
@@ -112,7 +109,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                     'post' => $post,
                 )
             );
-
             return false;
         }
 
@@ -333,8 +329,15 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
         );
         $statistic_form->add_validation( 'nonce', $condition );
 
-        if ( ! $statistic_form->is_valid() ) {
-            $event->stop_propagation();
+        try {
+            $statistic_form->validate();
+        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
+            $context = array(
+                'trace'  => $e->getTrace(),
+                'form'   => 'LaterPay_Form_Statistic',
+                'errors' => $statistic_form->get_errors(),
+            );
+            laterpay_get_logger()->error( $e->getMessage(), $context );
             return;
         }
 

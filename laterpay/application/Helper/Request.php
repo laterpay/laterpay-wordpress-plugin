@@ -192,9 +192,9 @@ class LaterPay_Helper_Request {
      */
     public static function laterpay_api_acquire_token() {
         if ( self::laterpay_api_disabled_on_homepage() ) {
-            laterpay_get_logger()->debug( __METHOD__ . ' : laterpay API requests are disabled on homepage' );
             return;
         }
+
         if ( self::laterpay_api_check_availability() ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $client         = new LaterPay_Client(
@@ -206,12 +206,8 @@ class LaterPay_Helper_Request {
             );
 
             if ( ! $client->has_token() ) {
-                laterpay_get_logger()->debug( 'RESOURCE:: No token found. Acquiring token' );
-
                 $client->acquire_token();
             }
-        } else {
-            laterpay_get_logger()->debug( 'RESOURCE:: No token found. API is not available' );
         }
     }
 

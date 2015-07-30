@@ -134,7 +134,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $post    = get_post( $post_id );
 
         if ( $post === null ) {
-            throw new LaterPay_Core_Exception_InvalidData( sprintf( __( '"%s" doesn\'t exist', 'laterpay' ), $post_id ) );
+            throw new LaterPay_Core_Exception_PostNotFound( $post_id );
         }
 
         if ( ! is_user_logged_in() && ! LaterPay_Helper_Post::has_access_to_post( $post ) ) {
@@ -181,6 +181,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     'success' => false,
                 )
             );
+            return;
         }
 
         $post_id       = $post_rating_form->get_field_value( 'post_id' );
