@@ -577,7 +577,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             return;
         }
 
-
         $post         = get_post( $dynamic_pricing_data_form->get_field_value( 'post_id' ) );
         $post_price   = $dynamic_pricing_data_form->get_field_value( 'post_price' );
 

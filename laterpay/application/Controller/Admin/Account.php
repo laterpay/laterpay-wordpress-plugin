@@ -177,7 +177,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             return;
         }
 
-
         if ( strlen( $merchant_id ) === 0 ) {
             update_option( sprintf( 'laterpay_%s_merchant_id', $merchant_id_type ), '' );
             $event->set_result(
@@ -244,13 +243,13 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         }
 
         if ( strlen( $api_key ) === 0 ) {
-            update_option(sprintf('laterpay_%s_api_key', $api_key_type), '');
+            update_option( sprintf( 'laterpay_%s_api_key', $api_key_type ), '' );
             $event->set_result(
                 array(
                     'success' => true,
                     'message' => sprintf(
-                        __('The %s API key has been removed.', 'laterpay'),
-                        ucfirst($api_key_type)
+                        __( 'The %s API key has been removed.', 'laterpay' ),
+                        ucfirst( $api_key_type )
                     ),
                 )
             );
