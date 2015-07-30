@@ -9,5 +9,10 @@
  */
 class LaterPay_Core_Exception_FormValidation extends LaterPay_Core_Exception
 {
-
+    public function __construct( $message = '' ) {
+        if ( ! $message ) {
+            $message = __( 'Form data are invalid', 'laterpay' );
+        }
+        parent::__construct( $message );
+    }
 }

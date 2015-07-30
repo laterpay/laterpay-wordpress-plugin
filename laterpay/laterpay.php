@@ -34,8 +34,7 @@ function laterpay_init() {
         $laterpay->run();
         laterpay_event_dispatcher()->dispatch( 'laterpay_init_after' );
     } catch ( Exception $e ) {
-        laterpay_get_logger()->critical( __( 'Unexpected error during plugin init', 'laterpay' ), $e->getTrace() );
-        // disable laterpay plugin
+        laterpay_get_logger()->critical( __( 'Unexpected error during plugin init', 'laterpay' ), array( 'trace' => $e->getTrace() ) );
     }
 }
 
@@ -258,7 +257,8 @@ function laterpay_before_start() {
         LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
         LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-php-browscap-library' );
     } catch ( Exception $e ) {
-        //disable plugin
+        // deactivate laterpay plugin
+        deactivate_plugins( plugin_basename( __FILE__ ) );
     }
 
     // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event

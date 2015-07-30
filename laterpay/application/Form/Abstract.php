@@ -279,6 +279,13 @@ abstract class LaterPay_Form_Abstract
         return empty( $this->errors );
     }
 
+    public function validate( $data = array() ) {
+        $is_valid = $this->is_valid( $data );
+        if ( ! $is_valid ) {
+            throw new LaterPay_Core_Exception_FormValidation();
+        }
+    }
+
     public function get_errors() {
         $aux = $this->errors;
         $this->errors = array();
