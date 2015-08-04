@@ -284,15 +284,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     protected function update_global_default_price( LaterPay_Core_Event $event ) {
         $global_price_form = new LaterPay_Form_GlobalPrice();
 
-        try {
-            $global_price_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_GlobalPrice',
-                'errors' => $global_price_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
+        if ( ! $global_price_form->is_valid( $_POST ) ) {
             $event->set_result(
                 array(
                     'success'       => false,
@@ -301,7 +293,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     'message'       => __( 'An error occurred. Incorrect data provided.', 'laterpay' ),
                 )
             );
-            return;
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $global_price_form ), $global_price_form->get_errors() );
         }
 
         $delocalized_global_price   = $global_price_form->get_field_value( 'laterpay_global_price' );
@@ -344,22 +336,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     protected function set_category_default_price( LaterPay_Core_Event $event ) {
         $price_category_form = new LaterPay_Form_PriceCategory();
 
-        try {
-            $price_category_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_PriceCategory',
-                'errors' => $price_category_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
+        if ( ! $price_category_form->is_valid( $_POST ) ) {
+            $errors = $price_category_form->get_errors();
             $event->set_result(
                 array(
                     'success' => false,
                     'message' => __( 'An error occurred. Incorrect data provided.', 'laterpay' )
                 )
             );
-            return;
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $price_category_form ), $errors['name'], $errors['value'] );
         }
 
         $post_category_id               = $price_category_form->get_field_value( 'category_id' );
@@ -447,16 +432,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             )
         );
 
-        try {
-            $price_category_delete_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_PriceCategory',
-                'errors' => $price_category_delete_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            return;
+        if ( ! $price_category_delete_form->is_valid( $_POST ) ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $price_category_delete_form ), $price_category_delete_form->get_errors() );
         }
 
         $category_id = $price_category_delete_form->get_field_value( 'category_id' );
@@ -537,16 +514,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             )
         );
 
-        try {
-            $bulk_price_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_BulkPrice',
-                'errors' => $bulk_price_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            return;
+        if ( ! $bulk_price_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $bulk_price_form ), $bulk_price_form->get_errors() );
         }
 
         $bulk_operation_id = $bulk_price_form->get_field_value( 'bulk_operation_id' );
@@ -745,7 +714,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $event->set_result(
             array(
                 'success' => true,
-                'message' => trim( preg_replace( '/\s+/', ' ', join( ' ', $message_parts ) ) ) . '.',
+                'message' => trim( preg_replace( '/\s+/', ' ', implode( ' ', $message_parts ) ) ) . '.',
             )
         );
     }
@@ -788,16 +757,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             )
         );
 
-        try {
-            $save_bulk_operation_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_BulkPrice',
-                'errors' => $save_bulk_operation_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            return;
+        if ( ! $save_bulk_operation_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $save_bulk_operation_form ), $save_bulk_operation_form->get_errors() );
         }
 
         // create data array
@@ -831,20 +792,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             )
         );
 
-        try {
-            $remove_bulk_operation_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_BulkPrice',
-                'errors' => $remove_bulk_operation_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            return;
+        if ( ! $remove_bulk_operation_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $remove_bulk_operation_form ), $remove_bulk_operation_form->get_errors() );
         }
 
         $bulk_operation_id = $remove_bulk_operation_form->get_field_value( 'bulk_operation_id' );
-
         $result = LaterPay_Helper_Pricing::delete_bulk_operation_by_id( $bulk_operation_id );
         if ( $result ) {
             $event->set_result(
@@ -894,16 +846,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             )
         );
 
-        try {
-            $save_time_pass_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_Pass',
-                'errors' => $save_time_pass_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            return;
+        if ( ! $save_time_pass_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $save_time_pass_form ), $save_time_pass_form->get_errors() );
         }
 
         $voucher = $save_time_pass_form->get_field_value( 'voucher' );
@@ -1031,22 +975,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     private function save_landing_page( LaterPay_Core_Event $event ) {
         $landing_page_form  = new LaterPay_Form_LandingPage( $_POST );
 
-        try {
-            $landing_page_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_LandingPage',
-                'errors' => $landing_page_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            $event->set_result(
-                array(
-                    'success' => false,
-                    'message' => __( 'The landing page you entered is not a valid URL.', 'laterpay' ),
-                )
-            );
-            return;
+        if ( ! $landing_page_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $landing_page_form ), $landing_page_form->get_errors() );
         }
 
         // save URL and confirm with flash message, if the URL is valid

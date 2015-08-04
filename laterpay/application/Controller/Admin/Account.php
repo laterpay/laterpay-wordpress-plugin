@@ -161,7 +161,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         } catch ( LaterPay_Core_Exception_FormValidation $e ) {
             $context = array(
                 'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_MerchantId',
+                'form'   => get_class( $merchant_id_form ),
                 'errors' => $merchant_id_form->get_errors(),
             );
             laterpay_get_logger()->error( $e->getMessage(), $context );
@@ -226,7 +226,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         } catch ( LaterPay_Core_Exception_FormValidation $e ) {
             $context = array(
                 'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_ApiKey',
+                'form'   => get_class( $api_key_form ),
                 'errors' => $api_key_form->get_errors(),
             );
             laterpay_get_logger()->error( $e->getMessage(), $context );
@@ -282,7 +282,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         } catch ( LaterPay_Core_Exception_FormValidation $e ) {
             $context = array(
                 'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_PluginMode',
+                'form'   => get_class( $plugin_mode_form ),
                 'errors' => $plugin_mode_form->get_errors(),
             );
             laterpay_get_logger()->error( $e->getMessage(), $context );
@@ -354,7 +354,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         } catch ( LaterPay_Core_Exception_FormValidation $e ) {
             $context = array(
                 'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_TestMode',
+                'form'   => get_class( $plugin_test_mode_form ),
                 'errors' => $plugin_test_mode_form->get_errors(),
             );
             laterpay_get_logger()->error( $e->getMessage(), $context );

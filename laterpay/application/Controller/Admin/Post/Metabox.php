@@ -386,16 +386,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
         );
         $post_form->add_validation( 'laterpay_teaser_content_box_nonce', $condition );
 
-        try {
-            $post_form->validate();
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_Post',
-                'errors' => $post_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            return;
+        if ( ! $post_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $post_form ), $post_form->get_errors() );
         }
 
         // no rights to edit laterpay_edit_teaser_content -> do nothing
@@ -565,16 +557,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             )
         );
 
-        try {
-            $dynamic_pricing_data_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_DynamicPricingData',
-                'errors' => $dynamic_pricing_data_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            return;
+        if ( ! $dynamic_pricing_data_form->is_valid( $_POST ) ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $dynamic_pricing_data_form ), $dynamic_pricing_data_form->get_errors() );
         }
 
         $post         = get_post( $dynamic_pricing_data_form->get_field_value( 'post_id' ) );

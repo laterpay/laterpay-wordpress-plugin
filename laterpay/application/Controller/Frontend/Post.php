@@ -166,22 +166,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      */
     public function ajax_rate_purchased_content( LaterPay_Core_Event $event ) {
         $post_rating_form = new LaterPay_Form_PostRating( $_POST );
+        $event->set_result(
+            array(
+                'success' => false,
+            )
+        );
 
-        try {
-            $post_rating_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => 'LaterPay_Form_PostRating',
-                'errors' => $post_rating_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            $event->set_result(
-                array(
-                    'success' => false,
-                )
-            );
-            return;
+        if ( ! $post_rating_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $post_rating_form ), $post_rating_form->get_errors() );
         }
 
         $post_id       = $post_rating_form->get_field_value( 'post_id' );

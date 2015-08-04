@@ -103,16 +103,8 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'paid_content_preview':
                 $paid_content_preview_form = new LaterPay_Form_PaidContentPreview();
 
-                try {
-                    $paid_content_preview_form->validate( $_POST );
-                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-                    $context = array(
-                        'trace'  => $e->getTrace(),
-                        'form'   => 'LaterPay_Form_PaidContentPreview',
-                        'errors' => $paid_content_preview_form->get_errors(),
-                    );
-                    laterpay_get_logger()->error( $e->getMessage(), $context );
-                    return;
+                if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {
+                    throw new LaterPay_Core_Exception_FormValidation( get_class( $paid_content_preview_form ), $paid_content_preview_form->get_errors() );
                 }
 
                 $result = update_option( 'laterpay_teaser_content_only', $paid_content_preview_form->get_field_value( 'paid_content_preview' ) );
@@ -142,16 +134,8 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'ratings':
                 $ratings_form = new LaterPay_Form_Rating();
 
-                try {
-                    $ratings_form->validate( $_POST );
-                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-                    $context = array(
-                        'trace'  => $e->getTrace(),
-                        'form'   => 'LaterPay_Form_Rating',
-                        'errors' => $ratings_form->get_errors(),
-                    );
-                    laterpay_get_logger()->error( $e->getMessage(), $context );
-                    return;
+                if ( ! $ratings_form->is_valid( $_POST ) ) {
+                    throw new LaterPay_Core_Exception_FormValidation( get_class( $ratings_form ), $ratings_form->get_errors() );
                 }
 
                 $result = update_option( 'laterpay_ratings', ! ! $ratings_form->get_field_value( 'enable_ratings' ) );
@@ -178,21 +162,13 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 break;
 
             case 'purchase_button_position':
-                $purchase_button_pos_form = new LaterPay_Form_PurchaseButtonPosition( $_POST );
+                $purchase_button_position_form = new LaterPay_Form_PurchaseButtonPosition( $_POST );
 
-                try {
-                    $purchase_button_pos_form->validate( $_POST );
-                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-                    $context = array(
-                        'trace'  => $e->getTrace(),
-                        'form'   => 'LaterPay_Form_PurchaseButtonPosition',
-                        'errors' => $purchase_button_pos_form->get_errors(),
-                    );
-                    laterpay_get_logger()->error( $e->getMessage(), $context );
-                    return;
+                if ( ! $purchase_button_position_form->is_valid() ) {
+                    throw new LaterPay_Core_Exception_FormValidation( get_class( $purchase_button_position_form ), $purchase_button_position_form->get_errors() );
                 }
 
-                $result = update_option( 'laterpay_purchase_button_positioned_manually', ! ! $purchase_button_pos_form->get_field_value( 'purchase_button_positioned_manually' ) );
+                $result = update_option( 'laterpay_purchase_button_positioned_manually', ! ! $purchase_button_position_form->get_field_value( 'purchase_button_positioned_manually' ) );
 
                 if ( $result ) {
                     if ( get_option( 'laterpay_purchase_button_positioned_manually' ) ) {
@@ -216,21 +192,13 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 break;
 
             case 'time_passes_position':
-                $time_passes_pos_form = new LaterPay_Form_TimePassPosition( $_POST );
+                $time_passes_position_form = new LaterPay_Form_TimePassPosition( $_POST );
 
-                try {
-                    $time_passes_pos_form->validate( $_POST );
-                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-                    $context = array(
-                        'trace'  => $e->getTrace(),
-                        'form'   => 'LaterPay_Form_TimePassPosition',
-                        'errors' => $time_passes_pos_form->get_errors(),
-                    );
-                    laterpay_get_logger()->error( $e->getMessage(), $context );
-                    return;
+                if ( ! $time_passes_position_form->is_valid() ) {
+                    throw new LaterPay_Core_Exception_FormValidation( get_class( $time_passes_position_form ), $time_passes_position_form->get_errors() );
                 }
 
-                $result = update_option( 'laterpay_time_passes_positioned_manually', ! ! $time_passes_pos_form->get_field_value( 'time_passes_positioned_manually' ) );
+                $result = update_option( 'laterpay_time_passes_positioned_manually', ! ! $time_passes_position_form->get_field_value( 'time_passes_positioned_manually' ) );
 
                 if ( $result ) {
                     if ( get_option( 'laterpay_time_passes_positioned_manually' ) ) {
@@ -256,16 +224,8 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'free_posts_visibility':
                 $hide_free_posts_form = new LaterPay_Form_HideFreePosts( $_POST );
 
-                try {
-                    $hide_free_posts_form->validate( $_POST );
-                } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-                    $context = array(
-                        'trace'  => $e->getTrace(),
-                        'form'   => 'LaterPay_Form_HideFreePosts',
-                        'errors' => $hide_free_posts_form->get_errors(),
-                    );
-                    laterpay_get_logger()->error( $e->getMessage(), $context );
-                    return;
+                if ( ! $hide_free_posts_form->is_valid() ) {
+                    throw new LaterPay_Core_Exception_FormValidation( get_class( $hide_free_posts_form ), $hide_free_posts_form->get_errors() );
                 }
 
                 $result = update_option( 'laterpay_hide_free_posts', ! ! $hide_free_posts_form->get_field_value( 'hide_free_posts' ) );
