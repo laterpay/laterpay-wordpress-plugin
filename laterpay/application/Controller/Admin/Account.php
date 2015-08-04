@@ -146,7 +146,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         $merchant_id      = $merchant_id_form->get_field_value( 'merchant_id' );
         $merchant_id_type = $is_live ? 'live' : 'sandbox';
 
-
         if ( ! $merchant_id_form->is_valid( $_POST ) ) {
             $event->set_result(
                 array(
