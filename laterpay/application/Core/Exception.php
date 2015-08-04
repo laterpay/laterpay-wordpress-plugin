@@ -20,7 +20,7 @@ class LaterPay_Core_Exception extends Exception
      * @return mixed
      */
     public function getContext() {
-       return $this->context;
+        return $this->context;
     }
 
     /**
