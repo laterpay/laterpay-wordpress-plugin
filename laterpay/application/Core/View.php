@@ -32,12 +32,12 @@ class LaterPay_Core_View
         $this->config = ( $config && $config instanceof LaterPay_Model_Config ) ? $config : laterpay_get_plugin_config();
         // assign the config to the views
         $this->assign( 'config', $this->config );
-
         $this->initialize();
     }
 
     /**
      * Function which will be called on constructor and can be overwritten by child class.
+     *
      * @return void
      */
     protected function initialize() {}

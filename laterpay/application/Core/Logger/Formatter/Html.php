@@ -114,7 +114,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      *
      * @param mixed $data
      *
-     * @return sting
+     * @return string
      */
     protected function convert_to_string( $data ) {
         if ( null === $data || is_scalar( $data ) ) {
