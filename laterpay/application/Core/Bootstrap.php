@@ -81,6 +81,10 @@ class LaterPay_Core_Bootstrap
         $this->register_admin_actions();
         $this->register_frontend_actions();
         $this->register_shortcodes();
+
+        // LaterPay loaded finished. Triggering event for other plugins
+        LaterPay_Hooks::get_instance()->laterpay_ready();
+        laterpay_event_dispatcher()->dispatch( 'laterpay_init_finished' );
     }
 
     /**

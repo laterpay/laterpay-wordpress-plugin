@@ -26,13 +26,12 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
  */
 function laterpay_init() {
     laterpay_before_start();
+
     $config   = laterpay_get_plugin_config();
     $laterpay = new LaterPay_Core_Bootstrap( $config );
 
     try {
-        laterpay_event_dispatcher()->dispatch( 'laterpay_init_before' );
         $laterpay->run();
-        laterpay_event_dispatcher()->dispatch( 'laterpay_init_after' );
     } catch ( Exception $e ) {
         $context = array(
             'message' => $e->getMessage(),
