@@ -37,6 +37,9 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             'laterpay_on_ajax_send_json' => array(
                 array( 'on_ajax_send_json' ),
             ),
+            'laterpay_on_ajax_user_can_activate_plugins' => array(
+                array( 'on_ajax_user_can_activate_plugins' ),
+            ),
         );
     }
 
@@ -193,5 +196,23 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             $result['listeners'] = $listeners;
         }
         wp_send_json( $result );
+    }
+
+    /**
+     * Stops event if user can't activate plugins
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_ajax_user_can_activate_plugins( LaterPay_Core_Event $event ) {
+        // check for required capabilities to perform action
+        if ( ! current_user_can( 'activate_plugins' ) ) {
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
+                )
+            );
+            $event->stop_propagation();
+        }
     }
 }

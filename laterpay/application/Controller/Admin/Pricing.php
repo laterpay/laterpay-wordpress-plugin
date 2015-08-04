@@ -18,11 +18,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'process_ajax_requests' ),
+                array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
             'wp_ajax_laterpay_get_category_prices' => array(
                 array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'process_ajax_requests' ),
+                array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
         );
     }
@@ -168,15 +170,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         if ( ! isset( $_POST['form'] ) ) {
             // invalid request
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'form' );
-        }
-
-        // check for required capabilities to perform action
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            $event->set_result( array(
-                    'success' => false,
-                    'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
-                )
-            );
         }
 
         // save changes in submitted form

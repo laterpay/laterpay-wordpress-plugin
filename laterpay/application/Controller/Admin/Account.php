@@ -17,6 +17,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'process_ajax_requests' ),
+                array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
         );
     }
@@ -91,17 +92,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'form' );
         }
 
-        // check for required capabilities to perform action
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            $event->set_result(
-                array(
-                    'success' => false,
-                    'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
-                )
-            );
-            return;
-        }
-
         if ( function_exists( 'check_admin_referer' ) ) {
             check_admin_referer( 'laterpay_form' );
         }
@@ -156,15 +146,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         $merchant_id      = $merchant_id_form->get_field_value( 'merchant_id' );
         $merchant_id_type = $is_live ? 'live' : 'sandbox';
 
-        try {
-            $merchant_id_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => get_class( $merchant_id_form ),
-                'errors' => $merchant_id_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
+
+        if ( ! $merchant_id_form->is_valid( $_POST ) ) {
             $event->set_result(
                 array(
                     'success' => false,
@@ -174,7 +157,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                     ),
                 )
             );
-            return;
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $merchant_id_form ), $merchant_id_form->get_errors() );
         }
 
         if ( strlen( $merchant_id ) === 0 ) {
@@ -221,25 +204,17 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         $api_key_type     = $is_live ? 'live' : 'sandbox';
         $transaction_type = $is_live ? 'REAL' : 'TEST';
 
-        try {
-            $api_key_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => get_class( $api_key_form ),
-                'errors' => $api_key_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
+        if ( ! $api_key_form->is_valid( $_POST ) ) {
             $event->set_result(
                 array(
                     'success' => false,
                     'message' => sprintf(
-                        __( 'The API key you entered is not a valid LaterPay %s API key!', 'laterpay' ),
+                        __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
                         ucfirst( $api_key_type )
                     ),
                 )
             );
-            return;
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $api_key_form ), $api_key_form->get_errors() );
         }
 
         if ( strlen( $api_key ) === 0 ) {
@@ -277,22 +252,12 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     protected static function update_plugin_mode( LaterPay_Core_Event $event ) {
         $plugin_mode_form = new LaterPay_Form_PluginMode();
 
-        try {
-            $plugin_mode_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => get_class( $plugin_mode_form ),
-                'errors' => $plugin_mode_form->get_errors(),
+        if ( ! $plugin_mode_form->is_valid( $_POST ) ) {
+            array(
+                'success' => false,
+                'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
             );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
-            $event->set_result(
-                array(
-                    'success' => false,
-                    'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
-                )
-            );
-            return;
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $plugin_mode_form ), $plugin_mode_form->get_errors() );
         }
 
         $plugin_mode = $plugin_mode_form->get_field_value( 'plugin_is_in_live_mode' );
@@ -349,15 +314,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     public static function update_plugin_visibility_in_test_mode( LaterPay_Core_Event $event ) {
         $plugin_test_mode_form = new LaterPay_Form_TestMode();
 
-        try {
-            $plugin_test_mode_form->validate( $_POST );
-        } catch ( LaterPay_Core_Exception_FormValidation $e ) {
-            $context = array(
-                'trace'  => $e->getTrace(),
-                'form'   => get_class( $plugin_test_mode_form ),
-                'errors' => $plugin_test_mode_form->get_errors(),
-            );
-            laterpay_get_logger()->error( $e->getMessage(), $context );
+        if ( ! $plugin_test_mode_form->is_valid( $_POST ) ) {
             $event->set_result(
                 array(
                     'success'   => false,
@@ -365,7 +322,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                     'message'   => __( 'An error occurred. Incorrect data provided.', 'laterpay' ),
                 )
             );
-            return;
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $plugin_test_mode_form ), $plugin_test_mode_form->get_errors() );
         }
 
         $is_in_visible_test_mode = $plugin_test_mode_form->get_field_value( 'plugin_is_in_visible_test_mode' );

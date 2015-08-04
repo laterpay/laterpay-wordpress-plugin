@@ -195,6 +195,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
 
             return;
         }
+
         $footer = $event->get_result();
         $footer .= '<div id="lp_js_postStatisticsPlaceholder"></div>';
         $event->set_result( $footer );
