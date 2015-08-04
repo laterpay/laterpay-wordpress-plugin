@@ -89,7 +89,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
                 $arguments = $this->get_arguments( $listener, $event );
                 call_user_func_array( $listener, $arguments );
             } catch ( LaterPay_Core_Exception $e ) {
-                laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTrace(), 'context' => $e->getContext() ) );
+                laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString(), 'context' => $e->getContext() ) );
                 $event->stop_propagation();
             }
 

@@ -30,7 +30,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
     /**
      * Equile to normalize method
      *
-     * @param array $record Record data
+     * @param array $recordRecord data
      *
      * @return string
      */

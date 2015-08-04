@@ -1,6 +1,11 @@
 <?php
+
 /**
- * Store to any stream resource
+ * LaterPay logger stream handler
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Logger_Handler_Stream extends LaterPay_Core_Logger_Handler_AbstractProcessing
 {
@@ -74,7 +79,7 @@ class LaterPay_Core_Logger_Handler_Stream extends LaterPay_Core_Logger_Handler_A
             }
             $this->errorMessage = null;
             set_error_handler( array( $this, 'error_handler' ) );
-            $this->stream = fopen( $this->url, 'a' );
+            $this->stream = fopen( $this->config->get( 'log_dir' ) . $this->url, 'a' );
             restore_error_handler();
             if ( ! is_resource( $this->stream ) ) {
                 $this->stream = null;

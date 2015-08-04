@@ -804,7 +804,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         } catch ( Exception $e ) {
             $api_available = false;
             $context = array(
-                'trace' => $e->getTrace(),
+                'trace' => $e->getTraceAsString(),
             );
             laterpay_get_logger()->error( __( 'Unexpected error during health check', 'laterpay' ), $context );
         }
