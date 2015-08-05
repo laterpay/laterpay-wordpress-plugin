@@ -47,7 +47,10 @@ class LaterPay_Helper_File
      */
     public static function check_url_encrypt( $resource_url_parts ) {
         $need_encrypt = true;
-        $need_encrypt = apply_filters( 'laterpay_check_url_encrypt', $need_encrypt );
+        $event = new LaterPay_Core_Event( array( $need_encrypt ) );
+        $event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_check_url_encrypt', $event );
+        $need_encrypt = $event->get_result();
 
         // no need to encrypt value
         if ( ! $need_encrypt ) {

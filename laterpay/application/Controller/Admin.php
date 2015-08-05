@@ -29,6 +29,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_active', 200 ),
                 array( 'add_to_admin_panel' ),
             ),
+            'laterpay_admin_menu_data' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'get_admin_menu' ),
+            ),
             'laterpay_admin_footer_scripts' => array(
                 array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_plugin_is_active', 200 ),
@@ -859,5 +864,55 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             // update post prices
             LaterPay_Helper_Pricing::update_post_data_after_category_delete( $post_id );
         }
+    }
+
+    /**
+     * Get links to be rendered in the plugin backend navigation.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function get_admin_menu( LaterPay_Core_Event $event ) {
+        $menu = (array) $event->get_result();
+
+        // @link http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table
+        // cap "activate_plugins"   => Super Admin, Admin
+        // cap "moderate_comments"  => Super Admin, Admin, Editor
+
+        $menu['dashboard'] = array(
+            'url'       => 'laterpay-plugin',
+            'title'     => __( 'Dashboard', 'laterpay' ),
+            'cap'       => 'moderate_comments',
+            /* MOVED: #797 Comment out sales statistics
+            'submenu'   => array(
+                'name'      => 'time_passes',
+                'url'       => 'laterpay-timepass-dashboard-tab',
+                'cap'       => 'moderate_comments',
+                'title'     => __( 'Time Passes', 'laterpay' ),
+                'data'      => array(
+                    'view'      => 'time-passes',
+                    'label'     => __( 'Standard KPIs', 'laterpay' ),
+                ),
+            ),*/
+        );
+
+        $menu['pricing'] = array(
+            'url'   => 'laterpay-pricing-tab',
+            'title' => __( 'Pricing', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
+
+        $menu['appearance'] = array(
+            'url'   => 'laterpay-appearance-tab',
+            'title' => __( 'Appearance', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
+
+        $menu['account'] = array(
+            'url'   => 'laterpay-account-tab',
+            'title' => __( 'Account', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
+
+        $event->set_result( $menu );
     }
 }
