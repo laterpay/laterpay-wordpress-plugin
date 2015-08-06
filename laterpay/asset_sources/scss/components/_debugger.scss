@@ -186,26 +186,26 @@
     }
 
     // infos
-    .lp_debugger__log-level--100:before
-    .lp_debugger__log-level--200:before
+    .lp_debugger__log-level--100:before,
+    .lp_debugger__log-level--200:before,
     .lp_debugger__log-level--250:before {
         color: $text--lighter;
-        content: 'm';
+        content: 'n';
     }
 
     // warnings
     .lp_debugger__log-level--300:before {
-        color: adjust_hue(saturate(lighten($text, 17%), 100%), 39); // FIXME
+        color: adjust_hue(saturate(lighten($text, 17%), 100%), 39);
         content: 'n';
     }
 
     // errors
-    .lp_debugger__log-level--400:before
-    .lp_debugger__log-level--500:before
-    .lp_debugger__log-level--550:before
+    .lp_debugger__log-level--400:before,
+    .lp_debugger__log-level--500:before,
+    .lp_debugger__log-level--550:before,
     .lp_debugger__log-level--600:before {
-        color: adjust_hue(saturate(lighten($text, 17%), 100%), 6); // FIXME
-        content: 'o';
+        color: adjust_hue(saturate(lighten($text, 17%), 100%), 6);
+        content: 'n';
     }
 
     &:hover a,
