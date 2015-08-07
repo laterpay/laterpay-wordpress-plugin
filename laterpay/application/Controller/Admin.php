@@ -104,7 +104,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 );
             }
             LaterPay_Hooks::add_wp_action( 'load-' . $page_id, 'laterpay_load_' . $page_id );
-            laterpay_event_dispatcher()->add_listener( 'laterpay_load_' . $page_id, array( $this, 'help_' . $name ) );
+            $help_action = isset( $page['help'] ) ? $page['help'] : array( $this, 'help_' . $name );
+            laterpay_event_dispatcher()->add_listener( 'laterpay_load_' . $page_id, $help_action );
             $page_number++;
         }
     }
@@ -753,7 +754,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      * @return void
      */
     public function modify_footer( LaterPay_Core_Event $event ) {
-        $event->set_echo( true );
         $pointers = LaterPay_Controller_Admin::get_pointers_to_be_shown();
 
         // don't render the partial, if there are no pointers to be shown
@@ -767,8 +767,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-
-        $event->set_result( laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer-scripts' ) ) );
+        $result = $event->get_result();
+        $result .= laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer-scripts' ) );
+        $event->set_result( $result );
     }
 
     /**
