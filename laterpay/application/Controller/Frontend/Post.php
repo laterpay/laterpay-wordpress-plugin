@@ -111,6 +111,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_load_purchased_content, wp_ajax_nopriv_laterpay_post_load_purchased_content
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
+     * @throws LaterPay_Core_Exception_PostNotFound
      *
      * @return void
      */
@@ -161,6 +163,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_rate_purchased_content, wp_ajax_nopriv_laterpay_post_rate_purchased_content
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -209,6 +212,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * Ajax method to get rating summary.
      *
      * @wp-hook wp_ajax_laterpay_post_rating_summary, wp_ajax_nopriv_laterpay_post_rating_summary
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
+     * @throws LaterPay_Core_Exception_PostNotFound
      *
      * @return void
      */
@@ -229,7 +234,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $post    = get_post( $post_id );
 
         if ( $post === null ) {
-            throw new LaterPay_Core_Exception_InvalidData( sprintf( __( '"%s" doesn\'t exist', 'laterpay' ), $post_id ) );
+            throw new LaterPay_Core_Exception_PostNotFound( $post_id );
         }
 
         // get post rating summary
@@ -256,6 +261,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_redeem_voucher_code, wp_ajax_nopriv_laterpay_redeem_voucher_code
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
      *
      * @return void
      */

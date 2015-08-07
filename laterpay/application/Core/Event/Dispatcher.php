@@ -106,7 +106,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      * @param callable|array|object $callback The event listener.
      * @param LaterPay_Core_Event   $event The event object.
      * @param array                 $attributes The context to get attributes.
-     * @throws Exception
+     * @throws LaterPay_Core_Exception
      *
      * @return array
      */
@@ -118,7 +118,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             } elseif ( method_exists( $callback[0], $callback[1] ) ) {
                 $callbackReflection = new ReflectionMethod( $callback[0], $callback[1] );
             } else {
-                throw new Exception( sprintf( 'Callback method "%s" is not found', print_r( $callback, true ) ) );
+                throw new LaterPay_Core_Exception( sprintf( 'Callback method "%s" is not found', print_r( $callback, true ) ) );
             }
         } elseif ( is_object( $callback ) ) {
             $callbackReflection = new ReflectionObject( $callback );

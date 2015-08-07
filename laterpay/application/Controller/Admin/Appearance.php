@@ -68,6 +68,8 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
      * Process Ajax requests from appearance tab.
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */

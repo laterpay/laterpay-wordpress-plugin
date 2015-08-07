@@ -149,6 +149,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_load_track_views, wp_ajax_nopriv_laterpay_post_load_track_views
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -206,6 +207,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_statistic_toggle_preview
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -276,6 +278,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_statistic_visibility
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -325,6 +328,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_statistic_render
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */

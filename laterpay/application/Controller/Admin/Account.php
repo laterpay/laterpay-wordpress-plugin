@@ -76,6 +76,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
      * Process Ajax requests from account tab.
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
      *
      * @return void
      */
@@ -134,6 +135,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
      * Update LaterPay Merchant ID, required for making test transactions against Sandbox or Live environments.
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -190,6 +192,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
      * Update LaterPay API Key, required for making test transactions against Sandbox or Live environments.
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -245,6 +248,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
     /**
      * Toggle LaterPay plugin mode between TEST and LIVE.
+     *
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -307,6 +312,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
     /**
      * Toggle LaterPay plugin test mode between INVISIBLE and VISIBLE.
+     *
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */

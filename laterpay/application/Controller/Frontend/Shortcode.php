@@ -96,6 +96,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      *
      * @var array $atts
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception
      *
      */
     public function render_premium_download_box( LaterPay_Core_Event $event ) {
@@ -341,6 +342,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      *
      * @hook wp_ajax_laterpay_get_premium_content_url, wp_ajax_nopriv_laterpay_get_premium_content_url
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
+     * @throws LaterPay_Core_Exception_PostNotFound
      *
      * @return string
      */
@@ -477,6 +480,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      *
      * @var array $atts
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception
      *
      * @return string
      */
@@ -615,6 +619,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      *
      * @hook wp_ajax_laterpay_get_gift_card_actions, wp_ajax_nopriv_laterpay_get_gift_card_actions
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
      *
      * @return void
      */

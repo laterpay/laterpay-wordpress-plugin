@@ -156,6 +156,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * Process Ajax requests from pricing tab.
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
      *
      * @return void
      */
@@ -271,6 +272,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * - it is > 0 and
      * - there isn't a more specific price for a given post.
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -323,6 +325,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Set the category price, if a given category does not have a category price yet.
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -413,6 +416,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Delete the category price for a given category.
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -495,6 +499,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * It also ensures that the resulting price and revenue model is valid.
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -738,6 +743,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Save bulk operation.
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -773,6 +779,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Delete bulk operation.
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -826,6 +833,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * Save time pass
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
+     *
      * @return void
      */
     protected function time_pass_save( LaterPay_Core_Event $event ) {
@@ -927,6 +936,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Get generated voucher code.
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
      *
      * @return void
      */
@@ -962,6 +972,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * Save landing page URL the user is forwarded to after redeeming a gift card voucher.
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */

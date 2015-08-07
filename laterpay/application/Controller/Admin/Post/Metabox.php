@@ -363,6 +363,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      * @wp-hook save_post, edit_attachments
      *
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_PostNotFound
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -546,6 +548,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_get_dynamic_pricing_data
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -576,6 +579,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_remove_post_dynamic_pricing
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_InvalidIncomingData
      *
      * @return void
      */
