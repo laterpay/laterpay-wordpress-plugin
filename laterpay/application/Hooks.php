@@ -194,10 +194,20 @@ class LaterPay_Hooks {
      *
      * @param string    $action Action name.
      * @param array     $args Action arguments.
-     * @return null
+     * @return array|string
      */
     protected function run_wp_action( $action, $args = array() ) {
-        laterpay_event_dispatcher()->dispatch( $action, $args );
+        // argument can have value == null, so 'isset' function is not suitable
+        $default = array_key_exists( 0, $args ) ? $args[0]: '';
+        try {
+            $event = new LaterPay_Core_Event( $args );
+            laterpay_event_dispatcher()->dispatch( $action, $event );
+            $result = $event->get_result();
+        } catch ( Exception $e ) {
+            laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString() ) );
+            $result = $default;
+        }
+        return $result;
     }
 
     /**
@@ -208,7 +218,8 @@ class LaterPay_Hooks {
      * @return array|string Filtered result
      */
     protected function run_wp_filter( $event_name, $args = array() ) {
-        $default = array_key_exists( 0, $args ) ? $args[0]: ''; // argument can have value == null, so 'isset' function is not suitable
+        // argument can have value == null, so 'isset' function is not suitable
+        $default = array_key_exists( 0, $args ) ? $args[0]: '';
         try {
             $event = new LaterPay_Core_Event( $args );
             $event->set_result( $default );

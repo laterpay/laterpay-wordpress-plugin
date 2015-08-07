@@ -53,6 +53,9 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
                 array( 'on_preview_post_as_admin', 100 ),
                 array( 'on_enabled_post_type', 100 ),
             ),
+            'laterpay_check_url_encrypt' => array(
+                array( 'on_check_url_encrypt' ),
+            ),
         );
     }
 
@@ -214,5 +217,14 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             );
             $event->stop_propagation();
         }
+    }
+
+    /**
+     * @param  LaterPay_Core_Event $event
+     * @return void
+     */
+    public function on_check_url_encrypt( LaterPay_Core_Event $event ) {
+        $event->set_echo( false );
+        $event->set_result( true );
     }
 }
