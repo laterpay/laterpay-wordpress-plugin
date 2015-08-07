@@ -35,7 +35,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             'laterpay_purchase_button' => array(
                 array( 'laterpay_on_preview_post_as_admin', 200 ),
                 array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
-                array( 'laterpay_on_visible_test_mode', 200 ),
                 array( 'is_purchasable', 100 ),
                 array( 'on_purchase_button' ),
                 array( 'purchase_button_position', 0 ),
@@ -52,7 +51,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             'laterpay_purchase_link' => array(
                 array( 'laterpay_on_preview_post_as_admin', 200 ),
                 array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
-                array( 'laterpay_on_visible_test_mode', 200 ),
                 array( 'is_purchasable', 100 ),
                 array( 'on_purchase_link' ),
             ),
