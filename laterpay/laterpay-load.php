@@ -27,6 +27,7 @@ class LaterPay_AutoLoader
      * @return void
      */
     public static function register_namespace( $dirName, $namespace ) {
+        $namespace = self::get_class_relative_path( $namespace );
         LaterPay_AutoLoader::$namespaces[] = array(
                                                    'path' => $dirName,
                                                    'name' => $namespace,
