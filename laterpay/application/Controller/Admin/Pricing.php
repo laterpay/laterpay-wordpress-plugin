@@ -16,13 +16,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         return array(
             'wp_ajax_laterpay_pricing' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'process_ajax_requests' ),
                 array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
             'wp_ajax_laterpay_get_category_prices' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'process_ajax_requests' ),
                 array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),

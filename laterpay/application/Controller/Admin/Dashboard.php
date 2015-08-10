@@ -24,7 +24,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
             ),
             'wp_ajax_laterpay_get_dashboard_data' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_get_dashboard_data' ),
             ),
         );

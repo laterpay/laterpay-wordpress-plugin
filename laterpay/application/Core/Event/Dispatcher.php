@@ -63,15 +63,16 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         $event->set_arguments( $arguments );
 
         $this->do_dispatch( $this->get_listeners( $event_name ), $event );
-        if ( ! $event->is_propagation_stopped() ) {
-            // apply registered in wordpress filters for the event result
-            $result = LaterPay_Hooks::apply_filters( $event_name, $event->get_result() );
-            $event->set_result( $result );
-            if ( $event->is_echo_enabled() ) {
-                echo laterpay_sanitized( $event->get_result() );
-            }
+        // apply registered in wordpress filters for the event result
+        $result = LaterPay_Hooks::apply_filters( $event_name, $event->get_result() );
+        $event->set_result( $result );
+        if ( $event->is_echo_enabled() ) {
+            echo laterpay_sanitized( $event->get_formatted_result() );
         }
         $this->set_debug_data( $event_name, $event->get_debug() );
+        if ( $event->get_type() === LaterPay_Core_Event::TYPE_JSON ) { // otherwise admin-ajax.php will add extra '0' to each request
+            die;
+        }
         return $event;
     }
 

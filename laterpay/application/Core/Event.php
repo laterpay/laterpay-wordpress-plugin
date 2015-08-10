@@ -8,6 +8,9 @@
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Event {
+    CONST TYPE_TEXT = 'text';
+    CONST TYPE_HTML = 'html';
+    CONST TYPE_JSON = 'json';
 
     /**
      * Event name.
@@ -45,12 +48,37 @@ class LaterPay_Core_Event {
     private $propagations_stopped_by = '';
 
     /**
+     * @var string $type Event result type.
+     */
+    private $type = self::TYPE_TEXT;
+
+    /**
      * Encapsulate an event with $args.
      *
      * @param array $arguments Arguments to store in the event.
      */
     public function __construct( array $arguments = array() ) {
         $this->arguments = $arguments;
+    }
+
+    /**
+     * Set event result type
+     *
+     * @return string
+     */
+    public function get_type() {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return LaterPay_Core_Event
+     */
+    public function set_type( $type ) {
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -175,6 +203,37 @@ class LaterPay_Core_Event {
      */
     public function get_result() {
         return $this->result;
+    }
+
+    /**
+     * Get formatted result.
+     *
+     * @return mixed
+     */
+    public function get_formatted_result() {
+        $result = $this->get_result();
+        switch ( $this->get_type() ) {
+            default:
+            case self::TYPE_TEXT:
+            case self::TYPE_HTML:
+                break;
+            case self::TYPE_JSON:
+                // add debug data to JSON/AJAX output
+                $debug = laterpay_get_plugin_config()->get( 'debug_mode' );
+                if ( $debug && is_array( $result ) ) {
+                    $listeners = laterpay_event_dispatcher()->get_listeners( $this->get_name() );
+                    foreach ( $listeners as $key => $listener ) {
+                        if ( is_array( $listener ) && is_object( $listener[0] ) ) {
+                            $listeners[ $key ] = array( get_class( $listener[0] ) ) + $listener;
+                        }
+                    }
+                    $result['listeners'] = $listeners;
+                    $result['debug'] = $this->get_debug();
+                }
+                $result = LaterPay_Helper_String::laterpay_json_encode( $result );
+                break;
+        }
+        return $result;
     }
 
     /**

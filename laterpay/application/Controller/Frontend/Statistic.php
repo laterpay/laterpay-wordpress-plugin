@@ -24,27 +24,27 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_post_statistic_render' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_render_tab' ),
             ),
             'wp_ajax_laterpay_post_statistic_visibility' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_visibility' ),
             ),
             'wp_ajax_laterpay_post_statistic_toggle_preview' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_preview' ),
             ),
             'wp_ajax_laterpay_post_track_views' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_track_views' ),
             ),
             'wp_ajax_nopriv_laterpay_post_track_views' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_track_views' ),
             ),
         );

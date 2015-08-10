@@ -187,18 +187,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      * @param LaterPay_Core_Event $event
      */
     public function on_ajax_send_json( LaterPay_Core_Event $event ) {
-        $debug = laterpay_get_plugin_config()->get( 'debug_mode' );
-        $result = $event->get_result();
-        if ( $debug && is_array( $result ) ) {
-            $listeners = laterpay_event_dispatcher()->get_listeners( $event->get_name() );
-            foreach ( $listeners as $key => $listener ) {
-                if ( is_array( $listener ) && is_object( $listener[0] ) ) {
-                    $listeners[ $key ] = array( get_class( $listener[0] ) ) + $listener;
-                }
-            }
-            $result['listeners'] = $listeners;
-        }
-        wp_send_json( $result );
+        $event->set_type( LaterPay_Core_Event::TYPE_JSON );
     }
 
     /**
