@@ -191,7 +191,7 @@
                     );
                 } else {
                     // request was not sent, because voucher code is not six characters long
-                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort);
+                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort, $wrapper);
                 }
             },
 
