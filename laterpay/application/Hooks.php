@@ -201,6 +201,9 @@ class LaterPay_Hooks {
         $default = array_key_exists( 0, $args ) ? $args[0]: '';
         try {
             $event = new LaterPay_Core_Event( $args );
+            if ( strpos( $action, 'wp_ajax' ) !== false ) {
+                $event->set_ajax( true );
+            }
             laterpay_event_dispatcher()->dispatch( $action, $event );
             $result = $event->get_result();
         } catch ( Exception $e ) {

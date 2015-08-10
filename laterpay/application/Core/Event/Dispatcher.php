@@ -70,7 +70,8 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             echo laterpay_sanitized( $event->get_formatted_result() );
         }
         $this->set_debug_data( $event_name, $event->get_debug() );
-        if ( $event->get_type() === LaterPay_Core_Event::TYPE_JSON ) { // otherwise admin-ajax.php will add extra '0' to each request
+        laterpay_get_logger()->debug( $event_name, $event->get_debug() );
+        if ( $event->is_ajax() ) { // otherwise admin-ajax.php will add extra '0' to each request
             die;
         }
         return $event;

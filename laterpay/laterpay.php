@@ -286,7 +286,7 @@ function laterpay_get_logger() {
 
     if ( $config->get( 'debug_mode' ) ) {
         // LaterPay WordPress handler to render the debugger pane
-        $wp_handler = new LaterPay_Core_Logger_Handler_WordPress();
+        $wp_handler = new LaterPay_Core_Logger_Handler_WordPress( LaterPay_Core_Logger::WARNING );
         $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
 
         $handlers[] = $wp_handler;

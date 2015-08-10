@@ -53,6 +53,11 @@ class LaterPay_Core_Event {
     private $type = self::TYPE_TEXT;
 
     /**
+     * @var bool $ajax Is ajax event
+     */
+    private $ajax = false;
+
+    /**
      * Encapsulate an event with $args.
      *
      * @param array $arguments Arguments to store in the event.
@@ -79,6 +84,24 @@ class LaterPay_Core_Event {
         $this->type = $type;
 
         return $this;
+    }
+
+    /**
+     * Check if event is for ajax request.
+     *
+     * @return boolean
+     */
+    public function is_ajax() {
+        return $this->ajax;
+    }
+
+    /**
+     * Set ajax attribute option
+     *
+     * @param boolean $ajax
+     */
+    public function set_ajax( $ajax ) {
+        $this->ajax = $ajax;
     }
 
     /**
@@ -216,6 +239,7 @@ class LaterPay_Core_Event {
             default:
             case self::TYPE_TEXT:
             case self::TYPE_HTML:
+                $result = empty( $result ) ? '' : $result;
                 break;
             case self::TYPE_JSON:
                 // add debug data to JSON/AJAX output
