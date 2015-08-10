@@ -308,18 +308,20 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $hmac              = $request->get_param( 'hmac' );
         $lptoken           = $request->get_param( 'lptoken' );
         $download_attached = $request->get_param( 'download_attached' );
-        $request         = new LaterPay_Core_Request();
-        $client_options  = LaterPay_Helper_Config::get_php_client_options();
-        $laterpay_client = new LaterPay_Client(
+
+        $client_options    = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client   = new LaterPay_Client(
             $client_options['cp_key'],
             $client_options['api_key'],
             $client_options['api_root'],
             $client_options['web_root'],
             $client_options['token_name']
         );
+
         if ( $download_attached ) {
             $post_id = $download_attached;
         }
+
         if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
             // check token
             if ( ! empty( $lptoken ) ) {
