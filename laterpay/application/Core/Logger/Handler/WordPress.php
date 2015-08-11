@@ -17,17 +17,10 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     protected $records = array();
 
     /**
-     * @var LaterPay_Model_Config
-     */
-    protected $config;
-
-    /**
      * @param integer $level The minimum logging level at which this handler will be triggered
      */
     public function __construct( $level = LaterPay_Core_Logger::DEBUG ) {
-        parent::__construct( $level, false );
-
-        $this->config = laterpay_get_plugin_config();
+        parent::__construct( $level );
 
         add_action( 'wp_footer',             array( $this, 'render_records' ), 1000 );
         add_action( 'admin_footer',          array( $this, 'render_records' ), 1000 );
@@ -68,7 +61,6 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         }
 
         $this->records[] = $record;
-
         return true;
     }
 

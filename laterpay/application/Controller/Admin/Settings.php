@@ -27,8 +27,9 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_backend_options' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'process_ajax_requests' ),
+                array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
         );
     }
@@ -87,21 +88,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public static function process_ajax_requests( LaterPay_Core_Event $event ) {
-        // check for required capabilities to perform action
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            $event->set_result(
-                array(
-                    'success' => false,
-                    'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
-                )
-            );
-            return;
-        }
         $from = isset( $_POST['form'] ) ? sanitize_text_field( $_POST['form'] ) : '';
+
         switch ( $from ) {
             // update presentation mode for paid content
             case 'update_browscap_cache':
-
                 $browscap = LaterPay_Helper_Browser::php_browscap();
                 // to check current cache version we need to load it first
                 $browscap->getBrowser();

@@ -15,7 +15,7 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Admin_Base 
         return array(
             'wp_ajax_laterpay_get_time_passes_data' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_get_time_passes_data' ),
             ),
         );

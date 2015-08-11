@@ -14,7 +14,7 @@ class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Handler_Abs
      * @param integer $level The minimum logging level at which this handler will be triggered
      */
     public function __construct( $level = LaterPay_Core_Logger::DEBUG ) {
-        parent::__construct( $level, false );
+        parent::__construct( $level );
     }
 
     /**

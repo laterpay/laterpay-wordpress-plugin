@@ -406,7 +406,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $content = $event->get_result();
         $html = '';
         // add the purchase button as very first element of the content, if it is not positioned manually
-        if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) == false ) {
+        if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) === false ) {
             $html .= '<div class="lp_purchase-button-wrapper">';
             $button_event = new LaterPay_Core_Event();
             $button_event->set_echo( false );

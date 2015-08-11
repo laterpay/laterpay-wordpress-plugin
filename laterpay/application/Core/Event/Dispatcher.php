@@ -63,15 +63,17 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         $event->set_arguments( $arguments );
 
         $this->do_dispatch( $this->get_listeners( $event_name ), $event );
-        if ( ! $event->is_propagation_stopped() ) {
-            // apply registered in wordpress filters for the event result
-            $result = LaterPay_Hooks::apply_filters( $event_name, $event->get_result() );
-            $event->set_result( $result );
-            if ( $event->is_echo_enabled() ) {
-                echo laterpay_sanitized( $event->get_result() );
-            }
+        // apply registered in wordpress filters for the event result
+        $result = LaterPay_Hooks::apply_filters( $event_name, $event->get_result() );
+        $event->set_result( $result );
+        if ( $event->is_echo_enabled() ) {
+            echo laterpay_sanitized( $event->get_formatted_result() );
         }
         $this->set_debug_data( $event_name, $event->get_debug() );
+        laterpay_get_logger()->debug( $event_name, $event->get_debug() );
+        if ( $event->is_ajax() ) { // otherwise admin-ajax.php will add extra '0' to each request
+            die;
+        }
         return $event;
     }
 
@@ -85,8 +87,14 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      */
     protected function do_dispatch( $listeners, LaterPay_Core_Event $event ) {
         foreach ( $listeners as $listener ) {
-            $arguments = $this->get_arguments( $listener, $event );
-            call_user_func_array( $listener, $arguments );
+            try {
+                $arguments = $this->get_arguments( $listener, $event );
+                call_user_func_array( $listener, $arguments );
+            } catch ( LaterPay_Core_Exception $e ) {
+                laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString(), 'context' => $e->getContext() ) );
+                $event->stop_propagation();
+            }
+
             if ( $event->is_propagation_stopped() ) {
                 $event->set_propagations_stopped_by( $listener );
                 break;
@@ -100,7 +108,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
      * @param callable|array|object $callback The event listener.
      * @param LaterPay_Core_Event   $event The event object.
      * @param array                 $attributes The context to get attributes.
-     * @throws Exception
+     * @throws LaterPay_Core_Exception
      *
      * @return array
      */
@@ -112,7 +120,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             } elseif ( method_exists( $callback[0], $callback[1] ) ) {
                 $callbackReflection = new ReflectionMethod( $callback[0], $callback[1] );
             } else {
-                throw new Exception( sprintf( 'Callback method "%s" is not found', print_r( $callback, true ) ) );
+                throw new LaterPay_Core_Exception( sprintf( 'Callback method "%s" is not found', print_r( $callback, true ) ) );
             }
         } elseif ( is_object( $callback ) ) {
             $callbackReflection = new ReflectionObject( $callback );

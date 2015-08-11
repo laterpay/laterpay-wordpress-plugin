@@ -48,11 +48,6 @@ class LaterPay_Helper_Post
     public static function has_access_to_post( WP_Post $post, $is_attachment = false, $main_post_id = null ) {
         $post_id = $post->ID;
 
-        laterpay_get_logger()->info(
-            __METHOD__,
-            array( 'post' => $post, 'access_list' => self::$access )
-        );
-
         // check, if parent post has access with time passes
         $parent_post        = $is_attachment ? $main_post_id : $post_id;
         $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $parent_post );

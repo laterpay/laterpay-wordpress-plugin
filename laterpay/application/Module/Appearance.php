@@ -37,6 +37,9 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             'laterpay_on_ajax_send_json' => array(
                 array( 'on_ajax_send_json' ),
             ),
+            'laterpay_on_ajax_user_can_activate_plugins' => array(
+                array( 'on_ajax_user_can_activate_plugins' ),
+            ),
         );
     }
 
@@ -184,26 +187,33 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      * @param LaterPay_Core_Event $event
      */
     public function on_ajax_send_json( LaterPay_Core_Event $event ) {
-        $debug = laterpay_get_plugin_config()->get( 'debug_mode' );
-        $result = $event->get_result();
-        if ( $debug && is_array( $result ) ) {
-            $listeners = laterpay_event_dispatcher()->get_listeners( $event->get_name() );
-            foreach ( $listeners as $key => $listener ) {
-                if ( is_array( $listener ) && is_object( $listener[0] ) ) {
-                    $listeners[ $key ] = array( get_class( $listener[0] ) ) + $listener;
-                }
-            }
-            $result['listeners'] = $listeners;
-        }
-        wp_send_json( $result );
+        $event->set_type( LaterPay_Core_Event::TYPE_JSON );
     }
 
     /**
+     * Stops event if user can't activate plugins
+     *
      * @param LaterPay_Core_Event $event
+     */
+    public function on_ajax_user_can_activate_plugins( LaterPay_Core_Event $event ) {
+        // check for required capabilities to perform action
+        if ( ! current_user_can( 'activate_plugins' ) ) {
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
+                )
+            );
+            $event->stop_propagation();
+        }
+    }
+
+    /**
+     * @param  LaterPay_Core_Event $event
+     * @return void
      */
     public function on_check_url_encrypt( LaterPay_Core_Event $event ) {
         $event->set_echo( false );
         $event->set_result( true );
-
     }
 }

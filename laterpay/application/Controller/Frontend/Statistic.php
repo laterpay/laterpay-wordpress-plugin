@@ -24,27 +24,25 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_post_statistic_render' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_render_tab' ),
             ),
             'wp_ajax_laterpay_post_statistic_visibility' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_visibility' ),
             ),
             'wp_ajax_laterpay_post_statistic_toggle_preview' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_preview' ),
             ),
             'wp_ajax_laterpay_post_track_views' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_track_views' ),
             ),
             'wp_ajax_nopriv_laterpay_post_track_views' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 0 ),
                 array( 'ajax_track_views' ),
             ),
         );
@@ -61,7 +59,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
         // don't collect statistics data, if logging is disabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
             $this->logger->warning( __METHOD__ . ' - access logging is not enabled' );
-
             return false;
         }
 
@@ -74,7 +71,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                         'post' => $post,
                     )
                 );
-
                 return false;
             }
 
@@ -100,7 +96,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                     'allowed_post_types'    => $allowed_post_types,
                 )
             );
-
             return false;
         }
 
@@ -112,7 +107,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                     'post' => $post,
                 )
             );
-
             return false;
         }
 
@@ -153,24 +147,25 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_load_track_views, wp_ajax_nopriv_laterpay_post_load_track_views
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
     public function ajax_track_views( LaterPay_Core_Event $event ) {
         $statistic_form = new LaterPay_Form_Statistic();
 
-        if ( $statistic_form->is_valid( $_POST ) ) {
-            $post_id             = $statistic_form->get_field_value( 'post_id' );
-            $post                = get_post( $post_id );
-            $can_read_statistics = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
-
-            // don't track admin users (everybody who is allowed to view statistics data) in order to no skew the data
-            if ( $this->check_requirements( $post ) && ! $can_read_statistics ) {
-                LaterPay_Helper_Statistic::track( $post_id );
-            }
+        if ( ! $statistic_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $statistic_form ), $statistic_form->get_errors() );
         }
 
-        $event->stop_propagation();
+        $post_id             = $statistic_form->get_field_value( 'post_id' );
+        $post                = get_post( $post_id );
+        $can_read_statistics = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
+
+        // don't track admin users (everybody who is allowed to view statistics data) in order to no skew the data
+        if ( $this->check_requirements( $post ) && ! $can_read_statistics ) {
+            LaterPay_Helper_Statistic::track( $post_id );
+        }
     }
 
     /**
@@ -199,6 +194,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
 
             return;
         }
+
         $footer = $event->get_result();
         $footer .= '<div id="lp_js_postStatisticsPlaceholder"></div>';
         $event->set_result( $footer );
@@ -209,12 +205,16 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_statistic_toggle_preview
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
     public function ajax_toggle_preview( LaterPay_Core_Event $event ) {
         $statistics_preview_form = new LaterPay_Form_StatisticPreview( $_POST );
-        $preview_post = $statistics_preview_form->get_field_value( 'preview_post' );
+
+        if ( ! $statistics_preview_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $statistics_preview_form ), $statistics_preview_form->get_errors() );
+        }
 
         $error = array(
             'success' => false,
@@ -227,6 +227,8 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
             $event->set_result( $error );
             return;
         }
+
+        $preview_post = $statistics_preview_form->get_field_value( 'preview_post' );
 
         if ( $preview_post === null ) {
             $error['code'] = 2;
@@ -274,11 +276,16 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_statistic_visibility
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
     public function ajax_toggle_visibility( LaterPay_Core_Event $event ) {
         $statistics_visibility_form = new LaterPay_Form_StatisticVisibility();
+
+        if ( ! $statistics_visibility_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $statistics_visibility_form ), $statistics_visibility_form->get_errors() );
+        }
 
         $current_user = wp_get_current_user();
         $error = array(
@@ -287,8 +294,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
         );
 
         // check the admin referer
-        if ( ! $statistics_visibility_form->is_valid( $_POST ) ||
-             ! check_admin_referer( 'laterpay_form' ) ||
+        if ( ! check_admin_referer( 'laterpay_form' ) ||
              ! is_a( $current_user, 'WP_User' ) ||
              ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false )
         ) {
@@ -320,6 +326,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      *
      * @wp-hook wp_ajax_laterpay_post_statistic_render
      * @param LaterPay_Core_Event $event
+     * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
@@ -334,8 +341,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
         $statistic_form->add_validation( 'nonce', $condition );
 
         if ( ! $statistic_form->is_valid() ) {
-            $event->stop_propagation();
-            return;
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $statistic_form ), $statistic_form->get_errors() );
         }
 
         $post_id = $statistic_form->get_field_value( 'post_id' );
