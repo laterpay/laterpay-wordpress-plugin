@@ -24,7 +24,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_post_statistic_render' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_render_tab' ),
             ),
             'wp_ajax_laterpay_post_statistic_visibility' => array(
