@@ -159,7 +159,7 @@ class LaterPay_Helper_Statistic
         $model = new LaterPay_Model_Post_View();
         $event = new LaterPay_Core_Event( array( $has_access, $post_id ) );
         $event->set_echo( false );
-        laterpay_event_dispatcher( 'laterpay_check_user_access', $event );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_check_user_access', $event );
         $has_access = (bool)$event->get_result();
 
         $data = array(
