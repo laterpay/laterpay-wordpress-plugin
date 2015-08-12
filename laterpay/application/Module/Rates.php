@@ -86,9 +86,8 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
          * return the full encrypted content, if ...
          * ...the post was bought by a user
          * ...and logged_in_user does not preview the post as visitor
-         * ...and caching is not activated or caching is activated and content is loaded via Ajax request
          */
-        if ( $access && ! $preview_post_as_visitor && ( ! $caching_is_active || $is_ajax_and_caching_is_active ) && $show_post_ratings ) {
+        if ( $access && ! $preview_post_as_visitor && $show_post_ratings ) {
             $user_has_already_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
             // append rating form to content, if content rating is enabled
             if ( ! $user_has_already_voted ) {
