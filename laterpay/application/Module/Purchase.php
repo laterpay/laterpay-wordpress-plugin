@@ -418,6 +418,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
 
         $event->set_result( $content );
+
+        // show rating summary if it's enabled
+        laterpay_event_dispatcher()->dispatch( 'laterpay_post_rating', $event );
     }
 
     /**
