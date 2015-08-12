@@ -208,8 +208,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * @return string
      */
     public function render_time_pass( $pass = array() ) {
-        $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is_in_live_mode' );
-
         $defaults = array(
             'pass_id'     => 0,
             'title'       => LaterPay_Helper_TimePass::get_default_options( 'title' ),
@@ -224,7 +222,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         }
 
         $laterpay_pass['preview_post_as_visitor'] = LaterPay_Helper_User::preview_post_as_visitor( get_post() );
-        $laterpay_pass['is_in_visible_test_mode'] = $is_in_visible_test_mode;
 
         $args = array(
             'standard_currency' => get_option( 'laterpay_currency' ),
