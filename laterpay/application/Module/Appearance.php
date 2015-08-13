@@ -89,7 +89,6 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' )
                                    && ! $this->config->get( 'is_in_live_mode' );
 
-        $event->add_argument( 'attributes', array( 'data-is-in-visible-test-mode' => $is_in_visible_test_mode ) );
         $event->set_argument( 'is_in_visible_test_mode', $is_in_visible_test_mode );
     }
 
