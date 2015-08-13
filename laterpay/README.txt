@@ -250,6 +250,22 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 
 == Changelog ==
 
+= 0.9.12 (July 8, 2015): Bugfix Release (v1.0 RC5) =
+* Added feature to allow setting prices in time pass only mode
+* Added advanced setting to not contact LaterPay on the homepage
+* Added avanced setting to disable check_token on homepage
+* Disabled sales statistics
+* Fixed fatal error after plugin activation
+* Fixed issue with special characters in time pass URLs
+* Fixed time Passes being displayed for users, but not in the pricing tab
+* Fixed bug that prevented to create voucher code while creating time pass
+* Fixed warning: "Cannot modify header information - headers already sent"
+* Limited validity of time passes to 1 year
+* Fixed images not being displayed in print preview / not printed in Internet Explorer
+* Fixed state of "Time Passes Only"-toggle not saving
+* Fixed duplicate entries in database
+* Adjusted calculation of New Customers metric
+
 = 0.9.11.4 (May 8, 2015): Bugfix Release (v1.0 RC4) =
 * Completely revised plugin backend user interface with clearer layout and smoother user interaction
 * Added functionality to automatically remove logged page view data after three months

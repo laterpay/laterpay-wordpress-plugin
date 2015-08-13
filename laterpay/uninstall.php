@@ -89,6 +89,7 @@ delete_option( 'laterpay_voucher_statistic' );
 delete_option( 'laterpay_gift_statistic' );
 delete_option( 'laterpay_gift_codes_usages' );
 delete_option( 'laterpay_debugger_enabled' );
+delete_option( 'laterpay_debugger_addresses' );
 
 delete_option( 'laterpay_purchase_button_positioned_manually' );
 delete_option( 'laterpay_time_passes_positioned_manually' );
@@ -101,6 +102,7 @@ delete_option( 'laterpay_only_time_pass_purchases_allowed' );
 delete_option( 'laterpay_maximum_redemptions_per_gift_code' );
 
 delete_option( 'laterpay_api_fallback_behavior' );
+delete_option( 'laterpay_api_enabled_on_homepage' );
 
 // register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;

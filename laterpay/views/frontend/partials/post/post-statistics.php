@@ -14,74 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
     </form>
     <a href="#" id="lp_js_togglePostStatisticsVisibility" class="lp_post-statistics__visibility-toggle" data-icon="l"></a>
-    <h2 class="lp_post-statistics__title" data-icon="a"><?php echo laterpay_sanitize_output( __( 'Statistics for this Post', 'laterpay' ) ); ?></h2>
-    <div class="lp_post-statistics__totals">
-        <ul class="lp_post-statistics__list">
-            <li class="lp_post-statistics__item lp_kpi">
-                <div>
-                    <big><?php if ( isset( $laterpay['statistic']['total'][ $currency ] ) ) { $aux = $laterpay['statistic']['total'][ $currency ]['sum']; } else { $aux = 0; }; echo laterpay_sanitize_output( LaterPay_Helper_View::format_number( (float) $aux ) ); ?><small><?php echo laterpay_sanitize_output( $laterpay['currency'] ); ?></small></big>
-                    <small><?php echo laterpay_sanitize_output( __( 'Total Committed Revenue', 'laterpay' ) ); ?></small>
-                </div>
-            </li><!-- no space here due to inline-block
-         --><li class="lp_post-statistics__item lp_kpi">
-                <div>
-                    <big><?php if ( isset( $laterpay['statistic']['total'][ $currency ] ) ) { $aux = $laterpay['statistic']['total'][ $currency ]['quantity']; } else { $aux = 0; }; echo laterpay_sanitize_output( LaterPay_Helper_View::format_number( (float) $aux, false ) ); ?></big>
-                    <small><?php echo laterpay_sanitize_output( __( 'Total Sales', 'laterpay' ) ); ?></small>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="lp_post-statistics__separator">
-        <ul class="lp_post-statistics__list">
-            <li class="lp_post-statistics__item">
-                <span class="lp_post-statistics__text"><?php echo laterpay_sanitize_output( __( 'Last 30 days', 'laterpay' ) ); ?></span>
-                <hr class="lp_post-statistics__separator-line">
-            </li><!-- no space here due to inline-block
-         --><li class="lp_post-statistics__item">
-                <span class="lp_post-statistics__text"><?php echo laterpay_sanitize_output( __( 'Today', 'laterpay' ) ); ?></span>
-                <hr class="lp_post-statistics__separator-line">
-            </li>
-        </ul>
-    </div>
-    <div class="lp_post-statistics__details">
-        <ul class="lp_post-statistics__list">
-            <li class="lp_post-statistics__item">
-                <span class="lp_js_sparklineBar lp_sparkline-bar"><?php if ( isset( $laterpay['statistic']['last30DaysRevenue'][ $currency ] ) ) { $aux = $laterpay['statistic']['last30DaysRevenue'][ $currency ]; } else { $aux = array(); }; echo laterpay_sanitize_output( LaterPay_Helper_View::get_days_statistics_as_string( $aux, 'sum', ';' ) ); ?></span>
-            </li><!-- no space here due to inline-block
-         --><li class="lp_post-statistics__item lp_kpi">
-                <div>
-                    <big><?php if ( isset( $laterpay['statistic']['todayRevenue'][ $currency ] ) ) { $aux = $laterpay['statistic']['todayRevenue'][ $currency ]['sum']; } else { $aux = 0; }; echo laterpay_sanitize_output( LaterPay_Helper_View::format_number( (float) $aux ) ); ?><small><?php echo laterpay_sanitize_output( $laterpay['currency'] ); ?></small></big>
-                    <small><?php echo laterpay_sanitize_output( __( 'Committed Revenue', 'laterpay' ) ); ?></small>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="lp_post-statistics__details">
-        <ul class="lp_post-statistics__list">
-            <li class="lp_post-statistics__item">
-                <span class="lp_js_sparklineBar lp_sparkline-bar" data-max="0.5"><?php echo laterpay_sanitized( LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysBuyers'], 'percentage', ';' ) ); ?></span>
-                <span class="lp_js_sparklineBackgroundBar lp_sparkline-bar__background">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
-            </li><!-- no space here due to inline-block
-         --><li class="lp_post-statistics__item lp_kpi">
-                <div>
-                    <big><?php echo laterpay_sanitize_output( $laterpay['statistic']['todayBuyers'] ); ?><small>%</small></big>
-                    <small><?php echo laterpay_sanitize_output( __( 'Conversion', 'laterpay' ) ); ?></small>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="lp_post-statistics__details">
-        <ul class="lp_post-statistics__list">
-            <li class="lp_post-statistics__item">
-                <span class="lp_js_sparklineBar lp_sparkline-bar"><?php echo laterpay_sanitized( LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysVisitors'], 'quantity', ';' ) ); ?></span>
-            </li><!-- no space here due to inline-block
-         --><li class="lp_post-statistics__item lp_kpi">
-                <div>
-                    <big><?php echo laterpay_sanitize_output( LaterPay_Helper_View::format_number( $laterpay['statistic']['todayVisitors'], false ) ); ?></big>
-                    <small><?php echo laterpay_sanitize_output( __( 'Views', 'laterpay' ) ); ?></small>
-                </div>
-            </li>
-        </ul>
+    <div class="lp_statistics-empty">
+        <h2><?php echo laterpay_sanitize_output( __( 'Statistics have moved to your LaterPay merchant backend', 'laterpay' ) ); ?></h2>
+        <p><?php echo laterpay_sanitize_output( __( 'Go to <a href="https://merchant.laterpay.net">merchant.laterpay.net</a> and login to your merchant account to see sales statistics.', 'laterpay' ) ); ?></p>
+        <p><?php echo laterpay_sanitize_output( __( 'If you don\'t have access to your merchant backend yet, please contact <a href="mailto:support@laterpay.net">support@laterpay.net</a>.', 'laterpay' ) ); ?></p>
     </div>
     <div class="lp_post-statistics__plugin-preview-mode">
         <?php echo laterpay_sanitize_output( __( 'Preview post as', 'laterpay' ) ); ?> <strong><?php echo laterpay_sanitize_output( __( 'Admin', 'laterpay' ) ); ?></strong>

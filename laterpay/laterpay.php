@@ -4,14 +4,15 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
  * Author: LaterPay GmbH and Mihail Turalenka
- * Version: 0.9.11.4
+ * Version: 0.9.12
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay
  * Domain Path: /languages
  */
 
+
 // Kick-off
-add_action( 'plugins_loaded', 'laterpay_init', 0 );
+add_action( 'plugins_loaded', 'laterpay_init' );
 
 register_activation_hook( __FILE__, 'laterpay_activate' );
 register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
@@ -26,9 +27,18 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
 function laterpay_init() {
     laterpay_before_start();
 
-    $config     = laterpay_get_plugin_config();
-    $laterpay   = new LaterPay_Core_Bootstrap( $config );
-    $laterpay->run();
+    $config   = laterpay_get_plugin_config();
+    $laterpay = new LaterPay_Core_Bootstrap( $config );
+
+    try {
+        $laterpay->run();
+    } catch ( Exception $e ) {
+        $context = array(
+            'message' => $e->getMessage(),
+            'trace'   => $e->getTrace(),
+        );
+        laterpay_get_logger()->critical( __( 'Unexpected error during plugin init', 'laterpay' ), $context );
+    }
 }
 
 /**
@@ -40,10 +50,12 @@ function laterpay_init() {
  */
 function laterpay_activate() {
     laterpay_before_start();
-
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
+
+    laterpay_event_dispatcher()->dispatch( 'laterpay_activate_before' );
     $laterpay->activate();
+    laterpay_event_dispatcher()->dispatch( 'laterpay_activate_after' );
 }
 
 /**
@@ -55,10 +67,12 @@ function laterpay_activate() {
  */
 function laterpay_deactivate() {
     laterpay_before_start();
-
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
+
+    laterpay_event_dispatcher()->dispatch( 'laterpay_deactivate_before' );
     $laterpay->deactivate();
+    laterpay_event_dispatcher()->dispatch( 'laterpay_deactivate_after' );
 }
 
 /**
@@ -95,7 +109,14 @@ function laterpay_get_plugin_config() {
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
     $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
-    $config->set( 'debug_mode',         (bool) get_option( 'laterpay_debugger_enabled', false ) );
+
+    $client_address         = isset( $_SERVER['REMOTE_ADDR'] ) ? laterpay_sanitized( $_SERVER['REMOTE_ADDR'] ) : null;
+    $debug_mode_enabled     = (bool) get_option( 'laterpay_debugger_enabled', false );
+    $debug_mode_addresses   = (string) get_option( 'laterpay_debugger_addresses', '' );
+    $debug_mode_addresses   = explode( ',', $debug_mode_addresses );
+    $debug_mode_addresses   = array_map( 'trim', $debug_mode_addresses );
+
+    $config->set( 'debug_mode',         $debug_mode_enabled && ! empty( $debug_mode_addresses ) && in_array( $client_address, $debug_mode_addresses ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {
@@ -228,15 +249,20 @@ function laterpay_get_plugin_config() {
  * @return void
  */
 function laterpay_before_start() {
-    $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
+    try {
+        $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
-    if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
-        require_once( $dir . 'laterpay-load.php' );
+        if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
+            require_once( $dir . 'laterpay-load.php' );
+        }
+
+        LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
+        LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
+        LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-php-browscap-library' );
+    } catch ( Exception $e ) {
+        // deactivate laterpay plugin
+        deactivate_plugins( plugin_basename( __FILE__ ) );
     }
-
-    LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
-    LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
-    LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-php-browscap-library' );
 
     // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
     // to register the required script and style filters
@@ -260,7 +286,7 @@ function laterpay_get_logger() {
 
     if ( $config->get( 'debug_mode' ) ) {
         // LaterPay WordPress handler to render the debugger pane
-        $wp_handler = new LaterPay_Core_Logger_Handler_WordPress();
+        $wp_handler = new LaterPay_Core_Logger_Handler_WordPress( LaterPay_Core_Logger::WARNING );
         $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
 
         $handlers[] = $wp_handler;
@@ -274,7 +300,7 @@ function laterpay_get_logger() {
         new LaterPay_Core_Logger_Processor_MemoryUsage(),
         new LaterPay_Core_Logger_Processor_MemoryPeakUsage(),
     );
-
+    laterpay_event_dispatcher()->set_debug_enabled( true );
     $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
 
     // cache the config
@@ -308,5 +334,14 @@ function laterpay_sanitize_output( $string ) {
  */
 function laterpay_sanitized( $string ) {
     return $string;
+}
+
+/**
+ * Alias for the LaterPay Event Dispatcher
+ *
+ * @return LaterPay_Core_Event_Dispatcher
+ */
+function laterpay_event_dispatcher() {
+    return LaterPay_Core_Event_Dispatcher::get_dispatcher();
 }
 

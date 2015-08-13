@@ -191,7 +191,7 @@
                     );
                 } else {
                     // request was not sent, because voucher code is not six characters long
-                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort);
+                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort, $wrapper);
                 }
             },
 
@@ -537,8 +537,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         function(event) {
             event.preventDefault();
             if (
-                event.currentTarget.getData('preview-as-visitor') &&
-                !event.currentTarget.getData('is-in-visible-test-mode')
+                event.currentTarget.getData('preview-post-as-visitor')
             ) {
                 alert(lpVars.i18n.alert); // only show an alert instead of opening the dialog
             } else {

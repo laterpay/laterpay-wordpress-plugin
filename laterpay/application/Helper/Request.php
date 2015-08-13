@@ -102,7 +102,7 @@ class LaterPay_Helper_Request {
 
             laterpay_get_logger()->info(
                 __METHOD__, array(
-                    'api_available'                   => self::$lp_api_availability,
+                    'api_available'                  => self::$lp_api_availability,
                     'laterpay_api_fallback_behavior' => $behavior[ $action ],
                 )
             );
@@ -191,6 +191,10 @@ class LaterPay_Helper_Request {
      * @see LaterPay_Client::acquire_token()
      */
     public static function laterpay_api_acquire_token() {
+        if ( self::laterpay_api_disabled_on_homepage() ) {
+            return;
+        }
+
         if ( self::laterpay_api_check_availability() ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $client         = new LaterPay_Client(
@@ -202,12 +206,20 @@ class LaterPay_Helper_Request {
             );
 
             if ( ! $client->has_token() ) {
-                laterpay_get_logger()->debug( 'RESOURCE:: No token found. Acquiring token' );
-
                 $client->acquire_token();
             }
-        } else {
-            laterpay_get_logger()->debug( 'RESOURCE:: No token found. API is not available' );
         }
+    }
+
+    /**
+     * Checks whether we are on home page and requests to API are enabled.
+     *
+     * @return bool
+     */
+    protected static function laterpay_api_disabled_on_homepage() {
+        $enabled_on_homepage        = get_option( 'laterpay_api_enabled_on_homepage' );
+        $is_homepage                = is_front_page() && is_home();
+
+        return $is_homepage && ! $enabled_on_homepage;
     }
 }

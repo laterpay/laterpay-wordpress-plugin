@@ -48,11 +48,6 @@ class LaterPay_Helper_Post
     public static function has_access_to_post( WP_Post $post, $is_attachment = false, $main_post_id = null ) {
         $post_id = $post->ID;
 
-        laterpay_get_logger()->info(
-            __METHOD__,
-            array( 'post' => $post, 'access_list' => self::$access )
-        );
-
         // check, if parent post has access with time passes
         $parent_post        = $is_attachment ? $main_post_id : $post_id;
         $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $parent_post );
@@ -199,14 +194,22 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post_id;
         }
 
-        $url  = self::get_after_purchase_redirect_url( $url_params );
-        $hash = self::get_hash_by_url( $url );
+        // get current post link
+        $link = get_permalink( $url_params['post_id'] );
+
+        // cut params from link and merge with other params
+        $parsed_link = parse_url( $link );
+        if ( isset( $parsed_link['query'] ) ) {
+            parse_str( $parsed_link['query'], $link_params );
+            $url_params = array_merge( $link_params, $url_params );
+            list( $link, $last ) = explode( '?', $link );
+        }
 
         // parameters for LaterPay purchase form
         $params = array(
             'article_id' => $post_id,
             'pricing'    => $currency . ( $price * 100 ),
-            'url'        => $url . '&hash=' . $hash,
+            'url'        => $link . '?' . $client->sign_and_encode( $url_params, $link ),
             'title'      => $post->post_title,
         );
 
@@ -214,48 +217,13 @@ class LaterPay_Helper_Post
             __METHOD__, $params
         );
 
-        if ( $revenue_model == 'sis' ) {
+        if ( $revenue_model === 'sis' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
         } else {
             // Pay-per-Use purchase
             return $client->get_add_url( $params );
         }
-    }
-
-    /**
-     * Return the URL hash for a given URL.
-     *
-     * @param string $url
-     *
-     * @return string $hash
-     */
-    public static function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . wp_salt() );
-    }
-
-    /**
-     * Generate the URL to which the user is redirected to after buying a given post.
-     *
-     * @param array $data
-     *
-     * @return string $url
-     */
-    public static function get_after_purchase_redirect_url( array $data ) {
-        $url = get_permalink( $data['post_id'] );
-
-        if ( ! $url ) {
-            laterpay_get_logger()->error(
-                __METHOD__ . ' could not find an URL for the given post_id.',
-                array( 'data' => $data )
-            );
-
-            return $url;
-        }
-
-        $url = add_query_arg( $data, $url );
-
-        return $url;
     }
 
     /**
@@ -275,15 +243,12 @@ class LaterPay_Helper_Post
             $preview_mode = true;
         }
 
-        $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! get_option( 'laterpay_plugin_is_in_live_mode' );
-
         $view_args = array(
             'post_id'                   => $post->ID,
             'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
             'currency'                  => get_option( 'laterpay_currency' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
-            'is_in_visible_test_mode'   => $is_in_visible_test_mode,
         );
 
         laterpay_get_logger()->info(
@@ -322,117 +287,5 @@ class LaterPay_Helper_Post
         }
 
         return $new_meta_value;
-    }
-
-    /**
-     * Collect content of benefits overlay.
-     *
-     * @param  string  $revenue_model       LaterPay revenue model applied to content
-     * @param  boolean $time_passes_only    can posts be purchased individually, or only by time passes?
-     *
-     * @return array $overlay_content
-     */
-    public static function collect_overlay_content( $revenue_model, $time_passes_only = false ) {
-        // determine overlay title to show
-        if ( $revenue_model == 'sis' || $time_passes_only ) {
-            $overlay_title = __( 'Read Now', 'laterpay' );
-        } else {
-            $overlay_title = __( 'Read Now, Pay Later', 'laterpay' );
-        }
-
-        // determine benefits to show
-        if ( $time_passes_only ) {
-            $overlay_benefits = array(
-                                    array(
-                                        'title' => __( 'Buy Time Pass', 'laterpay' ),
-                                        'text'  => __( 'Buy a LaterPay time pass and pay with a payment method you trust.', 'laterpay' ),
-                                        'class' => 'lp_benefit--buy-now',
-                                    ),
-                                    array(
-                                        'title' => __( 'Read Immediately', 'laterpay' ),
-                                        'text'  => __( 'Immediately access your content. <br>A time pass is not a subscription, it expires automatically.', 'laterpay' ),
-                                        'class' => 'lp_benefit--use-immediately',
-                                    ),
-                                );
-        } else if ( ! $time_passes_only && $revenue_model == 'sis' ) {
-            $overlay_benefits = array(
-                                    array(
-                                        'title' => __( 'Buy Now', 'laterpay' ),
-                                        'text'  => __( 'Buy this post now with LaterPay and <br>pay with a payment method you trust.', 'laterpay' ),
-                                        'class' => 'lp_benefit--buy-now',
-                                    ),
-                                    array(
-                                        'title' => __( 'Read Immediately', 'laterpay' ),
-                                        'text'  => __( 'Immediately access your purchase. <br>You only buy this post. No subscription, no fees.', 'laterpay' ),
-                                        'class' => 'lp_benefit--use-immediately',
-                                    ),
-                                );
-        } else {
-            $overlay_benefits = array(
-                                    array(
-                                        'title' => __( 'Buy Now', 'laterpay' ),
-                                        'text'  => __( 'Just agree to pay later.<br> No upfront registration and payment.', 'laterpay' ),
-                                        'class' => 'lp_benefit--buy-now',
-                                    ),
-                                    array(
-                                        'title' => __( 'Read Immediately', 'laterpay' ),
-                                        'text'  => __( 'Access your purchase immediately.<br> You are only buying this article, not a subscription.', 'laterpay' ),
-                                        'class' => 'lp_benefit--use-immediately',
-                                    ),
-                                    array(
-                                        'title' => __( 'Pay Later', 'laterpay' ),
-                                        'text'  => __( 'Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you have to register and pay.', 'laterpay' ),
-                                        'class' => 'lp_benefit--pay-later',
-                                    ),
-                                );
-        }
-
-        $overlay_content = array(
-                               'title'      => $overlay_title,
-                               'benefits'   => $overlay_benefits,
-                            );
-
-        return $overlay_content;
-    }
-
-    /**
-     * Hide paid posts from access in the loop.
-     *
-     * In archives or by using the WP_Query-Class, we can prefetch the access
-     * for all posts in a single request instead of requesting every single post.
-     *
-     * @wp-hook the_posts
-     *
-     * @param array $posts
-     *
-     * @return array $posts
-     */
-    public static function hide_paid_posts( $posts ) {
-        $api_available  = LaterPay_Helper_Request::laterpay_api_check_availability();
-        $behavior       = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
-
-        if ( ! $api_available && $behavior == 2 ) {
-            $result = array();
-            $count = 0;
-
-            foreach ( $posts as $post ) {
-                $paid = LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0;
-                if ( ! $paid ) {
-                    $result[] = $post;
-                } else {
-                    $count++;
-                }
-            }
-
-            $context = array(
-                'hidden' => $count,
-            );
-
-            laterpay_get_logger()->info( __METHOD__, $context );
-
-            return $result;
-        }
-
-        return $posts;
     }
 }
