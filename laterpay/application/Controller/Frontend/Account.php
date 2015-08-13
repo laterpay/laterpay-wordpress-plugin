@@ -16,6 +16,7 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
         return array(
             'laterpay_account_links' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'is_page_secure', 100 ),
                 array( 'render_account_links' ),
             ),
             'laterpay_enqueue_scripts' => array(
@@ -99,5 +100,11 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
             $this->config->get( 'version' ),
             true
         );
+    }
+
+    public function is_page_secure( LaterPay_Core_Event $event ) {
+        if ( ! is_ssl() ) {
+            $event->stop_propagation();
+        }
     }
 }
