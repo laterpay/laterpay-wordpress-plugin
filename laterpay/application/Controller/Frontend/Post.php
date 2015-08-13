@@ -463,9 +463,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      */
     public function hide_free_posts_with_premium_content( LaterPay_Core_Event $event ) {
         $posts = (array) $event->get_result();
+
         // check if current page is a homepage and hide free posts option enabled
-        $is_homepage = is_front_page() && is_home();
-        if ( ! get_option( 'laterpay_hide_free_posts' ) || ! $is_homepage ) {
+        if ( ! get_option( 'laterpay_hide_free_posts' ) || ! is_home() || ! is_front_page() ) {
             return;
         }
 
