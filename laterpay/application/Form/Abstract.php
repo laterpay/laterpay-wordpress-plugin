@@ -276,7 +276,7 @@ abstract class LaterPay_Form_Abstract
             }
         }
 
-        return empty($this->errors);
+        return empty( $this->errors );
     }
 
     public function get_errors() {
@@ -469,7 +469,7 @@ abstract class LaterPay_Form_Abstract
                     //get all dependency
                     foreach ( $validator_params as $dependency ) {
                         // if dependency match
-                        if ( ! isset( $dependency['value'] ) || $value === $dependency['value'] ) {
+                        if ( ! isset( $dependency['value'] ) || $value === $dependency['value'] || ( is_array( $dependency['value'] ) && in_array( $value, $dependency['value'], true ) ) ) {
                             // loop for dependencies conditions and check if all of them is valid
                             foreach ( $dependency['conditions'] as $vkey => $vparams ) {
                                 $extra_validator = is_int( $vkey ) ? $vparams : $vkey;

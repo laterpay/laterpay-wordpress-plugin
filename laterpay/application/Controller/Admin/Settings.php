@@ -12,6 +12,29 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     private $has_custom_roles = false;
 
     /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_admin_init' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_active', 200 ),
+                array( 'init_laterpay_advanced_settings' ),
+            ),
+            'laterpay_admin_menu' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'add_laterpay_advanced_settings_page' ),
+            ),
+            'wp_ajax_laterpay_backend_options' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
+                array( 'process_ajax_requests' ),
+                array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
+            ),
+        );
+    }
+
+    /**
      * @see LaterPay_Core_View::load_assets
      */
     public function load_assets() {
@@ -46,92 +69,78 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'laterpay-backend-options',
             'lpVars',
             array(
-                'i18nFetchingUpdate'    => __( 'Fetching data from browscap.org', 'laterpay' ),
-                'i18nUpdateFailed'      => __( 'Browscap cache update has failed', 'laterpay' ),
-                'i18nUpToDate'          => __( 'Your database is up to date :-)', 'laterpay' ),
+                'i18nFetchingUpdate'                                => __( 'Fetching data from browscap.org', 'laterpay' ),
+                'i18nUpdateFailed'                                  => __( 'Browscap cache update has failed', 'laterpay' ),
+                'i18nUpToDate'                                      => __( 'Your database is up to date :-)', 'laterpay' ),
+                'i18nconfirmTechnicalRequirementsForBrowscapUpdate' => __( 'Your server must have > 100 MB of RAM and the /cache folder within the LaterPay plugin must be writable for an update. Start database update?', 'laterpay' ),
+                'laterpayApiOptions'                                => self::get_laterpay_api_options(),
             )
         );
 
         wp_enqueue_script( 'laterpay-backend-options' );
-
-        // translations
-        $i18n = array(
-            'confirmTechnicalRequirementsForBrowscapUpdate' => __( 'Your server must have > 100 MB of RAM and the /cache folder within the LaterPay plugin must be writable for an update. Start database update?', 'laterpay' ),
-        );
-
-        wp_localize_script(
-            'laterpay-backend-options',
-            'lpVars',
-            array(
-                'i18n' => $i18n,
-            )
-        );
     }
 
     /**
      * Process Ajax requests from appearance tab.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    public static function process_ajax_requests() {
-        // check for required capabilities to perform action
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
-                )
-            );
-        }
+    public static function process_ajax_requests( LaterPay_Core_Event $event ) {
         $from = isset( $_POST['form'] ) ? sanitize_text_field( $_POST['form'] ) : '';
+
         switch ( $from ) {
             // update presentation mode for paid content
             case 'update_browscap_cache':
-
                 $browscap = LaterPay_Helper_Browser::php_browscap();
                 // to check current cache version we need to load it first
                 $browscap->getBrowser();
                 $remote_version = $browscap->getRemoteVersionNumber();
                 $current_version = $browscap->getSourceVersion();
                 if ( $current_version == $remote_version ) {
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => true,
                             'message' => __( 'Your database is already up to date', 'laterpay' ),
                         )
                     );
+                    return;
                 }
                 try {
                     $result = $browscap->updateCache();
                     if ( ! $result ) {
-                        wp_send_json(
+                        $event->set_result(
                             array(
                                 'success' => false,
                                 'message' => __( 'Browscap cache update has failed', 'laterpay' ),
                             )
                         );
+                        return;
                     }
                 } catch (Exception $e) {
-                    wp_send_json(
+                    $event->set_result(
                         array(
                             'success' => false,
                             'message' => __( 'Browscap cache update has failed', 'laterpay' ),
                         )
                     );
+                    return;
                 }
 
-                wp_send_json(
+                $event->set_result(
                     array(
                         'success' => true,
                         'message' => __( 'Browscap cache has been updated', 'laterpay' ),
                     )
                 );
+                return;
                 break;
             default:
                 break;
         }
 
-        wp_send_json(
+        $event->set_result(
             array(
                 'success' => false,
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
@@ -189,6 +198,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_unlimited_access_settings();
         $this->add_logger_settings();
         $this->add_browscap_settings();
+        $this->add_laterpay_api_settings();
     }
 
     /**
@@ -219,6 +229,21 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
 
         register_setting( 'laterpay', 'laterpay_debugger_enabled' );
+
+        add_settings_field(
+            'laterpay_debugger_addresses',
+            __( 'LaterPay Debugger', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_debugger',
+            array(
+                'name'  => 'laterpay_debugger_addresses',
+                'type'  => 'text',
+                'label' => __( 'List of allowed addresses to view debug(Ex.: 127.0.0.1,192.168.1.1)', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_debugger_addresses' );
     }
 
     /**
@@ -231,7 +256,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             __( 'The LaterPay debugger pane contains a lot of helpful plugin- and system-related information
                for debugging the LaterPay plugin and fixing configuration problems.<br>
                When activated, the debugger pane is rendered at the bottom of the screen.<br>
-               It is visible both for logged in not logged in users!<br>
+               It is visible both for users from address list<br>
                On a production installation you should switch it off again as soon as you don\'t need it anymore.', 'laterpay' ) .
         '</p>' );
     }
@@ -716,7 +741,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 'type'          => 'submit',
                 'name'          => 'laterpay_browscap_cache_version',
                 'value'         => __( 'Update Database', 'laterpay' ),
-                'class'         => 'button button-primary',
+                'classes'       => 'button button-primary',
                 'disabled'      => ! $update_required,
                 'appended_text' => $update_required ? __( 'Update required', 'laterpay' ) : __( 'Your database is up to date :-)', 'laterpay' ),
                 'id'            => 'lp_js_updateBrowscapCache',
@@ -746,11 +771,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     }
 
     /**
-     * Generic method to render checkboxes.
+     * Generic method to render input fields.
      *
      * @param array $field array of field params
      *
-     * @return string checkbox markup
+     * @return string input markup
      */
     public function get_input_field_markup( $field = null ) {
         $inputs_markup = '';
@@ -759,10 +784,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             $option_value = get_option( $field['name'] );
             $field_value  = isset( $field['value'] ) ? $field['value'] : get_option( $field['name'], '' );
             $type         = isset( $field['type'] ) ? $field['type'] : 'text';
-            $classes      = isset( $field['class'] ) ? $field['class'] : array();
+            $classes      = isset( $field['classes'] ) ? $field['classes'] : array();
+
+            // clean 'class' data
             if ( ! is_array( $classes ) ) {
                 $classes = array($classes);
             }
+            $classes = array_unique( $classes );
+
             if ( $type == 'text' ) {
                 $classes[] = 'regular-text';
             }
@@ -771,27 +800,31 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             if ( isset( $field['label'] ) ) {
                 $inputs_markup .= '<label>';
             }
-            // remove duplicated classes
-            $classes = array_unique( $classes );
 
             $inputs_markup .= '<input type="' . $type . '" name="' . $field['name'] . '" value="' . sanitize_text_field( $field_value ) . '"';
 
-            if ( 'checkbox' == $type ) {
-                $inputs_markup .= $option_value ? ' checked' : '';
-            }
-
+            // add id, if set
             if ( isset( $field['id'] ) ) {
                 $inputs_markup .= ' id="' . $field['id'] . '"';
             }
 
+            // add classes, if set
+            $inputs_markup .= ! empty( $classes ) ? ' class="' . implode( ' ', $classes ) . '"' : '';
+
+            // add checked property, if set
+            if ( 'checkbox' == $type ) {
+                $inputs_markup .= $option_value ? ' checked' : '';
+            }
+
+            // add disabled property, if set
             if ( isset( $field['disabled'] ) && $field['disabled'] ) {
                 $inputs_markup .= ' disabled';
             }
-            $inputs_markup .= ! empty( $classes ) ? ' class="' . implode( ' ', $classes ) . '"' : '';
 
             $inputs_markup .= '>';
+
             if ( isset( $field['appended_text'] ) ) {
-                $inputs_markup .= '<dfn class="lp_appended-text">' . $field['appended_text'] . '</dfn>';
+                $inputs_markup .= '<dfn class="lp_appended-text">' . laterpay_sanitize_output( $field['appended_text'] ) . '</dfn>';
             }
             if ( isset( $field['label'] ) ) {
                 $inputs_markup .= $field['label'];
@@ -800,6 +833,71 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         }
 
         echo laterpay_sanitized( $inputs_markup );
+    }
+
+    /**
+     * Generic method to render select fields.
+     *
+     * @param array $field array of field params
+     *
+     * @return string select markup
+     */
+    public function get_select_field_markup( $field = null ) {
+        $select_markup = '';
+
+        if ( $field && isset( $field['name'] ) ) {
+            $field_value  = isset( $field['value'] ) ? $field['value'] : get_option( $field['name'] );
+            $options      = isset( $field['options'] ) ? (array) $field['options'] : array();
+            $classes      = isset( $field['class'] ) ? $field['class'] : array();
+            if ( ! is_array( $classes ) ) {
+                $classes = array($classes);
+            }
+
+            $select_markup = '';
+            if ( isset( $field['label'] ) ) {
+                $select_markup .= '<label>';
+            }
+            // remove duplicated classes
+            $classes = array_unique( $classes );
+
+            $select_markup .= '<select name="' . $field['name'] . '"';
+
+            if ( isset( $field['id'] ) ) {
+                $select_markup .= ' id="' . $field['id'] . '"';
+            }
+
+            if ( isset( $field['disabled'] ) && $field['disabled'] ) {
+                $select_markup .= ' disabled';
+            }
+            $select_markup .= ! empty( $classes ) ? ' class="' . implode( ' ', $classes ) . '"' : '';
+            $select_markup .= '>';
+
+            $options_markup = '';
+            foreach ( $options as $option ) {
+                if ( ! is_array( $option ) ) {
+                    $option_value = $option_text = $option;
+                } else {
+                    $option_value   = isset( $option['value'] ) ? $option['value'] : '';
+                    $option_text    = isset( $option['text'] ) ? $option['text'] : '';
+                }
+                $selected = '';
+                if ( $field_value == $option_value ) {
+                    $selected = 'selected';
+                }
+                $options_markup .= '<option value="' . esc_attr( $option_value ) .  '" ' . $selected . '>' . laterpay_sanitize_output( $option_text ) . '</option>';
+            }
+            $select_markup .= $options_markup;
+            $select_markup .= '</select>';
+            if ( isset( $field['appended_text'] ) ) {
+                $select_markup .= '<dfn class="lp_appended-text">' . laterpay_sanitize_output( $field['appended_text'] ) . '</dfn>';
+            }
+            if ( isset( $field['label'] ) ) {
+                $select_markup .= $field['label'];
+                $select_markup .= '</label>';
+            }
+        }
+
+        echo laterpay_sanitized( $select_markup );
     }
 
     /**
@@ -932,5 +1030,90 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         }
 
         echo laterpay_sanitized( $inputs_markup );
+    }
+
+    /**
+     * Add LaterPay API settings section and fields.
+     *
+     * @return void
+     */
+    public function add_laterpay_api_settings() {
+        add_settings_section(
+            'laterpay_api_settings',
+            __( 'LaterPay API Settings', 'laterpay' ),
+            array( $this, 'get_laterpay_api_description' ),
+            'laterpay'
+        );
+
+        $value      = absint( get_option( 'laterpay_api_fallback_behavior' ) );
+        $options    = self::get_laterpay_api_options();
+        add_settings_field(
+            'laterpay_api_fallback_behavior',
+            __( 'Fallback Behavior', 'laterpay' ),
+            array( $this, 'get_select_field_markup' ),
+            'laterpay',
+            'laterpay_api_settings',
+            array(
+                'name'          => 'laterpay_api_fallback_behavior',
+                'value'         => $value,
+                'options'       => $options,
+                'id'            => 'lp_js_laterpayApiFallbackSelect',
+                'appended_text' => isset( $options[ $value ] ) ? $options[ $value ]['description'] : '',
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_api_fallback_behavior' );
+
+        add_settings_field(
+            'laterpay_api_enabled_on_homepage',
+            __( 'Enabled on home page', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_api_settings',
+            array(
+                'name'  => 'laterpay_api_enabled_on_homepage',
+                'value' => 1,
+                'type'  => 'checkbox',
+                'label' => __( 'I want to enable requests to LaterPay API on home page', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_api_enabled_on_homepage' );
+    }
+
+    /**
+     * Render the hint text for the LaterPay API section.
+     *
+     * @return string description
+     */
+    public function get_laterpay_api_description() {
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'Define fallback behavior in case LaterPay API is not responding and option to disallow plugin to contact LaterPay API on homepage', 'laterpay' ) .
+        '</p>' );
+    }
+
+    /**
+     * Get LaterPay API options array.
+     *
+     * @return string description
+     */
+    public static function get_laterpay_api_options() {
+        return array(
+            array(
+                'value'         => '0',
+                'text'          => __( 'Do nothing', 'laterpay' ),
+                'description'   => __( 'No user can access premium content while the LaterPay API is not responding.', 'laterpay' ),
+            ),
+            array(
+                'value'         => '1',
+                'text'          => __( 'Give full access', 'laterpay' ),
+                'description'   => __( 'All users have full access to premium content in order to not disappoint paying users.', 'laterpay' ),
+            ),
+            array(
+                'value'         => '2',
+                'text'          => __( 'Hide premium content', 'laterpay' ),
+                'description'   => __( 'Premium content is hidden from users. Direct access would be blocked.', 'laterpay' ),
+            ),
+        );
     }
 }

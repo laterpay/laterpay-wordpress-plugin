@@ -62,6 +62,43 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
                 'validators' => array(
                     'is_int',
                     'in_array' => array_keys( LaterPay_Helper_TimePass::get_period_options() ),
+                    'depends' => array(
+                        array(
+                            'field' => 'duration',
+                            'value' => array( 0, 1, 2 ),
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => 24,
+                                        'gte' => 1,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        array(
+                            'field' => 'duration',
+                            'value' => 3,
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => 12,
+                                        'gte' => 1,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        array(
+                            'field' => 'duration',
+                            'value' => 4,
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'eq' => 1,
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'filters'    => array(
                     'to_int',

@@ -17,6 +17,7 @@
 @import 'objects/_spinner';
 @import 'objects/_dropdown';
 @import 'objects/_backend_layout';
+@import 'objects/_button_group';
 
 @import 'components/_toggle';
 @import 'components/_legal_docs_viewer';
@@ -27,3 +28,9 @@
 @import 'pages/_dashboard';
 @import 'pages/_pricing';
 @import 'pages/_appearance';
+
+
+
+
+// TODO: remove with release 1.0
+@import 'objects/_deprecated';

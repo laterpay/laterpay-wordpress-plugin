@@ -30,9 +30,9 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
     /**
      * Equile to normalize method
      *
-     * @param array Record data
+     * @param array $recordRecord data
      *
-     * @return void
+     * @return string
      */
     public function format( array $record ) {
         return $this->normalize( $record );
@@ -41,7 +41,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
     /**
      * @param array array of records data to normalize
      *
-     * @return void
+     * @return array
      */
     public function format_batch( array $records ) {
         foreach ( $records as $key => $record ) {
@@ -130,8 +130,8 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
     /**
      * Convert variable into JSON.
      *
-     * @param variable  $data
-     * @param bool      $ignoreErrors - ignore errors or not
+     * @param mixed  $data
+     * @param bool   $ignoreErrors - ignore errors or not
      *
      * @return string
      */

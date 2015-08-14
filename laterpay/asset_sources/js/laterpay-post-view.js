@@ -191,7 +191,7 @@
                     );
                 } else {
                     // request was not sent, because voucher code is not six characters long
-                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort);
+                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort, $wrapper);
                 }
             },
 
@@ -305,14 +305,12 @@
             loadPremiumUrls = function() {
                 var ids   = [],
                     types = [],
-                    urls  = [],
                     boxes = $($o.premiumBox);
 
                 // get all pass ids from wrappers
                 $.each(boxes, function(i) {
                     ids.push($(boxes[i]).data('post-id'));
                     types.push($(boxes[i]).data('content-type'));
-                    urls.push($(boxes[i]).data('page-url'));
                 });
 
                 $.get(
@@ -322,7 +320,6 @@
                         nonce   : lpVars.nonces.premium,
                         ids     : ids,
                         types   : types,
-                        urls    : urls,
                         post_id : lpVars.post_id,
                     },
                     function(r) {
@@ -435,7 +432,6 @@
                     {
                         action   : 'laterpay_post_load_purchased_content',
                         post_id  : lpVars.post_id,
-                        is_front : true,
                         nonce    : lpVars.nonces.content
                     },
                     function(postContent) {
@@ -541,8 +537,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         function(event) {
             event.preventDefault();
             if (
-                event.currentTarget.getData('preview-as-visitor') &&
-                !event.currentTarget.getData('is-in-visible-test-mode')
+                event.currentTarget.getData('preview-post-as-visitor')
             ) {
                 alert(lpVars.i18n.alert); // only show an alert instead of opening the dialog
             } else {

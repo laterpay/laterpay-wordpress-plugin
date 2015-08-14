@@ -9,6 +9,49 @@
  */
 class LaterPay_Controller_Install extends LaterPay_Controller_Base
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_post_metadata' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'migrate_pricing_post_meta' ),
+            ),
+            'laterpay_admin_init' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'trigger_requirements_check' ),
+                array( 'trigger_update_capabilities' ),
+            ),
+            'laterpay_update_capabilities' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'update_capabilities' ),
+            ),
+            'laterpay_check_requirements' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugins_page_view', 200 ),
+                array( 'check_requirements' ),
+            ),
+            'laterpay_admin_notices' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugins_page_view', 200 ),
+                array( 'render_requirements_notices' ),
+                array( 'check_for_updates' ),
+                array( 'maybe_update_meta_keys' ),
+                array( 'maybe_update_terms_price_table' ),
+                array( 'maybe_update_currency_to_euro' ),
+                array( 'maybe_update_time_passes_table' ),
+                array( 'maybe_update_payment_history_add_revenue_model' ),
+                array( 'maybe_update_api_urls_options_names' ),
+                array( 'maybe_add_is_in_visible_test_mode_option' ),
+                array( 'maybe_clean_api_key_options' ),
+                array( 'maybe_update_unlimited_access' ),
+                array( 'maybe_update_post_views' ),
+                array( 'maybe_clear_dashboard_cache' ),
+                array( 'update_post_view_table_structure' ),
+            ),
+        );
+    }
 
     /**
      * Render admin notices, if requirements are not fulfilled.
@@ -23,6 +66,16 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             $out = join( "\n", $notices );
             echo laterpay_sanitize_output( '<div class="error">' . $out . '</div>' );
         }
+    }
+
+    /**
+     * Trigger requirements check
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function trigger_requirements_check( LaterPay_Core_Event $event ) {
+        $new_event = new LaterPay_Core_Event( $event->get_arguments() );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_check_requirements', $new_event );
     }
 
     /**
@@ -278,7 +331,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         global $wpdb;
 
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.10', '<' ) ) {
+        if ( version_compare( $current_version, '0.9.11.4', '<' ) ) {
             return;
         }
 
@@ -295,17 +348,23 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             'background_path',
         );
 
+        $is_deleted_flag_present = false;
+
         foreach ( $columns as $column ) {
             if ( in_array( $column->Field, $removed_columns ) ) {
                 $is_up_to_date = false;
+            }
+            if ( $column->Field === 'is_deleted' ) {
+                $is_deleted_flag_present = true;
             }
         }
 
         $this->logger->info(
             __METHOD__,
             array(
-                'current_version'   => $current_version,
-                'is_up_to_date'     => $is_up_to_date,
+                'current_version'         => $current_version,
+                'is_up_to_date'           => $is_up_to_date,
+                'is_deleted_flag_present' => $is_deleted_flag_present,
             )
         );
 
@@ -313,24 +372,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         if ( ! $is_up_to_date ) {
             $wpdb->query( 'ALTER TABLE ' . $table . ' DROP title_color, DROP description_color, DROP background_color, DROP background_path;' );
         }
-    }
 
-    /**
-     * Adding option to allow only time pass purchases.
-     *
-     * @since 0.9.11
-     * @wp-hook admin_notices
-     *
-     * @return void
-     */
-    public function maybe_add_only_time_pass_purchase_option() {
-        $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
-            return;
-        }
-
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === null ) {
-            add_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
+        // if need to add is_deleted field
+        if ( ! $is_deleted_flag_present ) {
+            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD `is_deleted` int(1) NOT NULL DEFAULT 0;' );
         }
     }
 
@@ -431,15 +476,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     /**
      * Migrate old postmeta data to a single postmeta array.
      *
-     * @wp-hook get_post_metadata
-     *
-     * @param null      $return
-     * @param int       $post_id    the current post_id
-     * @param string    $meta_key   the meta_key
-     *
+     * @param LaterPay_Core_Event $event Event object.
      * @return null $return
      */
-    public function migrate_pricing_post_meta( $return, $post_id, $meta_key ) {
+    public function migrate_pricing_post_meta( LaterPay_Core_Event $event ) {
+        list($return, $post_id, $meta_key) = $event->get_arguments() + array( '', '', '' );
         // migrate the pricing postmeta to an array
         if ( $meta_key === 'laterpay_post_prices' ) {
             $meta_migration_mapping = array(
@@ -477,8 +518,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 add_post_meta( $post_id, 'laterpay_post_prices', $new_meta_values, true );
             }
         }
-
-        return $return;
+        $event->set_result( $return );
     }
 
     /**
@@ -555,32 +595,17 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $table   = $wpdb->prefix . 'laterpay_post_views';
         $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table . ';' );
-        $indexes = $wpdb->get_results( 'SHOW INDEX FROM ' . $table . ';' );
 
         $is_up_to_date = false;
 
         foreach ( $columns as $column ) {
             if ( $column->Field === 'id' ) {
-                // check indexes
-                foreach ( $indexes as $index ) {
-                    if ( $index->Key_name === 'PRIMARY' && $index->Column_name === 'id' ) {
-                        $is_up_to_date = true;
-                    }
-                }
+                $is_up_to_date = true;
             }
         }
 
         if ( ! $is_up_to_date ) {
-            // clear all unnecessary indexes (were created due bug)
-            foreach ( $indexes as $index ) {
-                if ( $index->Key_name !== 'PRIMARY' ) {
-                    $wpdb->query( "ALTER TABLE {$table} DROP INDEX {$index->Key_name};" );
-                }
-            }
-
             $wpdb->query( 'ALTER TABLE ' . $table . ' ADD `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;' );
-            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD INDEX idx_post_views_date_mode (date, mode);' );
-            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD INDEX idx_post_views_post_id_date_mode (post_id, date, mode);' );
             $wpdb->query( 'ALTER TABLE ' . $table . ' DROP COLUMN `count`;' );
         }
     }
@@ -627,61 +652,61 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $sql = "
             CREATE TABLE $table_terms_price (
-                id                INT(11)                    NOT NULL AUTO_INCREMENT,
-                term_id           INT(11)                    NOT NULL,
-                price             DOUBLE                     NOT NULL DEFAULT '0',
-                revenue_model     ENUM('ppu', 'sis', 'ppul') NOT NULL DEFAULT 'ppu',
+                id int(11) NOT NULL AUTO_INCREMENT,
+                term_id int(11) NOT NULL,
+                price double NOT NULL DEFAULT '0',
+                revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta( $sql );
 
         $sql = "
             CREATE TABLE $table_history (
-                id                INT(11)              NOT NULL AUTO_INCREMENT,
-                mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
-                post_id           INT(11)              NOT NULL DEFAULT 0,
-                currency_id       INT(11)              NOT NULL,
-                price             FLOAT                NOT NULL,
-                date              DATETIME             NOT NULL,
-                ip                INT                  NOT NULL,
-                hash              VARCHAR(32)          NOT NULL,
-                revenue_model     ENUM('ppu', 'sis')   NOT NULL DEFAULT 'ppu',
-                pass_id           INT(11)              NOT NULL DEFAULT 0,
-                code              VARCHAR(6)           NULL DEFAULT NULL,
+                id int(11) NOT NULL AUTO_INCREMENT,
+                mode enum('test','live') NOT NULL DEFAULT 'test',
+                post_id int(11) NOT NULL DEFAULT 0,
+                currency_id int(11) NOT NULL,
+                price float NOT NULL,
+                date datetime NOT NULL,
+                ip int NOT NULL,
+                hash varchar(56) NOT NULL,
+                revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
+                pass_id int(11) NOT NULL DEFAULT 0,
+                code varchar(6) NULL DEFAULT NULL,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
         $sql = "
             CREATE TABLE $table_post_views (
-                id                INT(11)              NOT NULL AUTO_INCREMENT,
-                post_id           INT(11)              NOT NULL,
-                mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
-                date              DATETIME             NOT NULL,
-                user_id           VARCHAR(32)          NOT NULL,
-                ip                VARBINARY(16)        NOT NULL,
-                has_access        INT(1)               NOT NULL DEFAULT 0,
-                PRIMARY KEY  (id),
-                INDEX idx_post_views_date_mode (date, mode),
-                INDEX idx_post_views_post_id_date_mode (post_id, date, mode)
+                id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                post_id int(11) NOT NULL,
+                mode enum('test','live') NOT NULL DEFAULT 'test',
+                date datetime NOT NULL,
+                user_id varchar(32) NOT NULL,
+                ip varbinary(16) NOT NULL,
+                has_access int(1) NOT NULL DEFAULT 0,
+                KEY idx_post_views_date_mode (date,mode),
+                KEY idx_post_views_post_id_date_mode (post_id,date,mode)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
         $sql = "
             CREATE TABLE IF NOT EXISTS $table_passes (
-                pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
-                duration          INT(11)       NULL DEFAULT NULL,
-                period            INT(11)       NULL DEFAULT NULL,
-                access_to         INT(11)       NULL DEFAULT NULL,
-                access_category   BIGINT(20)    NULL DEFAULT NULL,
-                price             DECIMAL(10,2) NULL DEFAULT NULL,
-                revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
-                title             VARCHAR(255)  NULL DEFAULT NULL,
-                description       VARCHAR(255)  NULL DEFAULT NULL,
+                pass_id int(11) NOT NULL AUTO_INCREMENT,
+                duration int(11) NULL DEFAULT NULL,
+                period int(11) NULL DEFAULT NULL,
+                access_to int(11) NULL DEFAULT NULL,
+                access_category bigint(20) NULL DEFAULT NULL,
+                price decimal(10,2) NULL DEFAULT NULL,
+                revenue_model varchar(12) NULL DEFAULT NULL,
+                title varchar(255) NULL DEFAULT NULL,
+                description varchar(255) NULL DEFAULT NULL,
+                is_deleted int(1) NOT NULL DEFAULT 0,
                 PRIMARY KEY  (pass_id),
-                INDEX access_to (access_to),
-                INDEX period (period),
-                INDEX duration (duration)
+                KEY access_to (access_to),
+                KEY period (period),
+                KEY duration (duration)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
@@ -706,6 +731,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_landing_page',                            '' );
         add_option( 'laterpay_only_time_pass_purchases_allowed',        0 );
         add_option( 'laterpay_is_in_visible_test_mode',                 0 );
+        add_option( 'laterpay_hide_free_posts',                         0 );
 
         // advanced settings
         add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );
@@ -723,6 +749,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_show_time_passes_widget_on_free_posts',   '' );
         add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
         add_option( 'laterpay_debugger_enabled',                        defined( 'WP_DEBUG' ) && WP_DEBUG );
+        add_option( 'laterpay_debugger_addresses',                      '127.0.0.1' );
+        add_option( 'laterpay_api_fallback_behavior',                   0 );
+        add_option( 'laterpay_api_enabled_on_homepage',                 1 );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );
@@ -736,5 +765,28 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // update capabilities
         $laterpay_capabilities = new LaterPay_Core_Capability();
         $laterpay_capabilities->populate_roles();
+    }
+
+    /**
+     * Trigger requirements check.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function trigger_update_capabilities( LaterPay_Core_Event $event ) {
+        $new_event = new LaterPay_Core_Event();
+        $new_event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_update_capabilities', $new_event );
+    }
+
+    /**
+     * Update user roles capabilities.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function update_capabilities( LaterPay_Core_Event $event ) {
+        list( $roles ) = $event->get_arguments() + array( array() );
+        // update capabilities
+        $laterpay_capabilities = new LaterPay_Core_Capability();
+        $laterpay_capabilities->update_roles( (array) $roles );
     }
 }

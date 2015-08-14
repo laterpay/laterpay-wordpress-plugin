@@ -440,14 +440,14 @@
                     if (!data || data.success) {
                         return;
                     }
-                    setMessage(data.message, data.success);
+                    $('.lp_navigation').showMessage(data);
                 });
 
                 return jqxhr;
             },
 
             loadConvertingItems = function(refresh) {
-                showLoadingIndicator($o.conversionDiagram);
+                $o.conversionDiagram.showLoadingIndicator();
 
                 loadDashboardData('converting_items', refresh)
                     .done(function(response) {
@@ -498,12 +498,12 @@
                         $.plot($o.conversionDiagram, plotData, plotOptions);
                     })
                     .always(function() {
-                        removeLoadingIndicator($o.conversionDiagram);
+                        $o.conversionDiagram.removeLoadingIndicator();
                     });
             },
 
             loadSellingItems = function(refresh) {
-                showLoadingIndicator($o.salesDiagram);
+                $o.salesDiagram.showLoadingIndicator();
 
                 loadDashboardData('selling_items', refresh)
                     .done(function(response) {
@@ -524,12 +524,12 @@
                         $.plot($o.salesDiagram, plotData, plotOptions);
                     })
                     .always(function() {
-                        removeLoadingIndicator($o.salesDiagram);
+                        $o.salesDiagram.removeLoadingIndicator();
                     });
             },
 
             loadRevenueItems = function(refresh) {
-                showLoadingIndicator($o.revenueDiagram);
+                $o.revenueDiagram.showLoadingIndicator();
 
                 loadDashboardData('revenue_items', refresh)
                     .done(function(response) {
@@ -550,13 +550,13 @@
                         $.plot($o.revenueDiagram, plotData, plotOptions);
                     })
                     .always(function() {
-                        removeLoadingIndicator($o.revenueDiagram);
+                        $o.revenueDiagram.removeLoadingIndicator();
                     });
             },
 
             loadMostLeastConvertingItems = function(refresh) {
-                showLoadingIndicator($o.bestConvertingList);
-                showLoadingIndicator($o.leastConvertingList);
+                $o.bestConvertingList.showLoadingIndicator();
+                $o.leastConvertingList.showLoadingIndicator();
 
                 loadDashboardData('most_least_converting_items', refresh)
                     .done(function(response) {
@@ -575,14 +575,14 @@
                         renderSparklines($o.leastConvertingList);
                     })
                     .always(function() {
-                        removeLoadingIndicator($o.bestConvertingList);
-                        removeLoadingIndicator($o.leastConvertingList);
+                        $o.bestConvertingList.removeLoadingIndicator();
+                        $o.leastConvertingList.removeLoadingIndicator();
                     });
             },
 
             loadMostLeastSellingItems = function(refresh) {
-                showLoadingIndicator($o.bestSellingList);
-                showLoadingIndicator($o.leastSellingList);
+                $o.bestSellingList.showLoadingIndicator();
+                $o.leastSellingList.showLoadingIndicator();
 
                 loadDashboardData('most_least_selling_items', refresh)
                     .done(function(response) {
@@ -601,14 +601,14 @@
                         renderSparklines($o.leastSellingList);
                     })
                     .always(function() {
-                        removeLoadingIndicator($o.bestSellingList);
-                        removeLoadingIndicator($o.leastSellingList);
+                        $o.bestSellingList.removeLoadingIndicator();
+                        $o.leastSellingList.removeLoadingIndicator();
                     });
             },
 
             loadMostLeastRevenueItems = function(refresh) {
-                showLoadingIndicator($o.bestGrossingList);
-                showLoadingIndicator($o.leastGrossingList);
+                $o.bestGrossingList.showLoadingIndicator();
+                $o.leastGrossingList.showLoadingIndicator();
 
                 loadDashboardData('most_least_revenue_items', refresh)
                     .done(function(response) {
@@ -627,8 +627,8 @@
                         renderSparklines($o.leastGrossingList);
                     })
                     .always(function() {
-                        removeLoadingIndicator($o.bestGrossingList);
-                        removeLoadingIndicator($o.leastGrossingList);
+                        $o.bestGrossingList.removeLoadingIndicator();
+                        $o.leastGrossingList.removeLoadingIndicator();
                     });
             },
 

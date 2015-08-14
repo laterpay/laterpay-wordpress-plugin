@@ -17,7 +17,7 @@ class LaterPay_Model_TimePass
      *
      * @access public
      */
-    public $time_passes_table;
+    public $table;
 
     /**
      * Constructor for class LaterPay_Model_TimePass, load table name.
@@ -25,31 +25,38 @@ class LaterPay_Model_TimePass
     function __construct() {
         global $wpdb;
 
-        $this->passes_table = $wpdb->prefix . 'laterpay_passes';
+        $this->table = $wpdb->prefix . 'laterpay_passes';
     }
 
     /**
      * Get time pass data.
      *
-     * @param int $time_pass_id time pass id
+     * @param int  $time_pass_id time pass id
+     * @param bool $ignore_deleted ignore deleted time passes
      *
      * @return array $time_pass array of time pass data
      */
-    public function get_pass_data( $time_pass_id ) {
+    public function get_pass_data( $time_pass_id, $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
             SELECT
                 *
             FROM
-                {$this->passes_table}
+                {$this->table}
             WHERE
                 pass_id = %d
-            ;
         ";
-        $time_pass = $wpdb->get_row( $wpdb->prepare( $sql, (int) $time_pass_id ) );
 
-        return $time_pass;
+        if ( $ignore_deleted ) {
+            $sql .= '
+                AND is_deleted = 0
+            ';
+        }
+
+        $sql .= ';';
+
+        return $wpdb->get_row( $wpdb->prepare( $sql, (int) $time_pass_id ), ARRAY_A );
     }
 
     /**
@@ -86,14 +93,14 @@ class LaterPay_Model_TimePass
 
         if ( empty( $time_pass_id ) ) {
             $wpdb->insert(
-                $this->passes_table,
+                $this->table,
                 $data,
                 $format
             );
             $data['pass_id'] = $wpdb->insert_id;
         } else {
             $wpdb->update(
-                $this->passes_table,
+                $this->table,
                 $data,
                 array( 'pass_id' => $time_pass_id ),
                 $format,
@@ -106,26 +113,44 @@ class LaterPay_Model_TimePass
     }
 
     /**
+     * Get all active time passes.
+     *
+     * @return array of time passes
+     */
+    public function get_active_time_passes() {
+        return $this->get_all_time_passes( true );
+    }
+
+    /**
      * Get all time passes.
+     *
+     * @param bool $ignore_deleted ignore deleted time passes
      *
      * @return array $time_passes list of time passes
      */
-    public function get_all_time_passes() {
+    public function get_all_time_passes( $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
             SELECT
                 *
             FROM
-                {$this->passes_table}
+                {$this->table}";
+
+        if ( $ignore_deleted ) {
+            $sql .= '
+            WHERE
+                is_deleted = 0
+            ';
+        }
+
+        $sql .= '
             ORDER
                 BY title
             ;
-        ";
+        ';
 
-        $time_passes = $wpdb->get_results( $sql );
-
-        return $time_passes;
+        return $wpdb->get_results( $sql, ARRAY_A );
     }
 
     /**
@@ -133,19 +158,26 @@ class LaterPay_Model_TimePass
      *
      * @param null $term_ids array of category ids
      * @param bool $exclude  categories to be excluded from the list
+     * @param bool $ignore_deleted ignore deleted time passes
      *
      * @return array $time_passes list of time passes
      */
-    public function get_time_passes_by_category_ids( $term_ids = null, $exclude = null ) {
+    public function get_time_passes_by_category_ids( $term_ids = null, $exclude = null, $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
             SELECT
                 *
             FROM
-                {$this->passes_table} AS pt
+                {$this->table} AS pt
             WHERE
         ";
+
+        if ( $ignore_deleted ) {
+            $sql .= '
+                is_deleted = 0 AND (
+            ';
+        }
 
         if ( $term_ids ) {
             $prepared_ids = implode( ',', $term_ids );
@@ -159,13 +191,20 @@ class LaterPay_Model_TimePass
 
         $sql .= '
                 pt.access_to = 0
+            ';
+
+        if ( $ignore_deleted ) {
+            $sql .= ' ) ';
+        }
+
+        $sql .= '
             ORDER BY
                 pt.access_to DESC,
                 pt.price ASC
             ;
         ';
 
-        $time_passes = $wpdb->get_results( $sql );
+        $time_passes = $wpdb->get_results( $sql, ARRAY_A );
 
         return $time_passes;
     }
@@ -184,9 +223,7 @@ class LaterPay_Model_TimePass
             'pass_id' => (int) $time_pass_id,
         );
 
-        $success = $wpdb->delete( $this->passes_table, $where, '%d' );
-
-        return $success;
+        return $wpdb->update( $this->table, array( 'is_deleted' => 1 ), $where, array( '%d' ), array( '%d' ) );
     }
 
     /**
@@ -201,7 +238,9 @@ class LaterPay_Model_TimePass
             SELECT
                 count(*) AS c_passes
             FROM
-                {$this->passes_table}
+                {$this->table}
+            WHERE
+                is_deleted = 0
             ;
         ";
 

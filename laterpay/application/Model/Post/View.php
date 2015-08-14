@@ -109,6 +109,10 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                 {$this->table} (post_id, mode, user_id, date, ip, has_access)
             VALUES
                 ('%d', '%s', '%s', '%s', '%s', '%d')
+            ON DUPLICATE KEY UPDATE
+                post_id = VALUES(post_id),
+                mode    = VALUES(mode),
+                date    = VALUES(date)
             ;
         ";
         $sql = $wpdb->prepare(
@@ -298,5 +302,25 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
         $results = $this->get_results( $args );
 
         return LaterPay_Helper_Dashboard::build_sparkline( $results, $start_timestamp, $interval );
+    }
+
+    /**
+     * Delete old data from table.
+     *
+     * @param string $modifier
+     *
+     * @return bool  $success
+     */
+    public function delete_old_data( $modifier ) {
+        global $wpdb;
+
+        $sql = "
+            DELETE FROM
+                {$this->table}
+            WHERE
+                date < DATE_SUB( CURDATE(), INTERVAL {$modifier} );";
+
+        $success = $wpdb->get_results( $sql );
+        return (bool) $success;
     }
 }

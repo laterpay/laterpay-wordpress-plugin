@@ -217,6 +217,7 @@ class LaterPay_Core_Logger
         foreach ( $this->processors as $processor ) {
             $record = $processor->process( $record );
         }
+
         while (
            isset( $this->handlers[ $handler_key ] ) &&
            $this->handlers[ $handler_key ]->handle( $record ) === false

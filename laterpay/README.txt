@@ -3,7 +3,7 @@
 Contributors: laterpay, dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.1.1
+Tested up to: 4.2.2
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -232,30 +232,51 @@ support.laterpay.net
 
 = How do I get my LaterPay Live API credentials? =
 To get your LaterPay Live API credentials, please send us the signed merchant contract and all necessary identification
-documents that are listed in the merchant contract. After we've checked your documents, we will send you an e-mail with
-your LaterPay Live API credentials.
-
-= My theme looks broken after activating the LaterPay plugin =
-The LaterPay WordPress plugin has been tested to work fine with most WordPress standard themes.
-Given the sheer mass of available WordPress themes, it is still likely that you will have to make some adjustments to
-your theme after installing the LaterPay WordPress plugin.
+documents that are listed in the merchant contract. You can find the merchant contract on the ’Account’ tab of the
+plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
 
 
 == Screenshots ==
 
-1. LaterPay lets you easily enter teaser content and set an individual price for a post starting at 0.05 EUR...
-10. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
-11. In the Pricing tab, you can set the default prices for the entire plugin or specific categories. You can use the bulk price editor to edit several prices in one step. Furthermore, you can create time passes, that...
-2. ...enable you to sell time-limited access to all the content on your website or in a specific category. And with voucher codes, users can purchase your time passes for a reduced price.
-3. The appearance tab provides several settings concerning the appearance of the LaterPay WordPress plugin. You can activate or deactivate LaterPay for individual custom post types. This tab also provides detailed descriptions of the available LaterPay shortcodes and actions. Furthermore, you can choose between two preview modes for your content.
-4. Option 1 shows only a post's teaser content and a LaterPay purchase link.
-5. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
-6. In the appearance tab, you can also enable or disable the all new content rating feature: If you enable content rating, users, who have already bought a post, can rate it on a five star scale. Users that haven't bought the post yet, will see those ratings below the purchase button.
-7. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
-8. The plugin comes with its own debugger.
-9. The statistics pane provides useful sales statistics for each post.
+1. LaterPay lets you easily enter teaser content and set an individual price for a post starting at 0.05 EUR ...
+2. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
+3. The statistics dashboard gives you detailed insights about your sales performance.
+4. In the Pricing tab, you can set the default prices for the entire plugin or specific categories. And you can create time passes, which enable you to sell time-limited access to all the content on your website or in a specific category.
+5. The appearance tab allows you to adjust the position of the purchase button and time passes. Furthermore, you can choose between two preview modes for your paid content.
+6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
+7. Option 2 additionally shows an excerpt of the full content under an overlay and a short explanation of LaterPay.
+8. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode. In test mode, you can choose, if LaterPay should be visible for regular visitors or not.
+9. The plugin comes with its own debugger.
 
 == Changelog ==
+
+= 0.9.12 (July 8, 2015): Bugfix Release (v1.0 RC5) =
+* Added feature to allow setting prices in time pass only mode
+* Added advanced setting to not contact LaterPay on the homepage
+* Added avanced setting to disable check_token on homepage
+* Disabled sales statistics
+* Fixed fatal error after plugin activation
+* Fixed issue with special characters in time pass URLs
+* Fixed time Passes being displayed for users, but not in the pricing tab
+* Fixed bug that prevented to create voucher code while creating time pass
+* Fixed warning: "Cannot modify header information - headers already sent"
+* Limited validity of time passes to 1 year
+* Fixed images not being displayed in print preview / not printed in Internet Explorer
+* Fixed state of "Time Passes Only"-toggle not saving
+* Fixed duplicate entries in database
+* Adjusted calculation of New Customers metric
+
+= 0.9.11.4 (May 8, 2015): Bugfix Release (v1.0 RC4) =
+* Completely revised plugin backend user interface with clearer layout and smoother user interaction
+* Added functionality to automatically remove logged page view data after three months
+* Added advanced option to manually update the Browscap database from the advanced settings page
+* Added advanced option to define the plugin behavior in case the LaterPay API is not responding
+* Improved behavior of deleting time passes (only mark as deleted instead of actually removing from database)
+* Changed mechanism for including vendor libraries from git submodules to Composer
+* Fixed several internals regarding the calculation of sales statistics
+* Adjusted copy in teaser content overlay for Time Passes and Single Sale purchases
+* Fixed various visual bugs
+* Lots of internal structural improvements
 
 = 0.9.11.3 (April 7, 2015): Bugfix Release (v1.0 RC3) =
 * Added parameter 'id' to the shortcode [laterpay_time_passes] to display only one specific time pass

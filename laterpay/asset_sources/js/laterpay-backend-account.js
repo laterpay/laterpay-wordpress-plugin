@@ -19,11 +19,10 @@
                 pluginVisibilityToggle          : $('#lp_js_toggleVisibilityInTestMode'),
                 hasInvalidSandboxCredentials    : $('#lp_js_hasInvalidSandboxCredentials'),
                 isLive                          : 'lp_is-live',
+                navigation                      : $('.lp_navigation'),
 
                 showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
-
-                throttledFlashMessage           : undefined,
-                flashMessageTimeout             : 800,
+                apiCredentials                  : $('#lp_js_apiCredentialsSection'),
                 requestSent                     : false,
             },
 
@@ -95,7 +94,7 @@
                     $o.testMerchantId.focus();
 
                     // show button for loading the contracts, as the user probably has no valid live credentials yet
-                    $o.showMerchantContractsButton.fadeIn(250);
+                    $o.showMerchantContractsButton.velocity('fadeIn', { duration: 250 });
 
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
@@ -109,17 +108,17 @@
 
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
-                    $('#lp_js_pluginModeIndicator').fadeOut();
+                    $('#lp_js_pluginModeIndicator').velocity('fadeOut', { duration: 250 });
                     $('#lp_js_liveCredentials').addClass($o.isLive);
                 } else {
-                    $('#lp_js_pluginModeIndicator').fadeIn();
+                    $('#lp_js_pluginModeIndicator').velocity('fadeIn', { duration: 250 });
                     $('#lp_js_liveCredentials').removeClass($o.isLive);
                 }
             },
 
             togglePluginMode = function() {
-                var $toggle                 = $o.pluginModeToggle,
-                    hasSwitchedToLiveMode   = $toggle.prop('checked');
+                var $toggle               = $o.pluginModeToggle,
+                    hasSwitchedToLiveMode = $toggle.prop('checked');
 
                 if (hasNoValidCredentials()) {
                     // restore test mode
@@ -132,16 +131,16 @@
                     $o.requestSent = false;
 
                     // show additional toggle for switching between visible and invisible test mode
-                    $o.pluginVisibilitySetting.fadeIn(250);
+                    $o.pluginVisibilitySetting.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                 } else if (hasSwitchedToLiveMode) {
                     // hide toggle for switching between visible and invisible test mode
-                    $o.pluginVisibilitySetting.fadeOut(250);
+                    $o.pluginVisibilitySetting.velocity('fadeOut', { duration: 250 });
 
                     // hide button for loading the contracts, as the user obviously has valid live credentials already
-                    $o.showMerchantContractsButton.fadeOut(250);
+                    $o.showMerchantContractsButton.velocity('fadeOut', { duration: 250 });
                 } else {
                     // hide toggle for switching between visible and invisible test mode
-                    $o.pluginVisibilitySetting.fadeIn(250);
+                    $o.pluginVisibilitySetting.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                 }
 
                 // save plugin mode
@@ -157,7 +156,7 @@
                         ajaxurl,
                         $('#' + form_id).serializeArray(),
                         function(data) {
-                            setMessage(data.message, data.success);
+                            $o.navigation.showMessage(data);
                             togglePluginModeIndicators(data.mode);
                         },
                         'json'
@@ -174,9 +173,6 @@
                     value           = $input.val().trim(),
                     apiKeyLength    = 32;
 
-                // clear flash message timeout
-                window.clearTimeout($o.throttledFlashMessage);
-
                 // trim spaces from input
                 if (value.length !== $input.val().length) {
                     $input.val(value);
@@ -186,10 +182,7 @@
                     // save the value, because it's valid (empty input or string of correct length)
                     makeAjaxRequest($form.attr('id'));
                 } else {
-                    // set timeout to throttle flash message
-                    $o.throttledFlashMessage = window.setTimeout(function() {
-                        setMessage(lpVars.i18nApiKeyInvalid, false);
-                    }, $o.flashMessageTimeout);
+                    $o.navigation.showMessage(lpVars.i18nApiKeyInvalid, false);
 
                     // switch to invisible test mode to make sure visitors don't see a broken site,
                     // if we are in test mode;
@@ -213,9 +206,6 @@
                     value               = $input.val().trim(),
                     merchantIdLength    = 22;
 
-                // clear flash message timeout
-                window.clearTimeout($o.throttledFlashMessage);
-
                 // trim spaces from input
                 if (value.length !== $input.val().length) {
                     $input.val(value);
@@ -225,10 +215,7 @@
                     // save the value, because it's valid (empty input or string of correct length)
                     makeAjaxRequest($form.attr('id'));
                 } else {
-                    // set timeout to throttle flash message
-                    $o.throttledFlashMessage = window.setTimeout(function() {
-                        setMessage(lpVars.i18nMerchantIdInvalid, false);
-                    }, $o.flashMessageTimeout);
+                    $o.navigation.showMessage(lpVars.i18nMerchantIdInvalid, false);
 
                     // switch to invisible test mode to make sure visitors don't see a broken site,
                     // if we are in test mode;
@@ -247,27 +234,9 @@
             },
 
             hasNoValidCredentials = function() {
-                if (
-                    (
-                        // plugin is in test mode, but there are no valid Sandbox API credentials
-                        !$o.pluginModeToggle.prop('checked') &&
-                        (
-                            $o.testApiKey.val().length     !== 32 ||
-                            $o.testMerchantId.val().length !== 22
-                        )
-                    ) || (
-                        // plugin is in live mode, but there are no valid Live API credentials
-                        $o.pluginModeToggle.prop('checked') &&
-                        (
-                            $o.liveApiKey.val().length        !== 32 ||
-                            $o.liveMerchantId.val().length    !== 22
-                        )
-                    )
-                ) {
-                    return true;
-                } else {
-                    return false;
-                }
+                var invalidCreds = $o.liveApiKey.val().length !== 32 || $o.liveMerchantId.val().length !== 22;
+                // plugin is in live mode, but there are no valid Live API credentials
+                return $o.pluginModeToggle.prop('checked') && invalidCreds;
             },
 
             showMerchantContracts = function() {
@@ -282,21 +251,29 @@
                     iframeOffset,
                     scrollPosition;
 
-                $o.showMerchantContractsButton.fadeOut();
+                $o.showMerchantContractsButton.velocity('fadeOut', { duration: 250 });
 
                 // remove possibly existing iframe and insert a wrapper to display the iframe in
                 if ($('iframe', $iframeWrapper).length !== 0) {
                     $('iframe', $iframeWrapper).remove();
                 }
                 if ($iframeWrapper.length === 0) {
-                    $('#lp_js_apiCredentialsSection').after($iframeWrapperObject.slideDown(400, function() {
-                        // scroll document so that iframe fills viewport
-                        iframeOffset = $('#lp_js_legalDocsIframe').offset();
-                        scrollPosition = iframeOffset.top - topMargin;
-                        $('BODY, HTML').animate({
-                            scrollTop: scrollPosition
-                        }, 400);
-                    }));
+                    $o.apiCredentials
+                    .after(
+                        $iframeWrapperObject
+                        .velocity('slideDown', {
+                            duration: 400,
+                            easing: 'ease-out',
+                            complete: function() {
+                                // scroll document so that iframe fills viewport
+                                iframeOffset = $('#lp_js_legalDocsIframe').offset();
+                                scrollPosition = iframeOffset.top - topMargin;
+
+                                $('BODY, HTML')
+                                .velocity('scroll', { duration: 400, easing: 'ease-out', offset: scrollPosition });
+                             }
+                        })
+                    );
                 }
 
                 // re-cache object after replacing it
@@ -315,14 +292,27 @@
                 );
 
                 // close merchant contracts
-                $('#lp_js_hideMerchantContracts', $iframeWrapper).bind('click', function(e) {
-                    $(this).fadeOut()
-                        .parent('#lp_js_legalDocsIframe').slideUp(400, function() {
-                            $(this).remove();
+                $('#lp_js_hideMerchantContracts', $iframeWrapper)
+                .bind('mousedown', function() {
+                    $(this)
+                    .velocity('fadeOut', { duration: 200 })
+                        .parent('#lp_js_legalDocsIframe')
+                        .velocity('slideUp', {
+                            duration: 400,
+                            easing: 'ease-out',
+                            complete: function() {
+                                $(this).remove();
+                            }
                         });
-                    $o.showMerchantContractsButton.fadeIn();
-                    e.preventDefault();
-                });
+
+                    $o.showMerchantContractsButton
+                    .velocity('fadeIn', {
+                        duration    : 250,
+                        delay       : 250,
+                        display     : 'inline-block'
+                    });
+                })
+                .bind('click', function(e) {e.preventDefault();});
             },
 
             preventLeavingWithoutValidCredentials = function() {

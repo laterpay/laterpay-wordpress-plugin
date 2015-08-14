@@ -18,6 +18,25 @@ class LaterPay_Helper_Post
     private static $access = array();
 
     /**
+     * Set state for the particular post $id.
+     *
+     * @param string    $id
+     * @param bool      $state
+     */
+    public static function set_access_state( $id, $state ) {
+        self::$access[ $id ] = $state;
+    }
+
+    /**
+     * Return the access state for all loaded posts.
+     *
+     * @return array
+     */
+    public static function get_access_state() {
+        return self::$access;
+    }
+
+    /**
      * Check, if user has access to a post.
      *
      * @param WP_Post $post
@@ -29,16 +48,6 @@ class LaterPay_Helper_Post
     public static function has_access_to_post( WP_Post $post, $is_attachment = false, $main_post_id = null ) {
         $post_id = $post->ID;
 
-        laterpay_get_logger()->info(
-            __METHOD__,
-            array( 'post' => $post )
-        );
-
-        if ( array_key_exists( $post_id, self::$access ) ) {
-            // access was already checked
-            return (bool) self::$access[ $post_id ];
-        }
-
         // check, if parent post has access with time passes
         $parent_post        = $is_attachment ? $main_post_id : $post_id;
         $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $parent_post );
@@ -49,18 +58,15 @@ class LaterPay_Helper_Post
             }
         }
 
+        // check access for the particular post
+        if ( array_key_exists( $post_id, self::$access ) ) {
+            return (bool) self::$access[ $post_id ];
+        }
+
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
         if ( $price > 0 ) {
-            $client_options  = LaterPay_Helper_Config::get_php_client_options();
-            $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-            $result          = $laterpay_client->get_access( array_merge( array( $post_id ), $time_passes ) );
+            $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post_id ), $time_passes ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
@@ -108,15 +114,7 @@ class LaterPay_Helper_Post
             $code_key = '[#' . $code . ']';
 
             // check, if gift code was purchased successfully and user has access
-            $client_options  = LaterPay_Helper_Config::get_php_client_options();
-            $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-            $result = $laterpay_client->get_access( array( $code_key ) );
+            $result = LaterPay_Helper_Request::laterpay_api_get_access( array( $code_key ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
@@ -196,14 +194,22 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post_id;
         }
 
-        $url  = self::get_after_purchase_redirect_url( $url_params );
-        $hash = self::get_hash_by_url( $url );
+        // get current post link
+        $link = get_permalink( $url_params['post_id'] );
+
+        // cut params from link and merge with other params
+        $parsed_link = parse_url( $link );
+        if ( isset( $parsed_link['query'] ) ) {
+            parse_str( $parsed_link['query'], $link_params );
+            $url_params = array_merge( $link_params, $url_params );
+            list( $link, $last ) = explode( '?', $link );
+        }
 
         // parameters for LaterPay purchase form
         $params = array(
             'article_id'    => $post_id,
             'pricing'       => $currency . ( $price * 100 ),
-            'url'           => $url . '&hash=' . $hash,
+            'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
             'title'         => $post->post_title,
             'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );
@@ -222,41 +228,6 @@ class LaterPay_Helper_Post
     }
 
     /**
-     * Return the URL hash for a given URL.
-     *
-     * @param string $url
-     *
-     * @return string $hash
-     */
-    public static function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . wp_salt() );
-    }
-
-    /**
-     * Generate the URL to which the user is redirected to after buying a given post.
-     *
-     * @param array $data
-     *
-     * @return string $url
-     */
-    public static function get_after_purchase_redirect_url( array $data ) {
-        $url = get_permalink( $data['post_id'] );
-
-        if ( ! $url ) {
-            laterpay_get_logger()->error(
-                __METHOD__ . ' could not find an URL for the given post_id.',
-                array( 'data' => $data )
-            );
-
-            return $url;
-        }
-
-        $url = add_query_arg( $data, $url );
-
-        return $url;
-    }
-
-    /**
      * Prepare the purchase button.
      *
      * @wp-hook laterpay_purchase_button
@@ -267,24 +238,11 @@ class LaterPay_Helper_Post
      * @return array
      */
     public static function the_purchase_button_args( WP_Post $post, $current_post_id = null ) {
-        // don't render the purchase button, if the current post is not purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
-            return;
-        };
-
         // render purchase button for administrator always in preview mode, too prevent accidental purchase by admin.
         $preview_mode = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( current_user_can( 'administrator' ) ) {
             $preview_mode = true;
         }
-
-        $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! get_option( 'laterpay_plugin_is_in_live_mode' );
-
-        // don't render the purchase button, if the current post was already purchased
-        // also even if item was purchased in visible test mode by admin it must be displayed
-        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_mode ) {
-            return;
-        };
 
         $view_args = array(
             'post_id'                   => $post->ID,
@@ -292,7 +250,6 @@ class LaterPay_Helper_Post
             'currency'                  => get_option( 'laterpay_currency' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
-            'is_in_visible_test_mode'   => $is_in_visible_test_mode,
         );
 
         laterpay_get_logger()->info(
@@ -331,76 +288,5 @@ class LaterPay_Helper_Post
         }
 
         return $new_meta_value;
-    }
-
-    /**
-     * Collect content of benefits overlay.
-     *
-     * @param  string  $revenue_model       LaterPay revenue model applied to content
-     * @param  boolean $time_passes_only    can posts be purchased individually, or only by time passes?
-     *
-     * @return array $overlay_content
-     */
-    public static function collect_overlay_content( $revenue_model, $time_passes_only = false ) {
-        // determine overlay title to show
-        if ( $revenue_model == 'sis' || $time_passes_only ) {
-            $overlay_title = __( 'Read Now', 'laterpay' );
-        } else {
-            $overlay_title = __( 'Read Now, Pay Later', 'laterpay' );
-        }
-
-        // determine benefits to show
-        if ( $time_passes_only ) {
-            $overlay_benefits = array(
-                                    array(
-                                        'title' => __( 'Buy Time Pass', 'laterpay' ),
-                                        'text'  => __( 'Buy a LaterPay time pass and pay with a payment method you trust.', 'laterpay' ),
-                                        'class' => 'lp_benefit--buy-now',
-                                    ),
-                                    array(
-                                        'title' => __( 'Read Immediately', 'laterpay' ),
-                                        'text'  => __( 'Immediately access your content. <br>A time pass is not a subscription, it expires automatically.', 'laterpay' ),
-                                        'class' => 'lp_benefit--use-immediately',
-                                    ),
-                                );
-        } else if ( ! $time_passes_only && $revenue_model == 'sis' ) {
-            $overlay_benefits = array(
-                                    array(
-                                        'title' => __( 'Buy Now', 'laterpay' ),
-                                        'text'  => __( 'Buy this post now with LaterPay and <br>pay with a payment method you trust.', 'laterpay' ),
-                                        'class' => 'lp_benefit--buy-now',
-                                    ),
-                                    array(
-                                        'title' => __( 'Read Immediately', 'laterpay' ),
-                                        'text'  => __( 'Immediately access your purchase. <br>You only buy this post. No subscription, no fees.', 'laterpay' ),
-                                        'class' => 'lp_benefit--use-immediately',
-                                    ),
-                                );
-        } else {
-            $overlay_benefits = array(
-                                    array(
-                                        'title' => __( 'Buy Now', 'laterpay' ),
-                                        'text'  => __( 'Just agree to pay later.<br> No upfront registration and payment.', 'laterpay' ),
-                                        'class' => 'lp_benefit--buy-now',
-                                    ),
-                                    array(
-                                        'title' => __( 'Read Immediately', 'laterpay' ),
-                                        'text'  => __( 'Access your purchase immediately.<br> You are only buying this article, not a subscription.', 'laterpay' ),
-                                        'class' => 'lp_benefit--use-immediately',
-                                    ),
-                                    array(
-                                        'title' => __( 'Pay Later', 'laterpay' ),
-                                        'text'  => __( 'Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you have to register and pay.', 'laterpay' ),
-                                        'class' => 'lp_benefit--pay-later',
-                                    ),
-                                );
-        }
-
-        $overlay_content = array(
-                               'title'      => $overlay_title,
-                               'benefits'   => $overlay_benefits,
-                            );
-
-        return $overlay_content;
     }
 }

@@ -3,28 +3,27 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendAppearance
     function laterPayBackendAppearance() {
         var $o = {
-                // paid content preview
-                previewForm                     : $('#lp_js_previewModeForm'),
-                togglePreviewMode               : $('.lp_js_togglePreviewMode'),
+                // appearance option
+                switchButtonGroup   : $('.lp_js_switchButtonGroup'),
+                buttonGroupButtons  : '.lp_js_buttonGroupButton',
+                buttonGroupHint     : '.lp_js_buttonGroupHint',
+                selected            : 'lp_is-selected',
+                showHintOnTrue      : 'lp_js_showHintOnTrue',
 
                 // ratings
-                ratingsToggle                   : $('#lp_js_enableRatingsToggle'),
-                ratingsForm                     : $('#lp_js_laterpayRatingsForm'),
+                ratingsToggle       : $('#lp_js_enableRatingsToggle'),
+                ratingsForm         : $('#lp_js_laterpayRatingsForm'),
 
-                // position of LaterPay elements
-                purchaseButtonPositionForm      : $('#lp_js_purchaseButtonPositionForm'),
-                togglePurchaseButtonPosition    : $('#lp_js_togglePurchaseButtonPosition'),
-                purchaseButtonExplanation       : $('#lp_js_purchaseButtonPositionExplanation'),
-                timePassPositionForm            : $('#lp_js_timePassesPositionForm'),
-                toggleTimePassesPosition        : $('#lp_js_toggleTimePassesPosition'),
-                timePassesExplanation           : $('#lp_js_timePassesPositionExplanation'),
+                // hide free posts
+                hideFreePostsToggle : $('#lp_js_hideFreePostsToggle'),
+                hideFreePostsForm   : $('#lp_js_laterpayHideFreePostsForm'),
             },
 
             bindEvents = function() {
-                // toggle paid content preview mode
-                $($o.togglePreviewMode, $o.previewForm)
+                // toggle appearance option
+                $($o.switchButtonGroup)
                 .change(function() {
-                    saveData($o.previewForm);
+                    switchButtonGroup($(this));
                 });
 
                 // toggle activation status of content rating
@@ -33,50 +32,47 @@
                     saveData($o.ratingsForm);
                 });
 
-                // toggle positioning mode of purchase button
-                $o.togglePurchaseButtonPosition
+                // toggle activation status of hide free posts
+                $o.hideFreePostsToggle
                 .change(function() {
-                    saveData($o.purchaseButtonPositionForm);
-
-                    // show / hide explanation how to customize position
-                    if ($o.purchaseButtonExplanation.is(':visible')) {
-                        $o.purchaseButtonExplanation.slideUp(250);
-                    } else {
-                        $o.purchaseButtonExplanation.slideDown(250);
-                    }
-                });
-
-                // toggle positioning mode of time passes
-                $o.toggleTimePassesPosition
-                .change(function() {
-                    saveData($o.timePassPositionForm);
-
-                    // show / hide explanation how to customize position
-                    if ($o.timePassesExplanation.is(':visible')) {
-                        $o.timePassesExplanation.slideUp(250);
-                    } else {
-                        $o.timePassesExplanation.slideDown(250);
-                    }
+                    saveData($o.hideFreePostsForm);
                 });
             },
 
-            saveData = function( $form ) {
+            switchButtonGroup = function($trigger) {
+                var $form                   = $trigger.parents('form'),
+                    formValueIsTrue         = parseInt($('input:checked', $form).val(), 10) === 1,
+                    shouldShowHintOnTrue    = $form.hasClass($o.showHintOnTrue),
+                    $hint                   = $form.find($o.buttonGroupHint),
+                    shouldShowHint          = shouldShowHintOnTrue && formValueIsTrue,
+                    shouldHideHint          = shouldShowHintOnTrue && !formValueIsTrue;
+
+                // mark clicked button as selected
+                $($o.buttonGroupButtons, $form).removeClass($o.selected);
+                $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
+
+                // show / hide hints
+                if (shouldShowHint) {
+                    $hint.velocity('slideDown', { duration: 250, easing: 'ease-out' });
+                } else if (shouldHideHint) {
+                    $hint.velocity('slideUp', { duration: 250, easing: 'ease-out' });
+                }
+
+                saveData($form);
+            },
+
+            saveData = function($form) {
                 $.post(
                     ajaxurl,
                     $form.serializeArray(),
                     function(data) {
-                        setMessage(data);
+                        $('.lp_navigation').showMessage(data);
                     }
                 );
             },
 
-            styleInputs = function() {
-                $('.lp_js_styleInput').ezMark();
-            },
-
             initializePage = function() {
                 bindEvents();
-                styleInputs();
             };
 
         initializePage();

@@ -49,49 +49,10 @@ class LaterPay_Helper_View
      * @return array
      */
     public static function get_admin_menu() {
-        $menu = array();
-
-        // @link http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table
-        // cap "activate_plugins"   => Super Admin, Admin
-        // cap "moderate_comments"  => Super Admin, Admin, Editor
-
-        $menu['dashboard'] = array(
-            'url'       => 'laterpay-plugin',
-            'title'     => __( 'Dashboard', 'laterpay' ),
-            'cap'       => 'moderate_comments',
-            'submenu'   => array(
-                'name'      => 'time_passes',
-                'url'       => 'laterpay-timepass-dashboard-tab',
-                'cap'       => 'moderate_comments',
-                'title'     => __( 'Time Passes', 'laterpay' ),
-                'data'      => array(
-                    'view'      => 'time-passes',
-                    'label'     => __( 'Standard KPIs', 'laterpay' ),
-                ),
-            ),
-        );
-
-        $menu['pricing'] = array(
-            'url'   => 'laterpay-pricing-tab',
-            'title' => __( 'Pricing', 'laterpay' ),
-            'cap'   => 'activate_plugins',
-        );
-
-        $menu['appearance'] = array(
-            'url'   => 'laterpay-appearance-tab',
-            'title' => __( 'Appearance', 'laterpay' ),
-            'cap'   => 'activate_plugins',
-        );
-
-        $menu['account'] = array(
-            'url'   => 'laterpay-account-tab',
-            'title' => __( 'Account', 'laterpay' ),
-            'cap'   => 'activate_plugins',
-        );
-
-        // modify laterpay menu
-        $menu = apply_filters( 'modify_menu', $menu );
-
+        $event = new LaterPay_Core_Event();
+        $event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_admin_menu_data', $event );
+        $menu = (array) $event->get_result();
         return $menu;
     }
 
@@ -284,24 +245,19 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Check, if purchase link should be hidden.
+     * Get error message for shortcode.
      *
-     * @return bool
-     */
-    public static function purchase_link_is_hidden() {
-        $is_hidden = get_option( 'laterpay_only_time_pass_purchases_allowed' ) && get_option( 'laterpay_teaser_content_only' );
-
-        return $is_hidden;
-    }
-
-    /**
-     * Check, if purchase button should be hidden.
+     * @param string  $error_reason
+     * @param array   $atts         shortcode attributes
      *
-     * @return bool
+     * @return string $error_message
      */
-    public static function purchase_button_is_hidden() {
-        $is_hidden = get_option( 'laterpay_only_time_pass_purchases_allowed' );
+    public static function get_error_message( $error_reason, $atts ) {
+        $error_message  = '<div class="lp_shortcodeError">';
+        $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+        $error_message .= $error_reason;
+        $error_message .= '</div>';
 
-        return $is_hidden;
+        return $error_message;
     }
 }

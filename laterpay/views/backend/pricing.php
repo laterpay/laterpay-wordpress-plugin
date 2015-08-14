@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                name="only_time_pass_purchase_mode"
                                class="lp_js_onlyTimePassPurchaseModeInput lp_toggle__input"
                                value="1"
-                            <?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo 'checked'; } ?>
+								<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo 'checked'; } ?>
                         >
                         <span class="lp_toggle__text"></span>
                         <span class="lp_toggle__handle"></span>
@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <?php echo laterpay_sanitize_output( __( 'cannot be purchased individually.', 'laterpay' ) ); ?>
         </div>
 
-        <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++"<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo ' style="display:none;"'; } ?>>
+        <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++">
             <div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
                 <h2><?php echo laterpay_sanitize_output( __( 'Global Default Price', 'laterpay' ) ); ?></h2>
 
@@ -346,29 +346,6 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
 
-<!--
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
-            <div class="lp_js_hideInTimePassOnlyMode" style="display:none;">
-        <?php else : ?>
-            <div class="lp_js_hideInTimePassOnlyMode">
-        <?php endif; ?>
-                <p>
-                    <span class="lp_badge lp_mr-">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
-                    <dfn>
-                        <?php echo laterpay_sanitize_output( sprintf( __( 'The user pays later once his LaterPay invoice reaches 5 %s.', 'laterpay' ), $laterpay['standard_currency'] ) ); ?><br>
-                        <?php echo laterpay_sanitize_output( sprintf( __( 'You can choose PPU for prices from 0.05 - 5.00 %s.', 'laterpay' ), $laterpay['standard_currency'] ) ); ?>
-                    </dfn>
-                </p>
-                <p>
-                    <span class="lp_badge lp_mr-">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
-                    <dfn>
-                        <?php echo laterpay_sanitize_output( __( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ) ); ?><br>
-                        <?php echo laterpay_sanitize_output( sprintf( __( 'You can choose SIS for prices from 1.49 - 149.99 %s.', 'laterpay' ), $laterpay['standard_currency'] ) ); ?>
-                    </dfn>
-                </p>
-            </div>
--->
-
         <div id="lp_time-passes" class="lp_mt+ lp_mb++">
             <h2>
                 <?php echo laterpay_sanitize_output( __( 'Time Passes', 'laterpay' ) ); ?>
@@ -377,27 +354,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </a>
             </h2>
 
-<!--
-            <div class="lp_mb">
-                <form id="lp_js_landingPageForm" method="post">
-                    <input type="hidden" name="form" value="save_landing_page">
-                    <input type="hidden" name="action" value="laterpay_pricing">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                    <label><?php echo laterpay_sanitize_output( __( 'Forward users to this URL after they have redeemed a gift card:', 'laterpay' ) ); ?></label>
-                    <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo esc_attr( $laterpay['landing_page'] ); ?>">
-                    <a href="#" id="lp_js_landingPageSave" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php echo laterpay_sanitize_output( __( 'Save', 'laterpay' ) ); ?></a>
-                </form>
-            </div>
--->
             <div id="lp_js_timePassEditor" class="lp_time-passes__list lp_layout">
                 <?php foreach ( $laterpay['passes_list'] as $pass ) : ?>
-                    <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo esc_attr( $pass->pass_id ); ?>">
+                    <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo esc_attr( $pass['pass_id'] ); ?>">
                         <div class="lp_time-pass__id-wrapper">
                             <?php echo laterpay_sanitize_output( __( 'Pass', 'laterpay' ) ); ?>
-                            <span class="lp_js_timePassId lp_time-pass__id"><?php echo laterpay_sanitize_output( $pass->pass_id ); ?></span>
+                            <span class="lp_js_timePassId lp_time-pass__id"><?php echo laterpay_sanitize_output( $pass['pass_id'] ); ?></span>
                         </div>
                         <div class="lp_js_timePassPreview lp_left">
-                            <?php echo laterpay_sanitized( $this->render_time_pass( (array) $pass ) ); ?>
+                            <?php echo laterpay_sanitized( $this->render_time_pass( $pass ) ); ?>
                         </div>
 
                         <div class="lp_js_timePassEditorContainer lp_time-pass-editor"></div>
@@ -409,8 +374,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <a href="#" class="lp_js_deleteTimePass lp_edit-link--bold lp_inline-block" data-icon="g"></a>
 
                         <div class="lp_js_voucherList lp_vouchers">
-                            <?php if ( isset( $laterpay['vouchers_list'][ $pass->pass_id ] ) ) : ?>
-                                <?php foreach ( $laterpay['vouchers_list'][ $pass->pass_id ] as $voucher_code => $voucher_price ) : ?>
+                            <?php if ( isset( $laterpay['vouchers_list'][ $pass['pass_id'] ] ) ) : ?>
+                                <?php foreach ( $laterpay['vouchers_list'][ $pass['pass_id'] ] as $voucher_code => $voucher_price ) : ?>
                                     <div class="lp_js_voucher lp_voucher">
                                         <span class="lp_voucher__code"><?php echo laterpay_sanitize_output( $voucher_code ); ?></span>
                                         <span class="lp_voucher__code-infos">
@@ -418,9 +383,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <?php echo laterpay_sanitize_output( $voucher_price . ' ' . $laterpay['standard_currency'] ); ?>.<br>
                                             <span class="lp_js_voucherTimesRedeemed">
                                                 <?php
-                                                    echo laterpay_sanitize_output( ( ! isset( $laterpay['vouchers_statistic'][ $pass->pass_id ][ $voucher_code ] ) ) ?
+                                                    echo laterpay_sanitize_output( ( ! isset( $laterpay['vouchers_statistic'][ $pass['pass_id'] ][ $voucher_code ] ) ) ?
                                                         0 :
-                                                        $laterpay['vouchers_statistic'][ $pass->pass_id ][ $voucher_code ]
+                                                        $laterpay['vouchers_statistic'][ $pass['pass_id'] ][ $voucher_code ]
                                                     );
                                                 ?>
                                             </span>
@@ -590,18 +555,39 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         </div>
-<!--
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
-            <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator" style="display:none;">
-        <?php else : ?>
-            <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator">
-        <?php endif; ?>
 
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
-            <div class="lp_js_hideInTimePassOnlyMode" style="display:none;">
-        <?php else : ?>
-            <div class="lp_js_hideInTimePassOnlyMode lp_bulk-price">
-        <?php endif; ?>
+
+        <?php # TODO: remove this in release 0.9.12 ?>
+        <a href="" id="lp_js_showDeprecatedFeatures"><?php echo laterpay_sanitize_output( __( 'Show deprecated features', 'laterpay' ) ); ?></a>
+
+        <div class="lp_js_deprecated-feature">
+            <p>
+                <span class="lp_badge lp_mr-">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
+                <dfn>
+                    <?php echo laterpay_sanitize_output( __( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ) ); ?><br>
+                    <?php echo laterpay_sanitize_output( __( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ) ); ?>
+                </dfn>
+            </p>
+            <p>
+                <span class="lp_badge lp_mr-">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
+                <dfn>
+                    <?php echo laterpay_sanitize_output( __( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ) ); ?><br>
+                    <?php echo laterpay_sanitize_output( __( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ) ); ?>
+                </dfn>
+            </p>
+
+            <div class="lp_mb">
+                <form id="lp_js_landingPageForm" method="post">
+                    <input type="hidden" name="form" value="save_landing_page">
+                    <input type="hidden" name="action" value="laterpay_pricing">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                    <label><?php echo laterpay_sanitize_output( __( 'Forward users to this URL after they have redeemed a gift card:', 'laterpay' ) ); ?></label>
+                    <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo esc_attr( $laterpay['landing_page'] ); ?>">
+                    <a href="#" id="lp_js_landingPageSave" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php echo laterpay_sanitize_output( __( 'Save', 'laterpay' ) ); ?></a>
+                </form>
+            </div>
+
+            <div class="lp_bulk-price">
                 <h2><?php echo laterpay_sanitize_output( __( 'Bulk Price Editor', 'laterpay' ) ); ?></h2>
                 <form id="lp_js_bulkPriceEditorForm" method="post" class="lp_bulk-price__form">
                     <input type="hidden" name="form" value="bulk_price_form" id="lp_js_bulkPriceEditorHiddenFormInput">
@@ -683,6 +669,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
--->
+        </div>
+
     </div>
 </div>

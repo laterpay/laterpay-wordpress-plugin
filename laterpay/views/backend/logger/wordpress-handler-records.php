@@ -41,6 +41,11 @@ if ( ! defined( 'ABSPATH' ) ) {
             }
             ?>
             <li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
+                <?php if ( $tab['type'] == 'html' ) : ?>
+                <ul class="lp_debugger-content-list">
+                    <?php echo laterpay_sanitize_output( $tab['content'] ); ?>
+                </ul>
+                <?php else : ?>
                 <table class="lp_debugger-content__table">
                     <?php foreach ( $tab['content'] as $key => $value  ) : ?>
                         <tr>
@@ -49,6 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </tr>
                     <?php endforeach; ?>
                 </table>
+                <?php endif; ?>
             </li>
         <?php } ?>
     </ul>
