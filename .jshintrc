@@ -92,12 +92,7 @@
         "lpAccountLinksUrl"         : true,
         "lpAccountNextUrl"          : true,
         "lpMerchantId"              : true,
-        "lpAccountNextUrl"          : true,
-        "lpMerchantId"              : true,
-        "lpMerchantId"              : true,
-        "lpAccountNextUrl"          : true,
-        "lpMerchantId"              : true,
-        "lpAccountLinksUrl"         : true,
+        "lpAccountDialogUrl"        : true,
         "ajaxurl"                   : true
     }
 }
