@@ -298,7 +298,8 @@
                             // remove gift code cookie if present
                             delete_cookie('laterpay_purchased_gift_card');
                         }
-                    }
+                    },
+                    'json'
                 );
             },
 
@@ -335,7 +336,8 @@
                             });
                         }
                         initiateAttachmentDownload();
-                    }
+                    },
+                    'json'
                 );
             },
 
