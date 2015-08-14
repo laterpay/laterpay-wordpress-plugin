@@ -913,8 +913,6 @@
                     });
                 }
 
-                // #656: unbind events
-
                 // show action links required when displaying time pass
                 $($o.timePassEditElements, $timePass).removeClass($o.hidden);
 
@@ -1058,8 +1056,6 @@
                                 function(r) {
                                     if (r.success) {
                                         $(this).remove();
-
-                                        // #656: unbind events
 
                                         // show empty state hint, if there are no time passes
                                         if ($($o.timePassWrapper + ':visible').length === 0) {

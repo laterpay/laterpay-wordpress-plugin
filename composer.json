@@ -7,11 +7,11 @@
     },
     "repositories": [
         {
-            "type": "vcs",
+            "type": "git",
             "url": "http://github.com/laterpay/laterpay-php-browscap-library.git"
         },
         {
-            "type": "vcs",
+            "type": "git",
             "url": "http://github.com/laterpay/laterpay-client-php.git"
         }
     ],
@@ -23,6 +23,8 @@
         "wp-coding-standards/wpcs": "dev-develop#9c4de8175ce1f82813f8c9c8f11809ee6c794efc"
     },
     "scripts": {
+        "post-install-cmd": "find laterpay/vendor/ -type d -name \".git\" | xargs rm -rf",
+        "post-update-cmd": "find laterpay/vendor/ -type d -name \".git\" | xargs rm -rf",
         "phpcs": "\"laterpay/vendor/bin/phpcs\" -s -n -p --standard=ruleset.xml --extensions=php --ignore=laterpay/vendor/*,laterpay/cache/*,laterpay/languages/* laterpay",
         "phpcbf": "\"laterpay/vendor/bin/phpcbf\" --no-patch --standard=ruleset.xml --extensions=php --ignore=laterpay/vendor/*,laterpay/cache/*,laterpay/languages/* laterpay",
         "wpcs": "\"laterpay/vendor/bin/phpcs\" --config-set installed_paths laterpay/vendor/wp-coding-standards/wpcs"

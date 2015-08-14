@@ -8,6 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="lp_account-links"></div>
 
 <script>
+    if (lpAccountDialogUrl === undefined) {
+        var lpAccountDialogUrl = "<?php echo laterpay_sanitized( $laterpay_account['dialog_url'] ); ?>";
+    }
     if (lpAccountLinksUrl === undefined) {
         var lpAccountLinksUrl = "<?php echo laterpay_sanitized( $laterpay_account['links_url'] ); ?>";
     }

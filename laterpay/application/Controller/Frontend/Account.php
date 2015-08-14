@@ -16,6 +16,7 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
         return array(
             'laterpay_account_links' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'is_page_secure', 100 ),
                 array( 'render_account_links' ),
             ),
             'laterpay_enqueue_scripts' => array(
@@ -49,19 +50,21 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
 
         // create account links URL with passed parameters
         $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $client = new LaterPay_Client(
+        $client         = new LaterPay_Client(
             $client_options['cp_key'],
             $client_options['api_key'],
             $client_options['api_root'],
             $client_options['web_root'],
             $client_options['token_name']
         );
-        $links_url = $client->get_account_links_url( $show, $css, $next, $forcelang );
+        $links_url      = $client->get_account_links_url( $show, $css, $next, $forcelang );
         // get Merchant ID
-        $is_live = get_option( 'laterpay_plugin_is_in_live_mode' );
-        $merchant_id = $is_live ? get_option( 'laterpay_live_merchant_id' ) : get_option( 'laterpay_sandbox_merchant_id' );
+        $is_live        = get_option( 'laterpay_plugin_is_in_live_mode' );
+        $merchant_id    = $is_live ? get_option( 'laterpay_live_merchant_id' ) : get_option( 'laterpay_sandbox_merchant_id' );
+        $dialog_url     = $is_live ? get_option( 'laterpay_live_dialog_api_url' ) : get_option( 'laterpay_sandbox_dialog_api_url' );
 
         $view_args = array(
+            'dialog_url'  => $dialog_url,
             'links_url'   => $links_url,
             'next'        => urlencode( $next ),
             'merchant_id' => $merchant_id,
@@ -97,5 +100,11 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
             $this->config->get( 'version' ),
             true
         );
+    }
+
+    public function is_page_secure( LaterPay_Core_Event $event ) {
+        if ( ! is_ssl() ) {
+            $event->stop_propagation();
+        }
     }
 }

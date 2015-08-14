@@ -2,45 +2,42 @@
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
 
     // check, if all required variables are available
-    if (!lpAccountLinksUrl || !lpAccountNextUrl || !lpMerchantId) {
+    if (!lpAccountLinksUrl || !lpAccountNextUrl || !lpMerchantId || !lpAccountDialogUrl) {
         return;
     }
 
-    var dialog_api  = 'https://web.laterpay.net/dialog-api',
-        self        = 'https://web.laterpay.net',
+    // define URLs to forward the user to after login / logout / registration
+    var loginLink  = lpAccountDialogUrl + '/dialog-api?url=' + encodeURIComponent(
+                                            lpAccountDialogUrl +
+                                            '/account/dialog/login?next=' +
+                                            lpAccountNextUrl +
+                                            '&cp=' +
+                                            lpMerchantId
+                                        ),
+        logoutLink = lpAccountDialogUrl + '/dialog-api?url=' + encodeURIComponent(
+                                            lpAccountDialogUrl +
+                                            '/account/dialog/logout?jsevents=1&cp=' +
+                                            lpMerchantId
+                                        ),
+        signupLink = lpAccountDialogUrl + '/dialog-api?url=' + encodeURIComponent(
+                                            lpAccountDialogUrl +
+                                            '/account/dialog/signup?next=' +
+                                            lpAccountNextUrl +
+                                            '&cp=' +
+                                            lpMerchantId
+                                        );
 
-        // define URLs to forward the user to after login / logout / registration
-        loginLink   = dialog_api + '?url=' + encodeURIComponent(
-                                                self +
-                                                '/account/dialog/login?next=' +
-                                                lpAccountNextUrl +
-                                                '&cp=' +
-                                                lpMerchantId
-                                            ),
-        logoutLink  = dialog_api + '?url=' + encodeURIComponent(
-                                                self +
-                                                '/account/dialog/logout?jsevents=1&cp=' +
-                                                lpMerchantId
-                                            ),
-        signupLink  = dialog_api + '?url=' + encodeURIComponent(
-                                               self +
-                                               '/account/dialog/signup?next=' +
-                                               lpAccountNextUrl +
-                                               '&cp=' +
-                                               lpMerchantId
-                                            ),
-
-        // render iframe inside of placeholder
-        login_iframe    = new Y.LaterPay.IFrame(
-                                Y.one('.lp_account-links'),
-                                lpAccountLinksUrl,
-                                {
-                                    height      : '42',
-                                    width       : '210',
-                                    scrolling   : 'no',
-                                    frameborder : '0',
-                                }
-                            ),
+    // render iframe inside of placeholder
+    var login_iframe    = new Y.LaterPay.IFrame(
+                            Y.one('.lp_account-links'),
+                            lpAccountLinksUrl,
+                            {
+                                height      : '42',
+                                width       : '210',
+                                scrolling   : 'no',
+                                frameborder : '0',
+                            }
+                        ),
         dm              = new Y.LaterPay.DialogManager(),
         accountManager  = new Y.LaterPay.AccountActionHandler(dm, loginLink, logoutLink, signupLink);
 

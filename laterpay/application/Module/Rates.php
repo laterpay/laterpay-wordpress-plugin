@@ -24,8 +24,8 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
             'laterpay_post_content' => array(
                 array( 'modify_post_content', 250 ),
             ),
-            'laterpay_purchase_button' => array(
-                array( 'modify_purchase_button' ),
+            'laterpay_post_rating' => array(
+                array( 'show_summary_rating_placeholder', 0 ),
             ),
         );
     }
@@ -51,10 +51,10 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
 
         $post_id = $post->ID;
         // get pricing data
-        $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        $price   = LaterPay_Helper_Pricing::get_post_price( $post_id );
 
         // return the full content, if no price was found for the post
-        if ( $price == 0 ) {
+        if ( $price === 0 ) {
             return;
         }
         // check, if user has admin rights
@@ -86,9 +86,8 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
          * return the full encrypted content, if ...
          * ...the post was bought by a user
          * ...and logged_in_user does not preview the post as visitor
-         * ...and caching is not activated or caching is activated and content is loaded via Ajax request
          */
-        if ( $access && ! $preview_post_as_visitor && ( ! $caching_is_active || $is_ajax_and_caching_is_active ) && $show_post_ratings ) {
+        if ( $access && ! $preview_post_as_visitor && $show_post_ratings ) {
             $user_has_already_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
             // append rating form to content, if content rating is enabled
             if ( ! $user_has_already_voted ) {
@@ -112,12 +111,13 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
      *
      * @return string $content
      */
-    public function modify_purchase_button( LaterPay_Core_Event $event ) {
+    public function show_summary_rating_placeholder( LaterPay_Core_Event $event ) {
         if ( $event->has_argument( 'post' ) ) {
             $post = $event->get_argument( 'post' );
         } else {
             $post = get_post();
         }
+
         if ( $post === null ) {
             return;
         }
