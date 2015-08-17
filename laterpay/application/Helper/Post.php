@@ -189,7 +189,7 @@ class LaterPay_Helper_Post
             'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
         );
 
-        if ( $post->post_type == 'attachment' ) {
+        if ( $post->post_type === 'attachment' ) {
             $url_params['post_id']           = $current_post_id;
             $url_params['download_attached'] = $post_id;
         }

@@ -189,7 +189,7 @@
 
                 if (readOnly) {
                     // disable not-selected revenue model
-                    $('input:radio[value!=' + revenueModel + ']', $o.revenueModel)
+                    $('input:radio[name=post_revenue_model]', $o.revenueModel)
                         .parent('label').addClass($o.disabled);
                 }
 
@@ -268,7 +268,8 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > lpVars.limits.ppusis_max && currentRevenueModel === $o.payPerUse) {
+                if (price > lpVars.limits.ppusis_max &&
+                    (currentRevenueModel === $o.payPerUse || currentRevenueModel === $o.payPerUseWithLogin)) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
                 } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {
@@ -336,8 +337,8 @@
                     },
                     function(data) {
                         // rebuild list of categories in category default pricing tab
-                        if (data) {
-                            data.forEach(function(category) {
+                        if (data.success && data.prices) {
+                            data.prices.forEach(function(category) {
                                 var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
                                 categoriesList +=   '<li data-category="' + category.category_id + '" ' +
                                                         'class="lp_price-type-categorized__item">' +
@@ -351,7 +352,7 @@
                             });
                             $o.categoriesList.html(categoriesList);
 
-                            if (data.length) {
+                            if (data.prices.length) {
                                 $o.categoryPriceButton.removeClass($o.disabled).removeClass($o.selected);
                                 // update cached selector
                                 $o.categories = $('#lp_js_priceTypeDetailsCategoryDefaultPrice li');

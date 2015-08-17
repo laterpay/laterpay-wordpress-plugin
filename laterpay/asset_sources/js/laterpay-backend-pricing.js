@@ -135,7 +135,7 @@
 
                 // validate price and revenue model when entering a price
                 // (function is only triggered 800ms after the keyup)
-                $('body').on('keyup', $o.priceInput, (function() {
+                $('body').on('keyup', $o.priceInput, debounce(function() {
                         validatePrice($(this).parents('form'));
                     }, 800)
                 );
@@ -462,7 +462,8 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > 5 && currentRevenueModel === $o.payPerUse) {
+                if (price > 5 &&
+                    (currentRevenueModel === $o.payPerUse || currentRevenueModel === $o.payPerUseWithLogin)) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', 'checked');
                 } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
@@ -701,8 +702,8 @@
                                         results     : function(data) {
                                                         var return_data = [];
 
-                                                        $.each(data, function(index) {
-                                                            var term = data[ index ];
+                                                        $.each(data.categories, function(index) {
+                                                            var term = data.categories[ index ];
                                                             return_data.push({
                                                                 id     : term.term_id,
                                                                 text   : term.name
