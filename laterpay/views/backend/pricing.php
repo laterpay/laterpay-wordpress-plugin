@@ -100,20 +100,17 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <td>
                                         <div class="lp_js_revenueModel lp_button-group">
                                             <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                    <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ! $laterpay['global_default_price_revenue_model'] ) { echo 'lp_is-selected'; } ?>
-                                                    <?php if ( $laterpay['global_default_price'] > 5 ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppu"<?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < 5 ) ) { echo ' checked'; } ?>>PPU
-                                            </label><!--
-                                         --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                    <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppul' ) { echo 'lp_is-selected'; } ?>
-                                                    <?php if ( $laterpay['global_default_price'] > 5 ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppul"<?php if ( $laterpay['global_default_price_revenue_model'] === 'ppul' ) { echo ' checked'; } ?>>PPU(L)
-                                            </label>
-                                            <!--
-                                         --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                    <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo 'lp_is-selected'; } ?>
-                                                    <?php if ( $laterpay['global_default_price'] < 1.49 ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="sis"<?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo ' checked'; } ?>>SIS
+                                                <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ! $laterpay['global_default_price_revenue_model'] ) { echo 'lp_is-selected'; } ?>
+                                                <?php if ( $laterpay['global_default_price'] > 5 ) { echo 'lp_is-disabled'; } ?>">
+                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppu" <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < 5 ) ) { echo ' checked'; } ?>>PPU
+                                            </label><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                                <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppul' ) { echo 'lp_is-selected'; } ?>
+                                                <?php if ( $laterpay['global_default_price'] > 5 ) { echo 'lp_is-disabled'; } ?>">
+                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppul" <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppul' ) { echo ' checked'; } ?>>PPU(L)
+                                            </label><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                                <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo 'lp_is-selected'; } ?>
+                                                <?php if ( $laterpay['global_default_price'] < 1.49 ) { echo 'lp_is-disabled'; } ?>">
+                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="sis" <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo ' checked'; } ?>>SIS
                                             </label>
                                         </div>
                                     </td>
@@ -211,17 +208,17 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                     <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
                                                             <?php if ( $category_revenue_model === 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo 'lp_is-selected'; } ?>
                                                             <?php if ( $category_price > 5 ) { echo 'lp_is-disabled'; } ?>">
-                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="ppu"<?php if ( $category_revenue_model === 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo ' checked'; } ?>>PPU
-                                                    </label><!--
-                                                 --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="ppu" <?php if ( $category_revenue_model === 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo ' checked'; } ?>>PPU
+                                                    </label>
+                                                    <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
                                                             <?php if ( $category_revenue_model === 'ppul' ) { echo 'lp_is-selected'; } ?>
                                                             <?php if ( $category_price > 5 ) { echo 'lp_is-disabled'; } ?>">
-                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="ppul"<?php if ( $category_revenue_model === 'ppul' ) { echo ' checked'; } ?>>PPU(L)
-                                                    </label><!--
-                                                 --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="ppul" <?php if ( $category_revenue_model === 'ppul' ) { echo ' checked'; } ?>>PPU(L)
+                                                    </label>
+                                                    <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
                                                             <?php if ( $category_revenue_model === 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo 'lp_is-selected'; } ?>
                                                             <?php if ( $category_price < 1.49 ) { echo 'lp_is-disabled'; } ?>">
-                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="sis"<?php if ( $category_revenue_model === 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo ' checked'; } ?>>SIS
+                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="sis" <?php if ( $category_revenue_model === 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo ' checked'; } ?>>SIS
                                                     </label>
                                                 </div>
                                             </td>
