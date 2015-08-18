@@ -1,7 +1,10 @@
+/*jslint node: true */
 var gulp        = require('gulp'),
     plugins     = require('gulp-load-plugins')(),
     del         = require('del'),
     runSequence = require('run-sequence'),
+    bump        = require('gulp-bump'),
+    minimist    = require('minimist'),
     Q           = require('q'),
     p           = {
                 allfiles    : [
@@ -9,6 +12,7 @@ var gulp        = require('gulp'),
                                 './laterpay/asset_sources/scss/**/*.scss',
                                 './laterpay/asset_sources/js/*.js'
                               ],
+                jsonfiles   : ['./composer.json', './package.json'],
                 phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
                 srcSCSS     : './laterpay/asset_sources/scss/*.scss',
                 srcJS       : './laterpay/asset_sources/js/',
@@ -19,6 +23,11 @@ var gulp        = require('gulp'),
                 distIMG     : './laterpay/built_assets/img/',
             };
 
+var gulpKnownOptions = {
+    string: 'version',
+    default: { version: '1.0' }
+};
+var gulpOptions = minimist(process.argv.slice(2), gulpKnownOptions);
 
 // TASKS ---------------------------------------------------------------------------------------------------------------
 // clean up all files in the target directories
@@ -34,7 +43,8 @@ gulp.task('css-watch', function() {
             errLogToConsole : true,
             sourceComments  : 'normal'
         }))
-        .pipe(plugins.autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8')) // vendorize properties for supported browsers
+        // vendorize properties for supported browsers
+        .pipe(plugins.autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))
         .on('error', plugins.notify.onError())
         .pipe(plugins.sourcemaps.write('./maps'))                               // write sourcemaps
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
@@ -48,7 +58,8 @@ gulp.task('css-build', function() {
             sourceComments  : 'normal'
         }))
         .on('error', plugins.notify.onError())
-        .pipe(plugins.autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8')) // vendorize properties for supported browsers
+        // vendorize properties for supported browsers
+        .pipe(plugins.autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))
         .pipe(plugins.csso())                                                   // compress
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
@@ -152,7 +163,31 @@ gulp.task('precommit', ['sniffphp', 'js-format'], function() {
 
 // build project for release
 gulp.task('build', ['clean'], function() {
-    gulp.start('img-build');
-    gulp.start('css-build');
-    gulp.start('js-build');
+    var deferred = Q.defer();
+    runSequence(['img-build','css-build','js-build'], function(error){
+        if (error) {
+            deferred.reject(error);
+        } else {
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
+});
+
+gulp.task('bump', function() {
+    return gulp.src(p.jsonfiles)
+        .pipe(bump({version:gulpOptions.version}))
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('release:production', ['build'], function() {
+    var deferred = Q.defer();
+    runSequence(['bump'], function(error){
+        if (error) {
+            deferred.reject(error);
+        } else {
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
 });
