@@ -472,6 +472,7 @@ class LaterPay_Helper_TimePass
             'link'          => $link,
         );
 
+        // set voucher param
         if ( isset( $data['voucher'] ) ) {
             $url_params['voucher'] = $data['voucher'];
         }

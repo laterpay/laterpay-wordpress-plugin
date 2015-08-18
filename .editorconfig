@@ -1,21 +1,31 @@
-# top-most EditorConfig file
+# http://editorconfig.org
+
 root = true
 
-# Unix-style newlines with a newline ending every file
-[*]
-end_of_line = lf
-insert_final_newline = true
-
-# Use UTF-8 as charset
-[*]
-charset = utf-8
-
-# Indent using 4 spaces
 [*]
 indent_style = space
 indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
+charset = utf-8
 
-# Apply 2 space indentation to json and yml files
-[{package.json,.travis.yml}]
-indent_style = space
+# The JSON files contain newlines inconsistently
+[*.json]
 indent_size = 2
+insert_final_newline = ignore
+
+[*.{yml,jade,coffee}]
+indent_size = 2
+
+# allow <br> (line break) with two spaces at the end of a line
+[*.md]
+trim_trailing_whitespace = false
+
+# Makefiles always use tabs for indentation
+[Makefile]
+indent_style = tab
+
+# Batch files use tabs for indentation
+[*.bat]
+indent_style = tab

@@ -915,8 +915,6 @@
                     });
                 }
 
-                // #656: unbind events
-
                 // show action links required when displaying time pass
                 $($o.timePassEditElements, $timePass).removeClass($o.hidden);
 
@@ -1060,8 +1058,6 @@
                                 function(r) {
                                     if (r.success) {
                                         $(this).remove();
-
-                                        // #656: unbind events
 
                                         // show empty state hint, if there are no time passes
                                         if ($($o.timePassWrapper + ':visible').length === 0) {
@@ -1407,14 +1403,6 @@
             },
 
             changePurchaseMode = function($form) {
-                // toggle visibility of form elements
-                var onlyTimePassModeChecked = $o.purchaseModeInput.is(':checked');
-                if (onlyTimePassModeChecked) {
-                    $o.timePassOnlyHideElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
-                } else {
-                    $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
-                }
-
                 var serializedForm = $form.serialize();
                 // disable button during Ajax request
                 $o.purchaseModeInput.prop('disabled', true);
@@ -1425,17 +1413,14 @@
                     function(data) {
                         if (!data.success) {
                             $o.navigation.showMessage(data);
-
-                            // restore standard mode (individual and time pass purchases)
-                            $o.purchaseModeInput.attr('checked', false);
-                            $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
+                            $o.purchaseModeInput.prop('checked', false);
                         }
-
-                        // re-enable button after Ajax request
-                        $o.purchaseModeInput.prop('disabled', false);
                     },
                     'json'
                 );
+
+                // re-enable button after Ajax request
+                $o.purchaseModeInput.prop('disabled', false);
             },
 
             // throttle the execution of a function by a given delay
