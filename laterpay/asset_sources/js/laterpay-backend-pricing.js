@@ -1143,7 +1143,8 @@
                         } else {
                             $o.navigation.showMessage(r);
                         }
-                    }
+                    },
+                    'json'
                 );
             },
 
