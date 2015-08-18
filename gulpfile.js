@@ -1,7 +1,9 @@
-var gulp    = require('gulp'),
-    plugins = require('gulp-load-plugins')(),
-    del     = require('del'),
-    p       = {
+var gulp        = require('gulp'),
+    plugins     = require('gulp-load-plugins')(),
+    del         = require('del'),
+    runSequence = require('run-sequence'),
+    Q           = require('q'),
+    p           = {
                 allfiles    : [
                                 './laterpay/**/*.php',
                                 './laterpay/asset_sources/scss/**/*.scss',
@@ -21,12 +23,12 @@ var gulp    = require('gulp'),
 // TASKS ---------------------------------------------------------------------------------------------------------------
 // clean up all files in the target directories
 gulp.task('clean', function(cb) {
-    del([p.distJS + '*.js', p.distCSS + '*.css'], cb);
+    return del([p.distJS + '*.js', p.distCSS + '*.css'], cb);
 });
 
 // CSS-related tasks
 gulp.task('css-watch', function() {
-    gulp.src(p.srcSCSS)
+    return gulp.src(p.srcSCSS)
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.sass({
             errLogToConsole : true,
@@ -39,7 +41,7 @@ gulp.task('css-watch', function() {
 });
 
 gulp.task('css-build', function() {
-    gulp.src(p.srcSCSS)
+    return gulp.src(p.srcSCSS)
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.sass({
             errLogToConsole : true,
@@ -53,7 +55,7 @@ gulp.task('css-build', function() {
 
 // Javascript-related tasks
 gulp.task('js-watch', function() {
-    gulp.src(p.srcJS + '*.js')
+    return gulp.src(p.srcJS + '*.js')
         .pipe(plugins.cached('hinting'))                                        // only process modified files
         .pipe(plugins.jshint('.jshintrc'))
         .pipe(plugins.jshint.reporter(plugins.stylish))
@@ -63,7 +65,7 @@ gulp.task('js-watch', function() {
 });
 
 gulp.task('js-build', function() {
-    gulp.src(p.srcJS + '*.js')
+    return gulp.src(p.srcJS + '*.js')
         .pipe(plugins.jshint('.jshintrc'))
         .pipe(plugins.jshint.reporter(plugins.stylish))
         .pipe(plugins.uglify())                                                 // compress with uglify
@@ -82,14 +84,26 @@ gulp.task('js-format', function() {
 });
 
 // Image-related tasks
-gulp.task('img-build', function() {
-    gulp.src(p.srcSVG)
-        .pipe(plugins.svgmin())                                                 // compress with svgmin
-        .pipe(gulp.dest(p.distIMG));                                            // move to target folder
-
-    gulp.src(p.srcPNG)
+gulp.task('img-build-svg', function() {
+    return gulp.src(p.srcSVG)
+            .pipe(plugins.svgmin())                                                 // compress with svgmin
+            .pipe(gulp.dest(p.distIMG));                                            // move to target folder
+});
+gulp.task('img-build-png', function() {
+    return gulp.src(p.srcPNG)
         .pipe(plugins.tinypng('6r1BdukU9EqrtUQ5obGa-6VpaH2ZlI-a'))              // compress with TinyPNG
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
+});
+gulp.task('img-build', function() {
+    var deferred = Q.defer();
+    runSequence(['img-build-svg', 'img-build-png'], function(error){
+        if (error) {
+            deferred.reject(error);
+        } else {
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
 });
 
 // ensure consistent whitespace etc. in files
