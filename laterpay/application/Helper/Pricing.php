@@ -303,21 +303,15 @@ class LaterPay_Helper_Pricing
         }
         $post_price_type = array_key_exists( 'type', $post_price ) ? $post_price['type'] : '';
 
-        // set a price type (global default price or individual price), if the returned post price type is invalid
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
-            case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
                 break;
 
             default:
-                $global_default_price = get_option( 'laterpay_global_price' );
-                if ( $global_default_price > 0 ) {
-                    $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
-                } else {
-                    $post_price_type = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
-                }
+                // set a price type as global default price
+                $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
                 break;
         }
 
