@@ -4,12 +4,8 @@ var gulp                        = require('gulp'),
     del                         = require('del'),
     runSequence                 = require('run-sequence'),
     conventionalGithubReleaser  = require('conventional-github-releaser'),
-    bump                        = require('gulp-bump'),
     minimist                    = require('minimist'),
     Q                           = require('q'),
-    git                         = require('gulp-git'),
-    gutil                       = require('gulp-util'),
-    replace                     = require('gulp-replace'),
     request                     = require('request'),
     dateFormat                  = require('dateformat'),
     fs                          = require('fs'),
@@ -286,7 +282,7 @@ gulp.task('changelog', function () {
                 result.formated,
                 '\n\n'];
             return gulp.src(p.changelogFile)
-                .pipe(replace(/(==\s*Changelog\s*==\n*)/g, changelog.join('')))
+                .pipe(plugins.replace(/(==\s*Changelog\s*==\n*)/g, changelog.join('')))
                 .pipe(gulp.dest(p.distPlugin));
         });
 
@@ -294,13 +290,13 @@ gulp.task('changelog', function () {
 
 gulp.task('bump-version-json', function() {
     return gulp.src(p.jsonfiles)
-        .pipe(bump({version:gulpOptions.version}).on('error', gutil.log))
+        .pipe(plugins.bump({version:gulpOptions.version}).on('error', plugins.gutil.log))
         .pipe(gulp.dest('./'));
 });
 
 gulp.task('bump-version-php', function() {
     return gulp.src([p.mainPhpFile])
-        .pipe(replace(/Version:\s*(.*)/g, 'Version: ' + gulpOptions.version))
+        .pipe(plugins.replace(/Version:\s*(.*)/g, 'Version: ' + gulpOptions.version))
         .pipe(gulp.dest(p.distPlugin));
 });
 
@@ -339,20 +335,20 @@ gulp.task('github-release', function(done) {
 
 gulp.task('commit-changes', function () {
     return gulp.src('.')
-        .pipe(git.commit('[Prerelease] Bumped version number ' + gulpOptions.version));
+        .pipe(plugins.git.commit('[Prerelease] Bumped version number ' + gulpOptions.version));
 });
 
 gulp.task('push-changes', function (cb) {
-    git.push('origin', 'master', cb);
+    plugins.git.push('origin', 'master', cb);
 });
 
 gulp.task('create-new-tag', function (cb) {
     var version = getPackageJsonVersion();
-    git.tag(version, 'Created Tag for version: ' + version, function (error) {
+    plugins.git.tag(version, 'Created Tag for version: ' + version, function (error) {
         if (error) {
             return cb(error);
         }
-        git.push('origin', 'master', {args: '--tags'}, cb);
+        plugins.git.push('origin', 'master', {args: '--tags'}, cb);
     });
 
     function getPackageJsonVersion () {
