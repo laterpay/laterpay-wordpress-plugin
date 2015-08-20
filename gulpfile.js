@@ -317,6 +317,10 @@ gulp.task('bump-version', function() {
     return deferred.promise;
 });
 
+gulp.task('composer', function () {
+    return plugins.composer('update', {'no-autoloader':true});
+});
+
 gulp.task('github-release', function(done) {
     var deferred = Q.defer();
     conventionalGithubReleaser({
@@ -364,6 +368,7 @@ gulp.task('release:production', function (callback) {
         'build',
         'bump-version',
         'changelog',
+        'composer',
         'commit-changes',
         'push-changes',
         'create-new-tag',
