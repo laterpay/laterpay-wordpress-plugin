@@ -68,8 +68,7 @@ gulp.task('css-build', function() {
         .pipe(plugins.sass({
             errLogToConsole : true,
             sourceComments  : 'normal'
-        }))
-        .on('error', plugins.notify.onError())
+        }).on('error', plugins.notify.onError()))
         // vendorize properties for supported browsers
         .pipe(plugins.autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))
         .pipe(plugins.csso())                                                   // compress
