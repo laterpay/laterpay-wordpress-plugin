@@ -44,7 +44,15 @@ var gulpOptions = minimist(process.argv.slice(2), gulpKnownOptions);
 // TASKS ---------------------------------------------------------------------------------------------------------------
 // clean up all files in the target directories
 gulp.task('clean', function(cb) {
-    return del([p.distJS + '*.js', p.distCSS + '*.css'], cb);
+    return del([
+            p.distJS + '*.js',
+            p.distJS + 'maps/*.map',
+            p.distCSS + '*.css',
+            p.distCSS + '*.scss',
+            p.distCSS + 'maps/*.map',
+            p.distIMG + '*.png',
+            p.distIMG + '*.svg'
+        ], cb);
 });
 
 // CSS-related tasks
