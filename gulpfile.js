@@ -3,7 +3,6 @@ var gulp                        = require('gulp'),
     plugins                     = require('gulp-load-plugins')(),
     del                         = require('del'),
     runSequence                 = require('run-sequence'),
-    conventionalChangelog       = require('gulp-conventional-changelog'),
     conventionalGithubReleaser  = require('conventional-github-releaser'),
     bump                        = require('gulp-bump'),
     minimist                    = require('minimist'),
@@ -23,7 +22,7 @@ var gulp                        = require('gulp'),
                             './laterpay/asset_sources/js/*.js'
                         ],
         mainPhpFile     : './laterpay/laterpay.php',
-        changelogFile   : './CHANGELOG.MD',
+        changelogFile   : './laterpay/README.txt',
         jsonfiles       : ['./composer.json', './package.json'],
         phpfiles        : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
         srcSCSS         : './laterpay/asset_sources/scss/*.scss',
@@ -281,7 +280,7 @@ gulp.task('changelog', function () {
                 '\n\n'];
             return gulp.src(p.changelogFile)
                 .pipe(replace(/(==\s*Changelog\s*==\n*)/g, changelog.join('')))
-                .pipe(gulp.dest('./'));
+                .pipe(gulp.dest(p.distPlugin));
         });
 
 });
