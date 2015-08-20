@@ -3,7 +3,7 @@ var gulp                        = require('gulp'),
     plugins                     = require('gulp-load-plugins')(),
     del                         = require('del'),
     runSequence                 = require('run-sequence'),
-    conventionalChangelog       = require('conventional-changelog'),
+    conventionalChangelog       = require('gulp-conventional-changelog'),
     conventionalGithubReleaser  = require('conventional-github-releaser'),
     bump                        = require('gulp-bump'),
     minimist                    = require('minimist'),
@@ -11,25 +11,30 @@ var gulp                        = require('gulp'),
     git                         = require('gulp-git'),
     gutil                       = require('gulp-util'),
     replace                     = require('gulp-replace'),
+    request                     = require('request'),
+    dateFormat                  = require('dateformat'),
     fs                          = require('fs'),
     p                           = {
-                                    allfiles    : [
-                                                    './laterpay/**/*.php',
-                                                    './laterpay/asset_sources/scss/**/*.scss',
-                                                    './laterpay/asset_sources/js/*.js'
-                                                  ],
-                                    mainPhpFile : './laterpay/laterpay.php',
-                                    jsonfiles   : ['./composer.json', './package.json'],
-                                    phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
-                                    srcSCSS     : './laterpay/asset_sources/scss/*.scss',
-                                    srcJS       : './laterpay/asset_sources/js/',
-                                    srcSVG      : './laterpay/asset_sources/img/**/*.svg',
-                                    srcPNG      : './laterpay/asset_sources/img/**/*.png',
-                                    distJS      : './laterpay/built_assets/js/',
-                                    distCSS     : './laterpay/built_assets/css/',
-                                    distIMG     : './laterpay/built_assets/img/',
-                                    distPlugin  : './laterpay/',
-                                };
+        githubMilestones: 'https://api.github.com/repos/laterpay/laterpay-wordpress-plugin/milestones',
+        githubIssues    : 'https://api.github.com/repos/laterpay/laterpay-wordpress-plugin/issues?state=all&milestone=',
+        allfiles        : [
+                            './laterpay/**/*.php',
+                            './laterpay/asset_sources/scss/**/*.scss',
+                            './laterpay/asset_sources/js/*.js'
+                        ],
+        mainPhpFile     : './laterpay/laterpay.php',
+        changelogFile   : './CHANGELOG.MD',
+        jsonfiles       : ['./composer.json', './package.json'],
+        phpfiles        : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
+        srcSCSS         : './laterpay/asset_sources/scss/*.scss',
+        srcJS           : './laterpay/asset_sources/js/',
+        srcSVG          : './laterpay/asset_sources/img/**/*.svg',
+        srcPNG          : './laterpay/asset_sources/img/**/*.png',
+        distJS          : './laterpay/built_assets/js/',
+        distCSS         : './laterpay/built_assets/css/',
+        distIMG         : './laterpay/built_assets/img/',
+        distPlugin      : './laterpay/',
+    };
 // OPTIONS -------------------------------------------------------------------------------------------------------------
 var gulpKnownOptions = {
     string: 'version',
@@ -201,13 +206,84 @@ gulp.task('build', ['clean'], function() {
 
 // RELEASE -------------------------------------------------------------------------------------------------------------
 gulp.task('changelog', function () {
-    return gulp.src('CHANGELOG.md', {
-        buffer: false
-    })
-    .pipe(conventionalChangelog({
-        preset: 'angular' // Or to any other commit message convention you use.
-    }))
-    .pipe(gulp.dest('./'));
+    var getMilestoneNumber = function() {
+            var deferred = Q.defer(),
+                options = {
+                    url: p.githubMilestones,
+                    headers: {
+                        'User-Agent': 'request'
+                    }
+                };
+            request
+                .get(options, function(error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        var data = JSON.parse(body);
+                        if(data[0]) {
+                            deferred.resolve({milestone: data[0]});
+                            return;
+                        }
+                    }
+                    var err = 'Error has been appeared while getting milestone';
+                    console.log(err);
+                    deferred.reject(err);
+                })
+                .on('error', function(err) {
+                    deferred.reject(err);
+                    console.log(err);
+                });
+            return deferred.promise;
+        },
+        getMilestoneIssues = function(result) {
+            var deferred = Q.defer(),
+                options = {
+                    url: p.githubIssues + result.milestone.number,
+                    headers: {
+                        'User-Agent': 'request'
+                    }
+                };
+            request
+                .get(options, function(error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        result.issues = JSON.parse(body);
+                        deferred.resolve(result);
+                    } else {
+                        var err = 'Error has been appeared while getting issues';
+                        console.log(err);
+                        deferred.reject(err);
+                    }
+                })
+                .on('error', function(err) {
+                    deferred.reject(err);
+                    console.log(err);
+                });
+            return deferred.promise;
+        };
+
+    return getMilestoneNumber()
+        .then(getMilestoneIssues)
+        .then(function(result){
+            if(result.issues){
+                result.formated = result.issues.map(function(issue){
+                    return '* ' + issue.title;
+                });
+                result.formated = result.formated.join('\n');
+                return result;
+            }
+        })
+        .then(function(result){
+            var changelog = [
+                '$1== ',
+                gulpOptions.version,
+                '( ', dateFormat(new Date(),'mmmm d, yyyy'), ' )',
+                ': ' + result.milestone.description,
+                ' ==\n',
+                result.formated,
+                '\n\n'];
+            return gulp.src(p.changelogFile)
+                .pipe(replace(/(==\s*Changelog\s*==\n*)/g, changelog.join('')))
+                .pipe(gulp.dest('./'));
+        });
+
 });
 
 gulp.task('bump-version-json', function() {
@@ -242,7 +318,7 @@ gulp.task('github-release', function(done) {
             key: 'clientID',
             secret: 'clientSecret'
         }, {
-            preset: 'angular' // Or to any other commit message convention you use.
+            //preset: 'angular' // Or to any other commit message convention you use.
         }, function() {
             deferred.resolve();
             done();
@@ -279,6 +355,7 @@ gulp.task('create-new-tag', function (cb) {
 gulp.task('release:production', function (callback) {
     var deferred = Q.defer();
     runSequence(
+        'build',
         'bump-version',
         'changelog',
         'commit-changes',
