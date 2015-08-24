@@ -87,7 +87,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'ppu', 'sis' ),
+                    'in_array' => array( 'ppu', 'ppul', 'sis' ),
                     'depends' => array(
                         array(
                             'field' => 'post-price',
@@ -107,6 +107,24 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                         array(
                             'field' => 'post-price',
                             'value' => 'ppu',
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => LaterPay_Helper_Pricing::ppusis_max,
+                                        'gte' => LaterPay_Helper_Pricing::ppu_min,
+                                    ),
+                                    array(
+                                        'eq'  => 0.00,
+                                    ),
+                                    array(
+                                        'eq' => null,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        array(
+                            'field' => 'post-price',
+                            'value' => 'ppul',
                             'conditions' => array(
                                 'cmp' => array(
                                     array(

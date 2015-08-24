@@ -606,7 +606,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                     'link'    => $link ? $link : get_permalink(),
                 );
 
-                $time_pass['url']   = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $time_pass['pass_id'], $data );
+                $time_pass['url']   = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $time_pass['pass_id'], $data, true );
                 $time_passes[ $id ] = $time_pass;
             }
         }
