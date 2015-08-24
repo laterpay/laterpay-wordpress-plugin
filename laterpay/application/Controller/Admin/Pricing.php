@@ -192,7 +192,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     $_POST['category_ids'] = array();
                 }
                 $categories = array_map( 'sanitize_text_field', $_POST['category_ids'] );
-                $event->set_result( $this->get_category_prices( $categories ) );
+                $event->set_result( array(
+                    'success' => true,
+                    'prices'  => $this->get_category_prices( $categories ),
+                ));
                 break;
 
             case 'bulk_price_form':
@@ -236,9 +239,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     $args['name__like'] = sanitize_text_field( $_POST['term'] );
                 }
 
-                $event->set_result(
-                    $category_price_model->get_categories_without_price_by_term( $args )
-                );
+                $event->set_result( array(
+                    'success'    => true,
+                    'categories' => $category_price_model->get_categories_without_price_by_term( $args ),
+                ));
                 break;
 
             case 'laterpay_get_categories':
@@ -251,12 +255,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     $args['name__like'] = sanitize_text_field( $_POST['term'] );
                 }
 
-                $categories = get_categories( $args );
-
-                $event->set_result(
-                    $categories
-                );
+                $event->set_result( array(
+                    'success'    => true,
+                    'categories' => get_categories( $args ),
+                ));
                 break;
+
             case 'change_purchase_mode_form':
                 $this->change_purchase_mode( $event );
                 break;

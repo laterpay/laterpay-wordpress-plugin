@@ -66,7 +66,7 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
         $view_args = array(
             'dialog_url'  => $dialog_url,
             'links_url'   => $links_url,
-            'next'        => $next,
+            'next'        => urlencode( $next ),
             'merchant_id' => $merchant_id,
         );
 
