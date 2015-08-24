@@ -299,25 +299,26 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             }
             // get new URL for this time pass
             $pass_id    = $code_data['pass_id'];
-            // get price, delocalize it, and format it
-            $price      = number_format( LaterPay_Helper_View::normalize( $code_data['price'] ), 2 );
             // prepare URL before use
             $data       = array(
+                'voucher' => $code,
                 'link'    => $is_gift ? home_url() : esc_url_raw( $_GET['link'] ),
-                'price'   => $price,
+                'price'   => $code_data['price'],
             );
 
             // get new purchase URL
             $url = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
 
-            $event->set_result(
-                array(
-                    'success' => true,
-                    'pass_id' => $pass_id,
-                    'price'   => LaterPay_Helper_View::format_number( $price ),
-                    'url'     => $url,
-                )
-            );
+            if ( $url ) {
+                $event->set_result(
+                    array(
+                        'success' => true,
+                        'pass_id' => $pass_id,
+                        'price'   => LaterPay_Helper_View::format_number( $code_data['price'] ),
+                        'url'     => $url,
+                    )
+                );
+            }
             return;
         }
 

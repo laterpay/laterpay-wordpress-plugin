@@ -844,6 +844,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     protected function time_pass_save( LaterPay_Core_Event $event ) {
         $save_time_pass_form = new LaterPay_Form_Pass( $_POST );
         $time_pass_model     = new LaterPay_Model_TimePass();
+
         $event->set_result(
             array(
                 'success' => false,
@@ -856,20 +857,38 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             throw new LaterPay_Core_Exception_FormValidation( get_class( $save_time_pass_form ), $save_time_pass_form->get_errors() );
         }
 
-        $voucher = $save_time_pass_form->get_field_value( 'voucher' );
-        $data    = $save_time_pass_form->get_form_values( true, null, array( 'voucher') );
+        $data = $save_time_pass_form->get_form_values( true, null, array( 'voucher_code', 'voucher_price', 'voucher_title' ) );
 
         // check and set revenue model
         if ( ! isset( $data['revenue_model'] ) ) {
             $data['revenue_model'] = 'ppu';
         }
+
         // ensure valid revenue model
         $data['revenue_model'] = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $data['revenue_model'], $data['price'] );
+
         // update time pass data or create new time pass
         $data    = $time_pass_model->update_time_pass( $data );
         $pass_id = $data['pass_id'];
-        // save vouchers for this pass
-        LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $voucher );
+
+        // set vouchers data
+        $voucher_codes = $save_time_pass_form->get_field_value( 'voucher_code' );
+        if ( $voucher_codes && is_array( $voucher_codes ) ) {
+            $vouchers_data = array();
+            $voucher_prices = $save_time_pass_form->get_field_value( 'voucher_price' );
+            $voucher_titles = $save_time_pass_form->get_field_value( 'voucher_title' );
+            foreach ( $voucher_codes as $idx => $code ) {
+                // normalize prices and format with 2 digits in form
+                $voucher_price = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
+                $vouchers_data[ $code ] = array(
+                    'price' => LaterPay_Helper_View::normalize( LaterPay_Helper_View::format_number( $voucher_price ) ),
+                    'title' => isset( $voucher_titles[ $idx ] ) ? $voucher_titles[ $idx ] : '',
+                );
+            }
+
+            // save vouchers for this pass
+            LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $vouchers_data );
+        }
 
         $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
         $hmtl_data             = $data;

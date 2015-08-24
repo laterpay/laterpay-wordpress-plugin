@@ -629,6 +629,61 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
+     * Update vouchers structure.
+     *
+     * @since 0.9.13
+     *
+     * @return void
+     */
+    public function maybe_update_vouchers() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.13', '<' ) ) {
+            return;
+        }
+
+        $data = array();
+
+        // process voucher codes
+        $voucher_codes = get_option( 'laterpay_voucher_codes' );
+        if ( $voucher_codes ) {
+            foreach ( $voucher_codes as $pass_id => $codes ) {
+                foreach ( $codes as $code => $price ) {
+                    if ( is_array( $price ) ) {
+                        continue;
+                    }
+
+                    $data[ $pass_id ][ $code ] = array(
+                        'price' => number_format( LaterPay_Helper_View::normalize( $price ), 2 ),
+                        'title' => '',
+                    );
+                }
+            }
+            update_option( 'laterpay_voucher_codes', $data );
+        }
+
+        // reinit data
+        $data = array();
+
+        // process gift codes
+        $gift_codes = get_option( 'laterpay_gift_codes' );
+        if ( $gift_codes ) {
+            foreach ( $gift_codes as $pass_id => $codes ) {
+                foreach ( $codes as $code => $price ) {
+                    if ( is_array( $price ) ) {
+                        continue;
+                    }
+
+                    $data[ $pass_id ][ $code ] = array(
+                        'price' => 0,
+                        'title' => '',
+                    );
+                }
+            }
+            update_option( 'laterpay_voucher_codes', $data );
+        }
+    }
+
+    /**
      * Create custom tables and set the required options.
      *
      * @return void
@@ -758,6 +813,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         // update / remove plugin options
         $this->maybe_update_options();
+
+        // update vouchers structure
+        $this->maybe_update_vouchers();
 
         // clear opcode cache
         LaterPay_Helper_Cache::reset_opcode_cache();

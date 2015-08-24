@@ -374,12 +374,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                         <div class="lp_js_voucherList lp_vouchers">
                             <?php if ( isset( $laterpay['vouchers_list'][ $pass['pass_id'] ] ) ) : ?>
-                                <?php foreach ( $laterpay['vouchers_list'][ $pass['pass_id'] ] as $voucher_code => $voucher_price ) : ?>
+                                <?php foreach ( $laterpay['vouchers_list'][ $pass['pass_id'] ] as $voucher_code => $voucher_data ) : ?>
                                     <div class="lp_js_voucher lp_voucher">
+                                        <?php if ( $voucher_data['title'] ) : ?>
+                                        <span class="lp_voucher__title"><b> <?php echo laterpay_sanitize_output( $voucher_data['title'] ); ?></b></span>
+                                        <?php endif; ?>
+                                        <div>
                                         <span class="lp_voucher__code"><?php echo laterpay_sanitize_output( $voucher_code ); ?></span>
                                         <span class="lp_voucher__code-infos">
                                             <?php echo laterpay_sanitize_output( __( 'reduces the price to', 'laterpay' ) ); ?>
-                                            <?php echo laterpay_sanitize_output( $voucher_price . ' ' . $laterpay['standard_currency'] ); ?>.<br>
+                                            <?php echo laterpay_sanitize_output( $voucher_data['price'] . ' ' . $laterpay['standard_currency'] ); ?>.<br>
                                             <span class="lp_js_voucherTimesRedeemed">
                                                 <?php
                                                     echo laterpay_sanitize_output( ( ! isset( $laterpay['vouchers_statistic'][ $pass['pass_id'] ][ $voucher_code ] ) ) ?
@@ -390,6 +394,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             </span>
                                             <?php echo laterpay_sanitize_output( __( 'times redeemed.', 'laterpay' ) ); ?>
                                         </span>
+                                        </div>
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -528,7 +533,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <div class="lp_js_voucherEditor lp_mt- lp_mb">
                                 <?php echo laterpay_sanitize_output( __( 'Offer this time pass at a reduced price of', 'laterpay' ) ); ?>
                                 <input type="text"
-                                       name="voucher_price"
+                                       name="voucher_price_temp"
                                        class="lp_js_voucherPriceInput lp_input lp_number-input"
                                        value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>"
                                        maxlength="6">
@@ -536,7 +541,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php echo laterpay_sanitize_output( __( 'Generate voucher code', 'laterpay' ) ); ?>
                                 </a>
-
 
                                 <div class="lp_js_voucherPlaceholder"></div>
                             </div>

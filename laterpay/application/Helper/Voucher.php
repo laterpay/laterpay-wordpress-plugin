@@ -63,34 +63,19 @@ class LaterPay_Helper_Voucher
      * Save vouchers for current pass.
      *
      * @param int   $pass_id
-     * @param array $vouchers_data
-     * @param bool  $no_explode
+     * @param array $data
      * @param bool  $is_gift
      *
      * @return void
      */
-    public static function save_pass_vouchers( $pass_id, $vouchers_data, $no_explode = false, $is_gift = false ) {
+    public static function save_pass_vouchers( $pass_id, $data, $is_gift = false ) {
         $vouchers     = self::get_all_vouchers( $is_gift );
-        $new_vouchers = array();
         $option_name  = $is_gift ? self::GIFT_CODES_OPTION : self::VOUCHER_CODES_OPTION;
 
-        if ( $vouchers_data && is_array( $vouchers_data ) ) {
-            foreach ( $vouchers_data as $voucher ) {
-                if ( $no_explode ) {
-                    $new_vouchers = $vouchers_data;
-                    break;
-                }
-
-                list( $code, $price ) = explode( '|', $voucher );
-                // format and save price
-                $new_vouchers[ $code ] = number_format( LaterPay_Helper_View::normalize( $price ), 2 );
-            }
-        }
-
-        if ( ! $new_vouchers ) {
+        if ( ! $data ) {
             unset( $vouchers[ $pass_id ] );
-        } else {
-            $vouchers[ $pass_id ] = $new_vouchers;
+        } else if ( is_array( $data ) ) {
+            $vouchers[ $pass_id ] = $data;
         }
 
         // save new voucher data
@@ -128,14 +113,13 @@ class LaterPay_Helper_Voucher
         $vouchers    = get_option( $option_name );
         if ( ! $vouchers || ! is_array( $vouchers ) ) {
             update_option( $option_name, '' );
-
-            return array();
+            $vouchers = array();
         }
 
         // format prices
         foreach ( $vouchers as $time_pass_id => $time_pass_voucher ) {
-            foreach ( $time_pass_voucher as $code => $price ) {
-                $vouchers[ $time_pass_id ][ $code ] = LaterPay_Helper_View::format_number( $price );
+            foreach ( $time_pass_voucher as $code => $data ) {
+                $vouchers[ $time_pass_id ][ $code ]['price'] = LaterPay_Helper_View::format_number( $data['price'] );
             }
         }
 
@@ -161,7 +145,7 @@ class LaterPay_Helper_Voucher
             }
         }
 
-        self::save_pass_vouchers( $pass_id, $pass_vouchers, true, $is_gift = false );
+        self::save_pass_vouchers( $pass_id, $pass_vouchers, $is_gift );
     }
 
     /**
@@ -177,15 +161,16 @@ class LaterPay_Helper_Voucher
 
         // search code
         foreach ( $vouchers as $pass_id => $pass_vouchers ) {
-            foreach ( $pass_vouchers as $voucher_code => $voucher_price ) {
+            foreach ( $pass_vouchers as $voucher_code => $voucher_data ) {
                 if ( $code === $voucher_code ) {
-                    $voucher_data = array(
+                    $data = array(
                         'pass_id' => $pass_id,
                         'code'    => $voucher_code,
-                        'price'   => $voucher_price,
+                        'price'   => $voucher_data['price'],
+                        'title'   => $voucher_data['title'],
                     );
 
-                    return $voucher_data;
+                    return $data;
                 }
             }
         }
@@ -336,7 +321,7 @@ class LaterPay_Helper_Voucher
      *
      * @param $code
      *
-     * @return bool
+     * @return void
      */
     public static function update_gift_code_usages( $code ) {
         $usages = get_option( 'laterpay_gift_codes_usages' );
@@ -345,7 +330,6 @@ class LaterPay_Helper_Voucher
         }
         isset( $usages[ $code ] ) ? $usages[ $code ] += 1 : $usages[ $code ] = 1;
         update_option( 'laterpay_gift_codes_usages', $usages );
-        return true;
     }
 
     /**
