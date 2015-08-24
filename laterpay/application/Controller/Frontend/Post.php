@@ -152,7 +152,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         $content = apply_filters( 'the_content', $post->post_content );
         $content = str_replace( ']]>', ']]&gt;', $content );
-
         $event->set_result( $content );
     }
 
@@ -348,9 +347,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $attr                           = $event->get_result();
         $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
         $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
+
         if ( is_admin() && ! $is_ajax_and_caching_is_active ) {
             return;
         }
+
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post->ID );
         if ( $is_purchasable ) {
             $access         = LaterPay_Helper_Post::has_access_to_post( $post );

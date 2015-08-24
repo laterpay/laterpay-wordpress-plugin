@@ -189,7 +189,7 @@ class LaterPay_Helper_Post
             'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
         );
 
-        if ( $post->post_type == 'attachment' ) {
+        if ( $post->post_type === 'attachment' ) {
             $url_params['post_id']           = $current_post_id;
             $url_params['download_attached'] = $post_id;
         }
@@ -207,10 +207,11 @@ class LaterPay_Helper_Post
 
         // parameters for LaterPay purchase form
         $params = array(
-            'article_id' => $post_id,
-            'pricing'    => $currency . ( $price * 100 ),
-            'url'        => $link . '?' . $client->sign_and_encode( $url_params, $link ),
-            'title'      => $post->post_title,
+            'article_id'    => $post_id,
+            'pricing'       => $currency . ( $price * 100 ),
+            'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
+            'title'         => $post->post_title,
+            'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );
 
         laterpay_get_logger()->info(

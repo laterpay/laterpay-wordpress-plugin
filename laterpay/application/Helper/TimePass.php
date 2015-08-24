@@ -492,6 +492,7 @@ class LaterPay_Helper_TimePass
             'expiry'        => '+' . self::get_time_pass_expiry_time( $time_pass ),
             'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
             'title'         => $is_code_purchase ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
+            'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );
 
         if ( $revenue_model === 'sis' ) {

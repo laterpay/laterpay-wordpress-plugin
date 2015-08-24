@@ -36,6 +36,7 @@
                 dynamicPricingApplied   : 'lp_is-withDynamicPricing',
                 selectedCategory        : 'lp_is-selectedCategory',
                 payPerUse               : 'ppu',
+                payPerUseWithLogin      : 'ppul',
                 singleSale              : 'sis'
             },
 
@@ -188,7 +189,7 @@
 
                 if (readOnly) {
                     // disable not-selected revenue model
-                    $('input:radio[value!=' + revenueModel + ']', $o.revenueModel)
+                    $('input:radio[name=post_revenue_model]', $o.revenueModel)
                         .parent('label').addClass($o.disabled);
                 }
 
@@ -242,14 +243,19 @@
             validateRevenueModel = function(price) {
                 var currentRevenueModel = $('input:radio:checked', $o.revenueModel).val(),
                     $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
+                    $payPerUseWithLogin = $('input:radio[value=' + $o.payPerUseWithLogin + ']', $o.revenueModel),
                     $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
                 if (price === 0 || (price >= lpVars.limits.ppu_min && price < lpVars.limits.price_sis_end)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
                     $payPerUse.parent('label').removeClass($o.disabled);
+                    // same for PPU with login
+                    $payPerUseWithLogin.parent('label').removeClass($o.disabled);
                 } else {
                     // disable Pay-per-Use
                     $payPerUse.parent('label').addClass($o.disabled);
+                    // same for PPU with login
+                    $payPerUseWithLogin.parent('label').addClass($o.disabled);
                 }
 
                 if (price >= lpVars.limits.sis_min) {
@@ -262,7 +268,8 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > lpVars.limits.ppusis_max && currentRevenueModel === $o.payPerUse) {
+                if (price > lpVars.limits.ppusis_max &&
+                    (currentRevenueModel === $o.payPerUse || currentRevenueModel === $o.payPerUseWithLogin)) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
                 } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {
@@ -330,8 +337,8 @@
                     },
                     function(data) {
                         // rebuild list of categories in category default pricing tab
-                        if (data) {
-                            data.forEach(function(category) {
+                        if (data.success && data.prices) {
+                            data.prices.forEach(function(category) {
                                 var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
                                 categoriesList +=   '<li data-category="' + category.category_id + '" ' +
                                                         'class="lp_price-type-categorized__item">' +
@@ -345,7 +352,7 @@
                             });
                             $o.categoriesList.html(categoriesList);
 
-                            if (data.length) {
+                            if (data.prices.length) {
                                 $o.categoryPriceButton.removeClass($o.disabled).removeClass($o.selected);
                                 // update cached selector
                                 $o.categories = $('#lp_js_priceTypeDetailsCategoryDefaultPrice li');

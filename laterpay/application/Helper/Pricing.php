@@ -303,21 +303,15 @@ class LaterPay_Helper_Pricing
         }
         $post_price_type = array_key_exists( 'type', $post_price ) ? $post_price['type'] : '';
 
-        // set a price type (global default price or individual price), if the returned post price type is invalid
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
-            case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
                 break;
 
             default:
-                $global_default_price = get_option( 'laterpay_global_price' );
-                if ( $global_default_price > 0 ) {
-                    $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
-                } else {
-                    $post_price_type = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
-                }
+                // set a price type as global default price
+                $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
                 break;
         }
 
@@ -487,7 +481,7 @@ class LaterPay_Helper_Pricing
         }
 
         // fallback in case the revenue_model is not correct
-        if ( ! in_array( $revenue_model, array( 'ppu', 'sis' ) ) ) {
+        if ( ! in_array( $revenue_model, array( 'ppu', 'sis', 'ppul' ) ) ) {
 
             $price = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
 
@@ -511,9 +505,9 @@ class LaterPay_Helper_Pricing
      * @return string $revenue_model
      */
     public static function ensure_valid_revenue_model( $revenue_model, $price ) {
-        if ( $revenue_model == 'ppu' ) {
+        if ( $revenue_model === 'ppu' || $revenue_model === 'ppul' ) {
             if ( $price == 0.00 || ( $price >= self::ppu_min && $price <= self::ppusis_max ) ) {
-                return 'ppu';
+                return $revenue_model;
             } else {
                 return 'sis';
             }

@@ -107,14 +107,8 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 
                     $event->set_result( laterpay_sanitize_output( $post_price_type ) );
                 } else {
-                    // label the post to use the global default price, if a positive  global default price is defined,
-                    // but the post does not have a price type defined
-                    $global_default_price = (float) get_option( 'laterpay_global_price' );
-                    if ( $global_default_price > 0 ) {
-                        $event->set_result( laterpay_sanitize_output( __( 'global default price', 'laterpay' ) ) );
-                    } else {
-                        $event->set_result( '&mdash;' );
-                    }
+                    // label the post to use the global default price
+                    $event->set_result( laterpay_sanitize_output( __( 'global default price', 'laterpay' ) ) );
                 }
                 break;
         }
