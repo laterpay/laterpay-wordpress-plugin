@@ -363,8 +363,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <?php foreach ( $laterpay['vouchers_list'][ $pass['pass_id'] ] as $voucher_code => $voucher_data ) : ?>
                                     <div class="lp_js_voucher lp_voucher">
                                         <?php if ( $voucher_data['title'] ) : ?>
-                                        <span class=""><b> <?php echo laterpay_sanitize_output( $voucher_data['title'] ); ?></b></span>
+                                        <span class="lp_voucher__title"><b> <?php echo laterpay_sanitize_output( $voucher_data['title'] ); ?></b></span>
                                         <?php endif; ?>
+                                        <div>
                                         <span class="lp_voucher__code"><?php echo laterpay_sanitize_output( $voucher_code ); ?></span>
                                         <span class="lp_voucher__code-infos">
                                             <?php echo laterpay_sanitize_output( __( 'reduces the price to', 'laterpay' ) ); ?>
@@ -379,6 +380,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             </span>
                                             <?php echo laterpay_sanitize_output( __( 'times redeemed.', 'laterpay' ) ); ?>
                                         </span>
+                                        </div>
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -513,7 +515,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php echo laterpay_sanitize_output( __( 'Generate voucher code', 'laterpay' ) ); ?>
                                 </a>
-
 
                                 <div class="lp_js_voucherPlaceholder"></div>
                             </div>

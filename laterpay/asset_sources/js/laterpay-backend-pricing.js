@@ -1159,7 +1159,8 @@
                                 '<span class="lp_voucher__code-infos">' +
                                     lpVars.i18n.voucherText + ' ' + price +
                                 '</span>' +
-                                '<input type="text" name="voucher_title[]" value="' + title + '">' +
+                                '<input class="lp_input__title" type="text" name="voucher_title[]" value="' +
+                                title + '">' +
                                 '<a href="#" class="lp_js_deleteVoucher lp_edit-link--bold" data-icon="g"></a>' +
                             '</div>';
 
@@ -1177,7 +1178,8 @@
                     title           = voucherData.title ? voucherData.title : '',
                     price           = voucherData.price + ' ' + lpVars.defaultCurrency,
                     voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
-                                            '<span class=""><b>' + title + '</b></span>' +
+                                            '<span class="lp_voucher__title"><b>' + title + '</b></span>' +
+                                            '<div>' +
                                             '<span class="lp_voucher__code">' + code + '</span>' +
                                             '<span class="lp_voucher__code-infos">' +
                                                 lpVars.i18n.voucherText + ' ' + price + '.<br>' +
@@ -1185,6 +1187,7 @@
                                                     timesRedeemed +
                                                 '</span>' + ' ' + lpVars.i18n.timesRedeemed +
                                             '</span>' +
+                                            '</div>' +
                                         '</div>';
 
                 $timePass.find($o.voucherList).append(voucher);
