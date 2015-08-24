@@ -631,13 +631,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     /**
      * Update vouchers structure.
      *
-     * @since 0.9.12
+     * @since 0.9.13
      *
      * @return void
      */
     public function maybe_update_vouchers() {
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.12', '<' ) ) {
+        if ( version_compare( $current_version, '0.9.13', '<' ) ) {
             return;
         }
 
