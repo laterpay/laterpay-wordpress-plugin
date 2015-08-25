@@ -45,7 +45,8 @@ gulp.task('clean', function(cb) {
             p.distCSS + '*.scss',
             p.distCSS + 'maps/*.map',
             p.distIMG + '*.png',
-            p.distIMG + '*.svg'
+            p.distIMG + '*.svg',
+            p.distPlugin + 'vendor'
         ], cb);
 });
 
