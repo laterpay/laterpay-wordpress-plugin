@@ -206,51 +206,56 @@ gulp.task('build', ['clean'], function() {
 });
 
 // RELEASE -------------------------------------------------------------------------------------------------------------
-gulp.task('changelog', function () {
-    var github = new Github({
-            version: '3.0.0'
-        }),
-        getMilestoneNumber = function() {
-            var deferred = Q.defer(),
-                options = {
-                    'user': 'laterpay',
-                    'repo': 'laterpay-wordpress-plugin',
-                    'state': 'open'
-                };
-            github.issues.getAllMilestones(options, function(error, data) {
-                if (!error) {
-                    if(data[0]) {
-                        deferred.resolve({milestone: data[0]});
-                        return;
-                    }
+
+// common functions
+var getMilestoneNumber = function() {
+        var github = new Github({
+                version: '3.0.0'
+            }),
+            deferred = Q.defer(),
+            options = {
+                'user': 'laterpay',
+                'repo': 'laterpay-wordpress-plugin',
+                'state': 'open'
+            };
+        github.issues.getAllMilestones(options, function(error, data) {
+            if (!error) {
+                if(data[0]) {
+                    deferred.resolve({milestone: data[0]});
+                    return;
                 }
-                var err = 'Error has been appeared while getting milestone';
+            }
+            var err = 'Error has been appeared while getting milestone';
+            console.log(err);
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    },
+    getMilestoneIssues = function(result) {
+        var github = new Github({
+                version: '3.0.0'
+            }),
+            deferred = Q.defer(),
+            options = {
+                'user': 'laterpay',
+                'repo': 'laterpay-wordpress-plugin',
+                'milestone': result.milestone.number,
+                'state': 'all'
+            };
+        github.issues.repoIssues(options, function(error, data) {
+            if (!error) {
+                result.issues = data;
+                deferred.resolve(result);
+            } else {
+                var err = 'Error has been appeared while getting issues';
                 console.log(err);
                 deferred.reject(err);
-            });
-            return deferred.promise;
-        },
-        getMilestoneIssues = function(result) {
-            var deferred = Q.defer(),
-                options = {
-                    'user': 'laterpay',
-                    'repo': 'laterpay-wordpress-plugin',
-                    'milestone': result.milestone.number,
-                    'state': 'all'
-                };
-            github.issues.repoIssues(options, function(error, data) {
-                if (!error) {
-                    result.issues = data;
-                    deferred.resolve(result);
-                } else {
-                    var err = 'Error has been appeared while getting issues';
-                    console.log(err);
-                    deferred.reject(err);
-                }
-            });
-            return deferred.promise;
-        };
-
+            }
+        });
+        return deferred.promise;
+    };
+// RELEASE TASKS
+gulp.task('changelog', function () {
     return getMilestoneNumber()
         .then(getMilestoneIssues)
         .then(function(result){
@@ -307,9 +312,41 @@ gulp.task('composer', function () {
     return plugins.composer('update', {'no-autoloader':true, 'no-dev':true});
 });
 
-gulp.task('github-release', function(done) {
-    var deferred = Q.defer();
-    return deferred.promise;
+gulp.task('github-release', function() {
+    return getMilestoneNumber()
+        .then(getMilestoneIssues)
+        .then(function(result){
+            if(result.issues){
+                result.formated = result.issues.map(function(issue){
+                    return '* ' + issue.title;
+                });
+                result.formated = result.formated.join('\n');
+                return result;
+            }
+        })
+        .then(function(result){
+            var github = new Github({
+                    version: '3.0.0'
+                }),
+                deferred = Q.defer(), // result.milestone.description
+                options = {
+                    'user': 'laterpay',
+                    'repo': 'laterpay-wordpress-plugin',
+                    'tag_name': 'v' + gulpOptions.version,
+                    'name': result.milestone.description,
+                    'body': result.formated
+                };
+            github.releases.createRelease(options, function(error, data) {
+                if (!error) {
+                    result.issues = data;
+                    deferred.resolve(result);
+                } else {
+                    var err = 'Error has been appeared while getting issues';
+                    console.log(err);
+                    deferred.reject(err);
+                }
+            });
+        });
 });
 
 gulp.task('commit-changes', function () {
@@ -322,19 +359,12 @@ gulp.task('push-changes', function (cb) {
 });
 
 gulp.task('create-new-tag', function (cb) {
-    var version = getPackageJsonVersion();
-    plugins.git.tag('v' + version, 'Created Tag for version: ' + version, function (error) {
+    plugins.git.tag('v' + gulpOptions.version, 'Created Tag for version: ' + gulpOptions.version, function (error) {
         if (error) {
             return cb(error);
         }
         plugins.git.push('origin', 'master', {args: '--tags'}, cb);
     });
-
-    function getPackageJsonVersion () {
-        // We parse the json file instead of using require because require caches
-        // multiple calls so the version number won't be updated
-        return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-    }
 });
 
 gulp.task('release:production', function (callback) {
