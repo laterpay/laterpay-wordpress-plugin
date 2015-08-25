@@ -6,6 +6,7 @@ var gulp                        = require('gulp'),
     Github                      = require('github'),
     minimist                    = require('minimist'),
     Q                           = require('q'),
+    prompt                      = require('prompt'),
     dateFormat                  = require('dateformat'),
     p                           = {
                                         allfiles        : [
@@ -251,6 +252,32 @@ var getMilestoneNumber = function() {
             }
         });
         return deferred.promise;
+    },
+    promptUsernamePassword = function(){
+        var schema = {
+                properties: {
+                    username: {
+                        'default': 'laterpay',
+                        'required': true
+                    },
+                    password: {
+                        'hidden': true
+                    }
+                }
+            },
+            deferred = Q.defer();
+        prompt.get(schema, function (error, result) {
+            if (!error) {
+                gulpOptions.username = result.username;
+                gulpOptions.password = result.password;
+                deferred.resolve();
+            } else {
+                var err = 'Error has been appeared while getting Username and Password';
+                console.log(error);
+                deferred.reject(err);
+            }
+        });
+        return deferred.promise;
     };
 // RELEASE TASKS
 gulp.task('changelog', function () {
@@ -311,7 +338,8 @@ gulp.task('composer', function () {
 });
 
 gulp.task('github-release', function() {
-    return getMilestoneNumber()
+    return promptUsernamePassword()
+        .then(getMilestoneNumber)
         .then(getMilestoneIssues)
         .then(function(result){
             if(result.issues){
@@ -334,6 +362,13 @@ gulp.task('github-release', function() {
                     'name': result.milestone.description,
                     'body': result.formated
                 };
+            prompt.start();
+
+            github.authenticate({
+                type: 'basic',
+                username: gulpOptions.username,
+                password: gulpOptions.password
+            });
             github.releases.createRelease(options, function(error, data) {
                 if (!error) {
                     result.issues = data;
