@@ -6,9 +6,7 @@ var gulp                        = require('gulp'),
     Github                      = require('github'),
     minimist                    = require('minimist'),
     Q                           = require('q'),
-    request                     = require('request'),
     dateFormat                  = require('dateformat'),
-    fs                          = require('fs'),
     p                           = {
                                         allfiles        : [
                                                             './laterpay/**/*.php',
@@ -226,7 +224,7 @@ var getMilestoneNumber = function() {
                 }
             }
             var err = 'Error has been appeared while getting milestone';
-            console.log(err);
+            console.log(error);
             deferred.reject(err);
         });
         return deferred.promise;
@@ -248,7 +246,7 @@ var getMilestoneNumber = function() {
                 deferred.resolve(result);
             } else {
                 var err = 'Error has been appeared while getting issues';
-                console.log(err);
+                console.log(error);
                 deferred.reject(err);
             }
         });
@@ -328,7 +326,7 @@ gulp.task('github-release', function() {
             var github = new Github({
                     version: '3.0.0'
                 }),
-                deferred = Q.defer(), // result.milestone.description
+                deferred = Q.defer(),
                 options = {
                     'user': 'laterpay',
                     'repo': 'laterpay-wordpress-plugin',
@@ -341,8 +339,8 @@ gulp.task('github-release', function() {
                     result.issues = data;
                     deferred.resolve(result);
                 } else {
-                    var err = 'Error has been appeared while getting issues';
-                    console.log(err);
+                    var err = 'Error has been appeared while creating github release';
+                    console.log(error);
                     deferred.reject(err);
                 }
             });
