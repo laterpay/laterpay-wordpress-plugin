@@ -328,7 +328,7 @@ gulp.task('github-release', function() {
                 }),
                 deferred = Q.defer(),
                 options = {
-                    'user': 'laterpay',
+                    'owner': 'laterpay',
                     'repo': 'laterpay-wordpress-plugin',
                     'tag_name': 'v' + gulpOptions.version,
                     'name': result.milestone.description,
