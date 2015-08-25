@@ -279,7 +279,7 @@ gulp.task('changelog', function () {
 
 gulp.task('bump-version-json', function() {
     return gulp.src(p.jsonfiles)
-        .pipe(plugins.bump({version:gulpOptions.version}).on('error', plugins.gutil.log))
+        .pipe(plugins.bump({version:gulpOptions.version}).on('error', plugins.util.log))
         .pipe(gulp.dest('./'));
 });
 
