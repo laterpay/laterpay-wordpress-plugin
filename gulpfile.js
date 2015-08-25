@@ -303,7 +303,7 @@ gulp.task('bump-version', function() {
 });
 
 gulp.task('composer', function () {
-    return plugins.composer('update', {'no-autoloader':true});
+    return plugins.composer('update', {'no-autoloader':true, 'no-dev':true});
 });
 
 gulp.task('github-release', function(done) {
