@@ -9,6 +9,26 @@
  */
 class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
 {
+    /**
+     * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
+     */
+    public static function get_subscribed_events() {
+        return array(
+            'laterpay_refresh_dashboard_data' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'refresh_dashboard_data' ),
+            ),
+            'laterpay_delete_old_post_views' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'delete_old_post_views' ),
+            ),
+            'wp_ajax_laterpay_get_dashboard_data' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
+                array( 'ajax_get_dashboard_data' ),
+            ),
+        );
+    }
 
     /**
      * Sections are used by the Ajax laterpay_get_dashboard callback.
@@ -141,12 +161,17 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
      * Ajax callback to refresh the dashboard data.
      *
      * @wp-hook wp_ajax_laterpay_get_dashboard_data
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function ajax_get_dashboard_data() {
-        $this->validate_ajax_nonce();
-        $this->validate_ajax_section_callback();
+    public function ajax_get_dashboard_data( LaterPay_Core_Event $event ) {
+        if ( $this->validate_ajax_nonce( $event ) === false ) {
+            return;
+        }
+        if ( $this->validate_ajax_section_callback( $event ) === false ) {
+            return;
+        }
 
         $options = $this->get_ajax_request_options( $_POST );
 
@@ -174,7 +199,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
             $response['options'] = $options;
         }
 
-        wp_send_json( $response );
+        $event->set_result( $response );
     }
 
     /**
@@ -184,18 +209,13 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
      *
      * @wp-hook laterpay_refresh_dashboard_data
      *
-     * @param int       $start_timestamp
-     * @param int       $count
-     * @param string    $interval
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function refresh_dashboard_data( $start_timestamp = null, $count = 10, $interval = 'week' ) {
+    public function refresh_dashboard_data( LaterPay_Core_Event $event ) {
         set_time_limit( 0 );
-
-        if ( $start_timestamp === null ) {
-            $start_timestamp = strtotime( 'today GMT' );
-        }
+        list( $start_timestamp, $count, $interval ) = $event->get_arguments() + array( strtotime( 'today GMT' ), 10, 'week' );
 
         $args = array(
             'start_timestamp'   => $start_timestamp,
@@ -220,11 +240,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
      *
      * @wp-hook laterpay_delete_old_post_views
      *
-     * @param string $modifier
+     * @param LaterPay_Core_Event $event
      *
      * @return void
      */
-    public function delete_old_post_views( $modifier = '3 month' ) {
+    public function delete_old_post_views( LaterPay_Core_Event $event ) {
+        list( $modifier ) = $event->get_arguments() + array( '3 month' );
+        if ( empty( $modifier ) ) {
+            $modifier = '3 month';
+        }
         // delete old post views
         $post_views_model = new LaterPay_Model_Post_View();
         $post_views_model->delete_old_data( $modifier );
@@ -711,57 +735,74 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
     /**
      * Internal function to check the section parameter on Ajax requests.
      *
+     * @param LaterPay_Core_Event $event
+     *
      * @return void
      */
-    private function validate_ajax_section_callback() {
+    private function validate_ajax_section_callback( LaterPay_Core_Event $event ) {
         if ( ! isset( $_POST['section'] ) ) {
             $error = array(
+                'success'   => false,
                 'message'   => __( 'Error, missing section on request', 'laterpay' ),
                 'step'      => 3,
             );
-            wp_send_json_error( $error );
+            $event->set_result( $error );
+            return false;
         }
 
         $section = sanitize_text_field( $_POST['section'] );
         if ( ! in_array( $section, $this->ajax_sections ) ) {
             $error = array(
+                'success'   => false,
                 'message'   => sprintf( __( 'Section is not allowed <code>%s</code>', 'laterpay' ), $section ),
                 'step'      => 4,
             );
-            wp_send_json_error( $error );
+            $event->set_result( $error );
+            return false;
         }
 
         if ( ! method_exists( $this, $_POST['section'] ) ) {
             $error = array(
+                'success'   => false,
                 'message'   => sprintf( __( 'Invalid section <code>%s</code>', 'laterpay' ), $section ),
                 'step'      => 4,
             );
-            wp_send_json_error( $error );
+            $event->set_result( $error );
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Internal function to check the wpnonce on Ajax requests.
      *
-     * @return void
+     * @param LaterPay_Core_Event $event
+     *
+     * @return bool
      */
-    private function validate_ajax_nonce() {
+    private function validate_ajax_nonce( LaterPay_Core_Event $event ) {
         if ( ! isset( $_POST['_wpnonce'] ) || empty( $_POST['_wpnonce'] ) ) {
             $error = array(
+                'success'   => false,
                 'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 1,
             );
-            wp_send_json_error( $error );
+            $event->set_result( $error );
+            return false;
         }
 
         $nonce = sanitize_text_field( $_POST['_wpnonce'] );
         if ( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             $error = array(
+                'success'   => false,
                 'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 2,
             );
-            wp_send_json_error( $error );
+            $event->set_result( $error );
+            return false;
         }
+        return true;
     }
 
     /**

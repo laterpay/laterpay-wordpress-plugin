@@ -53,6 +53,10 @@ input[type=text].lp_number-input {
     width: 4em;
 }
 
+input[type=text].lp_input__title {
+    width: 80%;
+}
+
 // iconized inputs
 .lp_iconized-input {
     color: $border;

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php echo laterpay_sanitize_output( __( 'Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay' ) ); ?>
     </div>
 
-    <?php $overlay_content = LaterPay_Helper_Post::collect_overlay_content( $laterpay['revenue_model'], $laterpay['only_time_pass_purchases_allowed'] ); ?>
+    <?php $overlay_content = $laterpay['overlay_content']; ?>
     <div class="lp_overlay-text">
         <div class="lp_benefits">
             <header class="lp_benefits__header">
@@ -34,11 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php endforeach; ?>
             </ul>
             <div class="lp_benefits__action">
-                <?php if ( $laterpay['only_time_pass_purchases_allowed'] ) : ?>
-                    <a href="#lp_js_timePassWidget" class="lp_button" title="<?php echo esc_attr( __( 'View available LaterPay Time Passes', 'laterpay' ) ); ?>"><?php echo laterpay_sanitize_output( __( 'Get a Time Pass', 'laterpay' ) ); ?></a>
-                <?php else : ?>
-                    <?php do_action( 'laterpay_purchase_button' ); ?>
-                <?php endif; ?>
+                <?php echo laterpay_sanitized( $overlay_content['action'] ); ?>
             </div>
             <div class="lp_powered-by">
                 powered by<span data-icon="a"></span>beta
