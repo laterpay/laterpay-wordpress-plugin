@@ -22,7 +22,7 @@ class PostModule extends BaseModule {
     public static $selectorGlobalPrice             = '#lp_js_useGlobalDefaultPrice';
     public static $selectorCategoryPrice           = '#lp_js_useCategoryDefaultPrice';
     public static $selectorRevenueModel            = '#lp_js_postPriceRevenueModel';
-    public static $selectorTitleRows               = '.post-title';
+    public static $selectorTitleRows               = '.row-title';
     public static $selectorFrontTitleEntry         = '.entry-title';
     public static $selectorFrontContentEntry       = '.entry-content';
     public static $selectorFrontTeaserContent      = '.lp_teaser-content';
@@ -34,6 +34,8 @@ class PostModule extends BaseModule {
     public static $selectorIframeAgreeCheckbox     = 'input[name=agree]';
     public static $selectorIframeProceedButton     = '#nextbuttons';
     public static $selectorIframeMessage           = '.flash-message';
+    public static $selectorIframeUsernameInput     = '#id_username';
+    public static $selectorIframePasswordInput     = '#id_password';
 
     //js
     public static $jsGetMainIframeName             = " var name = jQuery('.yui3-widget-bd').find('iframe').attr('name'); return name; ";
@@ -50,6 +52,8 @@ class PostModule extends BaseModule {
                                                         'purchase_link_visible'   => true,
                                                         'timepasses_visible'      => false,
                                                      );
+    public static $c_laterpay_username             = 'a.vaguro@gmail.com';
+    public static $c_laterpay_password             = '3ktuubhv';
 
     protected $options;
 
@@ -91,7 +95,7 @@ class PostModule extends BaseModule {
         if ( isset( $args['category'] ) ) {
             //Set categories to post
             if ( is_array( $args['category'] ) ) {
-                foreach ( $args['category'] as $category_id) {
+                foreach ( $args['category'] as $category_id ) {
                     $this->assignPostToCategory( $category_id );
                 }
             } else {
@@ -199,8 +203,6 @@ class PostModule extends BaseModule {
     public function purchasePost( $post_id, $post_title = null ) {
         $I = $this->BackendTester;
 
-        // TODO: here present a blocker that prevent automatic purchases (login required)
-
         if ( ! isset( $p_post_title ) ) {
             $post_title = self::$c_post_title;
         }
@@ -213,7 +215,15 @@ class PostModule extends BaseModule {
         $I->click( self::$selectorFrontPurchaseButton );
         $I->switchToIFrame( (string) $I->executeJS( self::$jsGetMainIframeName ) );
         $I->switchToIFrame( 'wrapper' );
-        $I->checkOption( self::$selectorIframeAgreeCheckbox );
+
+        if ( $I->trySeeElement( $I, self::$selectorIframeUsernameInput ) ) {
+            $I->fillField( self::$selectorIframeUsernameInput, self::$c_laterpay_username );
+            $I->fillField( self::$selectorIframePasswordInput, self::$c_laterpay_password );
+            $I->click( self::$selectorIframeProceedButton );
+        } else {
+            $I->checkOption( self::$selectorIframeAgreeCheckbox );
+        }
+
         $I->click( self::$selectorIframeProceedButton );
         $I->waitForElementVisible( self::$selectorIframeMessage );
 
@@ -262,7 +272,7 @@ class PostModule extends BaseModule {
             $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostEditPage ) );
 
             $option = '#in-category-' . $category_id;
-            $I->checkOption($option);
+            $I->checkOption( $option );
 
             $I->click( self::$selectorPublishButton );
             $I->wait( self::$shortTimeout );

@@ -75,7 +75,7 @@ class BasicCest {
             ->createPost( $post_args );
 
         $timepass_args = array(
-            'price' => 5
+            'price' => 5,
         );
 
         TimepassModule::of( $I )

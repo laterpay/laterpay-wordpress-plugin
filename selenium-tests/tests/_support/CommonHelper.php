@@ -31,5 +31,21 @@ class CommonHelper extends \Codeception\Module {
     public function getVar( $key ) {
         return $this->var[ $key ];
     }
+
+    /**
+     * Helper to have ability if-then-else condition for see method
+     *
+     * @param  \BackendTester $I
+     * @param  string         $selector
+     * @return bool
+     */
+    public function trySeeElement( $I, $selector ) {
+        try {
+            $I->seeElement( $selector );
+            return true;
+        } catch ( \PHPUnit_Framework_AssertionFailedError $e ) {
+            return false;
+        }
+    }
 }
 

@@ -5,12 +5,12 @@ class TimepassModule extends BaseModule {
     public static $selectorAddTimePassButton           = '#lp_js_addTimePass';
     public static $selectorAddTimePassSection          = '.lp_js_addTimePassWrapper';
     public static $selectorTimePassTitle               = 'input[name=title]';
-    public static $selectorTimePassDescription         = 'input[name=description]';
-    public static $selectorTimePassDuration            = 'input[name=duration]';
-    public static $selectorTimePassAccessTo            = 'input[name=access_to]';
-    public static $selectorTimePassPeriod              = 'input[name=period]';
+    public static $selectorTimePassDescription         = 'textarea[name=description]';
+    public static $selectorTimePassDuration            = 'select[name=duration]';
+    public static $selectorTimePassAccessTo            = 'select[name=access_to]';
+    public static $selectorTimePassPeriod              = 'select[name=period]';
     public static $selectorTimePassRevenueModel        = 'input[name=revenue_model]';
-    public static $selectorTimePassPrice               = 'input[name=price]';
+    public static $selectorTimePassPrice               = '.lp_js_timePassPriceInput';
     public static $selectorTimePassSaveButton          = '.lp_js_saveTimePass';
     public static $selectorFlashMessageUpdated         = '.lp_flash-message.updated';
     public static $selectorFrontTimepassTitle          = '.lp_js_timePassPreviewTitle';
@@ -20,16 +20,20 @@ class TimepassModule extends BaseModule {
     public static $selectorIframeAgreeCheckbox         = 'input[name=agree]';
     public static $selectorIframeProceedButton         = '#nextbuttons';
     public static $selectorIframeMessage               = '.flash-message';
+    public static $selectorIframeUsernameInput         = '#id_username';
+    public static $selectorIframePasswordInput         = '#id_password';
 
     //js
     public static $jsGetMainIframeName          = " var name = jQuery('.yui3-widget-bd').find('iframe').attr('name'); return name; ";
 
     //defaults
-    public static $c_time_pass_title            = "Test Time Pass";
-    public static $c_time_pass_description      = "This is a test time pass";
+    public static $c_time_pass_title            = 'Test Time Pass';
+    public static $c_time_pass_description      = 'This is a test time pass';
     public static $c_time_pass_access           = '0';
     public static $c_time_pass_validity_period  = '1';
     public static $c_time_pass_validity_unit    = '1';
+    public static $c_laterpay_username          = 'a.vaguro@gmail.com';
+    public static $c_laterpay_password          = '3ktuubhv';
 
     /**
      * Create timepass
@@ -53,18 +57,18 @@ class TimepassModule extends BaseModule {
 
         $I->amOnPage( self::$linkAdminPricingTab );
         $I->click( self::$selectorAddTimePassButton );
-        $I->seeElement( self::$selectorAddTimePassSection );
+        $I->waitForElement( self::$selectorAddTimePassSection );
 
         //Set timepass title
         $I->fillField( self::$selectorTimePassTitle, $args['title'] );
         //Set timepass description
         $I->fillField( self::$selectorTimePassDescription, $args['description'] );
         //Set timepass access option
-        $I->selectOption( self::$c_time_pass_access, '0' );
+        $I->selectOption( self::$selectorTimePassAccessTo, $args['access_to'] );
         //Set timepass unit
-        $I->selectOption( self::$c_time_pass_validity_unit, '1' );
+        $I->selectOption( self::$selectorTimePassDuration, $args['unit'] );
         //Set timepass period
-        $I->selectOption( self::$c_time_pass_validity_period, '1' );
+        $I->selectOption( self::$selectorTimePassPeriod, $args['period'] );
         //Set revenue model
         if ( ! isset( $args['revenue_model'] ) ) {
             if ( ! isset( $args['price'] ) ) {
@@ -99,13 +103,22 @@ class TimepassModule extends BaseModule {
 
         //Check post title
         $I->amOnPage( str_replace( '{post}', $post_id, self::$linkPostViewPage ) );
+        $I->waitForElement( self::$selectorFrontTimepassWidget );
         $I->see( $time_pass_title, self::$selectorFrontTimepassTitle );
 
         //Start purchase process
         $I->click( self::$selectorFrontTimepassPurchaseButton );
         $I->switchToIFrame( (string) $I->executeJS( self::$jsGetMainIframeName ) );
         $I->switchToIFrame( 'wrapper' );
-        $I->checkOption( self::$selectorIframeAgreeCheckbox );
+
+        if ( $I->trySeeElement( $I, self::$selectorIframeUsernameInput ) ) {
+            $I->fillField( self::$selectorIframeUsernameInput, self::$c_laterpay_username );
+            $I->fillField( self::$selectorIframePasswordInput, self::$c_laterpay_password );
+            $I->click( self::$selectorIframeProceedButton );
+        } else {
+            $I->checkOption( self::$selectorIframeAgreeCheckbox );
+        }
+
         $I->click( self::$selectorIframeProceedButton );
         $I->waitForElementVisible( self::$selectorIframeMessage );
 
