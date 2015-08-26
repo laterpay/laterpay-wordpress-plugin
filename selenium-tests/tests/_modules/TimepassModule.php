@@ -32,8 +32,8 @@ class TimepassModule extends BaseModule {
     public static $c_time_pass_access           = '0';
     public static $c_time_pass_validity_period  = '1';
     public static $c_time_pass_validity_unit    = '1';
-    public static $c_laterpay_username          = 'a.vaguro@gmail.com';
-    public static $c_laterpay_password          = '3ktuubhv';
+    public static $c_laterpay_username          = '';
+    public static $c_laterpay_password          = '';
 
     /**
      * Create timepass

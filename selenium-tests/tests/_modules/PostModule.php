@@ -52,8 +52,8 @@ class PostModule extends BaseModule {
                                                         'purchase_link_visible'   => true,
                                                         'timepasses_visible'      => false,
                                                      );
-    public static $c_laterpay_username             = 'a.vaguro@gmail.com';
-    public static $c_laterpay_password             = '3ktuubhv';
+    public static $c_laterpay_username             = '';
+    public static $c_laterpay_password             = '';
 
     protected $options;
 
