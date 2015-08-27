@@ -143,7 +143,6 @@ function laterpay_get_plugin_config() {
         )
     );
     $config->import( $plugin_headers );
-
     // make sure all API variables are set
     if ( ! get_option( 'laterpay_sandbox_backend_api_url' ) ) {
         update_option( 'laterpay_sandbox_backend_api_url', 'https://api.sandbox.laterpaytest.net' );
