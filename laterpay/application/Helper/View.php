@@ -13,7 +13,7 @@ class LaterPay_Helper_View
     /**
      * @var string
      */
-    public static $pluginPage = 'laterpay-plugin';
+    public static $pluginPage = 'laterpay-pricing-tab';
 
     /**
      * Helper function to render a plugin backend navigation tab link.
