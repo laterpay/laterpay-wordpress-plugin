@@ -13,7 +13,6 @@
     color: $text;
     font-size: $fs;
     line-height: 1.5;
-    padding: 7px 5px 0 0;
     position: fixed;
     right: -5px;
     top: ($fs * 8);
@@ -71,26 +70,27 @@
     top: 0;
     transition: 0.25s ease-in-out;
     width: $fs--3;
+    @include opacity(0);
 
     &:before {
         font-size: $fs--15;
         line-height: $fs--3;
-        @include opacity(0);
         padding-left: $fs--025;
         position: relative;
         transition: 0.1s ease-in-out;
     }
 
     &:hover {
+        @include opacity(1);
         color: $clickable--highlight;
     }
 
     // reveal toggle when the statistics pane is hovered
     .lp_post-statistics:hover & {
         left: -$fs--3;
+        @include opacity(1);
 
         &:before {
-            @include opacity(1);
             transition: 0.25s ease-in-out 0.1s;
         }
 
@@ -105,6 +105,7 @@
         left: -($fs * 4);
         text-align: left;
         width: ($fs * 4);
+        @include opacity(1);
 
         /*
          * Show LaterPay logo instead of toggle icon in hidden state
@@ -115,7 +116,6 @@
             content: 'b';
             font-size: $fs--3;
             line-height: $fs--3;
-            @include opacity(1);
             padding-left: 1px; /* 1 */
             top: 1px; /* 1 */
         }

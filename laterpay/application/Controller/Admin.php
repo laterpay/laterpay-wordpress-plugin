@@ -80,10 +80,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             81
         );
 
-        $page_number    = 0;
-        $menu           = LaterPay_Helper_View::get_admin_menu();
+        $menu = LaterPay_Helper_View::get_admin_menu();
         foreach ( $menu as $name => $page ) {
-            $slug   = ! $page_number ? $plugin_page : $page['url'];
+            $slug    = $page['url'];
             $page_id = add_submenu_page(
                 $plugin_page,
                 $page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
@@ -106,7 +105,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             LaterPay_Hooks::add_wp_action( 'load-' . $page_id, 'laterpay_load_' . $page_id );
             $help_action = isset( $page['help'] ) ? $page['help'] : array( $this, 'help_' . $name );
             laterpay_event_dispatcher()->add_listener( 'laterpay_load_' . $page_id, $help_action );
-            $page_number++;
         }
     }
 
@@ -207,24 +205,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
         // return default tab, if no specific tab is requested
         if ( empty( $tab ) ) {
-            $tab            = 'dashboard';
-            $_GET['tab']    = 'dashboard';
+            $tab = 'pricing';
         }
 
         switch ( $tab ) {
-            // render time_passes tab
-            case 'time_passes':
-                $time_passes_controller = new LaterPay_Controller_Admin_TimePass( $this->config );
-                $time_passes_controller->render_page();
-                break;
-
             default:
-            // render dashboard tab
-            case 'dashboard':
-                $dashboard_controller = new LaterPay_Controller_Admin_Dashboard( $this->config );
-                $dashboard_controller->render_page();
-                break;
-
             // render pricing tab
             case 'pricing':
                 $pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
@@ -257,10 +242,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             case 'wp_edit_post':
             case 'wp_add_post':
                 $this->render_add_edit_post_page_help();
-                break;
-
-            case 'dashboard':
-                $this->render_dashboard_tab_help();
                 break;
 
             case 'pricing':
@@ -878,23 +859,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         // @link http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table
         // cap "activate_plugins"   => Super Admin, Admin
         // cap "moderate_comments"  => Super Admin, Admin, Editor
-
-        $menu['dashboard'] = array(
-            'url'       => 'laterpay-plugin',
-            'title'     => __( 'Dashboard', 'laterpay' ),
-            'cap'       => 'moderate_comments',
-            /* MOVED: #797 Comment out sales statistics
-            'submenu'   => array(
-                'name'      => 'time_passes',
-                'url'       => 'laterpay-timepass-dashboard-tab',
-                'cap'       => 'moderate_comments',
-                'title'     => __( 'Time Passes', 'laterpay' ),
-                'data'      => array(
-                    'view'      => 'time-passes',
-                    'label'     => __( 'Standard KPIs', 'laterpay' ),
-                ),
-            ),*/
-        );
 
         $menu['pricing'] = array(
             'url'   => 'laterpay-pricing-tab',
