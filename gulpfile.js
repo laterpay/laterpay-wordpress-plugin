@@ -595,7 +595,7 @@ gulp.task('svn-fix-assets', function(){
         });
 });
 
-gulp.task('svn-release', function (callback) {
+gulp.task('svn-release', function () {
     var deferred = Q.defer();
     runSequence(
         'svn-clean',
@@ -614,12 +614,11 @@ gulp.task('svn-release', function (callback) {
                 deferred.resolve();
                 console.log('SVN deployment FINISHED');
             }
-            callback(error);
         });
     return deferred.promise;
 });
 
-gulp.task('release:production', function (callback) {
+gulp.task('release:production', function () {
     var deferred = Q.defer();
     runSequence(
         'build',
@@ -639,7 +638,6 @@ gulp.task('release:production', function (callback) {
                 deferred.resolve();
                 console.log('RELEASE FINISHED SUCCESSFULLY');
             }
-            callback(error);
         });
     return deferred.promise;
 });
