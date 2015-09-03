@@ -27,8 +27,7 @@ var gulp                        = require('gulp'),
                                         distIMG         : './laterpay/built_assets/img/',
                                         distPlugin      : './laterpay/',
                                         distSVN         : './svn-working-copy/',
-                                        //svnURL          : 'http://plugins.svn.wordpress.org/laterpay/',
-                                        svnURL          : 'svn://localhost:3690/laterpay'
+                                        svnURL          : 'http://plugins.svn.wordpress.org/laterpay'
                                     };
 // OPTIONS -------------------------------------------------------------------------------------------------------------
 var gulpKnownOptions = {
@@ -425,7 +424,7 @@ gulp.task('git-create-new-tag', function (cb) {
 gulp.task('svn-add', function(){
    var svnChangeList = function(types){
            var deferred = Q.defer();
-           console.log('started svnChangeList');
+           console.log('Started SVN changelist...');
            plugins.svn.exec({
                args: 'st | grep "^[' + types + ']" | cut -c9-',
                cwd: p.distSVN
@@ -445,7 +444,7 @@ gulp.task('svn-add', function(){
        },
        svnAdd = function () {
            var deferred = Q.defer();
-           console.log('started svnAdd');
+           console.log('Started SVN adding of the new and modified files...');
            plugins.svn.add('*', {
                args: '--force',
                cwd: p.distSVN
@@ -476,7 +475,7 @@ gulp.task('svn-add', function(){
        svnDeleteMissed = function (data) {
            var deferred = Q.defer(),
                chain;
-           console.log('started Delete missed');
+           console.log('Started SVN removing of the missed files...');
            data.forEach(function(file){
                if(!file) {
                    return;
@@ -494,10 +493,10 @@ gulp.task('svn-add', function(){
                    deferred.resolve();
                });
                chain.catch(function(){
-                   deferred.reject('No changes');
+                   deferred.reject('Error while removing missed files!');
                });
            } else {
-               deferred.reject('No changes');
+               deferred.resolve();
            }
 
            return deferred.promise;
@@ -600,7 +599,6 @@ gulp.task('svn-release', function (callback) {
     var deferred = Q.defer();
     runSequence(
         'svn-clean',
-        //'svn-prompt-credentials',
         'svn-checkout',
         'svn-clean-trunk',
         'svn-copy-laterpay',
