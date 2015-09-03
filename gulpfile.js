@@ -26,6 +26,9 @@ var gulp                        = require('gulp'),
                                         distCSS         : './laterpay/built_assets/css/',
                                         distIMG         : './laterpay/built_assets/img/',
                                         distPlugin      : './laterpay/',
+                                        distSVN         : './svn-working-copy/',
+                                        //svnURL          : 'http://plugins.svn.wordpress.org/laterpay/',
+                                        svnURL          : 'svn://localhost:3690/laterpay'
                                     };
 // OPTIONS -------------------------------------------------------------------------------------------------------------
 var gulpKnownOptions = {
@@ -255,7 +258,7 @@ var getMilestoneNumber = function() {
         });
         return deferred.promise;
     },
-    promptGitUsernamePassword = function(){
+    promptUsernamePassword = function(namespace){
         var schema = {
                 properties: {
                     username: {
@@ -270,13 +273,28 @@ var getMilestoneNumber = function() {
             deferred = Q.defer();
         prompt.get(schema, function (error, result) {
             if (!error) {
-                gulpOptions.git.username = result.username;
-                gulpOptions.git.password = result.password;
+                gulpOptions[namespace].username = result.username;
+                gulpOptions[namespace].password = result.password;
                 deferred.resolve();
             } else {
-                var err = 'Error has been appeared while getting Username and Password';
+                var err = 'Error has been appeared while getting ' + namespace + ' Username and Password';
                 console.log(error);
                 deferred.reject(err);
+            }
+        });
+        return deferred.promise;
+    },
+    svnPropset = function(type, path){
+        var deferred = Q.defer();
+        plugins.svn.exec({
+            cwd: p.distSVN,
+            args: 'propset svn:mime-type ' + type + ' ' + path
+        }, function(err){
+            if(err) {
+                console.log(err);
+                deferred.reject(err);
+            } else {
+                deferred.resolve();
             }
         });
         return deferred.promise;
@@ -340,7 +358,7 @@ gulp.task('composer', function () {
 });
 
 gulp.task('github-release', function() {
-    return promptGitUsernamePassword()
+    return promptUsernamePassword('git')
         .then(getMilestoneNumber)
         .then(getMilestoneIssues)
         .then(function(result){
@@ -405,22 +423,98 @@ gulp.task('git-create-new-tag', function (cb) {
 // SVN tasks
 // Run svn add
 gulp.task('svn-add', function(){
-    var deferred = Q.defer();
-    gulp.svn.add('*', function(err){
-        if(err) {
-            console.log(err);
-            deferred.reject(err);
-        } else {
-            deferred.resolve();
-        }
-    });
-    return deferred.promise;
+   var svnChangeList = function(types){
+           var deferred = Q.defer();
+           console.log('started svnChangeList');
+           plugins.svn.exec({
+               args: 'st | grep "^[' + types + ']" | cut -c9-',
+               cwd: p.distSVN
+           }, function(err, response){
+               if(err) {
+                   console.log(err);
+                   deferred.reject(err);
+               } else {
+                   var data = [];
+                   if(response) {
+                       data = response.split(/\r\n|\r|\n/g);
+                   }
+                   deferred.resolve(data);
+               }
+           });
+           return deferred.promise;
+       },
+       svnAdd = function () {
+           var deferred = Q.defer();
+           console.log('started svnAdd');
+           plugins.svn.add('*', {
+               args: '--force',
+               cwd: p.distSVN
+           }, function(err){
+               if(err) {
+                   console.log(err);
+                   deferred.reject(err);
+               } else {
+                   deferred.resolve();
+               }
+           });
+           return deferred.promise;
+       },
+       svnDelete = function (file) {
+           var deferred = Q.defer();
+           plugins.svn.delete(file, {
+               cwd: p.distSVN
+           }, function(err){
+               if(err) {
+                   console.log(err);
+                   deferred.reject(err);
+               } else {
+                   deferred.resolve();
+               }
+           });
+           return deferred.promise;
+       },
+       svnDeleteMissed = function (data) {
+           var deferred = Q.defer(),
+               chain;
+           console.log('started Delete missed');
+           data.forEach(function(file){
+               if(!file) {
+                   return;
+               }
+               if(!chain){
+                   chain = svnDelete(file);
+               } else {
+                   chain = chain.then(function(file){ return function(){
+                       return svnDelete(file);
+                   };}(file));
+               }
+           });
+           if(chain){
+               chain.done(function(){
+                   deferred.resolve();
+               });
+               chain.catch(function(){
+                   deferred.reject('No changes');
+               });
+           } else {
+               deferred.reject('No changes');
+           }
+
+           return deferred.promise;
+       };
+    return svnAdd()
+        .then(function(){
+            return svnChangeList('!');
+        })
+        .then(svnDeleteMissed);
+
 });
 
 // Run svn commit
-gulp.task('svn-commit', function(){
+gulp.task('svn-commit', ['svn-prompt-credentials'], function(){
     var deferred = Q.defer();
-    gulp.svn.commit('Release ' + gulpOptions.version, {
+    plugins.svn.commit('Release ' + gulpOptions.version, {
+        cwd: p.distSVN,
         username: gulpOptions.svn.username,
         password: gulpOptions.svn.password
     }, function(err){
@@ -435,9 +529,11 @@ gulp.task('svn-commit', function(){
 });
 
 // Run svn tag
-gulp.task('svn-tag', function(){
+gulp.task('svn-tag', ['svn-prompt-credentials'], function(){
     var deferred = Q.defer();
-    gulp.svn.tag('v' + gulpOptions.version, 'Release ' + gulpOptions.version,{
+    plugins.svn.tag('v' + gulpOptions.version, 'Release ' + gulpOptions.version,{
+        cwd: p.distSVN,
+        projectRoot: p.svnURL,
         username: gulpOptions.svn.username,
         password: gulpOptions.svn.password
     }, function(err){
@@ -450,17 +546,68 @@ gulp.task('svn-tag', function(){
     });
     return deferred.promise;
 });
+
+gulp.task('svn-prompt-credentials', function(){
+    if(!gulpOptions.svn.username || !gulpOptions.svn.password) {
+        return promptUsernamePassword('svn');
+    }
+});
+
+// clean up all files in the target directories
+gulp.task('svn-clean', function(cb) {
+    return del([
+        p.distSVN
+    ], cb);
+});
+// clean up all files in the target directories
+gulp.task('svn-clean-trunk', function(cb) {
+    return del([
+        p.distSVN + 'trunk'
+    ], cb);
+});
+gulp.task('svn-copy-laterpay', function(){
+    return gulp.src(p.distPlugin + '**/*')
+        .pipe(gulp.dest(p.distSVN + 'trunk'));
+});
+gulp.task('svn-checkout', function(){
+    var deferred = Q.defer();
+    console.log('Fetching SVN repo[' + p.svnURL + ']...');
+    plugins.svn.checkout(p.svnURL, p.distSVN,{
+        username: gulpOptions.svn.username,
+        password: gulpOptions.svn.password
+    }, function(err){
+        if(err) {
+            console.log(err);
+            deferred.reject(err);
+        } else {
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
+});
+
+gulp.task('svn-fix-assets', function(){
+    return svnPropset('image/jpeg', p.distSVN + 'assets/*.jpg')
+        .then(function(){
+            return svnPropset('image/jpeg', p.distSVN + 'assets/*.jpeg');
+        })
+        .then(function(){
+            return svnPropset('image/png', p.distSVN + 'assets/*.png');
+        });
+});
+
 gulp.task('svn-release', function (callback) {
     var deferred = Q.defer();
-    // TODO: prompt username and password
-    // TODO: checkout
-    // TODO: clean trunk
-    // TODO: copy laterpay to trunk
-    // TODO: fix svn assets
     runSequence(
+        'svn-clean',
+        //'svn-prompt-credentials',
+        'svn-checkout',
+        'svn-clean-trunk',
+        'svn-copy-laterpay',
         'svn-add',
         'svn-commit',
         'svn-tag',
+        'svn-clean',
         function (error) {
             if (error) {
                 deferred.reject(error.message);
