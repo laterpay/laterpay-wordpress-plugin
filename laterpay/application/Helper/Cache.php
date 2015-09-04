@@ -28,7 +28,7 @@ class LaterPay_Helper_Cache
             $reset = eaccelerator_clean();
         }
         if ( function_exists( 'xcache_clear_cache' ) ) {
-            $reset = xcache_clear_cache();
+            $reset = xcache_clear_cache( null );
         }
 
         return $reset;
