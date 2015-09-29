@@ -107,6 +107,25 @@
     margin: $fs 0 $fs--2 !important;
 }
 
+.lp_purchase-button-wrapper > div:after {
+    content: '';
+    clear: both;
+    display: block;
+}
+
+.lp_sis_notification {
+    font-size: $fs;
+    color: #50c371;
+    float: right;
+    text-decoration: underline;
+    margin-right: $fs;
+    border-bottom: none !important;
+}
+
+.lp_sis_notification :hover {
+    text-decoration: none;
+}
+
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:567px) {
