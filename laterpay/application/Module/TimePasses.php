@@ -52,6 +52,9 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             'laterpay_purchase_link' => array(
                 array( 'check_only_time_pass_purchases_allowed', 200 ),
             ),
+            'laterpay_show_sis_notification' => array(
+                array( 'display_sis_notification', 0 ),
+            )
         );
     }
 
@@ -156,26 +159,26 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // get time passes list
         $time_passes_with_access = $this->get_time_passes_with_access();
 
-        // check, if we are on the homepage or on a post / page page
-        if ( $is_homepage ) {
-            $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
-                null,
-                $time_passes_with_access,
-                true
-            );
-        } else {
-            $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
-                ! empty( $post )? $post->ID: null,
-                $time_passes_with_access,
-                true
-            );
-        }
-
         if ( isset( $time_pass_id ) ) {
             if ( in_array( $time_pass_id, $time_passes_with_access ) ) {
                 return;
             }
             $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) );
+        } else {
+            // check, if we are on the homepage or on a post / page page
+            if ( $is_homepage ) {
+                $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
+                    null,
+                    $time_passes_with_access,
+                    true
+                );
+            } else {
+                $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
+                    ! empty( $post )? $post->ID: null,
+                    $time_passes_with_access,
+                    true
+                );
+            }
         }
 
         // don't render the widget, if there are no time passes
@@ -198,6 +201,56 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $html .= $this->get_text_view( 'frontend/partials/widget/time-passes' );
 
         $event->set_result( $html );
+    }
+
+    /**
+     * Display notification for sis time passes
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function display_sis_notification($event) {
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+
+        if ( $post === null ) {
+            return;
+        }
+
+        // get time passes list
+        $time_passes_with_access = $this->get_time_passes_with_access();
+        $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
+            ! empty( $post )? $post->ID: null,
+            $time_passes_with_access,
+            true
+        );
+
+        if ( count( $time_passes_list ) === 0 ) {
+            return;
+        }
+
+        $has_sis_revenue = false;
+        foreach ( $time_passes_list as $time_pass ) {
+            if ( $time_pass['revenue_model'] === 'sis' ) {
+                $has_sis_revenue = true;
+                break;
+            }
+        }
+
+        if ( ! $has_sis_revenue ) {
+            return;
+        }
+
+        $content = $event->get_result();
+        $link = 'https://web.laterpay.net/auth/user/login?_on_complete=' . urlencode( get_permalink() );
+        if ( $time_passes_list ) {
+            $content .= '<div><a class="lp_sis_notification" href="' . $link . '">' . __( 'I have a time pass', 'laterpay' ) . '</a></div>';
+        }
+        $event->set_result( $content );
     }
 
     /**

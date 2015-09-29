@@ -76,12 +76,19 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         } else {
             $post = get_post();
         }
+
+        // show time pass sis notification with login link
+        $sis_notification_event = new LaterPay_Core_Event();
+        $sis_notification_event->set_echo( false );
+        laterpay_event_dispatcher()->dispatch( 'laterpay_show_sis_notification', $sis_notification_event );
+
         $view_args = array_merge( array(
                 'post_id'                         => $post->ID,
                 'link'                            => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
                 'currency'                        => get_option( 'laterpay_currency' ),
                 'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
                 'attributes'                      => array(),
+                'sis_notification'                => $sis_notification_event->get_result(),
             ),
             $event->get_arguments()
         );
@@ -402,24 +409,20 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      */
     public function modify_post_content( LaterPay_Core_Event $event ) {
         $content = $event->get_result();
-        $html = '';
+
         // add the purchase button as very first element of the content, if it is not positioned manually
         if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) === false ) {
-            $html .= '<div class="lp_purchase-button-wrapper">';
             $button_event = new LaterPay_Core_Event();
             $button_event->set_echo( false );
             laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $button_event );
-            $html .= $button_event->get_result();
-            $html .= '</div>';
-
-            $content = $html . $content;
+            $content = $button_event->get_result() . $content;
         }
 
         // show rating summary if it's enabled
         $rating_event = new LaterPay_Core_Event();
         $rating_event->set_echo( false );
         laterpay_event_dispatcher()->dispatch( 'laterpay_post_rating', $rating_event );
-        $content = $content . $rating_event->get_result();
+        $content = $rating_event->get_result() . $content;
 
         $event->set_result( $content );
     }
