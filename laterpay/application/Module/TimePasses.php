@@ -179,7 +179,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                     true
                 );
             }
-
         }
 
         // don't render the widget, if there are no time passes
@@ -247,7 +246,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         }
 
         $content = $event->get_result();
-        $link = 'https://web.laterpay.net/auth/user/login?_on_complete=' . urlencode(get_permalink());
+        $link = 'https://web.laterpay.net/auth/user/login?_on_complete=' . urlencode( get_permalink() );
         if ( $time_passes_list ) {
             $content .= '<div><a class="lp_sis_notification" href="' . $link . '">' . __( 'I have a time pass', 'laterpay' ) . '</a></div>';
         }
