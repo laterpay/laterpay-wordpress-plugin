@@ -295,16 +295,17 @@ class LaterPay_Helper_Post
      *
      * @param $teaser_content
      * @param $post_id
-     * @param string $more_link_text
+     * @param null|string $more_link_text
      * @param bool|false $strip_teaser
      *
      * @return string $output
      */
-    public static function get_the_content( $teaser_content, $post_id, $more_link_text = "Read more", $strip_teaser = false ) {
+    public static function get_the_content( $teaser_content, $post_id, $more_link_text = null, $strip_teaser = false ) {
         global $more;
 
-        if ( null === $more_link_text )
+        if ( null === $more_link_text ) {
             $more_link_text = __( '(more&hellip;)' );
+        }
 
         $output = '';
         $original_teaser = $teaser_content;
@@ -312,21 +313,23 @@ class LaterPay_Helper_Post
 
         if ( preg_match( '/<!--more(.*?)?-->/', $teaser_content, $matches ) ) {
             $teaser_content = explode( $matches[0], $teaser_content, 2 );
-            if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) )
+            if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) ) {
                 $more_link_text = strip_tags( wp_kses_no_null( trim( $matches[1] ) ) );
-
+            }
             $has_teaser = true;
         } else {
             $teaser_content = array( $teaser_content );
         }
 
-        if ( false !== strpos( $original_teaser, '<!--noteaser-->' ) )
+        if ( false !== strpos( $original_teaser, '<!--noteaser-->' ) ) {
             $strip_teaser = true;
+        }
 
         $teaser = $teaser_content[0];
 
-        if ( $more && $strip_teaser && $has_teaser )
+        if ( $more && $strip_teaser && $has_teaser ) {
             $teaser = '';
+        }
 
         $output .= $teaser;
 
@@ -334,8 +337,9 @@ class LaterPay_Helper_Post
             if ( $more ) {
                 $output .= '<span id="more-' . $post_id . '"></span>' . $teaser_content[1];
             } else {
-                if ( ! empty( $more_link_text ) )
+                if ( ! empty( $more_link_text ) ) {
                     $output .= '<a href="' . get_permalink() . "#more-{$post_id}\" class=\"more-link\">$more_link_text</a>";
+                }
                 $output = force_balance_tags( $output );
             }
         }
