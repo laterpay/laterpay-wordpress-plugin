@@ -863,6 +863,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
         // add paragraphs to teaser content through wpautop
         $teaser_content = wpautop( $teaser_content );
+        // get_the_content functionality for custom content
+        $teaser_content = LaterPay_Helper_Post::get_the_content( $teaser_content, $post->ID );
 
         // assign all required vars to the view templates
         $view_args = array(
