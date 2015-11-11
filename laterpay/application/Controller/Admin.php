@@ -492,7 +492,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                        'laterpay'
                                    ),
                                ) );
-$screen->add_help_tab( array(
+        $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_time_pass_vouchers',
                                    'title'   => __( 'Time Pass Vouchers', 'laterpay' ),
                                    'content' => __( '
