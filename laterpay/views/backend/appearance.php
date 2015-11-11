@@ -145,9 +145,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </form>
 
-            <?php # TODO: remove this in release 0.9.12 ?>
-            <a href="" id="lp_js_showDeprecatedFeatures"><?php echo laterpay_sanitize_output( __( 'Show deprecated features', 'laterpay' ) ); ?></a>
-
             <div class="lp_js_deprecated-feature">
                 <div class="lp_clearfix lp_mb+">
                     <h3><?php echo laterpay_sanitize_output( __( 'Display of LaterPay Invoice Balance', 'laterpay' ) ); ?></h3>

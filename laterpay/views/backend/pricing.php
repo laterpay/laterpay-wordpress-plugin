@@ -559,10 +559,6 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
 
-
-        <?php # TODO: remove this in release 0.9.12 ?>
-        <a href="" id="lp_js_showDeprecatedFeatures"><?php echo laterpay_sanitize_output( __( 'Show deprecated features', 'laterpay' ) ); ?></a>
-
         <div class="lp_js_deprecated-feature">
             <p>
                 <span class="lp_badge lp_mr-">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
