@@ -391,6 +391,11 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             return;
         }
 
+        // don't check or create the 'lptoken' on feed
+        if ( is_feed() ) {
+            return;
+        }
+
         if ( isset( $_GET['lptoken'] ) ) {
             LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ), true );
         }
