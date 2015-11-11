@@ -296,15 +296,15 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                         </p>
                                         <p>
                                             <strong>PPU (Pay-per-Use)</strong><br>
-                                            If you choose to sell your content as <strong>Pay-per-Use</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 EUR.<br>
-                                            LaterPay <strong>recommends</strong> Pay-per-Use for all prices up to 5.00 EUR as they deliver the <strong>best purchase experience</strong> for your users.<br>
-                                            PPU is possible for prices between (including) <strong>0.05 EUR</strong> and (including) <strong>5.00 EUR</strong>.
+                                            If you choose to sell your content as <strong>Pay-per-Use</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 Euro.<br>
+                                            LaterPay <strong>recommends</strong> Pay-per-Use for all prices up to 5.00 Euro as they deliver the <strong>best purchase experience</strong> for your users.<br>
+                                            PPU is possible for prices between (including) <strong>0.05 Euro</strong> and (including) <strong>5.00 Euro</strong>.
                                         </p>
                                         <p>
                                             <strong>SIS (Single Sale)</strong><br>
                                             If you sell your content as <strong>Single Sale</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
                                             Single Sales are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
-                                            A Single Sales is possible between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 EUR</strong>.
+                                            Single Sales are possible for prices between (including) <strong>1.49 Euro</strong> and (including) <strong>149.99 Euro</strong>.
                                         </p>',
                                        'laterpay'
                                    ),
@@ -358,7 +358,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         <strong>AVG Revenue</strong> (short for Average Revenue) indicates the average revenue per day in the reporting period.
                                                     </p>
                                                     <p>
-                                                        Please note that this <strong>is not the amount of money you will receive with your next LaterPay payout</strong>, as a user will have to pay his invoice only once it reaches 5.00 € and LaterPay will deduct a fee of 15% for each purchase that was actually paid.
+                                                        Please note that this <strong>is not the amount of money you will receive with your next LaterPay payout</strong>, as a user will have to pay his invoice only once it reaches 5.00 Euro and LaterPay will deduct a fee of 15% for each purchase that was actually paid.
                                                     </p>',
                                        'laterpay'
                                    ),
@@ -379,7 +379,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                     <p>
                                                         The global default price is used for all posts, for which no
                                                         category default price or individual price has been set.<br>
-                                                        Accordingly, setting the global default price to 0 Euro makes
+                                                        Accordingly, setting the global default price to 0.00 Euro makes
                                                         all articles free, for which no category default price or
                                                         individual price has been set.
                                                     </p>',
@@ -416,7 +416,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         Only the currency code next to the price is changed.<br>
                                                         For example, if your global default price is 0.10 Euro and you
                                                         change the default currency to U.S. dollar, the global default
-                                                        price will be 0.10 U.S. dollar.
+                                                        price will be 0.10 USD.
                                                     </p>',
                                        'laterpay'
                                    ),
@@ -442,7 +442,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                     <p>
                                                         <strong>Time Passes and Individual Sales</strong><br>
                                                         When a user purchases a time pass, he has access to all the content covered by this pass during the validity period. Of course, you can still sell your content individually.<br>
-                                                        Example: A user has already purchased the post "New York – a Travel Report" for 0.29 EUR. Now he purchases a Week Pass for the category "Travel Reports" for 0.99 EUR. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99 EUR. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
+                                                        Example: A user has already purchased the post "New York – a Travel Report" for 0.29 Euro. Now he purchases a Week Pass for the category "Travel Reports" for 0.99 Euro. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99 Euro. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
                                                     </p>
                                                     <p>
                                                         <strong>Action</strong><br>
@@ -465,71 +465,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                    ),
                                ) );
         $screen->add_help_tab( array(
-                                   'id'      => 'laterpay_pricing_tab_help_bulk_price_editor',
-                                   'title'   => __( 'Bulk Price Editor', 'laterpay' ),
-                                   'content' => __( '
-                                                    <p>
-                                                        With the <strong>bulk price editor</strong>, you can quickly change <strong>multiple</strong> prices <strong>at a time</strong>.<br>
-                                                        The plugin will always try to <strong>maintain the current pricing structure</strong> of your blog, i.e. posts with individual price will still use the individual price, posts with category default price will still use the category default price and posts with global default price will still use the global default price after <strong>most</strong> bulk price actions.<br><br>
-                                                        Actions that <strong>maintain</strong> the pricing structure are:
-                                                        <ul>
-                                                            <li>
-                                                                <strong>Set prices of all posts to X EUR.</strong><br>
-                                                                This action will set the individual prices of posts with individual price to X EUR, set all category default prices to X EUR, and set the global default price to X EUR.
-                                                            </li>
-                                                            <li>
-                                                                <strong>Increase prices of all posts by X EUR / %.</strong><br>
-                                                                This action will increase the individual prices of posts with individual price by X EUR / %, increase all category default prices by X EUR / %, and increase the global default price by X EUR / %.
-                                                            </li>
-                                                            <li>
-                                                                <strong>Reduce prices of all posts by X EUR / %.</strong><br>
-                                                                This action will reduce the individual prices of posts with individual price by X EUR / %, reduce all category default prices by X EUR / %, and reduce the global default price by X EUR / %.
-                                                            </li>
-                                                            <li>
-                                                                <strong>Make all posts free.</strong><br>
-                                                                This action will set the individual prices of posts with individual price to 0.00 EUR, set all category default prices to 0.00 EUR, and set the global default price to 0.00 EUR.
-                                                            </li>
-                                                        </ul>
-                                                    </p>
-                                                    <p>
-                                                        Still, some bulk price actions <strong>might change</strong> the current pricing structure:<br>
-                                                        <ul>
-                                                            <li>
-                                                                <strong>Make all posts in category X free.</strong><br>
-                                                                This action will set the individual prices of posts with individual price in category X to 0.00 EUR. If a category default price for category X exists, it will be set to 0.00 EUR and applied to all posts with category default price and global default price in this category. If no category default price for category X exists, it will be created, set to 0.00 EUR, and applied to all posts with category default price and global default price in this category.
-                                                            </li>
-                                                            <li>
-                                                                <strong>Reset prices of all posts in category X to category default price.</strong><br>
-                                                                This action will apply the category default price to all posts in category x.
-                                                            </li>
-                                                            <li>
-                                                                <strong>Reset prices of all posts to global default price</strong><br>
-                                                                This action will delete all category default prices and individual prices, and use the global default price for all posts.
-                                                            </li>
-                                                        </ul>
-                                                    </p>
-                                                    <p>
-                                                        <strong>Rounding and allowed price ranges</strong><br>
-                                                        Please note, that the bulk price editor can change prices only within the allowed price ranges:
-                                                        <ul>
-                                                            <li>
-                                                                If the result of a price change would be <strong>< 0.05 EUR</strong>, this price is changed to <strong>0.05 EUR</strong>.
-                                                            </li>
-                                                            <li>
-                                                                If the result of a price change would be <strong>> 149.99 EUR</strong>, this price is changed to <strong>149.99 EUR</strong>.
-                                                            </li>
-                                                            <li>
-                                                                If the price of a <strong>PPU</strong> (pay-per-use) post is changed to a price <strong>> 5.00 EUR</strong>, this post is changed to a <strong>SIS</strong> (single sale) post.
-                                                            </li>
-                                                            <li>
-                                                                If the price of a <strong>SIS</strong> post is changed to a price <strong>< 1.49 EUR</strong>, this post is changed to a <strong>PPU</strong> post.
-                                                            </li>
-                                                        </ul>
-                                                    </p>',
-                                       'laterpay'
-                                   ),
-                               ) );
-        $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_time_passes',
                                    'title'   => __( 'Time Passes', 'laterpay' ),
                                    'content' => __( '
@@ -547,30 +482,34 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                     </p>
                                                     <p>
                                                         <strong>Deleting Time Passes</strong><br>
-                                                        Please be aware, that after <strong>deleting</strong> a time pass, users who have bought this time pass <strong>will lose</strong> their access to the covered content. <strong>Time Passes cannot be restored.</strong>
+                                                        If you <strong>delete</strong> a time pass, users who have bought this time pass <strong>will still have access</strong> to the covered content. Deleted time passes <strong>can\'t be restored</strong>.
                                                     </p>
                                                     <p>
                                                         <strong>Time Passes and Individual Sales</strong><br>
                                                         When a user purchases a time pass, he has access to all the content covered by this pass during the validity period. Of course, you can still sell your content individually.<br>
-                                                        Example: A user has already purchased the post "New York – a Travel Report" for 0.29 EUR. Now he purchases a Week Pass for the category "Travel Reports" for 0.99 EUR. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99 EUR. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
+                                                        Example: A user has already purchased the post "New York – a Travel Report" for 0.29 Euro. Now he purchases a Week Pass for the category "Travel Reports" for 0.99 Euro. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99 Euro. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
+                                                    </p>',
+                                       'laterpay'
+                                   ),
+                               ) );
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_pricing_tab_help_time_pass_vouchers',
+                                   'title'   => __( 'Time Pass Vouchers', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>
+                                                        You can create any number of voucher codes for each time pass. A voucher code allows one (or multiple) user(s) to purchase a time pass for a reduced price. A user can enter a voucher code right <strong>below the time passes</strong> by clicking <strong>"I have a voucher"</strong>. If the entered code is a valid voucher code, the price of the respective time pass will be reduced.<br>
+                                                        A voucher code can be used <strong>any number of times</strong> and is <strong>not linked</strong> to a specific user. If you want to invalidate a time pass voucher code, you can simply delete it.<br>
+                                                        <strong>Deleting</strong> a voucher code will <strong>not affect</strong> the validity of time passes which have already been purchased using this voucher code.
                                                     </p>
                                                     <p>
-                                                        <strong>Sidebar Widget</strong><br>
-                                                        Time passes are listed in a dedicated <strong>sidebar widget</strong>.You will find it in your WordPress backend in "Design > Widgets".<br>
-                                                        The sidebar widget displays all time passes which are available for the user in the current context, sorted by relevance.<br>
-                                                        Example: You offer a <strong>Week Pass "Sport"</strong> for the category sport, a <strong>Week Pass "News"</strong> for the category "News" and a <strong>Month Pass Entire Website</strong> for all the content on your website.<br>
-                                                        Depending on the page he is currently visiting, a user will see different time passes:
+                                                    Follow these steps to create a voucher code:
                                                     </p>
                                                     <ul>
-                                                        <li>On the post page of a post in the category <strong>"Sport"</strong>, the <strong>Week Pass "Sport"</strong> will be listed first, followed by the "Month Pass Entire Website". The <strong>Week Pass "News"</strong> is <strong>not relevant</strong> is this context and will not be displayed.</li>
-                                                        <li>On the post page of a post in the category <strong>"News"</strong>, the <strong>Week Pass "News"</strong> will be listed first, followed by the "Month Pass Entire Website". The <strong>Week Pass "Sport"</strong> is <strong>not relevant</strong> is this context and will not be displayed.</li>
-                                                    </ul>
-                                                    <p>
-                                                        <strong>Vouchers</strong><br>
-                                                        You can create any number of voucher codes for each time pass. A voucher code allows one (or multiple) user(s) to purchase a time pass for a reduced price. A user can enter a voucher code in the <strong>sidebar widget</strong> after clicking <strong>"I have a voucher"</strong>. If the entered code is a valid voucher code, the price of the time pass, the code is valid for, will be reduced.<br>
-                                                        A voucher code can be used <strong>any number of times</strong> and is <strong>not linked</strong> to a specific user.<br>
-                                                        If you <strong>delete</strong> a voucher code, this will <strong>not affect</strong> the validity of time passes which have already been purchased using this voucher code.
-                                                     </p>',
+                                                        <li>Click the "Edit" icon next to the time pass for which you want to create a voucher code.</strong>,</li>
+                                                        <li>Enter a price next to \'Offer this time pass at a reduced price of\'. If you enter a price of \'0.00 Euro\', anyone with this voucher code can purchase the respective time pass for 0.00 Euro.<br>
+                                                            If you enter a price of e.g. \'0.20 Euro\', entering this voucher code will change the price of the respective time pass to 0.20 Euro.</li>
+                                                        <li>Click the \'Save\' button.</li>
+                                                    </ul>',
                                        'laterpay'
                                    ),
                                ) );
@@ -609,32 +548,39 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                    ),
                                ) );
         $screen->add_help_tab( array(
-                                   'id'      => 'laterpay_appearance_tab_help_invoice_indicator',
-                                   'title'   => __( 'Invoice Indicator', 'laterpay' ),
+                                   'id'      => 'laterpay_appearance_tab_help_purchase_button_position',
+                                   'title'   => __( 'Purchase Button Position', 'laterpay' ),
                                    'content' => __( '
                                                     <p>
-                                                        The plugin provides a code snippet you can insert into your
-                                                        theme that displays the user\'s current LaterPay invoice total
-                                                        and provides a direct link to his LaterPay user backend.<br>
-                                                        You <em>don\'t have to</em> integrate this snippet, but we
-                                                        recommend it for transparency reasons.
-                                                    </p>',
+                                                        You can choose, if the LaterPay purchase button is positioned at its default or a custom position:
+                                                    </p>
+                                                    <ul>
+                                                        <li>
+                                                            <strong>Default position</strong> &ndash; The LaterPay purchase button is displayed at the top on the right below the title.
+                                                        </li>
+                                                        <li>
+                                                            <strong>Custom position</strong> &ndash; You can position the LaterPay purchase button yourself by using the stated WordPress action.
+                                                        </li>
+                                                    </ul>',
                                        'laterpay'
                                    ),
                                ) );
         $screen->add_help_tab( array(
-                                   'id'      => 'laterpay_appearance_tab_help_content_rating',
-                                   'title'   => __( 'Rating of Purchased Content', 'laterpay' ),
+                                   'id'      => 'laterpay_appearance_tab_help_time_pass_position',
+                                   'title'   => __( 'Time Pass Position', 'laterpay' ),
                                    'content' => __( '
                                                     <p>
-                                                        If you enable the <strong>rating of purchased content</strong>, users, who have <strong>already bought</strong> a post, will be
-                                                        able to <strong>rate it</strong> on a five stars scale, five stars being the best rating. <br>
-                                                        Users, who <strong>haven\'t bought</strong> a post yet, will see a summary of all buyer ratings below the LaterPay purchase button.
+                                                        You can choose, if time passes are positioned at their default or a custom position:
                                                     </p>
-                                                    <p>
-                                                        As the <strong>opinion of buyers</strong> might have a <strong>strong influence</strong> on the buying decisions of your users,
-                                                        enabling the rating of purchased content could <strong>boost your sales</strong>.
-                                                    </p>',
+                                                    <ul>
+                                                        <li>
+                                                            <strong>Default position</strong> &ndash; Time passes are displayed right below each paid article.<br>
+                                                            If you want to display time passes also for free posts, you can choose \'I want to display the time passes widget on free and paid posts\' in the plugin\'s advanced settings (Settings > LaterPay).
+                                                        </li>
+                                                        <li>
+                                                            <strong>Custom position</strong> &ndash; You can position time passes yourself by using the stated WordPress action.
+                                                        </li>
+                                                    </ul>',
                                        'laterpay'
                                    ),
                                ) );
@@ -690,8 +636,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         </strong><br>
                                                         Due to legal reasons, we can email you those credentials only
                                                         once we have received a <strong>signed merchant contract</strong>
-                                                        including <strong>all necessary identification documents</strong>
-                                                        by ground mail.
+                                                        including <strong>all necessary identification documents</strong>.<br>
+                                                        <a href="https://www.laterpay.net/how-to-become-a-content-provider" target="blank">Visit our website to read more about how to become a content provider.</a>
                                                     </p>',
                                        'laterpay'
                                    ),
@@ -700,15 +646,20 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                    'id'      => 'laterpay_account_tab_help_plugin_mode',
                                    'title'   => __( 'Plugin Mode', 'laterpay' ),
                                    'content' => __( '
-                                                    <p>You can run the LaterPay plugin in two modes:</p>
+                                                    <p>You can run the LaterPay plugin in three modes:</p>
                                                     <ul>
                                                         <li>
-                                                            <strong>Test Mode</strong> &ndash; The test mode lets you
+                                                            <strong>Invisible Test Mode</strong> &ndash; This test mode lets you
                                                             test your plugin configuration.<br>
                                                             While providing the full plugin functionality, payments are
                                                             only simulated and not actually processed.<br>
                                                             The plugin will <em>only</em> be visible to admin users,
-                                                            not to visitors.
+                                                            not to visitors.<br>
+                                                            This is the <strong>default</strong> setting after activating the plugin for the first time.
+                                                        </li>
+                                                        <li>
+                                                            <strong>Visible Test Mode</strong> &ndash; The plugin will be <strong>visible</strong> to regular visitors and users,<br>
+                                                            but payments will still only be simulated and not actually processed.
                                                         </li>
                                                         <li>
                                                             <strong>Live Mode</strong> &ndash; In live mode, the plugin
@@ -717,7 +668,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         </li>
                                                     </ul>
                                                     <p>
-                                                        Using the LaterPay plugin usually requires some adjustments on
+                                                        Using the LaterPay plugin usually requires some adjustments of
                                                         your theme.<br>
                                                         Therefore, we recommend installing, configuring, and testing
                                                         the LaterPay plugin on a test system before activating it on
