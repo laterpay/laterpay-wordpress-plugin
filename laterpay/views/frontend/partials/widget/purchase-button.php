@@ -13,12 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 
 $args = array_merge( array(
-        'href'                          => '#',
-        'class'                         => 'lp_js_doPurchase lp_purchase-button',
-        'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
-        'data-icon'                     => 'b',
-        'data-laterpay'                 => $laterpay['link'],
-        'data-post-id'                  => $laterpay['post_id'],
+    'href'                          => '#',
+    'class'                         => 'lp_js_doPurchase lp_purchase-button',
+    'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
+    'data-icon'                     => 'b',
+    'data-laterpay'                 => $laterpay['link'],
+    'data-post-id'                  => $laterpay['post_id'],
     ),
     $laterpay['attributes']
 );

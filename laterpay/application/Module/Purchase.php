@@ -83,12 +83,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         laterpay_event_dispatcher()->dispatch( 'laterpay_show_sis_notification', $sis_notification_event );
 
         $view_args = array_merge( array(
-                'post_id'                         => $post->ID,
-                'link'                            => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
-                'currency'                        => get_option( 'laterpay_currency' ),
-                'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-                'attributes'                      => array(),
-                'sis_notification'                => $sis_notification_event->get_result(),
+            'post_id'                         => $post->ID,
+            'link'                            => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
+            'currency'                        => get_option( 'laterpay_currency' ),
+            'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
+            'attributes'                      => array(),
+            'sis_notification'                => $sis_notification_event->get_result(),
             ),
             $event->get_arguments()
         );
@@ -154,12 +154,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $purchase_link                  = LaterPay_Helper_Post::get_laterpay_purchase_link( $post_id );
 
         $view_args = array_merge( array(
-                'post_id'                               => $post_id,
-                'currency'                              => $currency,
-                'price'                                 => $price,
-                'revenue_model'                         => $revenue_model,
-                'link'                                  => $purchase_link,
-                'attributes'                            => array(),
+            'post_id'                               => $post_id,
+            'currency'                              => $currency,
+            'price'                                 => $price,
+            'revenue_model'                         => $revenue_model,
+            'link'                                  => $purchase_link,
+            'attributes'                            => array(),
             ),
             $event->get_arguments()
         );

@@ -102,8 +102,8 @@ class LaterPay_Helper_Request {
 
             laterpay_get_logger()->info(
                 __METHOD__, array(
-                    'api_available'                  => self::$lp_api_availability,
-                    'laterpay_api_fallback_behavior' => $behavior[ $action ],
+                'api_available'                  => self::$lp_api_availability,
+                'laterpay_api_fallback_behavior' => $behavior[ $action ],
                 )
             );
         }

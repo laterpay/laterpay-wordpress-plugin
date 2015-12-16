@@ -104,16 +104,16 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         // provide default values for empty shortcode attributes
         $a = shortcode_atts( array(
-                                'target_post_id'    => '',
-                                'target_post_title' => '',
-                                'heading_text'      => __( 'Additional Premium Content', 'laterpay' ),
-                                'description_text'  => '',
-                                'content_type'      => '',
-                                'teaser_image_path' => '',
-                                // deprecated:
+            'target_post_id'    => '',
+            'target_post_title' => '',
+            'heading_text'      => __( 'Additional Premium Content', 'laterpay' ),
+            'description_text'  => '',
+            'content_type'      => '',
+            'teaser_image_path' => '',
+            // deprecated:
                                 'target_page_id'    => '',
-                                'target_page_title' => '',
-                            ), $atts );
+            'target_page_title' => '',
+        ), $atts );
 
         $deprecated_template = __( '<code>%1$s</code> is deprecated, please use <code>%2$s</code>. <code>%1$s</code> will be removed in the next release.', 'laterpay' );
 
