@@ -103,7 +103,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                         'ip'            => $data['ip'],
                         'hash'          => $data['hash'],
                         'revenue_model' => $data['revenue_model'],
-                        'pass_id'       => isset( $data['pass_id'] ) ? $data['pass_id'] : null,
+                        'pass_id'       => isset( $data['pass_id'] ) ? $data['pass_id'] : 0,
                         'code'          => isset( $data['code'] ) ? $data['code'] : null,
                     ),
                 array(
