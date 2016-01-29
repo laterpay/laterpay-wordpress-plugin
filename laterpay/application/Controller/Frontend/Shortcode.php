@@ -352,20 +352,16 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
-        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
-            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
-        }
-
         if ( ! isset( $_GET['ids'] ) ) {
-            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'ids' );
         }
 
         if ( ! isset( $_GET['types'] ) ) {
-            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'types' );
         }
 
         if ( ! isset( $_GET['post_id'] ) ) {
-            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'post_id' );
         }
 
         $current_post_id = absint( $_GET['post_id'] );
@@ -626,10 +622,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
     public function ajax_load_gift_action( LaterPay_Core_Event $event ) {
         if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_gift_card_actions' ) {
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
-        }
-
-        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
-            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
         }
 
         if ( ! isset( $_GET['pass_id'] ) ) {

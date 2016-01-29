@@ -127,7 +127,6 @@
                         {
                             action  : 'laterpay_redeem_voucher_code',
                             code    : code,
-                            nonce   : lpVars.nonces.voucher,
                             link    : window.location.href
                         },
                         function(r) {
@@ -250,8 +249,7 @@
                     lpVars.ajaxUrl,
                     {
                         action  : 'laterpay_post_rating_summary',
-                        post_id : lpVars.post_id,
-                        nonce   : lpVars.nonces.rating
+                        post_id : lpVars.post_id
                     },
                     function(ratingSummary) {
                         if (ratingSummary) {
@@ -274,7 +272,6 @@
                     lpVars.ajaxUrl,
                     {
                         action  : 'laterpay_get_gift_card_actions',
-                        nonce   : lpVars.nonces.gift,
                         pass_id : ids,
                         link    : window.location.href
                     },
@@ -318,10 +315,9 @@
                     lpVars.ajaxUrl,
                     {
                         action  : 'laterpay_get_premium_shortcode_link',
-                        nonce   : lpVars.nonces.premium,
                         ids     : ids,
                         types   : types,
-                        post_id : lpVars.post_id,
+                        post_id : lpVars.post_id
                     },
                     function(r) {
                         if (r.data) {
@@ -346,8 +342,7 @@
                     lpVars.ajaxUrl,
                     {
                         action  : 'laterpay_post_statistic_render',
-                        post_id : lpVars.post_id,
-                        nonce   : lpVars.nonces.statistic
+                        post_id : lpVars.post_id
                     },
                     function(data) {
                         if (data) {
@@ -433,8 +428,7 @@
                     lpVars.ajaxUrl,
                     {
                         action   : 'laterpay_post_load_purchased_content',
-                        post_id  : lpVars.post_id,
-                        nonce    : lpVars.nonces.content
+                        post_id  : lpVars.post_id
                     },
                     function(postContent) {
                         if (postContent) {
@@ -442,19 +436,11 @@
                             // load rating form
                             recacheRatingForm();
                             bindRatingEvents();
-                        }
-                        loadPremiumUrls();
-                    }
-                );
-            },
 
-            trackViews = function() {
-                $.post(
-                    lpVars.ajaxUrl,
-                    {
-                        action  : 'laterpay_post_track_views',
-                        post_id : lpVars.post_id,
-                        nonce   : lpVars.nonces.tracking
+                            if ( $($o.premiumBox).length >= 1 ) {
+                                loadPremiumUrls();
+                            }
+                        }
                     }
                 );
             },
@@ -495,7 +481,6 @@
                 // (recognizable by the presence of lp_js_postContentPlaceholder
                 if ($o.postContentPlaceholder.length === 1) {
                     loadPostContent();
-                    trackViews();
                 }
 
                 // render the post statistics pane, if a placeholder exists for it

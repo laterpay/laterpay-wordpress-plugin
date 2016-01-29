@@ -500,13 +500,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
     public function ajax_render_tab_without_statistics( LaterPay_Core_Event $event ) {
         $statistic_form = new LaterPay_Form_Statistic( $_GET );
 
-        $condition = array(
-            'verify_nonce' => array(
-                'action' => $statistic_form->get_field_value( 'action' ),
-            )
-        );
-        $statistic_form->add_validation( 'nonce', $condition );
-
         if ( ! $statistic_form->is_valid() ) {
             $event->stop_propagation();
             return;

@@ -119,11 +119,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
-        if ( ! isset( $_GET['nonce'] )
-             || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
-            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
-        }
-
         if ( ! isset( $_GET['post_id'] ) ) {
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'post_id' );
         }
@@ -219,10 +214,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
-        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
-            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
-        }
-
         if ( ! isset( $_GET['post_id'] ) ) {
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'post_id' );
         }
@@ -265,10 +256,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public function ajax_redeem_voucher_code( LaterPay_Core_Event $event ) {
         if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_redeem_voucher_code' ) {
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
-        }
-
-        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
-            throw new LaterPay_Core_Exception_InvalidIncomingData( 'nonce' );
         }
 
         if ( ! isset( $_GET['code'] ) ) {
@@ -767,15 +754,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 'post_id'               => ! empty( $post ) ? $post->ID : false,
                 'debug'                 => (bool) $this->config->get( 'debug_mode' ),
                 'caching'               => (bool) $this->config->get( 'caching.compatible_mode' ),
-                'nonces'                => array(
-                    'content'           => wp_create_nonce( 'laterpay_post_load_purchased_content' ),
-                    'statistic'         => wp_create_nonce( 'laterpay_post_statistic_render' ),
-                    'tracking'          => wp_create_nonce( 'laterpay_post_track_views' ),
-                    'rating'            => wp_create_nonce( 'laterpay_post_rating_summary' ),
-                    'voucher'           => wp_create_nonce( 'laterpay_redeem_voucher_code' ),
-                    'gift'              => wp_create_nonce( 'laterpay_get_gift_card_actions' ),
-                    'premium'           => wp_create_nonce( 'laterpay_get_premium_shortcode_link' ),
-                ),
                 'i18n'                  => array(
                     'alert'             => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                     'validVoucher'      => __( 'Voucher code accepted.', 'laterpay' ),

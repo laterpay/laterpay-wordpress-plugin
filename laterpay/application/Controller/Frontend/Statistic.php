@@ -130,32 +130,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
     }
 
     /**
-     * Ajax method to track unique visitors when caching compatible mode is enabled.
-     *
-     * @wp-hook wp_ajax_laterpay_post_load_track_views, wp_ajax_nopriv_laterpay_post_load_track_views
-     * @param LaterPay_Core_Event $event
-     * @throws LaterPay_Core_Exception_FormValidation
-     *
-     * @return void
-     */
-    public function ajax_track_views( LaterPay_Core_Event $event ) {
-        $statistic_form = new LaterPay_Form_Statistic();
-
-        if ( ! $statistic_form->is_valid() ) {
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $statistic_form ), $statistic_form->get_errors() );
-        }
-
-        $post_id             = $statistic_form->get_field_value( 'post_id' );
-        $post                = get_post( $post_id );
-        $can_read_statistics = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
-
-        // don't track admin users (everybody who is allowed to view statistics data) in order to no skew the data
-        if ( $this->check_requirements( $post ) && ! $can_read_statistics ) {
-            LaterPay_Helper_Statistic::track( $post_id );
-        }
-    }
-
-    /**
      * Callback to add the statistics placeholder to the footer.
      *
      * @wp-hook wp_footer
@@ -319,13 +293,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      */
     public function ajax_render_tab( LaterPay_Core_Event $event ) {
         $statistic_form = new LaterPay_Form_Statistic( $_GET );
-
-        $condition = array(
-            'verify_nonce' => array(
-                'action' => $statistic_form->get_field_value( 'action' ),
-            )
-        );
-        $statistic_form->add_validation( 'nonce', $condition );
 
         if ( ! $statistic_form->is_valid() ) {
             throw new LaterPay_Core_Exception_FormValidation( get_class( $statistic_form ), $statistic_form->get_errors() );

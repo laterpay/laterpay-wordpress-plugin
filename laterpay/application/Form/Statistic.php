@@ -31,20 +31,6 @@ class LaterPay_Form_Statistic extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'nonce',
-            array(
-                'validators' => array(
-                    'is_string',
-                    'cmp' => array(
-                        array(
-                            'ne' => null,
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->set_field(
             'post_id',
             array(
                 'validators' => array(
