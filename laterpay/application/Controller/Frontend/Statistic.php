@@ -320,13 +320,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
     public function ajax_render_tab( LaterPay_Core_Event $event ) {
         $statistic_form = new LaterPay_Form_Statistic( $_GET );
 
-        $condition = array(
-            'verify_nonce' => array(
-                'action' => $statistic_form->get_field_value( 'action' ),
-            )
-        );
-        $statistic_form->add_validation( 'nonce', $condition );
-
         if ( ! $statistic_form->is_valid() ) {
             throw new LaterPay_Core_Exception_FormValidation( get_class( $statistic_form ), $statistic_form->get_errors() );
         }
