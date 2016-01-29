@@ -848,6 +848,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $view_args = array(
             'teaser_content' => $wp_embed->autoembed( $teaser_content ),
         );
+        var_dump($view_args); exit;
+
         $this->assign( 'laterpay', $view_args );
         $html = $event->get_result();
         $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
