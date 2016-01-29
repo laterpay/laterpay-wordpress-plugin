@@ -442,16 +442,6 @@
                 );
             },
 
-            trackViews = function() {
-                $.post(
-                    lpVars.ajaxUrl,
-                    {
-                        action  : 'laterpay_post_track_views',
-                        post_id : lpVars.post_id
-                    }
-                );
-            },
-
             handlePurchaseInTestMode = function(trigger) {
                 if ($(trigger).data('preview-as-visitor') && !$(trigger).data('is-in-visible-test-mode')) {
                     // show alert instead of loading LaterPay purchase dialogs
@@ -488,7 +478,6 @@
                 // (recognizable by the presence of lp_js_postContentPlaceholder
                 if ($o.postContentPlaceholder.length === 1) {
                     loadPostContent();
-                    //trackViews();
                 }
 
                 // render the post statistics pane, if a placeholder exists for it
