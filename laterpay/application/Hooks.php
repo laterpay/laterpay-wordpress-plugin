@@ -1,11 +1,4 @@
 <?php
-/**
- * LaterPay hooks class
- *
- * Plugin Name: LaterPay
- * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
- * Author URI: https://laterpay.net/
- */
 
 class LaterPay_Hooks {
     private static $wp_action_prefix    = 'wp_action_';
