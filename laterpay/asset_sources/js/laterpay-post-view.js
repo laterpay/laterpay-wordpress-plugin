@@ -436,8 +436,11 @@
                             // load rating form
                             recacheRatingForm();
                             bindRatingEvents();
+
+                            if ( $($o.premiumBox).length >= 1 ) {
+                                loadPremiumUrls();
+                            }
                         }
-                        loadPremiumUrls();
                     }
                 );
             },
