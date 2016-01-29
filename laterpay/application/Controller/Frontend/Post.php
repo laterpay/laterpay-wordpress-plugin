@@ -839,6 +839,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         if ( ! $teaser_content ) {
             $teaser_content = LaterPay_Helper_Post::add_teaser_to_the_post( $post );
         }
+
+        // autoembed
+        $teaser_content = $wp_embed->autoembed( $teaser_content );
         // add paragraphs to teaser content through wpautop
         $teaser_content = wpautop( $teaser_content );
         // get_the_content functionality for custom content
@@ -846,9 +849,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         // assign all required vars to the view templates
         $view_args = array(
-            'teaser_content' => $wp_embed->autoembed( $teaser_content ),
+            'teaser_content' => $teaser_content,
         );
-        var_dump($view_args); exit;
 
         $this->assign( 'laterpay', $view_args );
         $html = $event->get_result();
