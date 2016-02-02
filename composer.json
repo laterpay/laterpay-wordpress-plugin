@@ -2,7 +2,7 @@
     "name": "laterpay/laterpay-wordpress-plugin",
     "description": "This is the official LaterPay plugin for selling digital content with WordPress",
     "license": "MIT",
-    "version": "0.9.12",
+    "version": "0.9.13",
     "config": {
         "vendor-dir": "laterpay/vendor"
     },
