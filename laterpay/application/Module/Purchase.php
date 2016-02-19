@@ -77,18 +77,23 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $post = get_post();
         }
 
+        $current_post_id = null;
+        if ( $event->has_argument( 'post' ) ) {
+            $current_post_id = $event->get_argument( 'current_post' );
+        }
+
         // show time pass sis notification with login link
         $sis_notification_event = new LaterPay_Core_Event();
         $sis_notification_event->set_echo( false );
         laterpay_event_dispatcher()->dispatch( 'laterpay_show_sis_notification', $sis_notification_event );
 
         $view_args = array_merge( array(
-            'post_id'                         => $post->ID,
-            'link'                            => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
-            'currency'                        => get_option( 'laterpay_currency' ),
-            'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-            'attributes'                      => array(),
-            'sis_notification'                => $sis_notification_event->get_result(),
+            'post_id'          => $post->ID,
+            'link'             => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
+            'currency'         => get_option( 'laterpay_currency' ),
+            'price'            => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
+            'attributes'       => array(),
+            'sis_notification' => $sis_notification_event->get_result(),
             ),
             $event->get_arguments()
         );

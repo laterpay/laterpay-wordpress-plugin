@@ -436,6 +436,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 $button_event = new LaterPay_Core_Event();
                 $button_event->set_echo( false );
                 $button_event->set_argument( 'post', $post );
+                $button_event->set_argument( 'current_post', $current_post_id );
                 $button_event->set_argument( 'attributes', array(
                     'class' => 'lp_js_doPurchase lp_purchase-button lp_purchase-link--shortcode',
                 ) );

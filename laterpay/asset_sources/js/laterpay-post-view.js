@@ -496,7 +496,7 @@
                     loadGiftCards();
                 }
 
-                if ($($o.premiumBox).length >=1 && !$o.postContentPlaceholder.length) {
+                if ($($o.premiumBox).length >= 1) {
                     loadPremiumUrls();
                 }
 
