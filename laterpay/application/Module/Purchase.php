@@ -468,7 +468,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
 
         $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
-        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
+        if ( $post instanceof WP_Post && LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
             $event->stop_propagation();
         }
     }
