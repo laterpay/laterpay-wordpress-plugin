@@ -772,7 +772,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      *
      * @return void
      */
-    public function update_post_prices_after_category_delete( $category_id ) {
+    public function update_post_prices_after_category_delete( LaterPay_Core_Event $event ) {
+        $args = (array) $event->get_arguments();
+        $category_id = $args[0];
+
         $category_price_model = new LaterPay_Model_CategoryPrice();
         $category_price_model->delete_prices_by_category_id( $category_id );
 
