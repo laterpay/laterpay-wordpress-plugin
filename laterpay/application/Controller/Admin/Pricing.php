@@ -871,10 +871,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $data    = $time_pass_model->update_time_pass( $data );
         $pass_id = $data['pass_id'];
 
+        // default vouchers data
+        $vouchers_data = array();
+
         // set vouchers data
         $voucher_codes = $save_time_pass_form->get_field_value( 'voucher_code' );
         if ( $voucher_codes && is_array( $voucher_codes ) ) {
-            $vouchers_data = array();
             $voucher_prices = $save_time_pass_form->get_field_value( 'voucher_price' );
             $voucher_titles = $save_time_pass_form->get_field_value( 'voucher_title' );
             foreach ( $voucher_codes as $idx => $code ) {
@@ -885,10 +887,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     'title' => isset( $voucher_titles[ $idx ] ) ? $voucher_titles[ $idx ] : '',
                 );
             }
-
-            // save vouchers for this pass
-            LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $vouchers_data );
         }
+
+        // save vouchers for this pass
+        LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $vouchers_data );
 
         $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
         $hmtl_data             = $data;
