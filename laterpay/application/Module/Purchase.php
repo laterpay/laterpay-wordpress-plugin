@@ -328,10 +328,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $client_options['token_name']
         );
 
-        if ( $download_attached ) {
-            $post_id = $download_attached;
-        }
-
         if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
             // check token
             if ( ! empty( $lptoken ) ) {
@@ -340,7 +336,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 $laterpay_client->acquire_token();
             }
             $data = array(
-                'post_id'       => $post_id,
+                'post_id'       => $download_attached ? $download_attached : $post_id,
                 'id_currency'   => $id_currency,
                 'price'         => $price,
                 'date'          => $date,
@@ -354,11 +350,11 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
         // prepare attachment URL for download
         if ( $download_attached ) {
-            $post    = get_post( $post_id );
+            $post    = get_post( $download_attached );
             $access  = LaterPay_Helper_Post::has_access_to_post( $post );
             $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
-                $post_id,
-                wp_get_attachment_url( $post_id ),
+                $download_attached,
+                wp_get_attachment_url( $download_attached ),
                 $access,
                 'attachment'
             );
