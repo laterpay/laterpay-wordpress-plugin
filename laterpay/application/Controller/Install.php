@@ -48,6 +48,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 array( 'maybe_update_unlimited_access' ),
                 array( 'maybe_update_post_views' ),
                 array( 'maybe_clear_dashboard_cache' ),
+                array( 'maybe_update_revenue' ),
+                array( 'maybe_update_vouchers' ),
                 array( 'update_post_view_table_structure' ),
             ),
         );
@@ -684,6 +686,28 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
+     * Update revenue structure.
+     *
+     * @since 0.9.13
+     *
+     * @return void
+     */
+    public function maybe_update_revenue() {
+        global $wpdb;
+
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.13', '<' ) ) {
+            return;
+        }
+
+        $terms_table   = $wpdb->prefix . 'laterpay_terms_price';
+        $table_history = $wpdb->prefix . 'laterpay_payment_history';
+
+        $wpdb->query( 'ALTER TABLE ' . $terms_table . " CHANGE revenue_model revenue_model ENUM('ppu','sis','ppul') NOT NULL DEFAULT 'ppu';" );
+        $wpdb->query( 'ALTER TABLE ' . $table_history . " CHANGE revenue_model revenue_model ENUM('ppu','sis','ppul') NOT NULL DEFAULT 'ppu';" );
+    }
+
+    /**
      * Create custom tables and set the required options.
      *
      * @return void
@@ -710,7 +734,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 id int(11) NOT NULL AUTO_INCREMENT,
                 term_id int(11) NOT NULL,
                 price double NOT NULL DEFAULT '0',
-                revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
+                revenue_model enum('ppu','sis','ppul') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta( $sql );
@@ -725,7 +749,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 date datetime NOT NULL,
                 ip int NOT NULL,
                 hash varchar(56) NOT NULL,
-                revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
+                revenue_model enum('ppu','sis','ppul') NOT NULL DEFAULT 'ppu',
                 pass_id int(11) NOT NULL DEFAULT 0,
                 code varchar(6) NULL DEFAULT NULL,
                 PRIMARY KEY  (id)
@@ -816,6 +840,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         // update vouchers structure
         $this->maybe_update_vouchers();
+
+        // add ppul
+        $this->maybe_update_revenue();
 
         // clear opcode cache
         LaterPay_Helper_Cache::reset_opcode_cache();
