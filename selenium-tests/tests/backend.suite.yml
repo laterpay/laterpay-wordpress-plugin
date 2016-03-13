@@ -1,0 +1,48 @@
+class_name: BackendTester
+modules:
+    enabled:
+        - WebDriver
+        - CommonHelper
+        - Db
+    config:
+        WebDriver:
+            url: 'http://wordpress.loc/'
+            browser: firefox
+            restart: false
+            clear_cookies: false
+            window_size: 1280x1024
+            capabilities:
+                unexpectedAlertBehaviour: 'accept'
+                "max-duration": 7200
+        Db:
+            dsn: 'mysql:dbname=wp;host=localhost'
+            user: 'root'
+            password: ''
+            dump: ''
+            populate: true
+env:
+    firefox_win:
+        config:
+            WebDriver:
+                host: ''
+                url: ''
+                os: "Windows 7"
+                browser: firefox
+                restart: false
+                clear_cookies: false
+                window_size: 1280x1024
+                capabilities:
+                    unexpectedAlertBehaviour: 'accept'
+    safari_mac:
+        config:
+            WebDriver:
+                host: ''
+                url: ''
+                os: "OS X 10.6"
+                browser: safari
+                restart: false
+                clear_cookies: false
+                window_size: 1280x1024
+                capabilities:
+                    unexpectedAlertBehaviour: 'accept'
+

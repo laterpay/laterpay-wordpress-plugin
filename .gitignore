@@ -7,6 +7,9 @@ node_modules/
 .gulp
 # composer generated files and folders
 laterpay/vendor
-selenium-tests/*
+# selenium tests
+selenium-tests/vendor/
+selenium-tests/tests/_output
+selenium-tests/tests/backend.suite.yml
+selenium-tests/tests/_data/*.zip
 composer.lock
-
