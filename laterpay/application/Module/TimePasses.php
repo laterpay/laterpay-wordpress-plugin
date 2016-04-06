@@ -44,7 +44,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 array( 'on_purchase_overlay_content', 5 ),
             ),
             'wp_ajax_laterpay_post_statistic_render' => array(
-                array( 'remove_laterpay_post_statistic', 200 ),
+                array( 'ajax_render_tab_without_statistics', 200 ),
             ),
             'laterpay_purchase_button' => array(
                 array( 'check_only_time_pass_purchases_allowed', 200 ),
@@ -56,22 +56,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 array( 'display_sis_notification', 0 ),
             )
         );
-    }
-
-    /**
-     * Post statistics are irrelevant, if only time pass purchases are allowed, but we still need to have the
-     * option to switch the preview mode for the given post, so we only render that switch in this case
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function remove_laterpay_post_statistic( LaterPay_Core_Event $event ) {
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
-            $listener = LaterPay_Core_Bootstrap::get_controller( 'Frontend_Statistic' );
-            $result = laterpay_event_dispatcher()->remove_listener( $event->get_name(), array( $listener, 'ajax_render_tab' ) );
-            if ( $result ) {
-                laterpay_event_dispatcher()->add_listener( $event->get_name(), array( $this, 'ajax_render_tab_without_statistics' ) );
-            }
-        }
     }
 
     /**
@@ -323,23 +307,16 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $request        = new LaterPay_Core_Request();
         $pass_id        = $request->get_param( 'pass_id' );
         $link           = $request->get_param( 'link' );
+
         if ( ! isset( $pass_id ) || ! isset( $link ) ) {
             return;
         }
-        $id_currency    = $request->get_param( 'id_currency' );
-        $price          = $request->get_param( 'price' );
-        $date           = $request->get_param( 'date' );
-        $ip             = $request->get_param( 'ip' );
-        $revenue_model  = $request->get_param( 'revenue_model' );
+
         $voucher        = $request->get_param( 'voucher' );
         $hmac           = $request->get_param( 'hmac' );
         $lptoken        = $request->get_param( 'lptoken' );
         $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $pass_id );
-        $post_id = 0;
-        $post    = get_post();
-        if ( $post !== null ) {
-            $post_id = $post->ID;
-        }
+
         $client_options  = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
             $client_options['cp_key'],
@@ -348,6 +325,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $client_options['web_root'],
             $client_options['token_name']
         );
+
         if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
             // check token
             if ( ! empty( $lptoken ) ) {
@@ -367,8 +345,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                         'title' => null,
                     );
                     LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true );
-                    // set param for purchase history
-                    $code = $voucher;
                     // set cookie to store information that gift card was purchased
                     setcookie(
                         'laterpay_purchased_gift_card',
@@ -384,21 +360,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 // update voucher statistics
                 LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher );
             }
-            // save payment history
-            $data = array(
-                'id_currency'   => $id_currency,
-                'post_id'       => $post_id,
-                'price'         => $price,
-                'date'          => $date,
-                'ip'            => $ip,
-                'hash'          => $hmac,
-                'revenue_model' => $revenue_model,
-                'pass_id'       => $pass_id,
-                'code'          => $code,
-            );
-
-            $payment_history_model = new LaterPay_Model_Payment_History();
-            $payment_history_model->set_payment_history( $data );
         }
         wp_redirect( $link );
         // exit script after redirect was set

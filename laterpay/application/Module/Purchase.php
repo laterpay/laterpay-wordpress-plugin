@@ -250,6 +250,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         list( $has_access, $post_id ) = $event->get_arguments() + array( '', '' );
         $event->set_result( false );
         $event->set_echo( false );
+
         // get post
         if ( ! isset( $post_id ) ) {
             $post = get_post();
@@ -305,16 +306,13 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
         $request           = new LaterPay_Core_Request();
         $buy               = $request->get_param( 'buy' );
+
         // return, if the request was not a redirect after a purchase
         if ( ! isset( $buy ) ) {
             return;
         }
+
         $post_id           = $request->get_param( 'post_id' );
-        $id_currency       = $request->get_param( 'id_currency' );
-        $price             = $request->get_param( 'price' );
-        $date              = $request->get_param( 'date' );
-        $ip                = $request->get_param( 'ip' );
-        $revenue_model     = $request->get_param( 'revenue_model' );
         $hmac              = $request->get_param( 'hmac' );
         $lptoken           = $request->get_param( 'lptoken' );
         $download_attached = $request->get_param( 'download_attached' );
@@ -335,19 +333,8 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             } elseif ( ! $laterpay_client->has_token() ) {
                 $laterpay_client->acquire_token();
             }
-            $data = array(
-                'post_id'       => $download_attached ? $download_attached : $post_id,
-                'id_currency'   => $id_currency,
-                'price'         => $price,
-                'date'          => $date,
-                'ip'            => $ip,
-                'hash'          => $hmac,
-                'revenue_model' => $revenue_model,
-            );
-
-            $payment_history_model = new LaterPay_Model_Payment_History();
-            $payment_history_model->set_payment_history( $data );
         }
+
         // prepare attachment URL for download
         if ( $download_attached ) {
             $post    = get_post( $download_attached );

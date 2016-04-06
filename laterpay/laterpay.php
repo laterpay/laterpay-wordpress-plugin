@@ -213,16 +213,6 @@ function laterpay_get_plugin_config() {
     );
     $config->import( $content_settings );
 
-    /**
-     * Access logging for generating sales statistics within the plugin;
-     * Sets a cookie and logs all requests from visitors to your blog, if enabled
-     *
-     * @var boolean$access_logging_enabled
-     *
-     * @return boolean$access_logging_enabled
-     */
-    $config->set( 'logging.access_logging_enabled', get_option( 'laterpay_access_logging_enabled' ) );
-
     // Browscap browser detection library
     $browscap_settings = array(
         // Auto-update browscap library

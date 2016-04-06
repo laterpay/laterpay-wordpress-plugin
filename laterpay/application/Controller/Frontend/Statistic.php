@@ -18,10 +18,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'modify_footer' ),
             ),
-            'wp_ajax_laterpay_post_statistic_render' => array(
-                array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'ajax_render_tab' ),
-            ),
             'wp_ajax_laterpay_post_statistic_visibility' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 300 ),
@@ -43,11 +39,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      * @return bool
      */
     protected function check_requirements( $post = null ) {
-        // don't collect statistics data, if logging is disabled
-        if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
-            $this->logger->warning( __METHOD__ . ' - access logging is not enabled' );
-            return false;
-        }
 
         if ( empty( $post ) ) {
             // check, if we're on a singular page
@@ -98,35 +89,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
         }
 
         return true;
-    }
-
-    /**
-     * Track unique visitors.
-     *
-     * @wp-hook template_redirect
-     *
-     * @return void
-     */
-    public function add_unique_visitors_tracking() {
-        if ( ! $this->check_requirements() ) {
-            return;
-        }
-
-        $post_id = get_the_ID();
-
-        // don't track admin users (everybody who is allowed to view statistics data) in order to no skew the data
-        if ( LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
-            return;
-        }
-
-        $this->logger->info(
-            __METHOD__,
-            array(
-                'post_id' => $post_id,
-            )
-        );
-
-        LaterPay_Helper_Statistic::track( $post_id );
     }
 
     /**
@@ -280,134 +242,5 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                 'message' => __( 'Updated.', 'laterpay' ),
             )
         );
-    }
-
-    /**
-     * Ajax callback to render the statistics pane.
-     *
-     * @wp-hook wp_ajax_laterpay_post_statistic_render
-     * @param LaterPay_Core_Event $event
-     * @throws LaterPay_Core_Exception_FormValidation
-     *
-     * @return void
-     */
-    public function ajax_render_tab( LaterPay_Core_Event $event ) {
-        $statistic_form = new LaterPay_Form_Statistic( $_GET );
-
-        if ( ! $statistic_form->is_valid() ) {
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $statistic_form ), $statistic_form->get_errors() );
-        }
-
-        $post_id = $statistic_form->get_field_value( 'post_id' );
-        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
-            $event->stop_propagation();
-            return;
-        }
-
-        $post = get_post( $post_id );
-        $statistic = $this->initialize_post_statistics( $post );
-
-        // assign variables
-        $view_args = array(
-            'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( $post ),
-            'hide_statistics_pane'    => LaterPay_Helper_User::statistics_pane_is_hidden(),
-            'currency'                => get_option( 'laterpay_currency' ),
-            'post_id'                 => $post_id,
-            'statistic'               => $statistic,
-        );
-        $this->assign( 'laterpay', $view_args );
-
-        $event->set_result( $this->get_text_view( 'frontend/partials/post/post-statistics' ) );
-    }
-
-    /**
-     * Generate performance data statistics for post.
-     *
-     * @param WP_Post $post
-     *
-     * @return array  $statistic_args
-     */
-    protected function initialize_post_statistics( WP_Post $post ) {
-        // get currency
-        $currency = get_option( 'laterpay_currency' );
-
-        // get historical performance data for post
-        $payments_history_model = new LaterPay_Model_Payment_History();
-        $post_views_model       = new LaterPay_Model_Post_View();
-        $currency_model         = new LaterPay_Model_Currency();
-
-        // get total revenue and total sales
-        $total = array();
-        $history_total = (array) $payments_history_model->get_total_history_by_post_id( $post->ID );
-        foreach ( $history_total as $item ) {
-            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
-            $total[ $currency_short_name ]['sum']      = round( $item->sum, 2 );
-            $total[ $currency_short_name ]['quantity'] = $item->quantity;
-        }
-
-        // get revenue
-        $last30DaysRevenue = array();
-        $history_last30DaysRevenue = (array) $payments_history_model->get_last_30_days_history_by_post_id( $post->ID );
-        foreach ( $history_last30DaysRevenue as $item ) {
-            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
-            $last30DaysRevenue[ $currency_short_name ][ $item->date ] = array(
-                'sum'       => round( $item->sum, 2 ),
-                'quantity'  => $item->quantity,
-            );
-        }
-
-        $todayRevenue = array();
-        $history_todayRevenue = (array) $payments_history_model->get_todays_history_by_post_id( $post->ID );
-        foreach ( $history_todayRevenue as $item ) {
-            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
-            $todayRevenue[ $currency_short_name ]['sum']       = round( $item->sum, 2 );
-            $todayRevenue[ $currency_short_name ]['quantity']  = $item->quantity;
-        }
-
-        // get visitors
-        $last30DaysVisitors = array();
-        $history_last30DaysVisitors = (array) $post_views_model->get_last_30_days_history( $post->ID );
-        foreach ( $history_last30DaysVisitors as $item ) {
-            $last30DaysVisitors[ $item->date ] = array(
-                'quantity' => $item->quantity,
-            );
-        }
-
-        $todayVisitors = (array) $post_views_model->get_todays_history( $post->ID );
-        $todayVisitors = $todayVisitors[0]->quantity;
-
-        // get buyers (= conversion rate)
-        $last30DaysBuyers = array();
-        if ( isset( $last30DaysRevenue[ $currency ] ) ) {
-            $revenues = $last30DaysRevenue[ $currency ];
-        } else {
-            $revenues = array();
-        }
-        foreach ( $revenues as $date => $item ) {
-            $percentage = 0;
-            if ( isset( $last30DaysVisitors[ $date ] ) && ! empty( $last30DaysVisitors[ $date ]['quantity'] ) ) {
-                $percentage = round( 100 * $item['quantity'] / $last30DaysVisitors[ $date ]['quantity'] );
-            }
-            $last30DaysBuyers[ $date ] = array( 'percentage' => $percentage );
-        }
-
-        $todayBuyers = 0;
-        if ( ! empty( $todayVisitors ) && isset( $todayRevenue[ $currency ] ) ) {
-            // percentage of buyers (sales divided by visitors)
-            $todayBuyers = round( 100 * $todayRevenue[ $currency ]['quantity'] / $todayVisitors );
-        }
-
-        // assign variables
-        $statistic_args = array(
-            'total'                 => $total,
-            'last30DaysRevenue'     => $last30DaysRevenue,
-            'todayRevenue'          => $todayRevenue,
-            'last30DaysBuyers'      => $last30DaysBuyers,
-            'todayBuyers'           => $todayBuyers,
-            'last30DaysVisitors'    => $last30DaysVisitors,
-            'todayVisitors'         => $todayVisitors,
-        );
-
-        return $statistic_args;
     }
 }

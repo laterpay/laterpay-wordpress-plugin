@@ -151,14 +151,6 @@ class LaterPay_Core_Bootstrap
         $controller = self::get_controller( 'Admin_Account' );
         laterpay_event_dispatcher()->add_subscriber( $controller );
 
-        // time passes
-        $controller = self::get_controller( 'Admin_TimePass' );
-        laterpay_event_dispatcher()->add_subscriber( $controller );
-
-        // custom action to refresh the dashboard
-        $dashboard_controller = self::get_controller( 'Admin_Dashboard' );
-        laterpay_event_dispatcher()->add_subscriber( $dashboard_controller );
-
         // register callbacks for adding meta_boxes
         $post_metabox_controller    = self::get_controller( 'Admin_Post_Metabox' );
         laterpay_event_dispatcher()->add_subscriber( $post_metabox_controller );
@@ -212,11 +204,6 @@ class LaterPay_Core_Bootstrap
     public function activate() {
         $install_controller = self::get_controller( 'Install' );
         $install_controller->install();
-
-        // register the 'refresh dashboard' cron job
-        wp_schedule_event( time(), 'hourly', 'laterpay_refresh_dashboard_data' );
-        // register the 'delete old post views' cron job
-        wp_schedule_event( time(), 'daily', 'laterpay_delete_old_post_views', array( '3 month' ) );
     }
 
     /**

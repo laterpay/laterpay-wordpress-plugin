@@ -238,6 +238,26 @@ class LaterPay_Helper_User
     }
 
     /**
+     * Get user unique id.
+     *
+     * @return null|string user id
+     */
+    public static function get_user_unique_id( ) {
+        if ( isset( $_COOKIE['laterpay_tracking_code'] ) ) {
+            list( $uniqueId, $control_code ) = explode( '.', sanitize_text_field( $_COOKIE['laterpay_tracking_code'] ) );
+
+            // make sure only authorized information is recorded
+            if ( $control_code != md5( $uniqueId . AUTH_SALT ) ) {
+                return null;
+            }
+
+            return $uniqueId;
+        }
+
+        return null;
+    }
+
+    /**
      * Remove cookie by name
      *
      * @param $name

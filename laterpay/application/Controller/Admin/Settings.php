@@ -196,7 +196,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_teaser_content_settings();
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
-        $this->add_logger_settings();
         $this->add_browscap_settings();
         $this->add_laterpay_api_settings();
     }
@@ -247,7 +246,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     }
 
     /**
-     * Render the hint text for the logger section.
+     * Render the hint text for the debugger section.
      *
      * @return string description
      */
@@ -663,52 +662,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             // tell the user that he needs to have at least one custom role defined
             echo laterpay_sanitize_output( '<h4>' . __( 'Please add a custom role first.', 'laterpay' ) . '</h4>' );
         }
-    }
-
-    /**
-     * Add logger section and fields.
-     *
-     * @return void
-     */
-    public function add_logger_settings() {
-        add_settings_section(
-            'laterpay_logger',
-            __( 'Access Logging for Generating Sales Statistics', 'laterpay' ),
-            array( $this, 'get_logger_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_access_logging_enabled',
-            __( 'Access Logging', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_logger',
-            array(
-                'name'  => 'laterpay_access_logging_enabled',
-                'value' => 1,
-                'type'  => 'checkbox',
-                'label' => __( 'I want to record access to my site to generate sales statistics', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_access_logging_enabled' );
-    }
-
-    /**
-     * Render the hint text for the logger section.
-     *
-     * @return string description
-     */
-    public function get_logger_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'The LaterPay WordPress plugin generates sales statistics for you on the dashboard and on the posts
-                pages.<br>
-                For collecting the required data it sets a cookie and stores all requests from visitors of your
-                blog.<br>
-                This data is stored anonymously on your server and not shared with LaterPay or anyone else.<br>
-                It will automatically be deleted after three months.', 'laterpay' ) .
-        '</p>' );
     }
 
     /**
