@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                name="only_time_pass_purchase_mode"
                                class="lp_js_onlyTimePassPurchaseModeInput lp_toggle__input"
                                value="1"
-								<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo 'checked'; } ?>
+                                <?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo 'checked'; } ?>
                         >
                         <span class="lp_toggle__text"></span>
                         <span class="lp_toggle__handle"></span>
