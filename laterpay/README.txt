@@ -1,6 +1,7 @@
 === LaterPay ===
 
 Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura
+Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
 Tested up to: 4.4.2
@@ -11,7 +12,6 @@ License: MIT
 License URI: http://opensource.org/licenses/MIT
 
 Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
-
 
 == Description ==
 
@@ -46,7 +46,6 @@ Time passes are by default displayed below your posts or can be positioned manua
 For each time pass, you can create any number of voucher codes that enable your users to purchase a time pass for a reduced price.
 A user can enter a voucher code below the respective time pass and its price will then be updated.
 Voucher codes are not user specific and can be used for any number of times until you delete them. Deleting a voucher code will not affect the access to time passes which have already been purchased with this code.
-
 
 = Presentation =
 * LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button at the beginning of the
@@ -109,22 +108,18 @@ Some plugin features may not be available for certain user roles, based on the W
 * Super Admins and Admins: Can **additionally** access the plugin backend, edit the plugin settings and (un-)install
 and (de-)activate the LaterPay WordPress plugin.
 
-
 == Installation ==
 
-# Upload the LaterPay WordPress plugin on the ‘Install Plugins’ page of your WordPress installation
+* Upload the LaterPay WordPress plugin on the ‘Install Plugins’ page of your WordPress installation
   (/wp-admin/plugin-install.php?tab=upload) and activate it on the ‘Plugins’ page (/wp-admin/plugins.php).
   The WordPress plugin will show up in the admin sidebar with a callout pointing at it.
-# The plugin is now in Test mode, i.e. the plugin is not visible to visitors, but only to admins.
+* The plugin is now in Test mode, i.e. the plugin is not visible to visitors, but only to admins.
   You can test and configure everything to your liking.
   If you want to start earning money, you have to first register a LaterPay merchant account and request your
   Live API credentials.
-# Click on the LaterPay entry in the admin sidebar to adjust the plugin preferences and prices.
+* Click on the LaterPay entry in the admin sidebar to adjust the plugin preferences and prices.
 
 The plugin will notify you about available updates that you can install with a single click.
-
-
-== Advanced Configuration ==
 
 The plugin's settings page (Settings > LaterPay) allows you to adjust some parameters, which are too advanced to list them in the regular LaterPay plugin backend:
 
@@ -166,23 +161,6 @@ You can define a fallback behavior for the case, that the LaterPay API is not re
 
 Additionally, you can choose whether you want to enable LaterPay on your front page or not.
 
-
-== Modification, Bug Reports, and Feature Requests ==
-
-The LaterPay WordPress plugin is one possible implementation of the LaterPay API that is targeted at the typical
-needs of bloggers and small to medium-sized online magazines.
-You can — and are highly welcome — to modify the LaterPay plugin to fit your requirements.
-
-If you are an expert WordPress user who is comfortable with web technologies and want to explore every last possibility
-of the LaterPay API, you may be better off by modifying the plugin or writing your own integration from scratch.
-As a rule of thumb, if you employ a whole team of developers, it is very likely that you may want to make a few
-modifications to the LaterPay WordPress plugin.
-
-If you have made a modification that would benefit other users of the LaterPay WordPress plugin, we will happily have a
-look at your work and integrate it into the official plugin.
-If you want to suggest a feature or report a bug, we are also looking forward to your message to wordpress@laterpay.net
-
-
 == Frequently Asked Questions ==
 
 = Contextual Help =
@@ -198,10 +176,9 @@ To get your LaterPay Live API credentials, please send us the signed merchant co
 documents that are listed in the merchant contract. You can find the merchant contract on the ’Account’ tab of the
 plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
 
-
 == Changelog ==
 
-== 0.9.14( April 7, 2016 ):  ==
+= 0.9.14 ( April 7, 2016 ): Bugfix Release (v1.0 RC7) =
 * Fixed category default price can't be saved as PPUL
 * Fixed category default price is not set automatically
 * Fixed issue with download request after purchasing attachment not fired.
@@ -212,7 +189,7 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 * Removed advanced setting for collecting statics data
 * Removed statistics functionalities
 
-== 0.9.13 (February 2, 2016 ): Bugfix Release (v1.0 RC6) ==
+= 0.9.13 (February 2, 2016 ): Bugfix Release (v1.0 RC6) =
 * Fixed videos not displayed in teaser
 * Remove deprecated features from plugin backend
 * Fixed "More" tag on homepage is ignored for paid posts
@@ -529,3 +506,27 @@ KNOWN BUGS:
 * Added a constant to config.php that lets you define a user role that has unrestricted access to all paid content
 * Added script that doesn't load jQuery if it's already present
 * Changed treatment of search engine bots to avoid cloaking penalties; removed toggle for search engine visibility from appearance tab
+
+== Screenshots ==
+
+Actual screenshots will be added later.
+
+== Upgrade notice ==
+
+= 0.9.14 ( April 7, 2016 ): Bugfix Release (v1.0 RC7) =
+Fixed various bugs with laterpay functional.
+
+== Arbitrary section ==
+
+The LaterPay WordPress plugin is one possible implementation of the LaterPay API that is targeted at the typical
+needs of bloggers and small to medium-sized online magazines.
+You can — and are highly welcome — to modify the LaterPay plugin to fit your requirements.
+
+If you are an expert WordPress user who is comfortable with web technologies and want to explore every last possibility
+of the LaterPay API, you may be better off by modifying the plugin or writing your own integration from scratch.
+As a rule of thumb, if you employ a whole team of developers, it is very likely that you may want to make a few
+modifications to the LaterPay WordPress plugin.
+
+If you have made a modification that would benefit other users of the LaterPay WordPress plugin, we will happily have a
+look at your work and integrate it into the official plugin.
+If you want to suggest a feature or report a bug, we are also looking forward to your message to wordpress@laterpay.net
