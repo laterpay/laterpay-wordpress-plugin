@@ -3,7 +3,7 @@
 Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.4.1
+Tested up to: 4.4.2
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -200,6 +200,17 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 
 
 == Changelog ==
+
+== 0.9.14( April 7, 2016 ):  ==
+* Fixed category default price can't be saved as PPUL
+* Fixed category default price is not set automatically
+* Fixed issue with download request after purchasing attachment not fired.
+* Fixed issue when voucher codes can't be fully deleted.
+* Fixed error during category deletion.
+* Fixed incorrect attachments purchase url.
+* Fixed undefined offset error after update.
+* Removed advanced setting for collecting statics data
+* Removed statistics functionalities
 
 == 0.9.13 (February 2, 2016 ): Bugfix Release (v1.0 RC6) ==
 * Fixed videos not displayed in teaser
