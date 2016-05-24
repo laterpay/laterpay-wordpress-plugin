@@ -70,14 +70,22 @@
                 .on('mousedown', $o.purchaseLink, function() {
                     handlePurchaseInTestMode(this);
                 })
-                .on('click', $o.purchaseLink, function(e) {e.preventDefault();});
+                .on('click', $o.purchaseLink, function(e) {
+                    // redirect to the laterpay side
+                    e.preventDefault();
+                    if ( $(this).data( 'preview-post-as-visitor' ) ) {
+                        alert(lpVars.i18n.alert);
+                    } else {
+                        window.location.href = $(this).data('laterpay');
+                    }
+                });
 
                 // handle clicks on time passes
                 $('body')
-                .on('click', $o.flipTimePassLink, function() {
+                .on('click', $o.flipTimePassLink, function(e) {
+                    e.preventDefault();
                     flipTimePass(this);
-                })
-                .on('click', $o.flipTimePassLink, function(e) {e.preventDefault();});
+                });
             },
 
             bindPostStatisticsEvents = function() {
@@ -172,11 +180,9 @@
                                         showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
                                     }
                                 } else {
-                                    $('#fakebtn').attr('data-laterpay', r.url);
-                                    // fire purchase event on hidden fake button
-                                    YUI().use('node', 'node-event-simulate', function(Y) {
-                                        Y.one('#fakebtn').simulate('click');
-                                    });
+                                    $('#fakebtn')
+                                        .attr('data-laterpay', r.url)
+                                        .click();
                                 }
                             } else {
                                 // clear input
@@ -512,30 +518,3 @@
 laterPayPostView();
 
 });})(jQuery);
-
-
-// render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
-YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
-    var dm = new Y.LaterPay.DialogManager();
-
-    // bind event to purchase link and if 'preview as visitor' is activated for admins, handle it accordingly
-    Y.one(Y.config.doc).delegate(
-        'click',
-        function(event) {
-            event.preventDefault();
-            if (
-                event.currentTarget.getData('preview-post-as-visitor')
-            ) {
-                alert(lpVars.i18n.alert); // only show an alert instead of opening the dialog
-            } else {
-                var url = event.currentTarget.getAttribute('href');
-                if (event.currentTarget.hasAttribute('data-laterpay')) {
-                    url = event.currentTarget.getAttribute('data-laterpay');
-                }
-
-                dm.openDialog(url, true); // show the dialog
-            }
-        },
-        '.lp_js_doPurchase'
-    );
-});

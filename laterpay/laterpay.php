@@ -118,15 +118,6 @@ function laterpay_get_plugin_config() {
     $config->set( 'debug_mode',         $debug_mode_enabled && ! empty( $debug_mode_addresses ) && in_array( $client_address, $debug_mode_addresses ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
-    if ( $config->get( 'is_in_live_mode' ) ) {
-        $laterpay_dialog_library_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
-    } elseif ( $config->get( 'script_debug_mode' ) ) {
-        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
-    } else {
-        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
-    }
-    $config->set( 'laterpay_yui_js', $laterpay_dialog_library_src );
-
     // plugin headers
     $plugin_headers = get_file_data(
         __FILE__,
