@@ -475,20 +475,12 @@ class LaterPay_Helper_TimePass
             $url_params['voucher'] = $data['voucher'];
         }
 
-        // cut params from link and merge with other params
-        $parsed_link = parse_url( $link );
-        if ( isset( $parsed_link['query'] ) ) {
-            parse_str( $parsed_link['query'], $link_params );
-            $url_params = array_merge( $link_params, $url_params );
-            list( $link, $last ) = explode( '?', $link );
-        }
-
         // parameters for LaterPay purchase form
         $params = array(
             'article_id'    => $is_code_purchase ? '[#' . $data['voucher'] . ']' : self::get_tokenized_time_pass_id( $time_pass_id ),
             'pricing'       => $currency . ( $price * 100 ),
             'expiry'        => '+' . self::get_time_pass_expiry_time( $time_pass ),
-            'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
+            'url'           => $link,
             'title'         => $is_code_purchase ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
             'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );

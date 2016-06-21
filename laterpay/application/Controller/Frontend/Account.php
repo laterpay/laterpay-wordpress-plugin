@@ -87,13 +87,6 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
      */
     public function add_frontend_scripts() {
         wp_register_script(
-            'laterpay-yui',
-            $this->config->get( 'laterpay_yui_js' ),
-            array(),
-            null,
-            false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
-        );
-        wp_register_script(
             'laterpay-account-links',
             $this->config->get( 'js_url' ) . 'laterpay-account-links.js',
             null,
