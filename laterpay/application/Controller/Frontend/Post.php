@@ -657,43 +657,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
-     * Load the LaterPay identify iframe in the footer.
-     *
-     * @wp-hook wp_footer
-     *
-     * @return void
-     */
-    public function modify_footer( LaterPay_Core_Event $event ) {
-        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
-            $this->logger->warning( __METHOD__ . ' - !is_singular or post is not purchasable' );
-            return;
-        }
-
-        $this->logger->info( __METHOD__ );
-
-        $client_options  = LaterPay_Helper_Config::get_php_client_options();
-        $laterpay_client = new LaterPay_Client(
-            $client_options['cp_key'],
-            $client_options['api_key'],
-            $client_options['api_root'],
-            $client_options['web_root'],
-            $client_options['token_name']
-        );
-        $identify_link = $laterpay_client->get_identify_url();
-
-        // assign all required vars to the view templates
-        $view_args = array(
-            'post_id'       => get_the_ID(),
-            'identify_link' => $identify_link,
-        );
-
-        $this->assign( 'laterpay', $view_args );
-        $html = $event->get_result();
-        $html .= laterpay_sanitized( $this->get_text_view( 'frontend/partials/identify-iframe' ) );
-        $event->set_result( $html );
-    }
-
-    /**
      * Load LaterPay stylesheets.
      *
      * @wp-hook wp_enqueue_scripts
