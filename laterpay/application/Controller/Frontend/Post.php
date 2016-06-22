@@ -18,10 +18,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'modify_post_content' ),
             ),
-            'laterpay_post_footer' => array(
-                array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'modify_footer' ),
-            ),
             'laterpay_posts' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'prefetch_post_access' ),
