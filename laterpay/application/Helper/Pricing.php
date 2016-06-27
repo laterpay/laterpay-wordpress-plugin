@@ -27,12 +27,10 @@ class LaterPay_Helper_Pricing
      */
     const ppu_min                       = 0.05;
     const ppu_max                       = 1.48;
+    const ppusis_min                    = 1.49;
     const ppusis_max                    = 5.00;
-    const sis_min                       = 1.49;
+    const sis_min                       = 5.01;
     const sis_max                       = 149.99;
-    const price_ppu_end                 = 0.05;
-    const price_ppusis_end              = 1.49;
-    const price_sis_end                 = 5.01;
     const price_start_day               = 13;
     const price_end_day                 = 18;
 
@@ -47,12 +45,10 @@ class LaterPay_Helper_Pricing
         return array(
             'ppu_min'           => LaterPay_Helper_Pricing::ppu_min,
             'ppu_max'           => LaterPay_Helper_Pricing::ppu_max,
+            'ppusis_min'        => LaterPay_Helper_Pricing::ppusis_min,
             'ppusis_max'        => LaterPay_Helper_Pricing::ppusis_max,
             'sis_min'           => LaterPay_Helper_Pricing::sis_min,
             'sis_max'           => LaterPay_Helper_Pricing::sis_max,
-            'price_ppu_end'     => LaterPay_Helper_Pricing::price_ppu_end,
-            'price_ppusis_end'  => LaterPay_Helper_Pricing::price_ppusis_end,
-            'price_sis_end'     => LaterPay_Helper_Pricing::price_sis_end,
             'price_start_day'   => LaterPay_Helper_Pricing::price_start_day,
             'price_end_day'     => LaterPay_Helper_Pricing::price_end_day,
         );
@@ -351,7 +347,7 @@ class LaterPay_Helper_Pricing
         switch ( $price_range_type ) {
             case 'ppu':
                 if ( $rounded_price < self::ppu_min ) {
-                    if ( abs( self::price_sis_end - $rounded_price ) < $rounded_price ) {
+                    if ( abs( self::ppu_min - $rounded_price ) < $rounded_price ) {
                         $rounded_price = self::ppu_min;
                     } else {
                         $rounded_price = 0;
@@ -361,23 +357,22 @@ class LaterPay_Helper_Pricing
                 }
                 break;
             case 'sis':
-                if ( $rounded_price < self::price_sis_end ) {
-                    if ( abs( self::price_sis_end - $rounded_price ) < $rounded_price ) {
-                        $rounded_price = self::price_sis_end;
+                if ( $rounded_price < self::sis_min ) {
+                    if ( abs( self::sis_min - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = self::sis_min;
                     } else {
                         $rounded_price = 0;
                     }
-                }
-                if ( $rounded_price > self::sis_max ) {
+                } else if ( $rounded_price > self::sis_max ) {
                     $rounded_price = self::sis_max;
                 }
                 break;
             case 'ppusis':
                 if ( $rounded_price > self::ppusis_max ) {
                     $rounded_price = self::ppusis_max;
-                } else if ( $rounded_price < self::sis_min ) {
-                    if ( abs( self::sis_min - $rounded_price ) < $rounded_price ) {
-                        $rounded_price = self::sis_min;
+                } else if ( $rounded_price < self::ppusis_min ) {
+                    if ( abs( self::ppusis_min - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = self::ppusis_min;
                     } else {
                         $rounded_price = 0.00;
                     }
@@ -554,13 +549,13 @@ class LaterPay_Helper_Pricing
         if ( ( $start_price === '' ) && ( $price !== null ) ) {
             if ( $post_price > self::ppusis_max ) {
                 // Single Sale (sis), if price >= 5.01
-                $end_price = self::price_sis_end;
-            } elseif ( $post_price > self::sis_min ) {
+                $end_price = self::sis_min;
+            } elseif ( $post_price > self::ppusis_min ) {
                 // Single Sale or Pay-per-Use, if 1.49 >= price <= 5.00
-                $end_price = self::price_ppusis_end;
+                $end_price = self::ppusis_min;
             } else {
                 // Pay-per-Use (ppu), if price <= 1.48
-                $end_price = self::price_ppu_end;
+                $end_price = self::ppu_min;
             }
 
             $dynamic_pricing_data = array(
@@ -642,30 +637,30 @@ class LaterPay_Helper_Pricing
     public static function adjust_dynamic_price_points( $start, $end ) {
         $price_range_type = 'ppu';
 
-        if ( $start >= self::price_sis_end || $end >= self::price_sis_end ) {
+        if ( $start >= self::sis_min || $end >= self::sis_min ) {
             $price_range_type = 'sis';
-            if ( $start != 0 && $start < self::price_sis_end ) {
-                $start = self::price_sis_end;
+            if ( $start != 0 && $start < self::sis_min ) {
+                $start = self::sis_min;
             }
-            if ( $end != 0 && $end < self::price_sis_end ) {
-                $end = self::price_sis_end;
+            if ( $end != 0 && $end < self::sis_min ) {
+                $end = self::sis_min;
             }
         } elseif (
-            ( $start >= self::sis_min && $start <= self::ppusis_max ) ||
-                ( $end >= self::sis_min && $end <= self::ppusis_max )
+            ( $start >= self::ppusis_min && $start <= self::ppusis_max ) ||
+                ( $end >= self::ppusis_min && $end <= self::ppusis_max )
             ) {
             $price_range_type = 'ppusis';
             if ( $start != 0 ) {
-                if ( $start < self::sis_min ) {
-                    $start = self::sis_min;
+                if ( $start < self::ppusis_min ) {
+                    $start = self::ppusis_min;
                 }
                 if ( $start > self::ppusis_max ) {
                     $start = self::ppusis_max;
                 }
             };
             if ( $end != 0 ) {
-                if ( $end < self::sis_min ) {
-                    $end = self::sis_min;
+                if ( $end < self::ppusis_min ) {
+                    $end = self::ppusis_min;
                 }
                 if ( $end > self::ppusis_max ) {
                     $end = self::ppusis_max;
