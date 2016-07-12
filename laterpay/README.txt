@@ -181,7 +181,7 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 = 0.9.15( July 12, 2016 ): Bugfix Release (v1.0 RC8) =
 * Fixed "Dynamic Pricing" price range for SIS purchases was limited to 5.00 €
 * Dropped iframed dialogs in favour of redirection, for broader user support
-* Removed include of Yui js library on pages without laterpay elements (except pages with invoice and account links).
+* Removed include of Yui js library on pages without "LaterPay" elements (except pages with invoice and account links).
 
 = 0.9.14 ( April 7, 2016 ): Bugfix Release (v1.0 RC7) =
 * Fixed category default price can't be saved as PPUL
