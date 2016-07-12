@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
-                        <?php if ( $laterpay['price'] < LaterPay_Helper_Pricing::sis_min ) { echo 'lp_is-disabled'; } ?>
+                        <?php if ( $laterpay['price'] < LaterPay_Helper_Pricing::ppusis_min ) { echo 'lp_is-disabled'; } ?>
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] != 'sis' ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"

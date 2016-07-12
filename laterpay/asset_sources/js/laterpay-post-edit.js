@@ -246,7 +246,7 @@
                     $payPerUseWithLogin = $('input:radio[value=' + $o.payPerUseWithLogin + ']', $o.revenueModel),
                     $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
-                if (price === 0 || (price >= lpVars.limits.ppu_min && price < lpVars.limits.price_sis_end)) {
+                if (price === 0 || (price >= lpVars.limits.ppu_min && price < lpVars.limits.sis_min)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
                     $payPerUse.parent('label').removeClass($o.disabled);
                     // same for PPU with login
@@ -258,7 +258,7 @@
                     $payPerUseWithLogin.parent('label').addClass($o.disabled);
                 }
 
-                if (price >= lpVars.limits.sis_min) {
+                if (price >= lpVars.limits.ppusis_min) {
                     // enable Single Sale for prices >= 1.49 Euro
                     // (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.parent('label').removeClass($o.disabled);
@@ -272,7 +272,7 @@
                     (currentRevenueModel === $o.payPerUse || currentRevenueModel === $o.payPerUseWithLogin)) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
-                } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {
+                } else if (price < lpVars.limits.ppusis_min && currentRevenueModel === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $payPerUse.prop('checked', true);
                 }
@@ -503,13 +503,13 @@
                                 // Single Sale
                                 maxPrice = lpVars.limits.sis_max;
                                 minPrice = lpVars.limits.sis_min;
-                            } else if (startPrice >= lpVars.limits.sis_min || endPrice >= lpVars.limits.sis_min) {
+                            } else if (startPrice >= lpVars.limits.ppusis_min || endPrice >= lpVars.limits.ppusis_min) {
                                 // Pay-per-Use and Single Sale
                                 maxPrice = lpVars.limits.ppusis_max;
                                 minPrice = lpVars.limits.ppusis_min;
                             } else {
                                 // Pay-per-Use
-                                maxPrice = lpVars.limits.ppusis_max;
+                                maxPrice = lpVars.limits.ppu_max;
                                 minPrice = lpVars.limits.ppu_min;
                             }
 
