@@ -18,10 +18,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'modify_post_content' ),
             ),
-            'laterpay_post_footer' => array(
-                array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'modify_footer' ),
-            ),
             'laterpay_posts' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'prefetch_post_access' ),
@@ -657,43 +653,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
-     * Load the LaterPay identify iframe in the footer.
-     *
-     * @wp-hook wp_footer
-     *
-     * @return void
-     */
-    public function modify_footer( LaterPay_Core_Event $event ) {
-        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
-            $this->logger->warning( __METHOD__ . ' - !is_singular or post is not purchasable' );
-            return;
-        }
-
-        $this->logger->info( __METHOD__ );
-
-        $client_options  = LaterPay_Helper_Config::get_php_client_options();
-        $laterpay_client = new LaterPay_Client(
-            $client_options['cp_key'],
-            $client_options['api_key'],
-            $client_options['api_root'],
-            $client_options['web_root'],
-            $client_options['token_name']
-        );
-        $identify_link = $laterpay_client->get_identify_url();
-
-        // assign all required vars to the view templates
-        $view_args = array(
-            'post_id'       => get_the_ID(),
-            'identify_link' => $identify_link,
-        );
-
-        $this->assign( 'laterpay', $view_args );
-        $html = $event->get_result();
-        $html .= laterpay_sanitized( $this->get_text_view( 'frontend/partials/identify-iframe' ) );
-        $event->set_result( $html );
-    }
-
-    /**
      * Load LaterPay stylesheets.
      *
      * @wp-hook wp_enqueue_scripts
@@ -724,13 +683,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public function add_frontend_scripts() {
         $this->logger->info( __METHOD__ );
 
-        wp_register_script(
-            'laterpay-yui',
-            $this->config->get( 'laterpay_yui_js' ),
-            array(),
-            null,
-            false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
-        );
         wp_register_script(
             'laterpay-peity',
             $this->config->get( 'js_url' ) . 'vendor/jquery.peity.min.js',
@@ -765,7 +717,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             )
         );
 
-        wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-peity' );
         wp_enqueue_script( 'laterpay-post-view' );
     }

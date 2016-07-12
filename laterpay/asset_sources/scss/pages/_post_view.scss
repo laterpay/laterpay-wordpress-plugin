@@ -1,25 +1,6 @@
 // view post page in WordPress frontend
 
 // overlay for the LaterPay purchase dialogs ---------------------------------------------------------------------------
-.yui3-widget-mask {
-    @include opacity(0.89);
-    background: darken($text, 33%);
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: $zindex--topmost-1;
-}
-
-.yui3-panel,
-.yui3-overlay {
-
-    &:focus {
-        outline: 0;
-    }
-}
-
 .lp_closebtn {
     padding: 5px;
     position: fixed;
