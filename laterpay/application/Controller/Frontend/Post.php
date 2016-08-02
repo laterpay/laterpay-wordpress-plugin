@@ -336,8 +336,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
 
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post->ID );
-        if ( $is_purchasable ) {
+        if ( $is_purchasable && $post->ID === get_the_ID() ) {
             $access         = LaterPay_Helper_Post::has_access_to_post( $post );
+            $attr           = $event->get_result();
             $attr['src']    = LaterPay_Helper_File::get_encrypted_resource_url(
                 $post->ID,
                 $attr['src'],
@@ -362,7 +363,12 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      */
     public function encrypt_attachment_url( LaterPay_Core_Event $event ) {
         list( $url, $post_id ) = $event->get_arguments() + array( '', '' );
-        $url = $event->get_result();
+        $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
+        $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
+
+        if ( is_admin() && ! $is_ajax_and_caching_is_active ) {
+            return;
+        }
 
         // get current post
         if ( $event->has_argument( 'post' ) ) {
@@ -374,6 +380,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         if ( $post === null ) {
             return;
         }
+
+        $url = $event->get_result();
 
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post->ID );
         if ( $is_purchasable && $post->ID === $post_id ) {
@@ -521,21 +529,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         foreach ( $access_result['articles'] as $post_id => $state ) {
             LaterPay_Helper_Post::set_access_state( $post_id, (bool) $state['access'] );
         }
-    }
-
-    /**
-     * Check, if LaterPay is enabled for the given post type.
-     *
-     * @param string $post_type
-     *
-     * @return bool true|false
-     */
-    protected function is_enabled_post_type( $post_type ) {
-        if ( ! in_array( $post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
-            return false;
-        }
-
-        return true;
     }
 
     /**

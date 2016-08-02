@@ -71,7 +71,7 @@ class LaterPay_Helper_Pricing
 
         // check, if the current post price is not 0
         $price = LaterPay_Helper_Pricing::get_post_price( $post_id );
-        if ( $price == 0 ) {
+        if ( $price == 0 || ! in_array( get_post_type( $post_id ), (array) get_option( 'laterpay_enabled_post_types' ) ) ) {
             // return null for this case
             return null;
         }
