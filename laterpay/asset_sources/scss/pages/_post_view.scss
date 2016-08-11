@@ -70,7 +70,7 @@
             position: relative !important;
 
             .lp_benefits__header {
-                background: $laterpay-brand !important;
+                background: lighten($text, 5%);
                 border-radius: 5px 5px 0 0 !important;
                 left: 0 !important;
                 padding: 1.5em 0 !important;
@@ -131,7 +131,7 @@
             }
 
             .lp_benefit__title {
-                color: $laterpay-brand--darker !important;
+                color: lighten($text, 5%) !important;
                 font-size: $fs--125 !important;
                 font-style: normal !important;
                 font-weight: bold !important;
