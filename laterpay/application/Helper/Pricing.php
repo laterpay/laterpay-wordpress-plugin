@@ -507,8 +507,8 @@ class LaterPay_Helper_Pricing
                 return 'sis';
             }
         } else {
-            if ( $price >= self::sis_min && $price <= self::sis_max ) {
-                return 'sis';
+            if ( $price >= self::ppusis_min && $price <= self::sis_max ) {
+                return $revenue_model;
             } else {
                 return 'ppu';
             }
