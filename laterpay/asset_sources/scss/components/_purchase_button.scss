@@ -111,12 +111,17 @@
 }
 
 .lp_sis_notification {
+    box-shadow: none !important;
     font-size: $fs;
-    color: #50c371;
+    color: $laterpay-brand;
     float: right;
     text-decoration: underline;
     margin-right: $fs;
     border-bottom: none !important;
+
+    &:hover {
+        color: $laterpay-brand--darker;
+    }
 }
 
 .lp_sis_notification :hover {
