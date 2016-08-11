@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="lp_benefits">
             <header class="lp_benefits__header">
                 <h2 class="lp_benefits__title">
-                    </span><?php echo laterpay_sanitize_output( $overlay_content['title'] ); ?>
+                    <?php echo laterpay_sanitize_output( $overlay_content['title'] ); ?>
                 </h2>
             </header>
             <ul class="lp_benefits__list">
