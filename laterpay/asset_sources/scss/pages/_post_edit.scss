@@ -152,6 +152,9 @@
     // details for selected price type
     .lp_price-type__details .lp_price-type__details-item {
 
+        // velocity.js opacity superfix
+        opacity: 1 !important;
+
         ul,
         li {
             margin: 0;
