@@ -25,9 +25,9 @@ $text--inverse:             hsl(0, 0%, 100%);
 
 
 // colors for clickable items (links, buttons, etc.)
-$clickable:                 hsl(197, 100%, 32%);
+$clickable:                 #01a99d;
 
-$clickable--highlight:      desaturate(lighten($clickable, 11%), 37%);
+$clickable--highlight:      darken(desaturate($clickable, 1%), 10%);
 
 
 // background colors
