@@ -47,6 +47,10 @@
 
     .lp_time-pass__back {
         display: block;
+        // anti wp overtaging fix
+        p:empty {
+            margin: 0 !important;
+        }
     }
 }
 
