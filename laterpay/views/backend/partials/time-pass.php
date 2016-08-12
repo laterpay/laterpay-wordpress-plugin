@@ -38,8 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     </section>
 
     <section class="lp_time-pass__back">
-        <a href="#" class="lp_js_flipTimePass lp_time-pass__front-side-link">
-        <?php echo laterpay_sanitize_output( __( 'Back', 'laterpay' ) ); ?></a>
+        <a href="#" class="lp_js_flipTimePass lp_time-pass__front-side-link"><?php echo laterpay_sanitize_output( __( 'Back', 'laterpay' ) ); ?></a>
         <table class="lp_time-pass__conditions">
             <tbody>
                 <tr>
