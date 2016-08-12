@@ -111,7 +111,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             'content_type'      => '',
             'teaser_image_path' => '',
             // deprecated:
-                                'target_page_id'    => '',
+            'target_page_id'    => '',
             'target_page_title' => '',
         ), $atts );
 

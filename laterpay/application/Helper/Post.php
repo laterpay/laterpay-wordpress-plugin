@@ -52,6 +52,7 @@ class LaterPay_Helper_Post
         $parent_post        = $is_attachment ? $main_post_id : $post_id;
         $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $parent_post );
         $time_passes        = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
+
         foreach ( $time_passes as $time_pass ) {
             if ( array_key_exists( $time_pass, self::$access ) && self::$access[ $time_pass ] ) {
                 return true;
@@ -178,15 +179,9 @@ class LaterPay_Helper_Post
         );
 
         // data to register purchase after redirect from LaterPay
-        $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
         $url_params = array(
-            'post_id'       => $post_id,
-            'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
-            'price'         => $price,
-            'date'          => time(),
-            'buy'           => 'true',
-            'ip'            => ip2long( $remote_addr ),
-            'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
+            'post_id' => $post_id,
+            'buy'     => 'true',
         );
 
         if ( $post->post_type === 'attachment' ) {
@@ -194,11 +189,22 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post_id;
         }
 
+        // get current post link
+        $link = get_permalink( $url_params['post_id'] );
+
+        // cut params from link and merge with other params
+        $parsed_link = parse_url( $link );
+        if ( isset( $parsed_link['query'] ) ) {
+            parse_str( $parsed_link['query'], $link_params );
+            $url_params = array_merge( $link_params, $url_params );
+            list( $link, $last ) = explode( '?', $link );
+        }
+
         // parameters for LaterPay purchase form
         $params = array(
             'article_id'    => $post_id,
             'pricing'       => $currency . ( $price * 100 ),
-            'url'           => get_permalink( $url_params['post_id'] ),
+            'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
             'title'         => $post->post_title,
             'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );
