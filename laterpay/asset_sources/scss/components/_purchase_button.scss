@@ -2,7 +2,7 @@
 
 // rendered as plain link ----------------------------------------------------------------------------------------------
 .lp_purchase-link {
-    border: none !important;
+    border: 0 !important;
     color: $laterpay-brand !important;
     display: block !important;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
@@ -53,6 +53,7 @@
 .lp_purchase-button {
     background: $laterpay-brand;
     border-radius: 4px !important;
+    border: 0 !important;
     color: $text--inverse !important;
     cursor: pointer !important;
     float: right !important;
@@ -96,8 +97,7 @@
     &:focus,
     &:active {
         border-top-color: transparent !important;
-        border-width: 2px 1px 0 0 !important;
-
+        border: 0 !important;
         &:before {
             top: ($fs--08 + 1);
         }
