@@ -104,6 +104,9 @@ delete_option( 'laterpay_maximum_redemptions_per_gift_code' );
 delete_option( 'laterpay_api_fallback_behavior' );
 delete_option( 'laterpay_api_enabled_on_homepage' );
 
+delete_option( 'laterpay_main_color' );
+delete_option( 'laterpay_hover_color' );
+
 // register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
