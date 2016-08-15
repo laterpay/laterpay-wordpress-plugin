@@ -188,6 +188,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function init_laterpay_advanced_settings() {
         // add sections with fields
+        $this->add_colors_settings();
         $this->add_debugger_settings();
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
@@ -198,6 +199,47 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_unlimited_access_settings();
         $this->add_browscap_settings();
         $this->add_laterpay_api_settings();
+    }
+
+    public function add_colors_settings() {
+        add_settings_section(
+            'laterpay_colors',
+            __( 'LaterPay Colors', 'laterpay' ),
+            array( $this, 'get_colors_section_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_main_color',
+            __( 'Main Color', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_colors',
+            array(
+                'name'  => 'laterpay_main_color',
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_main_color' );
+
+        add_settings_field(
+            'laterpay_hover_color',
+            __( 'Hover Color', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_colors',
+            array(
+                'name'  => 'laterpay_hover_color',
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_hover_color' );
+    }
+
+    public function get_colors_section_description() {
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'You can customize the colors of clickable LaterPay elements.', 'laterpay' ) .
+            '</p>' );
     }
 
     /**

@@ -260,4 +260,38 @@ class LaterPay_Helper_View
 
         return $error_message;
     }
+
+    /**
+     * Apply custom laterpay colors.
+     *
+     * @param $handle string handler
+     *
+     * @return void
+     */
+    public static function apply_colors( $handle ) {
+        $main_color  = get_option( 'laterpay_main_color' );
+        $hover_color = get_option( 'laterpay_hover_color' );
+
+        $custom_css = '';
+
+        if ( $main_color ) {
+            $custom_css .= "
+                .lp_purchase-button {
+                    background-color: {$main_color} !important;
+                }
+            ";
+        }
+
+        if ( $hover_color ) {
+            $custom_css .= "
+                .lp_purchase-button:hover {
+                    background-color: {$hover_color} !important;
+                }
+            ";
+        }
+
+        if ( $custom_css ) {
+            wp_add_inline_style( $handle, $custom_css );
+        }
+    }
 }

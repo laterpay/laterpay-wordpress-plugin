@@ -664,6 +664,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         // always enqueue 'laterpay-post-view' to ensure that LaterPay shortcodes have styling
         wp_enqueue_style( 'laterpay-post-view' );
+
+        // apply colors config
+        LaterPay_Helper_View::apply_colors( 'laterpay-post-view' );
     }
 
     /**

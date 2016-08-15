@@ -701,7 +701,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             array(),
             $this->config->version
         );
+
         wp_enqueue_style( 'laterpay-admin' );
+
+        // apply colors config
+        LaterPay_Helper_View::apply_colors( 'laterpay-admin' );
     }
 
     /**
