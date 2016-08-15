@@ -166,6 +166,12 @@
                 padding: 0.25em 0.5em !important;
             }
 
+            .lp_sis_notification {
+                display: inline-block;
+                float: none !important;
+                margin: 0 0 20px;
+            }
+
             .lp_powered-by {
                 color: darken($text--lighter, 6%) !important;
                 left: 50% !important;
