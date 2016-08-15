@@ -3,6 +3,7 @@
 // rendered as plain link ----------------------------------------------------------------------------------------------
 .lp_purchase-link {
     border: none !important;
+    color: $laterpay-brand !important;
     display: block !important;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs !important;
@@ -15,6 +16,12 @@
     z-index: $zindex--elevated-1 !important;
     position: relative !important;
     padding-left: ($fs--3 - 10) !important;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: $laterpay-brand--darker !important;
+    }
 
     /**
      * LaterPay logo (rendered in pseudo element from icon font)
@@ -55,7 +62,7 @@
     font-weight: normal !important;
     line-height: 1.3 !important;
     margin: 0 !important;
-    padding: $fs--025 $fs--025 0 $fs--4 !important;
+    padding: $fs--025 $fs--025 $fs--025 $fs--4 !important;
     text-decoration: none !important;
     transition: background-color 0.2s ease-in;
     white-space: nowrap !important;
@@ -111,12 +118,17 @@
 }
 
 .lp_sis_notification {
+    box-shadow: none !important;
     font-size: $fs;
-    color: #50c371;
+    color: $laterpay-brand;
     float: right;
     text-decoration: underline;
     margin-right: $fs;
     border-bottom: none !important;
+
+    &:hover {
+        color: $laterpay-brand--darker;
+    }
 }
 
 .lp_sis_notification :hover {
