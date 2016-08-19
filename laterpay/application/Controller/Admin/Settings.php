@@ -216,6 +216,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'laterpay',
             'laterpay_colors',
             array(
+                'label' => __( 'Main color for clickable elements. (Default: #01a99d)' ),
                 'name'  => 'laterpay_main_color',
             )
         );
@@ -229,6 +230,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'laterpay',
             'laterpay_colors',
             array(
+                'label' => __( 'Hover color for clickable elements. (Default: #01766e)' ),
                 'name'  => 'laterpay_hover_color',
             )
         );
@@ -801,6 +803,10 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             // add id, if set
             if ( isset( $field['id'] ) ) {
                 $inputs_markup .= ' id="' . $field['id'] . '"';
+            }
+
+            if ( isset( $field['label'] ) ) {
+                $inputs_markup .= ' style="margin-right:5px;"';
             }
 
             // add classes, if set
