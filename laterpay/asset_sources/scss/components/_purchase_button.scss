@@ -42,10 +42,10 @@
 // currency ISO code
 .lp_purchase-link__currency {
     font-size: 0.5em !important;
-    padding: 0 0 0 1ch !important;
+    padding: 0 0 0 0.7ch !important;
     position: relative !important;
     text-decoration: none !important;
-    vertical-align: text-top !important;
+    vertical-align: super !important;
 }
 
 
@@ -65,7 +65,7 @@
     font-weight: normal !important;
     line-height: 1.3 !important;
     margin: 0 !important;
-    padding: $fs--025 $fs--025 $fs--025 $fs--4 !important;
+    padding: $fs--025 $fs--075 $fs--025 $fs--35 !important;
     text-decoration: none !important;
     transition: background-color 0.2s ease-in;
     white-space: nowrap !important;
