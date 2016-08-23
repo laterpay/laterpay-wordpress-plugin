@@ -29,10 +29,12 @@
 }
 
 .lp_time-pass__front {
+    background: url('../img/time-pass-background.png') 0 0 / 100% no-repeat;
     padding: $fs (4 * $fs) $fs $fs;
 }
 
 .lp_time-pass__back {
+    background: url('../img/time-pass-background-flip.png') 0 0 / 100% no-repeat;
     display: none;
     padding: $fs $fs $fs (4 * $fs);
 }
@@ -311,10 +313,12 @@
     }
 
     .lp_time-pass__front {
+        background: url(../img/time-pass-background-small.png) 0 0 / 100% no-repeat !important;
         padding: $fs--05 (6 * $fs--05) $fs--05 $fs--05 !important;
     }
 
     .lp_time-pass__back {
+        background: url(../img/time-pass-background-flip-small.png) 0 0 / 100% no-repeat !important;
         padding: $fs--05 $fs--05 $fs--05 (6 * $fs--05) !important;
     }
 
