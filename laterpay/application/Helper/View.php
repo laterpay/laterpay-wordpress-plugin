@@ -279,6 +279,15 @@ class LaterPay_Helper_View
                 .lp_purchase-button {
                     background-color: {$main_color} !important;
                 }
+                .lp_time-pass__front-side-link {
+                    background-color: {$main_color} !important;
+                }
+                .lp_time-pass__actions .lp_time-pass__terms {
+                    color: {$main_color} !important;
+                }
+                .lp_sis_notification {
+                    color: {$main_color} !important;
+                }
             ";
         }
 
@@ -286,6 +295,15 @@ class LaterPay_Helper_View
             $custom_css .= "
                 .lp_purchase-button:hover {
                     background-color: {$hover_color} !important;
+                }
+                .lp_time-pass__front-side-link:hover {
+                    background-color: {$hover_color} !important;
+                }
+                .lp_time-pass__actions .lp_time-pass__terms:hover {
+                    color: {$hover_color} !important;
+                }
+                .lp_sis_notification:hover {
+                    color: {$hover_color} !important;
                 }
             ";
         }
