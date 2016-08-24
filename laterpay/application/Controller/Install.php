@@ -611,7 +611,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $table_passes          = $wpdb->prefix . 'laterpay_passes';
 
         $sql = "
-            CREATE TABLE $table_terms_price (
+            CREATE TABLE IF NOT EXISTS $table_terms_price (
                 id int(11) NOT NULL AUTO_INCREMENT,
                 term_id int(11) NOT NULL,
                 price double NOT NULL DEFAULT '0',

@@ -285,7 +285,7 @@ class LaterPay_Helper_View
                 .lp_time-pass__actions .lp_time-pass__terms {
                     color: {$main_color} !important;
                 }
-                .lp_sis_notification {
+                .lp_sis_notification, .lp_purchase-link {
                     color: {$main_color} !important;
                 }
             ";
@@ -302,7 +302,7 @@ class LaterPay_Helper_View
                 .lp_time-pass__actions .lp_time-pass__terms:hover {
                     color: {$hover_color} !important;
                 }
-                .lp_sis_notification:hover {
+                .lp_sis_notification:hover, .lp_purchase-link:hover {
                     color: {$hover_color} !important;
                 }
             ";
