@@ -184,8 +184,10 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 * Fixed issue with premium shortcode download.
 * Fixed time pass rendering issue after saving.
 * Fixed issue with hidden category price settings after changing the category.
+* Fixed problem with redeeming voucher codes with German language settings.
 * Added color customization options to advanced plugin settings to customize the color of clickable LaterPay elements.
 * Replaced LaterPay logo by new version and adjusted default button colors.
+* Refined time pass styling.
 * Updated browscap library.
 
 = 0.9.15 ( July 12, 2016 ): Bugfix Release (v1.0 RC8) =
