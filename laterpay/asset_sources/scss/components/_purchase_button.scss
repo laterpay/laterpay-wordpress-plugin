@@ -104,6 +104,9 @@
             top: ($fs--08 + 1);
         }
     }
+    &:focus {
+        outline: none !important;
+    }
 }
 
 // wrapper used to set the purchase button apart from the post content when positioned automatically
