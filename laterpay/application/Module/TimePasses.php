@@ -182,7 +182,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
 
         $this->assign( 'laterpay_widget', $view_args );
         $html = $event->get_result();
-        $html .= $this->get_text_view( 'frontend/partials/widget/time-passes' );
+        $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/widget/time-passes' ) );
 
         $event->set_result( $html );
     }
