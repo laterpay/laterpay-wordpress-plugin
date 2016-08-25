@@ -336,7 +336,7 @@
     }
 
     .lp_time-pass__actions {
-        bottom: 0.7em !important;
+        bottom: 0.8em !important;
         width: 80% !important; /* 1 - fallback for browsers that don't support calc */
         width: calc(100% - 2em) !important; /* 1 */
         margin-left: 3px !important;
