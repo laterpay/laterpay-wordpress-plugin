@@ -324,8 +324,9 @@
 
     .lp_time-pass__title {
         font-size: $fs !important;
-        margin-left: $fs--025 !important;
-        margin-top: $fs--05 !important;
+        margin-left: 3px !important;
+        margin-top: 3px !important;
+        margin-bottom: 3px !important;
     }
 
     .lp_time-pass__description {
@@ -335,9 +336,10 @@
     }
 
     .lp_time-pass__actions {
-        bottom: 0.5em !important;
+        bottom: 0.7em !important;
         width: 80% !important; /* 1 - fallback for browsers that don't support calc */
         width: calc(100% - 2em) !important; /* 1 */
+        margin-left: 3px !important;
 
         .lp_purchase-button {
             font-size: $fs--15 !important;
@@ -351,6 +353,7 @@
 
         .lp_time-pass__terms {
             padding: $fs--025 $fs--05 !important;
+            box-shadow: none!important;
         }
     }
 
