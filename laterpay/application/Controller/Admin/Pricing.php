@@ -883,7 +883,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 // normalize prices and format with 2 digits in form
                 $voucher_price = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
                 $vouchers_data[ $code ] = array(
-                    'price' => LaterPay_Helper_View::normalize( LaterPay_Helper_View::format_number( $voucher_price ) ),
+                    'price' => number_format( LaterPay_Helper_View::normalize( $voucher_price ), 2 ),
                     'title' => isset( $voucher_titles[ $idx ] ) ? $voucher_titles[ $idx ] : '',
                 );
             }

@@ -166,7 +166,7 @@ class LaterPay_Helper_Voucher
                     $data = array(
                         'pass_id' => $pass_id,
                         'code'    => $voucher_code,
-                        'price'   => $voucher_data['price'],
+                        'price'   => number_format( LaterPay_Helper_View::normalize( $voucher_data['price'] ), 2 ),
                         'title'   => $voucher_data['title'],
                     );
 
