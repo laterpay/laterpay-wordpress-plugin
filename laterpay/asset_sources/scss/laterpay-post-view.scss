@@ -28,3 +28,14 @@
         background-color: $text--lightest;
     }
 }
+
+
+// fix for small card on front view
+.lp_time-pass-widget .lp_time-pass__actions .lp_purchase-button:before {
+    left: 1px !important;
+    top: 9px!important;
+}
+
+.lp_time-pass-widget .lp_time-pass__actions .lp_purchase-button {
+    padding: 4px 11px 4px 36px!important;
+}
