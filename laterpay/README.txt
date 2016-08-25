@@ -4,7 +4,7 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.5.3
+Tested up to: 4.6.0
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -178,7 +178,17 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 
 == Changelog ==
 
-= 0.9.15( July 12, 2016 ): Bugfix Release (v1.0 RC8) =
+= 0.9.16 ( August 24, 2016 ): Bugfix Release (v1.0 RC9) =
+* Fixed issue with attachment images on frontend and in media library.
+* Fixed issue with revenue model settings.
+* Fixed issue with premium shortcode download.
+* Fixed time pass rendering issue after saving.
+* Fixed issue with hidden category price settings after changing the category.
+* Added color customization options to advanced plugin settings to customize the color of clickable LaterPay elements.
+* Replaced LaterPay logo by new version and adjusted default button colors.
+* Updated browscap library.
+
+= 0.9.15 ( July 12, 2016 ): Bugfix Release (v1.0 RC8) =
 * Fixed "Dynamic Pricing" price range for SIS purchases was limited to 5.00 €
 * Dropped iframed dialogs in favour of redirection, for broader user support
 * Removed include of Yui js library on pages without "LaterPay" elements (except pages with invoice and account links).
