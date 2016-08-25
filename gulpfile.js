@@ -119,7 +119,7 @@ gulp.task('img-build-svg', function() {
 });
 gulp.task('img-build-png', function() {
     return gulp.src(p.srcPNG)
-        .pipe(plugins.tinypng('6r1BdukU9EqrtUQ5obGa-6VpaH2ZlI-a'))              // compress with TinyPNG
+        .pipe(plugins.tinypng('5Y0XuX5OMOhgB-vRqRc8i41ABKv3amul'))              // compress with TinyPNG
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 });
 gulp.task('img-build', function() {
