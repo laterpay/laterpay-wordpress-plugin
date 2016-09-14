@@ -126,7 +126,6 @@
 // statistics pane body with actual post statistics --------------------------------------------------------------------
 .lp_post-statistics__list,
 .lp_post-statistics__item {
-    @extend %default-list;
     text-align: center;
 }
 
