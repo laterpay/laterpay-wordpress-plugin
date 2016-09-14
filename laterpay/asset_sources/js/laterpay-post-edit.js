@@ -233,7 +233,7 @@
                 price = price.toFixed(2);
 
                 // localize price
-                if (lpVars.locale === 'de_DE') {
+                if (lpVars.locale.indexOf( 'de_DE' ) !== -1) {
                     price = price.replace('.', ',');
                 }
 

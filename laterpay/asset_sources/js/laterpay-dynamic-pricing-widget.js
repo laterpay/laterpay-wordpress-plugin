@@ -549,7 +549,7 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
             }
         })
         .text(function (d) {
-            return (lpVars.locale === 'de_DE') ? d.y.toFixed(2).replace('.', ',') : d.y.toFixed(2);
+            return (lpVars.locale.indexOf( 'de_DE' ) !== -1) ? d.y.toFixed(2).replace('.', ',') : d.y.toFixed(2);
         });
     this.svg.select('.lp_dynamic-pricing__start-price-currency')
         .datum((this.data)[0])
@@ -612,7 +612,7 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function () {
             }
         })
         .text(function (d) {
-            return (lpVars.locale === 'de_DE') ? d.y.toFixed(2).replace('.', ',') : d.y.toFixed(2);
+            return (lpVars.locale.indexOf( 'de_DE' ) !== -1) ? d.y.toFixed(2).replace('.', ',') : d.y.toFixed(2);
         });
     this.svg.select('.lp_dynamic-pricing__end-price-currency')
         .datum((this.data)[this.data.length - 1])
@@ -950,7 +950,7 @@ DynamicPricingWidget.prototype.toggleStartInput = function (action) {
     }
 
     // localize price for displaying
-    if (lpVars.locale === 'de_DE') {
+    if (lpVars.locale.indexOf( 'de_DE' ) !== -1) {
         plotPrice = plotPrice.replace('.', ',');
     }
 
@@ -1004,7 +1004,7 @@ DynamicPricingWidget.prototype.toggleEndInput = function (action) {
     }
 
     // localize price for displaying
-    if (lpVars.locale === 'de_DE') {
+    if (lpVars.locale.indexOf( 'de_DE' ) !== -1) {
         plotPrice = plotPrice.replace('.', ',');
     }
 
