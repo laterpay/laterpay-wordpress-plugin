@@ -45,7 +45,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 array( 'maybe_add_is_in_visible_test_mode_option' ),
                 array( 'maybe_clean_api_key_options' ),
                 array( 'maybe_update_unlimited_access' ),
-                array( 'maybe_clear_dashboard_cache' ),
             ),
         );
     }
@@ -465,24 +464,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             add_option( 'laterpay_unlimited_access', array( $unlimited_role => array( 'all' ) ) );
             delete_option( 'laterpay_unlimited_access_to_paid_content' );
         }
-    }
-
-    /**
-     * Clear dashboard cache.
-     *
-     * @since 0.9.11
-     * @wp-hook admin_notices
-     *
-     * @return void
-     */
-    public function maybe_clear_dashboard_cache() {
-        $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
-            return;
-        }
-
-        // remove cache directory
-        LaterPay_Helper_File::delete_directory( laterpay_get_plugin_config()->get( 'cache_dir' ) . 'cron/' );
     }
 
     /**
