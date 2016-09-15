@@ -45,6 +45,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 array( 'maybe_add_is_in_visible_test_mode_option' ),
                 array( 'maybe_clean_api_key_options' ),
                 array( 'maybe_update_unlimited_access' ),
+                array( 'init_colors_options' ),
             ),
         );
     }
@@ -572,6 +573,23 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
+     * Init color options
+     *
+     * @since 0.9.17
+     *
+     * @return void
+     */
+    public function init_colors_options() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.17', '<' ) ) {
+            return;
+        }
+
+        add_option( 'laterpay_main_color',  '#01a99d' );
+        add_option( 'laterpay_hover_color', '#01766e' );
+    }
+
+    /**
      * Create custom tables and set the required options.
      *
      * @return void
@@ -661,8 +679,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_debugger_addresses',                      '127.0.0.1' );
         add_option( 'laterpay_api_fallback_behavior',                   0 );
         add_option( 'laterpay_api_enabled_on_homepage',                 1 );
-        add_option( 'laterpay_main_color',                              '#01a99d' );
-        add_option( 'laterpay_hover_color',                             '#01766e' );
 
         // @since 0.9.14
         delete_option( 'laterpay_access_logging_enabled' );
