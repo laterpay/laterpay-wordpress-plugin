@@ -1,6 +1,6 @@
 {
   "name": "laterpay-wordpress-plugin",
-  "version": "0.9.16",
+  "version": "0.9.17",
   "description": "LaterPay WordPress plugin",
   "main": "index.js",
   "dependencies": {},

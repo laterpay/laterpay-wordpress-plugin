@@ -4,7 +4,7 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.6.0
+Tested up to: 4.6.1
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -177,6 +177,10 @@ documents that are listed in the merchant contract. You can find the merchant co
 plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
 
 == Changelog ==
+
+= 0.9.17 ( September 15, 2016 ): Bugfix Release (v1.0 RC10) =
+* Fixed individual article pricing issues relating to formal German locale.
+* Fixed post-install color settings bug.
 
 = 0.9.16 ( August 24, 2016 ): Bugfix Release (v1.0 RC9) =
 * Fixed issue with attachment images on frontend and in media library.
