@@ -16,6 +16,9 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             'laterpay_on_admin_view' => array(
                 array( 'on_admin_view' ),
             ),
+            'laterpay_on_plugin_updated' => array(
+                array( 'on_plugin_updated' ),
+            ),
             'laterpay_on_plugin_is_active' => array(
                 array( 'on_plugin_is_active' ),
             ),
@@ -99,6 +102,23 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      */
     public function on_admin_view( LaterPay_Core_Event $event ) {
         if ( ! is_admin() ) {
+            $event->stop_propagation();
+        }
+    }
+
+    /**
+     * Checks, if laterpay plugin updated
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_plugin_updated( LaterPay_Core_Event $event ) {
+        $update_args = (array) $event->get_arguments();
+        $options     =  isset( $update_args[1] ) ? $update_args[1] : false;
+
+        if ( ! $options || ! ( isset( $options['action'] ) && $options['action'] == 'update' )
+            || ! ( isset( $options['type'] ) && $options['type'] == 'plugin' )
+            || ! ( isset( $options['plugins'] ) && in_array( $this->config->plugin_base_name, $options['plugins'] ) )
+        ) {
             $event->stop_propagation();
         }
     }

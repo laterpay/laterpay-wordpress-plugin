@@ -37,16 +37,12 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugins_page_view', 200 ),
                 array( 'render_requirements_notices' ),
                 array( 'check_for_updates' ),
-                array( 'maybe_update_meta_keys' ),
-                array( 'maybe_update_terms_price_table' ),
-                array( 'maybe_update_currency_to_euro' ),
-                array( 'maybe_update_time_passes_table' ),
-                array( 'maybe_update_api_urls_options_names' ),
-                array( 'maybe_add_is_in_visible_test_mode_option' ),
-                array( 'maybe_clean_api_key_options' ),
-                array( 'maybe_update_unlimited_access' ),
-                array( 'init_colors_options' ),
             ),
+            'laterpay_upgrade_process_complete' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_updated', 200 ),
+                array( 'check_for_updates' ),
+            )
         );
     }
 
@@ -118,8 +114,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
     /**
      * Compare plugin version with latest version and perform an update, if required.
-     *
-     * @wp-hook plugins_loaded
      *
      * @return void
      */
@@ -387,8 +381,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     /**
      * Update the existing options during update.
      *
-     * @deprecated since version 1.0
-     *
      * @return void
      */
     protected function maybe_update_options() {
@@ -396,6 +388,15 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         if ( version_compare( $current_version, '0.9.8.1', '>=' ) ) {
             delete_option( 'laterpay_plugin_is_activated' );
+
+            if ( ! get_option( 'laterpay_sandbox_merchant_id' ) || ! get_option( 'laterpay_sandbox_api_key' ) ) {
+                update_option( 'laterpay_sandbox_merchant_id', $this->config->get( 'api.sandbox_merchant_id' ) );
+                update_option( 'laterpay_sandbox_api_key',     $this->config->get( 'api.sandbox_api_key' ) );
+            }
+        }
+
+        if ( version_compare( $current_version, '0.9.14', '>=' ) ) {
+            delete_option( 'laterpay_access_logging_enabled' );
         }
     }
 
@@ -564,11 +565,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $table_post_views_exist = $wpdb->get_results( 'SHOW TABLES LIKE \'' . $table_post_views . '\';' );
 
         if ( $table_history_exist ) {
-            $wpdb->query( 'DROP TABLE ' . $table_history . ';' );
+            $wpdb->query( 'DROP TABLE IF EXISTS ' . $table_history . ';' );
         }
 
         if ( $table_post_views_exist ) {
-            $wpdb->query( 'DROP TABLE ' . $table_post_views . ';' );
+            $wpdb->query( 'DROP TABLE IF EXISTS ' . $table_post_views . ';' );
         }
     }
 
@@ -680,23 +681,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_api_fallback_behavior',                   0 );
         add_option( 'laterpay_api_enabled_on_homepage',                 1 );
 
-        // @since 0.9.14
-        delete_option( 'laterpay_access_logging_enabled' );
-
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );
-
-        // update / remove plugin options
-        $this->maybe_update_options();
-
-        // update vouchers structure
-        $this->maybe_update_vouchers();
-
-        // add ppul
-        $this->maybe_update_revenue();
-
-        // remove statistics tables from system
-        $this->drop_statistics_tables();
 
         // clear opcode cache
         LaterPay_Helper_Cache::reset_opcode_cache();
@@ -704,6 +690,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // update capabilities
         $laterpay_capabilities = new LaterPay_Core_Capability();
         $laterpay_capabilities->populate_roles();
+
+        // perform data updates
+        $this->maybe_update_meta_keys();
+        $this->maybe_update_terms_price_table();
+        $this->maybe_update_currency_to_euro();
+        $this->maybe_update_options();
+        $this->maybe_update_api_urls_options_names();
+        $this->maybe_add_is_in_visible_test_mode_option();
+        $this->maybe_clean_api_key_options();
+        $this->maybe_update_unlimited_access();
+        $this->maybe_update_time_passes_table();
+        $this->maybe_update_vouchers();
+        $this->maybe_update_revenue();
+        $this->drop_statistics_tables();
+        $this->init_colors_options();
     }
 
     /**
