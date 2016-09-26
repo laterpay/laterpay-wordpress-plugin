@@ -8,5 +8,6 @@ node_modules/
 # composer generated files and folders
 laterpay/vendor
 selenium-tests/*
+svn-working-copy/*
 composer.lock
 
