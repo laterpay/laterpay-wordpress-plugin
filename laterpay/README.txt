@@ -178,6 +178,9 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 
 == Changelog ==
 
+= 0.9.18 ( September 26, 2016 ): Bugfix Release (v1.0 RC11) =
+* Increased update compatibility for very old plugin versions.
+
 = 0.9.17 ( September 15, 2016 ): Bugfix Release (v1.0 RC10) =
 * Fixed individual article pricing issues relating to formal German locale.
 * Fixed post-install color settings bug.
