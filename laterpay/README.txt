@@ -178,6 +178,9 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 
 == Changelog ==
 
+= 0.9.19 ( October 18, 2016 ): Bugfix Release (v1.0 RC12) =
+* Improved update compatibility.
+
 = 0.9.18 ( September 26, 2016 ): Bugfix Release (v1.0 RC11) =
 * Increased update compatibility for very old plugin versions.
 
