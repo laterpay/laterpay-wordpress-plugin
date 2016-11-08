@@ -50,7 +50,7 @@ Voucher codes are not user specific and can be used for any number of times unti
 = Presentation =
 * LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button at the beginning of the
   post content. You can choose to not show this button and instead render it from within your theme by calling
-  <?php do_action( 'laterpay_purchase_button' ); ?> within your theme.
+  do_action( 'laterpay_purchase_button' ); within your theme.
 * Teaser content: Every post you sell with LaterPay has to contain a teaser.
   The teaser is shown to the user before he purchases a post.
   The plugin automatically generates teaser content by taking the first 120 words of every existing post.
@@ -110,10 +110,10 @@ and (de-)activate the LaterPay WordPress plugin.
 
 = Custom Hooks =
 To integrate with existing access management systems, we provide several filters which you can hook into.
-These filters allow you to give a user access to content without having to purchase it. You can use <?php
-add_filter( 'laterpay_post_access', your_callback_returning_boolean ); ?> to provide access to a post or page
+These filters allow you to give a user access to content without having to purchase it. You can use
+add_filter( 'laterpay_post_access', your_callback_returning_boolean ) to provide access to a post or page
 without necessitating a purchase. This still checks for access with the LaterPay API. To disable it for any post or page
-use <?php add_filter( 'laterpay_access_check_enabled', your_callback_returning_boolean ); ?>.
+use add_filter( 'laterpay_access_check_enabled', your_callback_returning_boolean ).
 
 == Installation ==
 
