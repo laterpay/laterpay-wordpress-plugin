@@ -46,7 +46,8 @@ class LaterPay_Helper_Post
      * @return boolean success
      */
     public static function has_access_to_post( WP_Post $post, $is_attachment = false, $main_post_id = null ) {
-        $post_id = $post->ID;
+        $post_id    = $post->ID;
+        $has_access = false;
 
         // check, if parent post has access with time passes
         $parent_post        = $is_attachment ? $main_post_id : $post_id;
@@ -55,50 +56,42 @@ class LaterPay_Helper_Post
 
         foreach ( $time_passes as $time_pass ) {
             if ( array_key_exists( $time_pass, self::$access ) && self::$access[ $time_pass ] ) {
-                return true;
+                $has_access = true;
             }
         }
 
         // check access for the particular post
-        if ( array_key_exists( $post_id, self::$access ) ) {
-            return (bool) self::$access[ $post_id ];
-        }
+        if ( ! $has_access ) {
+            if ( array_key_exists( $post_id, self::$access ) ) {
+                $has_access = (bool) self::$access[ $post_id ];
+            } elseif ( LaterPay_Helper_Pricing::get_post_price( $post->ID ) > 0 ) {
+                $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post_id ), $time_passes ) );
 
-        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+                if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
+                    laterpay_get_logger()->warning(
+                        __METHOD__ . ' - post not found.',
+                        array( 'result' => $result )
+                    );
+                }
 
-        if ( $price > 0 ) {
-            $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post_id ), $time_passes ) );
+                foreach ( $result['articles'] as $article_key => $article_access ) {
+                    $access = (bool) $article_access['access'];
+                    self::$access[ $article_key ] = $access;
+                    if ( $access ) {
+                        $has_access = true;
+                    }
+                }
 
-            if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
-                laterpay_get_logger()->warning(
-                    __METHOD__ . ' - post not found.',
-                    array( 'result' => $result )
-                );
-
-                return false;
-            }
-
-            $has_access = false;
-
-            foreach ( $result['articles'] as $article_key => $article_access ) {
-                $access = (bool) $article_access['access'];
-                self::$access[ $article_key ] = $access;
-                if ( $access ) {
-                    $has_access = true;
+                if ( $has_access ) {
+                    laterpay_get_logger()->info(
+                        __METHOD__ . ' - post has access.',
+                        array( 'result' => $result )
+                    );
                 }
             }
-
-            if ( $has_access ) {
-                laterpay_get_logger()->info(
-                    __METHOD__ . ' - post has access.',
-                    array( 'result' => $result )
-                );
-
-                return true;
-            }
         }
 
-        return false;
+        return apply_filters( 'laterpay_post_access', $has_access );
     }
 
     /**
