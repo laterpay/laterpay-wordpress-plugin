@@ -108,6 +108,13 @@ Some plugin features may not be available for certain user roles, based on the W
 * Super Admins and Admins: Can **additionally** access the plugin backend, edit the plugin settings and (un-)install
 and (de-)activate the LaterPay WordPress plugin.
 
+= Custom Hooks =
+To integrate with existing access management systems, we provide several filters which you can hook into.
+These filters allow you to give a user access to content without having to purchase it. You can use <?php
+add_filter( 'laterpay_post_access', your_callback_returning_boolean ); ?> to provide access to a post or page
+without necessitating a purchase. This still checks for access with the LaterPay API. To disable it for any post or page
+use <?php add_filter( 'laterpay_access_check_enabled', your_callback_returning_boolean ); ?>.
+
 == Installation ==
 
 * Upload the LaterPay WordPress plugin on the ‘Install Plugins’ page of your WordPress installation
@@ -177,6 +184,9 @@ documents that are listed in the merchant contract. You can find the merchant co
 plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
 
 == Changelog ==
+
+= 0.9.20 ( November 8, 2016 ): Bugfix Release (v1.0 RC13) =
+* Added filters for access check customization.
 
 = 0.9.19 ( October 18, 2016 ): Bugfix Release (v1.0 RC12) =
 * Improved update compatibility.
