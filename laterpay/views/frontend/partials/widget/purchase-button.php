@@ -39,4 +39,4 @@ if ( isset( $laterpay['link_text'] ) ) {
 ?>
 
 <div><a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $link_text ); ?></a></div>
-<div><a class="lp_bought_notification" href="<?php ?>"><?php echo $laterpay['notification_text']; ?></a></div>
+<div><a class="lp_bought_notification" href="<?php echo $laterpay['identify_url']; ?>"><?php echo $laterpay['notification_text']; ?></a></div>

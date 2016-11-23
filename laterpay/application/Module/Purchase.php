@@ -30,7 +30,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         return array(
             'laterpay_loaded' => array(
                 array( 'buy_post' ),
-                array( 'create_token' ),
             ),
             'laterpay_purchase_button' => array(
                 array( 'laterpay_on_preview_post_as_admin', 200 ),
@@ -82,12 +81,26 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $current_post_id = $event->get_argument( 'current_post' );
         }
 
+        // create account links URL with passed parameters
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client         = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        $back_url    = get_permalink( $current_post_id ? $current_post_id : $post->ID );
+        $content_ids = LaterPay_Helper_Post::get_content_ids( $post->ID );
+
         $view_args = array_merge( array(
                 'post_id'           => $post->ID,
                 'link'              => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
                 'currency'          => get_option( 'laterpay_currency' ),
                 'price'             => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
                 'notification_text' => __( 'I already bought this', 'laterpay' ),
+                'identify_url'      => $client->get_identify_url( $back_url, $content_ids ),
                 'attributes'        => array(),
             ),
             $event->get_arguments()
@@ -351,44 +364,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         wp_redirect( get_permalink( $post_id ) );
         // exit script after redirect was set
         exit;
-    }
-
-    /**
-     * Update incorrect token or create one, if it doesn't exist.
-     *
-     * @wp-hook template_redirect
-     *
-     * @return void
-     */
-    public function create_token() {
-        $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
-        $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
-
-        // don't assign tokens to crawlers and other user agents that can't handle cookies
-        if ( ! $browser_supports_cookies || $browser_is_crawler ) {
-            return;
-        }
-
-        // don't check or create the 'lptoken' on single pages with non-purchasable posts
-        if ( is_single() && ! LaterPay_Helper_Pricing::is_purchasable( ) ) {
-            return;
-        }
-
-        // don't check or create the 'lptoken' on feed
-        if ( is_feed() ) {
-            return;
-        }
-
-        // don't check or create the 'lptoken' if query is invalid
-        if ( is_404() ) {
-            return;
-        }
-
-        if ( isset( $_GET['lptoken'] ) ) {
-            LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ), true );
-        }
-
-        LaterPay_Helper_Request::laterpay_api_acquire_token();
     }
 
     /**
