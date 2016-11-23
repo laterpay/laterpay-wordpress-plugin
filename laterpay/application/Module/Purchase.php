@@ -30,6 +30,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         return array(
             'laterpay_loaded' => array(
                 array( 'buy_post' ),
+                array( 'update_token' )
             ),
             'laterpay_purchase_button' => array(
                 array( 'laterpay_on_preview_post_as_admin', 200 ),
@@ -423,6 +424,38 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( $post instanceof WP_Post && LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
             $event->stop_propagation();
+        }
+    }
+
+    /**
+    * Update incorrect token or create one, if it doesn't exist.
+    *
+    * @wp-hook template_redirect
+    *
+    * @return void
+    */
+    public function update_token() {
+        $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+
+        $request = new LaterPay_Core_Request();
+        $lptoken = $request->get_param( 'lptoken' );
+
+        if ( ! empty( $lptoken ) ) {
+            $hmac = $request->get_param( 'hmac' );
+
+            $client_options  = LaterPay_Helper_Config::get_php_client_options();
+            $laterpay_client = new LaterPay_Client(
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
+            );
+
+            // verify and set token
+            if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+                $laterpay_client->set_token( $lptoken, true );
+            }
         }
     }
 }

@@ -59,13 +59,14 @@ class LaterPay_Helper_Post
      * @return boolean success
      */
     public static function has_access_to_post( WP_Post $post, $is_attachment = false, $main_post_id = null ) {
-        $post_id    = $post->ID;
-        $has_access = false;
+        $has_access     = false;
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $token_name     = $client_options['token_name'];
 
-        if ( apply_filters( 'laterpay_access_check_enabled', true ) ) {
+        if ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $_COOKIE[ $token_name ] ) ) {
 
             // check, if parent post has access with time passes
-            $parent_post = $is_attachment ? $main_post_id : $post_id;
+            $parent_post = $is_attachment ? $main_post_id : $post->ID;
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id($parent_post);
             $time_passes = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids($time_passes_list);
 
@@ -77,10 +78,10 @@ class LaterPay_Helper_Post
 
             // check access for the particular post
             if ( ! $has_access ) {
-                if ( array_key_exists( $post_id, self::$access ) ) {
-                    $has_access = (bool)self::$access[$post_id];
+                if ( array_key_exists( $post->ID, self::$access ) ) {
+                    $has_access = (bool)self::$access[$post->ID];
                 } elseif ( LaterPay_Helper_Pricing::get_post_price($post->ID) > 0) {
-                    $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post_id ), $time_passes ) );
+                    $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post->ID ), $time_passes ) );
 
                     if ( empty( $result ) || ! array_key_exists('articles', $result) ) {
                         laterpay_get_logger()->warning(
