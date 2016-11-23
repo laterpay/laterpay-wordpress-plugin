@@ -57,26 +57,24 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
             $client_options['web_root'],
             $client_options['token_name']
         );
-        $links_url      = $client->get_account_links_url( $show, $css, $next, $forcelang );
-        // get Merchant ID
-        $is_live        = get_option( 'laterpay_plugin_is_in_live_mode' );
-        $merchant_id    = $is_live ? get_option( 'laterpay_live_merchant_id' ) : get_option( 'laterpay_sandbox_merchant_id' );
-        $dialog_url     = $is_live ? get_option( 'laterpay_live_dialog_api_url' ) : get_option( 'laterpay_sandbox_dialog_api_url' );
 
-        $view_args = array(
-            'dialog_url'  => $dialog_url,
-            'links_url'   => $links_url,
-            'next'        => urlencode( $next ),
-            'merchant_id' => $merchant_id,
-        );
-
-        $this->assign( 'laterpay_account', $view_args );
-
+        // add iframe placeholder
         $event->set_echo( true );
         $event->set_result( laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/account-links' ) ) );
 
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-account-links' );
+
+        wp_localize_script(
+            'laterpay-account-links',
+            'lpVars',
+            array(
+                'iframeLink' => $client->get_account_links( $show, $css, $next, $forcelang ),
+                'loginLink'  => $client->get_login_dialog_url( $next ),
+                'logoutLink' => $client->get_logout_dialog_url( $next, true ),
+                'signupLink' => $client->get_signup_dialog_url( $next ),
+            )
+        );
     }
 
     /**
