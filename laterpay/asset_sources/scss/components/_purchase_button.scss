@@ -122,13 +122,12 @@
     display: block;
 }
 
-.lp_sis_notification {
+.lp_bought_notification {
     box-shadow: none !important;
     font-size: $fs;
     color: $laterpay-brand;
     float: right;
     text-decoration: underline;
-    margin-right: $fs;
     border-bottom: none !important;
 
     &:hover {
@@ -136,7 +135,7 @@
     }
 }
 
-.lp_sis_notification :hover {
+.lp_bought_notification :hover {
     text-decoration: none;
 }
 

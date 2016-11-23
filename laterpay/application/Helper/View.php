@@ -282,7 +282,7 @@ class LaterPay_Helper_View
                 body .lp_time-pass__actions .lp_time-pass__terms {
                     color: {$main_color} !important;
                 }
-                .lp_sis_notification, .lp_purchase-link, .lp_redeem-code__hint {
+                .lp_bought_notification, .lp_purchase-link, .lp_redeem-code__hint {
                     color: {$main_color} !important;
                 }
             ";
@@ -299,7 +299,7 @@ class LaterPay_Helper_View
                 body .lp_time-pass__actions .lp_time-pass__terms:hover {
                     color: {$hover_color} !important;
                 }
-                .lp_sis_notification:hover, .lp_purchase-link:hover, .lp_redeem-code__hint:hover {
+                .lp_bought_notification:hover, .lp_purchase-link:hover, .lp_redeem-code__hint:hover {
                     color: {$hover_color} !important;
                 }
             ";
