@@ -205,6 +205,7 @@
     box-shadow: 1px 1px 2px hsla(0, 0%, 0%, 0.34) !important;
     height: 300px !important;
     margin: 0 $fs $fs--2 $fs !important;
+    padding: $fs--05 $fs--05 0 0!important;
     position: relative !important;
     width: 300px !important;
 
@@ -214,8 +215,6 @@
         font-size: $fs--15 !important;
         margin: 0 !important;
         position: relative !important;
-        right: $fs--05 !important;
-        top: $fs--075 !important;
         padding: 4px 7px 4px 34px!important;
 
         &:before {
@@ -224,7 +223,9 @@
             top: 10px !important;
         }
     }
-
+    .lp_purchase-button-wrapper {
+        margin: 0px 0 28px !important;
+    }
     .lp_button {
         padding-right: $fs--05 !important;
         padding-left: $fs--05 !important;
