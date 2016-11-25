@@ -50,7 +50,7 @@ Voucher codes are not user specific and can be used for any number of times unti
 = Presentation =
 * LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button at the beginning of the
   post content. You can choose to not show this button and instead render it from within your theme by calling
-  do_action( 'laterpay_purchase_button' ); within your theme.
+  do_action( 'laterpay_purchase_button' ) within your theme.
 * Teaser content: Every post you sell with LaterPay has to contain a teaser.
   The teaser is shown to the user before he purchases a post.
   The plugin automatically generates teaser content by taking the first 120 words of every existing post.
@@ -184,6 +184,9 @@ documents that are listed in the merchant contract. You can find the merchant co
 plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
 
 == Changelog ==
+
+= 0.9.21 ( November 25, 2016 ): Bugfix Release (v1.0 RC14) =
+* Updated sandbox creds.
 
 = 0.9.20 ( November 8, 2016 ): Bugfix Release (v1.0 RC13) =
 * Added filters for access check customization.
