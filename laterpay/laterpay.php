@@ -175,8 +175,8 @@ function laterpay_get_plugin_config() {
 
     // non-editable settings for the LaterPay API
     $api_settings['api.token_name']           = 'token';
-    $api_settings['api.sandbox_merchant_id']  = 'LaterPay-WordPressDemo';
-    $api_settings['api.sandbox_api_key']      = 'decafbaddecafbaddecafbaddecafbad';
+    $api_settings['api.sandbox_merchant_id']  = '984df2b86250447793241a';
+    $api_settings['api.sandbox_api_key']      = '57791c777baa4cea94c4ec074184e06d';
 
     $config->import( $api_settings );
 

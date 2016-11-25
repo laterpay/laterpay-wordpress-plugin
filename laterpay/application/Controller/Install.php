@@ -388,16 +388,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         if ( version_compare( $current_version, '0.9.8.1', '>=' ) ) {
             delete_option( 'laterpay_plugin_is_activated' );
-
-            if ( ! get_option( 'laterpay_sandbox_merchant_id' ) || ! get_option( 'laterpay_sandbox_api_key' ) ) {
-                update_option( 'laterpay_sandbox_merchant_id', $this->config->get( 'api.sandbox_merchant_id' ) );
-                update_option( 'laterpay_sandbox_api_key',     $this->config->get( 'api.sandbox_api_key' ) );
-            }
         }
 
         if ( version_compare( $current_version, '0.9.14', '>=' ) ) {
             delete_option( 'laterpay_access_logging_enabled' );
         }
+
+        update_option( 'laterpay_sandbox_merchant_id', $this->config->get( 'api.sandbox_merchant_id' ) );
+        update_option( 'laterpay_sandbox_api_key',     $this->config->get( 'api.sandbox_api_key' ) );
     }
 
     /**
