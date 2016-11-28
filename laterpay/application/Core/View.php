@@ -36,6 +36,19 @@ class LaterPay_Core_View
     }
 
     /**
+     * Refresh config
+     *
+     * @return void
+     */
+    protected function refresh_config() {
+        laterpay_clean_plugin_cache();
+
+        // set new config and update assignation
+        $this->config = laterpay_get_plugin_config();
+        $this->assign( 'config', $this->config );
+    }
+
+    /**
      * Function which will be called on constructor and can be overwritten by child class.
      *
      * @return void

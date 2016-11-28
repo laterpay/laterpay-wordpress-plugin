@@ -241,9 +241,8 @@ function laterpay_before_start() {
     try {
         $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
-        // regenerate laterpay config and logger
-        wp_cache_delete( 'config', 'laterpay' );
-        wp_cache_delete( 'logger', 'laterpay' );
+        // clean plugin cache to prevent pesistant caching
+        laterpay_clean_plugin_cache();
 
         if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
             require_once( $dir . 'laterpay-load.php' );
@@ -260,6 +259,16 @@ function laterpay_before_start() {
     // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
     // to register the required script and style filters
     laterpay_get_logger();
+}
+
+/**
+ * Clear plugin cache.
+ *
+ * @return void
+ */
+function laterpay_clean_plugin_cache() {
+    wp_cache_delete( 'config', 'laterpay' );
+    wp_cache_delete( 'logger', 'laterpay' );
 }
 
 /**

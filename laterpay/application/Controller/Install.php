@@ -18,30 +18,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'migrate_pricing_post_meta' ),
             ),
-            'laterpay_admin_init' => array(
-                array( 'laterpay_on_admin_view', 200 ),
-                array( 'trigger_requirements_check' ),
-                array( 'trigger_update_capabilities' ),
-            ),
             'laterpay_update_capabilities' => array(
                 array( 'laterpay_on_admin_view', 200 ),
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'update_capabilities' ),
-            ),
-            'laterpay_check_requirements' => array(
-                array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_plugins_page_view', 200 ),
-                array( 'check_requirements' ),
             ),
             'laterpay_admin_notices' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_plugins_page_view', 200 ),
                 array( 'render_requirements_notices' ),
-                array( 'check_for_updates' ),
+                array( 'install_updates' )
             ),
             'laterpay_upgrade_process_complete' => array(
                 array( 'laterpay_on_admin_view', 200 ),
                 array( 'laterpay_on_plugin_updated', 200 ),
-                array( 'check_for_updates' ),
+                array( 'refresh_config' ),
+                array( 'install_updates' )
             )
         );
     }
@@ -53,22 +44,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      *
      * @return  void
      */
-    public function render_requirements_notices() {
+    public function render_requirements_notices( LaterPay_Core_Event $event ) {
         $notices = $this->check_requirements();
         if ( count( $notices ) > 0 ) {
             $out = join( "\n", $notices );
             echo laterpay_sanitize_output( '<div class="error">' . $out . '</div>' );
+            $event->stop_propagation();
         }
-    }
-
-    /**
-     * Trigger requirements check
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function trigger_requirements_check( LaterPay_Core_Event $event ) {
-        $new_event = new LaterPay_Core_Event( $event->get_arguments() );
-        laterpay_event_dispatcher()->dispatch( 'laterpay_check_requirements', $new_event );
     }
 
     /**
@@ -117,11 +99,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      *
      * @return void
      */
-    public function check_for_updates() {
+    public function install_updates() {
         $current_version = get_option( 'laterpay_version' );
         if ( version_compare( $current_version, $this->config->version, '!=' ) ) {
             $this->install();
         }
+    }
+
+    /**
+     * Refresh config
+     *
+     * @return void
+     */
+    public function refresh_config()
+    {
+        parent::refresh_config();
     }
 
     /**
@@ -598,13 +590,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     public function install() {
         global $wpdb;
 
-        // cancel the installation process, if the requirements check returns errors
-        $notices = (array) $this->check_requirements();
-        if ( count( $notices ) ) {
-            $this->logger->warning( __METHOD__, $notices );
-            return;
-        }
-
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
         $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
@@ -705,17 +690,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->maybe_update_revenue();
         $this->drop_statistics_tables();
         $this->init_colors_options();
-    }
-
-    /**
-     * Trigger requirements check.
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function trigger_update_capabilities( LaterPay_Core_Event $event ) {
-        $new_event = new LaterPay_Core_Event();
-        $new_event->set_echo( false );
-        laterpay_event_dispatcher()->dispatch( 'laterpay_update_capabilities', $new_event );
     }
 
     /**
