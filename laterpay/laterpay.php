@@ -241,6 +241,10 @@ function laterpay_before_start() {
     try {
         $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
+        // regenerate laterpay config and logger
+        wp_cache_delete( 'config', 'laterpay' );
+        wp_cache_delete( 'logger', 'laterpay' );
+
         if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
             require_once( $dir . 'laterpay-load.php' );
         }
