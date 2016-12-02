@@ -30,7 +30,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         return array(
             'laterpay_loaded' => array(
                 array( 'buy_post' ),
-                array( 'create_token' ),
+                array( 'update_token' )
             ),
             'laterpay_purchase_button' => array(
                 array( 'laterpay_on_preview_post_as_admin', 200 ),
@@ -82,18 +82,27 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $current_post_id = $event->get_argument( 'current_post' );
         }
 
-        // show time pass sis notification with login link
-        $sis_notification_event = new LaterPay_Core_Event();
-        $sis_notification_event->set_echo( false );
-        laterpay_event_dispatcher()->dispatch( 'laterpay_show_sis_notification', $sis_notification_event );
+        // create account links URL with passed parameters
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client         = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        $back_url    = get_permalink( $current_post_id ? $current_post_id : $post->ID );
+        $content_ids = LaterPay_Helper_Post::get_content_ids( $post->ID );
 
         $view_args = array_merge( array(
-            'post_id'          => $post->ID,
-            'link'             => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
-            'currency'         => get_option( 'laterpay_currency' ),
-            'price'            => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-            'attributes'       => array(),
-            'sis_notification' => $sis_notification_event->get_result(),
+                'post_id'           => $post->ID,
+                'link'              => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
+                'currency'          => get_option( 'laterpay_currency' ),
+                'price'             => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
+                'notification_text' => __( 'I already bought this', 'laterpay' ),
+                'identify_url'      => $client->get_identify_url( $back_url, $content_ids ),
+                'attributes'        => array(),
             ),
             $event->get_arguments()
         );
@@ -359,44 +368,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
     }
 
     /**
-     * Update incorrect token or create one, if it doesn't exist.
-     *
-     * @wp-hook template_redirect
-     *
-     * @return void
-     */
-    public function create_token() {
-        $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
-        $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
-
-        // don't assign tokens to crawlers and other user agents that can't handle cookies
-        if ( ! $browser_supports_cookies || $browser_is_crawler ) {
-            return;
-        }
-
-        // don't check or create the 'lptoken' on single pages with non-purchasable posts
-        if ( is_single() && ! LaterPay_Helper_Pricing::is_purchasable( ) ) {
-            return;
-        }
-
-        // don't check or create the 'lptoken' on feed
-        if ( is_feed() ) {
-            return;
-        }
-
-        // don't check or create the 'lptoken' if query is invalid
-        if ( is_404() ) {
-            return;
-        }
-
-        if ( isset( $_GET['lptoken'] ) ) {
-            LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ), true );
-        }
-
-        LaterPay_Helper_Request::laterpay_api_acquire_token();
-    }
-
-    /**
      * Modify the post content of paid posts.
      *
      * @wp-hook the_content
@@ -453,6 +424,38 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( $post instanceof WP_Post && LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
             $event->stop_propagation();
+        }
+    }
+
+    /**
+    * Update incorrect token or create one, if it doesn't exist.
+    *
+    * @wp-hook template_redirect
+    *
+    * @return void
+    */
+    public function update_token() {
+        $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+
+        $request = new LaterPay_Core_Request();
+        $lptoken = $request->get_param( 'lptoken' );
+
+        if ( ! empty( $lptoken ) ) {
+            $hmac = $request->get_param( 'hmac' );
+
+            $client_options  = LaterPay_Helper_Config::get_php_client_options();
+            $laterpay_client = new LaterPay_Client(
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
+            );
+
+            // verify and set token
+            if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+                $laterpay_client->set_token( $lptoken, true );
+            }
         }
     }
 }
