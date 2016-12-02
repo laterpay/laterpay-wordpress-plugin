@@ -185,6 +185,12 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 
 == Changelog ==
 
+= 0.9.22 ( December 02, 2016 ): Bugfix Release (v1.0 RC15) =
+* Updated identification flow.
+* Updated login / logout / signup links.
+* Improved plugin update process.
+* Removed Browscap library
+
 = 0.9.21 ( November 25, 2016 ): Bugfix Release (v1.0 RC14) =
 * Updated sandbox creds.
 
