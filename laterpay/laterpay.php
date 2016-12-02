@@ -213,19 +213,6 @@ function laterpay_get_plugin_config() {
     );
     $config->import( $content_settings );
 
-    // Browscap browser detection library
-    $browscap_settings = array(
-        // Auto-update browscap library
-        // The plugin requires browscap to ensure search engine bots, social media sites, etc. don't crash when visiting a paid post
-        // When set to true, the plugin will automatically fetch updates of this library from browscap.org
-        'browscap.autoupdate'               => false,
-        'browscap.silent'                   => true,
-        // If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
-        // on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
-        'browscap.manually_updated_copy'    => null,
-    );
-    $config->import( $browscap_settings );
-
     // cache the config
     wp_cache_set( 'config', $config, 'laterpay' );
 
@@ -250,7 +237,6 @@ function laterpay_before_start() {
 
         LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
         LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
-        LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-php-browscap-library' );
     } catch ( Exception $e ) {
         // deactivate laterpay plugin
         deactivate_plugins( plugin_basename( __FILE__ ) );

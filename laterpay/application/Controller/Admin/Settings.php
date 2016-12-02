@@ -25,20 +25,16 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 array( 'laterpay_on_admin_view', 200 ),
                 array( 'add_laterpay_advanced_settings_page' ),
             ),
-            'wp_ajax_laterpay_backend_options' => array(
-                array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
-                array( 'process_ajax_requests' ),
-                array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
-            ),
         );
     }
 
     /**
      * @see LaterPay_Core_View::load_assets
      */
-    public function load_assets() {
+    public function load_assets()
+    {
         parent::load_assets();
+
         // register and enqueue stylesheet
         wp_register_style(
             'laterpay-options',
@@ -46,106 +42,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             array(),
             $this->config->version
         );
-        wp_enqueue_style( 'laterpay-options' );
-
-        // load page-specific JS
-        wp_register_script(
-            'laterpay-backend',
-            $this->config->js_url . 'laterpay-backend.js',
-            array( 'jquery' ),
-            $this->config->version,
-            true
-        );
-        wp_register_script(
-            'laterpay-backend-options',
-            $this->config->js_url . 'laterpay-backend-options.js',
-            array( 'jquery', 'laterpay-backend' ),
-            $this->config->version,
-            true
-        );
-
-        // pass localized strings and variables to script
-        wp_localize_script(
-            'laterpay-backend-options',
-            'lpVars',
-            array(
-                'i18nFetchingUpdate'                                => __( 'Fetching data from browscap.org', 'laterpay' ),
-                'i18nUpdateFailed'                                  => __( 'Browscap cache update has failed', 'laterpay' ),
-                'i18nUpToDate'                                      => __( 'Your database is up to date :-)', 'laterpay' ),
-                'i18nconfirmTechnicalRequirementsForBrowscapUpdate' => __( 'Your server must have > 100 MB of RAM and the /cache folder within the LaterPay plugin must be writable for an update. Start database update?', 'laterpay' ),
-                'laterpayApiOptions'                                => self::get_laterpay_api_options(),
-            )
-        );
-
-        wp_enqueue_script( 'laterpay-backend-options' );
-    }
-
-    /**
-     * Process Ajax requests from appearance tab.
-     *
-     * @param LaterPay_Core_Event $event
-     *
-     * @return void
-     */
-    public static function process_ajax_requests( LaterPay_Core_Event $event ) {
-        $from = isset( $_POST['form'] ) ? sanitize_text_field( $_POST['form'] ) : '';
-
-        switch ( $from ) {
-            // update presentation mode for paid content
-            case 'update_browscap_cache':
-                $browscap = LaterPay_Helper_Browser::php_browscap();
-                // to check current cache version we need to load it first
-                $browscap->getBrowser();
-                $remote_version = $browscap->getRemoteVersionNumber();
-                $current_version = $browscap->getSourceVersion();
-                if ( $current_version == $remote_version ) {
-                    $event->set_result(
-                        array(
-                            'success' => true,
-                            'message' => __( 'Your database is already up to date', 'laterpay' ),
-                        )
-                    );
-                    return;
-                }
-                try {
-                    $result = $browscap->updateCache();
-                    if ( ! $result ) {
-                        $event->set_result(
-                            array(
-                                'success' => false,
-                                'message' => __( 'Browscap cache update has failed', 'laterpay' ),
-                            )
-                        );
-                        return;
-                    }
-                } catch (Exception $e) {
-                    $event->set_result(
-                        array(
-                            'success' => false,
-                            'message' => __( 'Browscap cache update has failed', 'laterpay' ),
-                        )
-                    );
-                    return;
-                }
-
-                $event->set_result(
-                    array(
-                        'success' => true,
-                        'message' => __( 'Browscap cache has been updated', 'laterpay' ),
-                    )
-                );
-                return;
-                break;
-            default:
-                break;
-        }
-
-        $event->set_result(
-            array(
-                'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-            )
-        );
+        wp_enqueue_style('laterpay-options');
     }
 
     /**
@@ -197,7 +94,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_teaser_content_settings();
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
-        $this->add_browscap_settings();
         $this->add_laterpay_api_settings();
     }
 
@@ -706,65 +602,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             // tell the user that he needs to have at least one custom role defined
             echo laterpay_sanitize_output( '<h4>' . __( 'Please add a custom role first.', 'laterpay' ) . '</h4>' );
         }
-    }
-
-    /**
-     * Add Browscap cache file section and fields.
-     *
-     * @return void
-     */
-    public function add_browscap_settings() {
-        $browscap = LaterPay_Helper_Browser::php_browscap();
-        // to check current cache version we need to load it first
-        $browscap->getBrowser();
-        $remote_version = $browscap->getRemoteVersionNumber();
-        $current_version = $browscap->getSourceVersion();
-        $update_required = $remote_version > $current_version;
-
-        add_settings_section(
-            'browscap',
-            __( 'Detection of Crawlers', 'laterpay' ),
-            array( $this, 'get_browscap_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_browscap_cache_version',
-            __( 'Crawler Database', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'browscap',
-            array(
-                'type'          => 'submit',
-                'name'          => 'laterpay_browscap_cache_version',
-                'value'         => __( 'Update Database', 'laterpay' ),
-                'classes'       => 'button button-primary',
-                'disabled'      => ! $update_required,
-                'appended_text' => $update_required ? __( 'Update required', 'laterpay' ) : __( 'Your database is up to date :-)', 'laterpay' ),
-                'id'            => 'lp_js_updateBrowscapCache',
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_access_logging_enabled' );
-    }
-
-    /**
-     * Render the hint text for the Browscap section.
-     *
-     * @return string description
-     */
-    public function get_browscap_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'The LaterPay WordPress plugin uses the <a href="http://browscap.org/" target="_blank">Browscap</a>
-               library to detect when a crawler visits your site.<br>
-               Crawlers are not compatible with LaterPay, because they don\'t support the forwarding that LaterPay
-               performs to identify a visitor.<br>
-               When a crawler is detected, it is simply served the teaser content. This ensures your site is not
-               reported as broken e.g. by search engines.<br>
-               Because new browsers and crawlers are released frequently, the Browscap database needs to be updated
-               occasionally, which is usually done with the plugin releases.<br>
-               If you encounter problems, you can trigger a manual update with the "Update Database" button.', 'laterpay' ) .
-        '</p>' );
     }
 
     /**
