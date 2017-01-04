@@ -190,6 +190,28 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
 
+        <div id="lp_js_apiRegionSection" class="lp_clearfix">
+            <fieldset class="lp_fieldset">
+                <legend class="lp_legend"><?php echo laterpay_sanitize_output( __( 'Region and Currency', 'laterpay' ) ); ?></legend>
+
+                <p class="lp_bold"><?php echo laterpay_sanitize_output( __( 'Select the region for your LaterPay merchant account', 'laterpay' ) ); ?></p>
+
+                <dfn>
+                    <p>
+                        <?php echo laterpay_sanitize_output( __( "Is the selling company or person based in Europe or in United States?<br>
+                    If you select 'Europe', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform.<br>
+                    If you select 'United States', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform. 
+                    ", 'laterpay' ) ); ?>
+                    </p>
+                </dfn>
+
+                <select class="lp_input">
+                    <option value="eu">Europe (EUR)</option>
+                    <option value="us">United States (USD)</option>
+                </select>
+            </fieldset>
+        </div>
+
     </div>
 
 </div>
