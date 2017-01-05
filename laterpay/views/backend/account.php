@@ -190,7 +190,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
 
-        <div id="lp_js_apiRegionSection" class="lp_clearfix">
+        <div class="lp_clearfix">
             <fieldset class="lp_fieldset">
                 <legend class="lp_legend"><?php echo laterpay_sanitize_output( __( 'Region and Currency', 'laterpay' ) ); ?></legend>
 
@@ -205,10 +205,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </p>
                 </dfn>
 
-                <select class="lp_input">
-                    <option value="eu">Europe (EUR)</option>
-                    <option value="us">United States (USD)</option>
-                </select>
+                <form id="laterpay_region" method="post">
+                    <input type="hidden" name="form"    value="laterpay_region_change">
+                    <input type="hidden" name="action"  value="laterpay_account">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                    <select id="lp_js_apiRegionSection" name="laterpay_region" class="lp_input">
+                        <option value="eu" <?php if ( $laterpay['region'] === 'eu' ) echo 'selected'; ?>>Europe (EUR)</option>
+                        <option value="us" <?php if ( $laterpay['region'] === 'us' ) echo 'selected'; ?>>United States (USD)</option>
+                    </select>
+                </form>
             </fieldset>
         </div>
 

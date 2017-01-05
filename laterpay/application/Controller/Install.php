@@ -292,37 +292,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
-     * Changing options names for API URLs.
-     *
-     * @since 0.9.11
-     * @wp-hook admin_notices
-     *
-     * @return void
-     */
-    public function maybe_update_api_urls_options_names() {
-        $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
-            return;
-        }
-
-        $old_to_new_option_pair_array = array(
-            'laterpay_api_sandbox_url'      => 'laterpay_sandbox_backend_api_url',
-            'laterpay_api_sandbox_web_url'  => 'laterpay_sandbox_dialog_api_url',
-            'laterpay_api_live_url'         => 'laterpay_live_backend_api_url',
-            'laterpay_api_live_web_url'     => 'laterpay_live_dialog_api_url',
-        );
-
-        foreach ( $old_to_new_option_pair_array as $old_option_name => $new_option_name ) {
-            $old_option_value = get_option( $old_option_name );
-
-            if ( $old_option_value !== false ) {
-                delete_option( $old_option_name );
-                add_option( $new_option_name, $old_option_value );
-            }
-        }
-    }
-
-    /**
      * Add option for invisible / visible test mode.
      *
      * @since 0.9.11
@@ -583,6 +552,26 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
+     * Remove old api settings
+     *
+     * @since 0.9.23
+     *
+     * @return void
+     */
+    public function remove_old_api_settings() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.23', '<' ) ) {
+            return;
+        }
+
+        delete_option( 'laterpay_sandbox_backend_api_url' );
+        delete_option( 'laterpay_sandbox_dialog_api_url' );
+        delete_option( 'laterpay_live_backend_api_url' );
+        delete_option( 'laterpay_live_dialog_api_url' );
+        delete_option( 'laterpay_api_merchant_backend_url' );
+    }
+
+    /**
      * Create custom tables and set the required options.
      *
      * @return void
@@ -648,11 +637,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_hide_free_posts',                         0 );
 
         // advanced settings
-        add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );
-        add_option( 'laterpay_sandbox_dialog_api_url',                  'https://web.sandbox.laterpaytest.net' );
-        add_option( 'laterpay_live_backend_api_url',                    'https://api.laterpay.net' );
-        add_option( 'laterpay_live_dialog_api_url',                     'https://web.laterpay.net' );
-        add_option( 'laterpay_api_merchant_backend_url',                'https://merchant.laterpay.net/' );
+        add_option( 'laterpay_region',                                  'eu' );
         add_option( 'laterpay_caching_compatibility',                   (bool) LaterPay_Helper_Cache::site_uses_page_caching() );
         add_option( 'laterpay_teaser_content_word_count',               '60' );
         add_option( 'laterpay_preview_excerpt_percentage_of_content',   '25' );
@@ -690,6 +675,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->maybe_update_revenue();
         $this->drop_statistics_tables();
         $this->init_colors_options();
+        $this->remove_old_api_settings();
     }
 
     /**

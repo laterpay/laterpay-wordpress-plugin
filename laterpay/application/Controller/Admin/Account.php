@@ -61,6 +61,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             'sandbox_api_key'                   => get_option( 'laterpay_sandbox_api_key' ),
             'live_merchant_id'                  => get_option( 'laterpay_live_merchant_id' ),
             'live_api_key'                      => get_option( 'laterpay_live_api_key' ),
+            'region'                            => get_option( 'laterpay_region' ),
             'plugin_is_in_live_mode'            => $this->config->get( 'is_in_live_mode' ),
             'plugin_is_in_visible_test_mode'    => get_option( 'laterpay_is_in_visible_test_mode' ),
             'top_nav'                           => $this->get_menu(),
@@ -124,6 +125,10 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
             case 'laterpay_test_mode':
                 self::update_plugin_visibility_in_test_mode( $event );
+                break;
+
+            case 'laterpay_region_change':
+                self::change_region( $event );
                 break;
 
             default:
@@ -303,6 +308,39 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 'success'   => false,
                 'mode'      => 'test',
                 'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
+            )
+        );
+    }
+
+    protected static function change_region( LaterPay_Core_Event $event ) {
+        $region_form = new LaterPay_Form_Region();
+
+        if ( ! $region_form->is_valid( $_POST ) ) {
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
+                )
+            );
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $region_form ), $region_form->get_errors() );
+        }
+
+        $result = update_option( 'laterpay_region', $region_form->get_field_value( 'laterpay_region' ) );
+
+        if ( ! $result ) {
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => __( 'Failed to change region settings.', 'laterpay' ),
+                )
+            );
+            return;
+        }
+
+        $event->set_result(
+            array(
+                'success' => true,
+                'message' => __( 'The LaterPay region successfully changed.', 'laterpay' ),
             )
         );
     }
