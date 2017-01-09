@@ -503,7 +503,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         $view_args = array(
             'passes_list'             => $time_passes_list,
-            'standard_currency'       => get_option( 'laterpay_currency' ),
+            'standard_currency'       => $this->config->get( 'currency.default' ),
             'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
             'selected_pass_id'        => $data['id'],
         );
@@ -545,7 +545,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         $view_args = array(
             'pass_data'               => $time_pass,
-            'standard_currency'       => get_option( 'laterpay_currency' ),
+            'standard_currency'       => $this->config->get( 'currency.default' ),
             'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
         );
         $this->assign( 'laterpay', $view_args );
@@ -650,7 +650,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 'gift_code'               => is_array( $access ) ? $access['code'] : null,
                 'landing_page'            => $landing_page ? $landing_page : home_url(),
                 'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
-                'standard_currency'       => get_option( 'laterpay_currency' ),
+                'standard_currency'       => $this->config->get( 'currency.default' ),
             );
 
             foreach ( $time_passes as $time_pass ) {

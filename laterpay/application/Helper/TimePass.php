@@ -159,6 +159,7 @@ class LaterPay_Helper_TimePass
      */
     public static function get_description( $time_pass = array(), $full_info = false ) {
         $details  = array();
+        $config   = laterpay_get_plugin_config();
 
         if ( ! $time_pass ) {
             $time_pass['duration']  = self::get_default_options( 'duration' );
@@ -166,7 +167,7 @@ class LaterPay_Helper_TimePass
             $time_pass['access_to'] = self::get_default_options( 'access_to' );
         }
 
-        $currency = get_option( 'laterpay_currency' );
+        $currency = $config->get( 'currency.default' );
 
         $details['duration'] = $time_pass['duration'] . ' ' .
                                 LaterPay_Helper_TimePass::get_period_options( $time_pass['period'], $time_pass['duration'] > 1 );
@@ -443,8 +444,9 @@ class LaterPay_Helper_TimePass
             $data = array();
         }
 
-        $currency       = get_option( 'laterpay_currency' );
-        $currency_model = new LaterPay_Model_Currency();
+        $config         = laterpay_get_plugin_config();
+
+        $currency       = $config->get( 'currency.default' );
         $price          = isset( $data['price'] ) ? $data['price'] : $time_pass['price'];
         $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $time_pass['revenue_model'], $price );
         $link           = isset( $data['link'] ) ? $data['link'] : get_permalink();
@@ -462,7 +464,7 @@ class LaterPay_Helper_TimePass
         $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
         $url_params = array(
             'pass_id'       => self::get_tokenized_time_pass_id( $time_pass_id ),
-            'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
+            'id_currency'   => $config->get( 'currency.id' ),
             'price'         => $price,
             'date'          => time(),
             'ip'            => ip2long( $remote_addr ),

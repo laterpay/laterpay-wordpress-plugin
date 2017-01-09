@@ -22,18 +22,20 @@ class LaterPay_Helper_Config {
             'api.sandbox_api_key'         => '57791c777baa4cea94c4ec074184e06d',
             'currency.default'            => 'EUR',
             'currency.default_price'      => 0.29,
+            'currency.id'                 => 2,
         ),
         'us' => array(
-            'api.sandbox_backend_api_url' => 'https://api.sandbox.laterpaytest.net',
-            'api.sandbox_dialog_api_url'  => 'https://web.sandbox.laterpaytest.net',
-            'api.live_backend_api_url'    => 'https://api.laterpay.net',
-            'api.live_dialog_api_url'     => 'https://web.laterpay.net',
+            'api.sandbox_backend_api_url' => 'https://api.sandbox.uselaterpaytest.com',
+            'api.sandbox_dialog_api_url'  => 'https://web.sandbox.uselaterpaytest.com',
+            'api.live_backend_api_url'    => 'https://api.uselaterpay.com',
+            'api.live_dialog_api_url'     => 'https://web.uselaterpay.com',
             'api.merchant_backend_url'    => 'https://merchant.laterpay.net/',
             'api.token_name'              => 'token',
             'api.sandbox_merchant_id'     => '984df2b86250447793241a',
             'api.sandbox_api_key'         => '57791c777baa4cea94c4ec074184e06d',
             'currency.default'            => 'USD',
             'currency.default_price'      => 0.29,
+            'currency.id'                 => 1,
         )
     );
 

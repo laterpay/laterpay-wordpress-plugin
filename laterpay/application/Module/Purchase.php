@@ -98,7 +98,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $view_args = array_merge( array(
                 'post_id'           => $post->ID,
                 'link'              => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
-                'currency'          => get_option( 'laterpay_currency' ),
+                'currency'          => $this->config->get( 'currency.default' ),
                 'price'             => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
                 'notification_text' => __( 'I already bought this', 'laterpay' ),
                 'identify_url'      => $client->get_identify_url( $back_url, $content_ids ),
@@ -160,7 +160,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
         $post_id = $post->ID;
         // get pricing data
-        $currency                       = get_option( 'laterpay_currency' );
+        $currency                       = $this->config->get( 'currency.default' );
         $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
         $revenue_model                  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
 

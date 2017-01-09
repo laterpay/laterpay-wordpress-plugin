@@ -138,7 +138,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             'laterpay-d3-dynamic-pricing-widget',
             'laterpay_d3_dynamic_pricing_widget',
             array(
-                'currency'          => get_option( 'laterpay_currency' ),
+                'currency'          => $this->config->get( 'currency.default' ),
                 'i18nDefaultPrice'  => __( 'default price', 'laterpay' ),
                 'i18nDays'          => __( 'days', 'laterpay' ),
                 'i18nToday'         => __( 'Today', 'laterpay' ),
@@ -343,7 +343,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             'post_status'                          => $post_status,
             'post_revenue_model'                   => $post_revenue_model,
             'price'                                => $price,
-            'currency'                             => get_option( 'laterpay_currency' ),
+            'currency'                             => $this->config->get( 'currency.default' ),
             'category_prices'                      => $category_price_data,
             'post_default_category'                => (int) $post_default_category,
             'global_default_price'                 => $global_default_price,

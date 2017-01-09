@@ -709,7 +709,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),
                     'generalAjaxError'  => __( 'An error occurred. Please try again.', 'laterpay' ),
                 ),
-                'default_currency'      => get_option( 'laterpay_currency' ),
+                'default_currency'      => $this->config->get( 'currency.default' ),
             )
         );
 
@@ -827,7 +827,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
         $post_id = $post->ID;
         // get pricing data
-        $currency   = get_option( 'laterpay_currency' );
+        $currency   = $this->config->get( 'currency.default' );
         $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
 
         $html = $event->get_result();
