@@ -22,7 +22,6 @@ class LaterPay_Helper_Config {
             'api.sandbox_api_key'         => '57791c777baa4cea94c4ec074184e06d',
             'currency.default'            => 'EUR',
             'currency.default_price'      => 0.29,
-            'currency.id'                 => 2,
         ),
         'us' => array(
             'api.sandbox_backend_api_url' => 'https://api.sandbox.uselaterpaytest.com',
@@ -35,7 +34,6 @@ class LaterPay_Helper_Config {
             'api.sandbox_api_key'         => '57791c777baa4cea94c4ec074184e06d',
             'currency.default'            => 'USD',
             'currency.default_price'      => 0.29,
-            'currency.id'                 => 1,
         )
     );
 

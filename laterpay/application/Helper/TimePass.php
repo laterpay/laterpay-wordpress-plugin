@@ -464,7 +464,6 @@ class LaterPay_Helper_TimePass
         $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
         $url_params = array(
             'pass_id'       => self::get_tokenized_time_pass_id( $time_pass_id ),
-            'id_currency'   => $config->get( 'currency.id' ),
             'price'         => $price,
             'date'          => time(),
             'ip'            => ip2long( $remote_addr ),
