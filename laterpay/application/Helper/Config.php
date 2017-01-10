@@ -30,8 +30,8 @@ class LaterPay_Helper_Config {
             'api.live_dialog_api_url'     => 'https://web.uselaterpay.com',
             'api.merchant_backend_url'    => 'https://merchant.laterpay.net/',
             'api.token_name'              => 'token',
-            'api.sandbox_merchant_id'     => '984df2b86250447793241a',
-            'api.sandbox_api_key'         => '57791c777baa4cea94c4ec074184e06d',
+            'api.sandbox_merchant_id'     => 'xswcBCpR6Vk6jTPw8si7KN',
+            'api.sandbox_api_key'         => '22627fa7cbce45d394a8718fd9727731',
             'currency.default'            => 'USD',
             'currency.default_price'      => 0.29,
         )
