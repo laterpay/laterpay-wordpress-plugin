@@ -250,7 +250,7 @@ class LaterPay_Helper_TimePass
      *
      * @param string $tokenized_pass_id tokenized time pass id
      *
-     * @return int|null pass id
+     * @return string|null pass id
      */
     public static function get_untokenized_time_pass_id( $tokenized_time_pass_id ) {
         $time_pass_parts = explode( '_', $tokenized_time_pass_id );
@@ -445,7 +445,6 @@ class LaterPay_Helper_TimePass
         }
 
         $config         = laterpay_get_plugin_config();
-
         $currency       = $config->get( 'currency.default' );
         $price          = isset( $data['price'] ) ? $data['price'] : $time_pass['price'];
         $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $time_pass['revenue_model'], $price );
@@ -461,14 +460,9 @@ class LaterPay_Helper_TimePass
         );
 
         // prepare URL
-        $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
         $url_params = array(
-            'pass_id'       => self::get_tokenized_time_pass_id( $time_pass_id ),
-            'price'         => $price,
-            'date'          => time(),
-            'ip'            => ip2long( $remote_addr ),
-            'revenue_model' => $revenue_model,
-            'link'          => $link,
+            'pass_id' => self::get_tokenized_time_pass_id( $time_pass_id ),
+            'link'    => $link,
         );
 
         // set voucher param
@@ -481,7 +475,7 @@ class LaterPay_Helper_TimePass
             'article_id'    => $is_code_purchase ? '[#' . $data['voucher'] . ']' : self::get_tokenized_time_pass_id( $time_pass_id ),
             'pricing'       => $currency . ( $price * 100 ),
             'expiry'        => '+' . self::get_time_pass_expiry_time( $time_pass ),
-            'url'           => $link,
+            'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
             'title'         => $is_code_purchase ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
             'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );

@@ -259,9 +259,9 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             return;
         }
 
-        $voucher        = $request->get_param( 'voucher' );
-        $hmac           = $request->get_param( 'hmac' );
-        $lptoken        = $request->get_param( 'lptoken' );
+        $voucher = $request->get_param( 'voucher' );
+        $hmac    = $request->get_param( 'hmac' );
+        $lptoken = $request->get_param( 'lptoken' );
         $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $pass_id );
 
         $client_options  = LaterPay_Helper_Config::get_php_client_options();
