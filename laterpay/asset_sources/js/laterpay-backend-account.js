@@ -170,6 +170,8 @@
                             $o.region.val( regionVal );
                         } else {
                             regionVal = $o.region.val();
+                            $o.testMerchantId.val( data.creds.cp_key );
+                            $o.testApiKey.val( data.creds.api_key );
                         }
                     },
                     'json'

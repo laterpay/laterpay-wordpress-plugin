@@ -80,4 +80,43 @@ class LaterPay_Helper_Config {
 
         return self::$options;
     }
+
+    /**
+     * Get actual sandbox creds
+     *
+     * @return array $creds
+     */
+    public static function prepare_sandbox_creds() {
+        $regional_settings   = self::get_regional_settings();
+        $creds_match_default = false;
+
+        $cp_key  = get_option( 'laterpay_sandbox_merchant_id' );
+        $api_key = get_option( 'laterpay_sandbox_api_key' );
+
+        // detect if sandbox creds were modified
+        if ( $cp_key && $api_key ) {
+            foreach ( self::$regional_settings as $region => $settings ) {
+                if ( $settings[ 'api.sandbox_merchant_id' ] === $cp_key &&
+                     $settings[ 'api.sandbox_api_key' ] === $api_key ) {
+                    $creds_match_default = true;
+                    break;
+                }
+            }
+        } else {
+            $creds_match_default = true;
+        }
+
+        if ( $creds_match_default ) {
+            $cp_key  = $regional_settings[ 'api.sandbox_merchant_id' ];
+            $api_key = $regional_settings[ 'api.sandbox_api_key' ];
+
+            update_option( 'laterpay_sandbox_merchant_id', $cp_key );
+            update_option( 'laterpay_sandbox_api_key', $api_key );
+        }
+
+        return array(
+            'cp_key'  => $cp_key,
+            'api_key' => $api_key,
+        );
+    }
 }

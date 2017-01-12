@@ -337,8 +337,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             delete_option( 'laterpay_access_logging_enabled' );
         }
 
-        update_option( 'laterpay_sandbox_merchant_id', $this->config->get( 'api.sandbox_merchant_id' ) );
-        update_option( 'laterpay_sandbox_api_key',     $this->config->get( 'api.sandbox_api_key' ) );
+        // actualize sandbox creds values
+        LaterPay_Helper_Config::prepare_sandbox_creds();
     }
 
     /**
