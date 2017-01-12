@@ -647,7 +647,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->maybe_update_terms_price_table();
         $this->maybe_update_currency_to_euro();
         $this->maybe_update_options();
-        $this->maybe_update_api_urls_options_names();
         $this->maybe_add_is_in_visible_test_mode_option();
         $this->maybe_clean_api_key_options();
         $this->maybe_update_unlimited_access();
