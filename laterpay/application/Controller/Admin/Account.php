@@ -341,7 +341,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             array(
                 'success' => true,
                 'creds'   => LaterPay_Helper_Config::prepare_sandbox_creds(),
-                'message' => __( 'The LaterPay region successfully changed.', 'laterpay' ),
+                'message' => __( 'The LaterPay region was changed successfully.', 'laterpay' ),
             )
         );
     }

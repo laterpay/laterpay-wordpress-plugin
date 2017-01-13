@@ -198,7 +198,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <dfn>
                     <p>
-                        <?php echo laterpay_sanitize_output( __( "Is the selling company or person based in Europe or in United States?<br>
+                        <?php echo laterpay_sanitize_output( __( "Is the selling company or person based in Europe or in the United States?<br>
                     If you select 'Europe', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform.<br>
                     If you select 'United States', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform. 
                     ", 'laterpay' ) ); ?>
