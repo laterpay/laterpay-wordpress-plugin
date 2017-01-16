@@ -235,10 +235,6 @@ class LaterPay_Helper_File
                 $tokenInstance = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
                 $auth          = $tokenInstance->sign( $client->get_laterpay_token() );
             }
-        } else {
-            if ( ! $client->has_token() ) {
-                $client->acquire_token();
-            }
         }
 
         if ( ! empty( $auth ) ) {

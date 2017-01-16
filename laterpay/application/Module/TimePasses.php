@@ -259,11 +259,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             return;
         }
 
-        $voucher = $request->get_param( 'voucher' );
-        $hmac    = $request->get_param( 'hmac' );
-        $lptoken = $request->get_param( 'lptoken' );
-        $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $pass_id );
-
         $client_options  = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
             $client_options['cp_key'],
@@ -273,15 +268,16 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $client_options['token_name']
         );
 
-        if ( LaterPay_Client_Signing::verify( $hmac, $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+        if ( LaterPay_Client_Signing::verify( $request->get_param( 'hmac' ), $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
             // check token
-            if ( ! empty( $lptoken ) ) {
+            if ( $lptoken = $request->get_param( 'lptoken' ) ) {
                 $laterpay_client->set_token( $lptoken );
-            } elseif ( ! $laterpay_client->has_token() ) {
-                $laterpay_client->acquire_token();
             }
 
-            $code = null;
+            $code    = null;
+            $voucher = $request->get_param( 'voucher' );
+            $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $pass_id );
+
             // process vouchers
             if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher ) ) {
                 if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher, true ) ) {
@@ -307,10 +303,11 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 // update voucher statistics
                 LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher );
             }
+
+            wp_redirect( $link );
+            // exit script after redirect was set
+            exit;
         }
-        wp_redirect( $link );
-        // exit script after redirect was set
-        exit;
     }
 
     /**
