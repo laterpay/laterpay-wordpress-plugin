@@ -213,7 +213,7 @@ class LaterPay_Helper_Post
         $params = array(
             'article_id'    => $post->ID,
             'pricing'       => $currency . ( $price * 100 ),
-            'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
+            'url'           => $link . '?' . build_query( $url_params ),
             'title'         => $post->post_title,
             'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );
