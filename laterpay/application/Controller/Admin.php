@@ -275,7 +275,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             <p>
                 <strong>Setting Prices</strong><br>
                 You can set an individual price for each post.<br>
-                Possible prices are either 0 Euro (free) or any value between 0.05 Euro (inclusive) and 149.99 Euro (inclusive).<br>
+                Possible prices are either 0.00 (free) or any value between 0.05 (inclusive) and 149.99 (inclusive).<br>
                 If you set an individual price, category default prices you might have set for the post\'s category(s)
                 won\'t apply anymore, unless you make the post use a category default price.
             </p>
@@ -283,8 +283,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 <strong>Dynamic Pricing Options</strong><br>
                 You can define dynamic price settings for each post to adjust prices automatically over time.<br>
                 <br>
-                For example, you could sell a "breaking news" post for 0.49 Euro (high interest within the first 24 hours)
-                and automatically reduce the price to 0.05 Euro on the second day.
+                For example, you could sell a "breaking news" post for 0.49 (high interest within the first 24 hours)
+                and automatically reduce the price to 0.05 on the second day.
             </p>
             <p>
                 <strong>Teaser</strong><br>
@@ -296,15 +296,15 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             </p>
             <p>
                 <strong>PPU (Pay-per-Use)</strong><br>
-                If you choose to sell your content as <strong>Pay-per-Use</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 Euro.<br>
-                LaterPay <strong>recommends</strong> Pay-per-Use for all prices up to 5.00 Euro as they deliver the <strong>best purchase experience</strong> for your users.<br>
-                PPU is possible for prices between (including) <strong>0.05 Euro</strong> and (including) <strong>5.00 Euro</strong>.
+                If you choose to sell your content as <strong>Pay-per-Use</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 (EUR or USD).<br>
+                LaterPay <strong>recommends</strong> Pay-per-Use for all prices up to 5.00 as they deliver the <strong>best purchase experience</strong> for your users.<br>
+                PPU is possible for prices between (including) <strong>0.05</strong> and (including) <strong>5.00</strong>.
             </p>
             <p>
                 <strong>SIS (Single Sale)</strong><br>
                 If you sell your content as <strong>Single Sale</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
                 Single Sales are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
-                Single Sales are possible for prices between (including) <strong>1.49 Euro</strong> and (including) <strong>149.99 Euro</strong>.
+                Single Sales are possible for prices between (including) <strong>1.49 € (in Europe) / $ 2.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.
             </p>', 'laterpay'
             ),
         ) );
@@ -324,7 +324,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             <p>
                 The global default price is used for all posts, for which no
                 category default price or individual price has been set.<br>
-                Accordingly, setting the global default price to 0.00 Euro makes
+                Accordingly, setting the global default price to 0.00 makes
                 all articles free, for which no category default price or
                 individual price has been set.
             </p>', 'laterpay'
@@ -341,9 +341,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 If a post belongs to multiple categories, you can choose on
                 the add / edit post page, which category default price should
                 be effective.<br>
-                For example, if you have set a global default price of 0.15 Euro,
+                For example, if you have set a global default price of 0.15,
                 but a post belongs to a category with a category default price
-                of 0.30 Euro, that post will sell for 0.30 Euro.
+                of 0.30, that post will sell for 0.30.
             </p>', 'laterpay'
             ),
         ) );
@@ -352,14 +352,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             'title'   => __( 'Currency', 'laterpay' ),
             'content' => __( '
             <p>
-                Currently, the plugin only supports Euro as default currency, but
-                you will soon be able to choose between different currencies for your blog.<br>
-                Changing the standard currency will not convert the prices you
-                have set.
+                The plugin supports two currencies, depending on the region of your LaterPay merchant account: EUR (€) for European merchant accounts, USD ($) for a U.S. merchant account.<br>
+                Changing the standard currency will not convert the prices you have set.
                 Only the currency code next to the price is changed.<br>
-                For example, if your global default price is 0.10 Euro and you
-                change the default currency to U.S. dollar, the global default
-                price will be 0.10 USD.
+                For example, if your global default price is 0.10 EUR and you change the default currency to USD, the global default
+                price will be 0.10 USD.<br>
             </p>', 'laterpay'
             ),
         ) );
@@ -384,7 +381,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             <p>
                 <strong>Time Passes and Individual Sales</strong><br>
                 When a user purchases a time pass, he has access to all the content covered by this pass during the validity period. Of course, you can still sell your content individually.<br>
-                Example: A user has already purchased the post "New York – a Travel Report" for 0.29 Euro. Now he purchases a Week Pass for the category "Travel Reports" for 0.99 Euro. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99 Euro. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
+                Example: A user has already purchased the post "New York – a Travel Report" for 0.29. Now he purchases a Week Pass for the category "Travel Reports" for 0.99. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
             </p>
             <p>
                 <strong>Action</strong><br>
@@ -428,7 +425,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             <p>
                 <strong>Time Passes and Individual Sales</strong><br>
                 When a user purchases a time pass, he has access to all the content covered by this pass during the validity period. Of course, you can still sell your content individually.<br>
-                Example: A user has already purchased the post "New York – a Travel Report" for 0.29 Euro. Now he purchases a Week Pass for the category "Travel Reports" for 0.99 Euro. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99 Euro. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
+                Example: A user has already purchased the post "New York – a Travel Report" for 0.29. Now he purchases a Week Pass for the category "Travel Reports" for 0.99. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
             </p>', 'laterpay'
             ),
         ) );
@@ -446,8 +443,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             </p>
             <ul>
                 <li>Click the "Edit" icon next to the time pass for which you want to create a voucher code.</strong>,</li>
-                <li>Enter a price next to \'Offer this time pass at a reduced price of\'. If you enter a price of \'0.00 Euro\', anyone with this voucher code can purchase the respective time pass for 0.00 Euro.<br>
-                    If you enter a price of e.g. \'0.20 Euro\', entering this voucher code will change the price of the respective time pass to 0.20 Euro.</li>
+                <li>Enter a price next to \'Offer this time pass at a reduced price of\'. If you enter a price of \'0.00\', anyone with this voucher code can purchase the respective time pass for 0.00.<br>
+                    If you enter a price of e.g. \'0.20\', entering this voucher code will change the price of the respective time pass to 0.20.</li>
                 <li>Click the \'Save\' button.</li>
             </ul>', 'laterpay'
             ),
