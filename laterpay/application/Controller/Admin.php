@@ -367,48 +367,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             <p>
                 <strong>Validity of Time Passes</strong><br>
                 With time passes, you can offer your users <strong>time-limited</strong> access to your content. You can define, which content a time pass should cover and for which period of time it should be valid. A time pass can be valid for <strong>all LaterPay content</strong>
-                <ul>
-                    <li>on your <strong>entire website</strong>,</li>
-                    <li>in one <strong>specific category</strong>, or</li>
-                    <li>on your entire website <strong>except from a specific category</strong>.</li>
-                </ul>
-                The <strong>validity period</strong> of a time pass starts with the <strong>purchase</strong> and is defined for a <strong>continuous</strong> use – i.e. it doesn\'t matter, if a user is on your website during the entire validity period. After a time pass has expired, the access to the covered content is automatically refused. Please note: Access to pages which are <strong>still open</strong> when a pass expires will be refused only after <strong>reloading</strong> the respective page. <strong>Any files</strong> (images, documents, presentations...), that were downloaded during the validity period, can still be used after the access has expired – but the user will <strong>not</strong> be able to <strong>download them </strong> without purchasing again.
-            </p>
-            <p>
-                <strong>Deleting Time Passes</strong><br>
-                Please be aware, that after <strong>deleting</strong> a time pass, users who have bought this time pass <strong>will lose</strong> their access to the covered content. <strong>Time Passes cannot be restored.</strong>
-            </p>
-            <p>
-                <strong>Time Passes and Individual Sales</strong><br>
-                When a user purchases a time pass, he has access to all the content covered by this pass during the validity period. Of course, you can still sell your content individually.<br>
-                Example: A user has already purchased the post "New York – a Travel Report" for 0.29. Now he purchases a Week Pass for the category "Travel Reports" for 0.99. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
-            </p>
-            <p>
-                <strong>Action</strong><br>
-                You can display time passes by implementing the <a href="admin.php?page=laterpay-appearance-tab#lp_timePassAppearance" target="_blank">action \'laterpay_time_passes\'</a> into your theme.<br>
-                This action will display all time passes which are relevant for the user in the current context and sorts them accordingly.<br>
-                Example: You offer a <strong>Week Pass "Sport"</strong> for the category sport, a <strong>Week Pass "News"</strong> for the category "News" and a <strong>Month Pass Entire Website</strong> for all the content on your website.<br>
-                Depending on the page he is currently visiting, a user will see different time passes:
-                <ul>
-                    <li>On the post page of a post in the category <strong>"Sport"</strong>, the <strong>Week Pass "Sport"</strong> will be listed first, followed by the "Month Pass Entire Website". The <strong>Week Pass "News"</strong> is <strong>not relevant</strong> is this context and will not be displayed.</li>
-                    <li>On the post page of a post in the category <strong>"News"</strong>, the <strong>Week Pass "News"</strong> will be listed first, followed by the "Month Pass Entire Website". The <strong>Week Pass "Sport"</strong> is <strong>not relevant</strong> is this context and will not be displayed.</li>
-                </ul>
-            </p>
-            <p>
-                <strong>Vouchers</strong><br>
-                You can create any number of voucher codes for each time pass. A voucher code allows one (or multiple) user(s) to purchase a time pass for a reduced price. A user can enter a voucher code below the available time passes by clicking <strong>\'Redeem Voucher\'</strong>. If the entered code is a valid voucher code, the price of the time pass, the code is valid for, will be reduced.<br>
-                A voucher code can be used <strong>any number of times</strong> and is <strong>not linked</strong> to a specific user.<br>
-                If you <strong>delete</strong> a voucher code, this will <strong>not affect</strong> the validity of time passes which have already been purchased using this voucher code.
-            </p>', 'laterpay'
-            ),
-        ) );
-        $screen->add_help_tab( array(
-            'id'      => 'laterpay_pricing_tab_help_time_passes',
-            'title'   => __( 'Time Passes', 'laterpay' ),
-            'content' => __( '
-            <p>
-                <strong>Validity of Time Passes</strong><br>
-                With time passes, you can offer your users <strong>time-limited</strong> access to your content. You can define, which content a time pass should cover and for which period of time it should be valid. A time pass can be valid for <strong>all LaterPay content</strong>
             </p>
             <ul>
                 <li>on your <strong>entire website</strong>,</li>

@@ -153,8 +153,8 @@ class LaterPay_Helper_Config {
         // detect if sandbox creds were modified
         if ( $cp_key && $api_key ) {
             foreach ( self::$regional_settings as $region => $settings ) {
-                if ( $settings[ 'api.sandbox_merchant_id' ] === $cp_key &&
-                     $settings[ 'api.sandbox_api_key' ] === $api_key ) {
+                if ( $settings['api'][ 'sandbox_merchant_id' ] === $cp_key &&
+                     $settings['api'][ 'sandbox_api_key' ] === $api_key ) {
                     $creds_match_default = true;
                     break;
                 }
