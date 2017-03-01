@@ -22,8 +22,6 @@ class LaterPay_Helper_Pricing
      */
     const STATUS_POST_PUBLISHED         = 'publish';
     const META_KEY                      = 'laterpay_post_prices';
-    const PPU_ONLY_MAX                  = 1.48;
-    const SIS_ONLY_MIN                  = 5.01;
 
     /**
      * Check, if the current post or a given post is purchasable.
@@ -324,14 +322,14 @@ class LaterPay_Helper_Pricing
                     } else {
                         $rounded_price = 0;
                     }
-                } else if ( $rounded_price <= $currency['ppu_only_max'] ) {
-                    $rounded_price = $currency['ppu_only_max'];
+                } else if ( $rounded_price <= $currency['ppu_only_limit'] ) {
+                    $rounded_price = $currency['ppu_only_limit'];
                 }
                 break;
             case 'sis':
-                if ( $rounded_price < $currency['sis_only_min'] ) {
-                    if ( abs( $currency['sis_only_min'] - $rounded_price ) < $rounded_price ) {
-                        $rounded_price = $currency['sis_only_min'];
+                if ( $rounded_price < $currency['sis_only_limit'] ) {
+                    if ( abs( $currency['sis_only_limit'] - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = $currency['sis_only_limit'];
                     } else {
                         $rounded_price = 0;
                     }
@@ -455,7 +453,7 @@ class LaterPay_Helper_Pricing
 
             if ( ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) || $price == 0.00 ) {
                 $revenue_model = 'ppu';
-            } else if ( $price >= $currency['sis_only_min'] && $price <= $currency['sis_max'] ) {
+            } else if ( $price >= $currency['sis_only_limit'] && $price <= $currency['sis_max'] ) {
                 $revenue_model = 'sis';
             }
         }
@@ -523,9 +521,9 @@ class LaterPay_Helper_Pricing
 
         // return dynamic pricing widget start values
         if ( ( $start_price === '' ) && ( $price !== null ) ) {
-            if ( $post_price >= $currency['sis_only_min'] ) {
+            if ( $post_price >= $currency['sis_only_limit'] ) {
                 // Single Sale (sis), if price >= 5.01
-                $end_price = $currency['sis_only_min'];
+                $end_price = $currency['sis_only_limit'];
             } elseif ( $post_price >= $currency['sis_min'] ) {
                 // Single Sale or Pay-per-Use, if 1.49 >= price <= 5.00
                 $end_price = $currency['sis_min'];
@@ -618,25 +616,25 @@ class LaterPay_Helper_Pricing
             'end'   => $end,
         );
 
-        if ( $price['start'] >= $currency['sis_only_min'] || $price['end'] >= $currency['sis_only_min'] ) {
+        if ( $price['start'] >= $currency['sis_only_limit'] || $price['end'] >= $currency['sis_only_limit'] ) {
 
             foreach ( $price as $key => $value ) {
-                if ( $value != 0 && $value < $currency['sis_only_min'] ) {
-                    $price[ $key ] = $currency['sis_only_min'];
+                if ( $value != 0 && $value < $currency['sis_only_limit'] ) {
+                    $price[ $key ] = $currency['sis_only_limit'];
                 }
             }
 
             $range = 'sis';
         } elseif (
-            ( $price['start'] > $currency['ppu_only_max'] && $price['start'] < $currency['sis_only_min'] ) ||
-                ( $price['end'] > $currency['ppu_only_max'] && $price['end'] < $currency['sis_only_min'] )
+            ( $price['start'] > $currency['ppu_only_limit'] && $price['start'] < $currency['sis_only_limit'] ) ||
+                ( $price['end'] > $currency['ppu_only_limit'] && $price['end'] < $currency['sis_only_limit'] )
             ) {
 
             foreach ( $price as $key => $value ) {
                 if ( $value != 0 ) {
-                    if ( $value < $currency['ppu_only_max'] ) {
+                    if ( $value < $currency['ppu_only_limit'] ) {
                         $price[ $key ] = $currency['sis_min'];
-                    } elseif ( $value > $currency['sis_only_min'] ) {
+                    } elseif ( $value > $currency['sis_only_limit'] ) {
                         $price[ $key ] = $currency['ppu_max'];
                     }
                 };

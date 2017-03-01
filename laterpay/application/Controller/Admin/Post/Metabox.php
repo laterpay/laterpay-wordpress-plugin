@@ -332,6 +332,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             $post_revenue_model = $global_default_price_revenue_model;
         }
 
+        $currency_settings = LaterPay_Helper_Config::get_regional_settings( 'currency', false );
+
         echo laterpay_sanitized( '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />' );
 
         $view_args = array(
@@ -340,13 +342,13 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             'post_status'                          => $post_status,
             'post_revenue_model'                   => $post_revenue_model,
             'price'                                => $price,
-            'currency'                             => $this->config->get( 'currency.default' ),
+            'currency'                             => $currency_settings,
             'category_prices'                      => $category_price_data,
             'post_default_category'                => (int) $post_default_category,
             'global_default_price'                 => $global_default_price,
             'global_default_price_revenue_model'   => $global_default_price_revenue_model,
             'category_default_price_revenue_model' => $category_default_price_revenue_model,
-            'price_ranges'                         => json_encode( LaterPay_Helper_Config::get_regional_settings( 'currency', false ) ),
+            'price_ranges'                         => json_encode( $currency_settings ),
         );
 
         $this->assign( 'laterpay', $view_args );
