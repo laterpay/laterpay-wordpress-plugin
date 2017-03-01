@@ -50,7 +50,7 @@ class LaterPay_Helper_Config {
                 'default'                 => 'USD',
                 'default_price'           => 0.29,
                 'ppu_min'                 => 0.05,
-                'ppu_only_limit'          => 1.48,
+                'ppu_only_limit'          => 2.98,
                 'ppu_max'                 => 5.00,
                 'sis_min'                 => 2.99,
                 'sis_only_limit'          => 5.01,
