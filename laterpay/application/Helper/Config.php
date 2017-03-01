@@ -102,7 +102,7 @@ class LaterPay_Helper_Config {
      *
      * @param $section
      *
-     * @return mixed|null
+     * @return array|null
      */
     public static function get_section( $section ) {
         // get unformatted regional settings

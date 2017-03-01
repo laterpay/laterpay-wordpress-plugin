@@ -82,13 +82,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             array(
                 'locale'                => get_locale(),
                 'i18n'                  => $i18n,
-                'defaultCurrency'       => $this->config->get( 'currency.default' ),
+                'currency'              => json_encode( LaterPay_Helper_Config::get_section( 'currency' ) ),
                 'globalDefaultPrice'    => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
                 'time_passes_list'      => $this->get_time_passes_json( $time_passes_list ),
                 'vouchers_list'         => json_encode( $vouchers_list ),
                 'vouchers_statistic'    => json_encode( $vouchers_statistic ),
-                'l10n_print_after'      => 'lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
+                'l10n_print_after'      => 'lpVars.currency = JSON.parse(lpVars.currency);
+                                            lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
                                             lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);
                                             lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
             )
