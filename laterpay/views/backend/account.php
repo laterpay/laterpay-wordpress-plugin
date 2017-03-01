@@ -210,8 +210,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <input type="hidden" name="action"  value="laterpay_account">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                     <select id="lp_js_apiRegionSection" name="laterpay_region" class="lp_input">
-                        <option value="eu" <?php if ( $laterpay['region'] === 'eu' ) echo 'selected'; ?>>Europe (EUR)</option>
-                        <option value="us" <?php if ( $laterpay['region'] === 'us' ) echo 'selected'; ?>>United States (USD)</option>
+                        <option value="eu" <?php if ( $laterpay['region'] === 'eu' ) echo 'selected'; ?>><?php echo laterpay_sanitize_output( __( 'Europe (EUR)', 'laterpay' ) ); ?></option>
+                        <option value="us" <?php if ( $laterpay['region'] === 'us' ) echo 'selected'; ?>><?php echo laterpay_sanitize_output( __( 'United States (USD)', 'laterpay' ) ); ?></option>
                     </select>
                 </form>
             </fieldset>

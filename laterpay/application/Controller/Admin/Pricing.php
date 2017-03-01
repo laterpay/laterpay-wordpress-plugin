@@ -82,8 +82,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             array(
                 'locale'                => get_locale(),
                 'i18n'                  => $i18n,
+                'currencySettings'      => json_encode( LaterPay_Helper_Config::get_regional_settings( 'currency', false ) ),
                 'globalDefaultPrice'    => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
-                'defaultCurrency'       => $this->config->get( 'currency.default' ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
                 'time_passes_list'      => $this->get_time_passes_json( $time_passes_list ),
                 'vouchers_list'         => json_encode( $vouchers_list ),
@@ -131,7 +131,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'top_nav'                               => $this->get_menu(),
             'admin_menu'                            => LaterPay_Helper_View::get_admin_menu(),
             'categories_with_defined_price'         => $categories_with_defined_price,
-            'standard_currency'                     => $this->config->get( 'currency.default' ),
+            'currency'                              => LaterPay_Helper_Config::get_regional_settings( 'currency', false ),
             'plugin_is_in_live_mode'                => $this->config->get( 'is_in_live_mode' ),
             'global_default_price'                  => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
@@ -822,7 +822,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         $this->assign( 'laterpay_pass', $args );
         $this->assign( 'laterpay',      array(
-            'standard_currency'       => $this->config->get( 'currency.default' ),
+            'standard_currency' => $this->config->get( 'currency.default' ),
         ));
 
         $string = $this->get_text_view( 'backend/partials/time-pass' );
@@ -963,6 +963,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @return void
      */
     private function generate_voucher_code( LaterPay_Core_Event $event ) {
+        $currency = LaterPay_Helper_Config::get_regional_settings( 'currency', false );
+
         $event->set_result(
             array(
                 'success' => false,
@@ -975,9 +977,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         }
 
         $price = sanitize_text_field( $_POST['price'] );
-        if ( ! ( $price >= 0 && $price <= 149.99 ) ||
-             ( $price > 0 && $price < 0.05 )
-        ) {
+
+        if ( ! ( $price >= $currency['ppu_min'] && $price <= $currency['sis_max'] ) && $price != 0 ) {
             return;
         }
 

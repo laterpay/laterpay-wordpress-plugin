@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php echo laterpay_sanitized( $overlay_content['action'] ); ?>
             </div>
             <div class="lp_powered-by">
-                powered by<span data-icon="a"></span>beta
+                powered by<span data-icon="a"></span>
             </div>
         </div>
     </div>

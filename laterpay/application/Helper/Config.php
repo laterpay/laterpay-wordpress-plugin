@@ -12,28 +12,52 @@ class LaterPay_Helper_Config {
 
     private static $regional_settings = array(
         'eu' => array(
-            'api.sandbox_backend_api_url' => 'https://api.sandbox.laterpaytest.net',
-            'api.sandbox_dialog_api_url'  => 'https://web.sandbox.laterpaytest.net',
-            'api.live_backend_api_url'    => 'https://api.laterpay.net',
-            'api.live_dialog_api_url'     => 'https://web.laterpay.net',
-            'api.merchant_backend_url'    => 'https://merchant.laterpay.net/',
-            'api.token_name'              => 'token',
-            'api.sandbox_merchant_id'     => '984df2b86250447793241a',
-            'api.sandbox_api_key'         => '57791c777baa4cea94c4ec074184e06d',
-            'currency.default'            => 'EUR',
-            'currency.default_price'      => 0.29,
+            'api' => array(
+                'sandbox_backend_api_url' => 'https://api.sandbox.laterpaytest.net',
+                'sandbox_dialog_api_url'  => 'https://web.sandbox.laterpaytest.net',
+                'live_backend_api_url'    => 'https://api.laterpay.net',
+                'live_dialog_api_url'     => 'https://web.laterpay.net',
+                'merchant_backend_url'    => 'https://merchant.laterpay.net/',
+                'token_name'              => 'token',
+                'sandbox_merchant_id'     => '984df2b86250447793241a',
+                'sandbox_api_key'         => '57791c777baa4cea94c4ec074184e06d',
+            ),
+            'currency' => array(
+                'default'                 => 'EUR',
+                'default_price'           => 0.29,
+                'ppu_min'                 => 0.05,
+                'ppu_only_max'            => 1.48,
+                'ppu_max'                 => 5.00,
+                'sis_min'                 => 1.49,
+                'sis_only_min'            => 5.01,
+                'sis_max'                 => 149.99,
+                'dynamic_start'           => 13,
+                'dynamic_end'             => 18,
+            )
         ),
         'us' => array(
-            'api.sandbox_backend_api_url' => 'https://api.sandbox.uselaterpaytest.com',
-            'api.sandbox_dialog_api_url'  => 'https://web.sandbox.uselaterpaytest.com',
-            'api.live_backend_api_url'    => 'https://api.uselaterpay.com',
-            'api.live_dialog_api_url'     => 'https://web.uselaterpay.com',
-            'api.merchant_backend_url'    => 'https://merchant.laterpay.net/',
-            'api.token_name'              => 'token',
-            'api.sandbox_merchant_id'     => 'xswcBCpR6Vk6jTPw8si7KN',
-            'api.sandbox_api_key'         => '22627fa7cbce45d394a8718fd9727731',
-            'currency.default'            => 'USD',
-            'currency.default_price'      => 0.29,
+            'api' => array(
+                'sandbox_backend_api_url' => 'https://api.sandbox.uselaterpaytest.com',
+                'sandbox_dialog_api_url'  => 'https://web.sandbox.uselaterpaytest.com',
+                'live_backend_api_url'    => 'https://api.uselaterpay.com',
+                'live_dialog_api_url'     => 'https://web.uselaterpay.com',
+                'merchant_backend_url'    => 'https://merchant.laterpay.net/',
+                'token_name'              => 'token',
+                'sandbox_merchant_id'     => 'xswcBCpR6Vk6jTPw8si7KN',
+                'sandbox_api_key'         => '22627fa7cbce45d394a8718fd9727731',
+            ),
+            'currency' => array(
+                'default'                 => 'USD',
+                'default_price'           => 0.29,
+                'ppu_min'                 => 0.05,
+                'ppu_only_max'            => 1.48,
+                'ppu_max'                 => 5.00,
+                'sis_min'                 => 2.99,
+                'sis_only_min'            => 5.01,
+                'sis_max'                 => 149.99,
+                'dynamic_start'           => 13,
+                'dynamic_end'             => 18,
+            )
         )
     );
 
@@ -42,7 +66,7 @@ class LaterPay_Helper_Config {
      *
      * @return array|null
      */
-    public static function get_regional_settings() {
+    public static function get_regional_settings( $section = null, $one_dimension = true ) {
         $region = get_option( 'laterpay_region', 'eu' );
 
         // region correction
@@ -51,7 +75,31 @@ class LaterPay_Helper_Config {
             $region = 'eu';
         }
 
-        return self::$regional_settings[ $region ];
+        // get all settings
+        $settings = self::$regional_settings[ $region ];
+
+        // get section settings if specified
+        if ( $section ) {
+            $settings = isset( $settings[ $section ] ) ? $settings[ $section ] : $settings;
+        }
+
+        // convert to 1 dimensional array for config
+        if ( $one_dimension ) {
+            // temporal 1 dimensional array
+            $temp = array();
+
+            // build 1 dim array
+            foreach ( $settings as $parent_key => $options ) {
+                foreach ( $options as $key => $value ) {
+                    $temp_key = $parent_key . '.' . $key;
+                    $temp[ $temp_key ] = $value;
+                }
+            }
+
+            $settings = $temp;
+        }
+
+        return $settings;
     }
 
     /**

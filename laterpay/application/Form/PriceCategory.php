@@ -16,6 +16,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
+        $currency = LaterPay_Helper_Config::get_regional_settings( 'currency', false );
+
         $this->set_field(
             'form',
             array(
@@ -84,8 +86,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => 149.99,
-                                        'gte' => 1.49,
+                                        'lte' => $currency['sis_max'],
+                                        'gte' => $currency['sis_min'],
                                     ),
                                 ),
                             ),
@@ -96,8 +98,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => 5.00,
-                                        'gte' => 0.05,
+                                        'lte' => $currency['ppu_max'],
+                                        'gte' => $currency['ppu_min'],
                                     ),
                                     array(
                                         'eq' => 0.00,
@@ -111,8 +113,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => 5.00,
-                                        'gte' => 0.05,
+                                        'lte' => $currency['ppu_max'],
+                                        'gte' => $currency['ppu_min'],
                                     ),
                                     array(
                                         'eq' => 0.00,
@@ -149,8 +151,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                     'is_float',
                     'cmp' => array(
                         array(
-                            'lte' => 149.99,
-                            'gte' => 0.05,
+                            'lte' => $currency['sis_max'],
+                            'gte' => $currency['ppu_min'],
                         ),
                         array(
                             'eq'  => 0.00,
