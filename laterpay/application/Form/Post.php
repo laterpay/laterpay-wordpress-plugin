@@ -16,6 +16,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
+        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+
         $this->set_field(
             '_wpnonce',
             array(
@@ -65,8 +67,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'is_float',
                     'cmp' => array(
                         array(
-                            'lte' => 149.99,
-                            'gte' => 0.05,
+                            'lte' => $currency['sis_max'],
+                            'gte' => $currency['ppu_max'],
                         ),
                         array(
                             'eq'  => 0.00,
@@ -95,8 +97,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => LaterPay_Helper_Pricing::sis_max,
-                                        'gte' => LaterPay_Helper_Pricing::ppusis_min,
+                                        'lte' => $currency['sis_max'],
+                                        'gte' => $currency['sis_min'],
                                     ),
                                     array(
                                         'eq' => null,
@@ -110,8 +112,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => LaterPay_Helper_Pricing::ppusis_max,
-                                        'gte' => LaterPay_Helper_Pricing::ppu_min,
+                                        'lte' => $currency['ppu_max'],
+                                        'gte' => $currency['ppu_min'],
                                     ),
                                     array(
                                         'eq'  => 0.00,
@@ -128,8 +130,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => LaterPay_Helper_Pricing::ppusis_max,
-                                        'gte' => LaterPay_Helper_Pricing::ppu_min,
+                                        'lte' => $currency['ppu_max'],
+                                        'gte' => $currency['ppu_min'],
                                     ),
                                     array(
                                         'eq'  => 0.00,

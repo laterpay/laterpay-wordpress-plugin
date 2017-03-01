@@ -106,6 +106,7 @@ delete_option( 'laterpay_api_enabled_on_homepage' );
 
 delete_option( 'laterpay_main_color' );
 delete_option( 'laterpay_hover_color' );
+delete_option( 'laterpay_region' );
 delete_option( 'laterpay_version' );
 
 // register LaterPay autoloader

@@ -16,6 +16,8 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
+        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+
         $this->set_field(
             'form',
             array(
@@ -96,8 +98,8 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => 149.99,
-                                        'gte' => 0.05,
+                                        'lte' => $currency['sis_max'],
+                                        'gte' => $currency['ppu_min'],
                                     ),
                                     array(
                                         'eq'  => 0,
@@ -171,7 +173,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( get_option( 'laterpay_currency' ), 'percent' ),
+                    'in_array' => array( 'EUR', 'USD', 'percent' ),
                 ),
                 'filters' => array(
                     'to_string',

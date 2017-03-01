@@ -63,7 +63,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
             case 'post_price':
                 $price              = (float) LaterPay_Helper_Pricing::get_post_price( $post_id );
                 $localized_price    = LaterPay_Helper_View::format_number( $price );
-                $currency           = get_option( 'laterpay_currency' );
+                $currency           = $this->config->get( 'currency.default' );
 
                 // render the price of the post, if it exists
                 if ( $price > 0 ) {

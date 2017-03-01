@@ -337,7 +337,7 @@
                     $o.bulkPriceChangeAmountPreposition.text(
                         lpVars.i18n.toCategoryDefaultPrice + ' ' +
                         $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
-                        lpVars.defaultCurrency
+                        lpVars.currency.default
                     );
                 });
 
@@ -396,10 +396,10 @@
                 price = Math.abs(price);
 
                 // correct prices outside the allowed range of 0.05 - 149.99
-                if (price > 149.99) {
-                    price = 149.99;
-                } else if (price > 0 && price < 0.05) {
-                    price = 0.05;
+                if (price > lpVars.currency.sis_max) {
+                    price = lpVars.currency.sis_max;
+                } else if (price > 0 && price < lpVars.currency.ppu_min) {
+                    price = lpVars.currency.ppu_min;
                 }
 
                 if ( ! dontValidateRevenueModel ) {
@@ -434,8 +434,8 @@
 
                 currentRevenueModel = $('input:radio:checked', $form).val();
 
-                if (price === 0 || (price >= 0.05 && price <= 5)) {
-                    // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
+                if (price === 0 || (price >= lpVars.currency.ppu_min && price <= lpVars.currency.ppu_max)) {
+                    // enable Pay-per-Use
                     $payPerUse.removeProp('disabled')
                         .parent('label').removeClass($o.disabled);
                     // PPU with login
@@ -450,8 +450,8 @@
                         .parent('label').addClass($o.disabled);
                 }
 
-                if (price >= 1.49) {
-                    // enable Single Sale for prices >= 1.49 Euro
+                if (price >= lpVars.currency.sis_min) {
+                    // enable Single Sale for prices
                     // (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.removeProp('disabled')
                         .parent('label').removeClass($o.disabled);
@@ -462,11 +462,11 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > 5 &&
+                if (price > lpVars.currency.ppu_max &&
                     (currentRevenueModel === $o.payPerUse || currentRevenueModel === $o.payPerUseWithLogin)) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', 'checked');
-                } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
+                } else if (price < lpVars.currency.sis_min && currentRevenueModel === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $payPerUse.prop('checked', 'checked');
                 }
@@ -875,8 +875,8 @@
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
                     $('.lp_js_purchaseLink', $timePass)
-                    .html(text + '<small class="lp_purchase-link__currency">' + lpVars.defaultCurrency + '</small>');
-                    $($o.timePassPreviewPrice).text(text + ' ' + lpVars.defaultCurrency);
+                    .html(text + '<small class="lp_purchase-link__currency">' + lpVars.currency.default + '</small>');
+                    $($o.timePassPreviewPrice).text(text + ' ' + lpVars.currency.default);
                 } else if ($input.hasClass($o.timePassTitleClass)) {
                     // update pass title in pass preview
                     $($o.timePassPreviewTitle, $timePass).text(text);
@@ -1144,7 +1144,7 @@
 
             addVoucher = function(code, voucherData, $timePass) {
                 var priceValue = voucherData.price ? voucherData.price : voucherData,
-                    price      = priceValue + ' ' + lpVars.defaultCurrency,
+                    price      = priceValue + ' ' + lpVars.currency.default,
                     title      = voucherData.title ? voucherData.title : '',
                     voucher = '<div class="lp_js_voucher lp_voucher" data-code="' + code + '" style="display:none;">' +
                                 '<input type="hidden" name="voucher_code[]" value="' + code + '">' +
@@ -1170,7 +1170,7 @@
                 var passId          = $timePass.data('pass-id'),
                     timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
                     title           = voucherData.title ? voucherData.title : '',
-                    price           = voucherData.price + ' ' + lpVars.defaultCurrency,
+                    price           = voucherData.price + ' ' + lpVars.currency.default,
                     voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
                                             '<span class="lp_voucher__title"><b>' + title + '</b></span>' +
                                             '<div>' +
@@ -1299,7 +1299,7 @@
                         $o.bulkPriceChangeAmountPreposition.text(
                             lpVars.i18n.toGlobalDefaultPrice + ' ' +
                                 lpVars.globalDefaultPrice + ' ' +
-                                lpVars.defaultCurrency
+                                lpVars.currency.default
                         );
                         if ($o.bulkPriceObjectsCategoryWithPrice.length) {
                             addOptionInCategory(showCategory);

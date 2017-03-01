@@ -4,7 +4,7 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.6.1
+Tested up to: 4.7.2
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -182,6 +182,17 @@ support.laterpay.net
 To get your LaterPay Live API credentials, please send us the signed merchant contract and all necessary identification
 documents that are listed in the merchant contract. You can find the merchant contract on the ’Account’ tab of the
 plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
+
+== Screenshots ==
+
+1. The LaterPay WordPress plugin lets you easily define a teaser text for your paid content and set an individual price...
+2. ...or a dynamic price for your posts, pages and other content types.
+3. In the *Pricing tab*, you can set default prices for the entire website or specific categories and create time passes to offer time-limited access to all your content or a category.
+4. In the *Appearance tab*, you can choose between two preview modes for your content.
+5. Option 1 shows only the post's teaser content (which you can define yourself or create automatically), the LaterPay purchase button and a purchase link.
+6. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
+7. In the *Account tab*, you can manage your API credentials, switch between test and live mode, choose if LaterPay should be visible for your users in test mode and set the region (U.S. or Europe) and currency ($ or €) for your LaterPay account.
+8. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
 

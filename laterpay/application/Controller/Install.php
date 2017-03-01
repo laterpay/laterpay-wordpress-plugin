@@ -207,24 +207,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // check, if the current version is greater than or equal 0.9.8
         if ( version_compare( $current_version, '0.9.8', '>=' ) ) {
 
-            // map old values to new ones
-            $meta_key_mapping = array(
-                'Teaser content'    => 'laterpay_post_teaser',
-                'Pricing Post'      => 'laterpay_post_pricing',
-                'Pricing Post Type' => 'laterpay_post_pricing_type',
-            );
-
-            $this->logger->info(
-                __METHOD__,
-                array(
-                    'current_version'   => $current_version,
-                    'meta_key_mapping'  => $meta_key_mapping,
-                )
-            );
-
-            // update the currency to default currency 'EUR'
-            update_option( 'laterpay_currency', $this->config->get( 'currency.default' ) );
-
             // remove currency table
             $sql = 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'laterpay_currency';
             $wpdb->query( $sql );
@@ -292,37 +274,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
-     * Changing options names for API URLs.
-     *
-     * @since 0.9.11
-     * @wp-hook admin_notices
-     *
-     * @return void
-     */
-    public function maybe_update_api_urls_options_names() {
-        $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
-            return;
-        }
-
-        $old_to_new_option_pair_array = array(
-            'laterpay_api_sandbox_url'      => 'laterpay_sandbox_backend_api_url',
-            'laterpay_api_sandbox_web_url'  => 'laterpay_sandbox_dialog_api_url',
-            'laterpay_api_live_url'         => 'laterpay_live_backend_api_url',
-            'laterpay_api_live_web_url'     => 'laterpay_live_dialog_api_url',
-        );
-
-        foreach ( $old_to_new_option_pair_array as $old_option_name => $new_option_name ) {
-            $old_option_value = get_option( $old_option_name );
-
-            if ( $old_option_value !== false ) {
-                delete_option( $old_option_name );
-                add_option( $new_option_name, $old_option_value );
-            }
-        }
-    }
-
-    /**
      * Add option for invisible / visible test mode.
      *
      * @since 0.9.11
@@ -386,8 +337,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             delete_option( 'laterpay_access_logging_enabled' );
         }
 
-        update_option( 'laterpay_sandbox_merchant_id', $this->config->get( 'api.sandbox_merchant_id' ) );
-        update_option( 'laterpay_sandbox_api_key',     $this->config->get( 'api.sandbox_api_key' ) );
+        // actualize sandbox creds values
+        LaterPay_Helper_Config::prepare_sandbox_creds();
     }
 
     /**
@@ -583,6 +534,26 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
+     * Remove old api settings
+     *
+     * @since 0.9.23
+     *
+     * @return void
+     */
+    public function remove_old_api_settings() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.23', '<' ) ) {
+            return;
+        }
+
+        delete_option( 'laterpay_sandbox_backend_api_url' );
+        delete_option( 'laterpay_sandbox_dialog_api_url' );
+        delete_option( 'laterpay_live_backend_api_url' );
+        delete_option( 'laterpay_live_dialog_api_url' );
+        delete_option( 'laterpay_api_merchant_backend_url' );
+    }
+
+    /**
      * Create custom tables and set the required options.
      *
      * @return void
@@ -632,7 +603,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_live_api_key',                            '' );
         add_option( 'laterpay_global_price',                            $this->config->get( 'currency.default_price' ) );
         add_option( 'laterpay_global_price_revenue_model',              'ppu' );
-        add_option( 'laterpay_currency',                                $this->config->get( 'currency.default' ) );
         add_option( 'laterpay_ratings',                                 false );
         add_option( 'laterpay_bulk_operations',                         '' );
         add_option( 'laterpay_voucher_codes',                           '' );
@@ -648,11 +618,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_hide_free_posts',                         0 );
 
         // advanced settings
-        add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );
-        add_option( 'laterpay_sandbox_dialog_api_url',                  'https://web.sandbox.laterpaytest.net' );
-        add_option( 'laterpay_live_backend_api_url',                    'https://api.laterpay.net' );
-        add_option( 'laterpay_live_dialog_api_url',                     'https://web.laterpay.net' );
-        add_option( 'laterpay_api_merchant_backend_url',                'https://merchant.laterpay.net/' );
+        add_option( 'laterpay_region',                                  'eu' );
         add_option( 'laterpay_caching_compatibility',                   (bool) LaterPay_Helper_Cache::site_uses_page_caching() );
         add_option( 'laterpay_teaser_content_word_count',               '60' );
         add_option( 'laterpay_preview_excerpt_percentage_of_content',   '25' );
@@ -681,7 +647,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->maybe_update_terms_price_table();
         $this->maybe_update_currency_to_euro();
         $this->maybe_update_options();
-        $this->maybe_update_api_urls_options_names();
         $this->maybe_add_is_in_visible_test_mode_option();
         $this->maybe_clean_api_key_options();
         $this->maybe_update_unlimited_access();
@@ -690,6 +655,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->maybe_update_revenue();
         $this->drop_statistics_tables();
         $this->init_colors_options();
+        $this->remove_old_api_settings();
     }
 
     /**

@@ -190,6 +190,42 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
 
+        <div class="lp_clearfix">
+            <fieldset class="lp_fieldset">
+                <legend class="lp_legend"><?php echo laterpay_sanitize_output( __( 'Region and Currency', 'laterpay' ) ); ?></legend>
+
+                <p class="lp_bold"><?php echo laterpay_sanitize_output( __( 'Select the region for your LaterPay merchant account', 'laterpay' ) ); ?></p>
+
+                <p>
+                    <dfn>
+                        <?php echo laterpay_sanitize_output( __( "Is the selling company or person based in Europe or in the United States?<br>
+                        If you select 'Europe', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform.<br>
+                        If you select 'United States', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform. 
+                        ", 'laterpay' ) ); ?>
+                    </dfn>
+                </p>
+
+                <form id="laterpay_region" method="post">
+                    <input type="hidden" name="form"    value="laterpay_region_change">
+                    <input type="hidden" name="action"  value="laterpay_account">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                    <select id="lp_js_apiRegionSection" name="laterpay_region" class="lp_input">
+                        <option value="eu" <?php if ( $laterpay['region'] === 'eu' ) echo 'selected'; ?>><?php echo laterpay_sanitize_output( __( 'Europe (EUR)', 'laterpay' ) ); ?></option>
+                        <option value="us" <?php if ( $laterpay['region'] === 'us' ) echo 'selected'; ?>><?php echo laterpay_sanitize_output( __( 'United States (USD)', 'laterpay' ) ); ?></option>
+                    </select>
+                </form>
+
+                <p id="lp_js_regionNotice" <?php if ( $laterpay['region'] === 'us' ) : ?>class="hidden"<?php endif; ?>>
+                    <dfn class="lp_region_notice" data-icon="n">
+                        <?php echo laterpay_sanitize_output( __( "<b>Important:</b> The minimum value for SIS (\"Pay Now\") prices in the U.S. region is <b>$2.99</b>.<br>
+                        If you have already set SIS (\"Pay Now\") prices lower than 2.99, make sure to change them before you switch to the U.S. region.<br>
+                        If you haven't done any configuration yet, you can safely switch the region without further adjustments. 
+                        ", 'laterpay' ) ); ?>
+                    </dfn>
+                </p>
+            </fieldset>
+        </div>
+
     </div>
 
 </div>

@@ -159,6 +159,7 @@ class LaterPay_Helper_TimePass
      */
     public static function get_description( $time_pass = array(), $full_info = false ) {
         $details  = array();
+        $config   = laterpay_get_plugin_config();
 
         if ( ! $time_pass ) {
             $time_pass['duration']  = self::get_default_options( 'duration' );
@@ -166,7 +167,7 @@ class LaterPay_Helper_TimePass
             $time_pass['access_to'] = self::get_default_options( 'access_to' );
         }
 
-        $currency = get_option( 'laterpay_currency' );
+        $currency = $config->get( 'currency.default' );
 
         $details['duration'] = $time_pass['duration'] . ' ' .
                                 LaterPay_Helper_TimePass::get_period_options( $time_pass['period'], $time_pass['duration'] > 1 );
@@ -249,7 +250,7 @@ class LaterPay_Helper_TimePass
      *
      * @param string $tokenized_pass_id tokenized time pass id
      *
-     * @return int|null pass id
+     * @return string|null pass id
      */
     public static function get_untokenized_time_pass_id( $tokenized_time_pass_id ) {
         $time_pass_parts = explode( '_', $tokenized_time_pass_id );
@@ -443,8 +444,8 @@ class LaterPay_Helper_TimePass
             $data = array();
         }
 
-        $currency       = get_option( 'laterpay_currency' );
-        $currency_model = new LaterPay_Model_Currency();
+        $config         = laterpay_get_plugin_config();
+        $currency       = $config->get( 'currency.default' );
         $price          = isset( $data['price'] ) ? $data['price'] : $time_pass['price'];
         $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $time_pass['revenue_model'], $price );
         $link           = isset( $data['link'] ) ? $data['link'] : get_permalink();
@@ -459,15 +460,9 @@ class LaterPay_Helper_TimePass
         );
 
         // prepare URL
-        $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
         $url_params = array(
-            'pass_id'       => self::get_tokenized_time_pass_id( $time_pass_id ),
-            'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
-            'price'         => $price,
-            'date'          => time(),
-            'ip'            => ip2long( $remote_addr ),
-            'revenue_model' => $revenue_model,
-            'link'          => $link,
+            'pass_id' => self::get_tokenized_time_pass_id( $time_pass_id ),
+            'link'    => $link,
         );
 
         // set voucher param
@@ -480,7 +475,7 @@ class LaterPay_Helper_TimePass
             'article_id'    => $is_code_purchase ? '[#' . $data['voucher'] . ']' : self::get_tokenized_time_pass_id( $time_pass_id ),
             'pricing'       => $currency . ( $price * 100 ),
             'expiry'        => '+' . self::get_time_pass_expiry_time( $time_pass ),
-            'url'           => $link,
+            'url'           => $link . '?' . build_query( $url_params ),
             'title'         => $is_code_purchase ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
             'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );

@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
  * Author: LaterPay GmbH, Mihail Turalenka and Aliaksandr Vahura
- * Version: 0.9.22
+ * Version: 0.9.23
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay
  * Domain Path: /languages
@@ -143,49 +143,10 @@ function laterpay_get_plugin_config() {
     );
     $config->import( $plugin_headers );
 
-    // make sure all API variables are set
-    if ( ! get_option( 'laterpay_sandbox_backend_api_url' ) ) {
-        update_option( 'laterpay_sandbox_backend_api_url', 'https://api.sandbox.laterpaytest.net' );
-    }
-    if ( ! get_option( 'laterpay_sandbox_dialog_api_url' ) ) {
-        update_option( 'laterpay_sandbox_dialog_api_url', 'https://web.sandbox.laterpaytest.net' );
-    }
-    if ( ! get_option( 'laterpay_live_backend_api_url' ) ) {
-        update_option( 'laterpay_live_backend_api_url', 'https://api.laterpay.net' );
-    }
-    if ( ! get_option( 'laterpay_live_dialog_api_url' ) ) {
-        update_option( 'laterpay_live_dialog_api_url', 'https://web.laterpay.net' );
-    }
-    if ( ! get_option( 'laterpay_api_merchant_backend_url' ) ) {
-        update_option( 'laterpay_api_merchant_backend_url', 'https://merchant.laterpay.net/' );
-    }
-
     /**
-     * LaterPay API endpoints and API default settings.
-     *
-     * @var array
+     * LaterPay API endpoints and API default settings depends from region.
      */
-    $api_settings = array(
-        'api.sandbox_backend_api_url'   => get_option( 'laterpay_sandbox_backend_api_url' ),
-        'api.sandbox_dialog_api_url'    => get_option( 'laterpay_sandbox_dialog_api_url' ),
-        'api.live_backend_api_url'      => get_option( 'laterpay_live_backend_api_url' ),
-        'api.live_dialog_api_url'       => get_option( 'laterpay_live_dialog_api_url' ),
-        'api.merchant_backend_url'      => get_option( 'laterpay_api_merchant_backend_url' ),
-    );
-
-    // non-editable settings for the LaterPay API
-    $api_settings['api.token_name']           = 'token';
-    $api_settings['api.sandbox_merchant_id']  = '984df2b86250447793241a';
-    $api_settings['api.sandbox_api_key']      = '57791c777baa4cea94c4ec074184e06d';
-
-    $config->import( $api_settings );
-
-    // default settings for currency and VAT
-    $currency_settings = array(
-        'currency.default'          => 'EUR',
-        'currency.default_price'    => 0.29,
-    );
-    $config->import( $currency_settings );
+    $config->import( LaterPay_Helper_Config::get_regional_settings() );
 
     /**
      * Use page caching compatible mode.

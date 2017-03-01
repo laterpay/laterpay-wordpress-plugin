@@ -172,14 +172,12 @@ class LaterPay_Helper_Post
             return '';
         }
 
-        // re-set the post_id
-        $post_id = $post->ID;
+        $config = laterpay_get_plugin_config();
 
-        $currency       = get_option( 'laterpay_currency' );
-        $price          = LaterPay_Helper_Pricing::get_post_price( $post_id );
-        $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
+        $currency       = $config->get( 'currency.default' );
+        $price          = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
 
-        $currency_model = new LaterPay_Model_Currency();
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client         = new LaterPay_Client(
             $client_options['cp_key'],
@@ -191,13 +189,13 @@ class LaterPay_Helper_Post
 
         // data to register purchase after redirect from LaterPay
         $url_params = array(
-            'post_id' => $post_id,
+            'post_id' => $post->ID,
             'buy'     => 'true',
         );
 
         if ( $post->post_type === 'attachment' ) {
             $url_params['post_id']           = $current_post_id;
-            $url_params['download_attached'] = $post_id;
+            $url_params['download_attached'] = $post->ID;
         }
 
         // get current post link
@@ -213,9 +211,9 @@ class LaterPay_Helper_Post
 
         // parameters for LaterPay purchase form
         $params = array(
-            'article_id'    => $post_id,
+            'article_id'    => $post->ID,
             'pricing'       => $currency . ( $price * 100 ),
-            'url'           => $link . '?' . $client->sign_and_encode( $url_params, $link ),
+            'url'           => $link . '?' . build_query( $url_params ),
             'title'         => $post->post_title,
             'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );
@@ -244,6 +242,8 @@ class LaterPay_Helper_Post
      * @return array
      */
     public static function the_purchase_button_args( WP_Post $post, $current_post_id = null ) {
+        $config = laterpay_get_plugin_config();
+
         // render purchase button for administrator always in preview mode, too prevent accidental purchase by admin.
         $preview_mode = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( current_user_can( 'administrator' ) ) {
@@ -253,7 +253,7 @@ class LaterPay_Helper_Post
         $view_args = array(
             'post_id'                   => $post->ID,
             'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
-            'currency'                  => get_option( 'laterpay_currency' ),
+            'currency'                  => $config->get( 'currency.default' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
         );

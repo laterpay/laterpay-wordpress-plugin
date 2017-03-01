@@ -186,32 +186,6 @@ class LaterPay_Helper_Request {
     }
 
     /**
-     * Update token.
-     *
-     * @see LaterPay_Client::acquire_token()
-     */
-    public static function laterpay_api_acquire_token() {
-        if ( self::laterpay_api_disabled_on_homepage() ) {
-            return;
-        }
-
-        if ( self::laterpay_api_check_availability() ) {
-            $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $client         = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-
-            if ( ! $client->has_token() ) {
-                $client->acquire_token();
-            }
-        }
-    }
-
-    /**
      * Checks whether we are on home page and requests to API are enabled.
      *
      * @return bool

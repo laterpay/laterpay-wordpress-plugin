@@ -14,8 +14,6 @@ select.lp_input,
     padding: 0.5em;
 
     &:focus {
-        -moz-appearance: none;
-        -webkit-appearance: none;
         border-color: $clickable--highlight;
         box-shadow: none;
     }
@@ -29,6 +27,16 @@ select.lp_input,
     &:disabled {
         border-color: transparent;
         cursor: not-allowed;
+    }
+}
+
+input[type=number].lp_input,
+input[type=text].lp_input,
+textarea.lp_input,
+%input {
+    &:focus {
+        -moz-appearance: none;
+        -webkit-appearance: none;
     }
 }
 

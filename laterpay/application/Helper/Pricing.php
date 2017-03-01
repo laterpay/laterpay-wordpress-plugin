@@ -21,38 +21,7 @@ class LaterPay_Helper_Pricing
      * @const string Status of post at time of publication.
      */
     const STATUS_POST_PUBLISHED         = 'publish';
-
-    /**
-     * Price ranges.
-     */
-    const ppu_min                       = 0.05;
-    const ppu_max                       = 1.48;
-    const ppusis_min                    = 1.49;
-    const ppusis_max                    = 5.00;
-    const sis_min                       = 5.01;
-    const sis_max                       = 149.99;
-    const price_start_day               = 13;
-    const price_end_day                 = 18;
-
     const META_KEY                      = 'laterpay_post_prices';
-
-    /**
-     * Get array of price ranges by revenue model (Pay-per-Use or Single Sale).
-     *
-     * @return array
-     */
-    public static function get_price_ranges_by_revenue_model() {
-        return array(
-            'ppu_min'           => LaterPay_Helper_Pricing::ppu_min,
-            'ppu_max'           => LaterPay_Helper_Pricing::ppu_max,
-            'ppusis_min'        => LaterPay_Helper_Pricing::ppusis_min,
-            'ppusis_max'        => LaterPay_Helper_Pricing::ppusis_max,
-            'sis_min'           => LaterPay_Helper_Pricing::sis_min,
-            'sis_max'           => LaterPay_Helper_Pricing::sis_max,
-            'price_start_day'   => LaterPay_Helper_Pricing::price_start_day,
-            'price_end_day'     => LaterPay_Helper_Pricing::price_end_day,
-        );
-    }
 
     /**
      * Check, if the current post or a given post is purchasable.
@@ -328,6 +297,7 @@ class LaterPay_Helper_Pricing
         $post_price             = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
         $price_range_type       = $post_price['price_range_type'];
+        $currency               = LaterPay_Helper_Config::get_section( 'currency' );
 
         if ( $post_price['change_start_price_after_days'] >= $days_since_publication ) {
             $price = $post_price['start_price'];
@@ -346,33 +316,33 @@ class LaterPay_Helper_Pricing
 
         switch ( $price_range_type ) {
             case 'ppu':
-                if ( $rounded_price < self::ppu_min ) {
-                    if ( abs( self::ppu_min - $rounded_price ) < $rounded_price ) {
-                        $rounded_price = self::ppu_min;
+                if ( $rounded_price < $currency['ppu_min'] ) {
+                    if ( abs( $currency['ppu_min'] - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = $currency['ppu_min'];
                     } else {
                         $rounded_price = 0;
                     }
-                } else if ( $rounded_price > self::ppu_max ) {
-                    $rounded_price = self::ppu_max;
+                } else if ( $rounded_price <= $currency['ppu_only_limit'] ) {
+                    $rounded_price = $currency['ppu_only_limit'];
                 }
                 break;
             case 'sis':
-                if ( $rounded_price < self::sis_min ) {
-                    if ( abs( self::sis_min - $rounded_price ) < $rounded_price ) {
-                        $rounded_price = self::sis_min;
+                if ( $rounded_price < $currency['sis_only_limit'] ) {
+                    if ( abs( $currency['sis_only_limit'] - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = $currency['sis_only_limit'];
                     } else {
                         $rounded_price = 0;
                     }
-                } else if ( $rounded_price > self::sis_max ) {
-                    $rounded_price = self::sis_max;
+                } else if ( $rounded_price > $currency['sis_max'] ) {
+                    $rounded_price = $currency['sis_max'];
                 }
                 break;
             case 'ppusis':
-                if ( $rounded_price > self::ppusis_max ) {
-                    $rounded_price = self::ppusis_max;
-                } else if ( $rounded_price < self::ppusis_min ) {
-                    if ( abs( self::ppusis_min - $rounded_price ) < $rounded_price ) {
-                        $rounded_price = self::ppusis_min;
+                if ( $rounded_price > $currency['ppu_max'] ) {
+                    $rounded_price = $currency['ppu_max'];
+                } else if ( $rounded_price < $currency['sis_min'] ) {
+                    if ( abs( $currency['sis_min'] - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = $currency['sis_min'];
                     } else {
                         $rounded_price = 0.00;
                     }
@@ -478,11 +448,12 @@ class LaterPay_Helper_Pricing
         // fallback in case the revenue_model is not correct
         if ( ! in_array( $revenue_model, array( 'ppu', 'sis', 'ppul' ) ) ) {
 
-            $price = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
+            $price    = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
+            $currency = LaterPay_Helper_Config::get_section( 'currency' );
 
-            if ( ( $price >= self::ppu_min && $price <= self::ppusis_max ) || $price == 0.00 ) {
+            if ( ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) || $price == 0.00 ) {
                 $revenue_model = 'ppu';
-            } else if ( $price > self::ppusis_max && $price <= self::sis_max ) {
+            } else if ( $price >= $currency['sis_only_limit'] && $price <= $currency['sis_max'] ) {
                 $revenue_model = 'sis';
             }
         }
@@ -500,14 +471,16 @@ class LaterPay_Helper_Pricing
      * @return string $revenue_model
      */
     public static function ensure_valid_revenue_model( $revenue_model, $price ) {
+        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+
         if ( $revenue_model === 'ppu' || $revenue_model === 'ppul' ) {
-            if ( $price == 0.00 || ( $price >= self::ppu_min && $price <= self::ppusis_max ) ) {
+            if ( $price == 0.00 || ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) ) {
                 return $revenue_model;
             } else {
                 return 'sis';
             }
         } else {
-            if ( $price >= self::ppusis_min && $price <= self::sis_max ) {
+            if ( $price >= $currency['sis_min'] && $price <= $currency['sis_max'] ) {
                 return $revenue_model;
             } else {
                 return 'ppu';
@@ -529,6 +502,7 @@ class LaterPay_Helper_Pricing
             return array( 'success' => false, );
         }
 
+        $currency    = LaterPay_Helper_Config::get_section( 'currency' );
         $post_prices = get_post_meta( $post->ID, 'laterpay_post_prices', true );
         if ( ! is_array( $post_prices ) ) {
             $post_prices = array();
@@ -547,15 +521,15 @@ class LaterPay_Helper_Pricing
 
         // return dynamic pricing widget start values
         if ( ( $start_price === '' ) && ( $price !== null ) ) {
-            if ( $post_price > self::ppusis_max ) {
+            if ( $post_price >= $currency['sis_only_limit'] ) {
                 // Single Sale (sis), if price >= 5.01
-                $end_price = self::sis_min;
-            } elseif ( $post_price > self::ppusis_min ) {
+                $end_price = $currency['sis_only_limit'];
+            } elseif ( $post_price >= $currency['sis_min'] ) {
                 // Single Sale or Pay-per-Use, if 1.49 >= price <= 5.00
-                $end_price = self::ppusis_min;
+                $end_price = $currency['sis_min'];
             } else {
                 // Pay-per-Use (ppu), if price <= 1.48
-                $end_price = self::ppu_min;
+                $end_price = $currency['ppu_min'];
             }
 
             $dynamic_pricing_data = array(
@@ -564,11 +538,11 @@ class LaterPay_Helper_Pricing
                       'y' => $post_price,
                 ),
                 array(
-                      'x' => self::price_start_day,
+                      'x' => $currency['dynamic_start'],
                       'y' => $post_price,
                 ),
                 array(
-                      'x' => self::price_end_day,
+                      'x' => $currency['dynamic_end'],
                       'y' => $end_price,
                 ),
                 array(
@@ -635,57 +609,55 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function adjust_dynamic_price_points( $start, $end ) {
-        $price_range_type = 'ppu';
+        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+        $range    = 'ppu';
+        $price    = array(
+            'start' => $start,
+            'end'   => $end,
+        );
 
-        if ( $start >= self::sis_min || $end >= self::sis_min ) {
-            $price_range_type = 'sis';
-            if ( $start != 0 && $start < self::sis_min ) {
-                $start = self::sis_min;
+        if ( $price['start'] >= $currency['sis_only_limit'] || $price['end'] >= $currency['sis_only_limit'] ) {
+
+            foreach ( $price as $key => $value ) {
+                if ( $value != 0 && $value < $currency['sis_only_limit'] ) {
+                    $price[ $key ] = $currency['sis_only_limit'];
+                }
             }
-            if ( $end != 0 && $end < self::sis_min ) {
-                $end = self::sis_min;
-            }
+
+            $range = 'sis';
         } elseif (
-            ( $start >= self::ppusis_min && $start <= self::ppusis_max ) ||
-                ( $end >= self::ppusis_min && $end <= self::ppusis_max )
+            ( $price['start'] > $currency['ppu_only_limit'] && $price['start'] < $currency['sis_only_limit'] ) ||
+                ( $price['end'] > $currency['ppu_only_limit'] && $price['end'] < $currency['sis_only_limit'] )
             ) {
-            $price_range_type = 'ppusis';
-            if ( $start != 0 ) {
-                if ( $start < self::ppusis_min ) {
-                    $start = self::ppusis_min;
-                }
-                if ( $start > self::ppusis_max ) {
-                    $start = self::ppusis_max;
-                }
-            };
-            if ( $end != 0 ) {
-                if ( $end < self::ppusis_min ) {
-                    $end = self::ppusis_min;
-                }
-                if ( $end > self::ppusis_max ) {
-                    $end = self::ppusis_max;
-                }
+
+            foreach ( $price as $key => $value ) {
+                if ( $value != 0 ) {
+                    if ( $value < $currency['ppu_only_limit'] ) {
+                        $price[ $key ] = $currency['sis_min'];
+                    } elseif ( $value > $currency['sis_only_limit'] ) {
+                        $price[ $key ] = $currency['ppu_max'];
+                    }
+                };
             }
+
+            $range = 'ppusis';
         } else {
-            if ( $start != 0 ) {
-                if ( $start < self::ppu_min ) {
-                    $start = self::ppu_min;
-                }
-                if ( $start > self::ppu_max ) {
-                    $start = self::ppu_max;
-                }
-            };
-            if ( $end != 0 ) {
-                if ( $end < self::ppu_min ) {
-                    $end = self::ppu_min;
-                }
-                if ( $end > self::ppu_max ) {
-                    $end = self::ppu_max;
-                }
+
+            foreach ( $price as $key => $value ) {
+                if ( $value != 0 ) {
+                    if ( $value < $currency['ppu_min'] ) {
+                        $price[ $key ] = $currency['ppu_min'];
+                    } elseif ( $value > $currency['ppu_max'] ) {
+                        $price[ $key ] = $currency['ppu_max'];
+                    }
+                };
             }
         }
 
-        return array( $start, $end, $price_range_type );
+        // set range
+        array_push( $price, $range );
+
+        return array_values( $price );
     }
 
     /**
@@ -722,20 +694,21 @@ class LaterPay_Helper_Pricing
      * @return float
      */
     public static function ensure_valid_price( $price ) {
+        $currency        = LaterPay_Helper_Config::get_section( 'currency' );
         $validated_price = 0;
 
         // set all prices between 0.01 and 0.04 to lowest possible price of 0.05
-        if ( $price > 0 && $price < self::ppu_min ) {
-            $validated_price = self::ppu_min;
+        if ( $price > 0 && $price < $currency['ppu_min'] ) {
+            $validated_price = $currency['ppu_min'];
         }
 
-        if ( $price == 0 || ( $price >= self::ppu_min && $price <= self::sis_max ) ) {
+        if ( $price == 0 || ( $price >= $currency['ppu_min'] && $price <= $currency['sis_max'] ) ) {
             $validated_price = $price;
         }
 
         // set all prices greater 149.99 to highest possible price of 149.99
-        if ( $price > self::sis_max ) {
-            $validated_price = self::sis_max;
+        if ( $price > $currency['sis_max'] ) {
+            $validated_price = $currency['sis_max'];
         }
 
         return $validated_price;

@@ -21,10 +21,15 @@
                 isLive                          : 'lp_is-live',
                 navigation                      : $('.lp_navigation'),
 
+                region                          : $('#lp_js_apiRegionSection'),
+                regionNoticeBlock               : $('#lp_js_regionNotice'),
+
                 showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
                 apiCredentials                  : $('#lp_js_apiCredentialsSection'),
-                requestSent                     : false,
+                requestSent                     : false
             },
+
+            regionVal = $o.region.val(),
 
             bindEvents = function() {
                 // validate and save entered LaterPay API Keys
@@ -43,6 +48,12 @@
                     setTimeout(function() {
                         validateMerchantId($input);
                     }, 50);
+                });
+
+                // validate and save entered LaterPay Merchant IDs
+                $o.region
+                .change(function() {
+                    changeRegion();
                 });
 
                 // switch plugin between TEST and LIVE mode
@@ -145,6 +156,33 @@
 
                 // save plugin mode
                 makeAjaxRequest('laterpay_plugin_mode');
+            },
+
+            changeRegion = function() {
+                var form_id = 'laterpay_region';
+
+                $.post(
+                    ajaxurl,
+                    $('#' + form_id).serializeArray(),
+                    function(data) {
+                        $o.navigation.showMessage(data);
+
+                        if ( ! data.success ) {
+                            $o.region.val( regionVal );
+                        } else {
+                            regionVal = $o.region.val();
+                            $o.testMerchantId.val( data.creds.cp_key );
+                            $o.testApiKey.val( data.creds.api_key );
+
+                            if ( regionVal !== 'us' ) {
+                                $o.regionNoticeBlock.removeClass('hidden');
+                            } else {
+                                $o.regionNoticeBlock.addClass('hidden');
+                            }
+                        }
+                    },
+                    'json'
+                );
             },
 
             makeAjaxRequest = function(form_id) {

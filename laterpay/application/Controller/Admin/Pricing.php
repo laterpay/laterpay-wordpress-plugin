@@ -82,13 +82,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             array(
                 'locale'                => get_locale(),
                 'i18n'                  => $i18n,
+                'currency'              => json_encode( LaterPay_Helper_Config::get_section( 'currency' ) ),
                 'globalDefaultPrice'    => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
-                'defaultCurrency'       => get_option( 'laterpay_currency' ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
                 'time_passes_list'      => $this->get_time_passes_json( $time_passes_list ),
                 'vouchers_list'         => json_encode( $vouchers_list ),
                 'vouchers_statistic'    => json_encode( $vouchers_statistic ),
-                'l10n_print_after'      => 'lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
+                'l10n_print_after'      => 'lpVars.currency = JSON.parse(lpVars.currency);
+                                            lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
                                             lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);
                                             lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
             )
@@ -131,7 +132,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'top_nav'                               => $this->get_menu(),
             'admin_menu'                            => LaterPay_Helper_View::get_admin_menu(),
             'categories_with_defined_price'         => $categories_with_defined_price,
-            'standard_currency'                     => get_option( 'laterpay_currency' ),
+            'currency'                              => LaterPay_Helper_Config::get_section( 'currency' ),
             'plugin_is_in_live_mode'                => $this->config->get( 'is_in_live_mode' ),
             'global_default_price'                  => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
@@ -303,8 +304,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         $global_price           = (float) get_option( 'laterpay_global_price' );
         $localized_global_price = LaterPay_Helper_View::format_number( $global_price );
-        $currency_model         = new LaterPay_Model_Currency();
-        $currency_name          = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
 
         if ( $global_price === 0 ) {
             $message = __( 'All posts are free by default now.', 'laterpay' );
@@ -312,7 +311,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $message = sprintf(
                 __( 'The global default price for all posts is %s %s now.', 'laterpay' ),
                 $localized_global_price,
-                $currency_name
+                $this->config->get( 'currency.default' )
             );
         }
 
@@ -394,16 +393,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             );
         }
 
-        $currency_model             = new LaterPay_Model_Currency();
-        $currency_name              = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
-        $localized_category_price   = LaterPay_Helper_View::format_number( $delocalized_category_price );
+        $localized_category_price = LaterPay_Helper_View::format_number( $delocalized_category_price );
+        $currency                 = $this->config->get( 'currency.default' );
 
         $event->set_result(
             array(
                 'success'           => true,
                 'category'          => $category,
                 'price'             => $localized_category_price,
-                'currency'          => get_option( 'laterpay_currency' ),
+                'currency'          => $currency,
                 'category_id'       => $category_id,
                 'revenue_model'     => $category_price_revenue_model,
                 'updated_post_ids'  => $updated_post_ids,
@@ -411,7 +409,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
                     $category,
                     $localized_category_price,
-                    $currency_name
+                    $currency
                 ),
             )
         );
@@ -536,7 +534,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $change_unit          = $bulk_price_form->get_field_value( 'bulk_change_unit' );
         $price                = $bulk_price_form->get_field_value( 'bulk_price' );
         $is_percent           = ( $change_unit == 'percent' );
-        $default_currency     = get_option( 'laterpay_currency' );
+        $default_currency     = $this->config->get( 'currency.default' );
         $update_all           = ( $selector === 'all');
         $category_id          = null;
         // flash message parts
@@ -825,7 +823,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         $this->assign( 'laterpay_pass', $args );
         $this->assign( 'laterpay',      array(
-            'standard_currency'       => get_option( 'laterpay_currency' ),
+            'standard_currency' => $this->config->get( 'currency.default' ),
         ));
 
         $string = $this->get_text_view( 'backend/partials/time-pass' );
@@ -966,6 +964,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @return void
      */
     private function generate_voucher_code( LaterPay_Core_Event $event ) {
+        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+
         $event->set_result(
             array(
                 'success' => false,
@@ -978,9 +978,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         }
 
         $price = sanitize_text_field( $_POST['price'] );
-        if ( ! ( $price >= 0 && $price <= 149.99 ) ||
-             ( $price > 0 && $price < 0.05 )
-        ) {
+
+        if ( ! ( $price >= $currency['ppu_min'] && $price <= $currency['sis_max'] ) && $price != 0 ) {
             return;
         }
 

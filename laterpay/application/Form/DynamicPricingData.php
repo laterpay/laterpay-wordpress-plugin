@@ -16,6 +16,8 @@ class LaterPay_Form_DynamicPricingData extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
+        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+
         $this->set_field(
             'action',
             array(
@@ -50,8 +52,8 @@ class LaterPay_Form_DynamicPricingData extends LaterPay_Form_Abstract
                     'is_float',
                     'cmp' => array(
                         array(
-                            'lte' => 149.99,
-                            'gte' => 0.05,
+                            'lte' => $currency['sis_max'],
+                            'gte' => $currency['ppu_min'],
                         ),
                         array(
                             'eq' => 0.00,
