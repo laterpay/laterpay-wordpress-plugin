@@ -183,6 +183,17 @@ To get your LaterPay Live API credentials, please send us the signed merchant co
 documents that are listed in the merchant contract. You can find the merchant contract on the ’Account’ tab of the
 plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
 
+== Screenshots ==
+
+1. The LaterPay WordPress plugin lets you easily define a teaser text for your paid content and set an individual price...
+2. ...or a dynamic price for your posts, pages and other content types.
+3. In the *Pricing tab*, you can set default prices for the entire website or specific categories and create time passes to offer time-limited access to all your content or a category.
+4. In the *Appearance tab*, you can choose between two preview modes for your content.
+5. Option 1 shows only the post's teaser content (which you can define yourself or create automatically), the LaterPay purchase button and a purchase link.
+6. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
+7. In the *Account tab*, you can manage your API credentials, switch between test and live mode, choose if LaterPay should be visible for your users in test mode and set the region (U.S. or Europe) and currency ($ or €) for your LaterPay account.
+8. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
+
 == Changelog ==
 
 = 0.9.22 ( December 02, 2016 ): Bugfix Release (v1.0 RC15) =
