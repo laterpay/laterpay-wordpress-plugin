@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2017-03-01 12:20+0000\n"
-"PO-Revision-Date: 2017-03-01 12:29+0000\n"
+"POT-Creation-Date: 2017-03-01 13:56+0000\n"
+"PO-Revision-Date: 2017-03-01 15:04+0000\n"
 "Last-Translator: Blogger <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de-DE\n"
@@ -29,42 +29,6 @@ msgstr ""
 #: views/backend/appearance.php:215
 msgid "Hide free posts from homepage feature is"
 msgstr ""
-
-#: views/backend/account.php:195
-msgid "Region and Currency"
-msgstr "Ländergruppe und Währung"
-
-#: views/backend/account.php:197
-msgid "Select the region for your LaterPay merchant account"
-msgstr "Wählen Sie die Ländergruppe Ihres LaterPay Händlerkontos aus"
-
-#: views/backend/account.php:201
-msgid ""
-"Is the selling company or person based in Europe or in the United States?<br>"
-"\n"
-"                    If you select 'Europe', all prices will be displayed and "
-"charged in Euro (EUR), and the plugin will connect to the LaterPay Europe "
-"platform.<br>\n"
-"                    If you select 'United States', all prices will be "
-"displayed and charged in U.S. Dollar (USD), and the plugin will connect to "
-"the LaterPay U.S. platform. \n"
-"                    "
-msgstr ""
-"Hat die verkaufende Firma / Person Ihren Sitz in Europa oder in den USA?<br>"
-"\n"
-"Wenn Sie \"Europa\" auswählen, werden alle Preise in Euro (EUR) angezeigt "
-"und das Plugin wird die LaterPay-Europa-Plattform verwenden.<br>\n"
-"Wenn Sie \"USA\" auswählen, werden alle Preise in Dollar (USD) angezeigt und "
-"das Plugin wird die LaterPay-USA-Plattform verwenden.\n"
-" "
-
-#: views/backend/account.php:213
-msgid "Europe (EUR)"
-msgstr "Europa (EUR)"
-
-#: views/backend/account.php:214
-msgid "United States (USD)"
-msgstr "USA (USD)"
 
 #: application/Controller/Admin.php:274
 msgid ""
@@ -443,18 +407,7 @@ msgid ""
 "            </p>"
 msgstr ""
 
-#: application/Controller/Admin/Account.php:334
-msgid "Failed to change region settings."
-msgstr ""
-"Die Einstellungen für Ländergruppe und Währung konnten nicht geändert werden."
-
-#: application/Controller/Admin/Account.php:344
-msgid "The LaterPay region was changed successfully."
-msgstr ""
-"Die Ländergruppe und Währung des LaterPay Plugins wurden erfolgreich "
-"geändert."
-
-#: application/Controller/Admin/Appearance.php:230 
+#: application/Controller/Admin/Appearance.php:230
 #: application/Controller/Admin/Appearance.php:239
 msgid "Free posts with premium content now hided from the homepage."
 msgstr ""
@@ -482,6 +435,43 @@ msgstr ""
 msgid "https://laterpay.net/"
 msgstr ""
 
+#: views/backend/account.php:201
+msgid ""
+"Is the selling company or person based in Europe or in the United States?<br>"
+"\n"
+"                        If you select 'Europe', all prices will be displayed "
+"and charged in Euro (EUR), and the plugin will connect to the LaterPay "
+"Europe platform.<br>\n"
+"                        If you select 'United States', all prices will be "
+"displayed and charged in U.S. Dollar (USD), and the plugin will connect to "
+"the LaterPay U.S. platform. \n"
+"                        "
+msgstr ""
+"Hat das verkaufende Unternehmen seinen Sitz in Europa oder in den USA?<br>\n"
+"Wenn Sie \"Europa\" auswählen, werden alle Preise in Euro (EUR) angezeigt "
+"und das Plugin verwendet die LaterPay-Europa-Plattform.\n"
+"Wenn Sie \"USA\" auswählen, werden alle Preise in Dollar (USD) angezeigt und "
+"das Plugin verwendet die LaterPay-USA-Plattform."
+
+#: views/backend/account.php:220
+msgid ""
+"<b>Important:</b> The minimum value for SIS (\"Pay Now\") prices in the U.S. "
+"region is <b>$2.99</b>.<br>\n"
+"                        If you have already set SIS (\"Pay Now\") prices "
+"lower than 2.99, make sure to change them before you switch to the U.S. "
+"region.<br>\n"
+"                        If you haven't done any configuration yet, you can "
+"safely switch the region without further adjustments. \n"
+"                        "
+msgstr ""
+"<b>Wichtig: </b>Der Mindestpreis für einen SIS (\"Sofort zahlen\") Kauf "
+"liegt in den USA bei <b>$2,99</b>.<br>\n"
+"Wenn Sie bereits SIS (\"Sofort Zahlen\") Preise gesetzt haben, stellen Sie "
+"bitte sicher, dass Sie diese Preise anpassen, bevor Sie zur Ländergruppe "
+"\"USA\" wechseln.<br>\n"
+"Wenn Sie noch keine Konfigurationen am Plugin vorgenommen haben, können Sie "
+"ohne weitere Anpassungen in die Ländergruppe \"USA\" wechseln."
+
 #: laterpay.php:39
 msgid "Unexpected error during plugin init"
 msgstr "Unerwarteter Fehler während Plugin-Initialisierung"
@@ -492,12 +482,12 @@ msgstr ""
 "Sie haben nicht die notwendigen Berechtigungen, um die Einstellungen für "
 "diese Seite zu verwalten."
 
-#: views/backend/appearance.php:19 views/backend/account.php:21 
+#: views/backend/appearance.php:19 views/backend/account.php:21
 #: views/backend/pricing.php:19
 msgid "Test mode"
 msgstr "Test-Modus"
 
-#: views/backend/appearance.php:20 views/backend/account.php:22 
+#: views/backend/appearance.php:20 views/backend/account.php:22
 #: views/backend/pricing.php:20
 msgid "Earn money in <i>live mode</i>"
 msgstr "Verdienen Sie Geld im <i>Live-Modus</i>"
@@ -871,6 +861,22 @@ msgstr "Live API Key hier einfügen"
 msgid "Request Live API Credentials"
 msgstr "Live API Zugangsdaten anfordern"
 
+#: views/backend/account.php:195
+msgid "Region and Currency"
+msgstr "Ländergruppe und Währung"
+
+#: views/backend/account.php:197
+msgid "Select the region for your LaterPay merchant account"
+msgstr "Wählen Sie die Ländergruppe Ihres LaterPay Händlerkontos aus"
+
+#: views/backend/account.php:213
+msgid "Europe (EUR)"
+msgstr "Europa (EUR)"
+
+#: views/backend/account.php:214
+msgid "United States (USD)"
+msgstr "USA (USD)"
+
 #: views/backend/pricing.php:28
 msgid "Posts can"
 msgstr "Beiträge können"
@@ -891,26 +897,26 @@ msgstr "Jeder Artikel kostet"
 msgid "Edit Global Default Price"
 msgstr "Allgemeinen Standardpreis bearbeiten"
 
-#: views/backend/pricing.php:84 views/backend/pricing.php:193 
-#: views/backend/pricing.php:299 views/backend/partials/time-pass.php:63 
+#: views/backend/pricing.php:84 views/backend/pricing.php:193
+#: views/backend/pricing.php:299 views/backend/partials/time-pass.php:63
 #: application/Controller/Admin/Post/Column.php:42
 msgid "Price"
 msgstr "Preis"
 
-#: views/backend/pricing.php:98 views/backend/pricing.php:206 
+#: views/backend/pricing.php:98 views/backend/pricing.php:206
 #: views/backend/pricing.php:312
 msgid "Revenue Model"
 msgstr "Erlösmodell"
 
-#: views/backend/pricing.php:125 views/backend/pricing.php:233 
-#: views/backend/pricing.php:337 views/backend/pricing.php:369 
-#: views/backend/pricing.php:550 views/backend/pricing.php:584 
+#: views/backend/pricing.php:125 views/backend/pricing.php:233
+#: views/backend/pricing.php:337 views/backend/pricing.php:369
+#: views/backend/pricing.php:550 views/backend/pricing.php:584
 #: views/backend/pricing.php:656
 msgid "Save"
 msgstr "Speichern"
 
-#: views/backend/pricing.php:126 views/backend/pricing.php:234 
-#: views/backend/pricing.php:338 views/backend/pricing.php:370 
+#: views/backend/pricing.php:126 views/backend/pricing.php:234
+#: views/backend/pricing.php:338 views/backend/pricing.php:370
 #: views/backend/pricing.php:551
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -1051,18 +1057,18 @@ msgstr ""
 msgid "Bulk Price Editor"
 msgstr "Bulk Price Editor"
 
-#: views/backend/pricing.php:638 application/Controller/Admin/Pricing.php:61 
-#: application/Controller/Admin/Pricing.php:546 
+#: views/backend/pricing.php:638 application/Controller/Admin/Pricing.php:61
+#: application/Controller/Admin/Pricing.php:546
 #: application/Controller/Admin/Pricing.php:577
 msgid "to"
 msgstr "auf"
 
-#: views/backend/pricing.php:644 
+#: views/backend/pricing.php:644
 #: views/backend/partials/post-pricing-form.php:63
 msgid "0.00"
 msgstr "0,00"
 
-#: views/backend/pricing.php:654 views/backend/pricing.php:664 
+#: views/backend/pricing.php:654 views/backend/pricing.php:664
 #: application/Controller/Admin/Pricing.php:65
 msgid "Update Prices"
 msgstr "Preise aktualisieren"
@@ -1085,7 +1091,7 @@ msgstr "%s : <code>%s</code> nicht gefunden"
 msgid "Buy a time pass to read the full content."
 msgstr "Kaufen Sie einen Zeitpass, um den gesamten Inhalt anzuzeigen."
 
-#: application/Module/TimePasses.php:382 
+#: application/Module/TimePasses.php:382
 #: application/Controller/Frontend/Shortcode.php:499
 msgid "Wrong time pass id or no time passes specified."
 msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
@@ -1104,7 +1110,7 @@ msgstr ""
 "Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
 "Ihres Vertrauens."
 
-#: application/Module/TimePasses.php:470 application/Module/Purchase.php:211 
+#: application/Module/TimePasses.php:470 application/Module/Purchase.php:211
 #: application/Module/Purchase.php:224
 msgid "Read Immediately"
 msgstr "Sofort lesen"
@@ -1117,7 +1123,7 @@ msgstr ""
 "Greifen Sie sofort auf Ihre Inhalte zu.<br>\n"
 "Ein Zeitpass ist kein Abo, denn er läuft automatisch aus."
 
-#: application/Module/Appearance.php:223 
+#: application/Module/Appearance.php:223
 #: application/Controller/Frontend/Statistic.php:216
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
@@ -1243,8 +1249,8 @@ msgstr "für"
 msgid "k"
 msgstr "t"
 
-#: application/Helper/View.php:257 
-#: application/Controller/Frontend/Shortcode.php:186 
+#: application/Helper/View.php:257
+#: application/Controller/Frontend/Shortcode.php:186
 #: application/Controller/Frontend/Shortcode.php:206
 msgid "Problem with inserted shortcode:"
 msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
@@ -1266,7 +1272,7 @@ msgstr ""
 "Das LaterPay Plugin konnte nicht installiert werden. Bitte beheben Sie die "
 "genannten Probleme und versuchen Sie es erneut."
 
-#: application/Controller/Admin.php:74 application/Controller/Admin.php:88 
+#: application/Controller/Admin.php:74 application/Controller/Admin.php:88
 #: application/Controller/Admin.php:98
 msgid "LaterPay Plugin Settings"
 msgstr "LaterPay-Plugin-Einstellungen"
@@ -1397,24 +1403,24 @@ msgstr ""
 msgid "Restart dynamic pricing"
 msgstr "Dynamische Preissetzung neu starten"
 
-#: views/backend/partials/post-pricing-form.php:141 
+#: views/backend/partials/post-pricing-form.php:141
 #: application/Controller/Admin/Post/Metabox.php:133
 msgid "Remove dynamic pricing"
 msgstr "Dynamische Preissetzung entfernen"
 
-#: views/backend/partials/post-pricing-form.php:148 
+#: views/backend/partials/post-pricing-form.php:148
 #: application/Controller/Admin/Post/Metabox.php:132
 msgid "Add dynamic pricing"
 msgstr "Dynamische Preissetzung hinzufügen"
 
-#: views/backend/partials/time-pass.php:23 
+#: views/backend/partials/time-pass.php:23
 #: views/frontend/partials/post/gift/gift-pass.php:25
 msgid "on this website"
 msgstr "dieser Website"
 
-#: views/backend/partials/time-pass.php:36 
-#: views/frontend/partials/widget/purchase-button.php:18 
-#: views/frontend/partials/widget/purchase-link.php:14 
+#: views/backend/partials/time-pass.php:36
+#: views/frontend/partials/widget/purchase-button.php:18
+#: views/frontend/partials/widget/purchase-link.php:14
 #: views/frontend/partials/post/gift/gift-actions.php:25
 msgid "Buy now with LaterPay"
 msgstr "Jetzt mit LaterPay kaufen"
@@ -1427,22 +1433,22 @@ msgstr "Details"
 msgid "Back"
 msgstr "Zurück"
 
-#: views/backend/partials/time-pass.php:45 
+#: views/backend/partials/time-pass.php:45
 #: views/frontend/partials/post/gift/gift-pass.php:37
 msgid "Validity"
 msgstr "Gültigkeit"
 
-#: views/backend/partials/time-pass.php:51 
+#: views/backend/partials/time-pass.php:51
 #: views/frontend/partials/post/gift/gift-pass.php:43
 msgid "Access to"
 msgstr "Zugriff auf"
 
-#: views/backend/partials/time-pass.php:57 
+#: views/backend/partials/time-pass.php:57
 #: views/frontend/partials/post/gift/gift-pass.php:49
 msgid "Renewal"
 msgstr "Verlängerung"
 
-#: views/backend/partials/time-pass.php:59 
+#: views/backend/partials/time-pass.php:59
 #: views/frontend/partials/post/gift/gift-pass.php:51
 msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
@@ -1499,21 +1505,21 @@ msgstr ""
 "&mdash; Kaufen Sie den vollständigen Inhalt für {price} {currency} &mdash; "
 "{teaser_content}"
 
-#: application/Controller/Frontend/Statistic.php:144 
-#: application/Controller/Admin/Account.php:88 
-#: application/Controller/Admin/Appearance.php:80 
-#: application/Controller/Admin/Pricing.php:168 
-#: application/Controller/Admin/Pricing.php:359 
-#: application/Controller/Admin/Pricing.php:430 
-#: application/Controller/Admin/Pricing.php:513 
-#: application/Controller/Admin/Pricing.php:757 
+#: application/Controller/Frontend/Statistic.php:144
+#: application/Controller/Admin/Account.php:88
+#: application/Controller/Admin/Appearance.php:80
+#: application/Controller/Admin/Pricing.php:168
+#: application/Controller/Admin/Pricing.php:359
+#: application/Controller/Admin/Pricing.php:430
+#: application/Controller/Admin/Pricing.php:513
+#: application/Controller/Admin/Pricing.php:757
 #: application/Controller/Admin/Pricing.php:793
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
 "erneut."
 
-#: application/Controller/Frontend/Statistic.php:192 
+#: application/Controller/Frontend/Statistic.php:192
 #: application/Controller/Frontend/Statistic.php:242
 msgid "Updated."
 msgstr "Aktualisiert."
@@ -1572,7 +1578,7 @@ msgstr "Ungültige Zeitpass-ID."
 msgid "Buy another gift card"
 msgstr "Einen weiteren Gutschein kaufen."
 
-#: application/Controller/Admin/Settings.php:55 
+#: application/Controller/Admin/Settings.php:55
 #: application/Controller/Admin/Settings.php:72
 msgid "LaterPay Advanced Settings"
 msgstr "LaterPay – Erweiterte Einstellungen"
@@ -1597,8 +1603,8 @@ msgstr "Sie können die Farben von klickbaren LaterPay Elementen anpassen."
 msgid "Debugger Pane"
 msgstr "Debugger"
 
-#: application/Controller/Admin/Settings.php:158 
-#: application/Controller/Admin/Settings.php:174 
+#: application/Controller/Admin/Settings.php:158
+#: application/Controller/Admin/Settings.php:174
 #: application/Core/Logger/Handler/WordPress.php:45
 msgid "LaterPay Debugger"
 msgstr "LaterPay Debugger"
@@ -1914,7 +1920,7 @@ msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Merchant ID!"
 msgid "LaterPay does not work properly with invalid API credentials."
 msgstr "LaterPay funktioniert nicht ohne gültige API Zugangsdaten."
 
-#: application/Controller/Admin/Account.php:161 
+#: application/Controller/Admin/Account.php:161
 #: application/Controller/Admin/Account.php:219
 #, php-format
 msgid "The Merchant ID you entered is not a valid LaterPay %s Merchant ID!"
@@ -1941,7 +1947,7 @@ msgid "Your %s API key is valid. You can now make %s transactions."
 msgstr ""
 "Ihr %s API-Key ist gültig. Sie können nun %s Transaktionen durchführen."
 
-#: application/Controller/Admin/Account.php:267 
+#: application/Controller/Admin/Account.php:267
 #: application/Controller/Admin/Account.php:322
 msgid "Error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten. Falsche Daten wurden übergeben."
@@ -1970,13 +1976,24 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im TEST-Modus und für Besucher nicht sichtbar. "
 "Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
 
-#: application/Controller/Admin/Account.php:310 
+#: application/Controller/Admin/Account.php:310
 #: application/Controller/Admin/Account.php:380
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 
-#: application/Controller/Admin/Account.php:364 
-#: application/Controller/Admin/Pricing.php:293 
+#: application/Controller/Admin/Account.php:334
+msgid "Failed to change region settings."
+msgstr ""
+"Die Einstellungen für Ländergruppe und Währung konnten nicht geändert werden."
+
+#: application/Controller/Admin/Account.php:344
+msgid "The LaterPay region was changed successfully."
+msgstr ""
+"Die Ländergruppe und Währung des LaterPay Plugins wurden erfolgreich "
+"geändert."
+
+#: application/Controller/Admin/Account.php:364
+#: application/Controller/Admin/Pricing.php:293
 #: application/Controller/Admin/Pricing.php:343
 msgid "An error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
@@ -2042,17 +2059,17 @@ msgstr "Mache"
 msgid "free"
 msgstr "kostenlos"
 
-#: application/Controller/Admin/Pricing.php:62 
+#: application/Controller/Admin/Pricing.php:62
 #: application/Controller/Admin/Pricing.php:608
 msgid "by"
 msgstr "um"
 
-#: application/Controller/Admin/Pricing.php:63 
+#: application/Controller/Admin/Pricing.php:63
 #: application/Controller/Admin/Pricing.php:631
 msgid "to global default price of"
 msgstr "auf den allgemeinen Standardpreis"
 
-#: application/Controller/Admin/Pricing.php:64 
+#: application/Controller/Admin/Pricing.php:64
 #: application/Controller/Admin/Pricing.php:637
 msgid "to category default price of"
 msgstr "auf den Kategorie-Standardpreis"
@@ -2085,7 +2102,7 @@ msgstr "Kostenlos-machen"
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: application/Controller/Admin/Pricing.php:124 
+#: application/Controller/Admin/Pricing.php:124
 #: application/Controller/Admin/Pricing.php:620
 msgid "All posts"
 msgstr "aller Beiträge"
@@ -2121,7 +2138,7 @@ msgstr "Die Preise aller Beiträge"
 msgid "have been"
 msgstr "wurden"
 
-#: application/Controller/Admin/Pricing.php:545 
+#: application/Controller/Admin/Pricing.php:545
 #: application/Controller/Admin/Pricing.php:576
 msgid "set"
 msgstr "gesetzt"
@@ -2216,12 +2233,12 @@ msgstr ""
 "Jetzt kaufen für %s<small class=\"lp_purchase-link__currency\">%s</small> "
 "und später zahlen"
 
-#: views/frontend/partials/widget/time-passes.php:24 
+#: views/frontend/partials/widget/time-passes.php:24
 #: views/frontend/partials/post/gift/redeem-form.php:10
 msgid "Code"
 msgstr "Code"
 
-#: views/frontend/partials/widget/time-passes.php:25 
+#: views/frontend/partials/widget/time-passes.php:25
 #: views/frontend/partials/post/gift/redeem-form.php:11
 msgid "Redeem"
 msgstr "Einlösen"
@@ -2263,9 +2280,9 @@ msgstr "Besucher"
 msgid "Please rate this post:"
 msgstr "Bitte bewerten Sie diesen Beitrag:"
 
-#: views/frontend/partials/post/rating-form.php:14 
-#: views/frontend/partials/post/rating-form.php:19 
-#: views/frontend/partials/post/rating-form.php:24 
+#: views/frontend/partials/post/rating-form.php:14
+#: views/frontend/partials/post/rating-form.php:19
+#: views/frontend/partials/post/rating-form.php:24
 #: views/frontend/partials/post/rating-form.php:29
 msgid "stars"
 msgstr "Sterne"
@@ -2339,7 +2356,7 @@ msgstr "Individueller Preis (dynamisch)"
 msgid "category default price"
 msgstr "Kategorie-Standardpreis"
 
-#: application/Controller/Admin/Post/Column.php:101 
+#: application/Controller/Admin/Post/Column.php:101
 #: application/Controller/Admin/Post/Column.php:111
 msgid "global default price"
 msgstr "Standardpreis"
