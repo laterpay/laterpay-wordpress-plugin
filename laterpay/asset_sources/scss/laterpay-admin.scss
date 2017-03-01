@@ -17,6 +17,15 @@
     position: relative !important;
 }
 
+// add red color icon for
+.lp_region_notice[data-icon]:before {
+    color: red;
+}
+
+// remove dfn color
+dfn.lp_region_notice {
+    color: #444;
+}
 
 // style custom columns in posts table
 .column-post_price { // WordPress selector
