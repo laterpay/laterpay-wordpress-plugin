@@ -332,7 +332,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             $post_revenue_model = $global_default_price_revenue_model;
         }
 
-        $currency_settings = LaterPay_Helper_Config::get_regional_settings( 'currency', false );
+        // get currency settings for current region
+        $currency_settings = LaterPay_Helper_Config::get_section( 'currency' );
 
         echo laterpay_sanitized( '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />' );
 

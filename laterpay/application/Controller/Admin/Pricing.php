@@ -131,7 +131,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'top_nav'                               => $this->get_menu(),
             'admin_menu'                            => LaterPay_Helper_View::get_admin_menu(),
             'categories_with_defined_price'         => $categories_with_defined_price,
-            'currency'                              => LaterPay_Helper_Config::get_regional_settings( 'currency', false ),
+            'currency'                              => LaterPay_Helper_Config::get_section( 'currency' ),
             'plugin_is_in_live_mode'                => $this->config->get( 'is_in_live_mode' ),
             'global_default_price'                  => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
@@ -963,7 +963,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @return void
      */
     private function generate_voucher_code( LaterPay_Core_Event $event ) {
-        $currency = LaterPay_Helper_Config::get_regional_settings( 'currency', false );
+        $currency = LaterPay_Helper_Config::get_section( 'currency' );
 
         $event->set_result(
             array(

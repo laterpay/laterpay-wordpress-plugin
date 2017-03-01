@@ -66,7 +66,7 @@ class LaterPay_Helper_Config {
      *
      * @return array|null
      */
-    public static function get_regional_settings( $section = null, $one_dimension = true ) {
+    public static function get_regional_settings( $one_dimension = true ) {
         $region = get_option( 'laterpay_region', 'eu' );
 
         // region correction
@@ -77,11 +77,6 @@ class LaterPay_Helper_Config {
 
         // get all settings
         $settings = self::$regional_settings[ $region ];
-
-        // get section settings if specified
-        if ( $section ) {
-            $settings = isset( $settings[ $section ] ) ? $settings[ $section ] : $settings;
-        }
 
         // convert to 1 dimensional array for config
         if ( $one_dimension ) {
@@ -100,6 +95,20 @@ class LaterPay_Helper_Config {
         }
 
         return $settings;
+    }
+
+    /**
+     * Get settings section for current region
+     *
+     * @param $section
+     *
+     * @return mixed|null
+     */
+    public static function get_section( $section ) {
+        // get unformatted regional settings
+        $settings = self::get_regional_settings( false );
+
+        return isset( $settings[ $section ] ) ? $settings[ $section ] : null;
     }
 
     /**

@@ -16,7 +16,7 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
-        $currency = LaterPay_Helper_Config::get_regional_settings( 'currency', false );
+        $currency = LaterPay_Helper_Config::get_section( 'currency' );
 
         $this->set_field(
             'form',
