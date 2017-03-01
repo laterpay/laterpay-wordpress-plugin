@@ -174,7 +174,7 @@
                             $o.testMerchantId.val( data.creds.cp_key );
                             $o.testApiKey.val( data.creds.api_key );
 
-                            if ( regionVal != 'us' ) {
+                            if ( regionVal !== 'us' ) {
                                 $o.regionNoticeBlock.removeClass('hidden');
                             } else {
                                 $o.regionNoticeBlock.addClass('hidden');
