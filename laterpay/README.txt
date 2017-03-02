@@ -11,7 +11,7 @@ Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
-Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
+Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro/Dollar at a revenue-based fee and no fixed costs.
 
 == Description ==
 
@@ -23,17 +23,17 @@ The plugin allows you to set different price types for your blog posts:
 * Global default price: This price is by default applied to all new and existing posts of the blog.
 * Category default price: This price is applied to all new and existing posts in a given category.
      If a category default price is set, it overwrites the global default price.
-     E.g. setting a category default price of 0.00 Euro, while having set a global default price of 0.49 Euro,
+     E.g. setting a category default price of 0.00, while having set a global default price of 0.49,
      makes all posts in that category free.
-* Individual price: This price can be set for each post.
+* Individual price: This price can be set for each post on the ‘Add / Edit Post’ page.
      It overwrites both the category default price and the global default price for the respective article.
-     E.g. setting an individual price of 0.19 Euro with a category default price of 0.10 Euro and a global
-     default price of 0.00 Euro results in a price for that post of 0.19 Euro.
+     E.g. setting an individual price of 0.19 with a category default price of 0.10 and a global
+     default price of 0.00 results in a price for that post of 0.19.
 
 You may also apply a dynamic pricing scheme to posts: For every single post, you can set a price curve that changes the price of a blog post
 over time, starting from the publication date.
-E.g. you can offer a breaking news post for 0.49 Euro for the first two days and then automatically reduce the price
-to 0.05 Euro until the fifth day to increase your sales.
+E.g. you can offer a breaking news post for 0.49 for the first two days and then automatically reduce the price
+to 0.05 until the fifth day to increase your sales.
 
 With time passes, you can sell time-limited access to all the LaterPay content
 * on your entire website
@@ -48,11 +48,11 @@ A user can enter a voucher code below the respective time pass and its price wil
 Voucher codes are not user specific and can be used for any number of times until you delete them. Deleting a voucher code will not affect the access to time passes which have already been purchased with this code.
 
 = Presentation =
-* LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button at the beginning of the
+* LaterPay button: Each post with a price > 0.00 automatically contains a LaterPay button at the beginning of the
   post content. You can choose to not show this button and instead render it from within your theme by calling
   do_action( 'laterpay_purchase_button' ) within your theme.
 * Teaser content: Every post you sell with LaterPay has to contain a teaser.
-  The teaser is shown to the user before he purchases a post.
+  The teaser is shown to the user before purchasing a post.
   The plugin automatically generates teaser content by taking the first 120 words of every existing post.
   You can refine the teaser content on the ‘Add / Edit Post’ page.
 
@@ -91,15 +91,14 @@ the purchase button are displayed.
   WordPress plugin into your site on a test system, not on your production system. You can choose, whether LaterPay
   should be visible for your visitors in test mode or not.
 * Live mode: After integrating and testing the plugin, you might want to start selling content and process real
-  transactions. Mail us the signed merchant contract to sales@laterpay.net and the necessary identification documents
-  and we will send you LaterPay API credentials for switching your plugin to live mode.
+  transactions. Please go to https://www.laterpay.net/get-started to sign up for a live merchant account. After the registration and the check of your contract data, we will send you your LaterPay API credentials for switching your plugin to live mode.
 
 = Statistics =
-You can access sales statistics in your LaterPay merchant account on merchant.laterpay.net
+You can access sales statistics in your LaterPay merchant account on web.laterpay.net/merchant (for European merchants) or web.uselaterpay.com/merchant (for U.S. merchants).
 If have any questions about your LaterPay merchant account, please contact us via support@laterpay.net.
 
 = Roles and Capabilities =
-Some plugin features may not be available for certain user roles, based on the WordPress model of roles and capabilities:
+Some plugin features won't be available for certain user roles, based on the WordPress model of roles and capabilities:
 
 * Subscribers (and regular, non-registered visitors): **cannot change any** plugin settings
 * Contributors: can edit the teaser content of their **own** posts
@@ -117,18 +116,22 @@ use add_filter( 'laterpay_access_check_enabled', your_callback_returning_boolean
 
 == Installation ==
 
-* Upload the LaterPay WordPress plugin on the ‘Install Plugins’ page of your WordPress installation
-  (/wp-admin/plugin-install.php?tab=upload) and activate it on the ‘Plugins’ page (/wp-admin/plugins.php).
-  The WordPress plugin will show up in the admin sidebar with a callout pointing at it.
-* The plugin is now in Test mode, i.e. the plugin is not visible to visitors, but only to admins.
-  You can test and configure everything to your liking.
-  If you want to start earning money, you have to first register a LaterPay merchant account and request your
-  Live API credentials.
-* Click on the LaterPay entry in the admin sidebar to adjust the plugin preferences and prices.
-
-The plugin will notify you about available updates that you can install with a single click.
+* Install the plugin from wordpress.org/plugins/laterpay and activate it.
+* The plugin is now in Invisible Test Mode, i.e. the plugin is not visible to visitors, but only to logged-in admins, and you can start the configuration.
+* First, go to the Plugin Settings (There is a new item "LaterPay" in the side navigation) and go to the "Account" section.
+  Please choose your region and currency here: If your business is located in the U.S. and you want your prices to be displayed in Dollar (USD), choose "United States (USD)". If your business is located in the European Union, and you want the prices to be displayed in Euro (EUR), choose "Europe (EUR)".
+* By default, the plugin has set a Global Default Price of 0.29 after the activation – that means that each of your existing posts costs 0.29 by default. If you want to change this: In the "Pricing" section, you can define the Global Default Price, and also set Category Default Prices.
+* If you want to set prices only for specific posts, and keep the rest of your content free, we recommend to set a Global Default Price of 0.00, and set an individual price for the respective posts. You can set an individual price for a post by opening this post for editing. In the upper right corner, you will see the LaterPay pricing widget.
+* In the plugin, you will see two important terms: PPU (Pay-per-Use) and SIS (Single Item Sale) – these are so called "revenue models" and define, if a post has to be paid immediately (SIS) or can be paid later (PPU).
+* If you choose PPU for a price, that means: The user agrees to pay later, and gets immediate access to the content – without upfront payment or registration. LaterPay keeps track of the user's device invoice and asks the user to pay, once the invoice has (across various websites) reached a total of 5.00 €/$. That's the LaterPay signature model and provides the unique and most convenient LaterPay purchase experience. You can use the PPU model for prices between 0.05 and 5.00.
+* If you choose SIS for a price, that means: The user has to register/login, and pay immediately before getting access to the purchase. This model might make sense for higher-priced items. The SIS model can be used for prices between 1.49 € / $2.99 and 149.99.
+* If you want to start earning money, you have to first register a LaterPay merchant account and request your
+  Live API credentials (See section "Test and Live Mode" above).
 
 The plugin's settings page (Settings > LaterPay) allows you to adjust some parameters, which are too advanced to list them in the regular LaterPay plugin backend:
+
+= Colors =
+You can define a primary and a secondary color to adjust the appearance of LaterPay elements on your website to your website's identity.
 
 = Debugger =
 The plugin comes with a debugging toolbar which displays helpful information for debugging purposes. You can choose whether you want to activate or deactive the debugger and also specify a set of IP addresses, for which the debugger should be displayed.
@@ -179,9 +182,7 @@ You can find further information about LaterPay and the LaterPay WordPress plugi
 support.laterpay.net
 
 = How do I get my LaterPay Live API credentials? =
-To get your LaterPay Live API credentials, please send us the signed merchant contract and all necessary identification
-documents that are listed in the merchant contract. You can find the merchant contract on the ’Account’ tab of the
-plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
+Please see the "Test and Live Mode" section.
 
 == Screenshots ==
 
@@ -195,6 +196,11 @@ plugin backend. After we've checked your documents, we will send you an e-mail w
 8. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+
+= 0.9.23 ( March 02, 2017 ): Bugfix Release (v1.0 RC16) =
+* Added support for the LaterPay U.S. system
+* Added U.S. Dollar (USD) support in addition to Euro (EUR)
+* Fixed issue with the display of "times redeemed" for voucher codes
 
 = 0.9.22 ( December 02, 2016 ): Bugfix Release (v1.0 RC15) =
 * Updated identification flow.
