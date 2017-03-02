@@ -68,7 +68,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'cmp' => array(
                         array(
                             'lte' => $currency['sis_max'],
-                            'gte' => $currency['ppu_max'],
+                            'gte' => $currency['ppu_min'],
                         ),
                         array(
                             'eq'  => 0.00,
