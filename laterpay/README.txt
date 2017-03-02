@@ -11,7 +11,7 @@ Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
-Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro/Dollar at a revenue-based fee and no fixed costs.
+Sell digital content with LaterPay. It allows super easy and fast purchases from 0.05 up to 149.99 €/$ at a revenue-based fee and no fixed costs.
 
 == Description ==
 
