@@ -570,10 +570,6 @@ KNOWN BUGS:
 * Added script that doesn't load jQuery if it's already present
 * Changed treatment of search engine bots to avoid cloaking penalties; removed toggle for search engine visibility from appearance tab
 
-== Screenshots ==
-
-Actual screenshots will be added later.
-
 == Upgrade notice ==
 
 = 0.9.14 ( April 7, 2016 ): Bugfix Release (v1.0 RC7) =
