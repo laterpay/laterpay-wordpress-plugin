@@ -322,7 +322,7 @@ class LaterPay_Helper_Pricing
                     } else {
                         $rounded_price = 0;
                     }
-                } else if ( $rounded_price <= $currency['ppu_only_limit'] ) {
+                } else if ( $rounded_price > $currency['ppu_only_limit'] ) {
                     $rounded_price = $currency['ppu_only_limit'];
                 }
                 break;
