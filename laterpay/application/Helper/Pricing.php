@@ -475,13 +475,13 @@ class LaterPay_Helper_Pricing
 
         if ( $revenue_model === 'ppu' ) {
             if ( $price == 0.00 || ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) ) {
-                return $revenue_model;
+                return 'ppu';
             } else {
                 return 'sis';
             }
         } else {
-            if ( $price >= $currency['sis_min'] && $price <= $currency['sis_max'] ) {
-                return $revenue_model;
+            if ( $price >= $currency['sis_only_limit'] && $price <= $currency['sis_max'] ) {
+                return 'sis';
             } else {
                 return 'ppu';
             }
