@@ -117,7 +117,6 @@
                 editing                                 : 'lp_is-editing',
                 unsaved                                 : 'lp_is-unsaved',
                 payPerUse                               : 'ppu',
-                payPerUseWithLogin                      : 'ppul',
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
@@ -429,7 +428,6 @@
                 }
 
                 var $payPerUse          = $(input + '[value=' + $o.payPerUse + ']', $form),
-                    $payPerUseWithLogin = $(input + '[value=' + $o.payPerUseWithLogin + ']', $form),
                     $singleSale         = $(input + '[value=' + $o.singleSale + ']', $form);
 
                 currentRevenueModel = $('input:radio:checked', $form).val();
@@ -438,15 +436,9 @@
                     // enable Pay-per-Use
                     $payPerUse.removeProp('disabled')
                         .parent('label').removeClass($o.disabled);
-                    // PPU with login
-                    $payPerUseWithLogin.removeProp('disabled')
-                        .parent('label').removeClass($o.disabled);
                 } else {
                     // disable Pay-per-Use
                     $payPerUse.prop('disabled', 'disabled')
-                        .parent('label').addClass($o.disabled);
-                    // PPU with login
-                    $payPerUseWithLogin.prop('disabled', 'disabled')
                         .parent('label').addClass($o.disabled);
                 }
 
@@ -462,8 +454,7 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > lpVars.currency.ppu_max &&
-                    (currentRevenueModel === $o.payPerUse || currentRevenueModel === $o.payPerUseWithLogin)) {
+                if (price > lpVars.currency.ppu_max && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', 'checked');
                 } else if (price < lpVars.currency.sis_min && currentRevenueModel === $o.singleSale) {

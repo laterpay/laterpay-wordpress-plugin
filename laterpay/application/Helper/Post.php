@@ -215,7 +215,8 @@ class LaterPay_Helper_Post
             'pricing'       => $currency . ( $price * 100 ),
             'url'           => $link . '?' . build_query( $url_params ),
             'title'         => $post->post_title,
-            'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
+            // 'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
+            // TODO: check option
         );
 
         laterpay_get_logger()->info(

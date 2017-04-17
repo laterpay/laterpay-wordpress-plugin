@@ -166,7 +166,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'ppu', 'ppul', 'sis' ),
+                    'in_array' => array( 'ppu', 'sis' ),
                     'depends' => array(
                         array(
                             'field' => 'price',
@@ -183,21 +183,6 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
                         array(
                             'field' => 'price',
                             'value' => 'ppu',
-                            'conditions' => array(
-                                'cmp' => array(
-                                    array(
-                                        'lte' => $currency['ppu_max'],
-                                        'gte' => $currency['ppu_min'],
-                                    ),
-                                    array(
-                                        'eq' => 0.00,
-                                    ),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'field' => 'price',
-                            'value' => 'ppul',
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
