@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <input type="radio"
                     name="post_revenue_model"
                     value="ppu"
-                    <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'checked'; } ?>>PPU
+                    <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'checked'; } ?>><?php echo __( 'Pay Later', 'laterpay' ); ?>
             </label>
             <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <input type="radio"
                     name="post_revenue_model"
                     value="sis"
-                    <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'checked'; } ?>>SIS
+                    <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'checked'; } ?>><?php echo __( 'Pay Now', 'laterpay' ); ?>
             </label>
         </div><!-- layout works with display:inline-block; comments are there to suppress spaces
      --><div class="lp_layout__item lp_2/3">
