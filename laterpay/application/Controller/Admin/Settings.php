@@ -90,6 +90,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
         $this->add_time_passes_settings();
+        $this->add_revenue_settings();
         $this->add_gift_codes_settings();
         $this->add_teaser_content_settings();
         $this->add_preview_excerpt_settings();
@@ -323,6 +324,46 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.',
             'laterpay' ) .
         '</p>' );
+    }
+
+    /**
+     *  Add revenue settings section
+     */
+    public function add_revenue_settings() {
+        add_settings_section(
+            'laterpay_revenue_section',
+            __( 'Require login', 'laterpay' ),
+            array( $this, 'get_revenue_section_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_require_login',
+            __( 'Require login', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_revenue_section',
+            array(
+                'name'  => 'laterpay_require_login',
+                'value' => 1,
+                'type'  => 'checkbox',
+                'label' => __( 'Require the user to log in to LaterPay before a "Pay Later" purchase.', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_require_login' );
+    }
+
+    /**
+     * Render the hint text for the enabled post types section.
+     *
+     * @return string description
+     */
+    public function get_revenue_section_description() {
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'Please choose if you want to force login for "Pay Later" purchases.',
+                'laterpay' ) .
+            '</p>' );
     }
 
     /**
