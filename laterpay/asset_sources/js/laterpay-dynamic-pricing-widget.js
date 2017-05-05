@@ -172,12 +172,22 @@ var DynamicPricingWidget = function (container) {
 
     // bind events to start price handle
     jQuery('body')
-        .on('click',
+        // bind only single click event, without dragging
+        .on('mousedown',
             '.lp_dynamic-pricing__start-price-handle, ' +
             '.lp_dynamic-pricing__start-price-value, ' +
             '.lp_dynamic-pricing__start-price-currency',
         function () {
-            dynamicPricingWidget.toggleStartInput('show');
+            jQuery('body').on('mouseup mousemove',
+                '.lp_dynamic-pricing__start-price-handle, ' +
+                '.lp_dynamic-pricing__start-price-value, ' +
+                '.lp_dynamic-pricing__start-price-currency',
+            function startPriceClickHandler (e) {
+                if (e.type === 'mouseup') {
+                    dynamicPricingWidget.toggleStartInput('show');
+                }
+                jQuery('body').off('mouseup mousemove', startPriceClickHandler);
+            });
         })
         // bind events to start price input
         .on('focusout',
@@ -207,12 +217,22 @@ var DynamicPricingWidget = function (container) {
 
     // bind events to end price handle
     jQuery('body')
-        .on('click',
+        // bind only single click event, without dragging
+        .on('mousedown',
             '.lp_dynamic-pricing__end-price-handle, ' +
             '.lp_dynamic-pricing__end-price-value, ' +
             '.lp_dynamic-pricing__end-price-currency',
-        function () {
-            dynamicPricingWidget.toggleEndInput('show');
+            function () {
+                jQuery('body').on('mouseup mousemove',
+                    '.lp_dynamic-pricing__end-price-handle, ' +
+                    '.lp_dynamic-pricing__end-price-value, ' +
+                    '.lp_dynamic-pricing__end-price-currency',
+                    function endPriceClickHandler (e) {
+                        if (e.type === 'mouseup') {
+                            dynamicPricingWidget.toggleEndInput('show');
+                        }
+                        jQuery('body').off('mouseup mousemove', endPriceClickHandler);
+                    });
         })
         // bind events to end price input
         .on('focusout',
@@ -542,7 +562,7 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function () {
-                return -10;
+                return -7;
             },
             y: function (d) {
                 return self.scale.y(d.y) - 0.5;
@@ -557,7 +577,7 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function () {
-                return -11;
+                return -8;
             },
             y: function (d) {
                 return self.scale.y(d.y) + 9.5;
@@ -605,7 +625,7 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function () {
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function () {
-                return self.dimensions.width + 44;
+                return self.dimensions.width + 47;
             },
             y: function (d) {
                 return self.scale.y(d.y) - 1;
@@ -620,7 +640,7 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function () {
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function () {
-                return self.dimensions.width + 44;
+                return self.dimensions.width + 47;
             },
             y: function (d) {
                 return self.scale.y(d.y) + 9;

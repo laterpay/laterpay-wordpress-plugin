@@ -110,6 +110,12 @@
     fill: $clickable;
 }
 
+.lp_dynamic-pricing__start-price-input-wrapper,
+.lp_dynamic-pricing__end-price-input-wrapper {
+    position: relative;
+    z-index: $zindex--elevated-1;
+}
+
 
 /*
  * 1. show vertical resize cursor over price handles
@@ -139,6 +145,11 @@
     font-weight: normal;
 }
 
+.lp_dynamic-pricing__start-price-value,
+.lp_dynamic-pricing__end-price-value {
+    font-size: $fs--07;
+}
+
 /*
  * !important is used to make sure our input renders as intended, regardless of crappy theme or browser styles
  *
@@ -155,8 +166,11 @@
     height: 29px !important;
     margin: 0 !important;
     padding: 4px !important;
-    position: relative !important; /* 1 */
     width: 100% !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: $zindex--overlayed-1 !important; /* 1 */
 
     &:focus {
