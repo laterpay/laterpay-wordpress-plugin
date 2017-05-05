@@ -46,7 +46,6 @@ textarea.lp_input {
 }
 
 select.lp_input {
-    margin-left: 2px;
     padding: 0.25em;
     position: relative;
 }
@@ -74,7 +73,6 @@ input[type=text].lp_input__title {
 
 // select2 selects (vendor component)
 .select2-container {
-    margin-left: 2px;
     width: 100%;
 
     .select2-choice {
@@ -207,7 +205,7 @@ input[type=text][required] {
         background: darken($background--darker, 2%);
         margin: (-$fs) (-$fs) $fs $fs;
         padding: $fs;
-        font-size: $fs--125;
+        font-size: $fs--15;
         float: right;
 
         &:hover {
@@ -220,6 +218,12 @@ input[type=text][required] {
             top: 0;
         }
     }
+}
+
+// add link ------------------------------------------------------------------------------------------------------------
+.lp_add-link {
+    display: block;
+    margin-left: 0;
 }
 
 /*
@@ -242,7 +246,8 @@ input[type=text][required] {
 // revenue model badges ------------------------------------------------------------------------------------------------
 .lp_badge--revenue-model {
     color: $clickable;
-    width: $fs--2;
+    width: $fs--6;
+    text-transform: capitalize;
 
     input[type=radio] {
         display: none;
