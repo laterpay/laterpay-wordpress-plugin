@@ -24,6 +24,8 @@ var DynamicPricingWidget = function (container) {
     this.i18nDays = lpVars.i18nDays;
     this.i18nToday = lpVars.i18nToday;
     this.dragging = false;
+    this.currentStartPricePosition = null;
+    this.currentEndPricePosition = null;
 
 
     // set up D3 graph in container
@@ -177,17 +179,21 @@ var DynamicPricingWidget = function (container) {
             '.lp_dynamic-pricing__start-price-handle, ' +
             '.lp_dynamic-pricing__start-price-value, ' +
             '.lp_dynamic-pricing__start-price-currency',
-        function () {
-            jQuery('body').on('mouseup mousemove',
-                '.lp_dynamic-pricing__start-price-handle, ' +
-                '.lp_dynamic-pricing__start-price-value, ' +
-                '.lp_dynamic-pricing__start-price-currency',
-            function startPriceClickHandler (e) {
-                if (e.type === 'mouseup') {
+        function (e) {
+            self.currentStartPricePosition = e.pageY;
+            jQuery('body').on('mousemove', function startPriceMoveHandler (e) {
+                self.currentStartPricePosition = e.pageY;
+                jQuery('body').off('mousemove', startPriceMoveHandler);
+            });
+        })
+        .on('mouseup',
+            '.lp_dynamic-pricing__start-price-handle, ' +
+            '.lp_dynamic-pricing__start-price-value, ' +
+            '.lp_dynamic-pricing__start-price-currency',
+            function (e) {
+                if (e.pageY === self.currentStartPricePosition) {
                     dynamicPricingWidget.toggleStartInput('show');
                 }
-                jQuery('body').off('mouseup mousemove', startPriceClickHandler);
-            });
         })
         // bind events to start price input
         .on('focusout',
@@ -222,17 +228,21 @@ var DynamicPricingWidget = function (container) {
             '.lp_dynamic-pricing__end-price-handle, ' +
             '.lp_dynamic-pricing__end-price-value, ' +
             '.lp_dynamic-pricing__end-price-currency',
-            function () {
-                jQuery('body').on('mouseup mousemove',
-                    '.lp_dynamic-pricing__end-price-handle, ' +
-                    '.lp_dynamic-pricing__end-price-value, ' +
-                    '.lp_dynamic-pricing__end-price-currency',
-                    function endPriceClickHandler (e) {
-                        if (e.type === 'mouseup') {
-                            dynamicPricingWidget.toggleEndInput('show');
-                        }
-                        jQuery('body').off('mouseup mousemove', endPriceClickHandler);
-                    });
+            function (e) {
+                self.currentEndPricePosition = e.pageY;
+                jQuery('body').on('mousemove', function endPriceMoveHandler (e) {
+                    self.currentEndPricePosition = e.pageY;
+                    jQuery('body').off('mousemove', endPriceMoveHandler);
+                });
+        })
+        .on('mouseup',
+            '.lp_dynamic-pricing__end-price-handle, ' +
+            '.lp_dynamic-pricing__end-price-value, ' +
+            '.lp_dynamic-pricing__end-price-currency',
+            function (e) {
+                if (e.pageY === self.currentEndPricePosition) {
+                    dynamicPricingWidget.toggleEndInput('show');
+                }
         })
         // bind events to end price input
         .on('focusout',
