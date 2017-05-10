@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="lp_pagewrap">
         <div class="lp_layout">
-            <div class="lp_layout__item lp_1/2">
+            <div class="lp_layout__item lp_1">
                 <h2><?php echo laterpay_sanitize_output( __( 'Content Preview of Paid Posts', 'laterpay' ) ); ?></h2>
                 <form method="post" class="lp_mb++">
                     <input type="hidden" name="form"    value="paid_content_preview">
@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </form>
             </div><!-- comment required to prevent spaces, because layout uses display:inline-block
-         --><div class="lp_layout__item lp_1/2">
+         --><div class="lp_layout__item lp_1">
                 <h2><?php echo laterpay_sanitize_output( __( 'Position of the LaterPay Purchase Button', 'laterpay' ) ); ?></h2>
                 <form method="post" class="lp_js_showHintOnTrue lp_mb++">
                     <input type="hidden" name="form"    value="purchase_button_position">
@@ -91,39 +91,39 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </form>
             </div>
+            <div class="lp_layout__item lp_1">
+                <h2><?php echo laterpay_sanitize_output( __( 'Display of LaterPay Time Passes', 'laterpay' ) ); ?></h2>
+                <form method="post" class="lp_js_showHintOnTrue lp_mb++">
+                    <input type="hidden" name="form"    value="time_passes_position">
+                    <input type="hidden" name="action"  value="laterpay_appearance">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-            <h2><?php echo laterpay_sanitize_output( __( 'Display of LaterPay Time Passes', 'laterpay' ) ); ?></h2>
-            <form method="post" class="lp_js_showHintOnTrue lp_mb++">
-                <input type="hidden" name="form"    value="time_passes_position">
-                <input type="hidden" name="action"  value="laterpay_appearance">
-                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-
-                <div class="lp_button-group--large">
-                    <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
-                        <input type="radio"
-                                name="time_passes_positioned_manually"
-                                value="0"
-                                class="lp_js_switchButtonGroup"
-                                <?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>/>
-                        <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-1"></div>
-                        <?php echo laterpay_sanitize_output( __( 'Standard position', 'laterpay' ) ); ?>
-                    </label><!-- comment required to prevent spaces, because layout uses display:inline-block
+                    <div class="lp_button-group--large">
+                        <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
+                            <input type="radio"
+                                   name="time_passes_positioned_manually"
+                                   value="0"
+                                   class="lp_js_switchButtonGroup"
+                                   <?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>/>
+                            <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-1"></div>
+                            <?php echo laterpay_sanitize_output( __( 'Standard position', 'laterpay' ) ); ?>
+                        </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                  --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
-                        <input type="radio"
-                                name="time_passes_positioned_manually"
-                                value="1"
-                                class="lp_js_switchButtonGroup"
-                                <?php if ( $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>/>
-                        <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-2"></div>
-                        <?php echo laterpay_sanitize_output( __( 'Custom position', 'laterpay' ) ); ?>
-                    </label>
-                </div>
-                <div class="lp_js_buttonGroupHint lp_button-group__hint"<?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?> style="display:none;"<?php endif; ?>>
-                    <p>
-                        <?php echo laterpay_sanitize_output( __( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ) ); ?><br>
-                    </p>
-                    <table>
-                        <tbody>
+                            <input type="radio"
+                                   name="time_passes_positioned_manually"
+                                   value="1"
+                                   class="lp_js_switchButtonGroup"
+                                   <?php if ( $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>/>
+                            <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-2"></div>
+                            <?php echo laterpay_sanitize_output( __( 'Custom position', 'laterpay' ) ); ?>
+                        </label>
+                    </div>
+                    <div class="lp_js_buttonGroupHint lp_button-group__hint"<?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?> style="display:none;"<?php endif; ?>>
+                        <p>
+                            <?php echo laterpay_sanitize_output( __( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ) ); ?><br>
+                        </p>
+                        <table>
+                            <tbody>
                             <tr>
                                 <th>
                                     Shortcode
@@ -140,10 +140,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <code><?php echo esc_html( "<?php do_action( 'laterpay_time_passes' ); ?>" ); ?></code>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
 
             <div class="lp_js_deprecated-feature">
                 <div class="lp_clearfix lp_mb+">
