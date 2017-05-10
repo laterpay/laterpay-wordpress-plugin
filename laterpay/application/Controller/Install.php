@@ -545,6 +545,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
         $table_passes          = $wpdb->prefix . 'laterpay_passes';
+        $table_subscriptions   = $wpdb->prefix . 'laterpay_subscriptions';
 
         $sql = "
             CREATE TABLE IF NOT EXISTS $table_terms_price (
@@ -569,6 +570,24 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 description varchar(255) NULL DEFAULT NULL,
                 is_deleted int(1) NOT NULL DEFAULT 0,
                 PRIMARY KEY  (pass_id),
+                KEY access_to (access_to),
+                KEY period (period),
+                KEY duration (duration)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+        dbDelta( $sql );
+
+        $sql = "
+            CREATE TABLE IF NOT EXISTS $table_subscriptions (
+                id int(11) NOT NULL AUTO_INCREMENT,
+                duration int(11) NULL DEFAULT NULL,
+                period int(11) NULL DEFAULT NULL,
+                access_to int(11) NULL DEFAULT NULL,
+                access_category bigint(20) NULL DEFAULT NULL,
+                price decimal(10,2) NULL DEFAULT NULL,
+                title varchar(255) NULL DEFAULT NULL,
+                description varchar(255) NULL DEFAULT NULL,
+                is_deleted int(1) NOT NULL DEFAULT 0,
+                PRIMARY KEY  (id),
                 KEY access_to (access_to),
                 KEY period (period),
                 KEY duration (duration)

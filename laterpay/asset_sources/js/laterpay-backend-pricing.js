@@ -49,7 +49,7 @@
 
                 // time passes
                 addTimePass                             : $('#lp_js_addTimePass'),
-                timePassEditor                          : $('#lp_js_timePassEditor'),
+                timePassEditor                          : $('#lp_time-passes'),
                 timePassTemplate                        : $('#lp_js_timePassTemplate'),
                 timePassWrapper                         : '.lp_js_timePassWrapper',
                 timePassFormTemplate                    : $('#lp_js_timePassFormTemplate'),

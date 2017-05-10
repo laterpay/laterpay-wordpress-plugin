@@ -111,6 +111,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $vouchers_list                  = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic             = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
+        // subscriptions data
+        $subscriptions_model            = new LaterPay_Model_Subscription();
+        $subscriptions_list             = $subscriptions_model->get_active_subscriptions();
+
         // bulk price editor data
         $bulk_actions = array(
             'set'      => __( 'Set price of', 'laterpay' ),
@@ -139,6 +143,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'passes_list'                           => $time_passes_list,
             'vouchers_list'                         => $vouchers_list,
             'vouchers_statistic'                    => $vouchers_statistic,
+            'subscriptions_list'                    => $subscriptions_list,
             'bulk_actions'                          => $bulk_actions,
             'bulk_selectors'                        => $bulk_selectors,
             'bulk_categories'                       => $bulk_categories,
