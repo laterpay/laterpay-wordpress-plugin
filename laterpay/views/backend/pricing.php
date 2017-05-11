@@ -55,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <input type="hidden" name="revenue_model" class="lp_js_globalRevenueModel" value="<?php echo laterpay_sanitize_output( $laterpay['global_default_price_revenue_model'] ); ?>" disabled>
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                    <div id="lp_js_globalDefaultPriceShowElements" class="lp_greybox">
+                    <div id="lp_js_globalDefaultPriceShowElements" class="lp_greybox lp_price-panel">
                         <?php echo laterpay_sanitize_output( __( 'Every post costs', 'laterpay' ) ); ?>
                         <span id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text">
                             <?php echo laterpay_sanitize_output( $laterpay['global_default_price'] ); ?>
@@ -66,8 +66,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge">
                             <?php echo laterpay_sanitize_output( LaterPay_Helper_Pricing::get_revenue_label( $laterpay['global_default_price_revenue_model'] ) ); ?>
                         </span>
-
-                        <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
+                        <div class="lp_price-panel__buttons">
+                            <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
+                        </div>
                     </div>
 
                     <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mb-" style="display:none;">
@@ -147,7 +148,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
                             <?php $category_revenue_model = $category->revenue_model; ?>
 
-                            <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-">
+                            <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb- lp_price-panel">
                                 <?php echo laterpay_sanitize_output( __( 'Every post in', 'laterpay' ) ); ?>
                                 <span class="lp_js_categoryDefaultPriceCategoryTitle lp_inline-block">
                                     <?php echo laterpay_sanitize_output( $category->category_name ); ?>
@@ -162,9 +163,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <span class="lp_js_revenueModelLabelDisplay lp_badge">
                                     <?php echo laterpay_sanitize_output( LaterPay_Helper_Pricing::get_revenue_label( $category_revenue_model ) ); ?>
                                 </span>
-
-                                <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
-                                <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link--bold lp_change-link" data-icon="d"></a>
+                                <div class="lp_price-panel__buttons">
+                                    <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
+                                    <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link--bold lp_change-link" data-icon="d"></a>
+                                </div>
                             </div>
 
                             <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mb-" style="display:none;">
@@ -245,7 +247,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </div>
 
-                <form method="post" id="lp_js_categoryDefaultPriceTemplate" class="lp_js_categoryDefaultPriceForm lp_category-price-form lp_is-unsaved" style="display:none;">
+                <form method="post" id="lp_js_categoryDefaultPriceTemplate" class="lp_js_categoryDefaultPriceForm lp_category-price-form lp_is-unsaved lp_price-panel" style="display:none;">
                     <input type="hidden" name="form"        value="price_category_form">
                     <input type="hidden" name="action"      value="laterpay_pricing">
                     <input type="hidden" name="category_id" value="" class="lp_js_categoryDefaultPriceCategoryId">
@@ -263,9 +265,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </span>
                         <span class="lp_js_revenueModelLabelDisplay lp_badge">
                         </span>
-
-                        <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
-                        <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link--bold lp_change-link" data-icon="d"></a>
+                        <div class="lp_price-panel__buttons">
+                            <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
+                            <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link--bold lp_change-link" data-icon="d"></a>
+                        </div>
                     </div>
 
                     <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mb-">
