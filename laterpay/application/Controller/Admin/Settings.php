@@ -361,7 +361,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function get_revenue_section_description() {
         echo laterpay_sanitize_output( '<p>' .
-            __( 'Please choose if you want to force login for "Pay Later" purchases.',
+            __( 'Please choose if you want to require a login for "Pay Later" purchases.',
                 'laterpay' ) .
             '</p>' );
     }

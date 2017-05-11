@@ -52,6 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <form id="lp_js_globalDefaultPriceForm" method="post" action="" class="lp_price-settings">
                     <input type="hidden" name="form"    value="global_price_form">
                     <input type="hidden" name="action"  value="laterpay_pricing">
+                    <input type="hidden" name="revenue_model" class="lp_js_globalRevenueModel" value="<?php echo laterpay_sanitize_output( $laterpay['global_default_price_revenue_model'] ); ?>" disabled>
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                     <div id="lp_js_globalDefaultPriceShowElements" class="lp_greybox">
@@ -63,7 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
                         </span>
                         <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge">
-                            <?php echo laterpay_sanitize_output( $laterpay['global_default_price_revenue_model'] ); ?>
+                            <?php echo laterpay_sanitize_output( LaterPay_Helper_Pricing::get_revenue_label( $laterpay['global_default_price_revenue_model'] ) ); ?>
                         </span>
 
                         <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
@@ -140,6 +141,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <input type="hidden" name="form"        value="price_category_form">
                             <input type="hidden" name="action"      value="laterpay_pricing">
                             <input type="hidden" name="category_id" class="lp_js_categoryDefaultPriceCategoryId" value="<?php echo esc_attr( $category->category_id ); ?>">
+                            <input type="hidden" name="revenue_model" class="lp_js_categoryRevenueModel" value="<?php echo laterpay_sanitize_output( $category_revenue_model ); ?>" disabled>
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                             <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
@@ -158,7 +160,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
                                 </span>
                                 <span class="lp_js_revenueModelLabelDisplay lp_badge">
-                                    <?php echo laterpay_sanitize_output( $category_revenue_model ); ?>
+                                    <?php echo laterpay_sanitize_output( LaterPay_Helper_Pricing::get_revenue_label( $category_revenue_model ) ); ?>
                                 </span>
 
                                 <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
@@ -534,20 +536,6 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
         <div class="lp_js_deprecated-feature">
-            <p>
-                <span class="lp_badge lp_mr-">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
-                <dfn>
-                    <?php echo laterpay_sanitize_output( __( sprintf( 'The user pays later once his LaterPay invoice reaches %s %s.', $laterpay['currency']['ppu_max'], $laterpay['currency']['default'] ), 'laterpay' ) ); ?><br>
-                    <?php echo laterpay_sanitize_output( __( sprintf( 'You can choose PPU for prices from %s - %s %s.', $laterpay['currency']['ppu_min'], $laterpay['currency']['ppu_max'], $laterpay['currency']['default'] ), 'laterpay' ) ); ?>
-                </dfn>
-            </p>
-            <p>
-                <span class="lp_badge lp_mr-">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
-                <dfn>
-                    <?php echo laterpay_sanitize_output( __( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ) ); ?><br>
-                    <?php echo laterpay_sanitize_output( __( sprintf( 'You can choose SIS for prices from %s - %s %s.', $laterpay['currency']['sis_min'], $laterpay['currency']['sis_max'], $laterpay['currency']['default'] ), 'laterpay' ) ); ?>
-                </dfn>
-            </p>
 
             <div class="lp_mb">
                 <form id="lp_js_landingPageForm" method="post">

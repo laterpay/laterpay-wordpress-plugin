@@ -84,8 +84,8 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                     switch ( $post_prices['type'] ) {
                         case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
                             $revenue_model      = ( LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ) == 'sis' )
-                                                    ? __( 'Single Sale', 'laterpay' )
-                                                    : __( 'Pay-per-Use', 'laterpay' );
+                                                    ? __( 'Pay Now', 'laterpay' )
+                                                    : __( 'Pay Later', 'laterpay' );
                             $post_price_type    = __( 'individual price', 'laterpay' ) . ' (' . $revenue_model . ')';
                             break;
 
