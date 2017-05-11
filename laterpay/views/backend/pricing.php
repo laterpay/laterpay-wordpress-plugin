@@ -138,15 +138,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <div id="lp_js_categoryDefaultPriceList">
                     <?php foreach ( $laterpay['categories_with_defined_price'] as $category ) : ?>
+                        <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
+                        <?php $category_revenue_model = $category->revenue_model; ?>
+
                         <form method="post" class="lp_js_categoryDefaultPriceForm lp_category-price-form">
                             <input type="hidden" name="form"        value="price_category_form">
                             <input type="hidden" name="action"      value="laterpay_pricing">
                             <input type="hidden" name="category_id" class="lp_js_categoryDefaultPriceCategoryId" value="<?php echo esc_attr( $category->category_id ); ?>">
                             <input type="hidden" name="revenue_model" class="lp_js_categoryRevenueModel" value="<?php echo laterpay_sanitize_output( $category_revenue_model ); ?>" disabled>
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-
-                            <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
-                            <?php $category_revenue_model = $category->revenue_model; ?>
 
                             <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb- lp_price-panel">
                                 <?php echo laterpay_sanitize_output( __( 'Every post in', 'laterpay' ) ); ?>
