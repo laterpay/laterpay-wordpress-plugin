@@ -146,3 +146,29 @@
     }
 
 }
+
+.lp_button--default {
+    background: $clickable;
+    border-radius: $border-radius * 2;
+    color: $text--inverse;
+    display: inline-block;
+    height: $fs--2;
+    line-height: $fs--2;
+    padding: 0 $fs--175;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background: $clickable--highlight;
+        color: $text--inverse;
+    }
+}
+
+.lp_button--link {
+    color: $clickable;
+    &:hover,
+    &:focus,
+    &:active {
+        color: $clickable--highlight;
+    }
+}

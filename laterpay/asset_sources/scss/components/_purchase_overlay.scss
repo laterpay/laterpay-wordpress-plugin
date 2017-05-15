@@ -1,0 +1,262 @@
+html body .lp_purchase-overlay {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+
+  .lp_purchase-overlay__wrapper {
+    max-width: 306px !important;
+    margin: $fs--07 auto !important;
+
+    .lp_purchase-overlay__form {
+      background: $purchase-background !important;
+      border-radius: $border-radius * 2 !important;
+      box-shadow: 0 1px $fs rgba(0, 0, 0, .25) !important;
+      border-bottom-left-radius: $border-radius * 2 !important;
+      border-bottom-right-radius: $border-radius * 2 !important;
+
+      .lp_purchase-overlay__header {
+        background: $purchase-header-background !important;
+        border-top-left-radius: $border-radius * 2 !important;
+        border-top-right-radius: $border-radius * 2 !important;
+        color: $text--inverse !important;
+        font-size: $fs--15 !important;
+        font-weight: normal !important;
+        line-height: 1 !important;
+        overflow: hidden !important;
+        padding: $fs--125 !important;
+        text-align: center !important;
+      }
+
+      .lp_purchase-overlay__body {
+        border-bottom-left-radius: $border-radius * 2 !important;
+        border-bottom-right-radius: $border-radius * 2 !important;
+        padding: $fs--08 0 !important;
+
+        .lp_purchase-overlay__settings {
+          margin: 0 $fs--125 !important;
+          display: table !important;
+        }
+      }
+
+      .lp_purchase-overlay__footer {
+        background: $purchase-footer-background !important;
+        border-bottom-left-radius: $border-radius * 2 !important;
+        border-bottom-right-radius: $border-radius * 2 !important;
+        padding: $fs--07 $fs--125 $fs--07 !important;
+        position: relative !important;
+        bottom: -1px !important;
+      }
+    }
+
+    .lp_purchase-overlay__copy {
+      font-size: $fs--07 !important;
+      text-align: center !important;
+      line-height: 2 !important;
+
+      & span:before {
+        font-size: $fs--45 !important;
+        line-height: 0 !important;
+        padding: 0 !important;
+        position: relative !important;
+        top: 0.38em !important;
+      }
+    }
+  }
+
+  .lp_purchase-overlay-option {
+    @include clearfix;
+    display: table-row !important;
+
+    &__button {
+      border-bottom: 1px solid #e0e0e2 !important;
+      display: table-cell !important;
+      vertical-align: middle !important;
+      padding: $fs--08 0 $fs--08 $fs--055 !important;
+      width: 10% !important;
+    }
+
+    &__name {
+      border-bottom: 1px solid #e0e0e2 !important;
+      display: table-cell !important;
+      padding: $fs--08 0 $fs--08 $fs--02 !important;
+      width: 60% !important;
+    }
+
+    &__title {
+      color: $purchase-main-text !important;
+      font-weight: bold !important;
+      line-height: 1.4 !important;
+    }
+
+    &__description {
+      color: $purchase-description-text !important;
+      font-size: $fs--07 !important;
+      line-height: 1.2 !important;
+    }
+
+    &__cost {
+      border-bottom: 1px solid #e0e0e2 !important;
+      color: $purchase-main-text !important;
+      display: table-cell !important;
+      padding: $fs--08 0 !important;
+      width: 30% !important;
+      vertical-align: middle !important;
+      text-align: right !important;
+    }
+
+    &__price {
+      display: inline-block !important;
+      font-size: $fs--15 !important;
+      letter-spacing: -1px !important;
+    }
+
+    &__currency {
+      display: inline-block !important;
+      font-size: $fs--055 !important;
+      line-height: 1 !important;
+      vertical-align: top !important;
+    }
+
+    &__input + label {
+      cursor: pointer !important;
+      outline: none !important;
+    }
+
+    &__input:not(checked) {
+      position: absolute !important;
+      opacity: 0 !important;
+    }
+
+    &__input:not(checked) + label {
+      position: relative !important;
+      padding: 0 0 0 $fs--125 !important;
+    }
+
+    &__input:not(checked) + label:before {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: $fs--085 !important;
+      height: $fs--085 !important;
+      border: 1px solid $purchase-header-background !important;
+      border-radius: 50% !important;
+      background: transparent !important;
+    }
+
+    &__input:not(checked) + label:after {
+      content: '' !important;
+      position: absolute !important;
+      top: $fs--02 !important;
+      left: $fs--02 !important;
+      width: $fs--055 !important;
+      height: $fs--055 !important;
+      border-radius: 50% !important;
+      background: $purchase-header-background !important;
+      opacity: 0 !important;
+    }
+
+    &__input:checked + label:after {
+      opacity: 1 !important;
+    }
+  }
+
+  &__buttons {
+    text-align: center !important;
+    margin-top: $fs--125 !important;
+  }
+
+  &__submit {
+    background: $purchase-button-background !important;
+    border-radius: $border-radius !important;
+    color: $purchase-button-text !important;
+    display: inline-block !important;
+    font-size: $fs--085 !important;
+    line-height: 2 !important;
+    padding: 0 $fs !important;
+
+    & span:before {
+      font-size: $fs--2 !important;
+      line-height: 0 !important;
+      position: relative !important;
+      top: $fs--055 !important;
+      padding: 0 !important;
+    }
+  }
+
+  &__notification {
+    color: $laterpay-brand !important;
+    font-size: $fs--07 !important;
+    margin-top: $fs--02 !important;
+
+    & a {
+      color: $laterpay-brand !important;
+    }
+  }
+
+  .lp_purchase-overlay-payments-list {
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  .lp_purchase-overlay-payments-item {
+    display: inline-block !important;
+    height: $fs--2 !important;
+    margin: 0 $fs--04 !important;
+    vertical-align: middle !important;
+  }
+
+  .lp_purchase-overlay-icon{
+    display: table !important;
+    line-height: 2 !important;
+
+    &:after {
+      background-repeat: no-repeat !important;
+      background-size: contain !important;
+      content: '' !important;
+      display: inline-block !important;
+      filter: grayscale(100%) contrast(30%) !important;
+      vertical-align: middle !important;
+    }
+
+    &-americanexpress:after {
+      background-image: url('../img/logo-americanexpress.svg') !important;
+      width: 300px * 0.06 !important;
+      height: 300px * 0.06 !important;
+    }
+
+    &-discovercard:after {
+      background-image: url('../img/logo-discovercard-bw.svg') !important;
+      width: 178.9px * 0.15 !important;
+      height: 114.4px * 0.15 !important;
+    }
+
+    &-mastercard:after {
+      background-image: url('../img/logo-mastercard.svg') !important;
+      width: 300px * 0.08 !important;
+      height: 233.23777px * 0.08 !important;
+    }
+
+    &-sepa:after {
+      background-image: url('../img/logo-sepa.svg') !important;
+      width: 76px * 0.4 !important;
+      height: 20.9px * 0.4 !important;
+    }
+
+    &-sofortueberweisung:after {
+      background-image: url('../img/logo-sofortueberweisung.svg') !important;
+      width: 76px * 0.5 !important;
+      height: 24px * 0.5 !important;
+    }
+
+    &-visa:after {
+      background-image: url('../img/logo-visa.svg') !important;
+      width: 282px * 0.09 !important;
+      height: 92.637756px * 0.09 !important;
+    }
+
+    &-visa-debit:after {
+      background-image: url('../img/logo-visa-debit.svg') !important;
+      width: 339.8px * 0.1 !important;
+      height: 170.02px * 0.1 !important;
+    }
+  }
+}
