@@ -53,10 +53,11 @@
 
 
 // time passes ---------------------------------------------------------------------------------------------------------
-.lp_time-passes__item {
+.lp_time-passes__item,
+.lp_subscriptions__item {
     @extend %lp_greybox;
 
-    margin: 0 ($fs * 4) $fs round($fs * 3.5);
+    margin: 0 auto $fs;
     padding-bottom: $fs--05;
     position: relative;
     width: round($fs * 27.5);
@@ -82,11 +83,13 @@
     }
 }
 
-.lp_time-pass-editor {
+.lp_time-pass-editor,
+.lp_subscription-editor {
     display: inline-block;
     vertical-align: top;
 
-    .lp_time-pass-editor__column {
+    .lp_time-pass-editor__column,
+    .lp_subscription-editor__column {
         margin-top: $fs;
 
         td {
@@ -101,7 +104,8 @@
         }
     }
 
-    .lp_timePass_description-input {
+    .lp_timePass_description-input,
+    .lp_subscription_description-input {
         height: round($fs * 4.75);
     }
 
