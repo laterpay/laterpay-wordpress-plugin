@@ -62,7 +62,8 @@
     position: relative;
     width: round($fs * 27.5);
 
-    .lp_time-pass__id-wrapper {
+    .lp_time-pass__id-wrapper,
+    .lp_subscription__id-wrapper {
         background: $background--darker;
         border-radius: 4px 0 0 4px;
         left: - round($fs * 3.5);
@@ -73,7 +74,9 @@
         width: $fs--3;
     }
 
-    .lp_time-pass__id {
+    .lp_time-pass__id,
+    .lp_subscription__id {
+        display: block;
         font-size: $fs--2;
     }
 

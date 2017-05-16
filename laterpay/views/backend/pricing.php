@@ -405,7 +405,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
 
                     <div class="lp_js_timePassEditorContainer lp_time-pass-editor">
-                        <form class="lp_js_timePassEditorForm lp_hidden" method="post">
+                        <form class="lp_js_timePassEditorForm lp_hidden lp_1 lp_mb" method="post">
                             <input type="hidden" name="form"    value="time_pass_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
                             <input type="hidden" name="pass_id" value="0" id="lp_js_timePassEditorHiddenPassId">
@@ -554,7 +554,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php echo laterpay_sanitized( $this->render_time_pass( $subscription ) ); ?>
                         </div>
 
-                        <div class="lp_js_subscriptionEditorContainer lp_subscriptions-editor"></div>
+                        <div class="lp_js_subscriptionEditorContainer lp_subscription-editor"></div>
 
                         <a href="#" class="lp_js_saveSubscription button button-primary lp_mt- lp_mb- lp_hidden"><?php echo laterpay_sanitize_output( __( 'Save', 'laterpay' ) ); ?></a>
                         <a href="#" class="lp_js_cancelEditingSubscription lp_inline-block lp_pd- lp_hidden"><?php echo laterpay_sanitize_output( __( 'Cancel', 'laterpay' ) ); ?></a>
@@ -576,7 +576,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
 
                     <div class="lp_js_subscriptionEditorContainer lp_subscription-editor">
-                        <form class="lp_js_subscriptionEditorForm lp_hidden" method="post">
+                        <form class="lp_js_subscriptionEditorForm lp_hidden lp_1 lp_mb" method="post">
                             <input type="hidden" name="form"    value="subscription_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
                             <input type="hidden" name="id"      value="0" id="lp_js_subscriptionEditorHiddenSubcriptionId">
