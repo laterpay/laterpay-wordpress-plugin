@@ -10,8 +10,8 @@
         pointer-events: none;
         position: absolute;
         transform: translate3d(0, 0, 0);
-        transition-delay: 0;
-        transition: 0.25s ease;
+        transition-delay: 0s;
+        transition: transform 0.25s ease, visibility 0.25s ease, bottom 0.25s ease;
         visibility: hidden;
         z-index: $zindex--overlayed-1;
     }
@@ -19,7 +19,7 @@
     // downward-pointing arrow
     &:before {
         background: transparent;
-        border: 6px solid transparent;
+        border: $fs--05 solid transparent;
         border-top-color: $text;
         content: '';
         margin-bottom: -12px;

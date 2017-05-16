@@ -295,16 +295,16 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 Nevertheless, we highly recommend manually creating the teaser for each post, to increase your sales.
             </p>
             <p>
-                <strong>PPU (Pay-per-Use)</strong><br>
-                If you choose to sell your content as <strong>Pay-per-Use</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 (EUR or USD).<br>
-                LaterPay <strong>recommends</strong> Pay-per-Use for all prices up to 5.00 as they deliver the <strong>best purchase experience</strong> for your users.<br>
+                <strong>Pay Later</strong><br>
+                If you choose to sell your content as <strong>Pay Later</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 (EUR or USD).<br>
+                LaterPay <strong>recommends</strong> Pay Later for all prices up to 5.00 as they deliver the <strong>best purchase experience</strong> for your users.<br>
                 PPU is possible for prices between (including) <strong>0.05</strong> and (including) <strong>5.00</strong>.
             </p>
             <p>
-                <strong>SIS (Single Sale)</strong><br>
-                If you sell your content as <strong>Single Sale</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
-                Single Sales are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
-                Single Sales are possible for prices between (including) <strong>1.49 € (in Europe) / $ 2.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.
+                <strong>Pay Now</strong><br>
+                If you sell your content as <strong>Pay Now</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
+                Pay Now are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
+                Pay Now are possible for prices between (including) <strong>1.49 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.
             </p>', 'laterpay'
             ),
         ) );

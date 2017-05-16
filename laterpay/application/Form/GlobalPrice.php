@@ -65,7 +65,7 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'ppu', 'ppul', 'sis' ),
+                    'in_array' => array( 'ppu', 'sis' ),
                     'depends' => array(
                         array(
                             'field' => 'laterpay_global_price',
@@ -90,21 +90,6 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                                     ),
                                     array(
                                          'eq' => 0.00,
-                                    ),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'field' => 'laterpay_global_price',
-                            'value' => 'ppul',
-                            'conditions' => array(
-                                'cmp' => array(
-                                    array(
-                                        'lte' => $currency['ppu_max'],
-                                        'gte' => $currency['ppu_min'],
-                                    ),
-                                    array(
-                                        'eq' => 0.00,
                                     ),
                                 ),
                             ),

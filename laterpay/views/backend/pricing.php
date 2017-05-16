@@ -52,9 +52,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <form id="lp_js_globalDefaultPriceForm" method="post" action="" class="lp_price-settings">
                     <input type="hidden" name="form"    value="global_price_form">
                     <input type="hidden" name="action"  value="laterpay_pricing">
+                    <input type="hidden" name="revenue_model" class="lp_js_globalRevenueModel" value="<?php echo laterpay_sanitize_output( $laterpay['global_default_price_revenue_model'] ); ?>" disabled>
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                    <div id="lp_js_globalDefaultPriceShowElements" class="lp_greybox">
+                    <div id="lp_js_globalDefaultPriceShowElements" class="lp_greybox lp_price-panel">
                         <?php echo laterpay_sanitize_output( __( 'Every post costs', 'laterpay' ) ); ?>
                         <span id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text">
                             <?php echo laterpay_sanitize_output( $laterpay['global_default_price'] ); ?>
@@ -63,10 +64,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
                         </span>
                         <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge">
-                            <?php echo laterpay_sanitize_output( $laterpay['global_default_price_revenue_model'] ); ?>
+                            <?php echo laterpay_sanitize_output( LaterPay_Helper_Pricing::get_revenue_label( $laterpay['global_default_price_revenue_model'] ) ); ?>
                         </span>
-
-                        <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
+                        <div class="lp_price-panel__buttons">
+                            <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
+                        </div>
                     </div>
 
                     <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mb-" style="display:none;">
@@ -99,20 +101,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </th>
                                     <td>
                                         <div class="lp_js_revenueModel lp_button-group">
-                                            <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                            <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                 <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ! $laterpay['global_default_price_revenue_model'] ) { echo 'lp_is-selected'; } ?>
                                                 <?php if ( $laterpay['global_default_price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppu" <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>>PPU
+                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppu" <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>><?php echo __( 'Pay&nbsp;Later', 'laterpay' ); ?>
                                             </label><!--
-                                            --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppul' ) { echo 'lp_is-selected'; } ?>
-                                                <?php if ( $laterpay['global_default_price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppul" <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppul' ) { echo ' checked'; } ?>>PPUL
-                                            </label><!--
-                                            --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                            --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                 <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo 'lp_is-selected'; } ?>
                                                 <?php if ( $laterpay['global_default_price'] < $laterpay['currency']['sis_min'] ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="sis" <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo ' checked'; } ?>>SIS
+                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="sis" <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo ' checked'; } ?>><?php echo __( 'Pay Now', 'laterpay' ); ?>
                                             </label>
                                         </div>
                                     </td>
@@ -141,16 +138,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <div id="lp_js_categoryDefaultPriceList">
                     <?php foreach ( $laterpay['categories_with_defined_price'] as $category ) : ?>
+                        <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
+                        <?php $category_revenue_model = $category->revenue_model; ?>
+
                         <form method="post" class="lp_js_categoryDefaultPriceForm lp_category-price-form">
                             <input type="hidden" name="form"        value="price_category_form">
                             <input type="hidden" name="action"      value="laterpay_pricing">
                             <input type="hidden" name="category_id" class="lp_js_categoryDefaultPriceCategoryId" value="<?php echo esc_attr( $category->category_id ); ?>">
+                            <input type="hidden" name="revenue_model" class="lp_js_categoryRevenueModel" value="<?php echo laterpay_sanitize_output( $category_revenue_model ); ?>" disabled>
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                            <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
-                            <?php $category_revenue_model = $category->revenue_model; ?>
-
-                            <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-">
+                            <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb- lp_price-panel">
                                 <?php echo laterpay_sanitize_output( __( 'Every post in', 'laterpay' ) ); ?>
                                 <span class="lp_js_categoryDefaultPriceCategoryTitle lp_inline-block">
                                     <?php echo laterpay_sanitize_output( $category->category_name ); ?>
@@ -163,11 +161,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
                                 </span>
                                 <span class="lp_js_revenueModelLabelDisplay lp_badge">
-                                    <?php echo laterpay_sanitize_output( $category_revenue_model ); ?>
+                                    <?php echo laterpay_sanitize_output( LaterPay_Helper_Pricing::get_revenue_label( $category_revenue_model ) ); ?>
                                 </span>
-
-                                <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
-                                <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link--bold lp_change-link" data-icon="d"></a>
+                                <div class="lp_price-panel__buttons">
+                                    <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
+                                    <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link--bold lp_change-link" data-icon="d"></a>
+                                </div>
                             </div>
 
                             <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mb-" style="display:none;">
@@ -207,20 +206,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             </th>
                                             <td>
                                                 <div class="lp_js_revenueModel lp_button-group">
-                                                    <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                                    <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                             <?php if ( $category_revenue_model === 'ppu' || ( ! $category_revenue_model && $category_price <= $laterpay['currency']['ppu_max'] ) ) { echo 'lp_is-selected'; } ?>
                                                             <?php if ( $category_price > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>">
-                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="ppu" <?php if ( $category_revenue_model === 'ppu' || ( ! $category_revenue_model && $category_price <= $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>>PPU
+                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="ppu" <?php if ( $category_revenue_model === 'ppu' || ( ! $category_revenue_model && $category_price <= $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>><?php echo __( 'Pay Later', 'laterpay' ); ?>
                                                     </label><!--
-                                                    --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                            <?php if ( $category_revenue_model === 'ppul' ) { echo 'lp_is-selected'; } ?>
-                                                            <?php if ( $category_price > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>">
-                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="ppul" <?php if ( $category_revenue_model === 'ppul' ) { echo ' checked'; } ?>>PPUL
-                                                    </label><!--
-                                                    --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                                    --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                             <?php if ( $category_revenue_model === 'sis' || ( ! $category_revenue_model && $category_price > $laterpay['currency']['ppu_max'] ) ) { echo 'lp_is-selected'; } ?>
                                                             <?php if ( $category_price < $laterpay['currency']['sis_min'] ) { echo 'lp_is-disabled'; } ?>">
-                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="sis" <?php if ( $category_revenue_model === 'sis' || ( ! $category_revenue_model && $category_price > $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>>SIS
+                                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_revenueModelInput" value="sis" <?php if ( $category_revenue_model === 'sis' || ( ! $category_revenue_model && $category_price > $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>><?php echo __( 'Pay Now', 'laterpay' ); ?>
                                                     </label>
                                                 </div>
                                             </td>
@@ -253,7 +247,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </div>
 
-                <form method="post" id="lp_js_categoryDefaultPriceTemplate" class="lp_js_categoryDefaultPriceForm lp_category-price-form lp_is-unsaved" style="display:none;">
+                <form method="post" id="lp_js_categoryDefaultPriceTemplate" class="lp_js_categoryDefaultPriceForm lp_category-price-form lp_is-unsaved lp_price-panel" style="display:none;">
                     <input type="hidden" name="form"        value="price_category_form">
                     <input type="hidden" name="action"      value="laterpay_pricing">
                     <input type="hidden" name="category_id" value="" class="lp_js_categoryDefaultPriceCategoryId">
@@ -271,9 +265,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </span>
                         <span class="lp_js_revenueModelLabelDisplay lp_badge">
                         </span>
-
-                        <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
-                        <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link--bold lp_change-link" data-icon="d"></a>
+                        <div class="lp_price-panel__buttons">
+                            <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link--bold lp_delete-link lp_rounded--right" data-icon="g"></a>
+                            <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link--bold lp_change-link" data-icon="d"></a>
+                        </div>
                     </div>
 
                     <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mb-">
@@ -313,18 +308,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </th>
                                     <td>
                                         <div class="lp_js_revenueModel lp_button-group">
-                                            <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                            <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                     <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < $laterpay['currency']['ppu_max'] ) ) { echo 'lp_is-selected'; } ?>">
-                                                <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenueModelInput" value="ppu"<?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>>PPU
+                                                <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenueModelInput" value="ppu"<?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>><?php echo __( 'Pay Later', 'laterpay' ); ?>
                                             </label><!--
-                                         --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                    <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppul' ) { echo 'lp_is-selected'; } ?>">
-                                                <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenueModelInput" value="ppul"<?php if ( $laterpay['global_default_price_revenue_model'] === 'ppul' ) { echo ' checked'; } ?>>PPUL
-                                            </label><!--
-                                         --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                            --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                     <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo 'lp_is-selected'; } ?>
                                                     <?php if ( $laterpay['global_default_price'] < $laterpay['currency']['sis_min'] ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenueModelInput" value="sis"<?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo ' checked'; } ?>>SIS
+                                                <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenueModelInput" value="sis"<?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo ' checked'; } ?>><?php echo __( 'Pay Now', 'laterpay' ); ?>
                                             </label>
                                         </div>
                                     </td>
@@ -434,8 +425,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                             <table class="lp_time-pass-editor__column">
                                 <tr>
-                                    <td colspan="2">
+                                    <td>
                                         <?php echo laterpay_sanitize_output( __( 'The pass is valid for ', 'laterpay' ) ); ?>
+                                    </td>
+                                    <td>
                                         <select name="duration" class="lp_js_switchTimePassDuration lp_input">
                                             <?php echo laterpay_sanitized( LaterPay_Helper_TimePass::get_select_options( 'duration' ) ); ?>
                                         </select>
@@ -455,60 +448,51 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         </select>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr class="lp_js_timePassCategoryWrapper">
                                     <td>
                                     </td>
-                                    <td class="lp_js_timePassCategoryWrapper">
+                                    <td>
                                         <input type="hidden" name="category_name"   value="" class="lp_js_switchTimePassScopeCategory">
                                         <input type="hidden" name="access_category" value="" class="lp_js_timePassCategoryId">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
-                                        <?php echo laterpay_sanitize_output( __( 'This pass costs', 'laterpay' ) ); ?>
+                                    <td><?php echo laterpay_sanitize_output( __( 'This pass costs', 'laterpay' ) ); ?></td>
+                                    <td>
                                         <input type="text"
                                             class="lp_js_timePassPriceInput lp_input lp_number-input"
                                             name="price"
                                             value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>"
                                             maxlength="6">
                                         <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
-                                        <?php echo laterpay_sanitize_output( __( 'and', 'laterpay' ) ); ?>
+                                        <?php echo laterpay_sanitize_output( __( 'and the user has to', 'laterpay' ) ); ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <?php echo laterpay_sanitize_output( __( 'is sold as', 'laterpay' ) ); ?>
                                         <div class="lp_js_revenueModel lp_button-group">
-                                            <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                            <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                             <?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppu' ) { echo 'lp_is-selected'; } ?>
                                                             <?php if ( LaterPay_Helper_TimePass::get_default_options( 'price' ) > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="revenue_model" class="lp_js_timePassRevenueModelInput" value="ppu"<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppu' ) { echo ' checked'; } ?>>PPU
+                                                <input type="radio" name="revenue_model" class="lp_js_timePassRevenueModelInput" value="ppu"<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppu' ) { echo ' checked'; } ?>><?php echo __( 'Pay Later', 'laterpay' ); ?>
                                             </label><!--
-                                                 --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                            <?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppul' ) { echo 'lp_is-selected'; } ?>
-                                                            <?php if ( LaterPay_Helper_TimePass::get_default_options( 'price' ) > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="revenue_model" class="lp_js_timePassRevenueModelInput" value="ppul"<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppul' ) { echo ' checked'; } ?>>PPUL
-                                            </label><!--
-                                                 --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
+                                            --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                             <?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'sis' ) { echo 'lp_is-selected'; } ?>
                                                             <?php if ( LaterPay_Helper_TimePass::get_default_options( 'price' ) < $laterpay['currency']['sis_min'] ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="revenue_model" class="lp_js_timePassRevenueModelInput" value="sis"<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'sis' ) { echo ' checked'; } ?>>SIS
+                                                <input type="radio" name="revenue_model" class="lp_js_timePassRevenueModelInput" value="sis"<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'sis' ) { echo ' checked'; } ?>><?php echo __( 'Pay Now', 'laterpay' ); ?>
                                             </label>
                                         </div>
                                     </td>
                                 </tr>
-                            </table>
-
-                            <table class="lp_time-pass-editor__column">
                                 <tr>
                                     <td>
                                         <?php echo laterpay_sanitize_output( __( 'Title', 'laterpay' ) ); ?>
                                     </td>
                                     <td>
                                         <input type="text"
-                                            name="title"
-                                            class="lp_js_timePassTitleInput lp_input lp_1"
-                                            value="<?php echo esc_attr( LaterPay_Helper_TimePass::get_default_options( 'title' ) ); ?>">
+                                               name="title"
+                                               class="lp_js_timePassTitleInput lp_input lp_1"
+                                               value="<?php echo esc_attr( LaterPay_Helper_TimePass::get_default_options( 'title' ) ); ?>">
                                     </td>
                                 </tr>
                                 <tr>
@@ -521,10 +505,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             name="description">
                                             <?php echo esc_textarea( LaterPay_Helper_TimePass::get_description() ); ?>
                                         </textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
                                     </td>
                                 </tr>
                             </table>
@@ -559,20 +539,6 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
         <div class="lp_js_deprecated-feature">
-            <p>
-                <span class="lp_badge lp_mr-">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
-                <dfn>
-                    <?php echo laterpay_sanitize_output( __( sprintf( 'The user pays later once his LaterPay invoice reaches %s %s.', $laterpay['currency']['ppu_max'], $laterpay['currency']['default'] ), 'laterpay' ) ); ?><br>
-                    <?php echo laterpay_sanitize_output( __( sprintf( 'You can choose PPU for prices from %s - %s %s.', $laterpay['currency']['ppu_min'], $laterpay['currency']['ppu_max'], $laterpay['currency']['default'] ), 'laterpay' ) ); ?>
-                </dfn>
-            </p>
-            <p>
-                <span class="lp_badge lp_mr-">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
-                <dfn>
-                    <?php echo laterpay_sanitize_output( __( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ) ); ?><br>
-                    <?php echo laterpay_sanitize_output( __( sprintf( 'You can choose SIS for prices from %s - %s %s.', $laterpay['currency']['sis_min'], $laterpay['currency']['sis_max'], $laterpay['currency']['default'] ), 'laterpay' ) ); ?>
-                </dfn>
-            </p>
 
             <div class="lp_mb">
                 <form id="lp_js_landingPageForm" method="post">

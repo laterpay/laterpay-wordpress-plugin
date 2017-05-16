@@ -36,7 +36,6 @@
                 dynamicPricingApplied   : 'lp_is-withDynamicPricing',
                 selectedCategory        : 'lp_is-selectedCategory',
                 payPerUse               : 'ppu',
-                payPerUseWithLogin      : 'ppul',
                 singleSale              : 'sis'
             },
 
@@ -243,19 +242,14 @@
             validateRevenueModel = function(price) {
                 var currentRevenueModel = $('input:radio:checked', $o.revenueModel).val(),
                     $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
-                    $payPerUseWithLogin = $('input:radio[value=' + $o.payPerUseWithLogin + ']', $o.revenueModel),
                     $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
                 if (price === 0 || (price >= lpVars.limits.ppu_min && price <= lpVars.limits.ppu_max)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
                     $payPerUse.parent('label').removeClass($o.disabled);
-                    // same for PPU with login
-                    $payPerUseWithLogin.parent('label').removeClass($o.disabled);
                 } else {
                     // disable Pay-per-Use
                     $payPerUse.parent('label').addClass($o.disabled);
-                    // same for PPU with login
-                    $payPerUseWithLogin.parent('label').addClass($o.disabled);
                 }
 
                 if (price >= lpVars.limits.sis_min) {
@@ -268,8 +262,7 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > lpVars.limits.ppu_max &&
-                    (currentRevenueModel === $o.payPerUse || currentRevenueModel === $o.payPerUseWithLogin)) {
+                if (price > lpVars.limits.ppu_max && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
                 } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {

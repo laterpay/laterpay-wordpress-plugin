@@ -13,57 +13,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="lp_clearfix">
     <div class="lp_layout lp_mt+ lp_mb+">
-        <div id="lp_js_postPriceRevenueModel" class="lp_layout__item lp_1/6">
-            <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt-
+        <div id="lp_js_postPriceRevenueModel" class="lp_layout__item lp_3/8">
+            <label class="lp_badge lp_badge--revenue-model lp_tooltip
                     <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'lp_is-selected'; } ?>
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] != 'ppu' || $laterpay['price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"
-                    data-tooltip="<?php echo esc_attr( __( 'Pay-per-Use: users pay purchased content later', 'laterpay' ) ); ?>">
+                    data-tooltip="<?php echo esc_attr( __( 'Pay Later: users pay purchased content later', 'laterpay' ) ); ?>">
                 <input type="radio"
                     name="post_revenue_model"
                     value="ppu"
-                    <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'checked'; } ?>>PPU
+                    <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'checked'; } ?>><?php echo __( 'Pay Later', 'laterpay' ); ?>
             </label>
-            <label class="lp_badge lp_badge--revenue-model lp_ppul lp_tooltip lp_mt-
-                    <?php if ( $laterpay['post_revenue_model'] === 'ppul' ) { echo 'lp_is-selected'; } ?>
-                    <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
-                        <?php if ( $laterpay['price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>
-                    <?php else : ?>
-                        <?php if ( $laterpay['post_revenue_model'] != 'ppul' || $laterpay['price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>
-                    <?php endif; ?>"
-                   data-tooltip="<?php echo esc_attr( __( 'Pay-per-Use (L): users pay purchased content later (need to login)', 'laterpay' ) ); ?>">
-                <input type="radio"
-                       name="post_revenue_model"
-                       value="ppul"
-                    <?php if ( $laterpay['post_revenue_model'] == 'ppul' ) { echo 'checked'; } ?>>PPUL
-            </label>
-            <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt
+            <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt-
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['price'] < $laterpay['currency']['sis_min'] ) { echo 'lp_is-disabled'; } ?>
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] != 'sis' ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"
-                    data-tooltip="<?php echo esc_attr( __( 'Single Sale: users pay purchased content immediately', 'laterpay' ) ); ?>">
+                    data-tooltip="<?php echo esc_attr( __( 'Pay Now: users pay purchased content immediately', 'laterpay' ) ); ?>">
                 <input type="radio"
                     name="post_revenue_model"
                     value="sis"
-                    <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'checked'; } ?>>SIS
+                    <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'checked'; } ?>><?php echo __( 'Pay Now', 'laterpay' ); ?>
             </label>
         </div><!-- layout works with display:inline-block; comments are there to suppress spaces
-     --><div class="lp_layout__item lp_2/3">
+     --><div class="lp_layout__item lp_7/16">
             <input type="text"
                     id="lp_js_postPriceInput"
-                    class="lp_post-price-input lp_input"
+                    class="lp_post-price-input lp_input lp_ml-"
                     name="post-price"
                     value="<?php echo esc_attr( LaterPay_Helper_View::format_number( $laterpay['price'] ) ); ?>"
                     placeholder="<?php echo esc_attr( __( '0.00', 'laterpay' ) ); ?>"
                     <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled'; } ?>>
         </div><!-- layout works with display:inline-block; comments are there to suppress spaces
-     --><div class="lp_layout__item lp_1/6">
+     --><div class="lp_layout__item lp_3/16">
             <div class="lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></div>
         </div>
     </div>
@@ -89,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 id="lp_js_useGlobalDefaultPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"
                 data-price="<?php echo esc_attr( LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ) ); ?>"
-                data-revenue-model="<?php echo esc_attr( $laterpay['global_default_price_revenue_model'] ); ?>"><?php echo laterpay_sanitize_output( __( 'Global Default<span></span> Price', 'laterpay' ) ); ?></a>
+                data-revenue-model="<?php echo esc_attr( $laterpay['global_default_price_revenue_model'] ); ?>"><?php echo laterpay_sanitize_output( __( 'Global <br> Default Price', 'laterpay' ) ); ?></a>
         </li>
     </ul>
 

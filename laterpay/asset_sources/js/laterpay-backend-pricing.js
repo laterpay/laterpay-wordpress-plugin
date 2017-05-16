@@ -26,6 +26,7 @@
                 saveGlobalDefaultPrice                  : $('#lp_js_saveGlobalDefaultPrice'),
                 globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPriceShowElements'),
                 globalDefaultPriceEditElements          : $('#lp_js_globalDefaultPriceEditElements'),
+                globalRevenueModel                      : $('.lp_js_globalRevenueModel'),
 
                 // category default price
                 categoryDefaultPrices                   : $('#lp_js_categoryDefaultPriceList'),
@@ -39,6 +40,7 @@
                 deleteCategoryDefaultPrice              : '.lp_js_deleteCategoryDefaultPrice',
                 categoryDefaultPriceShowElements        : '.lp_js_categoryDefaultPriceShowElements',
                 categoryDefaultPriceEditElements        : '.lp_js_categoryDefaultPriceEditElements',
+                categoryRevenueModel                    : '.lp_js_categoryRevenueModel',
 
                 categoryTitle                           : '.lp_js_categoryDefaultPriceCategoryTitle',
                 categoryDefaultPriceDisplay             : '.lp_js_categoryDefaultPriceDisplay',
@@ -117,7 +119,6 @@
                 editing                                 : 'lp_is-editing',
                 unsaved                                 : 'lp_is-unsaved',
                 payPerUse                               : 'ppu',
-                payPerUseWithLogin                      : 'ppul',
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
@@ -429,7 +430,6 @@
                 }
 
                 var $payPerUse          = $(input + '[value=' + $o.payPerUse + ']', $form),
-                    $payPerUseWithLogin = $(input + '[value=' + $o.payPerUseWithLogin + ']', $form),
                     $singleSale         = $(input + '[value=' + $o.singleSale + ']', $form);
 
                 currentRevenueModel = $('input:radio:checked', $form).val();
@@ -438,15 +438,9 @@
                     // enable Pay-per-Use
                     $payPerUse.removeProp('disabled')
                         .parent('label').removeClass($o.disabled);
-                    // PPU with login
-                    $payPerUseWithLogin.removeProp('disabled')
-                        .parent('label').removeClass($o.disabled);
                 } else {
                     // disable Pay-per-Use
                     $payPerUse.prop('disabled', 'disabled')
-                        .parent('label').addClass($o.disabled);
-                    // PPU with login
-                    $payPerUseWithLogin.prop('disabled', 'disabled')
                         .parent('label').addClass($o.disabled);
                 }
 
@@ -462,8 +456,7 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > lpVars.currency.ppu_max &&
-                    (currentRevenueModel === $o.payPerUse || currentRevenueModel === $o.payPerUseWithLogin)) {
+                if (price > lpVars.currency.ppu_max && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', 'checked');
                 } else if (price < lpVars.currency.sis_min && currentRevenueModel === $o.singleSale) {
@@ -497,9 +490,9 @@
                 // reset value of price input to current global default price
                 $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text());
                 // reset revenue model input to current revenue model
-                var currentRevenueModel = $o.globalDefaultPriceRevenueModelDisplay.text().toLowerCase();
+                var currentRevenueModel = $o.globalRevenueModel.val();
                 $($o.revenueModelLabel, $o.globalDefaultPriceForm).removeClass($o.selected);
-                $('.lp_js_revenueModelInput[value=' + currentRevenueModel + ']', $o.globalDefaultPriceForm)
+                $($o.revenueModelInput + '[value=' + currentRevenueModel + ']', $o.globalDefaultPriceForm)
                 .prop('checked', 'checked')
                     .parent('label')
                     .addClass($o.selected);
@@ -516,7 +509,8 @@
                     function(r) {
                         if (r.success) {
                             $o.globalDefaultPriceDisplay.text(r.price);
-                            $o.globalDefaultPriceRevenueModelDisplay.text(r.revenue_model);
+                            $o.globalDefaultPriceRevenueModelDisplay.text(r.revenue_model_label);
+                            $o.globalRevenueModel.val(r.revenue_model);
                         }
                         $o.navigation.showMessage(r);
                         exitEditModeGlobalDefaultPrice();
@@ -581,10 +575,11 @@
                         if (r.success) {
                             // update displayed price information
                             $($o.categoryDefaultPriceDisplay, $form).text(r.price);
-                            $($o.revenueModelLabelDisplay, $form).text(r.revenue_model);
+                            $($o.revenueModelLabelDisplay, $form).text(r.revenue_model_label);
                             $($o.categoryDefaultPriceInput, $form).val(r.price);
                             $($o.categoryTitle, $form).text(r.category);
                             $($o.categoryId, $form).val(r.category_id);
+                            $($o.categoryRevenueModel, $form).val(r.revenue_model);
 
                             // mark the form as saved
                             $form.removeClass($o.unsaved);
@@ -623,9 +618,9 @@
                     // reset value of price input to current category default price
                     $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).text().trim());
                     // reset revenue model input to current revenue model
-                    var currentRevenueModel = $($o.revenueModelLabelDisplay, $form).text().toLowerCase();
+                    var currentRevenueModel = $($o.categoryRevenueModel, $form).val();
                     $($o.revenueModelLabel, $form).removeClass($o.selected);
-                    $('.lp_js_revenueModelInput[value=' + currentRevenueModel + ']', $form)
+                    $($o.revenueModelInput + '[value=' + currentRevenueModel + ']', $form)
                     .prop('checked', 'checked')
                         .parent('label')
                         .addClass($o.selected);

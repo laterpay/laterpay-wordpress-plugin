@@ -467,26 +467,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
-     * Update revenue structure.
-     *
-     * @since 0.9.13
-     *
-     * @return void
-     */
-    public function maybe_update_revenue() {
-        global $wpdb;
-
-        $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.14', '<' ) ) {
-            return;
-        }
-
-        $terms_table = $wpdb->prefix . 'laterpay_terms_price';
-
-        $wpdb->query( 'ALTER TABLE ' . $terms_table . " CHANGE revenue_model revenue_model ENUM('ppu','sis','ppul') NOT NULL DEFAULT 'ppu';" );
-    }
-
-    /**
      * Drop statistic tables
      *
      * @since 0.9.14
@@ -571,7 +551,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 id int(11) NOT NULL AUTO_INCREMENT,
                 term_id int(11) NOT NULL,
                 price double NOT NULL DEFAULT '0',
-                revenue_model enum('ppu','sis','ppul') NOT NULL DEFAULT 'ppu',
+                revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta( $sql );
@@ -626,6 +606,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
         add_option( 'laterpay_enabled_post_types',                      get_post_types( array( 'public' => true ) ) );
         add_option( 'laterpay_show_time_passes_widget_on_free_posts',   '' );
+        add_option( 'laterpay_require_login',                           '' );
         add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
         add_option( 'laterpay_debugger_enabled',                        defined( 'WP_DEBUG' ) && WP_DEBUG );
         add_option( 'laterpay_debugger_addresses',                      '127.0.0.1' );
@@ -652,7 +633,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->maybe_update_unlimited_access();
         $this->maybe_update_time_passes_table();
         $this->maybe_update_vouchers();
-        $this->maybe_update_revenue();
         $this->drop_statistics_tables();
         $this->init_colors_options();
         $this->remove_old_api_settings();

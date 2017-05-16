@@ -24,6 +24,8 @@ var DynamicPricingWidget = function (container) {
     this.i18nDays = lpVars.i18nDays;
     this.i18nToday = lpVars.i18nToday;
     this.dragging = false;
+    this.currentStartPricePosition = null;
+    this.currentEndPricePosition = null;
 
 
     // set up D3 graph in container
@@ -172,12 +174,26 @@ var DynamicPricingWidget = function (container) {
 
     // bind events to start price handle
     jQuery('body')
-        .on('click',
+        // bind only single click event, without dragging
+        .on('mousedown',
             '.lp_dynamic-pricing__start-price-handle, ' +
             '.lp_dynamic-pricing__start-price-value, ' +
             '.lp_dynamic-pricing__start-price-currency',
-        function () {
-            dynamicPricingWidget.toggleStartInput('show');
+        function (e) {
+            self.currentStartPricePosition = e.pageY;
+            jQuery('body').on('mousemove', function startPriceMoveHandler (e) {
+                self.currentStartPricePosition = e.pageY;
+                jQuery('body').off('mousemove', startPriceMoveHandler);
+            });
+        })
+        .on('mouseup',
+            '.lp_dynamic-pricing__start-price-handle, ' +
+            '.lp_dynamic-pricing__start-price-value, ' +
+            '.lp_dynamic-pricing__start-price-currency',
+            function (e) {
+                if (e.pageY === self.currentStartPricePosition) {
+                    dynamicPricingWidget.toggleStartInput('show');
+                }
         })
         // bind events to start price input
         .on('focusout',
@@ -207,12 +223,26 @@ var DynamicPricingWidget = function (container) {
 
     // bind events to end price handle
     jQuery('body')
-        .on('click',
+        // bind only single click event, without dragging
+        .on('mousedown',
             '.lp_dynamic-pricing__end-price-handle, ' +
             '.lp_dynamic-pricing__end-price-value, ' +
             '.lp_dynamic-pricing__end-price-currency',
-        function () {
-            dynamicPricingWidget.toggleEndInput('show');
+            function (e) {
+                self.currentEndPricePosition = e.pageY;
+                jQuery('body').on('mousemove', function endPriceMoveHandler (e) {
+                    self.currentEndPricePosition = e.pageY;
+                    jQuery('body').off('mousemove', endPriceMoveHandler);
+                });
+        })
+        .on('mouseup',
+            '.lp_dynamic-pricing__end-price-handle, ' +
+            '.lp_dynamic-pricing__end-price-value, ' +
+            '.lp_dynamic-pricing__end-price-currency',
+            function (e) {
+                if (e.pageY === self.currentEndPricePosition) {
+                    dynamicPricingWidget.toggleEndInput('show');
+                }
         })
         // bind events to end price input
         .on('focusout',
@@ -542,7 +572,7 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function () {
-                return -10;
+                return -7;
             },
             y: function (d) {
                 return self.scale.y(d.y) - 0.5;
@@ -557,7 +587,7 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function () {
-                return -11;
+                return -8;
             },
             y: function (d) {
                 return self.scale.y(d.y) + 9.5;
@@ -605,7 +635,7 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function () {
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function () {
-                return self.dimensions.width + 44;
+                return self.dimensions.width + 47;
             },
             y: function (d) {
                 return self.scale.y(d.y) - 1;
@@ -620,7 +650,7 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function () {
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function () {
-                return self.dimensions.width + 44;
+                return self.dimensions.width + 47;
             },
             y: function (d) {
                 return self.scale.y(d.y) + 9;
