@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2017-05-12 10:06+0000\n"
-"PO-Revision-Date: 2017-05-12 10:14+0000\n"
+"POT-Creation-Date: 2017-05-15 12:12+0000\n"
+"PO-Revision-Date: 2017-05-15 12:17+0000\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de-DE\n"
@@ -32,39 +32,21 @@ msgstr ""
 
 #: views/backend/account.php:220
 msgid ""
-"<b>Important:</b> The minimum value for SIS (\"Pay Now\") prices in the U.S. "
+"<b>Important:</b> The minimum value for \"Pay Now\" prices in the U.S. "
 "region is <b>$1.99</b>.<br>\n"
-"                        If you have already set SIS (\"Pay Now\") prices "
-"lower than 1.99, make sure to change them before you switch to the U.S. "
-"region.<br>\n"
+"                        If you have already set \"Pay Now\" prices lower "
+"than 1.99, make sure to change them before you switch to the U.S. region.<br>"
+"\n"
 "                        If you haven't done any configuration yet, you can "
 "safely switch the region without further adjustments. \n"
 "                        "
 msgstr ""
-
-#: views/backend/pricing.php:107
-msgid "Pay&nbsp;Later"
-msgstr "Später zahlen"
-
-#: views/backend/pricing.php:112 views/backend/pricing.php:217 
-#: views/backend/pricing.php:318 views/backend/pricing.php:482 
-#: application/Helper/Pricing.php:1008 
-#: views/backend/partials/post-pricing-form.php:41 
-#: application/Controller/Admin/Post/Column.php:87
-msgid "Pay Now"
-msgstr "Sofort zahlen"
-
-#: views/backend/pricing.php:468
-msgid "and the user has to"
-msgstr "und Nutzer müssen"
-
-#: application/Helper/Subscription.php:32
-msgid "1 Month Subscription"
-msgstr "Monatsabo"
-
-#: application/Helper/Subscription.php:33
-msgid "1 month access to all content on this website (cancellable anytime)"
-msgstr "1 Monat Zugriff auf alle Inhalte dieser Website (jederzeit kündbar)"
+"<b>Wichtig:</b> Der Mindestpreis für \"Sofort Zahlen\"-Käufe für die USA "
+"beträgt <b>$1,99</b>.<br>\n"
+"Wenn Sie bereits \"Sofort Zahlen\"-Preise kleiner als 1,99 gesetzt haben, "
+"ändern Sie diese bitte, bevor Sie zur Region USA wechseln.<br>\n"
+"Wenn Sie noch keine Konfiguration vorgenommen haben, können Sie ohne weitere "
+"Schritte die Region wechseln."
 
 #: application/Controller/Admin.php:274
 msgid ""
@@ -443,36 +425,6 @@ msgid ""
 "            </p>"
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:24
-msgid "Pay Later: users pay purchased content later"
-msgstr "Später zahlen: Nutzer bezahlen gekaufte Inhalte später."
-
-#: views/backend/partials/post-pricing-form.php:37
-msgid "Pay Now: users pay purchased content immediately"
-msgstr "Sofort zahlen: Nutzer bezahlen gekaufte Inhalte sofort."
-
-#: views/backend/partials/post-pricing-form.php:79
-msgid "Global <br> Default Price"
-msgstr "Standard-<br>preis"
-
-#: application/Controller/Admin/Settings.php:335 
-#: application/Controller/Admin/Settings.php:342
-msgid "Require login"
-msgstr "Login erforderlich"
-
-#: application/Controller/Admin/Settings.php:350
-msgid "Require the user to log in to LaterPay before a \"Pay Later\" purchase."
-msgstr ""
-"Fordern Sie Ihre Nutzer vor einem Kauf dazu auf, sich bei LaterPay "
-"einzuloggen."
-
-#: application/Controller/Admin/Settings.php:364
-msgid ""
-"Please choose if you want to require a login for \"Pay Later\" purchases."
-msgstr ""
-"Bitte wählen Sie, ob ein Login vor \"Später zahlen\"-Käufen erforderlich "
-"sein soll."
-
 #: application/Controller/Admin/Appearance.php:230 
 #: application/Controller/Admin/Appearance.php:239
 msgid "Free posts with premium content now hided from the homepage."
@@ -496,10 +448,6 @@ msgstr ""
 #. Author of the plugin
 msgid "LaterPay GmbH, Mihail Turalenka and Aliaksandr Vahura"
 msgstr ""
-
-#. Author URI of the plugin
-msgid "https://laterpay.net/"
-msgstr "https://laterpay.net/"
 
 #: laterpay.php:39
 msgid "Unexpected error during plugin init"
@@ -955,6 +903,18 @@ msgstr "Preis"
 msgid "Revenue Model"
 msgstr "Erlösmodell"
 
+#: views/backend/pricing.php:107
+msgid "Pay&nbsp;Later"
+msgstr "Später zahlen"
+
+#: views/backend/pricing.php:112 views/backend/pricing.php:217 
+#: views/backend/pricing.php:318 views/backend/pricing.php:482 
+#: application/Helper/Pricing.php:1008 
+#: views/backend/partials/post-pricing-form.php:41 
+#: application/Controller/Admin/Post/Column.php:87
+msgid "Pay Now"
+msgstr "Sofort zahlen"
+
 #: views/backend/pricing.php:122 views/backend/pricing.php:227 
 #: views/backend/pricing.php:328 views/backend/pricing.php:360 
 #: views/backend/pricing.php:530 views/backend/pricing.php:550 
@@ -1074,6 +1034,10 @@ msgstr "Zugriff auf"
 #: views/backend/pricing.php:460
 msgid "This pass costs"
 msgstr "Dieser Pass kostet"
+
+#: views/backend/pricing.php:468
+msgid "and the user has to"
+msgstr "und Nutzer müssen"
 
 #: views/backend/pricing.php:489
 msgid "Title"
@@ -1212,6 +1176,14 @@ msgid ""
 msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
+
+#: application/Helper/Subscription.php:32
+msgid "1 Month Subscription"
+msgstr "Monatsabo"
+
+#: application/Helper/Subscription.php:33
+msgid "1 month access to all content on this website (cancellable anytime)"
+msgstr "1 Monat Zugriff auf alle Inhalte dieser Website (jederzeit kündbar)"
 
 #: application/Helper/Subscription.php:77 application/Helper/TimePass.php:184
 msgid "for"
@@ -1405,6 +1377,14 @@ msgstr ""
 "Um Ihren Nutzern eine bessere Vorstellung davon zu geben, was sie kaufen, "
 "sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
 
+#: views/backend/partials/post-pricing-form.php:24
+msgid "Pay Later: users pay purchased content later"
+msgstr "Später zahlen: Nutzer bezahlen gekaufte Inhalte später."
+
+#: views/backend/partials/post-pricing-form.php:37
+msgid "Pay Now: users pay purchased content immediately"
+msgstr "Sofort zahlen: Nutzer bezahlen gekaufte Inhalte sofort."
+
 #: views/backend/partials/post-pricing-form.php:67
 msgid "Individual Price"
 msgstr "Individueller Preis"
@@ -1412,6 +1392,10 @@ msgstr "Individueller Preis"
 #: views/backend/partials/post-pricing-form.php:72
 msgid "Category Default Price"
 msgstr "Kategorie- preis"
+
+#: views/backend/partials/post-pricing-form.php:79
+msgid "Global <br> Default Price"
+msgstr "Standard-<br>preis"
 
 #: views/backend/partials/post-pricing-form.php:117
 msgid ""
@@ -1734,6 +1718,24 @@ msgid ""
 msgstr ""
 "Bitte geben Sie an, ob Sie Zeitpässe nur bei kostenpflichtigen oder auch bei "
 "kostenlosen Beiträgen anzeigen möchten."
+
+#: application/Controller/Admin/Settings.php:335 
+#: application/Controller/Admin/Settings.php:342
+msgid "Require login"
+msgstr "Login erforderlich"
+
+#: application/Controller/Admin/Settings.php:350
+msgid "Require the user to log in to LaterPay before a \"Pay Later\" purchase."
+msgstr ""
+"Fordern Sie Ihre Nutzer vor einem Kauf dazu auf, sich bei LaterPay "
+"einzuloggen."
+
+#: application/Controller/Admin/Settings.php:364
+msgid ""
+"Please choose if you want to require a login for \"Pay Later\" purchases."
+msgstr ""
+"Bitte wählen Sie, ob ein Login vor \"Später zahlen\"-Käufen erforderlich "
+"sein soll."
 
 #: application/Controller/Admin/Settings.php:377
 msgid "Gift Codes Limit"
@@ -2434,3 +2436,7 @@ msgstr "Gutschein-Code"
 #: views/frontend/partials/post/gift/gift-actions.php:21
 msgid "Redeem at"
 msgstr "Einlösen auf"
+
+#. Author URI of the plugin
+msgid "https://laterpay.net/"
+msgstr "https://laterpay.net/"
