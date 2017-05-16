@@ -332,7 +332,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
         <div class="lp_layout lp_mt+ lp_mb++">
-            <div id="lp_time-passes" class="lp_time-passes__list lp_layout_item lp_1/2 lp_pdr">
+            <div id="lp_time-passes" class="lp_time-passes__list lp_layout__item lp_1/2 lp_pdr">
                 <h2>
                     <?php echo laterpay_sanitize_output( __( 'Time Passes', 'laterpay' ) ); ?>
                     <a href="#" id="lp_js_addTimePass" class="button button-primary lp_heading-button" data-icon="c">
@@ -411,14 +411,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php echo laterpay_sanitized( $this->render_time_pass() ); ?>
                     </div>
 
-                    <div class="lp_js_timePassEditorContainer lp_time-pass-editor">
+                    <div class="lp_js_timePassEditorContainer lp_time-pass-editor lp_1 lp_mb">
                         <form id="lp_js_timePassFormTemplate" class="lp_js_timePassEditorForm lp_hidden" method="post">
                             <input type="hidden" name="form"    value="time_pass_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
                             <input type="hidden" name="pass_id" value="0" id="lp_js_timePassEditorHiddenPassId">
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                            <table class="lp_time-pass-editor__column">
+                            <table class="lp_time-pass-editor__column lp_1">
                                 <tr>
                                     <td>
                                         <?php echo laterpay_sanitize_output( __( 'The pass is valid for ', 'laterpay' ) ); ?>
@@ -504,7 +504,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 </tr>
                             </table>
 
-                            <div class="lp_js_voucherEditor lp_mt- lp_mb">
+                            <div class="lp_js_voucherEditor lp_mt-">
                                 <?php echo laterpay_sanitize_output( __( 'Offer this time pass at a reduced price of', 'laterpay' ) ); ?>
                                 <input type="text"
                                        name="voucher_price_temp"
@@ -530,8 +530,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <div class="lp_js_voucherList lp_vouchers"></div>
                 </div>
-            </div>
-            <div id="lp_subscriptions" class="lp_subscriptions__list lp_layout__item lp_1/2 lp_pdr">
+            </div><!--
+         --><div id="lp_subscriptions" class="lp_subscriptions__list lp_layout__item lp_1/2 lp_pdr">
                 <h2>
                     <?php echo laterpay_sanitize_output( __( 'Subscriptions', 'laterpay' ) ); ?>
                     <a href="#" id="lp_js_addSubscription" class="button button-primary lp_heading-button" data-icon="c">
@@ -571,7 +571,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
 
                 <div id="lp_js_subscriptionTemplate"
-                     class="lp_js_subscriptionWrapper lp_js_addSubscriptionWrapper lp_subscriptions__item lp_clearfix lp_hidden"
+                     class="lp_js_subscriptionWrapper lp_js_addSubscriptionWrapper lp_subscriptions__item lp_greybox lp_clearfix lp_hidden"
                      data-sub-id="0">
                     <div class="lp_subscription__id-wrapper" style="display:none;">
                         <?php echo laterpay_sanitize_output( __( 'Pass', 'laterpay' ) ); ?>
@@ -582,14 +582,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php echo laterpay_sanitized( $this->render_time_pass() ); ?>
                     </div>
 
-                    <div class="lp_js_subscriptionEditorContainer lp_subscription-editor">
+                    <div class="lp_js_subscriptionEditorContainer lp_subscription-editor lp_mb lp_1">
                         <form id="lp_js_subscriptionFormTemplate" class="lp_js_subscriptionEditorForm lp_hidden" method="post">
                             <input type="hidden" name="form"    value="subscription_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
                             <input type="hidden" name="subscription_id" value="0" id="lp_js_subscriptionEditorHiddenSubcriptionId">
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                            <table class="lp_subscription-editor__column">
+                            <table class="lp_subscription-editor__column lp_1">
                                 <tr>
                                     <td>
                                         <?php echo laterpay_sanitize_output( __( 'The subscription costs', 'laterpay' ) ); ?>
