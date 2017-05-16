@@ -3,6 +3,8 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendPricing
     function laterPayBackendPricing() {
         var $o = {
+                body                                    : $('body'),
+
                 revenueModel                            : '.lp_js_revenueModel',
                 revenueModelLabel                       : '.lp_js_revenueModelLabel',
                 revenueModelLabelDisplay                : '.lp_js_revenueModelLabelDisplay',
@@ -48,42 +50,121 @@
                 categoryId                              : '.lp_js_categoryDefaultPriceCategoryId',
 
                 // time passes
-                addTimePass                             : $('#lp_js_addTimePass'),
-                timePassEditor                          : $('#lp_time-passes'),
-                timePassTemplate                        : $('#lp_js_timePassTemplate'),
-                timePassWrapper                         : '.lp_js_timePassWrapper',
-                timePassFormTemplate                    : $('#lp_js_timePassFormTemplate'),
-                timePassFormId                          : 'lp_js_timePassForm',
-                timePassForm                            : '.lp_js_timePassEditorForm',
-                timePassDuration                        : '.lp_js_switchTimePassDuration',
-                timePassDurationClass                   : 'lp_js_switchTimePassDuration',
-                timePassPeriod                          : '.lp_js_switchTimePassPeriod',
-                timePassPeriodClass                     : 'lp_js_switchTimePassPeriod',
-                timePassScope                           : '.lp_js_switchTimePassScope',
-                timePassScopeClass                      : 'lp_js_switchTimePassScope',
-                timePassScopeCategory                   : '.lp_js_switchTimePassScopeCategory',
-                timePassScopeCategoryClass              : 'lp_js_switchTimePassScopeCategory',
-                timePassCategoryId                      : '.lp_js_timePassCategoryId',
-                timePassCategoryWrapper                 : '.lp_js_timePassCategoryWrapper',
-                timePassTitle                           : '.lp_js_timePassTitleInput',
-                timePassTitleClass                      : 'lp_js_timePassTitleInput',
-                timePassPrice                           : '.lp_js_timePassPriceInput',
-                timePassPriceClass                      : 'lp_js_timePassPriceInput',
-                timePassRevenueModel                    : '.lp_js_timePassRevenueModelInput',
-                timePassDescription                     : '.lp_js_timePassDescriptionTextarea',
-                timePassDescriptionClass                : 'lp_js_timePassDescriptionTextarea',
-                timePassPreviewTitle                    : '.lp_js_timePassPreviewTitle',
-                timePassPreviewDescription              : '.lp_js_timePassPreviewDescription',
-                timePassPreviewValidity                 : '.lp_js_timePassPreviewValidity',
-                timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
-                timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
-                timePass                                : '.lp_js_timePass',
-                timePassId                              : '.lp_js_timePassId',
+                timepass                                : {
+                    editor                                  : $('#lp_time-passes'),
+                    template                                : $('#lp_js_timePassTemplate'),
+                    form                                    : '.lp_js_timePassEditorForm',
+                    editorContainer                         : '.lp_js_timePassEditorContainer',
+                    id                                      : '.lp_js_timePassId',
+                    wrapper                                 : '.lp_js_timePassWrapper',
+                    categoryWrapper                         : '.lp_js_timePassCategoryWrapper',
+                    fields                              : {
+                        duration                            : '.lp_js_switchTimePassDuration',
+                        period                              : '.lp_js_switchTimePassPeriod',
+                        scope                               : '.lp_js_switchTimePassScope',
+                        scopeCategory                       : '.lp_js_switchTimePassScopeCategory',
+                        categoryId                          : '.lp_js_timePassCategoryId',
+                        title                               : '.lp_js_timePassTitleInput',
+                        price                               : '.lp_js_timePassPriceInput',
+                        revenueModel                        : '.lp_js_timePassRevenueModelInput',
+                        description                         : '.lp_js_timePassDescriptionTextarea'
+                    },
+                    classes                             : {
+                        form                                : 'lp_js_timePassForm',
+                        editorForm                          : 'lp_js_timePassEditorForm',
+                        durationClass                       : 'lp_js_switchTimePassDuration',
+                        titleClass                          : 'lp_js_timePassTitleInput',
+                        priceClass                          : 'lp_js_timePassPriceInput',
+                        descriptionClass                    : 'lp_js_timePassDescriptionTextarea',
+                        periodClass                         : 'lp_js_switchTimePassPeriod',
+                        scopeClass                          : 'lp_js_switchTimePassScope',
+                        scopeCategoryClass                  : 'lp_js_switchTimePassScopeCategory'
+                    },
+                    preview                             : {
+                        placeholder                         : '.lp_js_timePassPreview',
+                        wrapper                             : '.lp_js_timePass',
+                        title                               : '.lp_js_timePassPreviewTitle',
+                        description                         : '.lp_js_timePassPreviewDescription',
+                        validity                            : '.lp_js_timePassPreviewValidity',
+                        access                              : '.lp_js_timePassPreviewAccess',
+                        price                               : '.lp_js_timePassPreviewPrice'
+                    },
+                    actions                             : {
+                        create                              : $('#lp_js_addTimePass'),
+                        show                                : '.lp_js_saveTimePass, .lp_js_cancelEditingTimePass',
+                        modify                              : '.lp_js_editTimePass, .lp_js_deleteTimePass',
+                        save                                : '.lp_js_saveTimePass',
+                        cancel                              : '.lp_js_cancelEditingTimePass',
+                        delete                              : '.lp_js_deleteTimePass',
+                        edit                                : '.lp_js_editTimePass',
+                        flip                                : '.lp_js_flipTimePass'
+                    },
+                    data                                : {
+                        id                                  : 'pass-id',
+                        list                                : lpVars.time_passes_list,
+                        vouchers                            : lpVars.vouchers_list
+                    }
+                },
+
+                // subscriptions
+                subscription                            : {
+                    editor                                  : $('#lp_subscriptions'),
+                    template                                : $('#lp_js_subscriptionTemplate'),
+                    form                                    : '.lp_js_subscriptionEditorForm',
+                    editorContainer                         : '.lp_js_subscriptionEditorContainer',
+                    id                                      : '.lp_js_subscriptionId',
+                    wrapper                                 : '.lp_js_subscriptionWrapper',
+                    categoryWrapper                         : '.lp_js_subscriptionCategoryWrapper',
+                    fields                              : {
+                        duration                            : '.lp_js_switchSubscriptionDuration',
+                        period                              : '.lp_js_switchSubscriptionPeriod',
+                        scope                               : '.lp_js_switchSubscriptionScope',
+                        scopeCategory                       : '.lp_js_switchSubscriptionScopeCategory',
+                        categoryId                          : '.lp_js_subscriptionCategoryId',
+                        title                               : '.lp_js_subscriptionTitleInput',
+                        price                               : '.lp_js_subscriptionPriceInput',
+                        revenueModel                        : '.lp_js_subscriptionRevenueModelInput',
+                        description                         : '.lp_js_subscriptionDescriptionTextarea'
+                    },
+                    classes                             : {
+                        form                                : 'lp_js_subscriptionForm',
+                        durationClass                       : 'lp_js_switchSubscriptionDuration',
+                        titleClass                          : 'lp_js_subscriptionTitleInput',
+                        priceClass                          : 'lp_js_subscriptionPriceInput',
+                        descriptionClass                    : 'lp_js_subscriptionDescriptionTextarea',
+                        periodClass                         : 'lp_js_switchSubscriptionPeriod',
+                        scopeClass                          : 'lp_js_switchSubscriptionScope',
+                        scopeCategoryClass                  : 'lp_js_switchSubscriptionScopeCategory'
+                    },
+                    preview                             : {
+                        placeholder                         : '.lp_js_subscriptionPreview',
+                        wrapper                             : '.lp_js_subscription',
+                        title                               : '.lp_js_subscriptionPreviewTitle',
+                        description                         : '.lp_js_subscriptionPreviewDescription',
+                        validity                            : '.lp_js_subscriptionPreviewValidity',
+                        access                              : '.lp_js_subscriptionPreviewAccess',
+                        price                               : '.lp_js_subscriptionPreviewPrice'
+                    },
+                    actions                             : {
+                        create                              : $('#lp_js_addSubscription'),
+                        show                                : '.lp_js_saveSubscription, .lp_js_cancelEditingSubscription',
+                        modify                              : '.lp_js_editSubscription, .lp_js_deleteSubscription',
+                        save                                : '.lp_js_saveSubscription',
+                        edit                                : '.lp_js_editSubscription',
+                        cancel                              : '.lp_js_cancelEditingSubscription',
+                        detele                              : '.lp_js_deleteSubscription',
+                        flip                                : '.lp_js_flipSubscription'
+                    },
+                    data                                : {
+                        id                                  : 'sub-id',
+                        list                                : lpVars.subscriptions_list
+                    }
+                },
+
+                // landing page
                 landingPageInput                        : '.lp_js_landingPageInput',
                 landingPageSave                         : '#lp_js_landingPageSave',
                 landingPageForm                         : $('#lp_js_landingPageForm'),
-                timePassShowElements                    : '.lp_js_saveTimePass, .lp_js_cancelEditingTimePass',
-                timePassEditElements                    : '.lp_js_editTimePass, .lp_js_deleteTimePass',
 
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
@@ -121,20 +202,20 @@
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
                 hidden                                  : 'lp_hidden',
-                navigation                              : $('.lp_navigation'),
+                navigation                              : $('.lp_navigation')
             },
 
             bindEvents = function() {
                 // global default price and category default price events ----------------------------------------------
                 // validate price and choice of revenue model when switching revenue model
                 // (validating the price switches the revenue model if required)
-                $('body').on('change', $o.revenueModelInput, function() {
+                $o.body.on('change', $o.revenueModelInput, function() {
                     validatePrice($(this).parents('form'));
                 });
 
                 // validate price and revenue model when entering a price
                 // (function is only triggered 800ms after the keyup)
-                $('body').on('keyup', $o.priceInput, debounce(function() {
+                $o.body.on('keyup', $o.priceInput, debounce(function() {
                         validatePrice($(this).parents('form'));
                     }, 800)
                 );
@@ -149,21 +230,21 @@
                 // global default price events -------------------------------------------------------------------------
                 // edit
                 $o.editGlobalDefaultPrice
-                .mousedown(function() {
+                .on('mousedown', function() {
                     enterEditModeGlobalDefaultPrice();
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // cancel
                 $o.cancelEditingGlobalDefaultPrice
-                .mousedown(function() {
+                .on('mousedown', function() {
                     exitEditModeGlobalDefaultPrice();
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // save
                 $o.saveGlobalDefaultPrice
-                .mousedown(function() {
+                .on('mousedown', function() {
                     saveGlobalDefaultPrice();
                 })
                 .click(function(e) {e.preventDefault();});
@@ -171,34 +252,34 @@
                 // category default prices events ----------------------------------------------------------------------
                 // add
                 $o.addCategory
-                .mousedown(function() {
+                .on('mousedown', function() {
                     addCategoryDefaultPrice();
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // edit
-                $('body')
+                $o.body
                 .on('click', $o.editCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     editCategoryDefaultPrice($form);
                 });
 
                 // cancel
-                $('body')
+                $o.body
                 .on('click', $o.cancelEditingCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     exitEditModeCategoryDefaultPrice($form);
                 });
 
                 // save
-                $('body')
+                $o.body
                 .on('click', $o.saveCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     saveCategoryDefaultPrice($form);
                 });
 
                 // delete
-                $('body')
+                $o.body
                 .on('click', $o.deleteCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     deleteCategoryDefaultPrice($form);
@@ -206,116 +287,199 @@
 
                 // time passes events ----------------------------------------------------------------------------------
                 // add
-                $o.addTimePass
-                .mousedown(function() {
-                    addTimePass();
+                $o.timepass.actions.create
+                .on('mousedown', function() {
+                    addEntity('timepass');
                 })
-                .click(function(e) {e.preventDefault();});
+                .on('click', function(e) {e.preventDefault();});
 
                 // edit
-                $o.timePassEditor
-                .on('mousedown', '.lp_js_editTimePass', function() {
-                    editTimePass($(this).parents($o.timePassWrapper));
+                $o.timepass.editor
+                .on('mousedown', $o.timepass.actions.edit, function() {
+                    editEntity('timepass', $(this).parents($o.timepass.wrapper));
                 })
-                .on('click', '.lp_js_editTimePass' , function(e) {e.preventDefault();});
+                .on('click', $o.timepass.actions.edit , function(e) {e.preventDefault();});
 
                 // toggle revenue model
-                $o.timePassEditor
-                .on('change', $o.timePassRevenueModel, function() {
+                $o.timepass.editor
+                .on('change', $o.timepass.fields.revenueModel, function() {
                     var $form = $(this).parents('form');
                     // validate price
-                    validatePrice($form, false, $($o.timePassPrice, $form));
+                    validatePrice($form, false, $($o.timepass.fields.price, $form));
                 });
 
                 // change duration
-                $o.timePassEditor
-                .on('change', $o.timePassDuration, function() {
-                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                $o.timepass.editor
+                .on('change', $o.timepass.fields.duration, function() {
+                    updateEntityPreview('timepass', $(this).parents($o.timepass.wrapper), $(this));
                 });
 
                 // change period
-                $o.timePassEditor
-                .on('change', $o.timePassPeriod, function() {
-                    changeDurationOptions($(this), $(this).parents($o.timePassWrapper));
-                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                $o.timepass.editor
+                .on('change', $o.timepass.fields.period, function() {
+                    changeDurationOptions('timepass', $(this), $(this).parents($o.timepass.wrapper));
+                    updateEntityPreview('timepass', $(this).parents($o.timepass.wrapper), $(this));
                 });
 
                 // change scope
-                $o.timePassEditor
-                .on('change', $o.timePassScope, function() {
-                    changeTimePassScope($(this));
-                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                $o.timepass.editor
+                .on('change', $o.timepass.fields.scope, function() {
+                    changeEntityScope('timepass', $(this));
+                    updateEntityPreview('timepass', $(this).parents($o.timepass.wrapper), $(this));
                 });
 
-                $o.timePassEditor
-                .on('change', $o.timePassScopeCategory, function() {
-                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                $o.timepass.editor
+                .on('change', $o.timepass.fields.scopeCategory, function() {
+                    updateEntityPreview('timepass', $(this).parents($o.timepass.wrapper), $(this));
                 });
 
                 // update time pass configuration
-                $o.timePassEditor
-                .on('input', [$o.timePassTitle, $o.timePassDescription].join(), function() {
-                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                $o.timepass.editor
+                .on('input', [$o.timepass.fields.title, $o.timepass.fields.description].join(), function() {
+                    updateEntityPreview('timepass', $(this).parents($o.timepass.wrapper), $(this));
                 });
 
                 // set price
-                $o.timePassEditor
-                .on('keyup', $o.timePassPrice, debounce(function() {
+                $o.timepass.editor
+                .on('keyup', $o.timepass.fields.price, debounce(function() {
                         validatePrice($(this).parents('form'), false, $(this));
-                        updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                        updateEntityPreview('timepass', $(this).parents($o.timepass.wrapper), $(this));
                     }, 800)
                 );
 
                 // cancel
-                $o.timePassEditor
-                .on('click', '.lp_js_cancelEditingTimePass', function(e) {
-                    cancelEditingTimePass($(this).parents($o.timePassWrapper));
+                $o.timepass.editor
+                .on('click', $o.timepass.actions.cancel, function(e) {
+                    cancelEditingEntity('timepass', $(this).parents($o.timepass.wrapper));
                     e.preventDefault();
                 });
 
                 // save
-                $o.timePassEditor
-                .on('click', '.lp_js_saveTimePass', function(e) {
-                    saveTimePass($(this).parents($o.timePassWrapper));
+                $o.timepass.editor
+                .on('click', $o.timepass.actions.save, function(e) {
+                    saveEntity('timepass', $(this).parents($o.timepass.wrapper));
                     e.preventDefault();
                 });
 
                 // delete
-                $o.timePassEditor
-                .on('click', '.lp_js_deleteTimePass', function(e) {
-                    deleteTimePass($(this).parents($o.timePassWrapper));
+                $o.timepass.editor
+                .on('click', $o.timepass.actions.delete, function(e) {
+                    deleteEntity('timepass', $(this).parents($o.timepass.wrapper));
                     e.preventDefault();
                 });
 
                 // flip
-                $o.timePassEditor
-                .on('mousedown', '.lp_js_flipTimePass', function() {
-                    flipTimePass(this);
+                $o.timepass.editor
+                .on('mousedown', $o.timepass.actions.flip, function() {
+                    flipEntity('timepass', this);
                 })
-                .on('click', '.lp_js_flipTimePass', function(e) {e.preventDefault();});
+                .on('click', $o.timepass.actions.flip, function(e) {e.preventDefault();});
 
                 // set voucher price
-                $o.timePassEditor
+                $o.timepass.editor
                 .on('keyup', $o.voucherPriceInput, debounce(function() {
                         validatePrice($(this).parents('form'), true, $(this));
                     }, 800)
                 );
 
                 // generate voucher code
-                $o.timePassEditor
+                $o.timepass.editor
                 .on('mousedown', $o.generateVoucherCode, function() {
-                    generateVoucherCode($(this).parents($o.timePassWrapper));
+                    generateVoucherCode($(this).parents($o.timepass.wrapper));
                 })
                 .on('click', $o.generateVoucherCode, function(e) {
                     e.preventDefault();
                 });
 
                 // delete voucher code
-                $o.timePassEditor
+                $o.timepass.editor
                 .on('click', $o.voucherDeleteLink, function(e) {
                     deleteVoucher($(this).parent());
                     e.preventDefault();
                 });
+
+                // subscription events ----------------------------------------------------------------------------------
+                // add
+                $o.subscription.actions.create
+                .on('mousedown', function() {
+                    addEntity('subscription');
+                })
+                .on('click', function(e) {e.preventDefault();});
+
+                // edit
+                $o.subscription.editor
+                .on('mousedown', $o.subscription.actions.edit, function() {
+                    editEntity('subscription', $(this).parents($o.subscription.wrapper));
+                })
+                .on('click', $o.subscription.actions.edit, function(e) {e.preventDefault();});
+
+                // change duration
+                $o.subscription.editor
+                .on('change', $o.subscription.fields.duration, function() {
+                    updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
+                });
+
+                // change period
+                $o.subscription.editor
+                .on('change', $o.subscription.fields.period, function() {
+                    changeDurationOptions('subscription', $(this), $(this).parents($o.subscription.wrapper));
+                    updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
+                });
+
+                // change scope
+                $o.subscription.editor
+                .on('change', $o.subscription.fields.scope, function() {
+                    changeEntityScope('subscription', $(this));
+                    updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
+                });
+
+                // category change
+                $o.subscription.editor
+                .on('change', $o.subscription.fields.scopeCategory, function() {
+                    updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
+                });
+
+                // update time pass configuration
+                $o.subscription.editor
+                .on('input', [$o.subscription.fields.title, $o.subscription.fields.description].join(), function() {
+                    updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
+                });
+
+                // set price
+                $o.subscription.editor
+                .on('keyup', $o.subscription.fields.price, debounce(function() {
+                        validatePrice($(this).parents('form'), true, $(this));
+                        updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
+                    }, 800)
+                );
+
+                // cancel
+                $o.subscription.editor
+                .on('click', $o.subscription.actions.cancel, function(e) {
+                    cancelEditingEntity('subscription', $(this).parents($o.subscription.wrapper));
+                    e.preventDefault();
+                });
+
+                // save
+                $o.subscription.editor
+                .on('click', $o.subscription.actions.save, function(e) {
+                    saveEntity('subscription', $(this).parents($o.subscription.wrapper));
+                    e.preventDefault();
+                });
+
+                // delete
+                $o.subscription.editor
+                .on('click', $o.subscription.actions.delete, function(e) {
+                    deleteEntity('subscription', $(this).parents($o.subscription.wrapper));
+                    e.preventDefault();
+                });
+
+                // flip
+                $o.subscription.editor
+                .on('mousedown', $o.subscription.actions.flip, function() {
+                    flipEntity('subscription', this);
+                })
+                .on('click', $o.subscription.actions.flip, function(e) {e.preventDefault();});
 
                 $o.landingPageForm
                 .on('click', $o.landingPageSave, function(e) {
@@ -358,21 +522,21 @@
                 .click(function(e) {e.preventDefault();});
 
                 // execute saved bulk operation
-                $('body')
+                $o.body
                 .on('mousedown', $o.bulkApplySavedOperationLink, function() {
                     applySavedBulkOperation($(this).parent());
                 })
                 .on('click', $o.bulkApplySavedOperationLink, function(e) {e.preventDefault();});
 
                 // delete saved bulk operation
-                $('body')
+                $o.body
                 .on('mousedown', $o.bulkDeleteOperationLink, function() {
                     deleteSavedBulkOperation($(this).parent());
                 })
                 .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
             },
 
-            validatePrice = function($form, dontValidateRevenueModel, $input) {
+            validatePrice = function($form, disableRevenueValidation, $input) {
                 var $priceInput = $input ? $input : $('.lp_number-input', $form),
                     price       = $priceInput.val();
 
@@ -401,7 +565,7 @@
                     price = lpVars.currency.ppu_min;
                 }
 
-                if ( ! dontValidateRevenueModel ) {
+                if ( ! disableRevenueValidation ) {
                     validateRevenueModel(price, $form);
                 }
 
@@ -423,7 +587,7 @@
                 var currentRevenueModel,
                     input = $o.revenueModelInput;
 
-                if ($form.hasClass('lp_js_timePassEditorForm')) {
+                if ($form.hasClass($o.timepass.classes.editorForm)) {
                     input = $o.timePassRevenueModel;
                 }
 
@@ -667,13 +831,16 @@
                 return data.text;
             },
 
-            formatSelect2TimePass = function(data, container) {
+            formatSelect2ForEntity = function(data, container) {
                 var $form = $(container).parents('form');
 
+                console.log(container);
+                console.log($form);
+
                 if (data.id) {
-                    $($o.timePassCategoryId, $form).val(data.id);
+                    $($o.timepass.fields.categoryId, $form).val(data.id);
                 }
-                $($o.timePassScopeCategory, $form).val(data.text);
+                $($o.timepass.fields.scopeCategory, $form).val(data.text);
 
                 return data.text;
             },
@@ -734,25 +901,28 @@
                 });
             },
 
-            addTimePass = function() {
-                // hide 'add time pass' button
-                $o.addTimePass.velocity('fadeOut', { duration: 250 });
+            addEntity = function(type) {
+                var $entity = $o[type];
+
+                // hide 'add' button
+                $entity.actions.create.velocity('fadeOut', { duration: 250 });
 
                 // hide empty state hint, if it is visible
-                if ($($o.emptyState, $o.timePassEditor).is(':visible')) {
-                    $($o.emptyState, $o.timePassEditor).velocity('fadeOut', { duration: 400 });
+                if ($($o.emptyState, $entity.editor).is(':visible')) {
+                    $($o.emptyState, $entity.editor).velocity('fadeOut', { duration: 400 });
                 }
 
-                // prepend cloned time pass template to time pass editor
-                $o.timePassEditor.prepend($o.timePassTemplate.clone().removeAttr('id'));
-                // we added the template as first thing in the list, so let's select the first time pass
-                var $timePass = $('.lp_js_timePassWrapper', $o.timePassEditor).first();
-                $($o.timePassForm, $timePass).attr('id', $o.timePassFormId).addClass($o.unsaved);
+                // prepend cloned entity template to editor
+                $entity.editor.prepend($entity.template.clone().removeAttr('id'));
 
-                populateTimePassForm($timePass);
+                // we added the template as first thing in the list, so let's select the first entity
+                var $template = $($entity.wrapper, $entity.editor).first();
+                $($entity.form, $template).addClass($o.unsaved);
 
-                // show time pass
-                $timePass
+                populateEntityForm(type, $template);
+
+                // show template
+                $template
                 .velocity('slideDown', {
                     duration: 250,
                     easing: 'ease-out',
@@ -760,143 +930,153 @@
                         $(this).removeClass($o.hidden);
                     }
                 })
-                    .find($o.timePassForm)
-                    .velocity('slideDown', {
-                        duration: 250,
-                        easing: 'ease-out',
-                        complete: function() {
-                            $(this).removeClass($o.hidden);
-                        }
-                    });
+                .find($entity.form)
+                .velocity('slideDown', {
+                    duration: 250,
+                    easing: 'ease-out',
+                    complete: function() {
+                        $(this).removeClass($o.hidden);
+                    }
+                });
             },
 
-            editTimePass = function($timePass) {
-                // insert cloned form into current time pass editor container
-                var $timePassForm = $o.timePassFormTemplate.clone().attr('id', $o.timePassFormId);
-                $('.lp_js_timePassEditorContainer', $timePass).html($timePassForm);
+            editEntity = function(type, $wrapper) {
+                var $entity = $o[type];
 
-                populateTimePassForm($timePass);
+                // insert cloned form into current entity editor container
+                var $form = $($entity.form).clone();
+                $($entity.editorContainer, $wrapper).html($form);
 
-                // hide action links required when displaying time pass
-                $($o.timePassEditElements, $timePass).addClass($o.hidden);
+                populateEntityForm(type, $wrapper);
 
-                // show action links required when editing time pass
-                $($o.timePassShowElements, $timePass).removeClass($o.hidden);
+                // hide action links required when displaying entity
+                $($entity.actions.modify, $wrapper).addClass($o.hidden);
 
-                $timePassForm.removeClass($o.hidden);
+                // show action links required when editing entity
+                $($entity.actions.show, $wrapper).removeClass($o.hidden);
+
+                $form.removeClass($o.hidden);
             },
 
-            populateTimePassForm = function($timePass) {
-                var passId        = $timePass.data('pass-id'),
-                    passData      = lpVars.time_passes_list[passId],
-                    vouchers      = lpVars.vouchers_list[passId],
-                    $revenueInput = $($o.revenueModel, $timePass),
-                    name          = '';
+            populateEntityForm = function(type, $wrapper) {
+                var $entity  = $o[type],
+                    entityId = $wrapper.data($entity.data.id),
+                    data     = $entity.data.list[entityId],
+                    name     = '';
 
-                if (!passData) {
+                if (!data) {
                     return;
                 }
 
                 // apply passData to inputs
-                $('input, select, textarea', $timePass)
+                $('input, select, textarea', $wrapper)
                 .each(function(i, v) {
-                    name = $(v, $timePass).attr('name');
-                    if (name !== '' && passData[name] !== undefined && name !== 'revenue_model') {
-                        $(v, $timePass).val(passData[name]);
+                    name = $(v, $wrapper).attr('name');
+                    if (name !== '' && data[name] !== undefined && name !== 'revenue_model') {
+                        $(v, $wrapper).val(data[name]);
                     }
                 });
 
-                // validate price after inserting
-                validatePrice($timePass.find('form'), false, $($o.timePassPrice, $timePass));
-                // set price input value into the voucher price input
-                $($o.voucherPriceInput, $timePass).val($($o.timePassPrice, $timePass).val());
+                if (type === 'timepass') {
+                    var vouchers      = $entity.data.vouchers[entityId],
+                        $revenueInput = $($entity.fields.revenueModel, $wrapper);
 
-                // highlight current revenue model
-                $('label', $revenueInput).removeClass($o.selected);
-                var $revenue = $($o.timePassRevenueModel + '[value=' + passData.revenue_model + ']', $timePass);
-                $revenue.prop('checked', 'checked');
-                $revenue.parent('label').addClass($o.selected);
+                    // validate price after inserting
+                    validatePrice($wrapper.find('form'), false, $($entity.fields.price, $wrapper));
+                    // set price input value into the voucher price input
+                    $($o.voucherPriceInput, $wrapper).val($($entity.fields.price, $wrapper).val());
 
-                $($o.timePassCategoryWrapper, $timePass).hide();
+                    // highlight current revenue model
+                    $('label', $revenueInput).removeClass($o.selected);
+                    var $revenue = $($entity.fields.revenueModel + '[value=' + data.revenue_model + ']', $wrapper);
+                    $revenue.prop('checked', 'checked');
+                    $revenue.parent('label').addClass($o.selected);
+
+                    // re-generate vouchers list
+                    clearVouchersList($wrapper);
+                    if (vouchers instanceof Object) {
+                        $.each(vouchers, function(code, voucherData) {
+                            addVoucher(code, voucherData, $wrapper);
+                        });
+                    }
+                } else if (type === 'subscription') {
+                    validatePrice($wrapper.find('form'), true, $($entity.fields.price, $wrapper));
+                }
+
+                $($entity.categoryWrapper, $wrapper).hide();
                 // render category select
                 renderCategorySelect(
-                    $timePass,
-                    $o.timePassScopeCategory,
+                    $wrapper,
+                    $entity.fields.scopeCategory,
                     'laterpay_get_categories',
-                    formatSelect2TimePass
+                    formatSelect2ForEntity
                 );
 
                 // show category select, if required
-                var $currentScope = $($o.timePassScope, $timePass).find('option:selected');
+                var $currentScope = $($entity.fields.scope, $wrapper).find('option:selected');
                 if ($currentScope.val() !== '0') {
                     // show category select, because scope is restricted to or excludes a specific category
-                    $($o.timePassCategoryWrapper, $timePass).show();
-                }
-
-                // re-generate vouchers list
-                clearVouchersList($timePass);
-                if (vouchers instanceof Object) {
-                    $.each(vouchers, function(code, voucherData) {
-                        addVoucher(code, voucherData, $timePass);
-                    });
+                    $($entity.categoryWrapper, $wrapper).show();
                 }
             },
 
-            updateTimePassPreview = function($timePass, $input) {
+            updateEntityPreview = function( type, $wrapper, $input) {
                 // insert at least one space to avoid placeholder to collapse
-                var text = ($input.val() !== '') ? $input.val() : ' ';
+                var $entity = $o[type],
+                    text = ($input.val() !== '') ? $input.val() : ' ';
 
-                if ($input.hasClass($o.timePassDurationClass) || $input.hasClass($o.timePassPeriodClass)) {
-                    var duration    = $($o.timePassDuration, $timePass).val(),
-                        period      = $($o.timePassPeriod, $timePass).find('option:selected').text();
+                if ($input.hasClass($entity.classes.durationClass) || $input.hasClass($entity.classes.periodClass)) {
+                    var duration    = $($entity.fields.duration, $wrapper).val(),
+                        period      = $($entity.fields.period, $wrapper).find('option:selected').text();
                     // pluralize period (TODO: internationalize properly)
                     period  = (parseInt(duration, 10) > 1) ? period + 's' : period;
                     text    = duration + ' ' + period;
                     // update pass validity in pass preview
-                    $($o.timePassPreviewValidity, $timePass).text(text);
-                } else if ($input.hasClass($o.timePassScopeClass) || $input.hasClass($o.timePassScopeCategoryClass)) {
-                    var currentScope = $($o.timePassScope, $timePass).find('option:selected');
+                    $($entity.preview.validity, $wrapper).text(text);
+                } else if ($input.hasClass($entity.classes.scopeClass) || $input.hasClass($entity.classes.scopeCategoryClass)) {
+                    var currentScope = $($entity.fields.scope, $wrapper).find('option:selected');
                     text = currentScope.text();
                     if (currentScope.val() !== '0') {
                         // append selected category, because scope is restricted to or excludes a specific category
-                        text += ' ' + $($o.timePassScopeCategory, $timePass).val();
+                        text += ' ' + $($entity.fields.scopeCategory, $wrapper).val();
                     }
                     // update pass access in pass preview
-                    $($o.timePassPreviewAccess, $timePass).text(text);
-                } else if ($input.hasClass($o.timePassPriceClass)) {
+                    $($entity.preview.access, $wrapper).text(text);
+                } else if ($input.hasClass($entity.classes.priceClass)) {
                     // update pass price in pass preview
-                    $('.lp_js_purchaseLink', $timePass)
+                    $('.lp_js_purchaseLink', $wrapper)
                     .html(text + '<small class="lp_purchase-link__currency">' + lpVars.currency.default + '</small>');
-                    $($o.timePassPreviewPrice).text(text + ' ' + lpVars.currency.default);
-                } else if ($input.hasClass($o.timePassTitleClass)) {
+                    $($entity.preview.price).text(text + ' ' + lpVars.currency.default);
+                } else if ($input.hasClass($entity.classes.titleClass)) {
                     // update pass title in pass preview
-                    $($o.timePassPreviewTitle, $timePass).text(text);
-                } else if ($input.hasClass($o.timePassDescriptionClass)) {
+                    $($entity.preview.title, $wrapper).text(text);
+                } else if ($input.hasClass($entity.classes.descriptionClass)) {
                     // update pass description in pass preview
-                    $($o.timePassPreviewDescription, $timePass).text(text);
+                    $($entity.preview.description, $wrapper).text(text);
                 }
             },
 
-            cancelEditingTimePass = function($timePass) {
-                var passId = $timePass.find($o.timePass).data('pass-id');
+            cancelEditingEntity = function(type, $wrapper) {
+                var $entity = $o[type],
+                    id = $wrapper.find($entity.preview.wrapper).data($entity.data.id);
 
-                if ($($o.timePassForm, $timePass).hasClass($o.unsaved)) {
+                if ($($entity.form, $wrapper).hasClass($o.unsaved)) {
                     // remove entire time pass, if it is a new, unsaved pass
-                    $timePass
+                    $wrapper
                     .velocity('fadeOut', {
                         duration: 250,
                         complete: function() {
                             $(this).remove();
 
                             // show empty state hint, if there are no time passes
-                            if ($($o.timePassWrapper + ':visible').length === 0) {
-                                $($o.emptyState, $o.timePassEditor).velocity('fadeIn', { duration: 400 });
+                            if ($($entity.wrapper + ':visible').length === 0) {
+                                $($o.emptyState, $entity.editor).velocity('fadeIn', { duration: 400 });
                             }
                         }
                     });
                 } else {
                     // remove cloned time pass form
-                    $($o.timePassForm, $timePass)
+                    $($entity.form, $wrapper)
                     .velocity('fadeOut', {
                         duration: 250,
                         complete: function() {
@@ -906,121 +1086,114 @@
                 }
 
                 // show action links required when displaying time pass
-                $($o.timePassEditElements, $timePass).removeClass($o.hidden);
+                $($entity.actions.modify, $wrapper).removeClass($o.hidden);
 
                 // hide action links required when editing time pass
-                $($o.timePassShowElements, $timePass).addClass($o.hidden);
+                $($entity.actions.show, $wrapper).addClass($o.hidden);
 
-                // re-generate vouchers list
-                clearVouchersList($timePass);
-                if (lpVars.vouchers_list[passId] instanceof Object) {
-                    $.each(lpVars.vouchers_list[passId], function(code, voucherData) {
-                        addVoucherToList(code, voucherData, $timePass);
-                    });
+                if (type === 'timepass') {
+                    // re-generate vouchers list
+                    clearVouchersList($wrapper);
+                    if ($entity.data.vouchers[id] instanceof Object) {
+                        $.each($entity.data.vouchers[id], function(code, voucherData) {
+                            addVoucherToList(code, voucherData, $wrapper);
+                        });
 
-                    // show vouchers
-                    $timePass.find($o.voucherList).show();
+                        // show vouchers
+                        $wrapper.find($o.voucherList).show();
+                    }
                 }
 
-                // show 'add time pass' button, if it is hidden
-                if ($o.addTimePass.is(':hidden')) {
-                    $o.addTimePass.velocity('fadeIn', { duration: 250, display: 'inline-block' });
+                // show 'create' button, if it is hidden
+                if ($entity.actions.create.is(':hidden')) {
+                    $entity.actions.create.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                 }
             },
 
-            saveTimePass = function($timePass) {
+            saveEntity = function(type, $wrapper) {
+                var $entity = $o[type];
+
                 $.post(
                     ajaxurl,
-                    $($o.timePassForm, $timePass).serializeArray(),
+                    $($entity.form, $wrapper).serializeArray(),
                     function(r) {
                         if (r.success) {
                             // form has been saved
-                            var passId = r.data.pass_id;
-                            // update vouchers
-                            lpVars.vouchers_list[passId] = r.vouchers;
+                            var id = r.data.id;
 
-                            if (lpVars.time_passes_list[passId]) {
+                            if (type === 'timepass') {
+                                // update vouchers
+                                $entity.data.vouchers[id] = r.vouchers;
+                            }
+
+                            if ($entity.data.list[id]) {
                                 // pass already exists (update)
-                                lpVars.time_passes_list[passId] = r.data;
+                                $entity.data.list[id] = r.data;
 
-                                // insert time pass rendered on server
-                                $('.lp_js_timePassPreview', $timePass).html(r.html);
+                                // insert entity rendered on server
+                                $($entity.preview.placeholder, $wrapper).html(r.html);
 
-                                // hide action links required when editing time pass
-                                $($o.timePassShowElements, $timePass).addClass($o.hidden);
+                                // hide action links required when editing entity
+                                $($entity.actions.show, $wrapper).addClass($o.hidden);
 
-                                // show action links required when displaying time pass
-                                $($o.timePassEditElements, $timePass).removeClass($o.hidden);
+                                // show action links required when displaying entity
+                                $($entity.actions.modify, $wrapper).removeClass($o.hidden);
 
-                                $($o.timePassForm, $timePass)
-                                .velocity('fadeOut', {
-                                    duration: 250,
-                                    complete: function() {
-                                        $(this).remove();
+                                if (type === 'timepass') {
+                                    $($entity.form, $wrapper)
+                                    .velocity('fadeOut', {
+                                        duration: 250,
+                                        complete: function () {
+                                            $(this).remove();
 
-                                        // re-generate vouchers list
-                                        clearVouchersList($timePass);
-                                        if (lpVars.vouchers_list[passId] instanceof Object) {
-                                            $.each(lpVars.vouchers_list[passId], function(code, voucherData) {
-                                                addVoucherToList(code, voucherData, $timePass);
-                                            });
-
-                                            // show vouchers
-                                            $timePass.find($o.voucherList).show();
+                                            // re-generate vouchers list
+                                            regenerateVouchers($wrapper, $entity, id);
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             } else {
                                 // pass was just created (add)
-                                lpVars.time_passes_list[passId] = r.data;
-                                var $newTimePass = $o.timePassTemplate.clone().removeAttr('id').data('pass-id', passId);
+                                $entity.data.list[id] = r.data;
+                                var $newTimePass = $entity.template.clone().removeAttr('id').data($entity.data.id, id);
 
-                                // show assigned pass id
+                                // show assigned id
                                 $($o.timePassId, $newTimePass)
-                                .text(passId)
-                                    .parent()
-                                    .velocity('fadeIn', { duration: 250 });
+                                .text(id)
+                                .parent()
+                                .velocity('fadeIn', { duration: 250 });
 
-                                $('.lp_js_timePassPreview', $newTimePass).html(r.html);
-                                $($o.timePassForm, $timePass).remove();
+                                $($entity.preview.placeholder, $newTimePass).html(r.html);
+                                $($entity.form, $wrapper).remove();
 
-                                $o.timePassEditor.prepend($newTimePass);
+                                $entity.editor.prepend($newTimePass);
 
-                                populateTimePassForm($newTimePass);
+                                populateEntityForm(type, $newTimePass);
 
-                                // hide action links required when editing time pass
-                                $($o.timePassShowElements, $newTimePass)
-                                .addClass($o.hidden);
+                                // hide action links required when editing entity
+                                $($entity.actions.show, $newTimePass).addClass($o.hidden);
 
-                                // show action links required when displaying time pass
-                                $($o.timePassEditElements, $newTimePass)
-                                .removeClass($o.hidden);
+                                // show action links required when displaying entity
+                                $($entity.actions.modify, $newTimePass).removeClass($o.hidden);
 
-                                $timePass
-                                .velocity('fadeOut', {
-                                    duration: 250,
-                                    complete: function() {
-                                        $(this).remove();
+                                if (type === 'timepass') {
+                                    $wrapper
+                                    .velocity('fadeOut', {
+                                        duration: 250,
+                                        complete: function() {
+                                            $(this).remove();
 
-                                        // re-generate vouchers list
-                                        clearVouchersList($newTimePass);
-                                        if (lpVars.vouchers_list[passId] instanceof Object) {
-                                            $.each(lpVars.vouchers_list[passId], function(code, voucherData) {
-                                                addVoucherToList(code, voucherData, $newTimePass);
-                                            });
-
-                                            // show vouchers
-                                            $newTimePass.find($o.voucherList).show();
+                                            // re-generate vouchers list
+                                            regenerateVouchers($newTimePass, $entity, id);
                                         }
+                                    });
+                                }
 
-                                        $newTimePass.removeClass($o.hidden);
-                                    }
-                                });
+                                $newTimePass.removeClass($o.hidden);
                             }
                         }
 
-                        if ($o.addTimePass.is(':hidden')) {
-                            $o.addTimePass.velocity('fadeIn', { duration: 250, display: 'inline-block' });
+                        if ($entity.actions.create.is(':hidden')) {
+                            $entity.actions.create.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                         }
 
                         $o.navigation.showMessage(r);
@@ -1029,9 +1202,11 @@
                 );
             },
 
-            deleteTimePass = function($timePass) {
+            deleteEntity = function(type, $wrapper) {
+                var $entity = $o[type];
+
                 // require confirmation
-                if (confirm(lpVars.i18n.confirmDeleteTimePass)) {
+                if (confirm(lpVars.i18n.confirmDeleteEntity)) {
                     // fade out and remove time pass
                     $timePass
                     .velocity('slideUp', {
@@ -1043,15 +1218,15 @@
                                 {
                                     action  : 'laterpay_pricing',
                                     form    : 'time_pass_delete',
-                                    pass_id : $timePass.data('pass-id'),
+                                    id      : $wrapper.data($entity.data.id)
                                 },
                                 function(r) {
                                     if (r.success) {
                                         $(this).remove();
 
                                         // show empty state hint, if there are no time passes
-                                        if ($($o.timePassWrapper + ':visible').length === 0) {
-                                            $($o.emptyState, $o.timePassEditor).velocity('fadeIn', { duration: 400 });
+                                        if ($($entity.wrapper + ':visible').length === 0) {
+                                            $($o.emptyState, $entity.editor).velocity('fadeIn', { duration: 400 });
 
                                             // switch the purchase mode button back to also allow individual purchases
                                             if ($o.purchaseModeInput.prop('checked')) {
@@ -1073,26 +1248,29 @@
                 }
             },
 
-            flipTimePass = function(trigger) {
-                $(trigger).parents('.lp_time-pass').toggleClass('lp_is-flipped');
+            flipEntity = function(type, trigger) {
+                $(trigger).parents($o[type].preview.wrapper).toggleClass('lp_is-flipped');
             },
 
-            changeTimePassScope = function($trigger) {
-                var o = $('option:selected', $trigger).val();
+            changeEntityScope = function(type, $trigger) {
+                var $entity = $o[type],
+                    o = $('option:selected', $trigger).val();
+
                 if (o === '0') {
                     // option 'all content'
-                    $($o.timePassCategoryWrapper).hide();
+                    $($entity.categoryWrapper).hide();
                 } else {
                     // option restricts access to or excludes access from specific category
-                    $($o.timePassCategoryWrapper).show();
+                    $($entity.categoryWrapper).show();
                 }
             },
 
-            changeDurationOptions = function($period, $form) {
-                var i, options = '',
+            changeDurationOptions = function(type, $period, $form) {
+                var $entity = $o[type],
+                    i, options = '',
                     limit = 24,
                     period = $period.val(),
-                    duration = $($o.timePassDuration, $form).val();
+                    duration = $($entity.fields.duration, $form).val();
 
 
                 // change duration options
@@ -1106,12 +1284,24 @@
                     options += '<option value="' + i +'">' + i + '</option>';
                 }
 
-                $($o.timePassDuration, $form)
+                $($entity.fields.duration, $form)
                     .find('option')
                     .remove()
                     .end()
                 .append(options)
                 .val(duration && duration <= limit ? duration : 1);
+            },
+
+            regenerateVouchers = function($wrapper, $entity, id) {
+                clearVouchersList($wrapper);
+                if ($entity.data.vouchers[id] instanceof Object) {
+                    $.each($entity.data.vouchers[id], function (code, voucherData) {
+                        addVoucherToList(code, voucherData, $wrapper);
+                    });
+
+                    // show vouchers
+                    $wrapper.find($o.voucherList).show();
+                }
             },
 
             generateVoucherCode = function($timePass) {
@@ -1158,7 +1348,7 @@
             },
 
             addVoucherToList = function(code, voucherData, $timePass) {
-                var passId          = $timePass.data('pass-id'),
+                var passId          = $timePass.data($o.timepass.data.id),
                     timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
                     title           = voucherData.title ? voucherData.title : '',
                     price           = voucherData.price + ' ' + lpVars.currency.default,

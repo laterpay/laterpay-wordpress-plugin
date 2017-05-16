@@ -162,7 +162,7 @@ class LaterPay_Model_Subscription
      *
      * @return array $subscriptions list of subscriptions
      */
-    public function get_time_passes_by_category_ids( $term_ids = null, $exclude = null, $ignore_deleted = false ) {
+    public function get_subscriptions_by_category_ids( $term_ids = null, $exclude = null, $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "

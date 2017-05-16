@@ -22,15 +22,14 @@ class LaterPay_Helper_Subscription
     public static function get_default_options( $key = null ) {
 
         $defaults = array(
-            'pass_id'                => '0',
-            'duration'               => '1',
-            'period'                 => '3',
-            'access_to'              => '0',
-            'access_category'        => '',
-            'price'                  => laterpay_get_plugin_config()->get( 'currency.sis_min' ),
-            'revenue_model'          => 'ppu',
-            'title'                  => __( '1 Month Subscription', 'laterpay' ),
-            'description'            => __( '1 month access to all content on this website (cancellable anytime)', 'laterpay' ),
+            'id'              => '0',
+            'duration'        => '1',
+            'period'          => '3',
+            'access_to'       => '0',
+            'access_category' => '',
+            'price'           => laterpay_get_plugin_config()->get( 'currency.sis_min' ),
+            'title'           => __( '1 Month Subscription', 'laterpay' ),
+            'description'     => __( '1 month access to all content on this website (cancellable anytime)', 'laterpay' ),
         );
 
         if ( isset( $key ) ) {
@@ -208,11 +207,10 @@ class LaterPay_Helper_Subscription
      *
      * @param int  $id               subscription id
      * @param null $data             additional data
-     * @param bool $is_code_purchase code purchase link generation
      *
      * @return string url || empty string if something went wrong
      */
-    public static function get_laterpay_purchase_link( $id, $data = null ) {
+    public static function get_subscription_purchase_link( $id, $data = null ) {
         $subscription_model = new LaterPay_Model_Subscription();
 
         $subscription = $subscription_model->get_subscription( $id );
@@ -224,10 +222,10 @@ class LaterPay_Helper_Subscription
             $data = array();
         }
 
-        $config         = laterpay_get_plugin_config();
-        $currency       = $config->get( 'currency.default' );
-        $price          = isset( $data['price'] ) ? $data['price'] : $subscription['price'];
-        $link           = isset( $data['link'] ) ? $data['link'] : get_permalink();
+        $config   = laterpay_get_plugin_config();
+        $currency = $config->get( 'currency.default' );
+        $price    = isset( $data['price'] ) ? $data['price'] : $subscription['price'];
+        $link     = isset( $data['link'] ) ? $data['link'] : get_permalink();
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
@@ -243,13 +241,13 @@ class LaterPay_Helper_Subscription
             'article_id' => self::get_tokenized_id( $id ),
             'sub_id'     => self::get_tokenized_id( $id ),
             'pricing'    => $currency . ( $price * 100 ),
-            'period'     => '+' . self::get_expiry_time( $subscription ),
+            'period'     => self::get_expiry_time( $subscription ),
             'url'        => $link,
             'title'      => $subscription['title'],
         );
 
-        // Single Sale purchase
-        return $client->get_buy_url( $params );
+        // Subscription purchase
+        return $client->get_subscription_url( $params );
     }
 
     /**

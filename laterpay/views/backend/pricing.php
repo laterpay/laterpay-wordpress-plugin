@@ -412,7 +412,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
 
                     <div class="lp_js_timePassEditorContainer lp_time-pass-editor">
-                        <form id="lp_js_timePassFormTemplate" class="lp_js_timePassEditorForm lp_hidden" method="post">
+                        <form class="lp_js_timePassEditorForm lp_hidden" method="post">
                             <input type="hidden" name="form"    value="time_pass_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
                             <input type="hidden" name="pass_id" value="0" id="lp_js_timePassEditorHiddenPassId">
@@ -539,17 +539,17 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </a>
                 </h2>
 
-                <?php foreach ( $laterpay['subscriptions_list'] as $pass ) : ?>
-                    <div class="lp_js_subscriptionsWrapper lp_subscriptions__item lp_clearfix" data-pass-id="<?php echo esc_attr( $pass['subscription_id'] ); ?>">
+                <?php foreach ( $laterpay['subscriptions_list'] as $subscription ) : ?>
+                    <div class="lp_js_subscriptionWrapper lp_subscriptions__item lp_clearfix" data-sub-id="<?php echo esc_attr( $subscription['subscription_id'] ); ?>">
                         <div class="lp_subscription__id-wrapper">
                             <?php echo laterpay_sanitize_output( __( 'Sub', 'laterpay' ) ); ?>
-                            <span class="lp_js_subscriptionId lp_subscription__id"><?php echo laterpay_sanitize_output( $pass['subscription_id'] ); ?></span>
+                            <span class="lp_js_subscriptionId lp_subscription__id"><?php echo laterpay_sanitize_output( $subscription['subscription_id'] ); ?></span>
                         </div>
                         <div class="lp_js_subscriptionPreview lp_left">
-                            <?php echo laterpay_sanitized( $this->render_time_pass( $pass ) ); ?>
+                            <?php echo laterpay_sanitized( $this->render_time_pass( $subscription ) ); ?>
                         </div>
 
-                        <div class="lp_js_subscriptionsEditorContainer lp_subscriptions-editor"></div>
+                        <div class="lp_js_subscriptionEditorContainer lp_subscriptions-editor"></div>
 
                         <a href="#" class="lp_js_saveSubscription button button-primary lp_mt- lp_mb- lp_hidden"><?php echo laterpay_sanitize_output( __( 'Save', 'laterpay' ) ); ?></a>
                         <a href="#" class="lp_js_cancelEditingSubscription lp_inline-block lp_pd- lp_hidden"><?php echo laterpay_sanitize_output( __( 'Cancel', 'laterpay' ) ); ?></a>
@@ -583,7 +583,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
 
                     <div class="lp_js_subscriptionEditorContainer lp_subscription-editor">
-                        <form id="lp_js_subscriptionFormTemplate" class="lp_js_subscriptionEditorForm lp_hidden" method="post">
+                        <form class="lp_js_subscriptionEditorForm lp_hidden" method="post">
                             <input type="hidden" name="form"    value="subscription_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
                             <input type="hidden" name="subscription_id" value="0" id="lp_js_subscriptionEditorHiddenSubcriptionId">
