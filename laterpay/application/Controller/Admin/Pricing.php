@@ -231,6 +231,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 $this->time_pass_delete( $event );
                 break;
 
+            case 'subscription_form_save':
+                $this->subscription_form_save( $event );
+                break;
+
+            case 'subscription_form_delete':
+                $this->subscription_form_delete( $event );
+                break;
+
             case 'generate_voucher_code':
                 $this->generate_voucher_code( $event );
                 break;
@@ -924,8 +932,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @return void
      */
     protected function time_pass_delete( LaterPay_Core_Event $event ) {
-        if ( isset( $_POST['pass_id'] ) ) {
-            $time_pass_id    = sanitize_text_field( $_POST['pass_id'] );
+        if ( isset( $_POST['id'] ) ) {
+            $time_pass_id    = sanitize_text_field( $_POST['id'] );
             $time_pass_model = new LaterPay_Model_TimePass();
 
             // remove time pass
@@ -945,6 +953,96 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 array(
                     'success' => false,
                     'message' => __( 'The selected pass was deleted already.', 'laterpay' ),
+                )
+            );
+        }
+    }
+
+    /**
+     * Render time pass HTML.
+     *
+     * @param array $args
+     *
+     * @return string
+     */
+    public function render_subscription( $args = array() ) {
+        $defaults = LaterPay_Helper_Subscription::get_default_options();
+        $args     = array_merge( $defaults, $args );
+
+        $this->assign( 'laterpay_subscription', $args );
+        $this->assign( 'laterpay',      array(
+            'standard_currency' => $this->config->get( 'currency.default' ),
+        ));
+
+        $string = $this->get_text_view( 'backend/partials/subscription' );
+
+        return $string;
+    }
+
+    /**
+     * Save subscription
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    protected function subscription_form_save( LaterPay_Core_Event $event ) {
+        $save_subscription_form = new LaterPay_Form_Subscription( $_POST );
+        $subscription_model     = new LaterPay_Model_Subscription();
+
+        $event->set_result(
+            array(
+                'success' => false,
+                'errors'  => $save_subscription_form->get_errors(),
+                'message' => __( 'An error occurred when trying to save the subscription. Please try again.', 'laterpay' ),
+            )
+        );
+
+        if ( ! $save_subscription_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $save_subscription_form ), $save_subscription_form->get_errors() );
+        }
+
+        $data = $save_subscription_form->get_form_values();
+
+        // update subscription data or create new subscriptions
+        $data = $subscription_model->update_subscription( $data );
+
+        $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
+        $hmtl_data             = $data;
+        $data['price']         = LaterPay_Helper_View::format_number( $data['price'] );
+
+        $event->set_result(
+            array(
+                'success'  => true,
+                'data'     => $data,
+                'html'     => $this->render_subscription( $hmtl_data ),
+                'message'  => __( 'Subscription saved.', 'laterpay' ),
+            )
+        );
+    }
+
+    /**
+     * Remove subscription by id.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    protected function subscription_form_delete( LaterPay_Core_Event $event ) {
+        if ( isset( $_POST['id'] ) ) {
+            $sub_id             = sanitize_text_field( $_POST['id'] );
+            $subscription_model = new LaterPay_Model_Subscription();
+
+            // remove subscription
+            $subscription_model->delete_subscription_by_id( $sub_id );
+
+            $event->set_result(
+                array(
+                    'success' => true,
+                    'message' => __( 'Subscription deleted.', 'laterpay' ),
+                )
+            );
+        } else {
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => __( 'The selected subscription was deleted already.', 'laterpay' ),
                 )
             );
         }

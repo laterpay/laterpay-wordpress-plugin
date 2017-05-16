@@ -97,10 +97,18 @@
                     edit                                : '.lp_js_editTimePass',
                     flip                                : '.lp_js_flipTimePass'
                 },
+                ajax                                : {
+                    form                                : {
+                        delete                          : 'time_pass_delete'
+                    }
+                },
                 data                                : {
                     id                                  : 'pass-id',
                     list                                : lpVars.time_passes_list,
-                    vouchers                            : lpVars.vouchers_list
+                    vouchers                            : lpVars.vouchers_list,
+                    fields                              : {
+                        id                              : 'pass_id'
+                    }
                 }
             },
 
@@ -150,12 +158,20 @@
                     save                                : '.lp_js_saveSubscription',
                     edit                                : '.lp_js_editSubscription',
                     cancel                              : '.lp_js_cancelEditingSubscription',
-                    detele                              : '.lp_js_deleteSubscription',
+                    delete                              : '.lp_js_deleteSubscription',
                     flip                                : '.lp_js_flipSubscription'
+                },
+                ajax                                : {
+                    form                                : {
+                        delete                          : 'subscription_delete'
+                    }
                 },
                 data                                : {
                     id                                  : 'sub-id',
-                    list                                : lpVars.subscriptions_list
+                    list                                : lpVars.subscriptions_list,
+                    fields                              : {
+                        id                              : 'id'
+                    }
                 }
             },
 
@@ -830,15 +846,17 @@
         },
 
         formatSelect2ForEntity = function(data, container) {
-            var $form = $(container).parents('form');
+            var $form = $(container).parents('form'),
+                $entity = $o.timepass;
 
-            console.log(container);
-            console.log($form);
+            if ( $form.hasClass( $o.subscription.classes.editorForm ) ) {
+                $entity = $o.subscription;
+            }
 
             if (data.id) {
-                $($o.timepass.fields.categoryId, $form).val(data.id);
+                $($entity.fields.categoryId, $form).val(data.id);
             }
-            $($o.timepass.fields.scopeCategory, $form).val(data.text);
+            $($entity.fields.scopeCategory, $form).val(data.text);
 
             return data.text;
         },
@@ -911,7 +929,7 @@
             }
 
             // prepend cloned entity template to editor
-            $entity.editor.prepend($entity.template.clone().removeAttr('id'));
+            $($entity.wrapper).first().before($entity.template.clone().removeAttr('id'));
 
             // we added the template as first thing in the list, so let's select the first entity
             var $template = $($entity.wrapper, $entity.editor).first();
@@ -1119,81 +1137,53 @@
                 function(r) {
                     if (r.success) {
                         // form has been saved
-                        var id = r.data.id;
+                        var id = r.data[$entity.data.fields.id];
 
                         if (type === 'timepass') {
                             // update vouchers
                             $entity.data.vouchers[id] = r.vouchers;
                         }
 
-                        if ($entity.data.list[id]) {
-                            // pass already exists (update)
-                            $entity.data.list[id] = r.data;
-
-                            // insert entity rendered on server
-                            $($entity.preview.placeholder, $wrapper).html(r.html);
-
-                            // hide action links required when editing entity
-                            $($entity.actions.show, $wrapper).addClass($o.hidden);
-
-                            // show action links required when displaying entity
-                            $($entity.actions.modify, $wrapper).removeClass($o.hidden);
-
-                            if (type === 'timepass') {
-                                $($entity.form, $wrapper)
-                                .velocity('fadeOut', {
-                                    duration: 250,
-                                    complete: function () {
-                                        $(this).remove();
-
-                                        // re-generate vouchers list
-                                        regenerateVouchers($wrapper, $entity, id);
-                                    }
-                                });
-                            }
-                        } else {
-                            // pass was just created (add)
-                            $entity.data.list[id] = r.data;
-                            var $newTimePass = $entity.template.clone().removeAttr('id').data($entity.data.id, id);
+                        if (!$entity.data.list[id]) {
+                            $wrapper.data($entity.data.id, id);
 
                             // show assigned id
-                            $($o.timePassId, $newTimePass)
+                            $($entity.id, $wrapper)
                             .text(id)
                             .parent()
                             .velocity('fadeIn', { duration: 250 });
-
-                            $($entity.preview.placeholder, $newTimePass).html(r.html);
-                            $($entity.form, $wrapper).remove();
-
-                            $entity.editor.prepend($newTimePass);
-
-                            populateEntityForm(type, $newTimePass);
-
-                            // hide action links required when editing entity
-                            $($entity.actions.show, $newTimePass).addClass($o.hidden);
-
-                            // show action links required when displaying entity
-                            $($entity.actions.modify, $newTimePass).removeClass($o.hidden);
-
-                            if (type === 'timepass') {
-                                $wrapper
-                                .velocity('fadeOut', {
-                                    duration: 250,
-                                    complete: function() {
-                                        $(this).remove();
-
-                                        // re-generate vouchers list
-                                        regenerateVouchers($newTimePass, $entity, id);
-                                    }
-                                });
-                            }
-
-                            $newTimePass.removeClass($o.hidden);
                         }
-                    }
 
-                    if ($entity.actions.create.is(':hidden')) {
-                        $entity.actions.create.velocity('fadeIn', { duration: 250, display: 'inline-block' });
+                        // pass data to list
+                        $entity.data.list[id] = r.data;
+
+                        // insert entity rendered on server
+                        $($entity.preview.placeholder, $wrapper).html(r.html);
+
+                        // hide action links required when editing entity
+                        $($entity.actions.show, $wrapper).addClass($o.hidden);
+
+                        // show action links required when displaying entity
+                        $($entity.actions.modify, $wrapper).removeClass($o.hidden);
+
+                        // remove edit form
+                        $($entity.form, $wrapper)
+                        .velocity('fadeOut', {
+                            duration: 250,
+                            complete: function () {
+                                $(this).remove();
+
+                                // re-generate vouchers list
+                                if (type === 'timepass') {
+                                    regenerateVouchers($wrapper, $entity, id);
+                                }
+                            }
+                        });
+
+                        // show create button
+                        if ($entity.actions.create.is(':hidden')) {
+                            $entity.actions.create.velocity('fadeIn', { duration: 250, display: 'inline-block' });
+                        }
                     }
 
                     $o.navigation.showMessage(r);
@@ -1217,12 +1207,12 @@
                             ajaxurl,
                             {
                                 action  : 'laterpay_pricing',
-                                form    : 'time_pass_delete',
+                                form    : $entity.ajax.form.delete,
                                 id      : $wrapper.data($entity.data.id)
                             },
                             function(r) {
                                 if (r.success) {
-                                    $(this).remove();
+                                    $wrapper.remove();
 
                                     // show empty state hint, if there are no time passes
                                     if ($($entity.wrapper + ':visible').length === 0) {
@@ -1310,7 +1300,7 @@
                 {
                     form   : 'generate_voucher_code',
                     action : 'laterpay_pricing',
-                    price  : $timePass.find($o.voucherPriceInput).val(),
+                    price  : $timePass.find($o.voucherPriceInput).val()
                 },
                 function(r) {
                     if (r.success) {

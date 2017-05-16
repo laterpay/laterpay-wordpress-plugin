@@ -387,20 +387,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 <?php endforeach; ?>
 
-                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display:none;"'; } ?>>
-                    <h2>
-                        <?php echo laterpay_sanitize_output( __( 'Sell bundles of content', 'laterpay' ) ); ?>
-                    </h2>
-                    <p>
-                        <?php echo laterpay_sanitize_output( __( 'With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically.', 'laterpay' ) ); ?>
-                    </p>
-                    <p>
-                        <?php echo laterpay_sanitize_output( __( 'Click the "Create" button to add a Time Pass.', 'laterpay' ) ); ?>
-                    </p>
-                </div>
-
                 <div id="lp_js_timePassTemplate"
-                    class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_time-passes__item lp_clearfix lp_hidden"
+                    class="lp_js_timePassWrapper lp_time-passes__item lp_clearfix lp_hidden"
                     data-pass-id="0">
                     <div class="lp_time-pass__id-wrapper" style="display:none;">
                         <?php echo laterpay_sanitize_output( __( 'Pass', 'laterpay' ) ); ?>
@@ -530,6 +518,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <div class="lp_js_voucherList lp_vouchers"></div>
                 </div>
+
+                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display:none;"'; } ?>>
+                    <h2>
+                        <?php echo laterpay_sanitize_output( __( 'Sell bundles of content', 'laterpay' ) ); ?>
+                    </h2>
+                    <p>
+                        <?php echo laterpay_sanitize_output( __( 'With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically.', 'laterpay' ) ); ?>
+                    </p>
+                    <p>
+                        <?php echo laterpay_sanitize_output( __( 'Click the "Create" button to add a Time Pass.', 'laterpay' ) ); ?>
+                    </p>
+                </div>
             </div><!--
          --><div id="lp_subscriptions" class="lp_subscriptions__list lp_layout__item lp_1/2 lp_pdr">
                 <h2>
@@ -540,10 +540,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </h2>
 
                 <?php foreach ( $laterpay['subscriptions_list'] as $subscription ) : ?>
-                    <div class="lp_js_subscriptionWrapper lp_subscriptions__item lp_clearfix" data-sub-id="<?php echo esc_attr( $subscription['subscription_id'] ); ?>">
+                    <div class="lp_js_subscriptionWrapper lp_subscriptions__item lp_clearfix" data-sub-id="<?php echo esc_attr( $subscription['id'] ); ?>">
                         <div class="lp_subscription__id-wrapper">
                             <?php echo laterpay_sanitize_output( __( 'Sub', 'laterpay' ) ); ?>
-                            <span class="lp_js_subscriptionId lp_subscription__id"><?php echo laterpay_sanitize_output( $subscription['subscription_id'] ); ?></span>
+                            <span class="lp_js_subscriptionId lp_subscription__id"><?php echo laterpay_sanitize_output( $subscription['id'] ); ?></span>
                         </div>
                         <div class="lp_js_subscriptionPreview lp_left">
                             <?php echo laterpay_sanitized( $this->render_time_pass( $subscription ) ); ?>
@@ -558,35 +558,23 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 <?php endforeach; ?>
 
-                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['subscriptions_list'] ) ) { echo ' style="display:none;"'; } ?>>
-                    <h2>
-                        <?php echo laterpay_sanitize_output( __( 'Sell subscriptions', 'laterpay' ) ); ?>
-                    </h2>
-                    <p>
-                        <?php echo laterpay_sanitize_output( __( 'Subscriptions work exactly like time passes, with a simple difference: They renew automatically.', 'laterpay' ) ); ?>
-                    </p>
-                    <p>
-                        <?php echo laterpay_sanitize_output( __( 'Click the "Create" button to add a Subscription.', 'laterpay' ) ); ?>
-                    </p>
-                </div>
-
                 <div id="lp_js_subscriptionTemplate"
-                     class="lp_js_subscriptionWrapper lp_js_addSubscriptionWrapper lp_subscriptions__item lp_greybox lp_clearfix lp_hidden"
+                     class="lp_js_subscriptionWrapper lp_subscriptions__item lp_greybox lp_clearfix lp_hidden"
                      data-sub-id="0">
                     <div class="lp_subscription__id-wrapper" style="display:none;">
-                        <?php echo laterpay_sanitize_output( __( 'Pass', 'laterpay' ) ); ?>
+                        <?php echo laterpay_sanitize_output( __( 'Sub', 'laterpay' ) ); ?>
                         <span class="lp_js_subscriptionId lp_subscription__id">x</span>
                     </div>
 
                     <div class="lp_js_subscriptionPreview lp_left">
-                        <?php echo laterpay_sanitized( $this->render_time_pass() ); ?>
+                        <?php echo laterpay_sanitized( $this->render_subscription() ); ?>
                     </div>
 
                     <div class="lp_js_subscriptionEditorContainer lp_subscription-editor">
                         <form class="lp_js_subscriptionEditorForm lp_hidden" method="post">
                             <input type="hidden" name="form"    value="subscription_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
-                            <input type="hidden" name="subscription_id" value="0" id="lp_js_subscriptionEditorHiddenSubcriptionId">
+                            <input type="hidden" name="id"      value="0" id="lp_js_subscriptionEditorHiddenSubcriptionId">
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                             <table class="lp_subscription-editor__column lp_1">
@@ -667,6 +655,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <a href="#" class="lp_js_editSubscription lp_edit-link--bold lp_rounded--topright lp_inline-block lp_hidden" data-icon="d"></a><br>
                     <a href="#" class="lp_js_deleteSubscription lp_edit-link--bold lp_inline-block lp_hidden" data-icon="g"></a>
+                </div>
+
+                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['subscriptions_list'] ) ) { echo ' style="display:none;"'; } ?>>
+                    <h2>
+                        <?php echo laterpay_sanitize_output( __( 'Sell subscriptions', 'laterpay' ) ); ?>
+                    </h2>
+                    <p>
+                        <?php echo laterpay_sanitize_output( __( 'Subscriptions work exactly like time passes, with a simple difference: They renew automatically.', 'laterpay' ) ); ?>
+                    </p>
+                    <p>
+                        <?php echo laterpay_sanitize_output( __( 'Click the "Create" button to add a Subscription.', 'laterpay' ) ); ?>
+                    </p>
                 </div>
             </div>
         </div>
