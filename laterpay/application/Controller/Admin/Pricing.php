@@ -337,10 +337,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         $event->set_result(
             array(
-                'success'       => true,
-                'price'         => $localized_global_price,
-                'revenue_model' => $global_price_revenue_model,
-                'message'       => $message,
+                'success'             => true,
+                'price'               => $localized_global_price,
+                'revenue_model'       => $global_price_revenue_model,
+                'revenue_model_label' => LaterPay_Helper_Pricing::get_revenue_label( $global_price_revenue_model ),
+                'message'             => $message,
             )
         );
     }
@@ -418,14 +419,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         $event->set_result(
             array(
-                'success'           => true,
-                'category'          => $category,
-                'price'             => $localized_category_price,
-                'currency'          => $currency,
-                'category_id'       => $category_id,
-                'revenue_model'     => $category_price_revenue_model,
-                'updated_post_ids'  => $updated_post_ids,
-                'message'           => sprintf(
+                'success'             => true,
+                'category'            => $category,
+                'price'               => $localized_category_price,
+                'currency'            => $currency,
+                'category_id'         => $category_id,
+                'revenue_model'       => $category_price_revenue_model,
+                'revenue_model_label' => LaterPay_Helper_Pricing::get_revenue_label( $category_price_revenue_model ),
+                'updated_post_ids'    => $updated_post_ids,
+                'message'             => sprintf(
                     __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
                     $category,
                     $localized_category_price,

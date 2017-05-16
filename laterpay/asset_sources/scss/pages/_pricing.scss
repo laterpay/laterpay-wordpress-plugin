@@ -35,7 +35,7 @@
 .lp_price-section {
     .lp_badge {
         margin-left: $fs--025;
-        width: $fs--2;
+        padding: 2px $fs--025;
     }
 }
 
@@ -115,6 +115,16 @@
         .lp_toggle__input:checked ~ .lp_toggle__text {
             background: darken($background, 16%);
         }
+    }
+}
+
+.lp_price-panel {
+    position: relative;
+
+    &__buttons {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 

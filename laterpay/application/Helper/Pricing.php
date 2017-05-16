@@ -995,4 +995,19 @@ class LaterPay_Helper_Pricing
 
         return $parents;
     }
+
+    /**
+     * Get revenue label
+     *
+     * @param $revenue
+     *
+     * @return mixed
+     */
+    public static function get_revenue_label( $revenue ) {
+        if ( $revenue === 'sis' ) {
+            return __( 'Pay Now', 'laterpay' );
+        }
+
+        return __( 'Pay Later', 'laterpay' );
+    }
 }

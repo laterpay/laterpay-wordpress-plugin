@@ -122,7 +122,7 @@ use add_filter( 'laterpay_access_check_enabled', your_callback_returning_boolean
   Please choose your region and currency here: If your business is located in the U.S. and you want your prices to be displayed in Dollar (USD), choose "United States (USD)". If your business is located in the European Union, and you want the prices to be displayed in Euro (EUR), choose "Europe (EUR)".
 * By default, the plugin has set a Global Default Price of 0.29 after the activation – that means that each of your existing posts costs 0.29 by default. If you want to change this: In the "Pricing" section, you can define the Global Default Price, and also set Category Default Prices.
 * If you want to set prices only for specific posts, and keep the rest of your content free, we recommend to set a Global Default Price of 0.00, and set an individual price for the respective posts. You can set an individual price for a post by opening this post for editing. In the upper right corner, you will see the LaterPay pricing widget.
-* In the plugin, you will see two important terms: PPU (Pay-per-Use) and SIS (Single Item Sale) – these are so called "revenue models" and define, if a post has to be paid immediately (SIS) or can be paid later (PPU).
+* In the plugin, you will see two important terms: Pay Now and Pay Later – these are so called "revenue models" and define, if a post has to be paid immediately or can be paid later.
 * If you choose PPU for a price, that means: The user agrees to pay later, and gets immediate access to the content – without upfront payment or registration. LaterPay keeps track of the user's device invoice and asks the user to pay, once the invoice has (across various websites) reached a total of 5.00 €/$. That's the LaterPay signature model and provides the unique and most convenient LaterPay purchase experience. You can use the PPU model for prices between 0.05 and 5.00.
 * If you choose SIS for a price, that means: The user has to register/login, and pay immediately before getting access to the purchase. This model might make sense for higher-priced items. The SIS model can be used for prices between 1.49 € / $1.99 and 149.99.
 * If you want to start earning money, you have to first register a LaterPay merchant account and request your
@@ -265,7 +265,7 @@ Please see the "Test and Live Mode" section.
 * Fixed admin can purchase paid post in "preview as visitor" mode when plugin in "test visible" mode.
 * Adjusted teaser overlay layout and functionality
 * Implemented Exceptions handling functionality
-* Added revenue model Pay-per-Use logged-in – PPU (L)
+* Added revenue model Pay Later (PPU)
 * Created Plugin Extension Boilerplate
 * Added "comment" field for voucher codes
 * Extended list of user agents in browscap cache file
@@ -503,7 +503,7 @@ KNOWN BUGS:
 * Modified behaviour of plugin to be not visible to visitors in test mode
 * Added switch to post page, to allow admin users to preview their settings like a visitor
 * Added mechanism to ensure that configurations are properly migrated on plugin updates
-* Updated price validation to comply with the LaterPay terms and conditions for Pay-per-Use (0.05 - 5.00 Euro)
+* Updated price validation to comply with the LaterPay terms and conditions for Pay Now (0.05 - 5.00 Euro)
 * Removed questions callout from account tab
 * Applied a few visual fixes
 
