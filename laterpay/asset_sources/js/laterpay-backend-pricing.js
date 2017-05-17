@@ -106,6 +106,7 @@
                     id                                  : 'pass-id',
                     list                                : lpVars.time_passes_list,
                     vouchers                            : lpVars.vouchers_list,
+                    deleteConfirm                       : lpVars.i18n.confirmDeleteTimepass,
                     fields                              : {
                         id                              : 'pass_id'
                     }
@@ -169,6 +170,7 @@
                 data                                : {
                     id                                  : 'sub-id',
                     list                                : lpVars.subscriptions_list,
+                    deleteConfirm                       : lpVars.i18n.confirmDeleteSubscription,
                     fields                              : {
                         id                              : 'id'
                     }
@@ -1196,7 +1198,7 @@
             var $entity = $o[type];
 
             // require confirmation
-            if (confirm(lpVars.i18n.confirmDeleteEntity)) {
+            if (confirm($entity.data.deleteConfirm)) {
                 // fade out and remove time pass
                 $wrapper
                 .velocity('slideUp', {

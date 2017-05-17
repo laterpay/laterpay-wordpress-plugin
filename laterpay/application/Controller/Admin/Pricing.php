@@ -56,18 +56,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // translations
         $i18n = array(
             // bulk price editor
-            'make'                   => __( 'Make', 'laterpay' ),
-            'free'                   => __( 'free', 'laterpay' ),
-            'to'                     => __( 'to', 'laterpay' ),
-            'by'                     => __( 'by', 'laterpay' ),
-            'toGlobalDefaultPrice'   => __( 'to global default price of', 'laterpay' ),
-            'toCategoryDefaultPrice' => __( 'to category default price of', 'laterpay' ),
-            'updatePrices'           => __( 'Update Prices', 'laterpay' ),
-            'delete'                 => __( 'Delete', 'laterpay' ),
+            'make'                      => __( 'Make', 'laterpay' ),
+            'free'                      => __( 'free', 'laterpay' ),
+            'to'                        => __( 'to', 'laterpay' ),
+            'by'                        => __( 'by', 'laterpay' ),
+            'toGlobalDefaultPrice'      => __( 'to global default price of', 'laterpay' ),
+            'toCategoryDefaultPrice'    => __( 'to category default price of', 'laterpay' ),
+            'updatePrices'              => __( 'Update Prices', 'laterpay' ),
+            'delete'                    => __( 'Delete', 'laterpay' ),
             // time pass editor
-            'confirmDeleteEntity'    => __( 'Are you sure?', 'laterpay' ),
-            'voucherText'            => __( 'reduces the price to', 'laterpay' ),
-            'timesRedeemed'          => __( 'times redeemed.', 'laterpay' ),
+            'confirmDeleteTimepass'     => __( 'Are you sure?', 'laterpay' ),
+            'confirmDeleteSubscription' => __( 'Do you really want to discontinue this subscription? If you delete it, it will continue to renew for users who have an active subscription until the user cancels it. Existing subscribers will still have access to the content in their subscription. New users won\'t be able to buy the subscription anymore. Do you want to delete this subscription?', 'laterpay' ),
+            'voucherText'               => __( 'reduces the price to', 'laterpay' ),
+            'timesRedeemed'             => __( 'times redeemed.', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
@@ -161,7 +162,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-
         $this->render( 'backend/pricing' );
     }
 
@@ -235,8 +235,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 $this->subscription_form_save( $event );
                 break;
 
-            case 'subscription_form_delete':
-                $this->subscription_form_delete( $event );
+            case 'subscription_delete':
+                $this->subscription_delete( $event );
                 break;
 
             case 'generate_voucher_code':
@@ -1026,7 +1026,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      *
      * @param LaterPay_Core_Event $event
      */
-    protected function subscription_form_delete( LaterPay_Core_Event $event ) {
+    protected function subscription_delete( LaterPay_Core_Event $event ) {
         if ( isset( $_POST['id'] ) ) {
             $sub_id             = sanitize_text_field( $_POST['id'] );
             $subscription_model = new LaterPay_Model_Subscription();

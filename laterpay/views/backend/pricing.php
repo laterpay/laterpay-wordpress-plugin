@@ -551,7 +551,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <span class="lp_js_subscriptionId lp_subscription__id"><?php echo laterpay_sanitize_output( $subscription['id'] ); ?></span>
                         </div>
                         <div class="lp_js_subscriptionPreview lp_left">
-                            <?php echo laterpay_sanitized( $this->render_time_pass( $subscription ) ); ?>
+                            <?php echo laterpay_sanitized( $this->render_subscription( $subscription ) ); ?>
                         </div>
 
                         <div class="lp_js_subscriptionEditorContainer lp_subscription-editor"></div>

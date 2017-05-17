@@ -27,7 +27,7 @@ if ( $laterpay_subscription['access_to'] != 0 ) {
 }
 ?>
 
-<div class="lp_js_subscription lp_time-pass lp_time-pass-<?php echo esc_attr( $laterpay_subscription['pass_id'] ); ?>" data-sub-id="<?php echo esc_attr( $laterpay_subscription['pass_id'] ); ?>">
+<div class="lp_js_subscription lp_time-pass lp_time-pass-<?php echo esc_attr( $laterpay_subscription['id'] ); ?>" data-sub-id="<?php echo esc_attr( $laterpay_subscription['id'] ); ?>">
 
     <section class="lp_time-pass__front">
         <h4 class="lp_js_subscriptionPreviewTitle lp_time-pass__title"><?php echo laterpay_sanitize_output( $laterpay_subscription['title'] ); ?></h4>
@@ -56,13 +56,19 @@ if ( $laterpay_subscription['access_to'] != 0 ) {
             <tr>
                 <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Renewal', 'laterpay' ) ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <?php echo laterpay_sanitize_output( __( 'Automatic renewal (cancellable anytime)', 'laterpay' ) ); ?>
+                    <?php echo laterpay_sanitize_output( __( 'After', 'laterpay' ) . ' ' . $laterpay_subscription['duration'] . ' ' . $period ); ?>
                 </td>
             </tr>
             <tr>
                 <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Price', 'laterpay' ) ); ?></th>
                 <td class="lp_time-pass__condition-value">
                     <span class="lp_js_subscriptionPreviewPrice"><?php echo laterpay_sanitize_output( $price . ' ' . $laterpay['standard_currency'] ); ?></span>
+                </td>
+            </tr>
+            <tr>
+                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Cancellation', 'laterpay' ) ); ?></th>
+                <td class="lp_time-pass__condition-value">
+                    <?php echo laterpay_sanitize_output( __( 'Cancellable anytime', 'laterpay' ) ); ?>
                 </td>
             </tr>
             </tbody>
