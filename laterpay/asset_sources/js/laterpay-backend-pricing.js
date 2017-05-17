@@ -962,7 +962,7 @@
             var $entity = $o[type];
 
             // insert cloned form into current entity editor container
-            var $form = $($entity.form).clone();
+            var $form = $($entity.form, $entity.template).clone();
             $($entity.editorContainer, $wrapper).html($form);
 
             populateEntityForm(type, $wrapper);
