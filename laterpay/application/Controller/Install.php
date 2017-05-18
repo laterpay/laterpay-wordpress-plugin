@@ -534,7 +534,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
-     * Drop statistic tables
+     * Remove ppul values
      *
      * @since 0.9.24
      *
