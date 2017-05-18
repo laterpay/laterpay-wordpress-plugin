@@ -534,6 +534,57 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
+     * Drop statistic tables
+     *
+     * @since 0.9.24
+     *
+     * @return void
+     */
+    public function maybe_remove_ppul() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.24', '<' ) ) {
+            return;
+        }
+
+        // update time pass revenues
+        $time_pass_model = new LaterPay_Model_TimePass();
+        $time_passes     = $time_pass_model->get_all_time_passes();
+
+        if ( $time_passes ) {
+            foreach ( $time_passes as $time_pass ) {
+                if ( $time_pass['revenue_model'] === 'ppul' ) {
+                    $time_pass['revenue_model'] = 'ppu';
+                    $time_pass_model->update_time_pass( $time_pass );
+                }
+            }
+        }
+
+        // update global revenue
+        $global_revenue  = get_option( 'laterpay_global_price_revenue_model' );
+
+        if ( $global_revenue === 'ppul' ) {
+            update_option( 'laterpay_global_price_revenue_model', 'ppu' );
+        }
+
+        // update category revenues
+        $category_price_model          = new LaterPay_Model_CategoryPrice();
+        $categories_with_defined_price = $category_price_model->get_categories_with_defined_price();
+
+        if ( $categories_with_defined_price ) {
+            foreach ( $categories_with_defined_price as $category ) {
+                if ( $category->revenue_model === 'ppul' ) {
+                    $category_price_model->set_category_price(
+                        $category->category_id,
+                        $category->category_price,
+                        'ppu',
+                        $category->id
+                    );
+                }
+            }
+        }
+    }
+
+    /**
      * Create custom tables and set the required options.
      *
      * @return void
@@ -636,6 +687,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->drop_statistics_tables();
         $this->init_colors_options();
         $this->remove_old_api_settings();
+        $this->maybe_remove_ppul();
     }
 
     /**
