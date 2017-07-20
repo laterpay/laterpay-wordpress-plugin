@@ -14,6 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php echo laterpay_sanitized( $this->render_time_pass( $time_pass ) ); ?>
     <?php endforeach; ?>
 
+    <?php if ( $laterpay_widget['subscriptions'] ) : ?>
+        <?php echo laterpay_sanitized( $laterpay_widget['subscriptions'] ); ?>
+    <?php endif; ?>
+
     <?php if ( $laterpay_widget['has_vouchers'] ) : ?>
         <?php if ( $laterpay_widget['time_pass_call_to_action_text'] ) : ?>
              <p class="lp_time-pass__call-to-action-text"><?php echo laterpay_sanitize_output( $laterpay_widget['time_pass_call_to_action_text'] ); ?></p>

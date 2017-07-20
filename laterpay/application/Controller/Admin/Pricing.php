@@ -56,6 +56,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // translations
         $i18n = array(
             // bulk price editor
+            'after'                     => __( 'After', 'laterpay' ),
             'make'                      => __( 'Make', 'laterpay' ),
             'free'                      => __( 'free', 'laterpay' ),
             'to'                        => __( 'to', 'laterpay' ),

@@ -54,9 +54,9 @@ class LaterPay_Helper_Subscription
         $config   = laterpay_get_plugin_config();
 
         if ( ! $subscription ) {
-            $time_pass['duration']  = self::get_default_options( 'duration' );
-            $time_pass['period']    = self::get_default_options( 'period' );
-            $time_pass['access_to'] = self::get_default_options( 'access_to' );
+            $subscription['duration']  = self::get_default_options( 'duration' );
+            $subscription['period']    = self::get_default_options( 'period' );
+            $subscription['access_to'] = self::get_default_options( 'access_to' );
         }
 
         $currency = $config->get( 'currency.default' );
@@ -248,6 +248,114 @@ class LaterPay_Helper_Subscription
 
         // Subscription purchase
         return $client->get_subscription_url( $params );
+    }
+
+    /**
+     * Get all subscriptions for a given post.
+     *
+     * @param int    $post_id                    post id
+     * @param null   $subscriptions_with_access  ids of subscriptions with access
+     * @param bool   $ignore_deleted             ignore deleted subsciptions
+     *
+     * @return array $subscriptions
+     */
+    public static function get_subscriptions_list_by_post_id( $post_id, $subscriptions_with_access = null, $ignore_deleted = false ) {
+        $model = new LaterPay_Model_Subscription();
+
+        if ( $post_id !== null ) {
+            // get all post categories
+            $post_categories = get_the_category( $post_id );
+            $post_category_ids = null;
+
+            // get category ids
+            foreach ( $post_categories as $category ) {
+                $post_category_ids[] = $category->term_id;
+                // get category parents and include them in the ids array as well
+                $parent_id = get_category( $category->term_id )->parent;
+                while ( $parent_id ) {
+                    $post_category_ids[] = $parent_id;
+                    $parent_id = get_category( $parent_id )->parent;
+                }
+            }
+
+            // get list of subscriptions that cover this post
+            $subscriptions = $model->get_subscriptions_by_category_ids( $post_category_ids );
+        } else {
+            $subscriptions = $model->get_subscriptions_by_category_ids();
+        }
+
+        // correct result, if we have purchased subscriptions
+        if ( $subscriptions_with_access ) {
+            // check, if user has access to the current post with subscription
+            $has_access = false;
+            foreach ( $subscriptions as $subscription ) {
+                if ( in_array( $subscription['pass_id'], $subscriptions_with_access ) ) {
+                    $has_access = true;
+                    break;
+                }
+            }
+
+            if ( $has_access ) {
+                // categories with access (type 2)
+                $covered_categories  = array(
+                    'included' => array(),
+                    'excluded' => null,
+                );
+                // excluded categories (type 1)
+                $excluded_categories = array();
+
+                // go through subscriptions with access and find covered and excluded categories
+                foreach ( $subscriptions_with_access as $subscription_with_access_id ) {
+                    $subscription_with_access_data = $model->get_subscription( $subscription_with_access_id );
+                    $access_category            = $subscription_with_access_data['access_category'];
+                    $access_type                = $subscription_with_access_data['access_to'];
+                    if ( $access_type === 2 ) {
+                        $covered_categories['included'][] = $access_category;
+                    } else if ( $access_type === 1 ) {
+                        $excluded_categories[] = $access_category;
+                    } else {
+                        return array();
+                    }
+                }
+
+                // case: full access, except for specific categories
+                if ( $excluded_categories ) {
+                    foreach ( $excluded_categories as $excluded_category_id ) {
+                        // search for excluded category in covered categories
+                        $has_covered_category = array_search( $excluded_category_id, $covered_categories );
+                        if ( $has_covered_category !== false ) {
+                            return array();
+                        } else {
+                            //  if more than 1 subscription with excluded category was purchased,
+                            //  and if its values are not matched, then all categories are covered
+                            if ( isset( $covered_categories['excluded'] ) && ( $covered_categories['excluded'] !== $excluded_category_id ) ) {
+                                return array();
+                            }
+                            // store the only category not covered
+                            $covered_categories['excluded'] = $excluded_category_id;
+                        }
+                    }
+                }
+
+                // get data without covered categories or only excluded
+                if ( isset( $covered_categories['excluded'] ) ) {
+                    $subscriptions = $model->get_subscriptions_by_category_ids( array( $covered_categories['excluded'] ) );
+                } else {
+                    $subscriptions = $model->get_subscriptions_by_category_ids( $covered_categories['included'], true );
+                }
+            }
+        }
+
+        if ( $ignore_deleted ) {
+            // filter deleted subscriptions
+            foreach ( $subscriptions as $key => $subscription ) {
+                if ( $subscription['is_deleted'] ) {
+                    unset( $subscriptions[ $key ] );
+                }
+            }
+        }
+
+        return $subscriptions;
     }
 
     /**

@@ -229,6 +229,7 @@ class LaterPay_Core_Bootstrap
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Appearance() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_TimePasses() );
+        laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Subscriptions() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Rates() );
     }
 

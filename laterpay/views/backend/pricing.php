@@ -672,6 +672,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <p>
                         <?php echo laterpay_sanitize_output( __( 'Click the "Create" button to add a Subscription.', 'laterpay' ) ); ?>
                     </p>
+                    <p>
+                        <span style="color: red;" data-icon="n"></span><?php echo laterpay_sanitize_output( __( 'Important: if your LaterPay merchant account has been created before June 2017, please contact sales@laterpay.net to check, if subscriptions are enabled for your account.', 'laterpay' ) ); ?>
+                    </p>
                 </div>
             </div>
         </div>

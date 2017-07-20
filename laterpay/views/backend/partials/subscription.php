@@ -56,7 +56,7 @@ if ( $laterpay_subscription['access_to'] != 0 ) {
             <tr>
                 <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Renewal', 'laterpay' ) ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <?php echo laterpay_sanitize_output( __( 'After', 'laterpay' ) . ' ' . $laterpay_subscription['duration'] . ' ' . $period ); ?>
+                    <span class="lp_js_subscriptionPreviewRenewal"><?php echo laterpay_sanitize_output( __( 'After', 'laterpay' ) . ' ' . $laterpay_subscription['duration'] . ' ' . $period ); ?></span>
                 </td>
             </tr>
             <tr>

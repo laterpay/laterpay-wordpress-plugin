@@ -7,12 +7,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 global $wpdb;
 
-$table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
-$table_history      = $wpdb->prefix . 'laterpay_payment_history';
-$table_post_views   = $wpdb->prefix . 'laterpay_post_views';
-$table_time_passes  = $wpdb->prefix . 'laterpay_passes';
-$table_postmeta     = $wpdb->postmeta;
-$table_usermeta     = $wpdb->usermeta;
+$table_terms_price   = $wpdb->prefix . 'laterpay_terms_price';
+$table_history       = $wpdb->prefix . 'laterpay_payment_history';
+$table_post_views    = $wpdb->prefix . 'laterpay_post_views';
+$table_time_passes   = $wpdb->prefix . 'laterpay_passes';
+$table_subscriptions = $wpdb->prefix . 'laterpay_subscriptions';
+$table_postmeta      = $wpdb->postmeta;
+$table_usermeta      = $wpdb->usermeta;
 
 // remove custom tables
 $sql = "
@@ -20,7 +21,8 @@ $sql = "
         $table_terms_price,
         $table_history,
         $table_post_views,
-        $table_time_passes
+        $table_time_passes,
+        $table_subscriptions
     ;
 ";
 $wpdb->query( $sql );

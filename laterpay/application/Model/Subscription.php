@@ -45,7 +45,7 @@ class LaterPay_Model_Subscription
             FROM
                 {$this->table}
             WHERE
-                pass_id = %d
+                id = %d
         ";
 
         if ( $ignore_deleted ) {

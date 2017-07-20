@@ -135,6 +135,7 @@
                 },
                 classes                             : {
                     form                                : 'lp_js_subscriptionForm',
+                    editorForm                          : 'lp_js_subscriptionEditorForm',
                     durationClass                       : 'lp_js_switchSubscriptionDuration',
                     titleClass                          : 'lp_js_subscriptionTitleInput',
                     priceClass                          : 'lp_js_subscriptionPriceInput',
@@ -150,7 +151,8 @@
                     description                         : '.lp_js_subscriptionPreviewDescription',
                     validity                            : '.lp_js_subscriptionPreviewValidity',
                     access                              : '.lp_js_subscriptionPreviewAccess',
-                    price                               : '.lp_js_subscriptionPreviewPrice'
+                    price                               : '.lp_js_subscriptionPreviewPrice',
+                    renewal                             : '.lp_js_subscriptionPreviewRenewal'
                 },
                 actions                             : {
                     create                              : $('#lp_js_addSubscription'),
@@ -464,9 +466,9 @@
             // set price
             $o.subscription.editor
             .on('keyup', $o.subscription.fields.price, debounce(function() {
-                    validatePrice($(this).parents('form'), true, $(this));
+                    validatePrice($(this).parents('form'), true, $(this), true);
                     updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
-                }, 800)
+                }, 4000)
             );
 
             // cancel
@@ -552,7 +554,7 @@
             .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
         },
 
-        validatePrice = function($form, disableRevenueValidation, $input) {
+        validatePrice = function($form, disableRevenueValidation, $input, subscriptionValidation) {
             var $priceInput = $input ? $input : $('.lp_number-input', $form),
                 price       = $priceInput.val();
 
@@ -574,11 +576,19 @@
             // prevent negative prices
             price = Math.abs(price);
 
-            // correct prices outside the allowed range of 0.05 - 149.99
-            if (price > lpVars.currency.sis_max) {
-                price = lpVars.currency.sis_max;
-            } else if (price > 0 && price < lpVars.currency.ppu_min) {
-                price = lpVars.currency.ppu_min;
+            if (subscriptionValidation) {
+                if (price < lpVars.currency.sis_min) {
+                    price = lpVars.currency.sis_min;
+                } else if (price > lpVars.currency.sis_max) {
+                    price = lpVars.currency.sis_max;
+                }
+            } else {
+                // correct prices outside the allowed range of 0.05 - 149.99
+                if (price > lpVars.currency.sis_max) {
+                    price = lpVars.currency.sis_max;
+                } else if (price > 0 && price < lpVars.currency.ppu_min) {
+                    price = lpVars.currency.ppu_min;
+                }
             }
 
             if ( ! disableRevenueValidation ) {
@@ -848,17 +858,17 @@
         },
 
         formatSelect2ForEntity = function(data, container) {
-            var $form = $(container).parents('form'),
+            var form = $(container).parents('form'),
                 $entity = $o.timepass;
 
-            if ( $form.hasClass( $o.subscription.classes.editorForm ) ) {
+            if ($(form).hasClass($o.subscription.classes.editorForm)) {
                 $entity = $o.subscription;
             }
 
             if (data.id) {
-                $($entity.fields.categoryId, $form).val(data.id);
+                $($entity.fields.categoryId, $(form)).val(data.id);
             }
-            $($entity.fields.scopeCategory, $form).val(data.text);
+            $($entity.fields.scopeCategory, $(form)).val(data.text);
 
             return data.text;
         },
@@ -1038,7 +1048,7 @@
             }
         },
 
-        updateEntityPreview = function( type, $wrapper, $input) {
+        updateEntityPreview = function(type, $wrapper, $input) {
             // insert at least one space to avoid placeholder to collapse
             var $entity = $o[type],
                 text = ($input.val() !== '') ? $input.val() : ' ';
@@ -1051,6 +1061,10 @@
                 text    = duration + ' ' + period;
                 // update pass validity in pass preview
                 $($entity.preview.validity, $wrapper).text(text);
+                // update renewal if subscription
+                if (type === 'subscription') {
+                    $($entity.preview.renewal, $wrapper).text(lpVars.i18n.after + ' ' + text);
+                }
             } else if (
                 $input.hasClass($entity.classes.scopeClass) || $input.hasClass($entity.classes.scopeCategoryClass)
             ) {

@@ -29,7 +29,8 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
     public static function get_subscribed_events() {
         return array(
             'laterpay_loaded' => array(
-                array( 'buy_post' )
+                array( 'buy_post', 10 ),
+                array( 'set_token', 5 )
             ),
             'laterpay_purchase_button' => array(
                 array( 'laterpay_on_preview_post_as_admin', 200 ),
@@ -353,6 +354,35 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                     time() + 60,
                     '/'
                 );
+            }
+
+            wp_redirect( get_permalink( $request->get_param( 'post_id' ) ) );
+            // exit script after redirect was set
+            exit;
+        }
+    }
+
+    /**
+     * Set Laterpay token if it was provided after redirect and not processed by purchase functions.
+     */
+    public function set_token() {
+        $request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+        $request           = new LaterPay_Core_Request();
+
+        $client_options    = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client   = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        // check token and set if necessary
+        if ( $lptoken = $request->get_param('lptoken') ) {
+            if ( LaterPay_Client_Signing::verify( $request->get_param( 'hmac' ), $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+                // set token
+                $laterpay_client->set_token($lptoken);
             }
 
             wp_redirect( get_permalink( $request->get_param( 'post_id' ) ) );
