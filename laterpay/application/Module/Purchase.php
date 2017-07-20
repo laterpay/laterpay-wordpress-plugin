@@ -228,7 +228,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 ),
                 array(
                     'title' => __( 'Pay Later', 'laterpay' ),
-                    'text'  => __( sprintf( 'Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay.', $this->config->get( 'currency.ppu_max' ), $this->config->get( 'currency.default' ) ), 'laterpay' ),
+                    'text'  => sprintf( __( 'Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay.', 'laterpay' ), $this->config->get( 'currency.ppu_max' ), $this->config->get( 'currency.default' ) ),
                     'class' => 'lp_benefit--pay-later',
                 ),
             );

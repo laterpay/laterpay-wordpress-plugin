@@ -4,7 +4,7 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.7.2
+Tested up to: 4.7.5
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -123,8 +123,8 @@ use add_filter( 'laterpay_access_check_enabled', your_callback_returning_boolean
 * By default, the plugin has set a Global Default Price of 0.29 after the activation – that means that each of your existing posts costs 0.29 by default. If you want to change this: In the "Pricing" section, you can define the Global Default Price, and also set Category Default Prices.
 * If you want to set prices only for specific posts, and keep the rest of your content free, we recommend to set a Global Default Price of 0.00, and set an individual price for the respective posts. You can set an individual price for a post by opening this post for editing. In the upper right corner, you will see the LaterPay pricing widget.
 * In the plugin, you will see two important terms: Pay Now and Pay Later – these are so called "revenue models" and define, if a post has to be paid immediately or can be paid later.
-* If you choose PPU for a price, that means: The user agrees to pay later, and gets immediate access to the content – without upfront payment or registration. LaterPay keeps track of the user's device invoice and asks the user to pay, once the invoice has (across various websites) reached a total of 5.00 €/$. That's the LaterPay signature model and provides the unique and most convenient LaterPay purchase experience. You can use the PPU model for prices between 0.05 and 5.00.
-* If you choose SIS for a price, that means: The user has to register/login, and pay immediately before getting access to the purchase. This model might make sense for higher-priced items. The SIS model can be used for prices between 1.49 € / $1.99 and 149.99.
+* If you choose "Pay Later" for a price, that means: The user agrees to pay later, and gets immediate access to the content – without upfront payment or registration. LaterPay keeps track of the user's device invoice and asks the user to pay, once the invoice has (across various websites) reached a total of 5.00 €/$. That's the LaterPay signature model and provides the unique and most convenient LaterPay purchase experience. You can use the PPU model for prices between 0.05 and 5.00.
+* If you choose "Pay Now" for a price, that means: The user has to register/login, and pay immediately before getting access to the purchase. This model might make sense for higher-priced items. The SIS model can be used for prices between 1.49 € / $1.99 and 149.99.
 * If you want to start earning money, you have to first register a LaterPay merchant account and request your
   Live API credentials (See section "Test and Live Mode" above).
 
@@ -196,6 +196,14 @@ Please see the "Test and Live Mode" section.
 8. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+
+= 0.9.24 ( May 18, 2017 ): Bugfix Release (v1.0 RC17) =
+* Removed PPUL payment model, added advanced setting for "Login required" instead.
+* PPU and SIS abbreviations were replaced with "Pay Later" and "Pay Now" accordingly.
+* Fixed translation issue on purchase overlay.
+* Fixed issues with "drag and drop" and price input on dynamic pricing widget.
+* Reduced "Pay Now" threshold for U.S. region.
+* Fixed incorrect "Pay Later" validation for dynamic pricing.
 
 = 0.9.23 ( March 02, 2017 ): Bugfix Release (v1.0 RC16) =
 * Added support for the LaterPay U.S. system
