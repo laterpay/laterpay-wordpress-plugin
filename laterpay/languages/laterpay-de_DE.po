@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2017-07-20 10:48+0000\n"
-"PO-Revision-Date: 2017-07-20 10:48+0000\n"
+"POT-Creation-Date: 2017-07-20 11:49+0000\n"
+"PO-Revision-Date: 2017-07-20 11:50+0000\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de-DE\n"
@@ -29,6 +29,15 @@ msgstr ""
 #: views/backend/appearance.php:215
 msgid "Hide free posts from homepage feature is"
 msgstr ""
+
+#: application/Module/Purchase.php:231
+#, php-format
+msgid ""
+"Buy with LaterPay until you reach a total of %s %s.<br> Only then do you "
+"have to register and pay."
+msgstr ""
+"Kaufen Sie mit LaterPay, bis Sie eine Summe von %s %s erreicht haben.<br>\n"
+"Erst dann müssen Sie sich registrieren und bezahlen."
 
 #: application/Controller/Admin.php:274
 msgid ""
