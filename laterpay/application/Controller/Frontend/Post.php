@@ -511,6 +511,16 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             }
         }
 
+        // check access for subscriptions
+        $subscriptions = LaterPay_Helper_Subscription::get_tokenized_ids();
+
+        foreach ( $subscriptions as $subscription ) {
+            // add a tokenized subscription id to the array of posts to be queried for access, if it's not loaded already
+            if ( ! array_key_exists( $subscription, LaterPay_Helper_Post::get_access_state() ) ) {
+                $post_ids[] = $subscription;
+            }
+        }
+
         if ( empty( $post_ids ) ) {
             return;
         }
