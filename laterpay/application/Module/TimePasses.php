@@ -38,9 +38,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_time_passes_widget' ),
             ),
-            'laterpay_admin_notices' => array(
-                array( 'maybe_add_only_time_pass_purchase_option' ),
-            ),
             'laterpay_purchase_overlay_content' => array(
                 array( 'on_purchase_overlay_content', 5 ),
             ),
@@ -454,25 +451,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $this->assign( 'laterpay', $view_args );
 
         $event->set_result( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
-    }
-
-    /**
-     * Adding option to allow only time pass purchases.
-     *
-     * @since 0.9.11
-     * @wp-hook admin_notices
-     *
-     * @return void
-     */
-    public function maybe_add_only_time_pass_purchase_option() {
-        $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
-            return;
-        }
-
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === null ) {
-            add_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
-        }
     }
 
     /**

@@ -110,7 +110,7 @@ delete_option( 'laterpay_main_color' );
 delete_option( 'laterpay_hover_color' );
 delete_option( 'laterpay_require_login' );
 delete_option( 'laterpay_region' );
-delete_option( 'laterpay_version' );
+delete_option( 'laterpay_plugin_version' );
 
 // register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;

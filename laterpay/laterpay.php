@@ -189,7 +189,7 @@ function laterpay_before_start() {
     try {
         $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
-        // clean plugin cache to prevent pesistant caching
+        // clean plugin cache to prevent persistent caching
         laterpay_clean_plugin_cache();
 
         if ( ! class_exists( 'LaterPay_Autoloader' ) ) {

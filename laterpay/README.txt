@@ -197,8 +197,11 @@ Please see the "Test and Live Mode" section.
 
 == Changelog ==
 
+= 0.9.25.1 (July 27, 2017): Bugfix Release (v1.0 RC19) =
+* Fixed issue with the activation of subscriptions after plugin update.
+
 = 0.9.25 ( July 20, 2017 ): Bugfix Release (v1.0 RC18) =
-* Added support for LaterPay subscriptions
+* Added support for LaterPay subscriptions.
 
 = 0.9.24 ( May 18, 2017 ): Bugfix Release (v1.0 RC17) =
 * Removed PPUL payment model, added advanced setting for "Login required" instead.
