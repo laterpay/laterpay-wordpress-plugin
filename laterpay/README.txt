@@ -197,6 +197,9 @@ Please see the "Test and Live Mode" section.
 
 == Changelog ==
 
+= 0.9.25.2 (August 8, 2017): Bugfix Release (v1.0 RC20) =
+* Fixed translation issues
+
 = 0.9.25.1 (July 27, 2017): Bugfix Release (v1.0 RC19) =
 * Fixed issue with the activation of subscriptions after plugin update.
 
