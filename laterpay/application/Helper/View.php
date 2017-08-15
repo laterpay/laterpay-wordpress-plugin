@@ -196,12 +196,14 @@ class LaterPay_Helper_View
     /**
      * Format number based on its type.
      *
-     * @param float   $number
+     * @param mixed   $number
      * @param bool    $is_monetary
      *
      * @return string $formatted
      */
     public static function format_number( $number, $is_monetary = true ) {
+        $number = floatval( $number );
+
         if ( $is_monetary ) {
             // format monetary values
             if ( $number < 200 ) {

@@ -160,7 +160,8 @@ class LaterPay_Helper_Config {
 
         // process limits keys
         foreach ( $currency_limits as $key => $val ) {
-            $simple_key = end( explode( '.', $key ) );
+            $key_components = explode( '.', $key );
+            $simple_key = end( $key_components );
             $currency_limits[ $simple_key ] = $val;
             unset( $currency_limits[ $key ] );
         }
