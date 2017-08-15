@@ -16,7 +16,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
-        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+        $currency = LaterPay_Helper_Config::get_currency_config();
 
         $this->set_field(
             '_wpnonce',

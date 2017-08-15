@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php echo laterpay_sanitize_output( $laterpay['global_default_price'] ); ?>
                         </span>
                         <span class="lp_js_currency lp_currency">
-                            <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
+                            <?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?>
                         </span>
                         <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge">
                             <?php echo laterpay_sanitize_output( LaterPay_Helper_Pricing::get_revenue_label( $laterpay['global_default_price_revenue_model'] ) ); ?>
@@ -92,7 +92,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 name="laterpay_global_price"
                                                 value="<?php echo esc_attr( $laterpay['global_default_price'] ); ?>"
                                                 placeholder="<?php echo esc_attr( LaterPay_Helper_View::format_number( 0 ) ); ?>">
-                                        <span class="lp_js_currency lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></span>
+                                        <span class="lp_js_currency lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -158,7 +158,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <?php echo laterpay_sanitize_output( $category_price ); ?>
                                 </span>
                                 <span class="lp_js_currency lp_currency">
-                                    <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
+                                    <?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?>
                                 </span>
                                 <span class="lp_js_revenueModelLabelDisplay lp_badge">
                                     <?php echo laterpay_sanitize_output( LaterPay_Helper_Pricing::get_revenue_label( $category_revenue_model ) ); ?>
@@ -197,7 +197,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                         class="lp_js_priceInput lp_js_categoryDefaultPriceInput lp_input lp_number-input"
                                                         value="<?php echo esc_attr( LaterPay_Helper_View::format_number( $category->category_price ) ); ?>"
                                                         placeholder="<?php echo esc_attr( LaterPay_Helper_View::format_number( 0 ) ); ?>">
-                                                <span class="lp_js_currency lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></span>
+                                                <span class="lp_js_currency lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?></span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -261,7 +261,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <span class="lp_js_categoryDefaultPriceDisplay lp_category-price">
                         </span>
                         <span class="lp_js_currency lp_currency">
-                            <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
+                            <?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?>
                         </span>
                         <span class="lp_js_revenueModelLabelDisplay lp_badge">
                         </span>
@@ -299,7 +299,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 class="lp_js_priceInput lp_js_categoryDefaultPriceInput lp_input lp_number-input"
                                                 value="<?php echo esc_attr( $laterpay['global_default_price'] ); ?>"
                                                 placeholder="<?php echo esc_attr( LaterPay_Helper_View::format_number( 0 ) ); ?>">
-                                        <span class="lp_js_currency lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></span>
+                                        <span class="lp_js_currency lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -373,7 +373,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <span class="lp_voucher__code"><?php echo laterpay_sanitize_output( $voucher_code ); ?></span>
                                         <span class="lp_voucher__code-infos">
                                             <?php echo laterpay_sanitize_output( __( 'reduces the price to', 'laterpay' ) ); ?>
-                                            <?php echo laterpay_sanitize_output( $voucher_data['price'] . ' ' . $laterpay['currency']['default'] ); ?>.<br>
+                                            <?php echo laterpay_sanitize_output( $voucher_data['price'] . ' ' . $laterpay['currency']['code'] ); ?>.<br>
                                             <span class="lp_js_voucherTimesRedeemed">
                                                 <?php
                                                     echo laterpay_sanitize_output( ( ! isset( $laterpay['vouchers_statistic'][ $pass['pass_id'] ][ $voucher_code ] ) ) ?
@@ -452,7 +452,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             name="price"
                                             value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>"
                                             maxlength="6">
-                                        <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
+                                        <?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?>
                                         <?php echo laterpay_sanitize_output( __( 'and the user has to', 'laterpay' ) ); ?>
                                     </td>
                                 </tr>
@@ -504,7 +504,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                        class="lp_js_voucherPriceInput lp_input lp_number-input"
                                        value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>"
                                        maxlength="6">
-                                <span><?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></span>
+                                <span><?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?></span>
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php echo laterpay_sanitize_output( __( 'Generate voucher code', 'laterpay' ) ); ?>
                                 </a>
@@ -593,7 +593,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                name="price"
                                                value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>"
                                                maxlength="6">
-                                        <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
+                                        <?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?>
                                         <?php echo laterpay_sanitize_output( __( ', grants ', 'laterpay' ) ); ?>
                                     </td>
                                 </tr>
@@ -749,8 +749,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 value="<?php echo esc_attr( $laterpay['global_default_price'] ); ?>"
                                 placeholder="<?php echo esc_attr( __( '0.00', 'laterpay' ) ); ?>">
                             <select name="bulk_change_unit" id="lp_js_selectBulkChangeUnit" class="lp_input lp_bulkPriceUnit lp_is-disabled">
-                                <option value="<?php echo esc_attr( $laterpay['currency']['default'] ); ?>">
-                                    <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?>
+                                <option value="<?php echo esc_attr( $laterpay['currency']['code'] ); ?>">
+                                    <?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?>
                                 </option>
                                 <option value="percent">%</option>
                             </select>

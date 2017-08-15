@@ -59,7 +59,7 @@ class LaterPay_Helper_Subscription
             $subscription['access_to'] = self::get_default_options( 'access_to' );
         }
 
-        $currency = $config->get( 'currency.default' );
+        $currency = $config->get( 'currency.code' );
 
         $details['duration'] = $subscription['duration'] . ' ' .
             LaterPay_Helper_TimePass::get_period_options( $subscription['period'], $subscription['duration'] > 1 );
@@ -223,7 +223,7 @@ class LaterPay_Helper_Subscription
         }
 
         $config   = laterpay_get_plugin_config();
-        $currency = $config->get( 'currency.default' );
+        $currency = $config->get( 'currency.code' );
         $price    = isset( $data['price'] ) ? $data['price'] : $subscription['price'];
         $link     = isset( $data['link'] ) ? $data['link'] : get_permalink();
 

@@ -167,7 +167,7 @@ class LaterPay_Helper_TimePass
             $time_pass['access_to'] = self::get_default_options( 'access_to' );
         }
 
-        $currency = $config->get( 'currency.default' );
+        $currency = $config->get( 'currency.code' );
 
         $details['duration'] = $time_pass['duration'] . ' ' .
                                 LaterPay_Helper_TimePass::get_period_options( $time_pass['period'], $time_pass['duration'] > 1 );
@@ -445,7 +445,7 @@ class LaterPay_Helper_TimePass
         }
 
         $config         = laterpay_get_plugin_config();
-        $currency       = $config->get( 'currency.default' );
+        $currency       = $config->get( 'currency.code' );
         $price          = isset( $data['price'] ) ? $data['price'] : $time_pass['price'];
         $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $time_pass['revenue_model'], $price );
         $link           = isset( $data['link'] ) ? $data['link'] : get_permalink();

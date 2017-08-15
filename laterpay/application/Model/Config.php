@@ -66,6 +66,11 @@ class LaterPay_Model_Config
     protected $frozen = false;
 
     /**
+     * Section necessary for filter functionality
+     */
+    private $section = false;
+
+    /**
      * Set new value.
      *
      * @param  string $name
@@ -132,6 +137,33 @@ class LaterPay_Model_Config
         }
 
         return $this->parent->get( $name );
+    }
+
+    /**
+     * Get section variables
+     *
+     * @param $section
+     *
+     * @return array
+     */
+    public function get_section( $section ) {
+        // set section
+        $this->section = $section;
+
+        // return filtered array
+        return array_filter( $this->properties, array( $this, 'filter' ), ARRAY_FILTER_USE_KEY );
+    }
+
+    /**
+     * Filter section parts
+     *
+     * @param $key
+     *
+     * @return bool
+     */
+    private function filter($key) {
+        // pass only sections that have name with section part
+        return strpos($key, $this->section) === 0;
     }
 
     /**

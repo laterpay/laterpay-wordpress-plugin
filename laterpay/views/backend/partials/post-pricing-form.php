@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled'; } ?>>
         </div><!-- layout works with display:inline-block; comments are there to suppress spaces
      --><div class="lp_layout__item lp_3/16">
-            <div class="lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></div>
+            <div class="lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?></div>
         </div>
     </div>
 
@@ -101,7 +101,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <a href="#"
                                 data-price="<?php echo esc_attr( LaterPay_Helper_View::format_number( $category['category_price'] ) ); ?>"
                                 data-revenue-model="<?php echo esc_attr( $category['revenue_model'] ); ?>">
-                                <span><?php echo laterpay_sanitize_output( LaterPay_Helper_View::format_number( $category['category_price'] ) ); ?> <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></span><?php echo laterpay_sanitize_output( $category['category_name'] ); ?>
+                                <span><?php echo laterpay_sanitize_output( LaterPay_Helper_View::format_number( $category['category_price'] ) ); ?> <?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?></span><?php echo laterpay_sanitize_output( $category['category_name'] ); ?>
                             </a>
                         </li>
                     <?php endforeach; ?>

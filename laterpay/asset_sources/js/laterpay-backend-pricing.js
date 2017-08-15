@@ -130,7 +130,6 @@
                     categoryId                          : '.lp_js_subscriptionCategoryId',
                     title                               : '.lp_js_subscriptionTitleInput',
                     price                               : '.lp_js_subscriptionPriceInput',
-                    revenueModel                        : '.lp_js_subscriptionRevenueModelInput',
                     description                         : '.lp_js_subscriptionDescriptionTextarea'
                 },
                 classes                             : {
@@ -468,7 +467,7 @@
             .on('keyup', $o.subscription.fields.price, debounce(function() {
                     validatePrice($(this).parents('form'), true, $(this), true);
                     updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
-                }, 4000)
+                }, 1000)
             );
 
             // cancel
@@ -518,7 +517,7 @@
                 $o.bulkPriceChangeAmountPreposition.text(
                     lpVars.i18n.toCategoryDefaultPrice + ' ' +
                     $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
-                    lpVars.currency.default
+                    lpVars.currency.code
                 );
             });
 
@@ -614,11 +613,11 @@
                 input = $o.revenueModelInput;
 
             if ($form.hasClass($o.timepass.classes.editorForm)) {
-                input = $o.timePassRevenueModel;
+                input = $o.timepass.fields.revenueModel;
             }
 
-            var $payPerUse          = $(input + '[value=' + $o.payPerUse + ']', $form),
-                $singleSale         = $(input + '[value=' + $o.singleSale + ']', $form);
+            var $payPerUse  = $(input + '[value=' + $o.payPerUse + ']', $form),
+                $singleSale = $(input + '[value=' + $o.singleSale + ']', $form);
 
             currentRevenueModel = $('input:radio:checked', $form).val();
 
@@ -1079,8 +1078,8 @@
             } else if ($input.hasClass($entity.classes.priceClass)) {
                 // update pass price in pass preview
                 $('.lp_js_purchaseLink', $wrapper)
-                .html(text + '<small class="lp_purchase-link__currency">' + lpVars.currency.default + '</small>');
-                $($entity.preview.price).text(text + ' ' + lpVars.currency.default);
+                .html(text + '<small class="lp_purchase-link__currency">' + lpVars.currency.code + '</small>');
+                $($entity.preview.price).text(text + ' ' + lpVars.currency.code);
             } else if ($input.hasClass($entity.classes.titleClass)) {
                 // update pass title in pass preview
                 $($entity.preview.title, $wrapper).text(text);
@@ -1331,7 +1330,7 @@
 
         addVoucher = function(code, voucherData, $timePass) {
             var priceValue = voucherData.price ? voucherData.price : voucherData,
-                price      = priceValue + ' ' + lpVars.currency.default,
+                price      = priceValue + ' ' + lpVars.currency.code,
                 title      = voucherData.title ? voucherData.title : '',
                 voucher = '<div class="lp_js_voucher lp_voucher" data-code="' + code + '" style="display:none;">' +
                             '<input type="hidden" name="voucher_code[]" value="' + code + '">' +
@@ -1357,7 +1356,7 @@
             var passId          = $timePass.data($o.timepass.data.id),
                 timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
                 title           = voucherData.title ? voucherData.title : '',
-                price           = voucherData.price + ' ' + lpVars.currency.default,
+                price           = voucherData.price + ' ' + lpVars.currency.code,
                 voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
                                         '<span class="lp_voucher__title"><b>' + title + '</b></span>' +
                                         '<div>' +
@@ -1486,7 +1485,7 @@
                     $o.bulkPriceChangeAmountPreposition.text(
                         lpVars.i18n.toGlobalDefaultPrice + ' ' +
                             lpVars.globalDefaultPrice + ' ' +
-                            lpVars.currency.default
+                            lpVars.currency.code
                     );
                     if ($o.bulkPriceObjectsCategoryWithPrice.length) {
                         addOptionInCategory(showCategory);
