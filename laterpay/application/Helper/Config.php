@@ -26,9 +26,9 @@ class LaterPay_Helper_Config {
                 'code'                    => 'EUR',
                 'dynamic_start'           => 13,
                 'dynamic_end'             => 18,
+                'default_price'           => 0.29,
                 'limits' => array(
                     'default' => array(
-                        'default_price'   => 0.29,
                         'ppu_min'         => 0.05,
                         'ppu_only_limit'  => 1.48,
                         'ppu_max'         => 5.00,
@@ -37,7 +37,6 @@ class LaterPay_Helper_Config {
                         'sis_max'         => 149.99
                     ),
                     'pro' => array(
-                        'default_price'   => 0.29,
                         'ppu_min'         => 0.05,
                         'ppu_only_limit'  => 49.98,
                         'ppu_max'         => 250.00,
@@ -63,9 +62,9 @@ class LaterPay_Helper_Config {
                 'code'                    => 'USD',
                 'dynamic_start'           => 13,
                 'dynamic_end'             => 18,
+                'default_price'           => 0.29,
                 'limits' => array(
                     'default' => array(
-                        'default_price'   => 0.29,
                         'ppu_min'         => 0.05,
                         'ppu_only_limit'  => 1.98,
                         'ppu_max'         => 5.00,
@@ -74,7 +73,6 @@ class LaterPay_Helper_Config {
                         'sis_max'         => 149.99,
                     ),
                     'pro' => array(
-                        'default_price'   => 0.29,
                         'ppu_min'         => 0.05,
                         'ppu_only_limit'  => 1.98,
                         'ppu_max'         => 5.00,
@@ -155,7 +153,8 @@ class LaterPay_Helper_Config {
         $currency_general = array(
             'code'          => $config->get( 'currency.code' ),
             'dynamic_start' => $config->get( 'currency.dynamic_start' ),
-            'dynamic_end'   => $config->get( 'currency.dynamic_end' )
+            'dynamic_end'   => $config->get( 'currency.dynamic_end' ),
+            'default_price' => $config->get( 'currency.default_price' )
         );
 
         // process limits keys

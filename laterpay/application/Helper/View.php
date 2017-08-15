@@ -202,21 +202,12 @@ class LaterPay_Helper_View
      * @return string $formatted
      */
     public static function format_number( $number, $is_monetary = true ) {
+        // convert value to float if incorrect type passed
         $number = floatval( $number );
 
         if ( $is_monetary ) {
-            // format monetary values
-            if ( $number < 200 ) {
-                // format values up to 200 with two digits
-                // 200 is used to make sure the maximum Single Sale price of 149.99 is still formatted with two digits
-                $formatted = number_format_i18n( $number, 2 );
-            } elseif ( $number >= 200 && $number < 10000 ) {
-                // format values between 200 and 10,000 without digits
-                $formatted = number_format_i18n( $number, 0 );
-            } else {
-                // reduce values above 10,000 to thousands and format them with one digit
-                $formatted = number_format_i18n( $number / 1000, 1 ) . __( 'k', 'laterpay' ); // k -> short for kilo (thousands)
-            }
+            // format value with 2 digits
+            $formatted = number_format_i18n( $number, 2 );
         } else {
             // format count values
             if ( $number < 10000 ) {
