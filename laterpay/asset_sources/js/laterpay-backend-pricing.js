@@ -561,10 +561,10 @@
             price = price.replace(/[^0-9\,\.]/g, '');
 
             // convert price to proper float value
-            if (price.indexOf(',') > -1) {
-                price = parseFloat(price.replace(',', '.')).toFixed(2);
+            if (lpVars.locale.indexOf( 'de_DE' ) !== -1) {
+                price = parseFloat(price.replace('.', '').replace(',', '.')).toFixed(2);
             } else {
-                price = parseFloat(price).toFixed(2);
+                price = parseFloat(price.replace(',', '')).toFixed(2);
             }
 
             // prevent non-number prices

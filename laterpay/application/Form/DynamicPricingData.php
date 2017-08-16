@@ -62,8 +62,12 @@ class LaterPay_Form_DynamicPricingData extends LaterPay_Form_Abstract
                 ),
                 'filters' => array(
                     'delocalize',
-                    'format_num' => 2,
-                    'to_float',
+                    'format_num' => array(
+                        'decimals'      => 2,
+                        'dec_sep'       => '.',
+                        'thousands_sep' => ''
+                    ),
+                    'to_float'
                 ),
             )
         );

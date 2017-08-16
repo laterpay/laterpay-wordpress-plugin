@@ -147,7 +147,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'categories_with_defined_price'         => $categories_with_defined_price,
             'currency'                              => LaterPay_Helper_Config::get_currency_config(),
             'plugin_is_in_live_mode'                => $this->config->get( 'is_in_live_mode' ),
-            'global_default_price'                  => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
+            'global_default_price'                  => get_option( 'laterpay_global_price' ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
             'passes_list'                           => $time_passes_list,
             'vouchers_list'                         => $vouchers_list,
@@ -319,14 +319,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         $delocalized_global_price   = $global_price_form->get_field_value( 'laterpay_global_price' );
         $global_price_revenue_model = $global_price_form->get_field_value( 'laterpay_global_price_revenue_model' );
+        $localized_global_price     = LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) );
 
         update_option( 'laterpay_global_price', $delocalized_global_price );
         update_option( 'laterpay_global_price_revenue_model', $global_price_revenue_model );
 
-        $global_price           = (float) get_option( 'laterpay_global_price' );
-        $localized_global_price = LaterPay_Helper_View::format_number( $global_price );
-
-        if ( $global_price === 0 ) {
+        if ( ! get_option( 'laterpay_global_price' ) ) {
             $message = __( 'All posts are free by default now.', 'laterpay' );
         } else {
             $message = sprintf(
@@ -904,7 +902,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 // normalize prices and format with 2 digits in form
                 $voucher_price = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
                 $vouchers_data[ $code ] = array(
-                    'price' => number_format( LaterPay_Helper_View::normalize( $voucher_price ), 2 ),
+                    'price' => number_format( LaterPay_Helper_View::normalize( $voucher_price ), 2, '.', '' ),
                     'title' => isset( $voucher_titles[ $idx ] ) ? $voucher_titles[ $idx ] : '',
                 );
             }
