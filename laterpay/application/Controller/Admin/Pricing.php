@@ -319,7 +319,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         $delocalized_global_price   = $global_price_form->get_field_value( 'laterpay_global_price' );
         $global_price_revenue_model = $global_price_form->get_field_value( 'laterpay_global_price_revenue_model' );
-        $localized_global_price     = LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) );
+        $localized_global_price     = LaterPay_Helper_View::format_number( $delocalized_global_price );
 
         update_option( 'laterpay_global_price', $delocalized_global_price );
         update_option( 'laterpay_global_price_revenue_model', $global_price_revenue_model );
@@ -337,7 +337,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $event->set_result(
             array(
                 'success'             => true,
-                'price'               => $localized_global_price,
+                'price'               => number_format( $delocalized_global_price, 2, '.', '' ),
+                'localized_price'     => $localized_global_price,
                 'revenue_model'       => $global_price_revenue_model,
                 'revenue_model_label' => LaterPay_Helper_Pricing::get_revenue_label( $global_price_revenue_model ),
                 'message'             => $message,
@@ -420,7 +421,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             array(
                 'success'             => true,
                 'category'            => $category,
-                'price'               => $localized_category_price,
+                'price'               => number_format( $delocalized_category_price, 2, '.', '' ),
+                'localized_price'     => $localized_category_price,
                 'currency'            => $currency,
                 'category_id'         => $category_id,
                 'revenue_model'       => $category_price_revenue_model,
@@ -505,12 +507,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      *
      * @param array $category_ids
      *
-     * @return void
+     * @return array
      */
     protected function get_category_prices( $category_ids ) {
-        $categories_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $category_ids );
-
-        return $categories_price_data;
+        return LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $category_ids );
     }
 
     /**
@@ -911,10 +911,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // save vouchers for this pass
         LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $vouchers_data );
 
-        $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
-        $hmtl_data             = $data;
-        $data['price']         = LaterPay_Helper_View::format_number( $data['price'] );
-        $vouchers              = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id );
+        $data['category_name']   = get_the_category_by_ID( $data['access_category'] );
+        $hmtl_data               = $data;
+        $data['price']           = number_format( $data['price'], 2, '.', '' );
+        $data['localized_price'] = LaterPay_Helper_View::format_number( $data['price'] );
+        $vouchers                = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id );
 
         $event->set_result(
             array(
@@ -1006,9 +1007,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // update subscription data or create new subscriptions
         $data = $subscription_model->update_subscription( $data );
 
-        $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
-        $hmtl_data             = $data;
-        $data['price']         = LaterPay_Helper_View::format_number( $data['price'] );
+        $data['category_name']   = get_the_category_by_ID( $data['access_category'] );
+        $hmtl_data               = $data;
+        $data['price']           = number_format( $data['price'], 2, '.', '' );
+        $data['localized_price'] = LaterPay_Helper_View::format_number( $data['price'] );
 
         $event->set_result(
             array(

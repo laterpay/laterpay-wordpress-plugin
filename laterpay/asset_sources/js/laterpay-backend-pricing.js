@@ -561,11 +561,7 @@
             price = price.replace(/[^0-9\,\.]/g, '');
 
             // convert price to proper float value
-            if (lpVars.locale.indexOf( 'de_DE' ) !== -1) {
-                price = parseFloat(price.replace('.', '').replace(',', '.')).toFixed(2);
-            } else {
-                price = parseFloat(price.replace(',', '')).toFixed(2);
-            }
+            price = parseFloat(price.replace(',', '.')).toFixed(2);
 
             // prevent non-number prices
             if (isNaN(price)) {
@@ -663,7 +659,7 @@
                 easing: 'ease-out',
                 complete: function() {
                     setTimeout(function() {
-                        $o.globalDefaultPriceInput.val($.trim($o.globalDefaultPriceDisplay.text())).focus();
+                        $o.globalDefaultPriceInput.focus();
                     }, 50);
                 }
             });
@@ -675,9 +671,9 @@
             $o.globalDefaultPriceEditElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
             $o.globalDefaultPriceForm.removeClass($o.editing);
             // reset value of price input to current global default price
-            $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text());
+            $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.data('price'));
             // reset revenue model input to current revenue model
-            var currentRevenueModel = $o.globalDefaultPriceRevenueModelDisplay.text().toLowerCase();
+            var currentRevenueModel = $o.globalDefaultPriceRevenueModelDisplay.data('revenue');
             $($o.revenueModelLabel, $o.globalDefaultPriceForm).removeClass($o.selected);
             $('.lp_js_revenueModelInput[value=' + currentRevenueModel + ']', $o.globalDefaultPriceForm)
             .prop('checked', 'checked')
@@ -695,8 +691,10 @@
                 $o.globalDefaultPriceForm.serializeArray(),
                 function(r) {
                     if (r.success) {
-                        $o.globalDefaultPriceDisplay.text(r.price);
-                        $o.globalDefaultPriceRevenueModelDisplay.text(r.revenue_model);
+                        $o.globalDefaultPriceDisplay.text(r.localized_price).data('price', r.price);
+                        $o.globalDefaultPriceRevenueModelDisplay
+                            .text(r.revenue_model_label)
+                            .data('revenue', r.revenue_model);
                     }
                     $o.navigation.showMessage(r);
                     exitEditModeGlobalDefaultPrice();
@@ -760,8 +758,10 @@
                 function(r) {
                     if (r.success) {
                         // update displayed price information
-                        $($o.categoryDefaultPriceDisplay, $form).text(r.price);
-                        $($o.revenueModelLabelDisplay, $form).text(r.revenue_model);
+                        $($o.categoryDefaultPriceDisplay, $form).text(r.localized_price).data('price', r.price);
+                        $($o.revenueModelLabelDisplay, $form)
+                            .text(r.revenue_model_label)
+                            .data('revenue', r.revenue_model);
                         $($o.categoryDefaultPriceInput, $form).val(r.price);
                         $($o.categoryTitle, $form).text(r.category);
                         $($o.categoryId, $form).val(r.category_id);
@@ -801,9 +801,9 @@
                 .velocity('slideUp', { duration: 250, easing: 'ease-out' });
                 $($o.selectCategory, $form).select2('destroy');
                 // reset value of price input to current category default price
-                $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).text().trim());
+                $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).data('price'));
                 // reset revenue model input to current revenue model
-                var currentRevenueModel = $($o.revenueModelLabelDisplay, $form).text().toLowerCase();
+                var currentRevenueModel = $($o.revenueModelLabelDisplay, $form).data('revenue');
                 $($o.revenueModelLabel, $form).removeClass($o.selected);
                 $('.lp_js_revenueModelInput[value=' + currentRevenueModel + ']', $form)
                 .prop('checked', 'checked')
