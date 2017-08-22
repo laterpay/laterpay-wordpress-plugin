@@ -63,7 +63,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the settings page for all LaterPay advanced settings.
      *
-     * @return string
+     * @return void
      */
     public function render_advanced_settings_page() {
         $this->load_assets();
@@ -96,6 +96,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
         $this->add_laterpay_api_settings();
+        $this->add_laterpay_pro_merchant();
     }
 
     public function add_colors_settings() {
@@ -135,6 +136,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         register_setting( 'laterpay', 'laterpay_hover_color' );
     }
 
+    /**
+     * Get colors section description
+     *
+     * @return void
+     */
     public function get_colors_section_description() {
         echo laterpay_sanitize_output( '<p>' .
             __( 'You can customize the colors of clickable LaterPay elements.', 'laterpay' ) .
@@ -189,7 +195,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the debugger section.
      *
-     * @return string description
+     * @return void
      */
     public function get_debugger_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -234,7 +240,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the caching section.
      *
-     * @return string description
+     * @return void
      */
     public function get_caching_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -275,7 +281,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the enabled post types section.
      *
-     * @return string description
+     * @return void
      */
     public function get_enabled_post_types_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -317,7 +323,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the enabled post types section.
      *
-     * @return string description
+     * @return void
      */
     public function get_time_passes_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -357,7 +363,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the enabled post types section.
      *
-     * @return string description
+     * @return void
      */
     public function get_revenue_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -397,7 +403,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the gift codes section.
      *
-     * @return string description
+     * @return void
      */
     public function get_gift_codes_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -465,7 +471,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the teaser content section.
      *
-     * @return string description
+     * @return void
      */
     public function get_teaser_content_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -540,7 +546,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the preview excerpt section.
      *
-     * @return string description
+     * @return void
      */
     public function get_preview_excerpt_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -621,7 +627,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the unlimited access section.
      *
-     * @return string description
+     * @return void
      */
     public function get_unlimited_access_section_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -650,7 +656,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      *
      * @param array $field array of field params
      *
-     * @return string input markup
+     * @return void
      */
     public function get_input_field_markup( $field = null ) {
         $inputs_markup = '';
@@ -700,6 +706,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 $inputs_markup .= ' disabled';
             }
 
+            // add onclick support
+            if ( isset( $field['onclick'] ) && $field['onclick'] ) {
+                $inputs_markup .= ' onclick="' . $field['onclick'] . '"';
+            }
+
             $inputs_markup .= '>';
 
             if ( isset( $field['appended_text'] ) ) {
@@ -719,7 +730,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      *
      * @param array $field array of field params
      *
-     * @return string select markup
+     * @return void
      */
     public function get_select_field_markup( $field = null ) {
         $select_markup = '';
@@ -784,7 +795,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      *
      * @param array $field array of field parameters
      *
-     * @return string unlimited access form markup
+     * @return void
      */
     public function get_unlimited_access_markup( $field = null ) {
         $role       = isset( $field['role'] ) ? $field['role'] : null;
@@ -890,7 +901,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the inputs for the enabled post types section.
      *
-     * @return string enabled post types checkboxes markup
+     * @return void
      */
     public function get_enabled_post_types_markup() {
         $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
@@ -963,7 +974,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * Render the hint text for the LaterPay API section.
      *
-     * @return string description
+     * @return void
      */
     public function get_laterpay_api_description() {
         echo laterpay_sanitize_output( '<p>' .
@@ -994,5 +1005,49 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 'description'   => __( 'Premium content is hidden from users. Direct access would be blocked.', 'laterpay' ),
             ),
         );
+    }
+
+    /**
+     * Add LaterPay Pro merchant settings
+     *
+     * @return void
+     */
+    public function add_laterpay_pro_merchant() {
+        add_settings_section(
+            'laterpay_pro_merchant',
+            __( 'LaterPay Pro Merchant', 'laterpay' ),
+            array( $this, 'get_laterpay_pro_merchant_description' ),
+            'laterpay'
+        );
+
+        $confirm_message = __( 'Only choose this option, if you have a LaterPay Pro merchant account. Otherwise, selling content with LaterPay might not work anymore.If you have questions about LaterPay Pro, please contact sales@laterpay.net. Are you sure that you want to choose this option?', 'laterpay' );
+
+        add_settings_field(
+            'laterpay_pro_merchant',
+            __( 'LaterPay Pro Merchant', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_pro_merchant',
+            array(
+                'name'    => 'laterpay_pro_merchant',
+                'value'   => 1,
+                'type'    => 'checkbox',
+                'label'   => __( 'I have a LaterPay Pro merchant account.', 'laterpay' ),
+                'onclick' => "if (this.checked) return confirm('{$confirm_message}'); else return true;"
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_pro_merchant' );
+    }
+
+    /**
+     * Render the hint text for the LaterPay Pro Merchant section.
+     *
+     * @return void
+     */
+    public function get_laterpay_pro_merchant_description() {
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'Please choose, if you have a LaterPay Pro merchant account.', 'laterpay' ) .
+            '</p>' );
     }
 }

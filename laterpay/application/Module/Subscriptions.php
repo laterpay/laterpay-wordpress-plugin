@@ -73,7 +73,7 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
 
         $this->assign( 'laterpay_subscription', $args );
         $this->assign( 'laterpay',      array(
-            'standard_currency' => $this->config->get( 'currency.default' ),
+            'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
         $string = $this->get_text_view( 'backend/partials/subscription' );

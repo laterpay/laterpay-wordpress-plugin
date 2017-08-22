@@ -20,6 +20,7 @@ class LaterPay_Helper_Subscription
      * @return mixed option value | array of options
      */
     public static function get_default_options( $key = null ) {
+        $currency_config = LaterPay_Helper_Config::get_currency_config();
 
         $defaults = array(
             'id'              => '0',
@@ -27,7 +28,7 @@ class LaterPay_Helper_Subscription
             'period'          => '3',
             'access_to'       => '0',
             'access_category' => '',
-            'price'           => laterpay_get_plugin_config()->get( 'currency.sis_min' ),
+            'price'           => $currency_config['sis_min'],
             'title'           => __( '1 Month Subscription', 'laterpay' ),
             'description'     => __( '1 month access to all content on this website (cancellable anytime)', 'laterpay' ),
         );
@@ -59,7 +60,7 @@ class LaterPay_Helper_Subscription
             $subscription['access_to'] = self::get_default_options( 'access_to' );
         }
 
-        $currency = $config->get( 'currency.default' );
+        $currency = $config->get( 'currency.code' );
 
         $details['duration'] = $subscription['duration'] . ' ' .
             LaterPay_Helper_TimePass::get_period_options( $subscription['period'], $subscription['duration'] > 1 );
@@ -223,7 +224,7 @@ class LaterPay_Helper_Subscription
         }
 
         $config   = laterpay_get_plugin_config();
-        $currency = $config->get( 'currency.default' );
+        $currency = $config->get( 'currency.code' );
         $price    = isset( $data['price'] ) ? $data['price'] : $subscription['price'];
         $link     = isset( $data['link'] ) ? $data['link'] : get_permalink();
 

@@ -23,17 +23,29 @@ class LaterPay_Helper_Config {
                 'sandbox_api_key'         => '57791c777baa4cea94c4ec074184e06d',
             ),
             'currency' => array(
-                'default'                 => 'EUR',
-                'default_price'           => 0.29,
-                'ppu_min'                 => 0.05,
-                'ppu_only_limit'          => 1.48,
-                'ppu_max'                 => 5.00,
-                'sis_min'                 => 1.49,
-                'sis_only_limit'          => 5.01,
-                'sis_max'                 => 149.99,
+                'code'                    => 'EUR',
                 'dynamic_start'           => 13,
                 'dynamic_end'             => 18,
-            )
+                'default_price'           => 0.29,
+                'limits' => array(
+                    'default' => array(
+                        'ppu_min'         => 0.05,
+                        'ppu_only_limit'  => 1.48,
+                        'ppu_max'         => 5.00,
+                        'sis_min'         => 1.49,
+                        'sis_only_limit'  => 5.01,
+                        'sis_max'         => 149.99
+                    ),
+                    'pro' => array(
+                        'ppu_min'         => 0.05,
+                        'ppu_only_limit'  => 49.98,
+                        'ppu_max'         => 250.00,
+                        'sis_min'         => 49.99,
+                        'sis_only_limit'  => 250.01,
+                        'sis_max'         => 1000.00
+                    )
+                )
+            ),
         ),
         'us' => array(
             'api' => array(
@@ -47,16 +59,28 @@ class LaterPay_Helper_Config {
                 'sandbox_api_key'         => '22627fa7cbce45d394a8718fd9727731',
             ),
             'currency' => array(
-                'default'                 => 'USD',
-                'default_price'           => 0.29,
-                'ppu_min'                 => 0.05,
-                'ppu_only_limit'          => 1.98,
-                'ppu_max'                 => 5.00,
-                'sis_min'                 => 1.99,
-                'sis_only_limit'          => 5.01,
-                'sis_max'                 => 149.99,
+                'code'                    => 'USD',
                 'dynamic_start'           => 13,
                 'dynamic_end'             => 18,
+                'default_price'           => 0.29,
+                'limits' => array(
+                    'default' => array(
+                        'ppu_min'         => 0.05,
+                        'ppu_only_limit'  => 1.98,
+                        'ppu_max'         => 5.00,
+                        'sis_min'         => 1.99,
+                        'sis_only_limit'  => 5.01,
+                        'sis_max'         => 149.99,
+                    ),
+                    'pro' => array(
+                        'ppu_min'         => 0.05,
+                        'ppu_only_limit'  => 1.98,
+                        'ppu_max'         => 5.00,
+                        'sis_min'         => 1.99,
+                        'sis_only_limit'  => 5.01,
+                        'sis_max'         => 149.99,
+                    )
+                )
             )
         )
     );
@@ -64,9 +88,9 @@ class LaterPay_Helper_Config {
     /**
      * Get regional settings
      *
-     * @return array|null
+     * @return array
      */
-    public static function get_regional_settings( $one_dimension = true ) {
+    public static function get_regional_settings() {
         $region = get_option( 'laterpay_region', 'eu' );
 
         // region correction
@@ -75,26 +99,29 @@ class LaterPay_Helper_Config {
             $region = 'eu';
         }
 
-        // get all settings
-        $settings = self::$regional_settings[ $region ];
+        return self::build_settings_list(self::$regional_settings[ $region ]);
+    }
 
-        // convert to 1 dimensional array for config
-        if ( $one_dimension ) {
-            // temporal 1 dimensional array
-            $temp = array();
+    /**
+     * Build settings list
+     *
+     * @return array
+     */
+    protected static function build_settings_list( $settings, $prefix = '' ) {
+        $list = array();
 
-            // build 1 dim array
-            foreach ( $settings as $parent_key => $options ) {
-                foreach ( $options as $key => $value ) {
-                    $temp_key = $parent_key . '.' . $key;
-                    $temp[ $temp_key ] = $value;
-                }
+        foreach ( $settings as $key => $value ) {
+            $setting_name = $prefix . $key;
+
+            if ( is_array( $value ) ) {
+                $list = array_merge( $list, self::build_settings_list( $value, $setting_name . '.' ) );
+                continue;
             }
 
-            $settings = $temp;
+            $list[$setting_name] = $value;
         }
 
-        return $settings;
+        return $list;
     }
 
     /**
@@ -104,11 +131,41 @@ class LaterPay_Helper_Config {
      *
      * @return array|null
      */
-    public static function get_section( $section ) {
-        // get unformatted regional settings
-        $settings = self::get_regional_settings( false );
+    public static function get_settings_section( $section ) {
+        // get regional settings
+        $region = get_option( 'laterpay_region', 'eu' );
 
-        return isset( $settings[ $section ] ) ? $settings[ $section ] : null;
+        return isset( $settings[ $region ][ $section ] ) ? $settings[ $region ][ $section ] : null;
+    }
+
+    /**
+     * Get currency config
+     *
+     * @return array
+     */
+    public static function get_currency_config() {
+        $config = laterpay_get_plugin_config();
+        $limits_section = 'currency.limits';
+        $plan = get_option( 'laterpay_pro_merchant', 0 ) ? 'pro' : 'default';
+
+        // get limits
+        $currency_limits  = $config->get_section( $limits_section . '.' . $plan );
+        $currency_general = array(
+            'code'          => $config->get( 'currency.code' ),
+            'dynamic_start' => $config->get( 'currency.dynamic_start' ),
+            'dynamic_end'   => $config->get( 'currency.dynamic_end' ),
+            'default_price' => $config->get( 'currency.default_price' )
+        );
+
+        // process limits keys
+        foreach ( $currency_limits as $key => $val ) {
+            $key_components = explode( '.', $key );
+            $simple_key = end( $key_components );
+            $currency_limits[ $simple_key ] = $val;
+            unset( $currency_limits[ $key ] );
+        }
+
+        return array_merge( $currency_limits, $currency_general );
     }
 
     /**

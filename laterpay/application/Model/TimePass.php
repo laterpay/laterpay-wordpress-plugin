@@ -109,6 +109,9 @@ class LaterPay_Model_TimePass
             $data['pass_id'] = $time_pass_id;
         }
 
+        // purge cache
+        LaterPay_Helper_Cache::purge_cache();
+
         return $data;
     }
 
@@ -223,7 +226,12 @@ class LaterPay_Model_TimePass
             'pass_id' => (int) $time_pass_id,
         );
 
-        return $wpdb->update( $this->table, array( 'is_deleted' => 1 ), $where, array( '%d' ), array( '%d' ) );
+        $result = $wpdb->update( $this->table, array( 'is_deleted' => 1 ), $where, array( '%d' ), array( '%d' ) );
+
+        // purge cache
+        LaterPay_Helper_Cache::purge_cache();
+
+        return $result;
     }
 
     /**

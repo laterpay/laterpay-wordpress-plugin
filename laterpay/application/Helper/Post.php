@@ -184,7 +184,7 @@ class LaterPay_Helper_Post
 
         $config = laterpay_get_plugin_config();
 
-        $currency       = $config->get( 'currency.default' );
+        $currency       = $config->get( 'currency.code' );
         $price          = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
 
@@ -263,7 +263,7 @@ class LaterPay_Helper_Post
         $view_args = array(
             'post_id'                   => $post->ID,
             'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
-            'currency'                  => $config->get( 'currency.default' ),
+            'currency'                  => $config->get( 'currency.code' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
         );

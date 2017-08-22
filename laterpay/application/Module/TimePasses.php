@@ -234,7 +234,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $laterpay_pass['preview_post_as_visitor'] = LaterPay_Helper_User::preview_post_as_visitor( get_post() );
 
         $args = array(
-            'standard_currency' => $this->config->get( 'currency.default' ),
+            'standard_currency' => $this->config->get( 'currency.code' ),
         );
         $this->assign( 'laterpay',      $args );
         $this->assign( 'laterpay_pass', $laterpay_pass );

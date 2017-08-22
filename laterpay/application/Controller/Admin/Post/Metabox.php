@@ -138,7 +138,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             'laterpay-d3-dynamic-pricing-widget',
             'laterpay_d3_dynamic_pricing_widget',
             array(
-                'currency'          => $this->config->get( 'currency.default' ),
+                'currency'          => $this->config->get( 'currency.code' ),
                 'i18nDefaultPrice'  => __( 'default price', 'laterpay' ),
                 'i18nDays'          => __( 'days', 'laterpay' ),
                 'i18nToday'         => __( 'Today', 'laterpay' ),
@@ -333,7 +333,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
         }
 
         // get currency settings for current region
-        $currency_settings = LaterPay_Helper_Config::get_section( 'currency' );
+        $currency_settings = LaterPay_Helper_Config::get_currency_config();
 
         echo laterpay_sanitized( '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />' );
 
