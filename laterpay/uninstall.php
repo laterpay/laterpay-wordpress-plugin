@@ -111,6 +111,7 @@ delete_option( 'laterpay_hover_color' );
 delete_option( 'laterpay_require_login' );
 delete_option( 'laterpay_region' );
 delete_option( 'laterpay_plugin_version' );
+delete_option( 'laterpay_pro_merchant' );
 
 // register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
