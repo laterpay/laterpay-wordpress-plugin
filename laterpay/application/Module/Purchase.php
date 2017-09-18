@@ -130,7 +130,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         } else {
             $content = get_the_content();
         }
-        $revenue_model              = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
+
+        $revenue_model = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
+
         // get overlay content
         $overlay_content_event = new LaterPay_Core_Event( array($revenue_model) );
         $overlay_content_event->set_echo( false );
@@ -201,6 +203,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $overlay_title = __( 'Read Now, Pay Later', 'laterpay' );
         }
 
+        // get currency settings
+        $currency = LaterPay_Helper_Config::get_currency_config();
+
         if ( $revenue_model == 'sis' ) {
             $overlay_benefits = array(
                 array(
@@ -228,7 +233,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 ),
                 array(
                     'title' => __( 'Pay Later', 'laterpay' ),
-                    'text'  => sprintf( __( 'Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay.', 'laterpay' ), $this->config->get( 'currency.ppu_max' ), $this->config->get( 'currency.code' ) ),
+                    'text'  => sprintf( __( 'Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay.', 'laterpay' ), $currency['ppu_max'], $currency['code'] ),
                     'class' => 'lp_benefit--pay-later',
                 ),
             );
