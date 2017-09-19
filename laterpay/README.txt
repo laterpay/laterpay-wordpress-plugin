@@ -197,6 +197,10 @@ Please see the "Test and Live Mode" section.
 
 == Changelog ==
 
+= 0.9.26.1 (August 22, 2017): Bugfix Release (v1.0 RC22) =
+* Fixed overlay copy
+* Improved process for requesting live credentials
+
 = 0.9.26 (August 22, 2017): Bugfix Release (v1.0 RC21) =
 * Added support for LaterPay Pro.
 * Changing/removing subscriptions and time passes now auto-purges supported caches.

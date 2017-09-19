@@ -278,7 +278,7 @@
             },
 
             showMerchantContracts = function() {
-                var src                     = 'https://laterpay.net/terms/index.html?group=merchant-contract',
+                var src                     = 'https://www.laterpay.net/form/',
                     viewportHeight          = parseInt($(window).height(), 10),
                     topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
                     iframeHeight            = viewportHeight - topMargin,
