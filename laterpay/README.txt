@@ -4,8 +4,8 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.8.1
-Stable tag: trunk
+Tested up to: 4.8.2
+Stable tag: 0.9.26.2
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -197,7 +197,10 @@ Please see the "Test and Live Mode" section.
 
 == Changelog ==
 
-= 0.9.26.1 (August 22, 2017): Bugfix Release (v1.0 RC22) =
+= 0.9.26.2 (September 21, 2017): Bugfix Release (v1.0 RC23) =
+* Fixed issue with plugin update
+
+= 0.9.26.1 (September 19, 2017): Bugfix Release (v1.0 RC22) =
 * Fixed overlay copy
 * Improved process for requesting live credentials
 
