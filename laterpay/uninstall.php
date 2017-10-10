@@ -7,12 +7,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 global $wpdb;
 
-$table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
-$table_history      = $wpdb->prefix . 'laterpay_payment_history';
-$table_post_views   = $wpdb->prefix . 'laterpay_post_views';
-$table_time_passes  = $wpdb->prefix . 'laterpay_passes';
-$table_postmeta     = $wpdb->postmeta;
-$table_usermeta     = $wpdb->usermeta;
+$table_terms_price   = $wpdb->prefix . 'laterpay_terms_price';
+$table_history       = $wpdb->prefix . 'laterpay_payment_history';
+$table_post_views    = $wpdb->prefix . 'laterpay_post_views';
+$table_time_passes   = $wpdb->prefix . 'laterpay_passes';
+$table_subscriptions = $wpdb->prefix . 'laterpay_subscriptions';
+$table_postmeta      = $wpdb->postmeta;
+$table_usermeta      = $wpdb->usermeta;
 
 // remove custom tables
 $sql = "
@@ -20,7 +21,8 @@ $sql = "
         $table_terms_price,
         $table_history,
         $table_post_views,
-        $table_time_passes
+        $table_time_passes,
+        $table_subscriptions
     ;
 ";
 $wpdb->query( $sql );
@@ -108,7 +110,8 @@ delete_option( 'laterpay_main_color' );
 delete_option( 'laterpay_hover_color' );
 delete_option( 'laterpay_require_login' );
 delete_option( 'laterpay_region' );
-delete_option( 'laterpay_version' );
+delete_option( 'laterpay_plugin_version' );
+delete_option( 'laterpay_pro_merchant' );
 
 // register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;

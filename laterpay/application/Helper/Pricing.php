@@ -297,7 +297,7 @@ class LaterPay_Helper_Pricing
         $post_price             = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
         $price_range_type       = $post_price['price_range_type'];
-        $currency               = LaterPay_Helper_Config::get_section( 'currency' );
+        $currency               = LaterPay_Helper_Config::get_currency_config();
 
         if ( $post_price['change_start_price_after_days'] >= $days_since_publication ) {
             $price = $post_price['start_price'];
@@ -449,7 +449,7 @@ class LaterPay_Helper_Pricing
         if ( ! in_array( $revenue_model, array( 'ppu', 'sis' ) ) ) {
 
             $price    = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
-            $currency = LaterPay_Helper_Config::get_section( 'currency' );
+            $currency = LaterPay_Helper_Config::get_currency_config();
 
             if ( ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) || $price == 0.00 ) {
                 $revenue_model = 'ppu';
@@ -471,7 +471,7 @@ class LaterPay_Helper_Pricing
      * @return string $revenue_model
      */
     public static function ensure_valid_revenue_model( $revenue_model, $price ) {
-        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+        $currency = LaterPay_Helper_Config::get_currency_config();
 
         if ( $revenue_model === 'ppu' ) {
             if ( $price == 0.00 || ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) ) {
@@ -502,7 +502,7 @@ class LaterPay_Helper_Pricing
             return array( 'success' => false, );
         }
 
-        $currency    = LaterPay_Helper_Config::get_section( 'currency' );
+        $currency    = LaterPay_Helper_Config::get_currency_config();
         $post_prices = get_post_meta( $post->ID, 'laterpay_post_prices', true );
         if ( ! is_array( $post_prices ) ) {
             $post_prices = array();
@@ -609,7 +609,7 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function adjust_dynamic_price_points( $start, $end ) {
-        $currency = LaterPay_Helper_Config::get_section( 'currency' );
+        $currency = LaterPay_Helper_Config::get_currency_config();
         $range    = 'ppu';
         $price    = array(
             'start' => $start,
@@ -694,7 +694,7 @@ class LaterPay_Helper_Pricing
      * @return float
      */
     public static function ensure_valid_price( $price ) {
-        $currency        = LaterPay_Helper_Config::get_section( 'currency' );
+        $currency        = LaterPay_Helper_Config::get_currency_config();
         $validated_price = 0;
 
         // set all prices between 0.01 and 0.04 to lowest possible price of 0.05
@@ -994,5 +994,20 @@ class LaterPay_Helper_Pricing
         }
 
         return $parents;
+    }
+
+    /**
+     * Get revenue label
+     *
+     * @param $revenue
+     *
+     * @return mixed
+     */
+    public static function get_revenue_label( $revenue ) {
+        if ( $revenue === 'sis' ) {
+            return __( 'Pay Now', 'laterpay' );
+        }
+
+        return __( 'Pay Later', 'laterpay' );
     }
 }

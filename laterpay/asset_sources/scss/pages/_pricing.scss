@@ -35,7 +35,7 @@
 .lp_price-section {
     .lp_badge {
         margin-left: $fs--025;
-        width: $fs--2;
+        padding: 2px $fs--025;
     }
 }
 
@@ -53,15 +53,17 @@
 
 
 // time passes ---------------------------------------------------------------------------------------------------------
-.lp_time-passes__item {
+.lp_time-passes__item,
+.lp_subscriptions__item {
     @extend %lp_greybox;
 
-    margin: 0 ($fs * 4) $fs round($fs * 3.5);
+    margin: 0 auto $fs;
     padding-bottom: $fs--05;
     position: relative;
     width: round($fs * 27.5);
 
-    .lp_time-pass__id-wrapper {
+    .lp_time-pass__id-wrapper,
+    .lp_subscription__id-wrapper {
         background: $background--darker;
         border-radius: 4px 0 0 4px;
         left: - round($fs * 3.5);
@@ -72,7 +74,9 @@
         width: $fs--3;
     }
 
-    .lp_time-pass__id {
+    .lp_time-pass__id,
+    .lp_subscription__id {
+        display: block;
         font-size: $fs--2;
     }
 
@@ -82,11 +86,13 @@
     }
 }
 
-.lp_time-pass-editor {
+.lp_time-pass-editor,
+.lp_subscription-editor {
     display: inline-block;
     vertical-align: top;
 
-    .lp_time-pass-editor__column {
+    .lp_time-pass-editor__column,
+    .lp_subscription-editor__column {
         margin-top: $fs;
 
         td {
@@ -101,7 +107,8 @@
         }
     }
 
-    .lp_timePass_description-input {
+    .lp_timePass_description-input,
+    .lp_subscription_description-input {
         height: round($fs * 4.75);
     }
 
@@ -111,6 +118,16 @@
         .lp_toggle__input:checked ~ .lp_toggle__text {
             background: darken($background, 16%);
         }
+    }
+}
+
+.lp_price-panel {
+    position: relative;
+
+    &__buttons {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 

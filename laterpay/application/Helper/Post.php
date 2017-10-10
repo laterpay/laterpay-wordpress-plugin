@@ -76,12 +76,22 @@ class LaterPay_Helper_Post
                 }
             }
 
+            // check, if parent post has access with subscriptions
+            $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id($parent_post);
+            $subscriptions = LaterPay_Helper_Subscription::get_tokenized_ids($subscriptions_list);
+
+            foreach ($subscriptions as $subscription) {
+                if (array_key_exists($subscription, self::$access) && self::$access[$subscription]) {
+                    $has_access = true;
+                }
+            }
+
             // check access for the particular post
             if ( ! $has_access ) {
                 if ( array_key_exists( $post->ID, self::$access ) ) {
                     $has_access = (bool)self::$access[$post->ID];
                 } elseif ( LaterPay_Helper_Pricing::get_post_price($post->ID) > 0) {
-                    $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post->ID ), $time_passes ) );
+                    $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post->ID ), $time_passes, $subscriptions ) );
 
                     if ( empty( $result ) || ! array_key_exists('articles', $result) ) {
                         laterpay_get_logger()->warning(
@@ -174,7 +184,7 @@ class LaterPay_Helper_Post
 
         $config = laterpay_get_plugin_config();
 
-        $currency       = $config->get( 'currency.default' );
+        $currency       = $config->get( 'currency.code' );
         $price          = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
 
@@ -253,7 +263,7 @@ class LaterPay_Helper_Post
         $view_args = array(
             'post_id'                   => $post->ID,
             'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
-            'currency'                  => $config->get( 'currency.default' ),
+            'currency'                  => $config->get( 'currency.code' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
         );

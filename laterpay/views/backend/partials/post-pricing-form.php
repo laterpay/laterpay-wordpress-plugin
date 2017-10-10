@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] != 'ppu' || $laterpay['price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"
-                    data-tooltip="<?php echo esc_attr( __( 'Pay-per-Use: users pay purchased content later', 'laterpay' ) ); ?>">
+                    data-tooltip="<?php echo esc_attr( __( 'Pay Later: users pay purchased content later', 'laterpay' ) ); ?>">
                 <input type="radio"
                     name="post_revenue_model"
                     value="ppu"
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] != 'sis' ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"
-                    data-tooltip="<?php echo esc_attr( __( 'Single Sale: users pay purchased content immediately', 'laterpay' ) ); ?>">
+                    data-tooltip="<?php echo esc_attr( __( 'Pay Now: users pay purchased content immediately', 'laterpay' ) ); ?>">
                 <input type="radio"
                     name="post_revenue_model"
                     value="sis"
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled'; } ?>>
         </div><!-- layout works with display:inline-block; comments are there to suppress spaces
      --><div class="lp_layout__item lp_3/16">
-            <div class="lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></div>
+            <div class="lp_currency"><?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?></div>
         </div>
     </div>
 
@@ -101,7 +101,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <a href="#"
                                 data-price="<?php echo esc_attr( LaterPay_Helper_View::format_number( $category['category_price'] ) ); ?>"
                                 data-revenue-model="<?php echo esc_attr( $category['revenue_model'] ); ?>">
-                                <span><?php echo laterpay_sanitize_output( LaterPay_Helper_View::format_number( $category['category_price'] ) ); ?> <?php echo laterpay_sanitize_output( $laterpay['currency']['default'] ); ?></span><?php echo laterpay_sanitize_output( $category['category_name'] ); ?>
+                                <span><?php echo laterpay_sanitize_output( LaterPay_Helper_View::format_number( $category['category_price'] ) ); ?> <?php echo laterpay_sanitize_output( $laterpay['currency']['code'] ); ?></span><?php echo laterpay_sanitize_output( $category['category_name'] ); ?>
                             </a>
                         </li>
                     <?php endforeach; ?>

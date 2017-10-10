@@ -511,6 +511,16 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             }
         }
 
+        // check access for subscriptions
+        $subscriptions = LaterPay_Helper_Subscription::get_tokenized_ids();
+
+        foreach ( $subscriptions as $subscription ) {
+            // add a tokenized subscription id to the array of posts to be queried for access, if it's not loaded already
+            if ( ! array_key_exists( $subscription, LaterPay_Helper_Post::get_access_state() ) ) {
+                $post_ids[] = $subscription;
+            }
+        }
+
         if ( empty( $post_ids ) ) {
             return;
         }
@@ -709,7 +719,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),
                     'generalAjaxError'  => __( 'An error occurred. Please try again.', 'laterpay' ),
                 ),
-                'default_currency'      => $this->config->get( 'currency.default' ),
+                'default_currency'      => $this->config->get( 'currency.code' ),
             )
         );
 
@@ -827,7 +837,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
         $post_id = $post->ID;
         // get pricing data
-        $currency   = $this->config->get( 'currency.default' );
+        $currency   = $this->config->get( 'currency.code' );
         $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
 
         $html = $event->get_result();

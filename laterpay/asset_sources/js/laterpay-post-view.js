@@ -29,6 +29,10 @@
                 giftCardActionsPlaceholder      : '.lp_js_giftCardActionsPlaceholder',
                 giftsWrapper                    : $('.lp_js_giftsWrapper'),
 
+                // subscriptions
+                subscription                    : '.lp_js_subscription',
+                flipSubscriptionLink            : '.lp_js_flipSubscription',
+
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
                 postStatisticsPlaceholder       : $('#lp_js_postStatisticsPlaceholder'),
@@ -86,6 +90,13 @@
                     e.preventDefault();
                     flipTimePass(this);
                 });
+
+                // handle clicks on subscription
+                $('body')
+                    .on('click', $o.flipSubscriptionLink, function(e) {
+                        e.preventDefault();
+                        flipTimePass(this);
+                    });
             },
 
             bindPostStatisticsEvents = function() {

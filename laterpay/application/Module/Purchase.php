@@ -29,7 +29,8 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
     public static function get_subscribed_events() {
         return array(
             'laterpay_loaded' => array(
-                array( 'buy_post' )
+                array( 'buy_post', 10 ),
+                array( 'set_token', 5 )
             ),
             'laterpay_purchase_button' => array(
                 array( 'laterpay_on_preview_post_as_admin', 200 ),
@@ -97,7 +98,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $view_args = array_merge( array(
                 'post_id'           => $post->ID,
                 'link'              => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
-                'currency'          => $this->config->get( 'currency.default' ),
+                'currency'          => $this->config->get( 'currency.code' ),
                 'price'             => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
                 'notification_text' => __( 'I already bought this', 'laterpay' ),
                 'identify_url'      => $client->get_identify_url( $back_url, $content_ids ),
@@ -129,7 +130,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         } else {
             $content = get_the_content();
         }
-        $revenue_model              = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
+
+        $revenue_model = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
+
         // get overlay content
         $overlay_content_event = new LaterPay_Core_Event( array($revenue_model) );
         $overlay_content_event->set_echo( false );
@@ -159,7 +162,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
         $post_id = $post->ID;
         // get pricing data
-        $currency                       = $this->config->get( 'currency.default' );
+        $currency                       = $this->config->get( 'currency.code' );
         $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
         $revenue_model                  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
 
@@ -200,6 +203,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $overlay_title = __( 'Read Now, Pay Later', 'laterpay' );
         }
 
+        // get currency settings
+        $currency = LaterPay_Helper_Config::get_currency_config();
+
         if ( $revenue_model == 'sis' ) {
             $overlay_benefits = array(
                 array(
@@ -227,7 +233,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 ),
                 array(
                     'title' => __( 'Pay Later', 'laterpay' ),
-                    'text'  => __( sprintf( 'Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay.', $this->config->get( 'currency.ppu_max' ), $this->config->get( 'currency.default' ) ), 'laterpay' ),
+                    'text'  => sprintf( __( 'Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay.', 'laterpay' ), $currency['ppu_max'], $currency['code'] ),
                     'class' => 'lp_benefit--pay-later',
                 ),
             );
@@ -353,6 +359,35 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                     time() + 60,
                     '/'
                 );
+            }
+
+            wp_redirect( get_permalink( $request->get_param( 'post_id' ) ) );
+            // exit script after redirect was set
+            exit;
+        }
+    }
+
+    /**
+     * Set Laterpay token if it was provided after redirect and not processed by purchase functions.
+     */
+    public function set_token() {
+        $request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+        $request           = new LaterPay_Core_Request();
+
+        $client_options    = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client   = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        // check token and set if necessary
+        if ( $lptoken = $request->get_param('lptoken') ) {
+            if ( LaterPay_Client_Signing::verify( $request->get_param( 'hmac' ), $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+                // set token
+                $laterpay_client->set_token($lptoken);
             }
 
             wp_redirect( get_permalink( $request->get_param( 'post_id' ) ) );

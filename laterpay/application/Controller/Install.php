@@ -25,13 +25,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             ),
             'laterpay_admin_notices' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'render_requirements_notices' ),
-                array( 'install_updates' )
+                array( 'render_requirements_notices' )
             ),
-            'laterpay_upgrade_process_complete' => array(
+            'laterpay_init_finished' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_plugin_updated', 200 ),
-                array( 'refresh_config' ),
                 array( 'install_updates' )
             )
         );
@@ -100,7 +97,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function install_updates() {
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, $this->config->version, '!=' ) ) {
             $this->install();
         }
@@ -125,7 +122,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     public function maybe_update_terms_price_table() {
         global $wpdb;
 
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.8', '<' ) ) {
             return;
         }
@@ -224,7 +221,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     public function maybe_update_time_passes_table() {
         global $wpdb;
 
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.11.4', '<' ) ) {
             return;
         }
@@ -282,7 +279,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function maybe_add_is_in_visible_test_mode_option() {
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
@@ -301,7 +298,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function maybe_clean_api_key_options() {
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
@@ -327,7 +324,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     protected function maybe_update_options() {
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
 
         if ( version_compare( $current_version, '0.9.8.1', '>=' ) ) {
             delete_option( 'laterpay_plugin_is_activated' );
@@ -335,6 +332,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         if ( version_compare( $current_version, '0.9.14', '>=' ) ) {
             delete_option( 'laterpay_access_logging_enabled' );
+        }
+
+        if ( version_compare( $current_version, '0.9.25', '>' ) ) {
+            delete_option( 'laterpay_version' );
         }
 
         // actualize sandbox creds values
@@ -398,7 +399,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function maybe_update_unlimited_access() {
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
@@ -417,7 +418,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function maybe_update_vouchers() {
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.14', '>' ) ) {
             return;
         }
@@ -476,7 +477,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     public function drop_statistics_tables() {
         global $wpdb;
 
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.14', '<' ) ) {
             return;
         }
@@ -504,7 +505,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function init_colors_options() {
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.17', '<' ) ) {
             return;
         }
@@ -521,7 +522,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function remove_old_api_settings() {
-        $current_version = get_option( 'laterpay_version' );
+        $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '0.9.23', '<' ) ) {
             return;
         }
@@ -531,6 +532,57 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         delete_option( 'laterpay_live_backend_api_url' );
         delete_option( 'laterpay_live_dialog_api_url' );
         delete_option( 'laterpay_api_merchant_backend_url' );
+    }
+
+    /**
+     * Remove ppul values
+     *
+     * @since 0.9.24
+     *
+     * @return void
+     */
+    public function maybe_remove_ppul() {
+        $current_version = get_option( 'laterpay_plugin_version' );
+        if ( version_compare( $current_version, '0.9.24', '<' ) ) {
+            return;
+        }
+
+        // update time pass revenues
+        $time_pass_model = new LaterPay_Model_TimePass();
+        $time_passes     = $time_pass_model->get_all_time_passes();
+
+        if ( $time_passes ) {
+            foreach ( $time_passes as $time_pass ) {
+                if ( $time_pass['revenue_model'] === 'ppul' ) {
+                    $time_pass['revenue_model'] = 'ppu';
+                    $time_pass_model->update_time_pass( $time_pass );
+                }
+            }
+        }
+
+        // update global revenue
+        $global_revenue  = get_option( 'laterpay_global_price_revenue_model' );
+
+        if ( $global_revenue === 'ppul' ) {
+            update_option( 'laterpay_global_price_revenue_model', 'ppu' );
+        }
+
+        // update category revenues
+        $category_price_model          = new LaterPay_Model_CategoryPrice();
+        $categories_with_defined_price = $category_price_model->get_categories_with_defined_price();
+
+        if ( $categories_with_defined_price ) {
+            foreach ( $categories_with_defined_price as $category ) {
+                if ( $category->revenue_model === 'ppul' ) {
+                    $category_price_model->set_category_price(
+                        $category->category_id,
+                        $category->category_price,
+                        'ppu',
+                        $category->id
+                    );
+                }
+            }
+        }
     }
 
     /**
@@ -545,6 +597,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
         $table_passes          = $wpdb->prefix . 'laterpay_passes';
+        $table_subscriptions   = $wpdb->prefix . 'laterpay_subscriptions';
 
         $sql = "
             CREATE TABLE IF NOT EXISTS $table_terms_price (
@@ -569,6 +622,24 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 description varchar(255) NULL DEFAULT NULL,
                 is_deleted int(1) NOT NULL DEFAULT 0,
                 PRIMARY KEY  (pass_id),
+                KEY access_to (access_to),
+                KEY period (period),
+                KEY duration (duration)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+        dbDelta( $sql );
+
+        $sql = "
+            CREATE TABLE IF NOT EXISTS $table_subscriptions (
+                id int(11) NOT NULL AUTO_INCREMENT,
+                duration int(11) NULL DEFAULT NULL,
+                period int(11) NULL DEFAULT NULL,
+                access_to int(11) NULL DEFAULT NULL,
+                access_category bigint(20) NULL DEFAULT NULL,
+                price decimal(10,2) NULL DEFAULT NULL,
+                title varchar(255) NULL DEFAULT NULL,
+                description varchar(255) NULL DEFAULT NULL,
+                is_deleted int(1) NOT NULL DEFAULT 0,
+                PRIMARY KEY  (id),
                 KEY access_to (access_to),
                 KEY period (period),
                 KEY duration (duration)
@@ -612,9 +683,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_debugger_addresses',                      '127.0.0.1' );
         add_option( 'laterpay_api_fallback_behavior',                   0 );
         add_option( 'laterpay_api_enabled_on_homepage',                 1 );
+        add_option( 'laterpay_only_time_pass_purchases_allowed',        0 );
 
         // keep the plugin version up to date
-        update_option( 'laterpay_version', $this->config->get( 'version' ) );
+        update_option( 'laterpay_plugin_version', $this->config->get( 'version' ) );
 
         // clear opcode cache
         LaterPay_Helper_Cache::reset_opcode_cache();
@@ -636,6 +708,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->drop_statistics_tables();
         $this->init_colors_options();
         $this->remove_old_api_settings();
+        $this->maybe_remove_ppul();
     }
 
     /**

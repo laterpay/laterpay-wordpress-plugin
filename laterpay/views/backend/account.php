@@ -217,8 +217,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <p id="lp_js_regionNotice" <?php if ( $laterpay['region'] === 'us' ) : ?>class="hidden"<?php endif; ?>>
                     <dfn class="lp_region_notice" data-icon="n">
-                        <?php echo laterpay_sanitize_output( __( "<b>Important:</b> The minimum value for SIS (\"Pay Now\") prices in the U.S. region is <b>$1.99</b>.<br>
-                        If you have already set SIS (\"Pay Now\") prices lower than 1.99, make sure to change them before you switch to the U.S. region.<br>
+                        <?php echo laterpay_sanitize_output( __( "<b>Important:</b> The minimum value for \"Pay Now\" prices in the U.S. region is <b>$1.99</b>.<br>
+                        If you have already set \"Pay Now\" prices lower than 1.99, make sure to change them before you switch to the U.S. region.<br>
                         If you haven't done any configuration yet, you can safely switch the region without further adjustments. 
                         ", 'laterpay' ) ); ?>
                     </dfn>

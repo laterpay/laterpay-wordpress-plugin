@@ -330,7 +330,12 @@ abstract class LaterPay_Form_Abstract
 
         if ( $sanitizer && is_callable( $sanitizer ) ) {
             if ( $filter_params ) {
-                $value = call_user_func( $sanitizer, $value, $filter_params );
+                if ( is_array( $filter_params ) ) {
+                    array_unshift( $filter_params, $value );
+                    $value = call_user_func_array( $sanitizer, $filter_params );
+                } else {
+                    $value = call_user_func( $sanitizer, $value, $filter_params );
+                }
             } else {
                 $value = call_user_func( $sanitizer, $value );
             }

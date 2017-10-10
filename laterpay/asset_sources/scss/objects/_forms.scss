@@ -203,7 +203,6 @@ input[type=text][required] {
 
     &--bold {
         background: darken($background--darker, 2%);
-        margin: (-$fs) (-$fs) $fs $fs;
         padding: $fs;
         font-size: $fs--15;
         float: right;
