@@ -46,6 +46,14 @@ class LaterPay_Helper_Config {
                     )
                 )
             ),
+            'payment' => array(
+                'icons' => array(
+                    'sepa',
+                    'visa',
+                    'mastercard',
+                    'paypal'
+                )
+            )
         ),
         'us' => array(
             'api' => array(
@@ -80,6 +88,15 @@ class LaterPay_Helper_Config {
                         'sis_only_limit'  => 5.01,
                         'sis_max'         => 149.99,
                     )
+                )
+            ),
+            'payment' => array(
+                'icons' => array(
+                    'visa',
+                    'mastercard',
+                    'visa-debit',
+                    'americanexpress',
+                    'discovercard'
                 )
             )
         )

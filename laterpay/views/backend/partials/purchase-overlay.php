@@ -9,13 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="lp_purchase-overlay__wrapper">
         <div class="lp_purchase-overlay__form">
             <section class="lp_purchase-overlay__header">
-                <?php echo laterpay_sanitize_output( __( 'Read now, pay later', 'laterpay' ) ); ?>
+                <?php echo laterpay_sanitize_output( $overlay['header_title'] ); ?>
             </section>
             <section class="lp_purchase-overlay__body">
                 <div class="lp_purchase-overlay__settings">
                     <div class="lp_purchase-overlay-option">
                         <div class="lp_purchase-overlay-option__button">
-                            <input id="lp_purchaseOverlayOptionInput1" type="radio" class="lp_purchase-overlay-option__input" name="lp_purchase-overlay-option" value="1" checked>
+                            <input id="lp_purchaseOverlayOptionInput1" type="radio" class="lp_purchase-overlay-option__input" name="lp_purchase-overlay-option" value="1" checked disabled>
                             <label for="lp_purchaseOverlayOptionInput1" class="lp_purchase-overlay-option__label"></label>
                         </div>
                         <div class="lp_purchase-overlay-option__name">
@@ -28,12 +28,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_purchase-overlay-option__cost">
                             <div class="lp_purchase-overlay-option__price">0.19</div>
-                            <div class="lp_purchase-overlay-option__currency">EUR</div>
+                            <div class="lp_purchase-overlay-option__currency"><?php echo laterpay_sanitize_output( $overlay['currency'] ); ?></div>
                         </div>
                     </div>
                     <div class="lp_purchase-overlay-option">
                         <div class="lp_purchase-overlay-option__button">
-                            <input id="lp_purchaseOverlayOptionInput2" type="radio" class="lp_purchase-overlay-option__input" name="lp_purchase-overlay-option" value="2">
+                            <input id="lp_purchaseOverlayOptionInput2" type="radio" class="lp_purchase-overlay-option__input" name="lp_purchase-overlay-option" value="2" disabled>
                             <label for="lp_purchaseOverlayOptionInput2" class="lp_purchase-overlay-option__label"></label>
                         </div>
                         <div class="lp_purchase-overlay-option__name">
@@ -46,12 +46,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_purchase-overlay-option__cost">
                             <div class="lp_purchase-overlay-option__price">1.49</div>
-                            <div class="lp_purchase-overlay-option__currency">EUR</div>
+                            <div class="lp_purchase-overlay-option__currency"><?php echo laterpay_sanitize_output( $overlay['currency'] ); ?></div>
                         </div>
                     </div>
                     <div class="lp_purchase-overlay-option">
                         <div class="lp_purchase-overlay-option__button">
-                            <input id="lp_purchaseOverlayOptionInput3" type="radio" class="lp_purchase-overlay-option__input" name="lp_purchase-overlay-option" value="3">
+                            <input id="lp_purchaseOverlayOptionInput3" type="radio" class="lp_purchase-overlay-option__input" name="lp_purchase-overlay-option" value="3" disabled>
                             <label for="lp_purchaseOverlayOptionInput3" class="lp_purchase-overlay-option__label"></label>
                         </div>
                         <div class="lp_purchase-overlay-option__name">
@@ -64,7 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_purchase-overlay-option__cost">
                             <div class="lp_purchase-overlay-option__price">149.49</div>
-                            <div class="lp_purchase-overlay-option__currency">EUR</div>
+                            <div class="lp_purchase-overlay-option__currency"><?php echo laterpay_sanitize_output( $overlay['currency'] ); ?></div>
                         </div>
                     </div>
                 </div>
@@ -75,29 +75,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </div>
             </section>
-            <section class="lp_purchase-overlay__footer">
+            <section class="lp_purchase-overlay__footer" <?php if ( $overlay['show_footer'] !== '1' ) echo 'style="display:none;"'; ?>>
                 <ul class="lp_purchase-overlay-payments-list">
+                    <?php foreach ( $overlay['icons'] as $icon ) : ?>
                     <li class="lp_purchase-overlay-payments-item">
-                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-sepa"></i>
+                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-<?php echo $icon; ?>"></i>
                     </li>
-                    <li class="lp_purchase-overlay-payments-item">
-                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-visa"></i>
-                    </li>
-                    <li class="lp_purchase-overlay-payments-item">
-                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-mastercard"></i>
-                    </li>
-                    <li class="lp_purchase-overlay-payments-item">
-                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-sofortueberweisung"></i>
-                    </li>
-                    <!--li class="lp_purchase-overlay-payments-item">
-                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-americanexpress"></i>
-                    </li>
-                    <li class="lp_purchase-overlay-payments-item">
-                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-discovercard"></i>
-                    </li>
-                    <li class="lp_purchase-overlay-payments-item">
-                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-visa-debit"></i>
-                    </li-->
+                    <?php endforeach; ?>
                 </ul>
             </section>
         </div>

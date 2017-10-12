@@ -6,14 +6,14 @@ html body .lp_purchase-overlay {
     margin: $fs--07 auto !important;
 
     .lp_purchase-overlay__form {
-      background: $purchase-background !important;
+      background: $purchase-background;
       border-radius: $border-radius * 2 !important;
       box-shadow: 0 1px $fs rgba(0, 0, 0, .25) !important;
       border-bottom-left-radius: $border-radius * 2 !important;
       border-bottom-right-radius: $border-radius * 2 !important;
 
       .lp_purchase-overlay__header {
-        background: $purchase-header-background !important;
+        background: $purchase-header-background;
         border-top-left-radius: $border-radius * 2 !important;
         border-top-right-radius: $border-radius * 2 !important;
         color: $text--inverse !important;
@@ -37,7 +37,7 @@ html body .lp_purchase-overlay {
       }
 
       .lp_purchase-overlay__footer {
-        background: $purchase-footer-background !important;
+        background: $purchase-footer-background;
         border-bottom-left-radius: $border-radius * 2 !important;
         border-bottom-right-radius: $border-radius * 2 !important;
         padding: $fs--07 $fs--125 $fs--07 !important;
@@ -81,13 +81,13 @@ html body .lp_purchase-overlay {
     }
 
     &__title {
-      color: $purchase-main-text !important;
+      color: $purchase-main-text;
       font-weight: bold !important;
       line-height: 1.4 !important;
     }
 
     &__description {
-      color: $purchase-description-text !important;
+      color: $purchase-description-text;
       font-size: $fs--07 !important;
       line-height: 1.2 !important;
     }
@@ -165,9 +165,9 @@ html body .lp_purchase-overlay {
   }
 
   &__submit {
-    background: $purchase-button-background !important;
+    background: $purchase-button-background;
     border-radius: $border-radius !important;
-    color: $purchase-button-text !important;
+    color: $purchase-button-text;
     display: inline-block !important;
     font-size: $fs--085 !important;
     line-height: 2 !important;
@@ -188,7 +188,7 @@ html body .lp_purchase-overlay {
     margin-top: $fs--02 !important;
 
     & a {
-      color: $laterpay-brand !important;
+      color: $laterpay-brand;
     }
   }
 
@@ -241,8 +241,8 @@ html body .lp_purchase-overlay {
       height: 20.9px * 0.4 !important;
     }
 
-    &-sofortueberweisung:after {
-      background-image: url('../img/logo-sofortueberweisung.svg') !important;
+    &-paypal:after {
+      background-image: url('../img/logo-paypal.svg') !important;
       width: 76px * 0.5 !important;
       height: 24px * 0.5 !important;
     }
