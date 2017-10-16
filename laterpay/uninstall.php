@@ -70,7 +70,7 @@ delete_option( 'laterpay_access_logging_enabled' );
 
 delete_option( 'laterpay_caching_compatibility' );
 
-delete_option( 'laterpay_teaser_content_only' );
+delete_option( 'laterpay_teaser_mode' );
 
 delete_option( 'laterpay_teaser_content_word_count' );
 

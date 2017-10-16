@@ -90,5 +90,4 @@ if ( ! defined( 'ABSPATH' ) ) {
             <span data-icon="a"></span>
         </div>
     </div>
-
 </div>

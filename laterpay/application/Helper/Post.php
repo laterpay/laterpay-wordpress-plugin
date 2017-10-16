@@ -44,9 +44,11 @@ class LaterPay_Helper_Post
      * @return array
      */
     public static function get_content_ids( $post_id ) {
-        $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post_id );
-        $time_passes      = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
-        return array_merge( array_merge( array( $post_id ), $time_passes ) );
+        $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post_id );
+        $time_passes        = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
+        $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post_id );
+        $subscriptions      = LaterPay_Helper_Subscription::get_tokenized_ids( $subscriptions_list );
+        return array_merge( array_merge( array( $post_id ), $time_passes, $subscriptions ) );
     }
 
     /**

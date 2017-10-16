@@ -21,8 +21,8 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
      */
     public static function get_subscribed_events() {
         return array(
-            'laterpay_post_content' => array(
-                array( 'modify_post_content', 250 ),
+            'laterpay_show_rating_form' => array(
+                array( 'add_rating_form' ),
             ),
             'laterpay_post_rating' => array(
                 array( 'show_summary_rating_placeholder', 0 ),
@@ -31,71 +31,29 @@ class LaterPay_Module_Rates extends LaterPay_Core_View implements LaterPay_Core_
     }
 
     /**
-     * Modify the post content of paid posts.
-     *
-     * @wp-hook the_content
+     * Add rating form to content
      *
      * @param LaterPay_Core_Event $event
      *
-     * @return string $content
+     * @return void
      */
-    public function modify_post_content( LaterPay_Core_Event $event ) {
-        if ( $event->has_argument( 'post' ) ) {
-            $post = $event->get_argument( 'post' );
-        } else {
-            $post = get_post();
-        }
-        if ( $post === null ) {
-            return;
-        }
+    public function add_rating_form( LaterPay_Core_Event $event ) {
+        $post = $event->get_argument( 'post' );
 
-        $post_id = $post->ID;
-        // get pricing data
-        $price   = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        // ger current content
+        $content = $event->get_argument( 'content' );
 
-        // return the full content, if no price was found for the post
-        if ( $price === 0 ) {
-            return;
-        }
-        // check, if user has admin rights
-        $user_has_unlimited_access      = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
-        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
-        if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
-            return;
-        }
-
-        $content = $event->get_result();
-
-        // get values for output states
-        $show_post_ratings              = get_option( 'laterpay_ratings' );
-        $user_can_read_statistics       = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
-
-        // caching and Ajax
-        $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
-        $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
-        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
-
-        // check, if user has access to content (because he already bought it)
-        $access = LaterPay_Helper_Post::has_access_to_post( $post );
-
-        // switch to 'admin' mode and load the correct content, if user can read post statistics
-        if ( $user_can_read_statistics ) {
-            $access = true;
-        }
-        /**
-         * return the full encrypted content, if ...
-         * ...the post was bought by a user
-         * ...and logged_in_user does not preview the post as visitor
-         */
-        if ( $access && ! $preview_post_as_visitor && $show_post_ratings ) {
-            $user_has_already_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
+        /** Add rating form if post purchased */
+        if ( $event->get_argument( 'access' ) && ! $event->get_argument( 'is_preview' ) ) {
+            $user_has_already_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post->ID );
             // append rating form to content, if content rating is enabled
             if ( ! $user_has_already_voted ) {
                 $view_args = array(
-                    'post_id' => $post_id,
+                    'post_id' => $post->ID,
                 );
                 $this->assign( 'laterpay', $view_args );
-                $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating-form' ) );
+                $rating_form = LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating-form' ) );
+                $content = $rating_form . $content;
             }
         }
 

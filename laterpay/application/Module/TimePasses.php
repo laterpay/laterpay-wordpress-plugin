@@ -38,8 +38,11 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_time_passes_widget' ),
             ),
+            'laterpay_explanatory_overlay_content' => array(
+                array( 'on_explanatory_overlay_content', 5 ),
+            ),
             'laterpay_purchase_overlay_content' => array(
-                array( 'on_purchase_overlay_content', 5 ),
+                array( 'on_purchase_overlay_content', 8 ),
             ),
             'wp_ajax_laterpay_post_statistic_render' => array(
                 array( 'ajax_render_tab_without_statistics', 200 ),
@@ -183,7 +186,14 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $post = get_post();
         }
 
+        // disable if no post specified
         if ( $post === null ) {
+            $event->stop_propagation();
+            return;
+        }
+
+        // disable in purchase mode
+        if ( get_option( 'laterpay_teaser_mode' ) === '2' ) {
             $event->stop_propagation();
             return;
         }
@@ -459,9 +469,9 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * @param LaterPay_Core_Event $event
      * @var string                $revenue_model       LaterPay revenue model applied to content
      *
-     * @return array $overlay_content
+     * @return void
      */
-    public function on_purchase_overlay_content( LaterPay_Core_Event $event ) {
+    public function on_explanatory_overlay_content( LaterPay_Core_Event $event ) {
         $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
 
         // determine overlay title to show
@@ -486,6 +496,40 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             );
             $event->set_result( $overlay_content );
         }
+    }
+
+    /**
+     * Get timepasses data
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function on_purchase_overlay_content( LaterPay_Core_Event $event )
+    {
+        $data = $event->get_result();
+        $post = $event->get_argument( 'post' );
+
+        // default value
+        $data['timepasses'] = array();
+
+        $timepasses = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
+            $post->ID,
+            null,
+            true
+        );
+
+        // loop through timepasses
+        foreach ($timepasses as $timepass) {
+            $data['timepasses'][] = array(
+                'title'       => $timepass['title'],
+                'description' => $timepass['description'],
+                'price'       => LaterPay_Helper_View::format_number( $timepass['price'] ),
+                'url'         => LaterPay_Helper_TimePass::get_laterpay_purchase_link( $timepass['pass_id'] )
+            );
+        }
+
+        $event->set_result( $data );
     }
 
     /**

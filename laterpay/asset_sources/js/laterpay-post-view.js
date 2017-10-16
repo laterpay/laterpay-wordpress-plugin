@@ -40,6 +40,8 @@
 
                 // purchase buttons and purchase links
                 purchaseLink                    : '.lp_js_doPurchase',
+                purchaseOverlay                 : '.lp_js_overlayPurchase',
+                currentOverlay                  : 'input[name="lp_purchase-overlay-option"]:checked',
 
                 // content rating
                 postRatingForm                  : $('.lp_js_ratingForm'),
@@ -81,6 +83,20 @@
                         alert(lpVars.i18n.alert);
                     } else {
                         window.location.href = $(this).data('laterpay');
+                    }
+                });
+
+                $('body')
+                .on('mousedown', $o.purchaseOverlay, function() {
+                    handlePurchaseInTestMode(this);
+                })
+                .on('click', $o.purchaseOverlay, function(e) {
+                    // redirect to the laterpay side
+                    e.preventDefault();
+                    if ( $(this).data( 'preview-post-as-visitor' ) ) {
+                        alert(lpVars.i18n.alert);
+                    } else {
+                        window.location.href = $($o.currentOverlay).val();
                     }
                 });
 
