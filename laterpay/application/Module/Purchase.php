@@ -191,7 +191,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $this->assign( 'overlay', $view_args );
         $html = $this->get_text_view( 'frontend/partials/widget/purchase-overlay' );
 
-        $event->set_result( $html );
+        $event->set_result( LaterPay_Helper_View::remove_extra_spaces( $html ) );
     }
 
     /**

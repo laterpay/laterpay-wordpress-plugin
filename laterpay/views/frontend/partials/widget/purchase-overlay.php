@@ -103,7 +103,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php endif; ?>
                     </div>
                     <div class="lp_purchase-overlay__buttons">
-                        <a class="lp_js_overlayPurchase lp_purchase-overlay__submit" data-preview-post-as-visitor="<?php echo laterpay_sanitize_output( $overlay['is_preview'] ); ?>" href="#"><span data-icon="b"></span><?php echo laterpay_sanitize_output( __( 'Buy now, pay later', 'laterpay' ) ); ?></a>
+                        <div>
+                            <a class="lp_js_overlayPurchase lp_purchase-overlay__submit" data-preview-post-as-visitor="<?php echo laterpay_sanitize_output( $overlay['is_preview'] ); ?>" href="#"><span data-icon="b"></span><?php echo laterpay_sanitize_output( __( 'Buy now, pay later', 'laterpay' ) ); ?></a>
+                        </div>
                         <div class="lp_purchase-overlay__notification">
                             <a href="<?php echo laterpay_sanitize_output( $overlay['identify_url'] ); ?>"><?php echo laterpay_sanitize_output( $overlay['notification_text'] ); ?></a> | <a href="#"><?php echo laterpay_sanitize_output( __( 'Redeem voucher', 'laterpay' ) ); ?></a>
                         </div>

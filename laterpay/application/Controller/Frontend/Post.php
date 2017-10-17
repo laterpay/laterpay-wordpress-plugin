@@ -727,6 +727,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         // apply colors config
         LaterPay_Helper_View::apply_colors( 'laterpay-post-view' );
+
+        // apply purchase overlay config
+        LaterPay_Helper_Appearance::add_overlay_styles( 'laterpay-post-view' );
     }
 
     /**
