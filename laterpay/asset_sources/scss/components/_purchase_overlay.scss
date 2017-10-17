@@ -121,8 +121,18 @@ html body .lp_purchase-overlay {
     }
 
     &__input:not(checked) {
-      position: absolute !important;
-      opacity: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      display: block !important;
+      height: 16px !important;
+      line-height: 0 !important;
+      margin: 0 !important;
+      min-width: 16px !important;
+      opacity: 0!important;
+      outline: none !important;
+      position: absolute!important;
+      width: 16px !important;
+      vertical-align: middle !important;
     }
 
     &__input:not(checked) + label {
@@ -131,6 +141,7 @@ html body .lp_purchase-overlay {
     }
 
     &__input:not(checked) + label:before {
+      box-sizing: content-box !important;
       content: '' !important;
       position: absolute !important;
       top: 0 !important;
@@ -167,11 +178,16 @@ html body .lp_purchase-overlay {
   &__submit {
     background: $purchase-button-background;
     border-radius: $border-radius !important;
+    box-shadow: none !important;
     color: $purchase-button-text;
     display: inline-block !important;
     font-size: $fs--085 !important;
     line-height: 2 !important;
     padding: 0 $fs !important;
+
+    &:hover {
+      color: $purchase-button-text;
+    }
 
     & span:before {
       font-size: $fs--2 !important;
@@ -188,7 +204,12 @@ html body .lp_purchase-overlay {
     margin-top: $fs--02 !important;
 
     & a {
+      box-shadow: none !important;
       color: $laterpay-brand;
+
+        &:hover {
+          color: $laterpay-brand--darker;
+        }
     }
   }
 
