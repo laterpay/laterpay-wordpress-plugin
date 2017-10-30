@@ -20,9 +20,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             ),
             'laterpay_posts' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'prefetch_post_access' ),
+                array( 'prefetch_post_access', 10 ),
                 array( 'hide_free_posts_with_premium_content' ),
-                array( 'hide_paid_posts' ),
+                array( 'hide_paid_posts', 999 ),
             ),
             'laterpay_attachment_image_attributes' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
@@ -737,23 +737,17 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @param LaterPay_Core_Event $event
      *
-     * @return array $posts
      */
     public function hide_paid_posts( LaterPay_Core_Event $event ) {
-        try {
-            $api_available = LaterPay_Helper_Request::laterpay_api_check_availability();
-        } catch ( Exception $e ) {
-            $api_available = false;
-            $context = array(
-                'trace' => $e->getTraceAsString(),
-            );
-            laterpay_get_logger()->error( __( 'Unexpected error during health check', 'laterpay' ), $context );
+        if (true === LaterPay_Helper_Request::isLpApiAvailability())
+        {
+            return;
         }
 
         $posts    = (array) $event->get_result();
         $behavior = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
 
-        if ( ! $api_available && $behavior === 2 ) {
+        if (2 === $behavior) {
             $result = array();
             $count = 0;
 

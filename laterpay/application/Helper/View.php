@@ -9,7 +9,6 @@
  */
 class LaterPay_Helper_View
 {
-
     /**
      * @var string
      */
@@ -203,7 +202,7 @@ class LaterPay_Helper_View
      */
     public static function format_number( $number, $is_monetary = true ) {
         // convert value to float if incorrect type passed
-        $number = floatval( $number );
+        $number = (float) $number ;
 
         if ( $is_monetary ) {
             // format value with 2 digits
