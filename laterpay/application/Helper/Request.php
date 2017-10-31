@@ -8,7 +8,44 @@
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Helper_Request {
-    protected static $lp_api_availability = null;
+
+    /**
+     * API status
+     * @var bool
+     */
+    protected static $lp_api_availability;
+
+    /**
+     * Check API status
+     *
+     * @return bool
+     */
+    public static function isLpApiAvailability()
+    {
+        if ( null === self::$lp_api_availability ) {
+            $client_options = LaterPay_Helper_Config::get_php_client_options();
+            $action         = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
+            $behavior       = LaterPay_Controller_Admin_Settings::get_laterpay_api_options();
+            $client         = new LaterPay_Client(
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
+            );
+
+            self::$lp_api_availability = $client->check_health();
+
+            laterpay_get_logger()->info(
+                __METHOD__, array(
+                    'api_available'                  => self::$lp_api_availability,
+                    'laterpay_api_fallback_behavior' => $behavior[ $action ],
+                )
+            );
+        }
+
+        return (bool)self::$lp_api_availability;
+    }
 
     /**
      * Check, if the current request is an Ajax request.
@@ -81,37 +118,6 @@ class LaterPay_Helper_Request {
     }
 
     /**
-     * Check, if the API is available.
-     *
-     * @return bool
-     */
-    public static function laterpay_api_check_availability() {
-        if ( ! isset( self::$lp_api_availability ) ) {
-            $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $action         = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
-            $behavior       = LaterPay_Controller_Admin_Settings::get_laterpay_api_options();
-            $client         = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-
-            self::$lp_api_availability = $client->check_health();
-
-            laterpay_get_logger()->info(
-                __METHOD__, array(
-                'api_available'                  => self::$lp_api_availability,
-                'laterpay_api_fallback_behavior' => $behavior[ $action ],
-                )
-            );
-        }
-
-        return self::$lp_api_availability;
-    }
-
-    /**
      * Set cookie with token.
      *
      * @see LaterPay_Client::set_token()
@@ -141,12 +147,13 @@ class LaterPay_Helper_Request {
      *
      * @see LaterPay_Client::get_access()
      */
-    public static function laterpay_api_get_access( $article_ids, $product_key = null ) {
+    public static function laterpay_api_get_access( $article_ids, $product_key = null )
+    {
         $result = array();
 
-        if ( self::laterpay_api_check_availability() ) {
+        try {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $client         = new LaterPay_Client(
+            $client = new LaterPay_Client(
                 $client_options['cp_key'],
                 $client_options['api_key'],
                 $client_options['api_root'],
@@ -154,33 +161,46 @@ class LaterPay_Helper_Request {
                 $client_options['token_name']
             );
 
-            $result = $client->get_access( $article_ids, $product_key );
-        } else {
-            $action             = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
+            $result = $client->get_access($article_ids, $product_key);
+
+            self::$lp_api_availability = true;
+
+        } catch (Exception $exception) {
+
+            $action = (int)get_option('laterpay_api_fallback_behavior', 0);
             $result['articles'] = array();
 
-            switch ( $action ) {
+            switch ($action) {
                 case 0:
                 case 1:
-                    $access = (bool) $action;
+                    $access = (bool)$action;
                     break;
                 default:
                     $access = false;
                     break;
             }
 
-            foreach ( $article_ids as $id ) {
-                $result['articles'][ $id ] = array( 'access' => $access );
+            foreach ($article_ids as $id) {
+                $result['articles'][$id] = array('access' => $access);
             }
+
+            self::$lp_api_availability = false;
+
+            laterpay_get_logger()->info(
+                __METHOD__, array(
+                    'api_available'                  => self::$lp_api_availability,
+                    'laterpay_api_fallback_behavior' => $action,
+                )
+            );
         }
 
         $context = array(
-            'article_ids'   => $article_ids,
-            'product_key'   => $product_key,
-            'result'        => $result,
+            'article_ids' => $article_ids,
+            'product_key' => $product_key,
+            'result' => $result,
         );
 
-        laterpay_get_logger()->info( __METHOD__, $context );
+        laterpay_get_logger()->info(__METHOD__, $context);
 
         return $result;
     }
