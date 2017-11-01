@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="lp_pagewrap">
         <div class="lp_layout">
             <div class="lp_layout__item lp_1">
-                <h2><?php echo laterpay_sanitize_output( __( 'Content Preview of Paid Posts', 'laterpay' ) ); ?></h2>
+                <h2><?php echo laterpay_sanitize_output( __( 'Content Preview for Paid Posts', 'laterpay' ) ); ?></h2>
                 <form method="post" class="lp_mb++ lp_inline-block lp_purchase-form">
                     <input type="hidden" name="form"    value="paid_content_preview">
                     <input type="hidden" name="action"  value="laterpay_appearance">
