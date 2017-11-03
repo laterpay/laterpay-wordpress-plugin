@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="lp_pagewrap">
         <div class="lp_layout">
-            <div class="lp_layout__item lp_1">
+            <div class="lp_layout__item lp_1" id="lp_js_paidContentPreview">
                 <h2><?php echo laterpay_sanitize_output( __( 'Content Preview for Paid Posts', 'laterpay' ) ); ?></h2>
                 <form method="post" class="lp_mb++ lp_inline-block lp_purchase-form">
                     <input type="hidden" name="form"    value="paid_content_preview">
@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php echo laterpay_sanitize_output( __( 'Teaser + Purchase Overlay', 'laterpay' ) ); ?>
                         </label>
                     </div>
-                    <div class="lp_js_purchaseForm" <?php if ( $laterpay['teaser_mode'] !== '2' ) echo 'style="display:none;"'; ?>>
+                    <div class="lp_js_purchaseForm" id="lp_js_purchaseForm" <?php if ( $laterpay['teaser_mode'] !== '2' ) echo 'style="display:none;"'; ?>>
                         <div class="lp_purchase-form__panel lp_relative lp_1">
                             <div class="lp_purchase-form__triangle"></div>
                             <div class="lp_purchase-form__inner lp_relative lp_clearfix">
@@ -192,7 +192,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </form>
             </div><!-- comment required to prevent spaces, because layout uses display:inline-block
-         --><div class="lp_layout__item lp_1">
+         --><div class="lp_layout__item lp_1" id="lp_js_purchaseButton" <?php if ( $laterpay['teaser_mode'] === '2' ) echo 'style="display:none;"'; ?>>
                 <h2><?php echo laterpay_sanitize_output( __( 'Position of the LaterPay Purchase Button', 'laterpay' ) ); ?></h2>
                 <form method="post" class="lp_js_showHintOnTrue lp_mb++">
                     <input type="hidden" name="form"    value="purchase_button_position">
@@ -229,7 +229,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </form>
             </div>
-            <div class="lp_layout__item lp_1">
+            <div class="lp_layout__item lp_1" id="lp_js_timePasses" <?php if ( $laterpay['teaser_mode'] === '2' ) echo 'style="display:none;"'; ?>>
                 <h2><?php echo laterpay_sanitize_output( __( 'Display of LaterPay Time Passes', 'laterpay' ) ); ?></h2>
                 <form method="post" class="lp_js_showHintOnTrue lp_mb++">
                     <input type="hidden" name="form"    value="time_passes_position">

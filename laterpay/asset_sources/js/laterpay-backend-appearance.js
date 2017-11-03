@@ -4,8 +4,6 @@
     function laterPayBackendAppearance() {
         var $o = {
                 // appearance option
-                switchButtonGroup   : $('.lp_js_switchButtonGroup'),
-                overlayPreview      : $('.lp_js_purchaseForm'),
                 savePurchaseForm    : $('.lp_js_savePurchaseForm'),
                 cancelFormEdit      : $('.lp_js_cancelEditingPurchaseForm'),
                 restoreDefaults     : $('.lp_js_restoreDefaultPurchaseForm'),
@@ -41,15 +39,38 @@
 
                 // hide free posts
                 hideFreePostsToggle : $('#lp_js_hideFreePostsToggle'),
-                hideFreePostsForm   : $('#lp_js_laterpayHideFreePostsForm')
+                hideFreePostsForm   : $('#lp_js_laterpayHideFreePostsForm'),
+
+                // forms
+                paidContentPreview  : $('#lp_js_paidContentPreview'),
+                previewSwitch       : $('#lp_js_paidContentPreview').find('.lp_js_switchButtonGroup'),
+                purchaseForm        : $('#lp_js_purchaseForm'),
+
+                purchaseButtonForm  : $('#lp_js_purchaseButton'),
+                purchaseButtonSwitch: $('#lp_js_purchaseButton').find('.lp_js_switchButtonGroup'),
+
+                timePassesForm      : $('#lp_js_timePasses'),
+                timePassesSwitch    : $('#lp_js_timePasses').find('.lp_js_switchButtonGroup')
             },
 
             bindEvents = function() {
-                // toggle appearance option
-                $o.switchButtonGroup
-                .change(function() {
-                    switchButtonGroup($(this));
+                //Content Preview for Paid Posts
+                $o.previewSwitch
+                .click(function() {
+                    previewSwitch($(this));
                 });
+
+                //Position of the LaterPay Purchase Button
+                $o.purchaseButtonSwitch
+                    .click(function() {
+                        purchaseButtonSwitch($(this));
+                    });
+
+                //Display of LaterPay Time Passes
+                $o.timePassesSwitch
+                    .click(function() {
+                        timePassesSwitch($(this));
+                    });
 
                 // toggle elements change
                 $($o.overlayOptions)
@@ -65,24 +86,27 @@
 
                 // save overlay settings
                 $o.savePurchaseForm
-                .click(function(){
+                .click(function(e){
+                    e.preventDefault();
                     var $form = $(this).parents('form');
 
                     // set correct form name
-                    $("input[name='form']", $form).val('overlay_settings');
+                    $('input[name=form]', $form).val('overlay_settings');
 
                     saveData($form);
                 });
 
                 // restore original data
                 $o.cancelFormEdit
-                .click(function(){
+                .click(function(e){
+                    e.preventDefault();
                     resetOverlaySettings(lpVars.overlaySettings.current);
                 });
 
                 // set default settings
                 $o.restoreDefaults
-                .click(function(){
+                .click(function(e){
+                    e.preventDefault();
                     resetOverlaySettings(lpVars.overlaySettings.default);
                 });
 
@@ -99,29 +123,87 @@
                 });
             },
 
-            switchButtonGroup = function($trigger) {
+            previewSwitch = function($trigger) {
                 var $form = $trigger.parents('form');
-
-                // set correct form name
-                $("input[name='form']", $form).val('paid_content_preview');
 
                 // mark clicked button as selected
                 $($o.buttonGroupButtons, $form).removeClass($o.selected);
                 $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
 
-                // disable all inputs
-                $o.overlayPreview.hide();
-                $(':input', $o.overlayPreview).attr("disabled", true);
+                $('input[name=form]', $form).val('paid_content_preview');
+
+                switch($('input:checked', $form).val())
+                {
+                    case '0':
+                    case '1':
+                        $o.purchaseButtonForm.fadeIn();
+                        $o.timePassesForm.fadeIn();
+                        $o.purchaseForm.hide();
+
+                        $(':input', $o.purchaseForm).attr('disabled', true);
+
+                        break;
+                    case '2':
+                        $o.purchaseForm.fadeIn();
+                        $o.purchaseButtonForm.hide();
+                        $o.timePassesForm.hide();
+
+                        $(':input', $o.purchaseForm).attr('disabled', false);
+
+                        break;
+                    default:
+                        $o.purchaseForm.hide();
+                        $o.purchaseButtonForm.hide();
+                        $o.timePassesForm.hide();
+                        break;
+                }
 
                 saveData($form);
-
-                // enable inputs for purchase overlay
-                if ($('input:checked', $form).val() === '2') {
-                    $o.overlayPreview.show();
-                    $(':input', $o.overlayPreview).attr("disabled", false);
-                }
             },
 
+            purchaseButtonSwitch = function($trigger) {
+                var $form = $trigger.parents('form');
+
+                // mark clicked button as selected
+                $($o.buttonGroupButtons, $form).removeClass($o.selected);
+                $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
+
+                switch($('input:checked', $form).val())
+                {
+                    case '0':
+                        $form.find($o.buttonGroupHint).fadeOut();
+                        break;
+                    case '1':
+                        $form.find($o.buttonGroupHint).fadeIn();
+                        break;
+                    default:
+                        break;
+                }
+
+                saveData($form);
+            },
+
+            timePassesSwitch = function($trigger) {
+                var $form = $trigger.parents('form');
+
+                // mark clicked button as selected
+                $($o.buttonGroupButtons, $form).removeClass($o.selected);
+                $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
+
+                switch($('input:checked', $form).val())
+                {
+                    case '0':
+                        $form.find($o.buttonGroupHint).fadeOut();
+                        break;
+                    case '1':
+                        $form.find($o.buttonGroupHint).fadeIn();
+                        break;
+                    default:
+                        break;
+                }
+
+                saveData($form);
+            },
             updateOverlayOptions = function($trigger) {
                 var style;
 
