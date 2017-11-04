@@ -20,9 +20,10 @@
                 purchaseDescription : 'lp_js_purchaseDescriptionTextColor',
                 buttonBgColor       : 'lp_js_purchaseButtonBackgroundColor',
                 buttonTextColor     : 'lp_js_purchaseButtonTextColor',
-                footerBgColor       : 'lp_js_purchaseFooterBackgroundColor',
                 linkMainColor       : 'lp_js_purchaseLinkMainColor',
                 linkHoverColor      : 'lp_js_purchaseLinkHoverColor',
+                footerBgColor       : 'lp_js_purchaseFooterBackgroundColor',
+                showFooter          : 'lp_js_overlayShowFooter',
 
                 // overlay
                 overlayHeader       : '.lp_purchase-overlay__header',
@@ -271,6 +272,12 @@
                 // change footer bg color
                 if ($trigger.hasClass($o.footerBgColor)) {
                     style = 'background-color: ' + $('.' + $o.footerBgColor).val() + ' !important;';
+
+                    if ($($o.overlayFooter).is(':hidden'))
+                    {
+                        style += 'display: none;';
+                    }
+
                     setStyle($($o.overlayFooter), style);
                 }
             },
@@ -307,6 +314,15 @@
                 $('.' + $o.buttonTextColor).val(settings.button_text_color).change();
                 $('.' + $o.linkMainColor).val(settings.link_main_color).change();
                 $('.' + $o.linkHoverColor).val(settings.link_hover_color).change();
+                $('.' + $o.footerBgColor).val(settings.footer_bg_color).change();
+
+                if (true === settings.show_footer) {
+                    $('.' + $o.showFooter).attr('checked', 'checked');
+                }
+                else
+                {
+                    $('.' + $o.showFooter).removeAttr('checked');
+                }
             },
 
             initializePage = function() {
