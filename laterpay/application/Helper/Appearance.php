@@ -28,14 +28,12 @@ class LaterPay_Helper_Appearance
             'button_text_color' => '#FFFFFF',
             'link_main_color'   => '#01A99D',
             'link_hover_color'  => '#01766D',
-            'show_footer'       => '1',
+            'show_footer'       => true,
             'footer_bg_color'   => '#EEEFEF',
         );
 
-        if ( isset( $key ) ) {
-            if ( isset( $defaults[ $key ] ) ) {
+        if ( null !== $key && null !== $defaults[ $key ] ) {
                 return $defaults[ $key ];
-            }
         }
 
         return $defaults;
@@ -64,10 +62,8 @@ class LaterPay_Helper_Appearance
             'footer_bg_color'   => get_option( 'laterpay_overlay_footer_bg_color', '#EEEFEF' ),
         );
 
-        if ( isset( $key ) ) {
-            if ( isset( $options[ $key ] ) ) {
+        if ( null !== $key && null !== $options[ $key ] ) {
                 return $options[ $key ];
-            }
         }
 
         return $options;

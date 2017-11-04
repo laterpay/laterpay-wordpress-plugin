@@ -535,6 +535,20 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
+     * Set (reset) any customization for overlay
+     *
+     * @since 0.9.26.2
+     */
+    public function set_overlay_defaults()
+    {
+        $overlay_default_options = LaterPay_Helper_Appearance::get_default_options();
+
+        foreach ($overlay_default_options as $key => $value) {
+            update_option('laterpay_overlay_' . $key, $value);
+        }
+    }
+
+    /**
      * Remove ppul values
      *
      * @since 0.9.24
@@ -731,6 +745,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->maybe_update_vouchers();
         $this->drop_statistics_tables();
         $this->init_colors_options();
+        $this->set_overlay_defaults();
         $this->remove_old_api_settings();
         $this->maybe_remove_ppul();
         $this->change_teaser_mode();
