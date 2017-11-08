@@ -253,6 +253,7 @@
                 if ($trigger.hasClass($o.linkMainColor)) {
                     style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
                     setStyle($($o.overlayLink + ' a'), style);
+                    setStyle($($o.overlayLink), style);
                 }
 
                 // change link hover color

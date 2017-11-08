@@ -102,6 +102,9 @@ class LaterPay_Helper_Appearance
             .lp_purchase-overlay-option__description {
                 color: {$description_color} !important;
             }
+            .lp_purchase-overlay__notification {
+                color: {$link_main_color} !important;
+            }
             .lp_purchase-overlay__notification a {
                 color: {$link_main_color} !important;
             }
