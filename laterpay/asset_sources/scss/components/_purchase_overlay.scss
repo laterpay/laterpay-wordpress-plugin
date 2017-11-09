@@ -281,3 +281,80 @@ html body .lp_purchase-overlay {
     }
   }
 }
+
+html body .lp_paid-content {
+  .lp_purchase-overlay {
+    left: 50% !important;
+    margin-top: $fs--35 !important;
+    position: absolute !important;
+    top: 0 !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+
+    .lp_purchase-overlay__wrapper {
+      max-width: 448px !important;
+
+      .lp_purchase-overlay__copy {
+        font-size: $fs !important;
+
+        & span:before {
+          font-size: $fs--6 !important;
+          line-height: 0 !important;
+          padding: 0 !important;
+          position: relative !important;
+          top: 0.37em !important;
+        }
+      }
+    }
+
+    .lp_purchase-overlay-option {
+      &__title {
+        font-size: $fs--125 !important;
+      }
+
+      &__description {
+        font-size: $fs !important;
+      }
+
+      &__price {
+        font-size: $fs--2 !important;
+      }
+
+      &__currency {
+        font-size: $fs--085 !important;
+      }
+    }
+
+    &__buttons {
+      margin-left: $fs !important;
+      margin-right: $fs !important;
+    }
+
+    &__submit {
+      font-size: $fs !important;
+    }
+
+    &__notification {
+      font-size: $fs !important;
+      margin-top: $fs--04 !important;
+
+      & a:first-child {
+        margin-right: $fs--025 !important;
+      }
+
+      & a:last-child {
+        margin-left: $fs--025 !important;
+      }
+    }
+
+    .lp_purchase-overlay-payments-item {
+      margin: 0 $fs--08 !important;
+    }
+
+    .lp_purchase-overlay-icon{
+      &:after {
+        transform: scale(1.4) !important;
+      }
+    }
+  }
+}
