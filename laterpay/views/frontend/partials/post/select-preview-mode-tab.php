@@ -5,30 +5,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<div id="lp_js_postStatistics" class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) { echo ' lp_is-hidden'; } ?>">
-    <form id="lp_js_postStatisticsVisibilityForm" method="post">
-        <input type="hidden" name="action" value="laterpay_post_statistic_visibility">
-        <input type="hidden" id="lp_js_postStatisticsVisibilityInput" name="hide_statistics_pane" value="<?php echo esc_attr( $laterpay['hide_statistics_pane'] );?>">
-        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+<div id="lp_js_previewModeContainer" class="lp_post-preview-mode <?php if ( true === $laterpay['hide_preview_mode_pane'] ) { echo ' lp_is-hidden'; } ?>">
+    <form id="lp_js_previewModeVisibilityForm" method="post">
+    <input type="hidden" name="action" value="laterpay_preview_mode_visibility">
+    <input type="hidden" id="lp_js_previewModeVisibilityInput" name="hide_preview_mode_pane" value="<?php echo (int)$laterpay['hide_preview_mode_pane'];?>">
+    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
     </form>
-    <a href="#" id="lp_js_togglePostStatisticsVisibility" class="lp_post-statistics__visibility-toggle" data-icon="l"></a>
-    <h2 class="lp_post-statistics__title" data-icon="a"><?php echo laterpay_sanitize_output( __( 'Post Preview Mode', 'laterpay' ) ); ?></h2>
-    <div class="lp_post-statistics__plugin-preview-mode">
+    <a href="#" id="lp_js_togglePreviewModeVisibility" class="lp_post-preview-mode__visibility-toggle" data-icon="l"></a>
+    <h2 class="lp_post-preview-mode__title" data-icon="a"><?php echo laterpay_sanitize_output( __( 'Post Preview Mode', 'laterpay' ) ); ?></h2>
+    <div class="lp_post-preview-mode__plugin-preview-mode">
         <?php echo laterpay_sanitize_output( __( 'Preview post as', 'laterpay' ) ); ?> <strong><?php echo laterpay_sanitize_output( __( 'Admin', 'laterpay' ) ); ?></strong>
         <div class="lp_toggle">
-            <form id="lp_js_postStatisticsPluginPreviewModeForm" method="post">
-                <input type="hidden" name="action" value="laterpay_post_statistic_toggle_preview">
+            <form id="lp_js_previewModeForm" method="post">
+                <input type="hidden" name="action" value="laterpay_post_toggle_preview">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <label class="lp_toggle__label">
                     <input type="checkbox"
                             name="preview_post_checkbox"
-                            id="lp_js_togglePostPreviewMode"
+                            id="lp_js_togglePreviewMode"
                             class="lp_toggle__input"
-                            <?php if ( $laterpay['preview_post_as_visitor'] == 1 ) : ?>checked<?php endif; ?>>
+                            <?php if ( true === $laterpay['preview_post_as_visitor'] ) : ?>checked<?php endif; ?>>
                     <input type="hidden"
                             name="preview_post"
-                            id="lp_js_postPreviewModeInput"
-                            value="<?php if ( $laterpay['preview_post_as_visitor'] == 1 ) { echo 1; } else { echo 0; } ?>">
+                            id="lp_js_previewModeInput"
+                            value="<?php if ( true === $laterpay['preview_post_as_visitor']) { echo 1; } else { echo 0; } ?>">
                     <span class="lp_toggle__text" data-on="" data-off=""></span>
                     <span class="lp_toggle__handle"></span>
                 </label>

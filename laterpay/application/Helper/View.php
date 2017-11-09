@@ -156,7 +156,7 @@ class LaterPay_Helper_View
         }
 
         // check, if plugin is not in live mode and current user has sufficient capabilities
-        if ( ! $is_in_live_mode && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
+        if ( ! $is_in_live_mode ) {
             return false;
         }
 

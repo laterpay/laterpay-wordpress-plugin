@@ -44,9 +44,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             'laterpay_purchase_overlay_content' => array(
                 array( 'on_purchase_overlay_content', 8 ),
             ),
-            'wp_ajax_laterpay_post_statistic_render' => array(
-                array( 'ajax_render_tab_without_statistics', 200 ),
-            ),
             'laterpay_purchase_button' => array(
                 array( 'check_only_time_pass_purchases_allowed', 200 ),
             ),
@@ -428,39 +425,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
 
         $html = $timepass_event->get_result();
         $event->set_result( $html );
-    }
-
-    /**
-     * Ajax callback to render the statistics pane.
-     *
-     * @wp-hook wp_ajax_laterpay_post_statistic_render
-     * @param LaterPay_Core_Event $event
-     *
-     * @return void
-     */
-    public function ajax_render_tab_without_statistics( LaterPay_Core_Event $event ) {
-        $statistic_form = new LaterPay_Form_Statistic( $_GET );
-
-        if ( ! $statistic_form->is_valid() ) {
-            $event->stop_propagation();
-            return;
-        }
-
-        $post_id = $statistic_form->get_field_value( 'post_id' );
-        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
-            $event->stop_propagation();
-            return;
-        }
-
-        $post = get_post( $post_id );
-        // assign variables
-        $view_args = array(
-            'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
-            'hide_statistics_pane'      => LaterPay_Helper_User::statistics_pane_is_hidden(),
-        );
-        $this->assign( 'laterpay', $view_args );
-
-        $event->set_result( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
     }
 
     /**

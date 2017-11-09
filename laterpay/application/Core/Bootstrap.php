@@ -98,8 +98,8 @@ class LaterPay_Core_Bootstrap
         laterpay_event_dispatcher()->add_subscriber( $post_controller );
 
         // set up unique visitors tracking
-        $statistics_controller = self::get_controller( 'Frontend_Statistic' );
-        laterpay_event_dispatcher()->add_subscriber( $statistics_controller );
+        $preview_mode_controller = self::get_controller( 'Frontend_PreviewMode' );
+        laterpay_event_dispatcher()->add_subscriber( $preview_mode_controller );
 
         // add custom action to echo the LaterPay invoice indicator
         $invoice_controller = self::get_controller( 'Frontend_Invoice' );

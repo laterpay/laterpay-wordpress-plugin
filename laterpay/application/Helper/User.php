@@ -13,12 +13,12 @@ class LaterPay_Helper_User
     /**
      * @var mixed Does user want to preview post as visitor or not?
      */
-    protected static $_preview_post_as_visitor  = null;
+    protected static $_preview_post_as_visitor;
 
     /**
-     * @var mixed Is it needed to hide statistic pane or not?
+     * @var
      */
-    protected static $_hide_statistics_pane     = null;
+    protected static $_hide_preview_mode_pane;
 
     /**
      * Check, if the current user has a given capability.
@@ -47,7 +47,6 @@ class LaterPay_Helper_User
                 $allowed = true;
             } else {
                 switch ( $capability ) {
-                    case 'laterpay_read_post_statistics':
                     case 'laterpay_edit_teaser_content':
                         if ( ! empty( $post ) && current_user_can( 'edit_post', $post ) ) {
                             // use edit_post capability as proxy:
@@ -146,7 +145,6 @@ class LaterPay_Helper_User
 
         // array of capabilities (capability => option)
         $capabilities = array(
-            'laterpay_read_post_statistics',
             'laterpay_edit_teaser_content',
             'laterpay_edit_individual_price',
             'laterpay_has_full_access_to_content',
@@ -196,7 +194,7 @@ class LaterPay_Helper_User
      * @return bool
      */
     public static function preview_post_as_visitor( $post = null ) {
-        if ( is_null( LaterPay_Helper_User::$_preview_post_as_visitor ) ) {
+        if ( null === static::$_preview_post_as_visitor ) {
             $preview_post_as_visitor = 0;
             $current_user            = wp_get_current_user();
             if ( $current_user instanceof WP_User ) {
@@ -205,36 +203,30 @@ class LaterPay_Helper_User
                     $preview_post_as_visitor = $preview_post_as_visitor[0];
                 }
             }
-            LaterPay_Helper_User::$_preview_post_as_visitor = $preview_post_as_visitor && LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
+            static::$_preview_post_as_visitor = $preview_post_as_visitor;
         }
 
-        return LaterPay_Helper_User::$_preview_post_as_visitor;
+        return static::$_preview_post_as_visitor;
     }
 
     /**
-     * Check, if the current user has hidden the post statistics pane.
+     * Check, if the current user has hidden the post preview mode pane.
      *
      * @return bool
      */
-    public static function statistics_pane_is_hidden() {
-        if ( is_null( LaterPay_Helper_User::$_hide_statistics_pane ) ) {
+    public static function preview_mode_pane_is_hidden() {
+        if (null === static::$_hide_preview_mode_pane) {
+            static::$_hide_preview_mode_pane = false;
             $current_user = wp_get_current_user();
 
-            if ( $current_user instanceof WP_User ) {
-                $hide_statistics_pane = get_user_meta( $current_user->ID, 'laterpay_hide_statistics_pane' );
-                if ( ! empty( $hide_statistics_pane ) ) {
-                    $hide_statistics_pane = $hide_statistics_pane[0];
-                } else {
-                    $hide_statistics_pane = 0;
-                }
-            } else {
-                $hide_statistics_pane = 0;
+            if ($current_user instanceof WP_User &&
+                true === (bool) get_user_meta($current_user->ID, 'laterpay_hide_preview_mode_pane', true)
+            ) {
+                static::$_hide_preview_mode_pane = true;
             }
-
-            LaterPay_Helper_User::$_hide_statistics_pane = $hide_statistics_pane;
         }
 
-        return LaterPay_Helper_User::$_hide_statistics_pane;
+        return static::$_hide_preview_mode_pane;
     }
 
     /**

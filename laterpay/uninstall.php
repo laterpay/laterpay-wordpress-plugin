@@ -40,7 +40,7 @@ $sql = "
     WHERE
         meta_key IN (
             'laterpay_preview_post_as_visitor',
-            'laterpay_hide_statistics_pane'
+            'laterpay_hide_preview_mode_pane'
         )
     ;
 ";

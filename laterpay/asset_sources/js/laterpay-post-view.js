@@ -3,18 +3,16 @@
     // encapsulate all LaterPay Javascript in function laterPayPostView
     function laterPayPostView() {
         var $o = {
-                // post statistics pane
-                postStatisticsPane              : $('#lp_js_postStatistics'),
-
                 // post preview mode
-                postPreviewModeForm             : $('#lp_js_postStatisticsPluginPreviewModeForm'),
-                postPreviewModeToggle           : $('#lp_js_togglePostPreviewMode'),
-                postPreviewModeInput            : $('#lp_js_postPreviewModeInput'),
+                previewModePlaceholder          : $('#lp_js_previewModePlaceholder'),
+                previewModeContainer            : '#lp_js_previewModeContainer',
+                previewModeForm                 : '#lp_js_previewModeForm',
+                previewModeToggle               : '#lp_js_togglePreviewMode',
+                previewModeInput                : '#lp_js_previewModeInput',
 
-                // post statistics pane visibility
-                postStatisticsVisibilityForm    : $('#lp_js_postStatisticsVisibilityForm'),
-                postStatisticsVisibilityToggle  : $('#lp_js_togglePostStatisticsVisibility'),
-                postStatisticsVisibilityInput   : $('#lp_js_postStatisticsVisibilityInput'),
+                previewModeVisibilityForm       : '#lp_js_previewModeVisibilityForm',
+                previewModeVisibilityToggle     : '#lp_js_togglePreviewModeVisibility',
+                previewModeVisibilityInput      : '#lp_js_previewModeVisibilityInput',
 
                 // time passes
                 timePass                        : '.lp_js_timePass',
@@ -35,7 +33,6 @@
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
-                postStatisticsPlaceholder       : $('#lp_js_postStatisticsPlaceholder'),
                 postRatingPlaceholder           : $('#lp_js_postRatingPlaceholder'),
 
                 // purchase buttons and purchase links
@@ -52,60 +49,78 @@
                 fadingOut                       : 'lp_is-fading-out',
 
                 // premium content
-                premiumBox                      : '.lp_js_premium-file-box',
+                premiumBox                      : '.lp_js_premium-file-box'
             },
 
-            recachePostStatisticsPane = function() {
-                $o.postStatisticsPane              = $('#lp_js_postStatistics');
-                $o.postPreviewModeForm             = $('#lp_js_postStatisticsPluginPreviewModeForm');
-                $o.postPreviewModeToggle           = $('#lp_js_togglePostPreviewMode');
-                $o.postPreviewModeInput            = $('#lp_js_postPreviewModeInput');
-                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatisticsVisibilityForm');
-                $o.postStatisticsVisibilityToggle  = $('#lp_js_togglePostStatisticsVisibility');
-                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatisticsVisibilityInput');
-            },
+            // DOM cache
 
             recacheRatingForm = function() {
                 $o.postRatingForm  = $('.lp_js_ratingForm');
                 $o.postRatingRadio = $('input[type=radio][name=rating_value]');
             },
 
+            recachePreviewModeContainer = function() {
+                $o.previewModeContainer = $('#lp_js_previewModeContainer');
+                $o.previewModeForm  = $('#lp_js_previewModeForm');
+                $o.previewModeToggle = $('#lp_js_togglePreviewMode');
+                $o.previewModeInput = $('#lp_js_previewModeInput');
+
+                $o.previewModeVisibilityForm = $('#lp_js_previewModeVisibilityForm');
+                $o.previewModeVisibilityToggle = $('#lp_js_togglePreviewModeVisibility');
+                $o.previewModeVisibilityInput = $('#lp_js_previewModeVisibilityInput');
+            },
+
+            // Binding Events
+
+            bindPreviewModeEvents = function() {
+                $o.previewModeToggle.on('change', function() {
+                    togglePreviewMode();
+                });
+
+                // toggle visibility of post statistics pane
+                $o.previewModeVisibilityToggle
+                    .on('mousedown', function() {
+                        togglePreviewModeVisibility();
+                    })
+                    .on('click', function(e) {e.preventDefault();});
+            },
+
             bindPurchaseEvents = function() {
                 // handle clicks on purchase links in test mode
                 $('body')
-                .on('mousedown', $o.purchaseLink, function() {
-                    handlePurchaseInTestMode(this);
-                })
-                .on('click', $o.purchaseLink, function(e) {
-                    // redirect to the laterpay side
-                    e.preventDefault();
-                    if ( $(this).data( 'preview-post-as-visitor' ) ) {
-                        alert(lpVars.i18n.alert);
-                    } else {
-                        window.location.href = $(this).data('laterpay');
-                    }
-                });
+                    .on('mousedown', $o.purchaseLink, function() {
+                        handlePurchaseInTestMode(this);
+                    })
+                    .on('click', $o.purchaseLink, function(e) {
+                        // redirect to the laterpay side
+                        e.preventDefault();
+                        if ( $(this).data( 'preview-post-as-visitor' ) ) {
+                            alert(lpVars.i18n.alert);
+                        } else {
+                            window.location.href = $(this).data('laterpay');
+                        }
+                    });
 
                 $('body')
-                .on('mousedown', $o.purchaseOverlay, function() {
-                    handlePurchaseInTestMode(this);
-                })
-                .on('click', $o.purchaseOverlay, function(e) {
-                    // redirect to the laterpay side
-                    e.preventDefault();
-                    if ( $(this).data( 'preview-post-as-visitor' ) ) {
-                        alert(lpVars.i18n.alert);
-                    } else {
-                        window.location.href = $($o.currentOverlay).val();
-                    }
-                });
+                    .on('mousedown', $o.purchaseOverlay, function() {
+                        handlePurchaseInTestMode(this);
+                    })
+                    .on('click', $o.purchaseOverlay, function(e) {
+                        // redirect to the laterpay side
+                        e.preventDefault();
+                        if ( $(this).data( 'preview-post-as-visitor' ) ) {
+                            alert(lpVars.i18n.alert);
+                        } else {
+                            window.location.href = $($o.currentOverlay).val();
+                        }
+                    });
 
                 // handle clicks on time passes
                 $('body')
-                .on('click', $o.flipTimePassLink, function(e) {
-                    e.preventDefault();
-                    flipTimePass(this);
-                });
+                    .on('click', $o.flipTimePassLink, function(e) {
+                        e.preventDefault();
+                        flipTimePass(this);
+                    });
 
                 // handle clicks on subscription
                 $('body')
@@ -115,42 +130,27 @@
                     });
             },
 
-            bindPostStatisticsEvents = function() {
-                // toggle visibility of post statistics pane
-                $o.postStatisticsVisibilityToggle
-                .on('mousedown', function() {
-                    togglePostStatisticsVisibility();
-                })
-                .on('click', function(e) {e.preventDefault();});
-
-                // toggle plugin preview mode between 'preview as visitor' and 'preview as admin'
-                $o.postPreviewModeToggle
-                .on('change', function() {
-                    togglePostPreviewMode();
-                });
-            },
-
             bindRatingEvents = function() {
                 // save rating when input is selected
                 $o.postRatingRadio
-                .on('change', function() {
-                    savePostRating();
-                });
+                    .on('change', function() {
+                        savePostRating();
+                    });
             },
 
             bindTimePassesEvents = function() {
                 // redeem voucher code
                 $($o.voucherRedeemButton)
-                .on('mousedown', function() {
-                    redeemVoucherCode($(this).parent(), $o.voucherCodeInput, false);
-                })
-                .on('click', function(e) {e.preventDefault();});
+                    .on('mousedown', function() {
+                        redeemVoucherCode($(this).parent(), $o.voucherCodeInput, false);
+                    })
+                    .on('click', function(e) {e.preventDefault();});
 
                 $($o.giftCardRedeemButton)
-                .on('mousedown', function() {
-                    redeemVoucherCode($(this).parent(), $o.giftCardCodeInput, true);
-                })
-                .on('click', function(e) {e.preventDefault();});
+                    .on('mousedown', function() {
+                        redeemVoucherCode($(this).parent(), $o.giftCardCodeInput, true);
+                    })
+                    .on('click', function(e) {e.preventDefault();});
             },
 
             redeemVoucherCode = function($wrapper, input, is_gift) {
@@ -179,7 +179,7 @@
                                             // update purchase button price and url
                                             var priceWithVoucher = r.price +
                                                 '<small class="lp_purchase-link__currency">' +
-                                                    lpVars.default_currency +
+                                                lpVars.default_currency +
                                                 '</small>';
 
                                             // update purchase button on time pass
@@ -229,21 +229,21 @@
 
             showVoucherCodeFeedbackMessage = function(message, $wrapper) {
                 var $feedbackMessage = $(
-                                            '<div id="lp_js_voucherCodeFeedbackMessage" ' +
-                                                'class="lp_voucher__feedback-message" style="display:none;">' +
-                                                message +
-                                            '</div>'
-                                        );
+                    '<div id="lp_js_voucherCodeFeedbackMessage" ' +
+                    'class="lp_voucher__feedback-message" style="display:none;">' +
+                    message +
+                    '</div>'
+                );
 
                 $wrapper.prepend($feedbackMessage);
 
                 $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
                 $feedbackMessage
-                .fadeIn(250)
-                .click(function() {
-                    // remove feedback message on click
-                    removeVoucherCodeFeedbackMessage($feedbackMessage);
-                });
+                    .fadeIn(250)
+                    .click(function() {
+                        // remove feedback message on click
+                        removeVoucherCodeFeedbackMessage($feedbackMessage);
+                    });
 
                 // automatically remove feedback message after 3 seconds
                 setTimeout(function() {
@@ -320,8 +320,8 @@
                                 if (gift.buy_more) {
                                     // $elem.parent().after(gift.buy_more);
                                     $(gift.buy_more)
-                                    .appendTo($elem.parent())
-                                    .attr('href', window.location.href);
+                                        .appendTo($elem.parent())
+                                        .attr('href', window.location.href);
                                 }
                             });
 
@@ -370,89 +370,51 @@
                 );
             },
 
-            loadPostStatistics = function() {
+            loadPreviewModeContainer = function() {
                 $.get(
                     lpVars.ajaxUrl,
                     {
-                        action  : 'laterpay_post_statistic_render',
+                        action  : 'laterpay_preview_mode_render',
                         post_id : lpVars.post_id
                     },
                     function(data) {
                         if (data) {
-                            $o.postStatisticsPlaceholder.before(data).remove();
-                            renderPostStatisticsPane();
+                            $o.previewModePlaceholder.before(data).remove();
+                            recachePreviewModeContainer();
+                            bindPreviewModeEvents();
                         }
                     }
                 );
             },
 
-            renderPostStatisticsPane = function() {
-                // make sure all objects are in the cache
-                recachePostStatisticsPane();
-
-                // bind events to post statistics pane
-                bindPostStatisticsEvents();
-
-                // render sparklines within post statistics pane
-                $('.lp_js_sparklineBar', $o.postStatisticsPane).peity('bar', {
-                    delimiter   : ';',
-                    width       : 182,
-                    height      : 42,
-                    gap         : 1,
-                    fill        : function(value, index, array) {
-                                    var date        = new Date(),
-                                        daysCount   = array.length,
-                                        color       = '#999';
-                                    date.setDate(date.getDate() - (daysCount - index));
-                                    // highlight the last (current) day
-                                    if (index === (daysCount - 1)) {
-                                        color = '#555';
-                                    }
-                                    // highlight Saturdays and Sundays
-                                    if (date.getDay() === 0 || date.getDay() === 6) {
-                                        color = '#c1c1c1';
-                                    }
-                                    return color;
-                                }
-                });
-
-                $('.lp_js_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
-                    delimiter   : ';',
-                    width       : 182,
-                    height      : 42,
-                    gap         : 1,
-                    fill        : function() { return '#ddd'; }
-                });
-            },
-
-            togglePostStatisticsVisibility = function() {
-                var doHide = $o.postStatisticsPane.hasClass($o.hidden) ? '0' : '1';
-                $o.postStatisticsVisibilityInput.val(doHide);
-
-                // toggle the visibility
-                $o.postStatisticsPane.toggleClass($o.hidden);
-
-                // save the state
-                $.post(
-                    lpVars.ajaxUrl,
-                    $o.postStatisticsVisibilityForm.serializeArray()
-                );
-            },
-
-            togglePostPreviewMode = function() {
-                if ($o.postPreviewModeToggle.prop('checked')) {
-                    $o.postPreviewModeInput.val(1);
+            togglePreviewMode = function() {
+                if ($o.previewModeToggle.prop('checked')) {
+                    $o.previewModeInput.val(1);
                 } else {
-                    $o.postPreviewModeInput.val(0);
+                    $o.previewModeInput.val(0);
                 }
 
                 // save the state and reload the page in the new preview mode
                 $.post(
                     lpVars.ajaxUrl,
-                    $o.postPreviewModeForm.serializeArray(),
+                    $o.previewModeForm.serializeArray(),
                     function() {
                         window.location.reload();
                     }
+                );
+            },
+
+            togglePreviewModeVisibility = function() {
+                var doHide = $o.previewModeContainer.hasClass($o.hidden) ? '0' : '1';
+                $o.previewModeVisibilityInput.val(doHide);
+
+                // toggle the visibility
+                $o.previewModeContainer.toggleClass($o.hidden);
+
+                // save the state
+                $.post(
+                    lpVars.ajaxUrl,
+                    $o.previewModeVisibilityForm.serializeArray()
                 );
             },
 
@@ -508,17 +470,15 @@
                 return matches ? decodeURIComponent(matches[1]) : undefined;
             },
 
-
-        initializePage = function() {
+            initializePage = function() {
                 // load post content via Ajax, if plugin is in caching compatible mode
                 // (recognizable by the presence of lp_js_postContentPlaceholder
                 if ($o.postContentPlaceholder.length === 1) {
                     loadPostContent();
                 }
 
-                // render the post statistics pane, if a placeholder exists for it
-                if ($o.postStatisticsPlaceholder.length === 1) {
-                    loadPostStatistics();
+                if ($o.previewModePlaceholder.length === 1) {
+                    loadPreviewModeContainer();
                 }
 
                 if ($o.postRatingPlaceholder.length === 1) {
@@ -542,6 +502,6 @@
     }
 
 // initialize page
-laterPayPostView();
+    laterPayPostView();
 
 });})(jQuery);

@@ -599,11 +599,10 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         // check, if user has admin rights
         $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
-        $user_can_read_statistics  = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
         $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
-        if ( $user_can_read_statistics && ! $preview_post_as_visitor ) {
+        if ($user_has_unlimited_access && ! $preview_post_as_visitor ) {
             $access = true;
         }
 

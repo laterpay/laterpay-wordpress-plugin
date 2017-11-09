@@ -31,8 +31,9 @@ html body .lp_purchase-overlay {
         padding: $fs--08 0 !important;
 
         .lp_purchase-overlay__settings {
-          margin: 0 $fs--125 !important;
+          padding: 0 $fs--125 !important;
           display: table !important;
+          width: 100% !important;
         }
       }
 
@@ -65,17 +66,16 @@ html body .lp_purchase-overlay {
     @include clearfix;
     display: table-row !important;
 
-    &-single label
-    {
-      opacity: 0;
-    }
-
     &__button {
       border-bottom: 1px solid #e0e0e2 !important;
       display: table-cell !important;
       vertical-align: middle !important;
       padding: $fs--08 0 $fs--08 $fs--055 !important;
       width: 10% !important;
+    }
+
+    &-single .lp_purchase-overlay-option__button {
+      display: none !important;
     }
 
     &__name {
@@ -133,9 +133,9 @@ html body .lp_purchase-overlay {
       line-height: 0 !important;
       margin: 0 !important;
       min-width: 16px !important;
-      opacity: 0!important;
+      opacity: 0 !important;
       outline: none !important;
-      position: absolute!important;
+      position: absolute !important;
       width: 16px !important;
       vertical-align: middle !important;
     }
@@ -212,9 +212,9 @@ html body .lp_purchase-overlay {
       box-shadow: none !important;
       color: $laterpay-brand;
 
-        &:hover {
-          color: $laterpay-brand--darker;
-        }
+      &:hover {
+        color: $laterpay-brand--darker;
+      }
     }
   }
 
@@ -230,7 +230,7 @@ html body .lp_purchase-overlay {
     vertical-align: middle !important;
   }
 
-  .lp_purchase-overlay-icon{
+  .lp_purchase-overlay-icon {
     display: table !important;
     line-height: 2 !important;
 
@@ -356,7 +356,7 @@ html body .lp_paid-content {
       margin: 0 $fs--08 !important;
     }
 
-    .lp_purchase-overlay-icon{
+    .lp_purchase-overlay-icon {
       &:after {
         transform: scale(1.4) !important;
       }

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * LaterPay statistics controller.
+ * LaterPay preview mode controller.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
+class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
 {
     /**
      * @see LaterPay_Core_Event_SubscriberInterface::get_subscribed_events()
@@ -18,15 +18,18 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'modify_footer' ),
             ),
-            'wp_ajax_laterpay_post_statistic_visibility' => array(
+            'wp_ajax_laterpay_preview_mode_visibility' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_visibility' ),
             ),
-            'wp_ajax_laterpay_post_statistic_toggle_preview' => array(
+            'wp_ajax_laterpay_post_toggle_preview' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_preview' ),
+            ),
+            'wp_ajax_laterpay_preview_mode_render' => array(
+                array( 'ajax_render_tab_preview_mode', 200 ),
             ),
         );
     }
@@ -104,11 +107,11 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
             return;
         }
 
-        // don't add the statistics pane placeholder to the footer, if the user is not logged in
-        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
+        // don't add the preview pane placeholder to the footer, if the user is not logged in
+        if ( ! LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', get_the_ID() ) ) {
 
             $this->logger->warning(
-                __METHOD__ . ' - user cannot read post statistics',
+                __METHOD__ . ' - user cannot switch post mode',
                 array(
                     'post_id'       => get_the_ID(),
                     'current_user'  => wp_get_current_user(),
@@ -119,24 +122,24 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
         }
 
         $footer = $event->get_result();
-        $footer .= '<div id="lp_js_postStatisticsPlaceholder"></div>';
+        $footer .= '<div id="lp_js_previewModePlaceholder"></div>';
         $event->set_result( $footer );
     }
 
     /**
      * Ajax callback to toggle the preview mode of the post.
      *
-     * @wp-hook wp_ajax_laterpay_post_statistic_toggle_preview
+     * @wp-hook wp_ajax_laterpay_post_toggle_preview
      * @param LaterPay_Core_Event $event
      * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
      */
     public function ajax_toggle_preview( LaterPay_Core_Event $event ) {
-        $statistics_preview_form = new LaterPay_Form_StatisticPreview( $_POST );
+        $preview_form = new LaterPay_Form_PreviewModeForm( $_POST );
 
-        if ( ! $statistics_preview_form->is_valid() ) {
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $statistics_preview_form ), $statistics_preview_form->get_errors() );
+        if ( ! $preview_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $preview_form ), $preview_form->get_errors() );
         }
 
         $error = array(
@@ -151,7 +154,7 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
             return;
         }
 
-        $preview_post = $statistics_preview_form->get_field_value( 'preview_post' );
+        $preview_post = $preview_form->get_field_value( 'preview_post' );
 
         if ( $preview_post === null ) {
             $error['code'] = 2;
@@ -163,13 +166,6 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
         $current_user = wp_get_current_user();
         if ( ! is_a( $current_user, 'WP_User' ) ) {
             $error['code'] = 3;
-            $event->set_result( $error );
-            return;
-        }
-
-        // check for required capabilities to perform action
-        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
-            $error['code'] = 4;
             $event->set_result( $error );
             return;
         }
@@ -195,6 +191,39 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
     }
 
     /**
+     * Ajax callback to render the preview mode pane.
+     *
+     * @wp-hook wp_ajax_laterpay_post_preview_mode_render
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function ajax_render_tab_preview_mode( LaterPay_Core_Event $event ) {
+        $preview_form = new LaterPay_Form_PreviewMode( $_GET );
+
+        if ( ! $preview_form->is_valid() ) {
+            $event->stop_propagation();
+            return;
+        }
+
+        $post_id = $preview_form->get_field_value( 'post_id' );
+        if ( ! LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post_id ) ) {
+            $event->stop_propagation();
+            return;
+        }
+
+        $post = get_post( $post_id );
+        // assign variables
+        $view_args = array(
+            'hide_preview_mode_pane'    => LaterPay_Helper_User::preview_mode_pane_is_hidden(),
+            'preview_post_as_visitor'   => (bool) LaterPay_Helper_User::preview_post_as_visitor( $post ),
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        $event->set_result( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
+    }
+
+    /**
      * Ajax callback to toggle the visibility of the statistics pane.
      *
      * @wp-hook wp_ajax_laterpay_post_statistic_visibility
@@ -204,10 +233,10 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_toggle_visibility( LaterPay_Core_Event $event ) {
-        $statistics_visibility_form = new LaterPay_Form_StatisticVisibility();
+        $preview_mode_visibility_form = new LaterPay_Form_PreviewModeVisibility( $_POST );
 
-        if ( ! $statistics_visibility_form->is_valid() ) {
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $statistics_visibility_form ), $statistics_visibility_form->get_errors() );
+        if ( ! $preview_mode_visibility_form->is_valid() ) {
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $preview_mode_visibility_form ), $preview_mode_visibility_form->get_errors() );
         }
 
         $current_user = wp_get_current_user();
@@ -218,8 +247,8 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
 
         // check the admin referer
         if ( ! check_admin_referer( 'laterpay_form' ) ||
-             ! is_a( $current_user, 'WP_User' ) ||
-             ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false )
+            ! is_a( $current_user, 'WP_User' ) ||
+            ! LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', null, false )
         ) {
             $event->set_result( $error );
             return;
@@ -227,8 +256,8 @@ class LaterPay_Controller_Frontend_Statistic extends LaterPay_Controller_Base
 
         $result = update_user_meta(
             $current_user->ID,
-            'laterpay_hide_statistics_pane',
-            $statistics_visibility_form->get_field_value( 'hide_statistics_pane' )
+            'laterpay_hide_preview_mode_pane',
+            $preview_mode_visibility_form->get_field_value( 'hide_preview_mode_pane' )
         );
 
         if ( ! $result ) {

@@ -10,7 +10,6 @@
 class LaterPay_Core_Capability
 {
     protected $allowed_capabilities = array(
-        'laterpay_read_post_statistics',
         'laterpay_edit_individual_price',
         'laterpay_edit_teaser_content',
         'laterpay_has_full_access_to_content',
@@ -69,7 +68,7 @@ class LaterPay_Core_Capability
             if ( empty( $role ) ) {
                 continue;
             }
-            $role->add_cap( 'laterpay_read_post_statistics' );
+
             $role->add_cap( 'laterpay_edit_individual_price' );
             $role->add_cap( 'laterpay_edit_teaser_content' );
             $role->add_cap( 'laterpay_has_full_access_to_content' );
@@ -81,7 +80,7 @@ class LaterPay_Core_Capability
             if ( empty( $role ) ) {
                 continue;
             }
-            $role->add_cap( 'laterpay_read_post_statistics' );
+
             $role->add_cap( 'laterpay_edit_teaser_content' );
         }
 
