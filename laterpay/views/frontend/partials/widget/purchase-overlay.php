@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <section class="lp_purchase-overlay__body">
                     <div class="lp_purchase-overlay__settings">
                         <?php if ( isset( $overlay_data['article'] ) ) : ?>
-                        <div class="lp_purchase-overlay-option">
+                        <div class="lp_purchase-overlay-option<?php if ( empty( $overlay_data['subscriptions']) && empty( $overlay_data['timepasses'] )):?> lp_purchase-overlay-option-single<?php endif;?>">
                             <div class="lp_purchase-overlay-option__button">
                                 <input id="lp_purchaseOverlayOptionInput<?php echo $input_id; ?>" type="radio" class="lp_purchase-overlay-option__input" value="<?php echo laterpay_sanitize_output( $overlay_data['article']['url'] ); ?>" name="lp_purchase-overlay-option" checked>
                                 <label for="lp_purchaseOverlayOptionInput<?php echo $input_id++; ?>" class="lp_purchase-overlay-option__label"></label>

@@ -65,6 +65,11 @@ html body .lp_purchase-overlay {
     @include clearfix;
     display: table-row !important;
 
+    &-single label
+    {
+      opacity: 0;
+    }
+
     &__button {
       border-bottom: 1px solid #e0e0e2 !important;
       display: table-cell !important;
