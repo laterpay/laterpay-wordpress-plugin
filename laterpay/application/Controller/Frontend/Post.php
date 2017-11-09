@@ -603,7 +603,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
-        if ( $user_can_read_statistics ) {
+        if ( $user_can_read_statistics && ! $preview_post_as_visitor ) {
             $access = true;
         }
 
