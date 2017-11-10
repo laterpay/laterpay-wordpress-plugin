@@ -31,9 +31,8 @@ html body .lp_purchase-overlay {
         padding: $fs--08 0 !important;
 
         .lp_purchase-overlay__settings {
-          padding: 0 $fs--125 !important;
+          margin: 0 $fs--125 !important;
           display: table !important;
-          width: 100% !important;
         }
       }
 
@@ -361,5 +360,12 @@ html body .lp_paid-content {
         transform: scale(1.4) !important;
       }
     }
+  }
+
+  .lp_purchase-overlay__settings {
+    margin: 0;
+    padding: 0 $fs--125 !important;
+    display: table !important;
+    width: 100% !important;
   }
 }
