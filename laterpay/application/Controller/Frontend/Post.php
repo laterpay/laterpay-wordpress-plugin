@@ -639,8 +639,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         laterpay_event_dispatcher()->dispatch( 'laterpay_post_teaser', $teaser_event );
         $teaser_content = $teaser_event->get_result();
 
+        // generate overlay content
+        $number_of_words = LaterPay_Helper_String::determine_number_of_words( $content );
+        $overlay_content = LaterPay_Helper_String::truncate(  $content, $number_of_words , array( 'html' => true, 'words' => true ) );
+        $event->set_argument( 'overlay_content', $overlay_content );
+
         // set teaser argument
         $event->set_argument( 'teaser', $teaser_content );
+        $event->set_argument( 'content', $content );
 
         // get values for output states
         $teaser_mode_event = new LaterPay_Core_Event();

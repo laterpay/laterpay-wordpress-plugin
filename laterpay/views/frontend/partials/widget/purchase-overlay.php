@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="lp_paid-content">
     <div class="lp_full-content">
         <!-- <?php echo laterpay_sanitize_output( __( 'Preview a short excerpt from the paid post:', 'laterpay' ) ); ?> -->
-        <?php echo laterpay_sanitized( $overlay['teaser'] ); ?>
+        <?php echo laterpay_sanitized( $overlay['overlay_content'] ); ?>
         <br>
         <?php echo laterpay_sanitize_output( __( 'Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay' ) ); ?>
     </div>

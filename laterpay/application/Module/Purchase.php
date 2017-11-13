@@ -180,6 +180,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             'title'             => LaterPay_Helper_Appearance::get_current_options( 'header_title' ),
             'currency'          => $this->config->get( 'currency.code' ),
             'teaser'            => $event->get_argument( 'teaser' ),
+            'overlay_content'   => $event->get_argument( 'overlay_content' ),
             'data'              => (array) $overlay_content_event->get_result(),
             'footer'            => LaterPay_Helper_Appearance::get_current_options( 'show_footer' ),
             'icons'             => $this->config->get_section( 'payment.icons' ),
@@ -314,11 +315,11 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             return;
         }
 
-        $data['article'] = [
+        $data['article'] = array(
             'title' => $post->post_title,
             'price' => LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $post->ID ) ),
             'url'   => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
-        ];
+        );
 
         $event->set_result( $data );
     }
