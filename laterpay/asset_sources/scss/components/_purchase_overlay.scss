@@ -31,7 +31,7 @@ html body .lp_purchase-overlay {
         padding: $fs--08 0 !important;
 
         .lp_purchase-overlay__settings {
-          margin: 0 $fs--125 !important;
+          padding: 0 $fs--125 !important;
           display: table !important;
         }
       }
@@ -309,6 +309,55 @@ html body .lp_paid-content {
           top: 0.37em !important;
         }
       }
+
+      .lp_purchase-overlay__settings {
+        display: table !important;
+        width: 100% !important;
+      }
+
+      .lp_purchase-overlay__voucher {
+          margin-top: $fs--125 !important;
+
+        .lp_purchase-overlay__voucher-input {
+          background: $text--inverse !important;
+          border: 1px solid $border !important;
+          border-radius: $border-radius !important;
+          color: $text !important;
+          font-size: $fs !important;
+          font-weight: 600 !important ;
+          margin: 0 auto !important;
+          padding: $fs--05 !important;
+          text-align: center !important;
+          width: 160px !important;
+
+          &::-webkit-input-placeholder {
+            color: $border--darker !important;
+            text-align: center !important;
+          }
+
+          &:-moz-placeholder {
+            color: $border--darker !important;
+            text-align: center !important;
+          }
+
+          &::-moz-placeholder {
+            color: $border--darker !important;
+            text-align: center !important;
+          }
+
+          &:-ms-input-placeholder {
+            color: $border--darker !important;
+            text-align: center !important;
+          }
+        }
+
+        .lp_purchase-overlay__voucher-error {
+          color: hsl(0, 73%, 64%) !important;
+          font-size: $fs--085 !important;
+          margin-top: $fs--05;
+          text-align: center !important;
+        }
+      }
     }
 
     .lp_purchase-overlay-option {
@@ -336,6 +385,10 @@ html body .lp_paid-content {
 
     &__submit {
       font-size: $fs--125 !important;
+
+      & span:before {
+        top: $fs--04 !important;
+      }
     }
 
     &__notification {
@@ -360,12 +413,5 @@ html body .lp_paid-content {
         transform: scale(1.4) !important;
       }
     }
-  }
-
-  .lp_purchase-overlay__settings {
-    margin: 0;
-    padding: 0 $fs--125 !important;
-    display: table !important;
-    width: 100% !important;
   }
 }

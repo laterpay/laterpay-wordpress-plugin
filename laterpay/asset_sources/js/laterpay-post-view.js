@@ -3,6 +3,8 @@
     // encapsulate all LaterPay Javascript in function laterPayPostView
     function laterPayPostView() {
         var $o = {
+                body                            : $('body'),
+
                 // post preview mode
                 previewModePlaceholder          : $('#lp_js_previewModePlaceholder'),
                 previewModeContainer            : '#lp_js_previewModeContainer',
@@ -49,7 +51,14 @@
                 fadingOut                       : 'lp_is-fading-out',
 
                 // premium content
-                premiumBox                      : '.lp_js_premium-file-box'
+                premiumBox                      : '.lp_js_premium-file-box',
+
+                // redeem voucher
+                redeemVoucherBlock              : $('.lp_purchase-overlay__voucher'),
+                notificationButtons             : $('.lp_js_notificationButtons'),
+                notificationCancel              : $('.lp_js_notificationCancel'),
+                voucherCancel                   : '.lp_js_voucherCancel',
+                redeemVoucherButton             : '.lp_js_redeemVoucher'
             },
 
             // DOM cache
@@ -87,7 +96,7 @@
 
             bindPurchaseEvents = function() {
                 // handle clicks on purchase links in test mode
-                $('body')
+                $o.body
                     .on('mousedown', $o.purchaseLink, function() {
                         handlePurchaseInTestMode(this);
                     })
@@ -101,7 +110,7 @@
                         }
                     });
 
-                $('body')
+                $o.body
                     .on('mousedown', $o.purchaseOverlay, function() {
                         handlePurchaseInTestMode(this);
                     })
@@ -115,15 +124,40 @@
                         }
                     });
 
+                // handle redeem voucher functionality
+                $o.body
+                    .on('click', $o.redeemVoucherButton, function (e) {
+                        e.preventDefault();
+
+                        $o.redeemVoucherBlock.removeClass('lp_hidden');
+                        $o.notificationButtons.addClass('lp_hidden');
+                        $o.notificationCancel.removeClass('lp_hidden');
+
+                        $($o.purchaseOverlay).find('[data-buy-label="true"]').addClass('lp_hidden');
+                        $($o.purchaseOverlay).find('[data-voucher-label="true"]').removeClass('lp_hidden');
+                    });
+
+                $o.body
+                    .on('click', $o.voucherCancel, function (e) {
+                        e.preventDefault();
+
+                        $o.redeemVoucherBlock.addClass('lp_hidden');
+                        $o.notificationButtons.removeClass('lp_hidden');
+                        $o.notificationCancel.addClass('lp_hidden');
+
+                        $($o.purchaseOverlay).find('[data-buy-label="true"]').removeClass('lp_hidden');
+                        $($o.purchaseOverlay).find('[data-voucher-label="true"]').addClass('lp_hidden');
+                    });
+
                 // handle clicks on time passes
-                $('body')
+                $o.body
                     .on('click', $o.flipTimePassLink, function(e) {
                         e.preventDefault();
                         flipTimePass(this);
                     });
 
                 // handle clicks on subscription
-                $('body')
+                $o.body
                     .on('click', $o.flipSubscriptionLink, function(e) {
                         e.preventDefault();
                         flipTimePass(this);

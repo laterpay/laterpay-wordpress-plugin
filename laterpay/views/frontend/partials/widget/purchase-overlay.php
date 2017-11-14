@@ -102,12 +102,25 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
+                    <div class="lp_purchase-overlay__voucher lp_hidden">
+                        <div><input type="text" class="lp_purchase-overlay__voucher-input" placeholder="Enter Voucher Code"></div>
+                        <div class="lp_purchase-overlay__voucher-error lp_hidden">Please enter a valid voucher code.</div>
+                    </div>
                     <div class="lp_purchase-overlay__buttons">
                         <div>
-                            <a class="lp_js_overlayPurchase lp_purchase-overlay__submit" data-preview-post-as-visitor="<?php echo laterpay_sanitize_output( $overlay['is_preview'] ); ?>" href="#"><span data-icon="b"></span><?php echo laterpay_sanitize_output( __( 'Buy now, pay later', 'laterpay' ) ); ?></a>
+                            <a class="lp_js_overlayPurchase lp_purchase-overlay__submit" data-preview-post-as-visitor="<?php echo laterpay_sanitize_output( $overlay['is_preview'] ); ?>" href="#">
+                                <span data-icon="b"></span>
+                                <span data-buy-label="true"><?php echo laterpay_sanitize_output( __( 'Buy now, pay later', 'laterpay' ) ); ?></span>
+                                <span data-voucher-label="true" class="lp_hidden"><?php echo laterpay_sanitize_output( __( 'Redeem Voucher Code', 'laterpay' ) ); ?></span>
+                            </a>
                         </div>
                         <div class="lp_purchase-overlay__notification">
-                            <a href="<?php echo laterpay_sanitize_output( $overlay['identify_url'] ); ?>"><?php echo laterpay_sanitize_output( $overlay['notification_text'] ); ?></a> | <a href="#"><?php echo laterpay_sanitize_output( __( 'Redeem voucher', 'laterpay' ) ); ?></a>
+                            <div class="lp_js_notificationButtons">
+                                <a href="<?php echo laterpay_sanitize_output( $overlay['identify_url'] ); ?>"><?php echo laterpay_sanitize_output( $overlay['notification_text'] ); ?></a> | <a href="#" class="lp_js_redeemVoucher"><?php echo laterpay_sanitize_output( __( 'Redeem voucher', 'laterpay' ) ); ?></a>
+                            </div>
+                            <div class="lp_js_notificationCancel lp_hidden">
+                                <a href="#" class="lp_js_voucherCancel"><?php echo laterpay_sanitize_output( __( 'Cancel', 'laterpay' ) ); ?></a>
+                            </div>
                         </div>
                     </div>
                 </section>
