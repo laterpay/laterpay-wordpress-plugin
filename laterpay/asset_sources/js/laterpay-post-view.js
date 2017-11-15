@@ -192,6 +192,8 @@
                 }
 
                 if (action === 'voucher') {
+                    $($o.overlayMessageContainer).html('');
+
                     redeemVoucherCode(
                         $($o.overlayMessageContainer),
                         purchaseOverlayFeedbackMessage,
@@ -251,19 +253,17 @@
                             link    : window.location.href
                         },
                         function(r) {
+                            // clear input
+                            $(input).val('');
+
                             if (r.success) {
                                 if (!is_gift) {
-                                    // clear input
-                                    $(input).val('');
-
                                     var has_matches = false,
                                         passId;
                                     $($o.timePass).each(function() {
                                         // check for each shown time pass, if the request returned updated data for it
                                         passId = $(this).data('pass-id');
                                         if (passId === r.pass_id) {
-
-                                            updateTimePass($(this), type, r);
 
                                             has_matches = true;
 
@@ -272,20 +272,14 @@
                                     });
 
                                     if (has_matches) {
-                                        // voucher is valid for at least one displayed time pass
-                                        showVoucherCodeFeedbackMessage(
-                                            lpVars.i18n.validVoucher,
-                                            feedbackMessageTpl,
-                                            r.success,
-                                            type,
-                                            $wrapper
-                                        );
+                                        // voucher is valid for at least one displayed time pass ->
+                                        // forward to purchase dialog
+                                        window.location.href = r.url;
                                     } else {
                                         // voucher is invalid for all displayed time passes
                                         showVoucherCodeFeedbackMessage(
                                             code + lpVars.i18n.invalidVoucher,
                                             feedbackMessageTpl,
-                                            r.success,
                                             type,
                                             $wrapper
                                         );
@@ -296,14 +290,10 @@
                                         .click();
                                 }
                             } else {
-                                // clear input
-                                $(input).val('');
-
                                 // voucher is invalid for all displayed time passes
                                 showVoucherCodeFeedbackMessage(
                                     code + lpVars.i18n.invalidVoucher,
                                     feedbackMessageTpl,
-                                    r.success,
                                     type,
                                     $wrapper
                                 );
@@ -313,51 +303,14 @@
                     );
                 } else {
                     // request was not sent, because voucher code is not six characters long
-                    showVoucherCodeFeedbackMessage(
-                        lpVars.i18n.codeTooShort,
-                        feedbackMessageTpl,
-                        false,
-                        type,
-                        $wrapper
-                    );
+                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort, feedbackMessageTpl, type, $wrapper);
                 }
             },
 
-            updateTimePass = function (timePass, type, r) {
-                if (type === 'purchase-overlay') {
-                    // clear error message container
-                    $($o.overlayMessageContainer).html('');
-
-                    // forward to LaterPay purchase dialog
-                    window.location.href = r.url;
-                }
-
-                if (type === 'time-pass') {
-                    // update purchase button price and url
-                    var priceWithVoucher = r.price +
-                        '<small class="lp_purchase-link__currency">' +
-                        lpVars.default_currency +
-                        '</small>';
-
-                    // update purchase button on time pass
-                    timePass
-                        .find($o.purchaseLink)
-                        .attr('data-laterpay', r.url)
-                        .html(priceWithVoucher);
-
-                    // update price on time pass flipside as well
-                    timePass
-                        .find($o.timePassPreviewPrice)
-                        .html(priceWithVoucher);
-                }
-
-                return false;
-            },
-
-            showVoucherCodeFeedbackMessage = function(message, tpl, success, type, $wrapper) {
+            showVoucherCodeFeedbackMessage = function(message, tpl, type, $wrapper) {
                 var $feedbackMessage = tpl(message);
 
-                if (type === 'purchase-overlay' && !success) {
+                if (type === 'purchase-overlay') {
                     $wrapper.html($feedbackMessage);
                 }
 
