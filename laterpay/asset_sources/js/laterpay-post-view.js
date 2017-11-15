@@ -58,7 +58,24 @@
                 notificationButtons             : $('.lp_js_notificationButtons'),
                 notificationCancel              : $('.lp_js_notificationCancel'),
                 voucherCancel                   : '.lp_js_voucherCancel',
-                redeemVoucherButton             : '.lp_js_redeemVoucher'
+                redeemVoucherButton             : '.lp_js_redeemVoucher',
+                overlayMessageContainer         : '.lp_js_purchaseOverlayMessageContainer',
+                overlayTimePassPrice            : '.lp_js_timePassPrice'
+            },
+
+            // Messages templates
+
+            timePassFeedbackMessage = function (msg) {
+                return '<div id="lp_js_voucherCodeFeedbackMessage" class="lp_voucher__feedback-message" ' +
+                            'style="display:none;">' +
+                           msg +
+                       '</div>';
+            },
+
+            purchaseOverlayFeedbackMessage = function (msg) {
+                return '<div id="lp_js_voucherCodeFeedbackMessage" class="lp_purchase-overlay__voucher-error">' +
+                           msg +
+                       '</div>';
             },
 
             // DOM cache
@@ -120,11 +137,11 @@
                         if ( $(this).data( 'preview-post-as-visitor' ) ) {
                             alert(lpVars.i18n.alert);
                         } else {
-                            window.location.href = $($o.currentOverlay).val();
+                            purchaseOverlaySubmit($(this).attr('data-purchase-action'));
                         }
                     });
 
-                // handle redeem voucher functionality
+                // show redeem voucher input
                 $o.body
                     .on('click', $o.redeemVoucherButton, function (e) {
                         e.preventDefault();
@@ -135,8 +152,10 @@
 
                         $($o.purchaseOverlay).find('[data-buy-label="true"]').addClass('lp_hidden');
                         $($o.purchaseOverlay).find('[data-voucher-label="true"]').removeClass('lp_hidden');
+                        $($o.purchaseOverlay).attr('data-purchase-action', 'voucher');
                     });
 
+                // hide redeem voucher input
                 $o.body
                     .on('click', $o.voucherCancel, function (e) {
                         e.preventDefault();
@@ -147,6 +166,7 @@
 
                         $($o.purchaseOverlay).find('[data-buy-label="true"]').removeClass('lp_hidden');
                         $($o.purchaseOverlay).find('[data-voucher-label="true"]').addClass('lp_hidden');
+                        $($o.purchaseOverlay).attr('data-purchase-action', 'buy');
                     });
 
                 // handle clicks on time passes
@@ -164,6 +184,26 @@
                     });
             },
 
+            purchaseOverlaySubmit = function (action) {
+                console.log(action);
+
+                if (action === 'buy') {
+                    window.location.href = $($o.currentOverlay).val();
+                }
+
+                if (action === 'voucher') {
+                    redeemVoucherCode(
+                        $($o.overlayMessageContainer),
+                        purchaseOverlayFeedbackMessage,
+                        $o.voucherCodeInput,
+                        'purchase-overlay',
+                        false
+                    );
+                }
+
+                return false;
+            },
+
             bindRatingEvents = function() {
                 // save rating when input is selected
                 $o.postRatingRadio
@@ -176,18 +216,30 @@
                 // redeem voucher code
                 $($o.voucherRedeemButton)
                     .on('mousedown', function() {
-                        redeemVoucherCode($(this).parent(), $o.voucherCodeInput, false);
+                        redeemVoucherCode(
+                            $(this).parent(),
+                            timePassFeedbackMessage,
+                            $o.voucherCodeInput,
+                            'time-pass',
+                            false
+                        );
                     })
                     .on('click', function(e) {e.preventDefault();});
 
                 $($o.giftCardRedeemButton)
                     .on('mousedown', function() {
-                        redeemVoucherCode($(this).parent(), $o.giftCardCodeInput, true);
+                        redeemVoucherCode(
+                            $(this).parent(),
+                            timePassFeedbackMessage,
+                            $o.giftCardCodeInput,
+                            'time-pass',
+                            true
+                        );
                     })
                     .on('click', function(e) {e.preventDefault();});
             },
 
-            redeemVoucherCode = function($wrapper, input, is_gift) {
+            redeemVoucherCode = function($wrapper, feedbackMessageTpl, input, type, is_gift) {
                 var code = $(input).val();
 
                 if (code.length === 6) {
@@ -210,22 +262,8 @@
                                         // check for each shown time pass, if the request returned updated data for it
                                         passId = $(this).data('pass-id');
                                         if (passId === r.pass_id) {
-                                            // update purchase button price and url
-                                            var priceWithVoucher = r.price +
-                                                '<small class="lp_purchase-link__currency">' +
-                                                lpVars.default_currency +
-                                                '</small>';
 
-                                            // update purchase button on time pass
-                                            $(this)
-                                                .find($o.purchaseLink)
-                                                .attr('data-laterpay', r.url)
-                                                .html(priceWithVoucher);
-
-                                            // update price on time pass flipside as well
-                                            $(this)
-                                                .find($o.timePassPreviewPrice)
-                                                .html(priceWithVoucher);
+                                            updateTimePass($(this), type, r);
 
                                             has_matches = true;
 
@@ -235,10 +273,22 @@
 
                                     if (has_matches) {
                                         // voucher is valid for at least one displayed time pass
-                                        showVoucherCodeFeedbackMessage(lpVars.i18n.validVoucher, $wrapper);
+                                        showVoucherCodeFeedbackMessage(
+                                            lpVars.i18n.validVoucher,
+                                            feedbackMessageTpl,
+                                            r.success,
+                                            type,
+                                            $wrapper
+                                        );
                                     } else {
                                         // voucher is invalid for all displayed time passes
-                                        showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
+                                        showVoucherCodeFeedbackMessage(
+                                            code + lpVars.i18n.invalidVoucher,
+                                            feedbackMessageTpl,
+                                            r.success,
+                                            type,
+                                            $wrapper
+                                        );
                                     }
                                 } else {
                                     $('#fakebtn')
@@ -250,39 +300,83 @@
                                 $(input).val('');
 
                                 // voucher is invalid for all displayed time passes
-                                showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
+                                showVoucherCodeFeedbackMessage(
+                                    code + lpVars.i18n.invalidVoucher,
+                                    feedbackMessageTpl,
+                                    r.success,
+                                    type,
+                                    $wrapper
+                                );
                             }
                         },
                         'json'
                     );
                 } else {
                     // request was not sent, because voucher code is not six characters long
-                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort, $wrapper);
+                    showVoucherCodeFeedbackMessage(
+                        lpVars.i18n.codeTooShort,
+                        feedbackMessageTpl,
+                        false,
+                        type,
+                        $wrapper
+                    );
                 }
             },
 
-            showVoucherCodeFeedbackMessage = function(message, $wrapper) {
-                var $feedbackMessage = $(
-                    '<div id="lp_js_voucherCodeFeedbackMessage" ' +
-                    'class="lp_voucher__feedback-message" style="display:none;">' +
-                    message +
-                    '</div>'
-                );
+            updateTimePass = function (timePass, type, r) {
+                if (type === 'purchase-overlay') {
+                    // clear error message container
+                    $($o.overlayMessageContainer).html('');
 
-                $wrapper.prepend($feedbackMessage);
+                    // forward to LaterPay purchase dialog
+                    window.location.href = r.url;
+                }
 
-                $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
-                $feedbackMessage
-                    .fadeIn(250)
-                    .click(function() {
-                        // remove feedback message on click
+                if (type === 'time-pass') {
+                    // update purchase button price and url
+                    var priceWithVoucher = r.price +
+                        '<small class="lp_purchase-link__currency">' +
+                        lpVars.default_currency +
+                        '</small>';
+
+                    // update purchase button on time pass
+                    timePass
+                        .find($o.purchaseLink)
+                        .attr('data-laterpay', r.url)
+                        .html(priceWithVoucher);
+
+                    // update price on time pass flipside as well
+                    timePass
+                        .find($o.timePassPreviewPrice)
+                        .html(priceWithVoucher);
+                }
+
+                return false;
+            },
+
+            showVoucherCodeFeedbackMessage = function(message, tpl, success, type, $wrapper) {
+                var $feedbackMessage = tpl(message);
+
+                if (type === 'purchase-overlay' && !success) {
+                    $wrapper.html($feedbackMessage);
+                }
+
+                if (type === 'time-pass') {
+                    $wrapper.prepend($feedbackMessage);
+
+                    $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
+                    $feedbackMessage
+                        .fadeIn(250)
+                        .click(function() {
+                            // remove feedback message on click
+                            removeVoucherCodeFeedbackMessage($feedbackMessage);
+                        });
+
+                    // automatically remove feedback message after 3 seconds
+                    setTimeout(function() {
                         removeVoucherCodeFeedbackMessage($feedbackMessage);
-                    });
-
-                // automatically remove feedback message after 3 seconds
-                setTimeout(function() {
-                    removeVoucherCodeFeedbackMessage($feedbackMessage);
-                }, 3000);
+                    }, 3000);
+                }
             },
 
             removeVoucherCodeFeedbackMessage = function($feedbackMessage) {

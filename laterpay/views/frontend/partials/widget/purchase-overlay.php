@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php endif; ?>
                         <?php if ( isset( $overlay_data['timepasses'] ) ) : ?>
                             <?php foreach ( $overlay_data['timepasses'] as $timepass ) : ?>
-                                <div class="lp_purchase-overlay-option">
+                                <div class="lp_purchase-overlay-option lp_js_timePass" data-pass-id="<?php echo laterpay_sanitize_output( $timepass['id'] ); ?>">
                                     <div class="lp_purchase-overlay-option__button">
                                         <input id="lp_purchaseOverlayOptionInput<?php echo $input_id; ?>" type="radio" class="lp_purchase-overlay-option__input" value="<?php echo laterpay_sanitize_output( $timepass['url'] ); ?>" name="lp_purchase-overlay-option">
                                         <label for="lp_purchaseOverlayOptionInput<?php echo $input_id++; ?>" class="lp_purchase-overlay-option__label"></label>
@@ -65,7 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         </div>
                                     </div>
                                     <div class="lp_purchase-overlay-option__cost">
-                                        <div class="lp_purchase-overlay-option__price">
+                                        <div class="lp_purchase-overlay-option__price lp_js_timePassPrice">
                                             <?php echo laterpay_sanitize_output( $timepass['price'] ); ?>
                                         </div>
                                         <div class="lp_purchase-overlay-option__currency">
@@ -103,12 +103,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php endif; ?>
                     </div>
                     <div class="lp_purchase-overlay__voucher lp_hidden">
-                        <div><input type="text" class="lp_purchase-overlay__voucher-input" placeholder="Enter Voucher Code"></div>
-                        <div class="lp_purchase-overlay__voucher-error lp_hidden">Please enter a valid voucher code.</div>
+                        <div>
+                            <input type="text" class="lp_purchase-overlay__voucher-input lp_js_voucherCodeInput" placeholder="Enter Voucher Code">
+                        </div>
+                            <div class="lp_purchase-overlay__message-container lp_js_purchaseOverlayMessageContainer"></div>
                     </div>
                     <div class="lp_purchase-overlay__buttons">
                         <div>
-                            <a class="lp_js_overlayPurchase lp_purchase-overlay__submit" data-preview-post-as-visitor="<?php echo laterpay_sanitize_output( $overlay['is_preview'] ); ?>" href="#">
+                            <a class="lp_js_overlayPurchase lp_purchase-overlay__submit" data-purchase-action="buy" data-preview-post-as-visitor="<?php echo laterpay_sanitize_output( $overlay['is_preview'] ); ?>" href="#">
                                 <span data-icon="b"></span>
                                 <span data-buy-label="true"><?php echo laterpay_sanitize_output( __( 'Buy now, pay later', 'laterpay' ) ); ?></span>
                                 <span data-voucher-label="true" class="lp_hidden"><?php echo laterpay_sanitize_output( __( 'Redeem Voucher Code', 'laterpay' ) ); ?></span>
