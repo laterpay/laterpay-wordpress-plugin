@@ -70,7 +70,7 @@ html body .lp_purchase-overlay {
       display: table-cell !important;
       vertical-align: middle !important;
       padding: $fs--08 0 $fs--08 $fs--055 !important;
-      width: 10% !important;
+      width: 9% !important;
     }
 
     &-single .lp_purchase-overlay-option__button {
@@ -101,8 +101,8 @@ html body .lp_purchase-overlay {
       color: $purchase-main-text !important;
       display: table-cell !important;
       padding: $fs--08 0 !important;
-      width: 30% !important;
-      vertical-align: middle !important;
+      width: 31% !important;
+      vertical-align: top !important;
       text-align: right !important;
     }
 
@@ -110,12 +110,14 @@ html body .lp_purchase-overlay {
       display: inline-block !important;
       font-size: $fs--15 !important;
       letter-spacing: -1px !important;
+      line-height: 1 !important;
+      vertical-align: top !important;
     }
 
     &__currency {
       display: inline-block !important;
       font-size: $fs--055 !important;
-      line-height: 1 !important;
+      line-height: initial !important;
       vertical-align: top !important;
     }
 
