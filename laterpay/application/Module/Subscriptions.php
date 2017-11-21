@@ -111,7 +111,8 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
                 'title'       => $subscription['title'],
                 'description' => $subscription['description'],
                 'price'       => LaterPay_Helper_View::format_number( $subscription['price'] ),
-                'url'         => LaterPay_Helper_Subscription::get_subscription_purchase_link( $subscription['id'] )
+                'url'         => LaterPay_Helper_Subscription::get_subscription_purchase_link( $subscription['id'] ),
+                'revenue'     => 'sub'
             );
         }
 

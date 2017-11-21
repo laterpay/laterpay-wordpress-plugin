@@ -486,11 +486,12 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // loop through timepasses
         foreach ($timepasses as $timepass) {
             $data['timepasses'][] = array(
-                'id'          => $timepass['pass_id'],
+                'id'          => (int) $timepass['pass_id'],
                 'title'       => $timepass['title'],
                 'description' => $timepass['description'],
                 'price'       => LaterPay_Helper_View::format_number( $timepass['price'] ),
-                'url'         => LaterPay_Helper_TimePass::get_laterpay_purchase_link( $timepass['pass_id'] )
+                'url'         => LaterPay_Helper_TimePass::get_laterpay_purchase_link( $timepass['pass_id'] ),
+                'revenue'     => $timepass['revenue_model']
             );
         }
 

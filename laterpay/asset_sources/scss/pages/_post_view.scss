@@ -41,6 +41,7 @@
         color: transparent !important;
         padding: $fs--025 !important;
         text-shadow: 0 0 4px darken($text, 33%) !important;
+        filter: blur(3px) !important;
     }
 
     .lp_overlay-text {

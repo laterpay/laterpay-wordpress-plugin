@@ -26,9 +26,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <section class="lp_purchase-overlay__body">
                     <div class="lp_purchase-overlay__settings">
                         <?php if ( isset( $overlay_data['article'] ) ) : ?>
-                        <div class="lp_purchase-overlay-option<?php if ( empty( $overlay_data['subscriptions']) && empty( $overlay_data['timepasses'] )):?> lp_purchase-overlay-option-single<?php endif;?>">
+                        <div class="lp_purchase-overlay-option<?php if ( empty( $overlay_data['subscriptions']) && empty( $overlay_data['timepasses'] )):?> lp_purchase-overlay-option-single<?php endif;?>"
+                             data-revenue="<?php echo $overlay_data['article']['revenue'];?>">
                             <div class="lp_purchase-overlay-option__button">
-                                <input id="lp_purchaseOverlayOptionInput<?php echo $input_id; ?>" type="radio" class="lp_purchase-overlay-option__input" value="<?php echo laterpay_sanitize_output( $overlay_data['article']['url'] ); ?>" name="lp_purchase-overlay-option" checked>
+                                <input id="lp_purchaseOverlayOptionInput<?php echo $input_id; ?>" type="radio"
+                                       class="lp_purchase-overlay-option__input" value="<?php echo laterpay_sanitize_output( $overlay_data['article']['url'] ); ?>"
+                                       name="lp_purchase-overlay-option" checked>
                                 <label for="lp_purchaseOverlayOptionInput<?php echo $input_id++; ?>" class="lp_purchase-overlay-option__label"></label>
                             </div>
                             <div class="lp_purchase-overlay-option__name">
@@ -51,9 +54,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php endif; ?>
                         <?php if ( isset( $overlay_data['timepasses'] ) ) : ?>
                             <?php foreach ( $overlay_data['timepasses'] as $timepass ) : ?>
-                                <div class="lp_purchase-overlay-option lp_js_timePass" data-pass-id="<?php echo laterpay_sanitize_output( $timepass['id'] ); ?>">
+                                <div class="lp_purchase-overlay-option lp_js_timePass"
+                                     data-pass-id="<?php echo laterpay_sanitize_output( $timepass['id'] ); ?>"
+                                     data-revenue="<?php echo $timepass['revenue'];?>">
                                     <div class="lp_purchase-overlay-option__button">
-                                        <input id="lp_purchaseOverlayOptionInput<?php echo $input_id; ?>" type="radio" class="lp_purchase-overlay-option__input" value="<?php echo laterpay_sanitize_output( $timepass['url'] ); ?>" name="lp_purchase-overlay-option">
+                                        <input id="lp_purchaseOverlayOptionInput<?php echo $input_id; ?>" type="radio" 
+                                               class="lp_purchase-overlay-option__input" value="<?php echo laterpay_sanitize_output( $timepass['url'] ); ?>" 
+                                               name="lp_purchase-overlay-option">
                                         <label for="lp_purchaseOverlayOptionInput<?php echo $input_id++; ?>" class="lp_purchase-overlay-option__label"></label>
                                     </div>
                                     <div class="lp_purchase-overlay-option__name">
@@ -77,9 +84,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php endif; ?>
                         <?php if ( isset( $overlay_data['subscriptions'] ) ) : ?>
                             <?php foreach ( $overlay_data['subscriptions'] as $subscription ) : ?>
-                                <div class="lp_purchase-overlay-option">
+                                <div class="lp_purchase-overlay-option" data-revenue="<?php echo $subscription['revenue'];?>">
                                     <div class="lp_purchase-overlay-option__button">
-                                        <input id="lp_purchaseOverlayOptionInput<?php echo $input_id; ?>" type="radio" class="lp_purchase-overlay-option__input" value="<?php echo laterpay_sanitize_output( $subscription['url'] ); ?>" name="lp_purchase-overlay-option">
+                                        <input id="lp_purchaseOverlayOptionInput<?php echo $input_id; ?>" type="radio"
+                                               class="lp_purchase-overlay-option__input" value="<?php echo laterpay_sanitize_output( $subscription['url'] ); ?>" name="lp_purchase-overlay-option">
                                         <label for="lp_purchaseOverlayOptionInput<?php echo $input_id++; ?>" class="lp_purchase-overlay-option__label"></label>
                                     </div>
                                     <div class="lp_purchase-overlay-option__name">
@@ -104,15 +112,16 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                     <div class="lp_purchase-overlay__voucher lp_hidden">
                         <div>
-                            <input type="text" class="lp_purchase-overlay__voucher-input lp_js_voucherCodeInput" placeholder="Enter Voucher Code">
+                            <input type="text" class="lp_purchase-overlay__voucher-input lp_js_voucherCodeInput" placeholder="<?php echo laterpay_sanitize_output( __('Enter Voucher Code', 'laterpay' ) ); ?>">
                         </div>
                             <div class="lp_purchase-overlay__message-container lp_js_purchaseOverlayMessageContainer"></div>
                     </div>
                     <div class="lp_purchase-overlay__buttons">
                         <div>
-                            <a class="lp_js_overlayPurchase lp_purchase-overlay__submit" data-purchase-action="buy" data-preview-post-as-visitor="<?php echo laterpay_sanitize_output( $overlay['is_preview'] ); ?>" href="#">
+                            <a class="lp_js_overlayPurchase lp_purchase-overlay__submit" data-purchase-action="buy"
+                               data-preview-post-as-visitor="<?php echo laterpay_sanitize_output( $overlay['is_preview'] ); ?>" href="#">
                                 <span data-icon="b"></span>
-                                <span data-buy-label="true"><?php echo laterpay_sanitize_output( __( 'Buy now, pay later', 'laterpay' ) ); ?></span>
+                                <span data-buy-label="true" class="lp_purchase-overlay__submit-text"><?php echo laterpay_sanitize_output( $overlay['submit_text'] ); ?></span>
                                 <span data-voucher-label="true" class="lp_hidden"><?php echo laterpay_sanitize_output( __( 'Redeem Voucher Code', 'laterpay' ) ); ?></span>
                             </a>
                         </div>
@@ -126,7 +135,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                     </div>
                 </section>
-                <section class="lp_purchase-overlay__footer" <?php if ( $overlay['footer'] !== '1' ) echo 'style="display:none;"'; ?>>
+                <section class="lp_purchase-overlay__footer" <?php if ( $overlay['footer'] !== '1' ) { echo 'style="display:none;"'; } ?>>
                     <ul class="lp_purchase-overlay-payments-list">
                         <?php foreach ( $overlay['icons'] as $icon ) : ?>
                             <li class="lp_purchase-overlay-payments-item">

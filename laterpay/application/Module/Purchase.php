@@ -165,6 +165,17 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
         $back_url    = get_permalink( $post->ID );
         $content_ids = LaterPay_Helper_Post::get_content_ids( $post->ID );
+        $revenue_model = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
+
+        switch ($revenue_model) {
+            case 'sis':
+                $submit_text = __('Buy Now', 'laterpay');
+                break;
+            case 'ppu':
+            default:
+                $submit_text = __('Buy Now, Pay Later', 'laterpay');
+                break;
+        }
 
         // create account links URL with passed parameters
         $client_options = LaterPay_Helper_Config::get_php_client_options();
@@ -186,6 +197,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             'icons'             => $this->config->get_section( 'payment.icons' ),
             'notification_text' => __( 'I already bought this', 'laterpay' ),
             'identify_url'      => $client->get_identify_url( $back_url, $content_ids ),
+            'submit_text'       => $submit_text,
             'is_preview'        => (int) $event->get_argument( 'is_preview' ),
         );
 
@@ -291,9 +303,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $action_event );
 
         $overlay_content = array(
-            'title'      => $overlay_title,
-            'benefits'   => $overlay_benefits,
-            'action'     => (string) $action_event->get_result(),
+            'title'         => $overlay_title,
+            'benefits'      => $overlay_benefits,
+            'action'        => (string) $action_event->get_result(),
         );
 
         $event->set_result( $overlay_content );
@@ -316,9 +328,10 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
 
         $data['article'] = array(
-            'title' => $post->post_title,
-            'price' => LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $post->ID ) ),
-            'url'   => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
+            'title'     => $post->post_title,
+            'price'     => LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $post->ID ) ),
+            'revenue'   => LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID ),
+            'url'       => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
         );
 
         $event->set_result( $data );

@@ -776,6 +776,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     'invalidVoucher'    => __( ' is not a valid voucher code!', 'laterpay' ),
                     'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),
                     'generalAjaxError'  => __( 'An error occurred. Please try again.', 'laterpay' ),
+                    'revenue'           => array(
+                        'ppu'           => __( 'Buy Now, Pay Later', 'laterpay'),
+                        'sis'           => __( 'Buy Now', 'laterpay' ),
+                        'sub'           => __( 'Subscribe Now', 'laterpay' )
+                    )
                 ),
                 'default_currency'      => $this->config->get( 'currency.code' ),
             )

@@ -16,6 +16,10 @@
                 previewModeVisibilityToggle     : '#lp_js_togglePreviewModeVisibility',
                 previewModeVisibilityInput      : '#lp_js_previewModeVisibilityInput',
 
+                optionContainer                 : '.lp_purchase-overlay-option',
+                optionInput                     : '.lp_purchase-overlay-option__input',
+                submitButtonText                : '.lp_purchase-overlay__submit-text',
+
                 // time passes
                 timePass                        : '.lp_js_timePass',
                 flipTimePassLink                : '.lp_js_flipTimePass',
@@ -141,6 +145,29 @@
                         }
                     });
 
+                // select radio input by clicking on a container
+                $o.body
+                    .on('click', $o.optionContainer, function (e) {
+                        e.preventDefault();
+                        $(this).find($o.optionInput).attr('checked', 'checked');
+
+                        switch( $(this).data('revenue') ) {
+                            // buy now
+                            case 'sis':
+                                $($o.submitButtonText).text(lpVars.i18n.revenue.sis);
+                                break;
+                            // subscription
+                            case 'sub':
+                                $($o.submitButtonText).text(lpVars.i18n.revenue.sub);
+                                break;
+                            // pay later
+                            case 'ppu':
+                            default:
+                                $($o.submitButtonText).text(lpVars.i18n.revenue.ppu);
+                                break;
+                        }
+                    });
+
                 // show redeem voucher input
                 $o.body
                     .on('click', $o.redeemVoucherButton, function (e) {
@@ -185,8 +212,6 @@
             },
 
             purchaseOverlaySubmit = function (action) {
-                console.log(action);
-
                 if (action === 'buy') {
                     window.location.href = $($o.currentOverlay).val();
                 }
