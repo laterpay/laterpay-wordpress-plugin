@@ -188,12 +188,10 @@ Please see the "Test and Live Mode" section.
 
 1. The LaterPay WordPress plugin lets you easily define a teaser text for your paid content and set an individual price...
 2. ...or a dynamic price for your posts, pages and other content types.
-3. In the *Pricing tab*, you can set default prices for the entire website or specific categories and create time passes to offer time-limited access to all your content or a category.
-4. In the *Appearance tab*, you can choose between two preview modes for your content.
-5. Option 1 shows only the post's teaser content (which you can define yourself or create automatically), the LaterPay purchase button and a purchase link.
-6. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
-7. In the *Account tab*, you can manage your API credentials, switch between test and live mode, choose if LaterPay should be visible for your users in test mode and set the region (U.S. or Europe) and currency ($ or €) for your LaterPay account.
-8. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
+3. In the *Pricing tab*, you can set default prices for the entire website or specific categories. You can create time passes to offer time-limited access to all your content or a category, or even offer subscriptions.
+4. In the *Appearance tab*, you can choose between three preview modes and customize the appearance of all LaterPay elements on your website.
+5. In the *Account tab*, you can manage your API credentials, switch between test and live mode, choose if LaterPay should be visible for your users in test mode, and set the region (U.S. or Europe) and currency ($ or €) for your LaterPay account.
+6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
 
