@@ -19,7 +19,7 @@ class LaterPay_Helper_Appearance
     public static function get_default_options( $key = null ) {
 
         $defaults = array(
-            'header_title'      => __('Read now, pay later'),
+            'header_title'      => __('Read now, pay later', 'laterpay' ),
             'header_bg_color'   => '#585759',
             'main_bg_color'     => '#F4F3F4',
             'main_text_color'   => '#252221',
@@ -49,7 +49,7 @@ class LaterPay_Helper_Appearance
     public static function get_current_options( $key = null ) {
 
         $options = array(
-            'header_title'      => get_option( 'laterpay_overlay_header_title', __('Read now, pay later') ),
+            'header_title'      => get_option( 'laterpay_overlay_header_title', __('Read now, pay later', 'laterpay') ),
             'header_bg_color'   => get_option( 'laterpay_overlay_header_bg_color', '#585759' ),
             'main_bg_color'     => get_option( 'laterpay_overlay_main_bg_color', '#F4F3F4' ),
             'main_text_color'   => get_option( 'laterpay_overlay_main_text_color', '#252221' ),

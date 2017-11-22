@@ -363,6 +363,8 @@ html body .lp_paid-content {
     }
 
     .lp_purchase-overlay-option {
+      cursor: pointer;
+
       &__title {
         font-size: $fs--125 !important;
       }
