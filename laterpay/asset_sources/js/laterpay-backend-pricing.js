@@ -1014,7 +1014,8 @@
                 $($o.voucherPriceInput, $wrapper).val($($entity.fields.price, $wrapper).val());
 
                 // highlight current revenue model
-                $('label', $revenueInput).removeClass($o.selected);
+                $($o.revenueModelLabel, $wrapper).removeClass($o.selected);
+
                 var $revenue = $($entity.fields.revenueModel + '[value=' + data.revenue_model + ']', $wrapper);
                 $revenue.prop('checked', 'checked');
                 $revenue.parent('label').addClass($o.selected);
