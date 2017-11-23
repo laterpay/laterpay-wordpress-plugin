@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     class="lp_js_switchButtonGroup"
                                     <?php if ( $laterpay['teaser_mode'] === '0' ) : ?>checked<?php endif; ?>/>
                             <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-1"></div>
-                            <?php echo laterpay_sanitize_output( __( 'Teaser + Purchase Link', 'laterp  ay' ) ); ?>
+                            <?php echo laterpay_sanitize_output( __( 'Teaser + Purchase Link', 'laterpay' ) ); ?>
                         </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                      --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['teaser_mode'] === '1' ) { echo ' lp_is-selected'; } ?>">
                             <input type="radio"
