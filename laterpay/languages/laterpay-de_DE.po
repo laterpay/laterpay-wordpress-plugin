@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2017-11-23 12:06+0000\n"
-"PO-Revision-Date: 2017-11-23 12:11+0000\n"
+"POT-Creation-Date: 2017-11-23 12:43+0000\n"
+"PO-Revision-Date: 2017-11-23 12:58+0000\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de-DE\n"
@@ -430,6 +430,10 @@ msgstr ""
 #. Author of the plugin
 msgid "LaterPay GmbH, Mihail Turalenka and Aliaksandr Vahura"
 msgstr ""
+
+#: views/backend/appearance.php:43
+msgid "Teaser + Purchase Link"
+msgstr "Teaser + Kauflink"
 
 #: laterpay.php:39
 msgid "Unexpected error during plugin init"
