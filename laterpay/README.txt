@@ -195,6 +195,11 @@ Please see the "Test and Live Mode" section.
 
 == Changelog ==
 
+= 0.9.27 (November 23, 2017): Bugfix Release (v1.0 RC24) =
+* Added a new, highly customizable appearance option which shows all purchase options in the same overlay.
+* Optimized and reduced necessary API requests.
+* Fixed deprecation issues in LaterPay PHP client.
+
 = 0.9.26.2 (September 21, 2017): Bugfix Release (v1.0 RC23) =
 * Fixed issue with plugin update
 
