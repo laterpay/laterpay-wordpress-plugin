@@ -1005,9 +1005,7 @@
             });
 
             if (type === 'timepass') {
-                var vouchers      = $entity.data.vouchers[entityId],
-                    $revenueInput = $($entity.fields.revenueModel, $wrapper);
-
+                var vouchers      = $entity.data.vouchers[entityId];
                 // validate price after inserting
                 validatePrice($wrapper.find('form'), false, $($entity.fields.price, $wrapper));
                 // set price input value into the voucher price input

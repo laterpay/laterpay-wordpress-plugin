@@ -162,6 +162,7 @@
                                 break;
                             // pay later
                             case 'ppu':
+                            /* falls through */
                             default:
                                 $($o.submitButtonText).text(lpVars.i18n.revenue.ppu);
                                 break;
