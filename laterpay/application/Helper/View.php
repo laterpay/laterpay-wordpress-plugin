@@ -9,7 +9,6 @@
  */
 class LaterPay_Helper_View
 {
-
     /**
      * @var string
      */
@@ -157,7 +156,7 @@ class LaterPay_Helper_View
         }
 
         // check, if plugin is not in live mode and current user has sufficient capabilities
-        if ( ! $is_in_live_mode && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
+        if ( ! $is_in_live_mode ) {
             return false;
         }
 
@@ -203,7 +202,7 @@ class LaterPay_Helper_View
      */
     public static function format_number( $number, $is_monetary = true ) {
         // convert value to float if incorrect type passed
-        $number = floatval( $number );
+        $number = (float) $number ;
 
         if ( $is_monetary ) {
             // format value with 2 digits

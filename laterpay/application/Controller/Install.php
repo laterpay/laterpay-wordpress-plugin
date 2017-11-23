@@ -535,6 +535,20 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
+     * Set (reset) any customization for overlay
+     *
+     * @since 0.9.26.2
+     */
+    public function set_overlay_defaults()
+    {
+        $overlay_default_options = LaterPay_Helper_Appearance::get_default_options();
+
+        foreach ($overlay_default_options as $key => $value) {
+            update_option('laterpay_overlay_' . $key, $value);
+        }
+    }
+
+    /**
      * Remove ppul values
      *
      * @since 0.9.24
@@ -583,6 +597,30 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 }
             }
         }
+    }
+
+    /**
+     * Change teaser mode
+     *
+     * @since 1.0.0
+     */
+    public function change_teaser_mode()
+    {
+        $current_version = get_option( 'laterpay_plugin_version' );
+        if ( version_compare( $current_version, '1.0.0', '<' ) ) {
+            return;
+        }
+
+        // set proper teaser mode
+        if ( $teaser_mode = get_option( 'laterpay_teaser_content_only' ) ) {
+            update_option( 'laterpay_teaser_mode', '0' );
+        } else {
+            update_option( 'laterpay_teaser_mode', '1' );
+        }
+
+        // remove old property and set new one
+        delete_option( 'laterpay_teaser_content_only' );
+
     }
 
     /**
@@ -646,7 +684,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
-        add_option( 'laterpay_teaser_content_only',                     '1' );
+        add_option( 'laterpay_teaser_mode',                             '2' );
         add_option( 'laterpay_plugin_is_in_live_mode',                  '0' );
         add_option( 'laterpay_sandbox_merchant_id',                     $this->config->get( 'api.sandbox_merchant_id' ) );
         add_option( 'laterpay_sandbox_api_key',                         $this->config->get( 'api.sandbox_api_key' ) );
@@ -707,8 +745,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->maybe_update_vouchers();
         $this->drop_statistics_tables();
         $this->init_colors_options();
+        $this->set_overlay_defaults();
         $this->remove_old_api_settings();
         $this->maybe_remove_ppul();
+        $this->change_teaser_mode();
     }
 
     /**

@@ -10,6 +10,7 @@ $fs--25:                    $fs * 2.5;
 $fs--3:                     $fs * 3;
 $fs--35:                    $fs * 3.5;
 $fs--4:                     $fs * 4;
+$fs--45:                    $fs * 4.5;
 $fs--5:                     $fs * 5;
 $fs--55:                    $fs * 5.5;
 $fs--6:                     $fs * 6;
@@ -18,8 +19,12 @@ $fs--085:                   round($fs * 0.85);
 $fs--08:                    round($fs * 0.8);
 $fs--075:                   round($fs * 0.75);
 $fs--07:                    round($fs * 0.7);
+$fs--055:                   round($fs * 0.55);
 $fs--05:                    round($fs * 0.5);
+$fs--04:                    round($fs * 0.4);
 $fs--025:                   round($fs * 0.25);
+$fs--02:                    round($fs * 0.2);
+$fs--015:                   round($fs * 0.15);
 
 
 // colors --------------------------------------------------------------------------------------------------------------
@@ -63,6 +68,16 @@ $border--darker:            darken($border, 7%);
 $border--darkest:           darken($border, 47%);
 
 $border--lightest:          lighten($border, 11%);
+
+
+// purchase overlay default colors
+$purchase-header-background:  #585759;
+$purchase-background:         #F4F3F4;
+$purchase-main-text:          #252221;
+$purchase-description-text:   #69676A;
+$purchase-button-background:  #00AAA2;
+$purchase-button-text:        #FFFFFF;
+$purchase-footer-background:  #EEEFEF;
 
 
 // border radii --------------------------------------------------------------------------------------------------------

@@ -24,6 +24,9 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
             'laterpay_time_passes' => array(
                 array( 'render_subscriptions_list', 15 ),
             ),
+            'laterpay_purchase_overlay_content' => array(
+                array( 'on_purchase_overlay_content', 6 ),
+            ),
         );
     }
 
@@ -79,5 +82,40 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
         $string = $this->get_text_view( 'backend/partials/subscription' );
 
         return $string;
+    }
+
+    /**
+     * Get subscriptions data
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function on_purchase_overlay_content( LaterPay_Core_Event $event )
+    {
+        $data = $event->get_result();
+        $post = $event->get_argument( 'post' );
+
+        // default value
+        $data['subscriptions'] = array();
+
+        $subscriptions = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id(
+            $post->ID,
+            null,
+            true
+        );
+
+        // loop through subscriptions
+        foreach ($subscriptions as $subscription) {
+            $data['subscriptions'][] = array(
+                'title'       => $subscription['title'],
+                'description' => $subscription['description'],
+                'price'       => LaterPay_Helper_View::format_number( $subscription['price'] ),
+                'url'         => LaterPay_Helper_Subscription::get_subscription_purchase_link( $subscription['id'] ),
+                'revenue'     => 'sub'
+            );
+        }
+
+        $event->set_result( $data );
     }
 }

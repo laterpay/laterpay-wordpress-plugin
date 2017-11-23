@@ -90,7 +90,7 @@
     cursor: pointer;
     float: right; /* 3 */
     height: 1.5em; /* 4 */
-    margin-left: 0.1em;
+    margin: 0.1em 0 0 0.1em;
     width: 1.5em; /* 4 */
 
     &:hover svg,
@@ -111,10 +111,10 @@
     background: $background--lightest;
     border: 1px solid $border;
     border-radius: $border-radius;
-    height: 1.5em;
-    line-height: 1.5em;
+    height: 2em;
+    line-height: 2em;
     margin: 1em 0;
-    padding: 1em;
+    padding: 0 1em;
 }
 
 .lp_rating.lp_is-fading-out {

@@ -904,20 +904,31 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_enabled_post_types_markup() {
-        $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
+        $hidden_post_types = array(
+            'nav_menu_item',
+            'revision',
+            'custom_css',
+            'customize_changeset'
+        );
+
+        $all_post_types     = get_post_types( array( ), 'objects' );
         $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
 
-        $inputs_markup = '';
+        $inputs_markup = '<ul class="post_types">';
         foreach ( $all_post_types as $slug => $post_type ) {
-            $inputs_markup .= '<label title="' . $post_type->labels->name . '">';
+            if (in_array($slug, $hidden_post_types, true)) {
+                continue;
+            }
+            $inputs_markup .= '<li><label title="' . $post_type->labels->name . '">';
             $inputs_markup .= '<input type="checkbox" name="laterpay_enabled_post_types[]" value="' . $slug . '" ';
-            if ( is_array( $enabled_post_types ) && in_array( $slug, $enabled_post_types ) ) {
+            if ( is_array( $enabled_post_types ) && in_array( $slug, $enabled_post_types, true ) ) {
                 $inputs_markup .= 'checked';
             }
             $inputs_markup .= '>';
             $inputs_markup .= '<span>' . $post_type->labels->name . '</span>';
-            $inputs_markup .= '</label><br>';
+            $inputs_markup .= '</label></li>';
         }
+        $inputs_markup .= '</ul>';
 
         echo laterpay_sanitized( $inputs_markup );
     }

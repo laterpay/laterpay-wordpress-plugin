@@ -15,14 +15,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_content' => array(
-                array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'modify_post_content' ),
+                array( 'laterpay_on_plugin_is_working', 300 ),
+                array( 'modify_post_content', 250 ),
             ),
             'laterpay_posts' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'prefetch_post_access' ),
+                array( 'prefetch_post_access', 10 ),
                 array( 'hide_free_posts_with_premium_content' ),
-                array( 'hide_paid_posts' ),
+                array( 'hide_paid_posts', 999 ),
             ),
             'laterpay_attachment_image_attributes' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
@@ -38,7 +38,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             ),
             'laterpay_enqueue_scripts' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'add_frontend_stylesheets' ),
+                array( 'add_frontend_stylesheets', 20 ),
                 array( 'add_frontend_scripts' ),
             ),
             'laterpay_post_teaser' => array(
@@ -584,39 +584,79 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         } else {
             $post = get_post();
         }
-        $post_id = $post->ID;
 
+        if ( $post === null ) {
+            $event->stop_propagation();
+            return;
+        }
+
+        // check, if user has access to content (because he already bought it)
+        $access = LaterPay_Helper_Post::has_access_to_post( $post );
+
+        // caching and Ajax
+        $caching_is_active = (bool) $this->config->get( 'caching.compatible_mode' );
+        $is_ajax           = defined( 'DOING_AJAX' ) && DOING_AJAX;
+
+        // check, if user has admin rights
+        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+        $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
+
+        // switch to 'admin' mode and load the correct content, if user can read post statistics
+        if ($user_has_unlimited_access && ! $preview_post_as_visitor ) {
+            $access = true;
+        }
+
+        // set necessary arguments
+        $event->set_arguments(
+            array(
+                'post'       => $post,
+                'access'     => $access,
+                'is_cached'  => $caching_is_active,
+                'is_ajax'    => $is_ajax,
+                'is_preview' => $preview_post_as_visitor,
+            )
+        );
+
+        // maybe add ratings
+        if ( get_option( 'laterpay_ratings' ) ) {
+            $ratings_event = new LaterPay_Core_Event();
+            $ratings_event->set_echo( false );
+            $ratings_event->set_arguments( $event->get_arguments() );
+            $ratings_event->set_argument( 'content', $content );
+            laterpay_event_dispatcher()->dispatch( 'laterpay_show_rating_form', $ratings_event );
+            $content = $ratings_event->get_result();
+        }
+
+        // stop propagation
+        if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
+            $event->stop_propagation();
+            return;
+        }
+
+        // generate teaser
         $teaser_event = new LaterPay_Core_Event();
         $teaser_event->set_echo( false );
         laterpay_event_dispatcher()->dispatch( 'laterpay_post_teaser', $teaser_event );
         $teaser_content = $teaser_event->get_result();
 
+        // generate overlay content
+        $number_of_words = LaterPay_Helper_String::determine_number_of_words( $content );
+        $overlay_content = LaterPay_Helper_String::truncate(  $content, $number_of_words , array( 'html' => true, 'words' => true ) );
+        $event->set_argument( 'overlay_content', $overlay_content );
+
+        // set teaser argument
+        $event->set_argument( 'teaser', $teaser_content );
+        $event->set_argument( 'content', $content );
+
         // get values for output states
         $teaser_mode_event = new LaterPay_Core_Event();
         $teaser_mode_event->set_echo( false );
-        $teaser_mode_event->set_argument( 'post_id', $post_id );
+        $teaser_mode_event->set_argument( 'post_id', $post->ID );
         laterpay_event_dispatcher()->dispatch( 'laterpay_teaser_content_mode', $teaser_mode_event );
-        $teaser_content_only = $teaser_mode_event->get_result();
-
-        $user_can_read_statistics = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
-
-        // check, if user has access to content (because he already bought it)
-        $access = LaterPay_Helper_Post::has_access_to_post( $post );
-
-        // switch to 'admin' mode and load the correct content, if user can read post statistics
-        if ( $user_can_read_statistics ) {
-            $access = true;
-        }
-
-        // encrypt files contained in premium posts
-        $content = LaterPay_Helper_File::get_encrypted_content( $post_id, $content, $access );
-        $content = $wp_embed->autoembed( $content );
-
-        // start collecting the output
-        $html = '';
+        $teaser_mode = $teaser_mode_event->get_result();
 
         // return the teaser content on non-singular pages (archive, feed, tax, author, search, ...)
-        if ( ! is_singular() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+        if ( ! is_singular() && ! $is_ajax ) {
             // prepend hint to feed items that reading the full content requires purchasing the post
             if ( is_feed() ) {
                 $feed_event = new LaterPay_Core_Event();
@@ -624,35 +664,50 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 $feed_event->set_argument( 'post', $post );
                 $feed_event->set_argument( 'teaser_content', $teaser_content );
                 laterpay_event_dispatcher()->dispatch( 'laterpay_feed_content', $feed_event );
-                $html .= $feed_event->get_result();
+                $content = $feed_event->get_result();
             } else {
-                $html .= $teaser_content;
+                $content = $teaser_content;
             }
 
-            $event->set_result( $html );
+            $event->set_result( $content );
             $event->stop_propagation();
             return;
         }
 
-        // add the teaser content
-        $html .= $teaser_content;
-
-        if ( $teaser_content_only ) {
-            // add teaser content plus a purchase link after the teaser content
-            $link_event = new LaterPay_Core_Event();
-            $link_event->set_echo( false );
-            laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_link', $link_event );
-            $html .= $link_event->get_result();
+        if ( ! $access ) {
+            // show proper teaser
+            switch ($teaser_mode) {
+                case '1':
+                    // add excerpt of full content, covered by an overlay with a purchase button
+                    $overlay_event = new LaterPay_Core_Event();
+                    $overlay_event->set_echo( false );
+                    $overlay_event->set_arguments( $event->get_arguments() );
+                    laterpay_event_dispatcher()->dispatch( 'laterpay_explanatory_overlay', $overlay_event );
+                    $content = $teaser_content . $overlay_event->get_result();
+                    break;
+                case '2':
+                    // add excerpt of full content, covered by an overlay with a purchase button
+                    $overlay_event = new LaterPay_Core_Event();
+                    $overlay_event->set_echo( false );
+                    $overlay_event->set_arguments( $event->get_arguments() );
+                    laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_overlay', $overlay_event );
+                    $content = $teaser_content . $overlay_event->get_result();
+                    break;
+                default:
+                    // add teaser content plus a purchase link after the teaser content
+                    $link_event = new LaterPay_Core_Event();
+                    $link_event->set_echo( false );
+                    laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_link', $link_event );
+                    $content = $teaser_content . $link_event->get_result();
+                    break;
+            }
         } else {
-            // add excerpt of full content, covered by an overlay with a purchase button
-            $overlay_event = new LaterPay_Core_Event();
-            $overlay_event->set_echo( false );
-            $overlay_event->set_argument( 'content', $content );
-            laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_overlay', $overlay_event );
-            $html .= $overlay_event->get_result();
+            // encrypt files contained in premium posts
+            $content = LaterPay_Helper_File::get_encrypted_content( $post->ID, $content, $access );
+            $content = $wp_embed->autoembed( $content );
         }
 
-        $event->set_result( $html );
+        $event->set_result( $content );
     }
 
     /**
@@ -677,6 +732,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         // apply colors config
         LaterPay_Helper_View::apply_colors( 'laterpay-post-view' );
+
+        // apply purchase overlay config
+        LaterPay_Helper_Appearance::add_overlay_styles( 'laterpay-post-view' );
     }
 
     /**
@@ -718,6 +776,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     'invalidVoucher'    => __( ' is not a valid voucher code!', 'laterpay' ),
                     'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),
                     'generalAjaxError'  => __( 'An error occurred. Please try again.', 'laterpay' ),
+                    'revenue'           => array(
+                        'ppu'           => __( 'Buy Now, Pay Later', 'laterpay'),
+                        'sis'           => __( 'Buy Now', 'laterpay' ),
+                        'sub'           => __( 'Subscribe Now', 'laterpay' )
+                    )
                 ),
                 'default_currency'      => $this->config->get( 'currency.code' ),
             )
@@ -737,23 +800,17 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @param LaterPay_Core_Event $event
      *
-     * @return array $posts
      */
     public function hide_paid_posts( LaterPay_Core_Event $event ) {
-        try {
-            $api_available = LaterPay_Helper_Request::laterpay_api_check_availability();
-        } catch ( Exception $e ) {
-            $api_available = false;
-            $context = array(
-                'trace' => $e->getTraceAsString(),
-            );
-            laterpay_get_logger()->error( __( 'Unexpected error during health check', 'laterpay' ), $context );
+        if (true === LaterPay_Helper_Request::isLpApiAvailability())
+        {
+            return;
         }
 
         $posts    = (array) $event->get_result();
         $behavior = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
 
-        if ( ! $api_available && $behavior === 2 ) {
+        if (2 === $behavior) {
             $result = array();
             $count = 0;
 
@@ -852,7 +909,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @param LaterPay_Core_Event $event
      */
     public function get_teaser_mode( LaterPay_Core_Event $event ) {
-        $event->set_result( get_option( 'laterpay_teaser_content_only' ) );
+        $event->set_result( get_option( 'laterpay_teaser_mode' ) );
     }
 
     /**

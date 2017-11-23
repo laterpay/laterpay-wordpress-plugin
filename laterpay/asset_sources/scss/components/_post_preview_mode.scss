@@ -1,12 +1,12 @@
-// post statistics pane
+// post preview mode pane
 
 // statistics pane header with LaterPay vector logo --------------------------------------------------------------------
-.lp_post-statistics,
-.lp_post-statistics__title {
+.lp_post-preview-mode,
+.lp_post-preview-mode__title {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.lp_post-statistics {
+.lp_post-preview-mode {
     background: $background--darker;
     border-radius: 0 0 0 $border-radius;
     box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
@@ -20,8 +20,8 @@
     width: ($fs * 25);
     z-index: $zindex--overlayed-1;
 
-    // remove dotted outline and box shadows from .lp_post-statistics__visibility-toggle link
-    .lp_post-statistics__visibility-toggle,
+    // remove dotted outline and box shadows from .lp_post-preview-mode__visibility-toggle link
+    .lp_post-preview-mode__visibility-toggle,
     &:focus,
     &:active,
     &:visited {
@@ -34,7 +34,7 @@
     }
 }
 
-.lp_post-statistics__title {
+.lp_post-preview-mode__title {
     font-size: $fs--125;
     font-style: normal;
     font-weight: normal;
@@ -57,8 +57,8 @@
 }
 
 
-// statistics pane visibility toggle -----------------------------------------------------------------------------------
-.lp_post-statistics__visibility-toggle {
+// preview pane visibility toggle -----------------------------------------------------------------------------------
+.lp_post-preview-mode__visibility-toggle {
     background: $background--darker;
     border-radius: $border-radius 0 0 $border-radius;
     color: $clickable;
@@ -85,8 +85,8 @@
         color: $clickable--highlight;
     }
 
-    // reveal toggle when the statistics pane is hovered
-    .lp_post-statistics:hover & {
+    // reveal toggle when the preview pane is hovered
+    .lp_post-preview-mode:hover & {
         left: -$fs--3;
         @include opacity(1);
 
@@ -100,7 +100,7 @@
     }
 
     // hidden statistics pane
-    .lp_post-statistics.lp_is-hidden & {
+    .lp_post-preview-mode.lp_is-hidden & {
         box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
         left: -($fs * 4);
         text-align: left;
@@ -123,36 +123,8 @@
 }
 
 // footer with toggle for previewing post as visitor or as admin -------------------------------------------------------
-.lp_post-statistics .lp_post-statistics__plugin-preview-mode {
+.lp_post-preview-mode .lp_post-preview-mode__plugin-preview-mode {
     background-color: hsl(47, 100%, 50%);
     border-radius: 0 0 0 $border-radius;
     padding: $fs $fs--075 $fs--075;
-}
-
-// post statistic empty states --------------------------------------------------------------------------------------------------------
-.lp_statistics-empty {
-  color: $text--lighter;
-  margin: $fs--4 auto;
-  padding: $fs $fs--15;
-  width: ($fs * 21);
-  text-align: center;
-  h2 {
-    color: $text--lighter;
-    font-size: $fs--125;
-    font-weight: bold;
-    margin: $fs--05 0 $fs;
-    line-height: $fs--125;
-    font-family: "Open Sans",sans-serif;
-  }
-
-  p:not(:last-child) {
-    margin: 0 0 $fs--025;
-  }
-
-  p:last-child {
-    margin: 0;
-  }
-  a {
-    color: #0074A2;
-  }
 }

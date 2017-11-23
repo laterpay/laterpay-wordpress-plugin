@@ -58,12 +58,20 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
     }
 
     /**
+     * Load common assets
+     * and load metabox's assets only for enabled post types
+     *
      * @see LaterPay_Core_View::load_assets()
      */
     public function load_assets() {
+        global $post_type;
+
         parent::load_assets();
-        $this->load_stylesheets();
-        $this->load_scripts();
+
+        if (in_array($post_type, $this->config->get( 'content.enabled_post_types' ), true)) {
+            $this->load_stylesheets();
+            $this->load_scripts();
+        }
     }
 
     /**

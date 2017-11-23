@@ -52,3 +52,11 @@ p.submit {
     line-height: 1.8;
     margin-right: $fs;
 }
+
+ul.post_types {
+    max-height: 200px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: column wrap;
+    flex-flow: column wrap;
+}

@@ -62,12 +62,8 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
             'paid_content_preview',
             array(
                 'validators' => array(
-                    'is_int',
-                    'in_array' => array( 0, 1 ),
-                ),
-                'filters' => array(
-                    'to_int'
-                ),
+                    'in_array' => array( '0', '1', '2' ),
+                )
             )
         );
     }

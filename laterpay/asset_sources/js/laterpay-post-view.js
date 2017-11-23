@@ -3,18 +3,22 @@
     // encapsulate all LaterPay Javascript in function laterPayPostView
     function laterPayPostView() {
         var $o = {
-                // post statistics pane
-                postStatisticsPane              : $('#lp_js_postStatistics'),
+                body                            : $('body'),
 
                 // post preview mode
-                postPreviewModeForm             : $('#lp_js_postStatisticsPluginPreviewModeForm'),
-                postPreviewModeToggle           : $('#lp_js_togglePostPreviewMode'),
-                postPreviewModeInput            : $('#lp_js_postPreviewModeInput'),
+                previewModePlaceholder          : $('#lp_js_previewModePlaceholder'),
+                previewModeContainer            : '#lp_js_previewModeContainer',
+                previewModeForm                 : '#lp_js_previewModeForm',
+                previewModeToggle               : '#lp_js_togglePreviewMode',
+                previewModeInput                : '#lp_js_previewModeInput',
 
-                // post statistics pane visibility
-                postStatisticsVisibilityForm    : $('#lp_js_postStatisticsVisibilityForm'),
-                postStatisticsVisibilityToggle  : $('#lp_js_togglePostStatisticsVisibility'),
-                postStatisticsVisibilityInput   : $('#lp_js_postStatisticsVisibilityInput'),
+                previewModeVisibilityForm       : '#lp_js_previewModeVisibilityForm',
+                previewModeVisibilityToggle     : '#lp_js_togglePreviewModeVisibility',
+                previewModeVisibilityInput      : '#lp_js_previewModeVisibilityInput',
+
+                optionContainer                 : '.lp_purchase-overlay-option',
+                optionInput                     : '.lp_purchase-overlay-option__input',
+                submitButtonText                : '.lp_purchase-overlay__submit-text',
 
                 // time passes
                 timePass                        : '.lp_js_timePass',
@@ -35,11 +39,12 @@
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
-                postStatisticsPlaceholder       : $('#lp_js_postStatisticsPlaceholder'),
                 postRatingPlaceholder           : $('#lp_js_postRatingPlaceholder'),
 
                 // purchase buttons and purchase links
                 purchaseLink                    : '.lp_js_doPurchase',
+                purchaseOverlay                 : '.lp_js_overlayPurchase',
+                currentOverlay                  : 'input[name="lp_purchase-overlay-option"]:checked',
 
                 // content rating
                 postRatingForm                  : $('.lp_js_ratingForm'),
@@ -51,93 +56,218 @@
 
                 // premium content
                 premiumBox                      : '.lp_js_premium-file-box',
+
+                // redeem voucher
+                redeemVoucherBlock              : $('.lp_purchase-overlay__voucher'),
+                notificationButtons             : $('.lp_js_notificationButtons'),
+                notificationCancel              : $('.lp_js_notificationCancel'),
+                voucherCancel                   : '.lp_js_voucherCancel',
+                redeemVoucherButton             : '.lp_js_redeemVoucher',
+                overlayMessageContainer         : '.lp_js_purchaseOverlayMessageContainer',
+                overlayTimePassPrice            : '.lp_js_timePassPrice'
             },
 
-            recachePostStatisticsPane = function() {
-                $o.postStatisticsPane              = $('#lp_js_postStatistics');
-                $o.postPreviewModeForm             = $('#lp_js_postStatisticsPluginPreviewModeForm');
-                $o.postPreviewModeToggle           = $('#lp_js_togglePostPreviewMode');
-                $o.postPreviewModeInput            = $('#lp_js_postPreviewModeInput');
-                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatisticsVisibilityForm');
-                $o.postStatisticsVisibilityToggle  = $('#lp_js_togglePostStatisticsVisibility');
-                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatisticsVisibilityInput');
+            // Messages templates
+
+            timePassFeedbackMessage = function (msg) {
+                return '<div id="lp_js_voucherCodeFeedbackMessage" class="lp_voucher__feedback-message" ' +
+                            'style="display:none;">' +
+                           msg +
+                       '</div>';
             },
+
+            purchaseOverlayFeedbackMessage = function (msg) {
+                return '<div id="lp_js_voucherCodeFeedbackMessage" class="lp_purchase-overlay__voucher-error">' +
+                           msg +
+                       '</div>';
+            },
+
+            // DOM cache
 
             recacheRatingForm = function() {
                 $o.postRatingForm  = $('.lp_js_ratingForm');
                 $o.postRatingRadio = $('input[type=radio][name=rating_value]');
             },
 
+            recachePreviewModeContainer = function() {
+                $o.previewModeContainer = $('#lp_js_previewModeContainer');
+                $o.previewModeForm  = $('#lp_js_previewModeForm');
+                $o.previewModeToggle = $('#lp_js_togglePreviewMode');
+                $o.previewModeInput = $('#lp_js_previewModeInput');
+
+                $o.previewModeVisibilityForm = $('#lp_js_previewModeVisibilityForm');
+                $o.previewModeVisibilityToggle = $('#lp_js_togglePreviewModeVisibility');
+                $o.previewModeVisibilityInput = $('#lp_js_previewModeVisibilityInput');
+            },
+
+            // Binding Events
+
+            bindPreviewModeEvents = function() {
+                $o.previewModeToggle.on('change', function() {
+                    togglePreviewMode();
+                });
+
+                // toggle visibility of post statistics pane
+                $o.previewModeVisibilityToggle
+                    .on('mousedown', function() {
+                        togglePreviewModeVisibility();
+                    })
+                    .on('click', function(e) {e.preventDefault();});
+            },
+
             bindPurchaseEvents = function() {
                 // handle clicks on purchase links in test mode
-                $('body')
-                .on('mousedown', $o.purchaseLink, function() {
-                    handlePurchaseInTestMode(this);
-                })
-                .on('click', $o.purchaseLink, function(e) {
-                    // redirect to the laterpay side
-                    e.preventDefault();
-                    if ( $(this).data( 'preview-post-as-visitor' ) ) {
-                        alert(lpVars.i18n.alert);
-                    } else {
-                        window.location.href = $(this).data('laterpay');
-                    }
-                });
+                $o.body
+                    .on('mousedown', $o.purchaseLink, function() {
+                        handlePurchaseInTestMode(this);
+                    })
+                    .on('click', $o.purchaseLink, function(e) {
+                        // redirect to the laterpay side
+                        e.preventDefault();
+                        if ( $(this).data( 'preview-post-as-visitor' ) ) {
+                            alert(lpVars.i18n.alert);
+                        } else {
+                            window.location.href = $(this).data('laterpay');
+                        }
+                    });
+
+                $o.body
+                    .on('mousedown', $o.purchaseOverlay, function() {
+                        handlePurchaseInTestMode(this);
+                    })
+                    .on('click', $o.purchaseOverlay, function(e) {
+                        // redirect to the laterpay side
+                        e.preventDefault();
+                        if ( $(this).data( 'preview-post-as-visitor' ) ) {
+                            alert(lpVars.i18n.alert);
+                        } else {
+                            purchaseOverlaySubmit($(this).attr('data-purchase-action'));
+                        }
+                    });
+
+                // select radio input by clicking on a container
+                $o.body
+                    .on('click', $o.optionContainer, function (e) {
+                        e.preventDefault();
+                        $(this).find($o.optionInput).attr('checked', 'checked');
+
+                        switch( $(this).data('revenue') ) {
+                            // buy now
+                            case 'sis':
+                                $($o.submitButtonText).text(lpVars.i18n.revenue.sis);
+                                break;
+                            // subscription
+                            case 'sub':
+                                $($o.submitButtonText).text(lpVars.i18n.revenue.sub);
+                                break;
+                            // pay later
+                            case 'ppu':
+                            /* falls through */
+                            default:
+                                $($o.submitButtonText).text(lpVars.i18n.revenue.ppu);
+                                break;
+                        }
+                    });
+
+                // show redeem voucher input
+                $o.body
+                    .on('click', $o.redeemVoucherButton, function (e) {
+                        e.preventDefault();
+
+                        $o.redeemVoucherBlock.removeClass('lp_hidden');
+                        $o.notificationButtons.addClass('lp_hidden');
+                        $o.notificationCancel.removeClass('lp_hidden');
+
+                        $($o.purchaseOverlay).find('[data-buy-label="true"]').addClass('lp_hidden');
+                        $($o.purchaseOverlay).find('[data-voucher-label="true"]').removeClass('lp_hidden');
+                        $($o.purchaseOverlay).attr('data-purchase-action', 'voucher');
+                    });
+
+                // hide redeem voucher input
+                $o.body
+                    .on('click', $o.voucherCancel, function (e) {
+                        e.preventDefault();
+
+                        $o.redeemVoucherBlock.addClass('lp_hidden');
+                        $o.notificationButtons.removeClass('lp_hidden');
+                        $o.notificationCancel.addClass('lp_hidden');
+
+                        $($o.purchaseOverlay).find('[data-buy-label="true"]').removeClass('lp_hidden');
+                        $($o.purchaseOverlay).find('[data-voucher-label="true"]').addClass('lp_hidden');
+                        $($o.purchaseOverlay).attr('data-purchase-action', 'buy');
+                    });
 
                 // handle clicks on time passes
-                $('body')
-                .on('click', $o.flipTimePassLink, function(e) {
-                    e.preventDefault();
-                    flipTimePass(this);
-                });
+                $o.body
+                    .on('click', $o.flipTimePassLink, function(e) {
+                        e.preventDefault();
+                        flipTimePass(this);
+                    });
 
                 // handle clicks on subscription
-                $('body')
+                $o.body
                     .on('click', $o.flipSubscriptionLink, function(e) {
                         e.preventDefault();
                         flipTimePass(this);
                     });
             },
 
-            bindPostStatisticsEvents = function() {
-                // toggle visibility of post statistics pane
-                $o.postStatisticsVisibilityToggle
-                .on('mousedown', function() {
-                    togglePostStatisticsVisibility();
-                })
-                .on('click', function(e) {e.preventDefault();});
+            purchaseOverlaySubmit = function (action) {
+                if (action === 'buy') {
+                    window.location.href = $($o.currentOverlay).val();
+                }
 
-                // toggle plugin preview mode between 'preview as visitor' and 'preview as admin'
-                $o.postPreviewModeToggle
-                .on('change', function() {
-                    togglePostPreviewMode();
-                });
+                if (action === 'voucher') {
+                    $($o.overlayMessageContainer).html('');
+
+                    redeemVoucherCode(
+                        $($o.overlayMessageContainer),
+                        purchaseOverlayFeedbackMessage,
+                        $o.voucherCodeInput,
+                        'purchase-overlay',
+                        false
+                    );
+                }
+
+                return false;
             },
 
             bindRatingEvents = function() {
                 // save rating when input is selected
                 $o.postRatingRadio
-                .on('change', function() {
-                    savePostRating();
-                });
+                    .on('change', function() {
+                        savePostRating();
+                    });
             },
 
             bindTimePassesEvents = function() {
                 // redeem voucher code
                 $($o.voucherRedeemButton)
-                .on('mousedown', function() {
-                    redeemVoucherCode($(this).parent(), $o.voucherCodeInput, false);
-                })
-                .on('click', function(e) {e.preventDefault();});
+                    .on('mousedown', function() {
+                        redeemVoucherCode(
+                            $(this).parent(),
+                            timePassFeedbackMessage,
+                            $o.voucherCodeInput,
+                            'time-pass',
+                            false
+                        );
+                    })
+                    .on('click', function(e) {e.preventDefault();});
 
                 $($o.giftCardRedeemButton)
-                .on('mousedown', function() {
-                    redeemVoucherCode($(this).parent(), $o.giftCardCodeInput, true);
-                })
-                .on('click', function(e) {e.preventDefault();});
+                    .on('mousedown', function() {
+                        redeemVoucherCode(
+                            $(this).parent(),
+                            timePassFeedbackMessage,
+                            $o.giftCardCodeInput,
+                            'time-pass',
+                            true
+                        );
+                    })
+                    .on('click', function(e) {e.preventDefault();});
             },
 
-            redeemVoucherCode = function($wrapper, input, is_gift) {
+            redeemVoucherCode = function($wrapper, feedbackMessageTpl, input, type, is_gift) {
                 var code = $(input).val();
 
                 if (code.length === 6) {
@@ -149,33 +279,17 @@
                             link    : window.location.href
                         },
                         function(r) {
+                            // clear input
+                            $(input).val('');
+
                             if (r.success) {
                                 if (!is_gift) {
-                                    // clear input
-                                    $(input).val('');
-
                                     var has_matches = false,
                                         passId;
                                     $($o.timePass).each(function() {
                                         // check for each shown time pass, if the request returned updated data for it
                                         passId = $(this).data('pass-id');
                                         if (passId === r.pass_id) {
-                                            // update purchase button price and url
-                                            var priceWithVoucher = r.price +
-                                                '<small class="lp_purchase-link__currency">' +
-                                                    lpVars.default_currency +
-                                                '</small>';
-
-                                            // update purchase button on time pass
-                                            $(this)
-                                                .find($o.purchaseLink)
-                                                .attr('data-laterpay', r.url)
-                                                .html(priceWithVoucher);
-
-                                            // update price on time pass flipside as well
-                                            $(this)
-                                                .find($o.timePassPreviewPrice)
-                                                .html(priceWithVoucher);
 
                                             has_matches = true;
 
@@ -184,11 +298,17 @@
                                     });
 
                                     if (has_matches) {
-                                        // voucher is valid for at least one displayed time pass
-                                        showVoucherCodeFeedbackMessage(lpVars.i18n.validVoucher, $wrapper);
+                                        // voucher is valid for at least one displayed time pass ->
+                                        // forward to purchase dialog
+                                        window.location.href = r.url;
                                     } else {
                                         // voucher is invalid for all displayed time passes
-                                        showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
+                                        showVoucherCodeFeedbackMessage(
+                                            code + lpVars.i18n.invalidVoucher,
+                                            feedbackMessageTpl,
+                                            type,
+                                            $wrapper
+                                        );
                                     }
                                 } else {
                                     $('#fakebtn')
@@ -196,43 +316,46 @@
                                         .click();
                                 }
                             } else {
-                                // clear input
-                                $(input).val('');
-
                                 // voucher is invalid for all displayed time passes
-                                showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
+                                showVoucherCodeFeedbackMessage(
+                                    code + lpVars.i18n.invalidVoucher,
+                                    feedbackMessageTpl,
+                                    type,
+                                    $wrapper
+                                );
                             }
                         },
                         'json'
                     );
                 } else {
                     // request was not sent, because voucher code is not six characters long
-                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort, $wrapper);
+                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort, feedbackMessageTpl, type, $wrapper);
                 }
             },
 
-            showVoucherCodeFeedbackMessage = function(message, $wrapper) {
-                var $feedbackMessage = $(
-                                            '<div id="lp_js_voucherCodeFeedbackMessage" ' +
-                                                'class="lp_voucher__feedback-message" style="display:none;">' +
-                                                message +
-                                            '</div>'
-                                        );
+            showVoucherCodeFeedbackMessage = function(message, tpl, type, $wrapper) {
+                var $feedbackMessage = tpl(message);
 
-                $wrapper.prepend($feedbackMessage);
+                if (type === 'purchase-overlay') {
+                    $wrapper.html($feedbackMessage);
+                }
 
-                $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
-                $feedbackMessage
-                .fadeIn(250)
-                .click(function() {
-                    // remove feedback message on click
-                    removeVoucherCodeFeedbackMessage($feedbackMessage);
-                });
+                if (type === 'time-pass') {
+                    $wrapper.prepend($feedbackMessage);
 
-                // automatically remove feedback message after 3 seconds
-                setTimeout(function() {
-                    removeVoucherCodeFeedbackMessage($feedbackMessage);
-                }, 3000);
+                    $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
+                    $feedbackMessage
+                        .fadeIn(250)
+                        .click(function() {
+                            // remove feedback message on click
+                            removeVoucherCodeFeedbackMessage($feedbackMessage);
+                        });
+
+                    // automatically remove feedback message after 3 seconds
+                    setTimeout(function() {
+                        removeVoucherCodeFeedbackMessage($feedbackMessage);
+                    }, 3000);
+                }
             },
 
             removeVoucherCodeFeedbackMessage = function($feedbackMessage) {
@@ -304,8 +427,8 @@
                                 if (gift.buy_more) {
                                     // $elem.parent().after(gift.buy_more);
                                     $(gift.buy_more)
-                                    .appendTo($elem.parent())
-                                    .attr('href', window.location.href);
+                                        .appendTo($elem.parent())
+                                        .attr('href', window.location.href);
                                 }
                             });
 
@@ -354,89 +477,51 @@
                 );
             },
 
-            loadPostStatistics = function() {
+            loadPreviewModeContainer = function() {
                 $.get(
                     lpVars.ajaxUrl,
                     {
-                        action  : 'laterpay_post_statistic_render',
+                        action  : 'laterpay_preview_mode_render',
                         post_id : lpVars.post_id
                     },
                     function(data) {
                         if (data) {
-                            $o.postStatisticsPlaceholder.before(data).remove();
-                            renderPostStatisticsPane();
+                            $o.previewModePlaceholder.before(data).remove();
+                            recachePreviewModeContainer();
+                            bindPreviewModeEvents();
                         }
                     }
                 );
             },
 
-            renderPostStatisticsPane = function() {
-                // make sure all objects are in the cache
-                recachePostStatisticsPane();
-
-                // bind events to post statistics pane
-                bindPostStatisticsEvents();
-
-                // render sparklines within post statistics pane
-                $('.lp_js_sparklineBar', $o.postStatisticsPane).peity('bar', {
-                    delimiter   : ';',
-                    width       : 182,
-                    height      : 42,
-                    gap         : 1,
-                    fill        : function(value, index, array) {
-                                    var date        = new Date(),
-                                        daysCount   = array.length,
-                                        color       = '#999';
-                                    date.setDate(date.getDate() - (daysCount - index));
-                                    // highlight the last (current) day
-                                    if (index === (daysCount - 1)) {
-                                        color = '#555';
-                                    }
-                                    // highlight Saturdays and Sundays
-                                    if (date.getDay() === 0 || date.getDay() === 6) {
-                                        color = '#c1c1c1';
-                                    }
-                                    return color;
-                                }
-                });
-
-                $('.lp_js_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
-                    delimiter   : ';',
-                    width       : 182,
-                    height      : 42,
-                    gap         : 1,
-                    fill        : function() { return '#ddd'; }
-                });
-            },
-
-            togglePostStatisticsVisibility = function() {
-                var doHide = $o.postStatisticsPane.hasClass($o.hidden) ? '0' : '1';
-                $o.postStatisticsVisibilityInput.val(doHide);
-
-                // toggle the visibility
-                $o.postStatisticsPane.toggleClass($o.hidden);
-
-                // save the state
-                $.post(
-                    lpVars.ajaxUrl,
-                    $o.postStatisticsVisibilityForm.serializeArray()
-                );
-            },
-
-            togglePostPreviewMode = function() {
-                if ($o.postPreviewModeToggle.prop('checked')) {
-                    $o.postPreviewModeInput.val(1);
+            togglePreviewMode = function() {
+                if ($o.previewModeToggle.prop('checked')) {
+                    $o.previewModeInput.val(1);
                 } else {
-                    $o.postPreviewModeInput.val(0);
+                    $o.previewModeInput.val(0);
                 }
 
                 // save the state and reload the page in the new preview mode
                 $.post(
                     lpVars.ajaxUrl,
-                    $o.postPreviewModeForm.serializeArray(),
+                    $o.previewModeForm.serializeArray(),
                     function() {
                         window.location.reload();
                     }
+                );
+            },
+
+            togglePreviewModeVisibility = function() {
+                var doHide = $o.previewModeContainer.hasClass($o.hidden) ? '0' : '1';
+                $o.previewModeVisibilityInput.val(doHide);
+
+                // toggle the visibility
+                $o.previewModeContainer.toggleClass($o.hidden);
+
+                // save the state
+                $.post(
+                    lpVars.ajaxUrl,
+                    $o.previewModeVisibilityForm.serializeArray()
                 );
             },
 
@@ -492,17 +577,15 @@
                 return matches ? decodeURIComponent(matches[1]) : undefined;
             },
 
-
-        initializePage = function() {
+            initializePage = function() {
                 // load post content via Ajax, if plugin is in caching compatible mode
                 // (recognizable by the presence of lp_js_postContentPlaceholder
                 if ($o.postContentPlaceholder.length === 1) {
                     loadPostContent();
                 }
 
-                // render the post statistics pane, if a placeholder exists for it
-                if ($o.postStatisticsPlaceholder.length === 1) {
-                    loadPostStatistics();
+                if ($o.previewModePlaceholder.length === 1) {
+                    loadPreviewModeContainer();
                 }
 
                 if ($o.postRatingPlaceholder.length === 1) {
@@ -526,6 +609,6 @@
     }
 
 // initialize page
-laterPayPostView();
+    laterPayPostView();
 
 });})(jQuery);

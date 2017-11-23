@@ -166,7 +166,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
      *
      * @param LaterPay_Core_Event $event
      *
-     * @return string $content
+     * @return void
      */
     public function modify_post_content( LaterPay_Core_Event $event ) {
         $content            = $event->get_result();
