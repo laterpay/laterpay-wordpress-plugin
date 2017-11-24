@@ -15,8 +15,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_content' => array(
-                array( 'laterpay_on_plugin_is_working', 300 ),
-                array( 'modify_post_content', 250 ),
+                array( 'laterpay_on_plugin_is_working', 250 ),
+                array( 'modify_post_content' ),
             ),
             'laterpay_posts' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
