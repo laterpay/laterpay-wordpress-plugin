@@ -38,8 +38,21 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
      * @return void
      */
     public function render_subscriptions_list( LaterPay_Core_Event $event ) {
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+
+        // is homepage
+        $is_homepage = is_front_page() && is_home();
+
         $view_args = array(
-            'subscriptions' => LaterPay_Helper_Subscription::get_active_subscriptions(),
+            'subscriptions' => LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id(
+                ! $is_homepage && ! empty( $post )? $post->ID: null,
+                $this->get_purchased_subscriptions(),
+                true
+            ),
         );
 
         $this->assign( 'laterpay_sub', $view_args );
@@ -101,7 +114,7 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
 
         $subscriptions = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id(
             $post->ID,
-            null,
+            $this->get_purchased_subscriptions(),
             true
         );
 
@@ -117,5 +130,29 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
         }
 
         $event->set_result( $data );
+    }
+
+    /**
+     * Get purchased subscriptions that have access to the current posts.
+     *
+     * @return array of time pass ids with access
+     */
+    protected function get_purchased_subscriptions() {
+        $access                  = LaterPay_Helper_Post::get_access_state();
+        $purchased_subscriptions = array();
+
+        // get time passes with access
+        foreach ( $access as $access_key => $access_value ) {
+            // if access was granted
+            if ( $access_value === true ) {
+                $access_key_exploded = explode( '_', $access_key );
+                // if this is time pass key - store time pass id
+                if ( $access_key_exploded[0] === LaterPay_Helper_Subscription::TOKEN ) {
+                    $purchased_subscriptions[] = $access_key_exploded[1];
+                }
+            }
+        }
+
+        return $purchased_subscriptions;
     }
 }

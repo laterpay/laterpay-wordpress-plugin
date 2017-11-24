@@ -128,19 +128,11 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) );
         } else {
             // check, if we are on the homepage or on a post / page page
-            if ( $is_homepage ) {
-                $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
-                    null,
-                    $time_passes_with_access,
-                    true
-                );
-            } else {
-                $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
-                    ! empty( $post )? $post->ID: null,
-                    $time_passes_with_access,
-                    true
-                );
-            }
+            $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
+                ! $is_homepage && ! empty( $post )? $post->ID: null,
+                $time_passes_with_access,
+                true
+            );
         }
 
         // get subscriptions
