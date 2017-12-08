@@ -91,7 +91,7 @@ the purchase button are displayed.
   WordPress plugin into your site on a test system, not on your production system. You can choose, whether LaterPay
   should be visible for your visitors in test mode or not.
 * Live mode: After integrating and testing the plugin, you might want to start selling content and process real
-  transactions. Please go to https://www.laterpay.net/get-started to sign up for a live merchant account. After the registration and the check of your contract data, we will send you your LaterPay API credentials for switching your plugin to live mode.
+  transactions. Please go to https://laterpay.net/form to sign up for a live merchant account. After the registration and the check of your contract data, we will send you your LaterPay API credentials for switching your plugin to live mode.
 
 = Statistics =
 You can access sales statistics in your LaterPay merchant account on web.laterpay.net/merchant (for European merchants) or web.uselaterpay.com/merchant (for U.S. merchants).
