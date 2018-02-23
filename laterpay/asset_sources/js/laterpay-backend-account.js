@@ -68,17 +68,15 @@
                     toggleVisibilityInTestMode();
                 });
 
+                $o.showMerchantContractsButton.bind('click', function(e) {
+                    $(this).attr('href', $(this).data('href-'+$o.region.val()));
+                    return true;
+                });
+
                 // ask user for confirmation, if he tries to leave the page without a set of valid API credentials
                 window.onbeforeunload = function() {
                     preventLeavingWithoutValidCredentials();
                 };
-
-                // show LaterPay merchant contracts for requesting LIVE API credentials
-                $o.showMerchantContractsButton
-                .mousedown(function() {
-                    showMerchantContracts();
-                })
-                .click(function(e) {e.preventDefault();});
             },
 
             autofocusEmptyInput = function() {
@@ -275,82 +273,6 @@
                 var invalidCreds = $o.liveApiKey.val().length !== 32 || $o.liveMerchantId.val().length !== 22;
                 // plugin is in live mode, but there are no valid Live API credentials
                 return $o.pluginModeToggle.prop('checked') && invalidCreds;
-            },
-
-            showMerchantContracts = function() {
-                var src                     = 'https://www.laterpay.net/form/',
-                    viewportHeight          = parseInt($(window).height(), 10),
-                    topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
-                    iframeHeight            = viewportHeight - topMargin,
-                    $iframeWrapperObject    = $('<div id="lp_js_legalDocsIframe" class="lp_legal-docs-iframe" ' +
-                                                    'style="height:' + iframeHeight + 'px;">' +
-                                                '</div>'),
-                    $iframeWrapper          = $('#lp_js_legalDocsIframe'),
-                    iframeOffset,
-                    scrollPosition;
-
-                $o.showMerchantContractsButton.velocity('fadeOut', { duration: 250 });
-
-                // remove possibly existing iframe and insert a wrapper to display the iframe in
-                if ($('iframe', $iframeWrapper).length !== 0) {
-                    $('iframe', $iframeWrapper).remove();
-                }
-                if ($iframeWrapper.length === 0) {
-                    $o.apiCredentials
-                    .after(
-                        $iframeWrapperObject
-                        .velocity('slideDown', {
-                            duration: 400,
-                            easing: 'ease-out',
-                            complete: function() {
-                                // scroll document so that iframe fills viewport
-                                iframeOffset = $('#lp_js_legalDocsIframe').offset();
-                                scrollPosition = iframeOffset.top - topMargin;
-
-                                $('BODY, HTML')
-                                .velocity('scroll', { duration: 400, easing: 'ease-out', offset: scrollPosition });
-                             }
-                        })
-                    );
-                }
-
-                // re-cache object after replacing it
-                $iframeWrapper = $('#lp_js_legalDocsIframe');
-
-                // inject a new iframe into the wrapper with the requested src parameter
-                $iframeWrapper
-                .html(
-                    '<a href="#" id="lp_js_hideMerchantContracts" class="lp_legal-docs-iframe__close-link">x</a>' +
-                    '<iframe ' +
-                        'src="' + src + '" ' +
-                        'frameborder="0" ' +
-                        'height="' + iframeHeight + '" ' +
-                        'width="100%">' +
-                    '</iframe>'
-                );
-
-                // close merchant contracts
-                $('#lp_js_hideMerchantContracts', $iframeWrapper)
-                .bind('mousedown', function() {
-                    $(this)
-                    .velocity('fadeOut', { duration: 200 })
-                        .parent('#lp_js_legalDocsIframe')
-                        .velocity('slideUp', {
-                            duration: 400,
-                            easing: 'ease-out',
-                            complete: function() {
-                                $(this).remove();
-                            }
-                        });
-
-                    $o.showMerchantContractsButton
-                    .velocity('fadeIn', {
-                        duration    : 250,
-                        delay       : 250,
-                        display     : 'inline-block'
-                    });
-                })
-                .bind('click', function(e) {e.preventDefault();});
             },
 
             preventLeavingWithoutValidCredentials = function() {
