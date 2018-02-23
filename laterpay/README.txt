@@ -194,6 +194,7 @@ Please see the "Test and Live Mode" section.
 
 == Changelog ==
 = 0.9.27.3 (February 2, 2018): Bugfix Release (v1.0 RC27) =
+* Added support for the new and more convenient live registration process.
 * Fixed issue with deleting category price.
 
 = 0.9.27.2 (November 24, 2017): Bugfix Release (v1.0 RC26) =
