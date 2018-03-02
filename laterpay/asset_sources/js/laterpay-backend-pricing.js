@@ -821,6 +821,7 @@
         },
 
         deleteCategoryDefaultPrice = function($form) {
+            validatePrice($form, false, $('input[name=price]', $form));
             $('input[name=form]', $form).val('price_category_form_delete');
 
             $.post(

@@ -62,6 +62,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             'live_merchant_id'                  => get_option( 'laterpay_live_merchant_id' ),
             'live_api_key'                      => get_option( 'laterpay_live_api_key' ),
             'region'                            => get_option( 'laterpay_region' ),
+            'credentials_url_eu'                => 'https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/add#/signup',
+            'credentials_url_us'                => 'https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/add#/signup',
             'plugin_is_in_live_mode'            => $this->config->get( 'is_in_live_mode' ),
             'plugin_is_in_visible_test_mode'    => get_option( 'laterpay_is_in_visible_test_mode' ),
             'top_nav'                           => $this->get_menu(),

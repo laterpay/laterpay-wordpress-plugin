@@ -5,7 +5,7 @@ Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
 Tested up to: 4.9
-Stable tag: 0.9.27.2
+Stable tag: 0.9.27.3
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -90,8 +90,7 @@ the purchase button are displayed.
   no real transactions are processed. We highly recommend to configure and test the integration of the LaterPay
   WordPress plugin into your site on a test system, not on your production system. You can choose, whether LaterPay
   should be visible for your visitors in test mode or not.
-* Live mode: After integrating and testing the plugin, you might want to start selling content and process real
-  transactions. Please go to https://laterpay.net/form to sign up for a live merchant account. After the registration and the check of your contract data, we will send you your LaterPay API credentials for switching your plugin to live mode.
+* Live mode: After integrating and testing the plugin, you might want to start selling content and process real transactions. To sign up for a live merchant account, please [click here if you are based in the EU](https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/add#/signup) or [click here if you are based in the US](https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/add#/signup). After the registration and the check of your contract information, we will send you an email with your LaterPay live API credentials for switching your plugin to live mode.
 
 = Statistics =
 You can access sales statistics in your LaterPay merchant account on web.laterpay.net/merchant (for European merchants) or web.uselaterpay.com/merchant (for U.S. merchants).
@@ -194,6 +193,9 @@ Please see the "Test and Live Mode" section.
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 0.9.27.3 (February 2, 2018): Bugfix Release (v1.0 RC27) =
+* Added support for the new and more convenient live registration process.
+* Fixed issue with deleting category price.
 
 = 0.9.27.2 (November 24, 2017): Bugfix Release (v1.0 RC26) =
 * Fixed issue with handling of free posts.
