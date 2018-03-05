@@ -402,55 +402,70 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      *
      * @return void
      */
-    public function buy_post() {
-        $request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
-        $request           = new LaterPay_Core_Request();
-        $buy               = $request->get_param( 'buy' );
+	public function buy_post() {
+		$request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+		$request           = new LaterPay_Core_Request();
+		$buy               = $request->get_param( 'buy' );
 
-        // return, if the request was not a redirect after a purchase
-        if ( ! isset( $buy ) ) {
-            return;
-        }
+		// return, if the request was not a redirect after a purchase
+		if ( ! isset( $buy ) ) {
+			return;
+		}
 
-        $client_options    = LaterPay_Helper_Config::get_php_client_options();
-        $laterpay_client   = new LaterPay_Client(
-            $client_options['cp_key'],
-            $client_options['api_key'],
-            $client_options['api_root'],
-            $client_options['web_root'],
-            $client_options['token_name']
-        );
+		$client_options  = LaterPay_Helper_Config::get_php_client_options();
+		$laterpay_client = new LaterPay_Client(
+			$client_options['cp_key'],
+			$client_options['api_key'],
+			$client_options['api_root'],
+			$client_options['web_root'],
+			$client_options['token_name']
+		);
 
-        if ( LaterPay_Client_Signing::verify( $request->get_param( 'hmac' ), $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
-            // check token
-            if ( $lptoken = $request->get_param( 'lptoken' ) ) {
-                $laterpay_client->set_token( $lptoken );
-            }
+		$parts = parse_url( $_SERVER['REQUEST_URI'] );
+		parse_str( $parts['query'], $params );
 
-            // prepare attachment URL for download
-            if ( $download_attached = $request->get_param( 'download_attached' ) ) {
-                $post    = get_post( $download_attached );
-                $access  = LaterPay_Helper_Post::has_access_to_post( $post );
-                $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
-                    $download_attached,
-                    wp_get_attachment_url( $download_attached ),
-                    $access,
-                    'attachment'
-                );
-                // set cookie to notify post that we need to start attachment download
-                setcookie(
-                    'laterpay_download_attached',
-                    $attachment_url,
-                    time() + 60,
-                    '/'
-                );
-            }
+		if ( LaterPay_Client_Signing::verify( $request->get_param( 'hmac' ), $laterpay_client->get_api_key(), $params, get_permalink(), $request_method ) ) {
+			// check token
+			if ( $lptoken = $request->get_param( 'lptoken' ) ) {
+				$laterpay_client->set_token( $lptoken );
+			}
 
-            wp_redirect( get_permalink( $request->get_param( 'post_id' ) ) );
-            // exit script after redirect was set
-            exit;
-        }
-    }
+			// prepare attachment URL for download
+			if ( $download_attached = $request->get_param( 'download_attached' ) ) {
+				$post           = get_post( $download_attached );
+				$access         = LaterPay_Helper_Post::has_access_to_post( $post );
+				$attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
+					$download_attached,
+					wp_get_attachment_url( $download_attached ),
+					$access,
+					'attachment'
+				);
+				// set cookie to notify post that we need to start attachment download
+				setcookie(
+					'laterpay_download_attached',
+					$attachment_url,
+					time() + 60,
+					'/'
+				);
+			}
+
+			unset( $params['post_id'],
+				$params['buy'],
+				$params['lptoken'],
+				$params['ts'],
+				$params['hmac'] );
+
+			$redirect_url = get_permalink( $request->get_param( 'post_id' ) );
+
+			if ( ! empty( $params ) ) {
+				$redirect_url .= '?' . build_query( $params );
+			}
+
+			wp_redirect( $redirect_url );
+			// exit script after redirect was set
+			exit;
+		}
+	}
 
     /**
      * Set Laterpay token if it was provided after redirect and not processed by purchase functions.
