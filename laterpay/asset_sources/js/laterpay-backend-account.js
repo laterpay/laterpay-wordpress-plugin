@@ -68,7 +68,7 @@
                     toggleVisibilityInTestMode();
                 });
 
-                $o.showMerchantContractsButton.bind('click', function(e) {
+                $o.showMerchantContractsButton.bind('click', function() {
                     $(this).attr('href', $(this).data('href-'+$o.region.val()));
                     return true;
                 });
