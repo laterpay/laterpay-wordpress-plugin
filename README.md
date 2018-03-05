@@ -1,8 +1,6 @@
 laterpay-wordpress-plugin
 =========================
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c0535748-172c-4419-8403-e3be9715aa53/small.png)](https://insight.sensiolabs.com/projects/c0535748-172c-4419-8403-e3be9715aa53)  [![Build Status](https://travis-ci.org/laterpay/laterpay-wordpress-plugin.svg?branch=master)](https://travis-ci.org/laterpay/laterpay-wordpress-plugin)
-
 This is the official LaterPay plugin for selling digital content with WordPress.
 
 Feel free to fork the plugin and adapt it to your needs.
@@ -45,4 +43,4 @@ The LaterPay WordPress plugin uses [Semantic Versioning 2.0.0](http://semver.org
 
 ## Copyright
 
-Copyright 2014 LaterPay GmbH – Released under MIT License
+Copyright 2018 LaterPay GmbH – Released under MIT License

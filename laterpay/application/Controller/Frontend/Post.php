@@ -748,16 +748,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $this->logger->info( __METHOD__ );
 
         wp_register_script(
-            'laterpay-peity',
-            $this->config->get( 'js_url' ) . 'vendor/jquery.peity.min.js',
-            array( 'jquery' ),
-            $this->config->get( 'version' ),
-            true
-        );
-        wp_register_script(
             'laterpay-post-view',
             $this->config->get( 'js_url' ) . 'laterpay-post-view.js',
-            array( 'jquery', 'laterpay-peity' ),
+            array( 'jquery' ),
             $this->config->get( 'version' ),
             true
         );
@@ -786,7 +779,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             )
         );
 
-        wp_enqueue_script( 'laterpay-peity' );
         wp_enqueue_script( 'laterpay-post-view' );
     }
 
