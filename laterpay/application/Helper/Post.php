@@ -210,22 +210,19 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post->ID;
         }
 
-        // get current post link
-        $link = get_permalink( $url_params['post_id'] );
+	    $parsed_link = explode( '?', $_SERVER['REQUEST_URI'] );
+	    $back_url    = get_permalink( $post->ID ) . '?' . build_query( $url_params );
 
-        // cut params from link and merge with other params
-        $parsed_link = parse_url( $link );
-        if ( isset( $parsed_link['query'] ) ) {
-            parse_str( $parsed_link['query'], $link_params );
-            $url_params = array_merge( $link_params, $url_params );
-            list( $link, $last ) = explode( '?', $link );
-        }
+	    // if params exists in uri
+	    if ( ! empty( $parsed_link[1] ) ) {
+		    $back_url .= '&' . $parsed_link[1];
+	    }
 
         // parameters for LaterPay purchase form
         $params = array(
             'article_id'    => $post->ID,
             'pricing'       => $currency . ( $price * 100 ),
-            'url'           => $link . '?' . build_query( $url_params ),
+            'url'           => $back_url,
             'title'         => $post->post_title,
             'require_login' => (int) get_option( 'laterpay_require_login', 0 ),
         );
