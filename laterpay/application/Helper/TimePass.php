@@ -448,7 +448,7 @@ class LaterPay_Helper_TimePass
         $currency       = $config->get( 'currency.code' );
         $price          = isset( $data['price'] ) ? $data['price'] : $time_pass['price'];
         $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $time_pass['revenue_model'], $price );
-        $link           = isset( $data['link'] ) ? $data['link'] : get_permalink();
+        $back_url       = isset( $data['link'] ) ? $data['link'] : get_permalink();
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
@@ -462,8 +462,18 @@ class LaterPay_Helper_TimePass
         // prepare URL
         $url_params = array(
             'pass_id' => self::get_tokenized_time_pass_id( $time_pass_id ),
-            'link'    => $link,
+            'buy'     => true,
         );
+
+        if ( empty( $data['link'] ) ) {
+            $parsed_link = explode( '?', $_SERVER['REQUEST_URI'] );
+            $back_url    = $back_url . '?' . build_query( $url_params );
+
+            // if params exists in uri
+            if ( ! empty( $parsed_link[1] ) ) {
+                $back_url .= '&' . $parsed_link[1];
+            }
+        }
 
         // set voucher param
         if ( isset( $data['voucher'] ) ) {
@@ -475,7 +485,7 @@ class LaterPay_Helper_TimePass
             'article_id'    => $is_code_purchase ? '[#' . $data['voucher'] . ']' : self::get_tokenized_time_pass_id( $time_pass_id ),
             'pricing'       => $currency . ( $price * 100 ),
             'expiry'        => '+' . self::get_time_pass_expiry_time( $time_pass ),
-            'url'           => $link . '?' . build_query( $url_params ),
+            'url'           => $back_url,
             'title'         => $is_code_purchase ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
             'require_login' => (int) get_option( 'laterpay_require_login', 0 ),
         );

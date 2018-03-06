@@ -31,9 +31,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             'laterpay_time_pass_render' => array(
                 array( 'render_time_pass' ),
             ),
-            'laterpay_loaded' => array(
-                array( 'buy_time_pass', 10 ),
-            ),
             'laterpay_shortcode_time_passes' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_time_passes_widget' ),
@@ -265,74 +262,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         }
 
         return $time_passes_with_access;
-    }
-
-    /**
-     * Save time pass info after purchase.
-     *
-     * @wp-hook template_reditect
-     *
-     * @return  void
-     */
-    public function buy_time_pass() {
-        $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
-        $request        = new LaterPay_Core_Request();
-        $pass_id        = $request->get_param( 'pass_id' );
-        $link           = $request->get_param( 'link' );
-
-        if ( ! isset( $pass_id ) || ! isset( $link ) ) {
-            return;
-        }
-
-        $client_options  = LaterPay_Helper_Config::get_php_client_options();
-        $laterpay_client = new LaterPay_Client(
-            $client_options['cp_key'],
-            $client_options['api_key'],
-            $client_options['api_root'],
-            $client_options['web_root'],
-            $client_options['token_name']
-        );
-
-        if ( LaterPay_Client_Signing::verify( $request->get_param( 'hmac' ), $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
-            // check token
-            if ( $lptoken = $request->get_param( 'lptoken' ) ) {
-                $laterpay_client->set_token( $lptoken );
-            }
-
-            $code    = null;
-            $voucher = $request->get_param( 'voucher' );
-            $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $pass_id );
-
-            // process vouchers
-            if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher ) ) {
-                if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher, true ) ) {
-                    // save the pre-generated gift code as valid voucher code now that the purchase is complete
-                    $gift_cards = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id, true );
-                    $gift_cards[ $voucher ] = array(
-                        'price' => 0,
-                        'title' => null,
-                    );
-                    LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true );
-                    // set cookie to store information that gift card was purchased
-                    setcookie(
-                        'laterpay_purchased_gift_card',
-                        $voucher . '|' . $pass_id,
-                        time() + 30,
-                        '/'
-                    );
-                } else {
-                    // update gift code statistics
-                    LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher, true );
-                }
-            } else {
-                // update voucher statistics
-                LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher );
-            }
-
-            wp_redirect( $link );
-            // exit script after redirect was set
-            exit;
-        }
     }
 
     /**
