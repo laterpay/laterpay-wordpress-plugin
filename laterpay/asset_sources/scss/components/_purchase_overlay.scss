@@ -33,6 +33,7 @@ html body .lp_purchase-overlay {
         .lp_purchase-overlay__settings {
           padding: 0 $fs--125 !important;
           display: table !important;
+          box-sizing: border-box !important;
         }
       }
 
@@ -192,6 +193,7 @@ html body .lp_purchase-overlay {
     padding: 0 $fs !important;
 
     &:hover {
+      text-decoration: none !important;
       color: $purchase-button-text;
     }
 
