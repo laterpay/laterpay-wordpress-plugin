@@ -17,7 +17,7 @@
         "laterpay/laterpay-client-php": "dev-develop"
     },
     "require-dev": {
-        "wp-coding-standards/wpcs": "dev-develop#9c4de8175ce1f82813f8c9c8f11809ee6c794efc"
+        "wp-coding-standards/wpcs": "0.14.1"
     },
     "scripts": {
         "post-install-cmd": "find laterpay/vendor/ -type d -name \".git\" | xargs rm -rf",
