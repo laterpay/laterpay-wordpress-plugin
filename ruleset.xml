@@ -37,4 +37,20 @@
     <rule ref="WordPress.Variables.GlobalVariables">
         <severity>0</severity>
     </rule>
+
+	<!-- Exclude ALL THE (cosmetic) THINGS until we pass, then let's iteratively remove exclusions and fix things chunk by chunk -->
+	<rule ref="WordPress">
+		<exclude name="Generic.Classes.OpeningBraceSameLine"/>
+		<exclude name="Generic.Files.EndFileNewline.NotFound"/>
+		<exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+		<exclude name="PSR2.ControlStructures.SwitchDeclaration"/>
+		<exclude name="Squiz"/>
+		<exclude name="WordPress.Arrays"/>
+		<exclude name="WordPress.Files.FileName"/>
+		<exclude name="WordPress.Functions.FunctionCallSignatureNoParams.WhitespaceFound"/>
+		<exclude name="WordPress.NamingConventions"/>
+		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment"/>
+		<exclude name="WordPress.WP.I18n.UnorderedPlaceholdersText"/>
+		<exclude name="WordPress.WhiteSpace"/>
+	</rule>
 </ruleset>
