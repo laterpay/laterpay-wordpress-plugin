@@ -707,7 +707,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_hide_free_posts',                         0 );
 
         // advanced settings
-        add_option( 'laterpay_region',                                  'eu' );
+        add_option( 'laterpay_region',                                  'us' );
         add_option( 'laterpay_caching_compatibility',                   (bool) LaterPay_Helper_Cache::site_uses_page_caching() );
         add_option( 'laterpay_teaser_content_word_count',               '60' );
         add_option( 'laterpay_preview_excerpt_percentage_of_content',   '25' );

@@ -108,12 +108,12 @@ class LaterPay_Helper_Config {
      * @return array
      */
     public static function get_regional_settings() {
-        $region = get_option( 'laterpay_region', 'eu' );
+        $region = get_option( 'laterpay_region', 'us' );
 
         // region correction
         if ( ! isset( self::$regional_settings[ $region ] ) ) {
-            update_option( 'laterpay_region', 'eu' );
-            $region = 'eu';
+            update_option( 'laterpay_region', 'us' );
+            $region = 'us';
         }
 
         return self::build_settings_list(self::$regional_settings[ $region ]);
@@ -150,7 +150,7 @@ class LaterPay_Helper_Config {
      */
     public static function get_settings_section( $section ) {
         // get regional settings
-        $region = get_option( 'laterpay_region', 'eu' );
+        $region = get_option( 'laterpay_region', 'us' );
 
         return isset( $settings[ $region ][ $section ] ) ? $settings[ $region ][ $section ] : null;
     }
