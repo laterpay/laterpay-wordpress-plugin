@@ -16,6 +16,12 @@
 
     <rule ref="WordPressVIPMinimum" />
 
+    <rule ref="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Generic.Formatting.MultipleStatementAlignment.NotSameWarning">
+        <severity>0</severity>
+    </rule>
     <rule ref="WordPress.Arrays.ArrayDeclarationSpacing.AssociativeKeyFound">
         <severity>0</severity>
     </rule>
