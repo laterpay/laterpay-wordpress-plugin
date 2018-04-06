@@ -26,7 +26,7 @@ class LaterPay_Model_CategoryPrice
      *
      * @access public
      */
-    public $table_prices;
+    public $term_table_prices;
 
     /**
      * Constructor for class LaterPay_Currency_Model, load table names.
