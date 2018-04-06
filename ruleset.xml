@@ -12,7 +12,7 @@
 
     <arg name="extensions" value="php"/>
     <rule ref="PHPCompatibility"/>
-    <config name="testVersion" value="5.4-"/>
+    <config name="testVersion" value="5.6-"/>
 
     <rule ref="WordPressVIPMinimum" />
 
