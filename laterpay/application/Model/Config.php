@@ -150,7 +150,7 @@ class LaterPay_Model_Config
         // set section
         $this->section = $section;
 
-        // return filtered array
+        // return filtered array.
         return array_filter( $this->properties, array( $this, 'filter' ), ARRAY_FILTER_USE_KEY );
     }
 
@@ -284,8 +284,6 @@ class LaterPay_Model_Config
      * @param string $msg  Error message. Always be specific.
      * @param string $code Re-use the same code to group error messages.
      *
-     * @throws Exception
-     *
      * @return void|WP_Error
      */
     protected function stop( $msg, $code = '' ) {
@@ -296,8 +294,6 @@ class LaterPay_Model_Config
         if ( class_exists( 'WP_Error' ) ) {
             return new WP_Error( $code, $msg );
         }
-
-        throw new Exception( $msg, $code );
     }
 
     # ==== Magic functions ==== #
