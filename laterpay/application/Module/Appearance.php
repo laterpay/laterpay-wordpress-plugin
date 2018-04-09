@@ -153,8 +153,8 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         } else {
             $post = get_post();
         }
-
-        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
+        $is_enabled_post_type = in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ), true );
+        if ( ! $is_enabled_post_type  ) {
             $event->stop_propagation();
         }
     }

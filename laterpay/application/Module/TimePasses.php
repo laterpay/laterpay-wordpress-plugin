@@ -77,7 +77,8 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         }
 
         // current post type is not enabled for LaterPay -> do nothing
-        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
+        $post_type = in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ), true );
+        if ( ! $post_type ) {
             return false;
         }
 
@@ -119,7 +120,8 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $time_passes_with_access = $this->get_time_passes_with_access();
 
         if ( isset( $time_pass_id ) ) {
-            if ( in_array( $time_pass_id, $time_passes_with_access ) ) {
+            $check_time_pass_id = in_array( $time_pass_id, $time_passes_with_access, true );
+            if ( $check_time_pass_id ) {
                 return;
             }
             $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) );
@@ -339,7 +341,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             return;
         }
 
-        // $introductory_text, $call_to_action_text, $time_pass_id
+        // introductory_text, call_to_action_text, time_pass_id
         $timepass_event = new LaterPay_Core_Event( array( $data['introductory_text'], $data['call_to_action_text'], $data['id'] ) );
         $timepass_event->set_echo( false );
         laterpay_event_dispatcher()->dispatch( 'laterpay_time_passes', $timepass_event );

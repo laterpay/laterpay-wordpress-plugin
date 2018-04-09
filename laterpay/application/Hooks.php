@@ -132,7 +132,8 @@ class LaterPay_Hooks {
      * @param string $event_name Event name.
      */
     public static function register_laterpay_action( $event_name ) {
-        if ( ! in_array( $event_name, self::$lp_actions ) ) {
+        $check_event_name = in_array( $event_name, self::$lp_actions, true );
+        if ( ! $check_event_name ) {
             self::add_wp_action( $event_name, $event_name );
             self::$lp_actions[] = $event_name;
         }
@@ -144,7 +145,8 @@ class LaterPay_Hooks {
      * @param string $event_name Event name.
      */
     public static function register_laterpay_shortcode( $event_name ) {
-        if ( ! in_array( $event_name, self::$lp_shortcodes ) ) {
+        $check_event_name = in_array( $event_name, self::$lp_shortcodes, true );
+        if ( ! $check_event_name ) {
             if ( strpos( $event_name, 'laterpay_shortcode_' ) !== false ) {
                 $name = substr( $event_name, 19 );
             }
