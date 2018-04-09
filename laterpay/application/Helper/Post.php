@@ -65,7 +65,10 @@ class LaterPay_Helper_Post
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $token_name     = $client_options['token_name'];
 
-        if ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $_COOKIE[ $token_name ] ) ) {
+        // @Todo: Fix cookie usage for WP VIP.
+        $token_name = filter_input( INPUT_COOKIE, $token_name, FILTER_SANITIZE_STRING );
+
+        if ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $token_name ) ) {
 
             // check, if parent post has access with time passes
             $parent_post = $is_attachment ? $main_post_id : $post->ID;
@@ -130,9 +133,12 @@ class LaterPay_Helper_Post
      * @return mixed return false if gift card is incorrect or doesn't exist, access data otherwise
      */
     public static function has_purchased_gift_card() {
-        if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
+
+        $purchased_gift_card = filter_input( INPUT_COOKIE, 'laterpay_purchased_gift_card', FILTER_SANITIZE_STRING );
+
+        if ( isset( $purchased_gift_card ) ) {
             // get gift code and unset session variable
-            $cookies = isset( $_COOKIE['laterpay_purchased_gift_card'] ) ? sanitize_text_field( $_COOKIE['laterpay_purchased_gift_card'] ) : '';
+            $cookies = ( isset( $purchased_gift_card ) ) ? $purchased_gift_card : '';
             list( $code, $time_pass_id ) = explode( '|', $cookies );
             // create gift code token
             $code_key = '[#' . $code . ']';
@@ -210,13 +216,15 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post->ID;
         }
 
-	    $parsed_link = explode( '?', $_SERVER['REQUEST_URI'] );
-	    $back_url    = get_permalink( $post->ID ) . '?' . build_query( $url_params );
+        $request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING );
 
-	    // if params exists in uri
-	    if ( ! empty( $parsed_link[1] ) ) {
-		    $back_url .= '&' . $parsed_link[1];
-	    }
+        $parsed_link = explode( '?', $request_uri );
+        $back_url    = get_permalink( $post->ID ) . '?' . build_query( $url_params );
+
+        // if params exists in uri
+        if ( ! empty( $parsed_link[1] ) ) {
+            $back_url .= '&' . $parsed_link[1];
+        }
 
         // parameters for LaterPay purchase form
         $params = array(
@@ -329,7 +337,7 @@ class LaterPay_Helper_Post
         if ( preg_match( '/<!--more(.*?)?-->/', $teaser_content, $matches ) ) {
             $teaser_content = explode( $matches[0], $teaser_content, 2 );
             if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) ) {
-                $more_link_text = strip_tags( wp_kses_no_null( trim( $matches[1] ) ) );
+                $more_link_text = wp_strip_all_tags( wp_kses_no_null( trim( $matches[1] ) ) );
             }
             $has_teaser = true;
         } else {

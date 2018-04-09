@@ -19,7 +19,7 @@ class LaterPay_Helper_Appearance
     public static function get_default_options( $key = null ) {
 
         $defaults = array(
-            'header_title'      => __('Read now, pay later', 'laterpay' ),
+            'header_title'      => __( 'Read now, pay later', 'laterpay' ),
             'header_bg_color'   => '#585759',
             'main_bg_color'     => '#F4F3F4',
             'main_text_color'   => '#252221',
@@ -76,47 +76,39 @@ class LaterPay_Helper_Appearance
      */
     public static function add_overlay_styles( $handle ) {
 
-        extract(self::get_current_options());
+        $options = self::get_current_options();
 
         /**
-         * @var $header_bg_color
-         * @var $main_bg_color
-         * @var $main_text_color
-         * @var $description_color
-         * @var $link_main_color
-         * @var $link_hover_color
-         * @var $button_bg_color
-         * @var $button_text_color
-         * @var $footer_bg_color
+         * Add CSS.
          */
-        $custom_css = "
+         $custom_css = "
             .lp_purchase-overlay__header {
-                background-color: {$header_bg_color} !important;
+                background-color: " . esc_html( $options['header_bg_color'] ) . " !important;
             }
             .lp_purchase-overlay__form {
-                background-color: {$main_bg_color} !important;
+                background-color: " . esc_html( $options['main_bg_color'] ) . " !important;
             }
             .lp_purchase-overlay-option__title {
-                color: {$main_text_color} !important;
+                color: " . esc_html( $options['main_text_color'] ) . " !important;
             }
             .lp_purchase-overlay-option__description {
-                color: {$description_color} !important;
+                color: " . esc_html( $options['description_color'] ) . " !important;
             }
             .lp_purchase-overlay__notification {
-                color: {$link_main_color} !important;
+                color: " . esc_html( $options['link_main_color'] ) . " !important;
             }
             .lp_purchase-overlay__notification a {
-                color: {$link_main_color} !important;
+                color: " . esc_html( $options['link_main_color'] ) . " !important;
             }
             .lp_purchase-overlay__notification a:hover {
-                color: {$link_hover_color} !important;
+                color: " . esc_html( $options['link_hover_color'] ) . " !important;
             }
             .lp_purchase-overlay__submit {
-                background-color: {$button_bg_color} !important;
-                color: {$button_text_color} !important;
+                background-color: " . esc_html( $options['button_bg_color'] ) . " !important;
+                color: " . esc_html( $options['button_text_color'] ) . " !important;
             }
             .lp_purchase-overlay__footer {
-                background-color: {$footer_bg_color} !important;
+                background-color: " . esc_html( $options['footer_bg_color'] ) . " !important;
             }
         ";
 

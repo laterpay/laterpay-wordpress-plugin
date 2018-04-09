@@ -152,7 +152,7 @@ class LaterPay_Helper_Config {
         // get regional settings
         $region = get_option( 'laterpay_region', 'us' );
 
-        return isset( $settings[ $region ][ $section ] ) ? $settings[ $region ][ $section ] : null;
+        return isset( self::$regional_settings[ $region ][ $section ] ) ? self::$regional_settings[ $region ][ $section ] : null;
     }
 
     /**
@@ -226,7 +226,7 @@ class LaterPay_Helper_Config {
 
         // detect if sandbox creds were modified
         if ( $cp_key && $api_key ) {
-            foreach ( self::$regional_settings as $region => $settings ) {
+            foreach ( self::$regional_settings as $settings ) {
                 if ( $settings['api'][ 'sandbox_merchant_id' ] === $cp_key &&
                      $settings['api'][ 'sandbox_api_key' ] === $api_key ) {
                     $creds_match_default = true;
