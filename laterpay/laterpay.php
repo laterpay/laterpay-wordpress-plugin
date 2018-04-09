@@ -294,3 +294,15 @@ function laterpay_event_dispatcher() {
     return LaterPay_Core_Event_Dispatcher::get_dispatcher();
 }
 
+/**
+ * Check if current environment is `VIP` or not.
+ *
+ * @return bool returns true if current site is available on VIP, otherwise false.
+ */
+function laterpay_check_is_vip() {
+    if ( defined( 'WPCOM' ) && IS_WPCOM ) {
+        return true;
+    } else {
+        return false;
+    }
+}

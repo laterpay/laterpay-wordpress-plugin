@@ -45,7 +45,12 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $notices = $this->check_requirements();
         if ( count( $notices ) > 0 ) {
             $out = join( "\n", $notices );
-            echo laterpay_sanitize_output( '<div class="error">' . $out . '</div>' );
+
+            echo '<div class="error">';
+            echo wp_kses( $out, [ 'p' => [], 'strong' => [] ] );
+            echo '</div>';
+
+
             $event->stop_propagation();
         }
     }
@@ -83,7 +88,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // deactivate plugin, if requirements are not fulfilled
         if ( count( $notices ) > 0 ) {
             // suppress 'Plugin activated' notice
-            unset( $_GET['activate'] );
+            unset( $_GET['activate'] ); // WPCS: input var ok.
             deactivate_plugins( $this->config->plugin_base_name );
             $notices[] = __( 'The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay' );
         }
@@ -242,7 +247,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $is_deleted_flag_present = false;
 
         foreach ( $columns as $column ) {
-            if ( in_array( $column->Field, $removed_columns ) ) {
+            if ( in_array( $column->Field, $removed_columns, true ) ) {
                 $is_up_to_date = false;
             }
             if ( $column->Field === 'is_deleted' ) {
@@ -312,7 +317,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         foreach ( $options as $option_name => $correct_value ) {
             $option_value = get_option( $option_name );
-            if ( $option_value != $correct_value ) {
+            if ( $option_value !== $correct_value ) {
                 update_option( $option_name, $correct_value );
             }
         }
@@ -371,7 +376,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
                 if ( $value !== '' ) {
                     // migrate old data: if post_pricing is '0' or '1', set it to 'individual price'
-                    if ( $old_meta_key === 'laterpay_post_pricing_type' && in_array( $value, array( '0', '1' ) ) ) {
+                    if ( $old_meta_key === 'laterpay_post_pricing_type' && in_array( intval( $value ), [ 0, 1 ], true ) ) {
                         $value = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
                     }
 
@@ -404,7 +409,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             return;
         }
 
-        if ( $unlimited_role = get_option( 'laterpay_unlimited_access_to_paid_content' ) ) {
+        $unlimited_role = get_option( 'laterpay_unlimited_access_to_paid_content' );
+
+        if ( false !== $unlimited_role ) {
             add_option( 'laterpay_unlimited_access', array( $unlimited_role => array( 'all' ) ) );
             delete_option( 'laterpay_unlimited_access_to_paid_content' );
         }
@@ -612,7 +619,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         }
 
         // set proper teaser mode
-        if ( $teaser_mode = get_option( 'laterpay_teaser_content_only' ) ) {
+        $teaser_mode = get_option( 'laterpay_teaser_content_only' );
+        if ( false !== $teaser_mode ) {
             update_option( 'laterpay_teaser_mode', '0' );
         } else {
             update_option( 'laterpay_teaser_mode', '1' );
