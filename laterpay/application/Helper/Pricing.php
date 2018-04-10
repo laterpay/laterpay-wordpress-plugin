@@ -40,8 +40,8 @@ class LaterPay_Helper_Pricing
 
         // check, if the current post price is not 0
         $price = LaterPay_Helper_Pricing::get_post_price( $post_id );
-        if ( $price == 0 || ! in_array( get_post_type( $post_id ), (array) get_option( 'laterpay_enabled_post_types' ) ) ) {
-            // return null for this case
+        if ( 0 === intval( $price ) || ! in_array( get_post_type( $post_id ), (array) get_option( 'laterpay_enabled_post_types' ), true ) ) {
+            // returns null for this case.
             return null;
         }
 
@@ -55,12 +55,12 @@ class LaterPay_Helper_Pricing
      */
     public static function get_all_posts_with_price() {
         $post_args = array(
-            'meta_query'     => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
+            'meta_query'     => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ), // WPCS: slow query ok.
             'posts_per_page' => '-1',
         );
-        $posts = get_posts( $post_args );
+        $query = new WP_Query( $post_args );
 
-        return $posts;
+        return $query->posts;
     }
 
     /**
@@ -89,15 +89,15 @@ class LaterPay_Helper_Pricing
 
         $post_args  = array(
             'fields'         => 'ids',
-            'meta_query'     => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
+            'meta_query'     => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ), // WPCS: slow query ok.
             'category__in'   => $ids,
             'cat'            => $category_id,
             'posts_per_page' => '-1',
             'post_type'      => $config->get( 'content.enabled_post_types' ),
         );
-        $posts      = get_posts( $post_args );
+        $query = new WP_Query( $post_args );
 
-        return $posts;
+        return $query->posts;
     }
 
     /**
@@ -110,7 +110,7 @@ class LaterPay_Helper_Pricing
     public static function apply_global_default_price_to_post( $post_id ) {
         $global_default_price = get_option( 'laterpay_global_price' );
 
-        if ( $global_default_price == 0 ) {
+        if ( 0 === intval( $global_default_price ) ) {
             return false;
         }
 
@@ -303,7 +303,7 @@ class LaterPay_Helper_Pricing
             $price = $post_price['start_price'];
         } else {
             if ( $post_price['transitional_period_end_after_days'] <= $days_since_publication ||
-                 $post_price['transitional_period_end_after_days'] == 0
+                 0 === intval( $post_price['transitional_period_end_after_days'] )
                 ) {
                 $price = $post_price['end_price'];
             } else {    // transitional period between start and end of dynamic price change
@@ -366,7 +366,7 @@ class LaterPay_Helper_Pricing
         $days_since_publication = 0;
 
         // unpublished posts always have 0 days after publication
-        if ( $post->post_status != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
+        if ( $post->post_status !== LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
             return $days_since_publication;
         }
 
@@ -446,12 +446,12 @@ class LaterPay_Helper_Pricing
         }
 
         // fallback in case the revenue_model is not correct
-        if ( ! in_array( $revenue_model, array( 'ppu', 'sis' ) ) ) {
+        if ( ! in_array( $revenue_model, array( 'ppu', 'sis' ), true ) ) {
 
             $price    = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
             $currency = LaterPay_Helper_Config::get_currency_config();
 
-            if ( ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) || $price == 0.00 ) {
+            if ( ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) || 0.00 == floatval( $price ) ) { // WPCS: loose comparison ok.
                 $revenue_model = 'ppu';
             } else if ( $price >= $currency['sis_only_limit'] && $price <= $currency['sis_max'] ) {
                 $revenue_model = 'sis';
@@ -474,7 +474,7 @@ class LaterPay_Helper_Pricing
         $currency = LaterPay_Helper_Config::get_currency_config();
 
         if ($revenue_model === 'ppu') {
-            if ($price == 0.00 || ($price >= $currency['ppu_min'] && $price <= $currency['ppu_max'])) {
+            if ( 0.00 == floatval( $price ) || ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) ) { // WPCS: loose comparison ok.
                 return 'ppu';
             }
 
@@ -618,7 +618,7 @@ class LaterPay_Helper_Pricing
         if ( $price['start'] >= $currency['sis_only_limit'] || $price['end'] >= $currency['sis_only_limit'] ) {
 
             foreach ( $price as $key => $value ) {
-                if ( $value != 0 && $value < $currency['sis_only_limit'] ) {
+                if ( 0 !== $value && $value < $currency['sis_only_limit'] ) {
                     $price[ $key ] = $currency['sis_only_limit'];
                 }
             }
@@ -630,7 +630,7 @@ class LaterPay_Helper_Pricing
             ) {
 
             foreach ( $price as $key => $value ) {
-                if ( $value != 0 ) {
+                if ( 0 !== intval( $value ) ) {
                     if ( $value < $currency['ppu_only_limit'] ) {
                         $price[ $key ] = $currency['sis_min'];
                     } elseif ( $value > $currency['sis_only_limit'] ) {
@@ -643,7 +643,7 @@ class LaterPay_Helper_Pricing
         } else {
 
             foreach ( $price as $key => $value ) {
-                if ( $value != 0 ) {
+                if ( 0 !== intval( $value ) ) {
                     if ( $value < $currency['ppu_min'] ) {
                         $price[ $key ] = $currency['ppu_min'];
                     } elseif ( $value > $currency['ppu_max'] ) {
@@ -701,7 +701,7 @@ class LaterPay_Helper_Pricing
             $validated_price = $currency['ppu_min'];
         }
 
-        if ( $price == 0 || ( $price >= $currency['ppu_min'] && $price <= $currency['sis_max'] ) ) {
+        if ( 0 === intval( $price ) || ( $price >= $currency['ppu_min'] && $price <= $currency['sis_max'] ) ) {
             $validated_price = $price;
         }
 
@@ -721,7 +721,7 @@ class LaterPay_Helper_Pricing
     public static function get_bulk_operations() {
         $operations = get_option( 'laterpay_bulk_operations' );
 
-        return $operations ? unserialize( $operations ) : null;
+        return $operations ? maybe_unserialize( $operations ) : null;
     }
 
     /**
@@ -759,7 +759,7 @@ class LaterPay_Helper_Pricing
                             'data'    => $data,
                             'message' => $message,
                         );
-        update_option( 'laterpay_bulk_operations', serialize( $operations ) );
+        update_option( 'laterpay_bulk_operations', maybe_serialize( $operations ) );
 
         end( $operations );
 
@@ -782,7 +782,7 @@ class LaterPay_Helper_Pricing
                 unset( $operations[ $id ] );
                 $was_deleted = true;
                 $operations  = $operations ? $operations : '';
-                update_option( 'laterpay_bulk_operations', serialize( $operations ) );
+                update_option( 'laterpay_bulk_operations', maybe_serialize( $operations ) );
             }
         }
 
@@ -836,7 +836,7 @@ class LaterPay_Helper_Pricing
                     continue;
                 }
 
-                if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] || in_array( $meta['category_id'], $parents ) ) ) {
+                if ( array_key_exists( 'category_id', $meta ) && ( $category_id === intval( $meta['category_id'] ) || in_array( intval( $meta['category_id'] ), $parents, true ) ) ) {
                     $ids[ $post->ID ] = $meta;
                 }
             }
@@ -913,7 +913,7 @@ class LaterPay_Helper_Pricing
             $category_price_data     = $laterpay_category_model->get_category_price_data_by_category_ids( $category_ids );
             // add prices data to results array
             foreach ( $category_price_data as $category ) {
-                $ids_used[] = $category->category_id;
+                $ids_used[] = absint( $category->category_id );
                 $result[]   = (array) $category;
             }
 
@@ -922,7 +922,7 @@ class LaterPay_Helper_Pricing
             foreach ( $category_ids as $category_id ) {
                 $has_price = false;
                 foreach ( $category_price_data as $category ) {
-                    if ( $category->category_id == $category_id ) {
+                    if ( $category->category_id === $category_id ) {
                         $has_price = true;
                         break;
                     }
@@ -937,7 +937,7 @@ class LaterPay_Helper_Pricing
                             continue;
                         }
                         $parent_data = (array) $parent_data[0];
-                        if ( ! in_array( $parent_data['category_id'], $ids_used ) ) {
+                        if ( ! in_array( absint( $parent_data['category_id'] ), $ids_used, true ) ) {
                             $ids_used[] = $parent_data['category_id'];
                             $result[]   = $parent_data;
                         }

@@ -212,7 +212,7 @@ class LaterPay_Helper_File
         }
 
         if ( ! empty( $hmac ) && ! empty( $ts ) ) {
-	        $request_method = filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ); // phpcs:ignore
+	        $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
             if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $request_method ) ) {
                 $response->set_http_response_code( 401 );
                 $response->send_response();
@@ -288,7 +288,7 @@ class LaterPay_Helper_File
 
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
-	    $document_root = filter_var( $_SERVER['DOCUMENT_ROOT'], FILTER_SANITIZE_STRING ); // phpcs:ignore
+	    $document_root = isset( $_SERVER['DOCUMENT_ROOT'] ) ? filter_var( $_SERVER['DOCUMENT_ROOT'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
         $file   = ( isset( $document_root ) ? $document_root : ABSPATH ) . $cipher->decrypt( $file );
 
         return $file;

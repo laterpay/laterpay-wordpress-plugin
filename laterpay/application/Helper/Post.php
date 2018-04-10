@@ -216,7 +216,7 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post->ID;
         }
 
-	    $request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL ); // phpcs:ignore
+	    $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL ) : ''; // phpcs:ignore
         $parsed_link = explode( '?', $request_uri );
         $back_url    = get_permalink( $post->ID ) . '?' . build_query( $url_params );
 

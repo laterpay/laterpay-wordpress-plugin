@@ -450,7 +450,7 @@ abstract class LaterPay_Form_Abstract
             // check, if value is in array
             case 'in_array':
                 if ( $validator_params && is_array( $validator_params ) ) {
-                    $is_valid = in_array( $value, $validator_params );
+                    $is_valid = in_array( $value, $validator_params, true );
                 }
                 break;
 
@@ -629,7 +629,7 @@ abstract class LaterPay_Form_Abstract
             if ( $prefix && ( strpos( $name, $prefix ) === false ) ) {
                 continue;
             }
-            if ( is_array( $exclude ) && in_array( $name, $exclude ) ) {
+            if ( is_array( $exclude ) && in_array( $name, $exclude, true ) ) {
                 continue;
             }
             $data[ $name ] = $field_data['value'];

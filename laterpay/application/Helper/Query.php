@@ -175,7 +175,7 @@ class LaterPay_Helper_Query
             return '';
         }
         $sql = ' ORDER BY ' . $this->get_row_suffix() . $order_by;
-        if ( ! in_array( $order, array( 'ASC', 'DESC' ) ) ) {
+        if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
             $order = 'ASC';
         }
 

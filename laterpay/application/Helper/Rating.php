@@ -89,7 +89,7 @@ class LaterPay_Helper_Rating
         }
         $users_voted      = $users_voted_data[0];
 
-        return in_array( $user_id, $users_voted );
+        return in_array( $user_id, $users_voted, true );
     }
 
     /**
