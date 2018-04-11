@@ -112,7 +112,7 @@ abstract class LaterPay_Form_Abstract
             $data                = array();
             // validators
             $data['validators']  = isset( $options['validators'] )      ? $options['validators']    : array();
-            // filters (sanitize)
+            // filters ( sanitize )
             $data['filters']     = isset( $options['filters'] )         ? $options['filters']       : array();
             // default value
             $data['value']       = isset( $options['default_value'] )   ? $options['default_value'] : null;

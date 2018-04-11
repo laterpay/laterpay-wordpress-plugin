@@ -403,7 +403,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      * @return void
      */
     public function buy_post() {
-	    $get_request_method = filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ); // phpcs:ignore
+	    $get_request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
         $request_method = $get_request_method ? $get_request_method : '';
         $request        = new LaterPay_Core_Request();
         $buy            = $request->get_param( 'buy' );
@@ -423,7 +423,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $client_options['token_name']
         );
 
-	    $request_url = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL ); // phpcs:ignore
+	    $request_url = isset( $_SERVER['REQUEST_URI'] ) ? filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL ) : ''; // phpcs:ignore
         $parts = wp_parse_url( $request_url ); // Todo: Add polyfill wp_parse_url for 3.5.2 WP support.
 
         parse_str( $parts['query'], $params );
@@ -509,7 +509,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      * Set Laterpay token if it was provided after redirect and not processed by purchase functions.
      */
     public function set_token() {
-	    $get_request_method = filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ); // phpcs:ignore
+	    $get_request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
         $request_method = $get_request_method ? $get_request_method : '';
         $request           = new LaterPay_Core_Request();
 
