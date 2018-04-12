@@ -91,7 +91,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             )
         );
 
-        if ( ! isset( $_POST['form'] ) ) {
+        $submitted_form_value = filter_input( INPUT_POST, 'form', FILTER_SANITIZE_STRING );
+        if ( null === $submitted_form_value ) {
             // invalid request
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'form' );
         }
@@ -100,7 +101,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             check_admin_referer( 'laterpay_form' );
         }
 
-        switch ( sanitize_text_field( $_POST['form'] ) ) {
+        switch ( $submitted_form_value ) {
             case 'laterpay_sandbox_merchant_id':
                 $event->set_argument( 'is_live', false );
                 self::update_merchant_id( $event );
@@ -151,11 +152,11 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         if ( $event->has_argument( 'is_live' ) ) {
             $is_live = $event->get_argument( 'is_live' );
         }
-        $merchant_id_form = new LaterPay_Form_MerchantId( $_POST );
+        $merchant_id_form = new LaterPay_Form_MerchantId( $_POST ); // phpcs:ignore
         $merchant_id      = $merchant_id_form->get_field_value( 'merchant_id' );
         $merchant_id_type = $is_live ? 'live' : 'sandbox';
 
-        if ( ! $merchant_id_form->is_valid( $_POST ) ) {
+        if ( ! $merchant_id_form->is_valid( $_POST ) ) { // phpcs:ignore
             $event->set_result(
                 array(
                     'success' => false,
@@ -208,12 +209,12 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         if ( $event->has_argument( 'is_live' ) ) {
             $is_live = $event->get_argument( 'is_live' );
         }
-        $api_key_form     = new LaterPay_Form_ApiKey( $_POST );
+        $api_key_form     = new LaterPay_Form_ApiKey( $_POST ); // phpcs:ignore
         $api_key          = $api_key_form->get_field_value( 'api_key' );
         $api_key_type     = $is_live ? 'live' : 'sandbox';
         $transaction_type = $is_live ? 'REAL' : 'TEST';
 
-        if ( ! $api_key_form->is_valid( $_POST ) ) {
+        if ( ! $api_key_form->is_valid( $_POST ) ) { // phpcs:ignore
             $event->set_result(
                 array(
                     'success' => false,
@@ -263,7 +264,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     protected static function update_plugin_mode( LaterPay_Core_Event $event ) {
         $plugin_mode_form = new LaterPay_Form_PluginMode();
 
-        if ( ! $plugin_mode_form->is_valid( $_POST ) ) {
+        if ( ! $plugin_mode_form->is_valid( $_POST ) ) { // phpcs:ignore
             array(
                 'success' => false,
                 'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
@@ -317,7 +318,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     protected static function change_region( LaterPay_Core_Event $event ) {
         $region_form = new LaterPay_Form_Region();
 
-        if ( ! $region_form->is_valid( $_POST ) ) {
+        if ( ! $region_form->is_valid( $_POST ) ) { // phpcs:ignore
             $event->set_result(
                 array(
                     'success' => false,
@@ -358,7 +359,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     public static function update_plugin_visibility_in_test_mode( LaterPay_Core_Event $event ) {
         $plugin_test_mode_form = new LaterPay_Form_TestMode();
 
-        if ( ! $plugin_test_mode_form->is_valid( $_POST ) ) {
+        if ( ! $plugin_test_mode_form->is_valid( $_POST ) ) { // phpcs:ignore
             $event->set_result(
                 array(
                     'success'   => false,

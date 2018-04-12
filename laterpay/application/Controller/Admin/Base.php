@@ -22,7 +22,12 @@ class LaterPay_Controller_Admin_Base extends LaterPay_Controller_Base
             $file = 'backend/partials/navigation';
         }
 
-        $current_page   = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : LaterPay_Helper_View::$pluginPage;
+        $current_page_value = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+        if ( null !== $current_page_value ) {
+            $current_page = $current_page_value;
+        } else {
+            $current_page = LaterPay_Helper_View::$pluginPage;
+        }
         $menu           = LaterPay_Helper_View::get_admin_menu();
         $plugin_page    = LaterPay_Helper_View::$pluginPage;
 

@@ -40,8 +40,8 @@ class LaterPay_Helper_Pricing
 
         // check, if the current post price is not 0
         $price = LaterPay_Helper_Pricing::get_post_price( $post_id );
-        if ( 0 === intval( $price ) || ! in_array( get_post_type( $post_id ), (array) get_option( 'laterpay_enabled_post_types' ), true ) ) {
-            // returns null for this case.
+        if ( floatval( 0.00 ) === floatval( $price ) || ! in_array( get_post_type( $post_id ), (array) get_option( 'laterpay_enabled_post_types' ), true ) ) {
+            // returns null for this case
             return null;
         }
 
@@ -922,7 +922,7 @@ class LaterPay_Helper_Pricing
             foreach ( $category_ids as $category_id ) {
                 $has_price = false;
                 foreach ( $category_price_data as $category ) {
-                    if ( $category->category_id === $category_id ) {
+                    if ( absint( $category->category_id ) === $category_id ) {
                         $has_price = true;
                         break;
                     }

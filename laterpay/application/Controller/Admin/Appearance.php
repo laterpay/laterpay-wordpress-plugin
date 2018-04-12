@@ -56,7 +56,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             'laterpay-backend-appearance',
             'lpVars',
             array(
-                'overlaySettings'  => json_encode(
+                'overlaySettings'  => wp_json_encode(
                     array(
                         'default' => LaterPay_Helper_Appearance::get_default_options(),
                         'current' => LaterPay_Helper_Appearance::get_current_options()
@@ -109,7 +109,9 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             )
         );
 
-        if ( ! isset( $_POST['form'] ) ) {
+        $submitted_form_value = filter_input( INPUT_POST, 'form', FILTER_SANITIZE_STRING );
+
+        if ( null === $submitted_form_value ) {
             // invalid request
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'form' );
         }
@@ -118,12 +120,12 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             check_admin_referer( 'laterpay_form' );
         }
 
-        switch ( $_POST['form'] ) {
+        switch ( $submitted_form_value ) {
             // update presentation mode for paid content
             case 'paid_content_preview':
                 $paid_content_preview_form = new LaterPay_Form_PaidContentPreview();
 
-                if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {
+                if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {  // phpcs:ignore
                     throw new LaterPay_Core_Exception_FormValidation( get_class( $paid_content_preview_form ), $paid_content_preview_form->get_errors() );
                 }
 
@@ -155,17 +157,31 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'overlay_settings':
 
                 // handle additional settings save if present in request
-                update_option( 'laterpay_overlay_header_title',      $_POST['header_title'] );
-                update_option( 'laterpay_overlay_header_bg_color',   $_POST['header_background_color'] );
-                update_option( 'laterpay_overlay_main_bg_color',     $_POST['background_color'] );
-                update_option( 'laterpay_overlay_main_text_color',   $_POST['main_text_color'] );
-                update_option( 'laterpay_overlay_description_color', $_POST['description_text_color'] );
-                update_option( 'laterpay_overlay_button_bg_color',   $_POST['button_background_color'] );
-                update_option( 'laterpay_overlay_button_text_color', $_POST['button_text_color'] );
-                update_option( 'laterpay_overlay_link_main_color',   $_POST['link_main_color'] );
-                update_option( 'laterpay_overlay_link_hover_color',  $_POST['link_hover_color'] );
-                update_option( 'laterpay_overlay_show_footer',       (int) isset($_POST['show_footer']) );
-                update_option( 'laterpay_overlay_footer_bg_color',   $_POST['footer_background_color'] );
+                $header_title            = filter_input( INPUT_POST, 'header_title', FILTER_SANITIZE_STRING );
+                $header_background_color = filter_input( INPUT_POST, 'header_background_color', FILTER_SANITIZE_STRING );
+                $background_color        = filter_input( INPUT_POST, 'background_color', FILTER_SANITIZE_STRING );
+                $main_text_color         = filter_input( INPUT_POST, 'main_text_color', FILTER_SANITIZE_STRING );
+                $description_text_color  = filter_input( INPUT_POST, 'description_text_color', FILTER_SANITIZE_STRING );
+                $button_background_color = filter_input( INPUT_POST, 'button_background_color', FILTER_SANITIZE_STRING );
+                $button_text_color       = filter_input( INPUT_POST, 'button_text_color', FILTER_SANITIZE_STRING );
+                $link_main_color         = filter_input( INPUT_POST, 'link_main_color', FILTER_SANITIZE_STRING );
+                $link_hover_color        = filter_input( INPUT_POST, 'link_hover_color', FILTER_SANITIZE_STRING );
+                $show_footer             = filter_input( INPUT_POST, 'show_footer', FILTER_SANITIZE_STRING );
+                $footer_background_color = filter_input( INPUT_POST, 'footer_background_color', FILTER_SANITIZE_STRING );
+
+                update_option( 'laterpay_overlay_header_title',      $header_title );
+                update_option( 'laterpay_overlay_header_bg_color',   $header_background_color );
+                update_option( 'laterpay_overlay_main_bg_color',     $background_color );
+                update_option( 'laterpay_overlay_main_text_color',   $main_text_color );
+                update_option( 'laterpay_overlay_description_color', $description_text_color );
+                update_option( 'laterpay_overlay_button_bg_color',   $button_background_color );
+                update_option( 'laterpay_overlay_button_text_color', $button_text_color );
+                update_option( 'laterpay_overlay_link_main_color',   $link_main_color );
+                update_option( 'laterpay_overlay_link_hover_color',  $link_hover_color );
+                if ( null !== $show_footer ) {
+                    update_option( 'laterpay_overlay_show_footer',       (int) $show_footer );
+                }
+                update_option( 'laterpay_overlay_footer_bg_color',   $footer_background_color );
 
                 $event->set_result(
                     array(
@@ -180,7 +196,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'ratings':
                 $ratings_form = new LaterPay_Form_Rating();
 
-                if ( ! $ratings_form->is_valid( $_POST ) ) {
+                if ( ! $ratings_form->is_valid( $_POST ) ) { // phpcs:ignore
                     throw new LaterPay_Core_Exception_FormValidation( get_class( $ratings_form ), $ratings_form->get_errors() );
                 }
 
@@ -208,7 +224,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 break;
 
             case 'purchase_button_position':
-                $purchase_button_position_form = new LaterPay_Form_PurchaseButtonPosition( $_POST );
+                $purchase_button_position_form = new LaterPay_Form_PurchaseButtonPosition( $_POST ); // phpcs:ignore
 
                 if ( ! $purchase_button_position_form->is_valid() ) {
                     throw new LaterPay_Core_Exception_FormValidation( get_class( $purchase_button_position_form ), $purchase_button_position_form->get_errors() );
@@ -238,7 +254,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 break;
 
             case 'time_passes_position':
-                $time_passes_position_form = new LaterPay_Form_TimePassPosition( $_POST );
+                $time_passes_position_form = new LaterPay_Form_TimePassPosition( $_POST ); // phpcs:ignore
 
                 if ( ! $time_passes_position_form->is_valid() ) {
                     throw new LaterPay_Core_Exception_FormValidation( get_class( $time_passes_position_form ), $time_passes_position_form->get_errors() );
@@ -268,7 +284,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 break;
 
             case 'free_posts_visibility':
-                $hide_free_posts_form = new LaterPay_Form_HideFreePosts( $_POST );
+                $hide_free_posts_form = new LaterPay_Form_HideFreePosts( $_POST ); // phpcs:ignore
 
                 if ( ! $hide_free_posts_form->is_valid() ) {
                     throw new LaterPay_Core_Exception_FormValidation( get_class( $hide_free_posts_form ), $hide_free_posts_form->get_errors() );
