@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="lp_purchase-overlay__wrapper">
         <div class="lp_purchase-overlay__form">
             <section class="lp_purchase-overlay__header">
-                <?php echo laterpay_sanitize_output( $overlay['header_title'] ); ?>
+                <?php echo esc_html( $overlay['header_title'] ); ?>
             </section>
             <section class="lp_purchase-overlay__body">
                 <div class="lp_purchase-overlay__settings">
@@ -20,15 +20,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_purchase-overlay-option__name">
                             <div class="lp_purchase-overlay-option__title">
-                                <?php echo laterpay_sanitize_output( __( 'This article', 'laterpay' ) ); ?>
+                                <?php esc_html_e( 'This article', 'laterpay' ); ?>
                             </div>
                             <div class="lp_purchase-overlay-option__description">
-                                <?php echo laterpay_sanitize_output( __( '"An Amazing Article"', 'laterpay' ) ); ?>
+                                <?php esc_html_e( 'An Amazing Article', 'laterpay' ); ?>
                             </div>
                         </div>
                         <div class="lp_purchase-overlay-option__cost">
                             <div class="lp_purchase-overlay-option__price">0.19</div>
-                            <div class="lp_purchase-overlay-option__currency"><?php echo laterpay_sanitize_output( $overlay['currency'] ); ?></div>
+                            <div class="lp_purchase-overlay-option__currency"><?php echo esc_html( $overlay['currency'] ); ?></div>
                         </div>
                     </div>
                     <div class="lp_purchase-overlay-option">
@@ -38,15 +38,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_purchase-overlay-option__name">
                             <div class="lp_purchase-overlay-option__title">
-                                <?php echo laterpay_sanitize_output( __( 'Week Pass', 'laterpay' ) ); ?>
+                                <?php esc_html_e( 'Week Pass', 'laterpay' ); ?>
                             </div>
                             <div class="lp_purchase-overlay-option__description">
-                                <?php echo laterpay_sanitize_output( __( '7 days access to all paid content on this website (no subscription)', 'laterpay' ) ); ?>
+                                <?php esc_html_e( '7 days access to all paid content on this website (no subscription)', 'laterpay' ); ?>
                             </div>
                         </div>
                         <div class="lp_purchase-overlay-option__cost">
                             <div class="lp_purchase-overlay-option__price">1.49</div>
-                            <div class="lp_purchase-overlay-option__currency"><?php echo laterpay_sanitize_output( $overlay['currency'] ); ?></div>
+                            <div class="lp_purchase-overlay-option__currency"><?php echo esc_html( $overlay['currency'] ); ?></div>
                         </div>
                     </div>
                     <div class="lp_purchase-overlay-option">
@@ -56,22 +56,22 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_purchase-overlay-option__name">
                             <div class="lp_purchase-overlay-option__title">
-                                <?php echo laterpay_sanitize_output( __( 'Month subscription', 'laterpay' ) ); ?>
+                                <?php esc_html_e( 'Month subscription', 'laterpay' ); ?>
                             </div>
                             <div class="lp_purchase-overlay-option__description">
-                                <?php echo laterpay_sanitize_output( __( '30 days access to all paid content (cancellable anytime)', 'laterpay' ) ); ?>
+                                <?php esc_html_e( '30 days access to all paid content (cancellable anytime)', 'laterpay' ); ?>
                             </div>
                         </div>
                         <div class="lp_purchase-overlay-option__cost">
                             <div class="lp_purchase-overlay-option__price">149.49</div>
-                            <div class="lp_purchase-overlay-option__currency"><?php echo laterpay_sanitize_output( $overlay['currency'] ); ?></div>
+                            <div class="lp_purchase-overlay-option__currency"><?php echo esc_html( $overlay['currency'] ); ?></div>
                         </div>
                     </div>
                 </div>
                 <div class="lp_purchase-overlay__buttons">
-                    <a class="lp_purchase-overlay__submit" href="#"><span data-icon="b"></span><?php echo laterpay_sanitize_output( __( 'Buy now, pay later', 'laterpay' ) ); ?></a>
+                    <a class="lp_purchase-overlay__submit" href="#"><span data-icon="b"></span><?php esc_html_e( 'Buy now, pay later', 'laterpay' ); ?></a>
                     <div class="lp_purchase-overlay__notification">
-                        <a href="#"><?php echo laterpay_sanitize_output( __( 'I already bought this', 'laterpay' ) ); ?></a> | <a href="#"><?php echo laterpay_sanitize_output( __( 'Redeem voucher', 'laterpay' ) ); ?></a>
+                        <a href="#"><?php esc_html_e( 'I already bought this', 'laterpay' ); ?></a> | <a href="#"><?php esc_html_e( 'Redeem voucher', 'laterpay' ); ?></a>
                     </div>
                 </div>
             </section>
@@ -79,14 +79,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <ul class="lp_purchase-overlay-payments-list">
                     <?php foreach ( $overlay['icons'] as $icon ) : ?>
                     <li class="lp_purchase-overlay-payments-item">
-                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-<?php echo $icon; ?>"></i>
+                        <i class="lp_purchase-overlay-icon lp_purchase-overlay-icon-<?php echo esc_html( $icon ); ?>"></i>
                     </li>
                     <?php endforeach; ?>
                 </ul>
             </section>
         </div>
         <div class="lp_purchase-overlay__copy">
-            <?php echo laterpay_sanitize_output( __( 'Powered by', 'laterpay' ) ); ?>
+            <?php esc_html_e( 'Powered by', 'laterpay' ); ?>
             <span data-icon="a"></span>
         </div>
     </div>

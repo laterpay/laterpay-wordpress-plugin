@@ -368,4 +368,24 @@ class LaterPay_Helper_Post
 
         return $output;
     }
+
+    /*
+     * Retrieves a page given its title.
+     *
+     * @param string  $page_title Page title.
+     * @param string  $output     Optional. Output type; OBJECT*, ARRAY_N, or ARRAY_A.
+     * @param string  $post_type  Optional. Post type; default is 'page'.
+     *
+     * @return mixed WP_Post on success or null on failure.
+     */
+    public static function get_page_by_title( $page_title, $output, $post_type ) {
+
+        if ( laterpay_check_is_vip() ) {
+            $post = wpcom_vip_get_page_by_title( $page_title, $output, $post_type );
+        } else {
+            $post = get_page_by_title( $page_title, $output, $post_type ); // phpcs:ignore
+        }
+
+        return $post;
+    }
 }

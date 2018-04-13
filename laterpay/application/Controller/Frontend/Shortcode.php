@@ -115,16 +115,20 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             'target_page_title' => '',
         ), $atts );
 
-        $deprecated_template = __( '<code>%1$s</code> is deprecated, please use <code>%2$s</code>. <code>%1$s</code> will be removed in the next release.', 'laterpay' );
+        $msg_part_1 = esc_html__( 'is deprecated, please use', 'laterpay' );
+        $msg_part_2 = esc_html__( 'will be removed in the next release.', 'laterpay' );
+
+        $deprecated_template = '<code>%1$s</code> ' . $msg_part_1 . ' <code>%2$s</code>. <code>%1$s</code> ' . $msg_part_2;
 
         // backward compatibility for attribute 'target_page_title'
         if ( ! empty( $a['target_page_title'] ) ) {
             $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
 
+            // ignoring msg here as translated text is escaped.
             _deprecated_argument(
                 __FUNCTION__,
                 '0.9.8.3',
-                laterpay_sanitize_output( $msg )
+                 $msg //phpcs:ignore
             );
 
             $this->logger->warning(
@@ -141,10 +145,11 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         if ( ! empty( $a['target_page_id'] ) ) {
             $msg = sprintf( $deprecated_template, 'target_page_id', 'target_post_id' );
 
+            // ignoring msg here as translated text is escaped.
             _deprecated_argument(
                 __FUNCTION__,
                 '0.9.8.3',
-                laterpay_sanitized( $msg )
+                 $msg //phpcs:ignore
             );
 
             $this->logger->warning(
@@ -172,10 +177,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             );
         }
         if ( $page === null && $a['target_post_title'] !== '' ) {
-            $page = get_page_by_title( $a['target_post_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
+            $page = LaterPay_Helper_Post::get_page_by_title( $a['target_post_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
         }
         // target_post_title was provided, but didn't work (no invalid target_post_id was provided)
-        if ( $page === null && $error_reason == '' ) {
+        if ( $page === null && empty( $error_reason ) ) {
             $error_reason = sprintf(
                 __( 'We couldn\'t find a page for target_post_title="%s" on this site.', 'laterpay' ),
                 esc_html( $a['target_post_title'] )
@@ -198,7 +203,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         $page_id = $page->ID;
 
         // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
-        if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
+        if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ), true ) ) {
 
             $error_reason = __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
 
@@ -219,7 +224,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // check, if page has a custom post type
         $custom_post_types      = get_post_types( array( '_builtin' => false ) );
         $custom_types           = array_keys( $custom_post_types );
-        $is_custom_post_type    = ! empty( $custom_types ) && in_array( $page->post_type, $custom_types );
+        $is_custom_post_type    = ! empty( $custom_types ) && in_array( $page->post_type, $custom_types, true );
 
         // get the URL of the target page
         if ( $is_custom_post_type ) {
@@ -231,7 +236,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         $content_types = array( 'file', 'gallery', 'audio', 'video', 'text' );
 
-        if ( $a['content_type'] == '' ) {
+        if ( empty( $a['content_type'] ) ) {
             // determine $content_type from MIME type of files attached to post
             $page_mime_type = get_post_mime_type( $page_id );
 
@@ -266,7 +271,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 default:
                     $content_type = 'text';
             }
-        } else if ( in_array( $a['content_type'], $content_types ) ) {
+        } else if ( in_array( $a['content_type'], $content_types, true ) ) {
             $content_type = $a['content_type'];
         } else {
             $content_type = 'text';
@@ -289,7 +294,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         );
 
         // build the HTML for the teaser box
-        if ( $image_path != '' ) {
+        if ( ! empty( $image_path ) ) {
             $html = '<div class="lp_js_premium-file-box lp_premium-file-box" '
                           . 'style="background-image:url(' . $image_path . ')'
                           . '" data-post-id="' . $page_id
@@ -307,7 +312,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // create a premium box
         $html .= '    <div class="lp_premium-file-box__details">';
         $html .= '        <h3 class="lp_premium-file-box__title">' . $heading . '</h3>';
-        if ( $description != '' ) {
+        if ( ! empty( $description ) ) {
             $html .= '    <p class="lp_premium-file-box__text">' . $description . '</p>';
         }
         $html .= '    </div>';
@@ -348,33 +353,33 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * @return string
      */
     public function ajax_get_premium_shortcode_link( LaterPay_Core_Event $event ) {
-        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_premium_shortcode_link' ) {
+        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_premium_shortcode_link' ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
-        if ( ! isset( $_GET['ids'] ) ) {
+        if ( ! isset( $_GET['ids'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'ids' );
         }
 
-        if ( ! isset( $_GET['types'] ) ) {
+        if ( ! isset( $_GET['types'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'types' );
         }
 
-        if ( ! isset( $_GET['post_id'] ) ) {
+        if ( ! isset( $_GET['post_id'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'post_id' );
         }
 
-        $current_post_id = absint( $_GET['post_id'] );
+        $current_post_id = absint( $_GET['post_id'] ); // phpcs:ignore
         if ( ! get_post( $current_post_id ) ) {
             throw new LaterPay_Core_Exception_PostNotFound( $current_post_id );
         }
 
-        $ids    = array_map( 'sanitize_text_field', $_GET['ids'] );
-        $types  = array_map( 'sanitize_text_field', $_GET['types'] );
+        $ids    = array_map( 'sanitize_text_field', $_GET['ids'] ); // phpcs:ignore
+        $types  = array_map( 'sanitize_text_field', $_GET['types'] ); // phpcs:ignore
         $result = array();
 
         foreach ( $ids as $key => $id ) {
-            $post = get_post( $id );
+            $post = get_post( absint( $id ) );
             if ( ! $post ) {
                 continue;
             }
@@ -621,22 +626,22 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_load_gift_action( LaterPay_Core_Event $event ) {
-        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_gift_card_actions' ) {
+        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_gift_card_actions' ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
-        if ( ! isset( $_GET['pass_id'] ) ) {
+        if ( ! isset( $_GET['pass_id'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'pass_id' );
         }
 
-        if ( ! isset( $_GET['link'] ) ) {
+        if ( ! isset( $_GET['link'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'link' );
         }
 
         $data           = array();
         $time_pass_ids  = array();
-        if ( is_array( $_GET['pass_id'] ) ) {
-            $time_pass_ids = array_map( 'sanitize_text_field', $_GET['pass_id'] );
+        if ( is_array( $_GET['pass_id'] ) ) { // phpcs:ignore
+            $time_pass_ids = array_map( 'absint', $_GET['pass_id'] ); // phpcs:ignore
         }
 
         foreach ( $time_pass_ids as $time_pass_id ) {
@@ -645,7 +650,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $landing_page = get_option( 'laterpay_landing_page' );
 
             // add gift codes with URLs to time passes
-            $time_passes  = $this->add_free_codes_to_passes( $time_passes, esc_url_raw( $_GET['link'] ) );
+            $time_passes  = $this->add_free_codes_to_passes( $time_passes, esc_url_raw( $_GET['link'] ) ); // phpcs:ignore
             $view_args = array(
                 'gift_code'               => is_array( $access ) ? $access['code'] : null,
                 'landing_page'            => $landing_page ? $landing_page : home_url(),
@@ -654,7 +659,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             );
 
             foreach ( $time_passes as $time_pass ) {
-                $has_access = is_array( $access ) && $access['access'] && $access['pass_id'] == $time_pass['pass_id'];
+                $has_access = is_array( $access ) && $access['access'] && absint( $access['pass_id'] ) === absint( time_pass['pass_id'] );
                 $additional_args = array(
                     'pass'       => $time_pass,
                     'has_access' => $has_access,
