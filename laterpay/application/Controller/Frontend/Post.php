@@ -111,17 +111,17 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_load_purchased_content( LaterPay_Core_Event $event ) {
-        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_post_load_purchased_content' ) {
+        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_post_load_purchased_content' ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
-        if ( ! isset( $_GET['post_id'] ) ) {
+        if ( ! isset( $_GET['post_id'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'post_id' );
         }
 
-        global $post;
+        global $post; // @todo: remove overriding global variable
 
-        $post_id = absint( $_GET['post_id'] );
+        $post_id = absint( $_GET['post_id'] ); // phpcs:ignore
         $post    = get_post( $post_id );
 
         if ( $post === null ) {
@@ -156,7 +156,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_rate_purchased_content( LaterPay_Core_Event $event ) {
-        $post_rating_form = new LaterPay_Form_PostRating( $_POST );
+        $post_rating_form = new LaterPay_Form_PostRating( $_POST ); // phpcs:ignore
         $event->set_result(
             array(
                 'success' => false,
@@ -206,15 +206,15 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_load_rating_summary( LaterPay_Core_Event $event ) {
-        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_post_rating_summary' ) {
+        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_post_rating_summary' ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
-        if ( ! isset( $_GET['post_id'] ) ) {
+        if ( ! isset( $_GET['post_id'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'post_id' );
         }
 
-        $post_id = absint( $_GET['post_id'] );
+        $post_id = absint( $_GET['post_id'] ); // phpcs:ignore
         $post    = get_post( $post_id );
 
         if ( $post === null ) {
@@ -250,21 +250,21 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_redeem_voucher_code( LaterPay_Core_Event $event ) {
-        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_redeem_voucher_code' ) {
+        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_redeem_voucher_code' ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'action' );
         }
 
-        if ( ! isset( $_GET['code'] ) ) {
+        if ( ! isset( $_GET['code'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'code' );
         }
 
-        if ( ! isset( $_GET['link'] ) ) {
+        if ( ! isset( $_GET['link'] ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'link' );
         }
 
         // check, if voucher code exists and time pass is available for purchase
         $is_gift     = true;
-        $code        = sanitize_text_field( $_GET['code'] );
+        $code        = sanitize_text_field( $_GET['code'] ); // phpcs:ignore
         $code_data   = LaterPay_Helper_Voucher::check_voucher_code( $code, $is_gift );
         if ( ! $code_data ) {
             $is_gift     = false;
@@ -285,7 +285,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             // prepare URL before use
             $data       = array(
                 'voucher' => $code,
-                'link'    => $is_gift ? home_url() : esc_url_raw( $_GET['link'] ),
+                'link'    => $is_gift ? home_url() : esc_url_raw( $_GET['link'] ), // phpcs:ignore
                 'price'   => $code_data['price'],
             );
 
@@ -496,7 +496,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         // and bundle them in one API request to LaterPay, to avoid the overhead of multiple API requests
         foreach ( $posts as $post ) {
             // add a post_ID to the array of posts to be queried for access, if it's purchasable and not loaded already
-            if ( ! array_key_exists( $post->ID, LaterPay_Helper_Post::get_access_state() ) && LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0 ) {
+            if ( ! array_key_exists( $post->ID, LaterPay_Helper_Post::get_access_state() ) && floatval( 0.00 ) !== LaterPay_Helper_Pricing::get_post_price( $post->ID ) ) {
                 $post_ids[] = $post->ID;
             }
         }
@@ -547,7 +547,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return boolean
      */
     public static function is_login_page() {
-        return in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) );
+        return in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ), true );
     }
 
     /**
@@ -556,7 +556,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return boolean
      */
     public static function is_cron_page() {
-        return in_array( $GLOBALS['pagenow'], array( 'wp-cron.php' ) );
+        return in_array( $GLOBALS['pagenow'], array( 'wp-cron.php' ), true );
     }
 
     /**

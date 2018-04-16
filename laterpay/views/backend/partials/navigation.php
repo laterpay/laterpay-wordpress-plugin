@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             $current_page_class = 'lp_is-current';
         ?>
     <?php endif; ?>
-    <li class="lp_navigation-tabs__item <?php esc_attr( $current_page_class ); ?>">
+    <li class="lp_navigation-tabs__item <?php echo esc_attr( $current_page_class ); ?>">
         <?php
         $allow_html = array(
             'a' => array(

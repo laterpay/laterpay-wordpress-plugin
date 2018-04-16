@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             if ( $i <= $laterpay['post_aggregated_rating'] ) {
                 // full star
                 $star_state = ' lp_is-full';
-            } else if ( $i == $laterpay['post_aggregated_rating'] + 0.5 ) {
+            } else if ( floatval( $i )  === $laterpay['post_aggregated_rating'] + 0.5 ) {
                 // half star
                 $star_state = ' lp_is-half';
             } else {
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
     <div class="lp_rating-results__distribution">
         <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
-        <p class="lp_rating-results__distribution-heading"><?php echo laterpay_sanitize_output( __( 'Buyer Ratings for this Post', 'laterpay' ) ); ?></p>
+        <p class="lp_rating-results__distribution-heading"><?php esc_html_e( 'Buyer Ratings for this Post', 'laterpay' ); ?></p>
         <dl class="lp_rating-results__distribution-list">
             <?php foreach ( $laterpay['post_rating_data'] as $rating => $votes ) : ?>
                 <dt class="lp_rating-results__distribution-item-value">
@@ -40,10 +40,18 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php endfor; ?>
                 </dt><dd class="lp_rating-results__distribution-item-count">
                     <div class="lp_rating__background-bar">
-                        <div class="lp_rating__bar" style="width:<?php if ( $laterpay['maximum_number_of_votes'] > 0 ) { echo laterpay_sanitize_output( $votes / $laterpay['maximum_number_of_votes'] * 100 ); } ?>%;">
+                        <?php
+                        $width = '';
+                        if ( $laterpay['maximum_number_of_votes'] > 0 ) {
+                            $width .= 'width:';
+                            $width .= ( $votes / $laterpay['maximum_number_of_votes'] ) * 100;
+                            $width .= '%';
+                        }
+                        ?>
+                        <div class="lp_rating__bar" style="<?php echo esc_attr( $width ); ?>">
                         </div>
                     </div>
-                    <div class="lp_rating__ratings-count"><?php echo laterpay_sanitize_output( $votes ); ?></div>
+                    <div class="lp_rating__ratings-count"><?php echo esc_html( $votes ); ?></div>
                 </dd>
             <?php endforeach; ?>
         </dl>
