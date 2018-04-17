@@ -269,26 +269,6 @@ class LaterPay_Helper_User
     /*
      * Retrieves user_meta based on VIP and Non-VIP environments
      *
-     * @param $user_id  int    User ID.
-     * @param $meta_key string Metadata key.
-     * @param $single   bool   Whether to return a single value.
-     *
-     * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
-     */
-    public static function get_user_meta( $user_id, $meta_key, $single = true ) {
-
-        if ( laterpay_check_is_vip() ) {
-            $meta_value = get_user_attribute( $user_id, $meta_key );
-        } else {
-            $meta_value = get_user_meta( $user_id, $meta_key, $single ); // phpcs:ignore
-        }
-
-        return $meta_value;
-    }
-
-    /*
-     * Retrieves user_meta based on VIP and Non-VIP environments
-     *
      * @param int    $user_id  User ID.
      * @param string $meta_key Metadata key.
      * @param bool   $single   Whether to return a single value.

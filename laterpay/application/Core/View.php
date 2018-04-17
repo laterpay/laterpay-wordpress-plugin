@@ -70,7 +70,7 @@ class LaterPay_Core_View
      *
      * @return void
      */
-    public function render( $file, $view_dir = null ) {
+    public function render( $file, $view_dir = null, $is_loop = false ) {
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
@@ -87,7 +87,12 @@ class LaterPay_Core_View
             return;
         }
 
-        include_once( $view_file );
+        if ( true === $is_loop ) {
+            include( $view_file );
+        } else {
+            include_once( $view_file );
+        }
+
     }
 
     /**

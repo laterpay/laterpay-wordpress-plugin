@@ -215,7 +215,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      *
      * @return string
      */
-    public function render_time_pass( $pass = array() ) {
+    public function render_time_pass( $pass = array(), $is_loop = false ) {
         $defaults = array(
             'pass_id'     => 0,
             'title'       => LaterPay_Helper_TimePass::get_default_options( 'title' ),
@@ -237,9 +237,11 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $this->assign( 'laterpay',      $args );
         $this->assign( 'laterpay_pass', $laterpay_pass );
 
-        $string = $this->get_text_view( 'backend/partials/time-pass' );
-
-        return $string;
+        if ( true === $is_loop ) {
+            $this->render( 'backend/partials/time-pass', null, true );
+        } else {
+            $this->render( 'backend/partials/time-pass' );
+        }
     }
 
     /**

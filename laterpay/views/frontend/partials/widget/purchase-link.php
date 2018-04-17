@@ -23,18 +23,12 @@ foreach ( $args as $key => $value ) {
     $arg_str .= ' ' . $key . '="' . esc_attr( $value ) . '" ';
 }
 
-if ( $laterpay['revenue_model'] == 'sis' ) :
-    $link_text = sprintf(
-        __( 'Buy now for %s<small class="lp_purchase-link__currency">%s</small>', 'laterpay' ),
-        LaterPay_Helper_View::format_number( $laterpay['price'] ),
-        $laterpay['currency']
-    );
+if ( $laterpay['revenue_model'] === 'sis' ) :
+    /* translators: %1$s purchase text, %2$s formatted price, %3$s currency tpye */
+    $link_text = sprintf( '%1$s %2$s<small class="lp_purchase-link__currency">%3$s</small>', esc_html__( 'Buy now for', 'laterpay' ), esc_html( LaterPay_Helper_View::format_number( $laterpay['price'] ) ), esc_html( $laterpay['currency'] ) );
 else :
-    $link_text = sprintf(
-        __( 'Buy now for %s<small class="lp_purchase-link__currency">%s</small> and pay later', 'laterpay' ),
-        LaterPay_Helper_View::format_number( $laterpay['price'] ),
-        $laterpay['currency']
-    );
+    /* translators: %1$s purchase text, %2$s formatted price, %3$s currency tpye, %4$s purchase text */
+    $link_text = sprintf( '%1$s %2$s<small class="lp_purchase-link__currency">%3$s</small> %4$s', esc_html__( 'Buy now for', 'laterpay' ), esc_html( LaterPay_Helper_View::format_number( $laterpay['price'] ) ), esc_html( $laterpay['currency'] ), esc_html__( 'and pay later', 'laterpay' ) );
 endif;
 if ( isset( $laterpay['link_text'] ) ) {
     $link_text = $laterpay['link_text'];
@@ -42,4 +36,4 @@ if ( isset( $laterpay['link_text'] ) ) {
 }
 ?>
 
-<a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $link_text ); ?></a>
+<a <?php echo $arg_str; ?>><?php echo $link_text; // phpcs:ignore ?></a>

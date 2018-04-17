@@ -7,10 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="lp_paid-content">
     <div class="lp_full-content">
-        <!-- <?php echo laterpay_sanitize_output( __( 'Preview a short excerpt from the paid post:', 'laterpay' ) ); ?> -->
-        <?php echo laterpay_sanitized( $overlay['teaser'] ); ?>
+        <?php echo wp_kses_post( $overlay['teaser'] ); ?>
         <br>
-        <?php echo laterpay_sanitize_output( __( 'Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay' ) ); ?>
+        <?php esc_html_e( 'Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay' ); ?>
     </div>
 
     <?php $overlay_data = $overlay['data']; ?>
@@ -18,23 +17,27 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="lp_benefits">
             <header class="lp_benefits__header">
                 <h2 class="lp_benefits__title">
-                    <?php echo laterpay_sanitize_output( $overlay_data['title'] ); ?>
+                    <?php echo esc_html( $overlay_data['title'] ); ?>
                 </h2>
             </header>
             <ul class="lp_benefits__list">
                 <?php foreach ( $overlay_data['benefits'] as $benefit ) : ?>
                     <li class="lp_benefits__list-item <?php echo esc_attr( $benefit['class'] ); ?>">
                         <h3 class="lp_benefit__title">
-                            <?php echo laterpay_sanitize_output( $benefit['title'] ); ?>
+                            <?php echo esc_html( $benefit['title'] ); ?>
                         </h3>
                         <p class="lp_benefit__text">
-                            <?php echo laterpay_sanitize_output( $benefit['text'] ); ?>
+                            <?php echo wp_kses( $benefit['text'], [ 'br' => [] ] ); ?>
                         </p>
                     </li>
                 <?php endforeach; ?>
             </ul>
             <div class="lp_benefits__action">
-                <?php echo laterpay_sanitized( $overlay_data['action'] ); ?>
+                <?php
+                    // ignoring this because generated html is escaped in,
+                    // views/frontend/partials/widget/purchase-button.php
+                    echo $overlay_data['action']; // phpcs:ignore
+                ?>
             </div>
             <div class="lp_powered-by">
                 powered by<span data-icon="a"></span>

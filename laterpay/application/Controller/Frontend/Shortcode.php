@@ -568,7 +568,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      *
      * @return string
      */
-    public function render_gift_pass( $gift_pass, $show_redeem = false ) {
+    public function render_gift_pass( $gift_pass, $show_redeem = false, $is_loop = false ) {
         // check if gift_pass is not empty and is array
         if ( ! $gift_pass || ! is_array( $gift_pass ) ) {
             return '';
@@ -580,16 +580,21 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay_gift', $view_args );
 
-        return $this->get_text_view( 'frontend/partials/post/gift/gift-pass' );
+        if ( true === $is_loop ) {
+            $this->render( 'frontend/partials/post/gift/gift-pass', null, true );
+        } else {
+            $this->render( 'frontend/partials/post/gift/gift-pass' );
+        }
+
     }
 
     /**
      * Render redeem gift card form.
      *
-     * @return string
+     * @return void
      */
     public function render_redeem_form() {
-        return $this->get_text_view( 'frontend/partials/post/gift/redeem-form' );
+        $this->render( 'frontend/partials/post/gift/redeem-form' );
     }
 
     /**

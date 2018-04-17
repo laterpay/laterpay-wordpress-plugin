@@ -36,8 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button"
                title="<?php esc_attr_e( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b"
                data-laterpay="<?php echo( isset( $laterpay_pass['url'] ) ? esc_url( $laterpay_pass['url'] ) : '' ); ?>"
-               data-preview-as-visitor="<?php echo( isset( $laterpay_pass['preview_post_as_visitor'] ) ? esc_attr( $laterpay_pass['preview_post_as_visitor'] ) : '' ); ?>">
-                <?php echo sprintf( '%s<small class="lp_purchase-link__currency">%s</small>', esc_html( LaterPay_Helper_View::format_number( $laterpay_pass['price'] ) ), esc_html( $laterpay['standard_currency'] ) ); ?>
+               data-preview-as-visitor="<?php echo( isset( $laterpay_pass['preview_post_as_visitor'] ) ? esc_attr( $laterpay_pass['preview_post_as_visitor'] ) : '' ); ?>"><?php
+                /* translators: %1$s formatted price, %2$s currency tpye */
+                printf( '%1$s<small class="lp_purchase-link__currency">%2$s</small>', esc_html( LaterPay_Helper_View::format_number( $laterpay_pass['price'] ) ), esc_html( $laterpay['standard_currency'] ) ); ?>
             </a>
             <a href="#" class="lp_js_flipTimePass lp_time-pass__terms"><?php esc_html_e( 'Terms', 'laterpay' ); ?></a>
         </div>

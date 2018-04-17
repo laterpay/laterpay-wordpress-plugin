@@ -70,7 +70,7 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
      *
      * @return string
      */
-    public function render_subscription( $args = array() ) {
+    public function render_subscription( $args = array(), $is_loop = false ) {
         $defaults = array(
             'id'          => 0,
             'title'       => LaterPay_Helper_Subscription::get_default_options( 'title' ),
@@ -92,9 +92,13 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
             'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
-        $string = $this->get_text_view( 'backend/partials/subscription' );
+        if ( true === $is_loop ) {
+            $this->render( 'backend/partials/subscription', null, true );
+        } else {
+            $this->render( 'backend/partials/subscription' );
+        }
 
-        return $string;
+
     }
 
     /**
