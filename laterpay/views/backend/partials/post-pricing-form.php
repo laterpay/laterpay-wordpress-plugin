@@ -8,8 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <script>
     var lpVars = window.lpVars || {};
     lpVars.postId = <?php echo esc_html( $laterpay['post_id'] ); ?>;
-    lpVars.limits =  <?php echo $laterpay['price_ranges']; // phpcs:ignore ?>;
-
+    lpVars.limits = <?php echo wp_json_encode( $laterpay['price_ranges'] ); ?>;
 </script>
 <div class="lp_clearfix">
     <div class="lp_layout lp_mt+ lp_mb+">

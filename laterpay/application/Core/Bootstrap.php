@@ -26,16 +26,16 @@ class LaterPay_Core_Bootstrap
     /**
      * @param LaterPay_Model_Config $config
      *
-     * @return LaterPay_Core_Bootstrap
+     * @return void
      */
     public function __construct( LaterPay_Model_Config $config ) {
         $this->config = $config;
 
-        // load the textdomain for 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook'
+        // load the textdomain for plugins_loaded, register_activation_hook, and register_deactivation_hook
         $textdomain_dir     = dirname( $this->config->get( 'plugin_base_name' ) );
         $textdomain_path    = $textdomain_dir . $this->config->get( 'text_domain_path' );
         load_plugin_textdomain(
-            'laterpay',
+            'laterpay', 
             false,
             $textdomain_path
         );
@@ -67,7 +67,7 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Start the plugin on plugins_loaded hook.
-     *
+     * @throws LaterPay_Core_Exception
      * @wp-hook plugins_loaded
      *
      * @return void
@@ -90,6 +90,7 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Internal function to register global actions for frontend and backend.
+     * @throws LaterPay_Core_Exception
      *
      * @return void
      */
@@ -112,6 +113,8 @@ class LaterPay_Core_Bootstrap
     /**
      * Internal function to register all shortcodes.
      *
+     * @throws LaterPay_Core_Exception
+     *
      * @return void
      */
     private function register_shortcodes() {
@@ -130,6 +133,8 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Internal function to register the admin actions step 2 after the 'plugin_is_working' check.
+     *
+     * @throws LaterPay_Core_Exception
      *
      * @return void
      */
@@ -174,6 +179,8 @@ class LaterPay_Core_Bootstrap
     /**
      * Internal function to register all upgrade checks.
      *
+     * @throws LaterPay_Core_Exception
+     *
      * @return void
      */
     private function register_upgrade_checks() {
@@ -196,6 +203,8 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Install callback to create custom database tables.
+     *
+     * @throws LaterPay_Core_Exception
      *
      * @wp-hook register_activation_hook
      *

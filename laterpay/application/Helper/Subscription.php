@@ -116,11 +116,7 @@ class LaterPay_Helper_Subscription
 
         if ( $elements && is_array( $elements ) ) {
             foreach ( $elements as $id => $name ) {
-                if ( $id == $default_value ) {
-                    $options_html .= '<option selected="selected" value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
-                } else {
-                    $options_html .= '<option value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
-                }
+                $options_html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $id ), esc_attr( selected( $default_value, $id, false ) ), esc_html( $name ) );
             }
         }
 
@@ -286,11 +282,12 @@ class LaterPay_Helper_Subscription
         }
 
         // correct result, if we have purchased subscriptions
-        if ( $subscriptions_with_access ) {
+        if ( ! empty( $subscriptions_with_access ) ) {
+            $subscriptions_with_access = array_map( 'absint', $subscriptions_with_access );
             // check, if user has access to the current post with subscription
             $has_access = false;
             foreach ( $subscriptions as $subscription ) {
-                if ( in_array( $subscription['pass_id'], $subscriptions_with_access ) ) {
+                if ( in_array( absint( $subscription['pass_id'] ), $subscriptions_with_access, true ) ) {
                     $has_access = true;
                     break;
                 }

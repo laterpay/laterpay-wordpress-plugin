@@ -358,7 +358,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             'global_default_price'                 => $global_default_price,
             'global_default_price_revenue_model'   => $global_default_price_revenue_model,
             'category_default_price_revenue_model' => $category_default_price_revenue_model,
-            'price_ranges'                         => wp_json_encode( $currency_settings ),
+            'price_ranges'                         => $currency_settings,
         );
 
         $this->assign( 'laterpay', $view_args );

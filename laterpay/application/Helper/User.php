@@ -113,7 +113,7 @@ class LaterPay_Helper_User
         $has_cap = false;
 
         foreach ( $user->roles as $role ) {
-            if ( ! isset( $unlimited_access[ $role ] ) || false !== array_search( 'none', $unlimited_access[ $role ] ) ) {
+            if ( ! isset( $unlimited_access[ $role ] ) || false !== array_search( 'none', $unlimited_access[ $role ], true ) ) {
                 continue;
             }
 
@@ -183,7 +183,7 @@ class LaterPay_Helper_User
             return false;
         }
 
-        return in_array( $role, (array) $user->roles );
+        return in_array( $role, (array) $user->roles, true );
     }
 
     /**
@@ -198,7 +198,7 @@ class LaterPay_Helper_User
             $preview_post_as_visitor = 0;
             $current_user            = wp_get_current_user();
             if ( $current_user instanceof WP_User ) {
-                $preview_post_as_visitor = get_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor' );
+                $preview_post_as_visitor = self::get_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor' );
                 if ( ! empty( $preview_post_as_visitor ) ) {
                     $preview_post_as_visitor = $preview_post_as_visitor[0];
                 }
@@ -219,8 +219,8 @@ class LaterPay_Helper_User
             static::$_hide_preview_mode_pane = false;
             $current_user = wp_get_current_user();
 
-            if ($current_user instanceof WP_User &&
-                true === (bool) get_user_meta($current_user->ID, 'laterpay_hide_preview_mode_pane', true)
+            if ( $current_user instanceof WP_User &&
+                true === (bool) self::get_user_meta( $current_user->ID, 'laterpay_hide_preview_mode_pane', true )
             ) {
                 static::$_hide_preview_mode_pane = true;
             }
@@ -239,7 +239,7 @@ class LaterPay_Helper_User
             list( $uniqueId, $control_code ) = explode( '.', sanitize_text_field( $_COOKIE['laterpay_tracking_code'] ) );
 
             // make sure only authorized information is recorded
-            if ( $control_code != md5( $uniqueId . AUTH_SALT ) ) {
+            if ( $control_code !== md5( $uniqueId . AUTH_SALT ) ) {
                 return null;
             }
 
@@ -275,7 +275,7 @@ class LaterPay_Helper_User
      *
      * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
      */
-    public static function get_user_meta( $user_id, $meta_key, $single = true ) {
+    public static function get_user_meta( $user_id, $meta_key, $single = false ) {
 
         if ( laterpay_check_is_vip() ) {
             $meta_value = get_user_attribute( $user_id, $meta_key );

@@ -212,6 +212,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * Render time pass HTML.
      *
      * @param array $pass
+     * @param bool $is_loop
      *
      * @return string
      */

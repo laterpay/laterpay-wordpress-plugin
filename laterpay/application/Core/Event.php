@@ -288,7 +288,7 @@ class LaterPay_Core_Event {
      * @return LaterPay_Core_Event
      */
     public function set_echo( $echo ) {
-        $this->echo = $echo;
+        $this->echo = $echo;  // phpcs:ignore
 
         return $this;
     }

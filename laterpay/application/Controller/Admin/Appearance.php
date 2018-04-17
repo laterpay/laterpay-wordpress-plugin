@@ -320,8 +320,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
 
     /**
      * Render overlay
-     *
-     * @return string
      */
     public function render_overlay() {
 
@@ -334,6 +332,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
 
         $this->assign( 'overlay', array_merge( LaterPay_Helper_Appearance::get_current_options(), $additional_data ) );
 
-        return $this->get_text_view( 'backend/partials/purchase-overlay' );
+        $this->render( 'backend/partials/purchase-overlay' );
     }
 }

@@ -81,7 +81,11 @@ class LaterPay_Helper_String
             $default['ellipsis'] = "\xe2\x80\xa6";
         }
         $options = array_merge( $default, $options );
-        extract( $options );
+
+        $ellipsis = $options['ellipsis'];
+        $html     = $options['html'];
+        $exact    = $options['exact'];
+        $words    = $options['words'];
 
         if ( ! function_exists( 'mb_strlen' ) ) {
             class_exists( 'Multibyte' );
@@ -95,7 +99,7 @@ class LaterPay_Helper_String
             if ( mb_strlen( preg_replace( '/<.*?>/', '', $text ) ) <= $length ) {
                 return $text;
             }
-            $totalLength    = mb_strlen( strip_tags( $ellipsis ) );
+            $totalLength    = mb_strlen( wp_strip_all_tags( $ellipsis ) );
             $openTags       = array();
             $truncate       = '';
 
@@ -105,7 +109,7 @@ class LaterPay_Helper_String
                     if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
                         array_unshift( $openTags, $tag[2] );
                     } elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
-                        $pos = array_search( $closeTag[1], $openTags );
+                        $pos = array_search( $closeTag[1], $openTags, true );
                         if ( $pos !== false ) {
                             array_splice( $openTags, $pos, 1 );
                         }
@@ -163,7 +167,7 @@ class LaterPay_Helper_String
                 if ( ! empty( $droppedTags ) ) {
                     if ( ! empty( $openTags ) ) {
                         foreach ( $droppedTags as $closingTag ) {
-                            if ( ! in_array( $closingTag[1], $openTags ) ) {
+                            if ( ! in_array( $closingTag[1], $openTags, true ) ) {
                                 array_unshift( $openTags, $closingTag[1] );
                             }
                         }

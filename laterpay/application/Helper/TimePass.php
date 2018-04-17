@@ -223,11 +223,7 @@ class LaterPay_Helper_TimePass
 
         if ( $elements && is_array( $elements ) ) {
             foreach ( $elements as $id => $name ) {
-                if ( $id == $default_value ) {
-                    $options_html .= '<option selected="selected" value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
-                } else {
-                    $options_html .= '<option value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
-                }
+                $options_html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $id ), esc_attr( selected( $default_value, $id, false ) ), esc_html( $name ) );
             }
         }
 
@@ -318,10 +314,11 @@ class LaterPay_Helper_TimePass
 
         // correct result, if we have purchased time passes
         if ( $time_passes_with_access ) {
+            $time_passes_with_access = array_map( 'absint', $time_passes_with_access );
             // check, if user has access to the current post with time pass
             $has_access = false;
             foreach ( $time_passes as $time_pass ) {
-                if ( in_array( $time_pass['pass_id'], $time_passes_with_access ) ) {
+                if ( in_array( absint( $time_pass['pass_id'] ), $time_passes_with_access, true ) ) {
                     $has_access = true;
                     break;
                 }
@@ -466,7 +463,9 @@ class LaterPay_Helper_TimePass
         );
 
         if ( empty( $data['link'] ) ) {
-            $parsed_link = explode( '?', $_SERVER['REQUEST_URI'] );
+            if( isset( $_SERVER['REQUEST_URI'] ) ) { // phpcs:ignore
+                $parsed_link = explode( '?', esc_url( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore
+            }
             $back_url    = $back_url . '?' . build_query( $url_params );
 
             // if params exists in uri

@@ -35,7 +35,7 @@ class LaterPay_Helper_View
 
         $data = '';
         if ( isset( $page['data'] ) ) {
-            $data = json_encode( $page['data'] );
+            $data = wp_json_encode( $page['data'] );
             $data = 'data="' . esc_attr( $data ) . '"';
         }
 

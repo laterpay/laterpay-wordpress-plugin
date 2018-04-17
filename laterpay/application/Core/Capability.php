@@ -40,7 +40,7 @@ class LaterPay_Core_Capability
             if ( is_array( $capabilities ) && isset( $capabilities['add'] ) ) {
                 $collection = (array) $capabilities['add'];
                 foreach ( $collection as $capability ) {
-                    if ( ! $role->has_cap( $capability ) && in_array( $capability, $this->allowed_capabilities ) ) {
+                    if ( ! $role->has_cap( $capability ) && in_array( $capability, $this->allowed_capabilities, true ) ) {
                         $role->add_cap( $capability );
                     }
                 }
@@ -48,7 +48,7 @@ class LaterPay_Core_Capability
             if ( is_array( $capabilities ) && isset( $capabilities['remove'] ) ) {
                 $collection = (array) $capabilities['remove'];
                 foreach ( $collection as $capability ) {
-                    if ( $role->has_cap( $capability ) && in_array( $capability, $this->allowed_capabilities ) ) {
+                    if ( $role->has_cap( $capability ) && in_array( $capability, $this->allowed_capabilities, true ) ) {
                         $role->remove_cap( $capability );
                     }
                 }
