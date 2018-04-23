@@ -110,7 +110,8 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         $this->assign( 'laterpay_records', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'backend/logger/wordpress-handler-records' ) );
+        // Echo's a template file. Output will be escaped there.
+        echo $this->get_text_view( 'backend/logger/wordpress-handler-records' );  // phpcs:ignore
     }
 
     /**
@@ -121,7 +122,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         return array(
             array(
                 'name'      => __( 'Requests', 'laterpay' ),
-                'content'   => array_merge( $_GET, $_POST ),
+                'content'   => array_merge( $_GET, $_POST ), // phpcs:ignore
                 'type'      => 'array',
             ),
             array(
@@ -167,7 +168,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         $plugins            = array();
 
         foreach ( $installed_plugins as $plugin_path => $plugin ) {
-            if ( ! in_array( $plugin_path, $active_plugins ) ) {
+            if ( ! in_array( $plugin_path, $active_plugins, true ) ) {
                 continue;
             }
 
@@ -203,7 +204,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             'PHP version'               => PHP_VERSION,
             'PHP memory limit'          => ini_get( 'memory_limit' ),
             'PHP modules'               => implode( ', ', get_loaded_extensions() ),
-            'Web server info'           => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '',
+            'Web server info'           => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '',  // phpcs:ignore
         );
 
         return $system_info;

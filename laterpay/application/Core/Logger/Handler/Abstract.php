@@ -60,7 +60,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract extends LaterPay_Core_View 
         try {
             $this->close();
         } catch ( Exception $e ) {
-            // do nothing
+            unset( $e );
         }
     }
 
@@ -77,10 +77,10 @@ abstract class LaterPay_Core_Logger_Handler_Abstract extends LaterPay_Core_View 
         }
 
         if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) && defined( 'JSON_UNESCAPED_SLASHES' ) && defined( 'JSON_UNESCAPED_UNICODE' ) ) {
-            return json_encode( $this->normalize( $data ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+            return wp_json_encode( $this->normalize( $data ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
         }
 
-        return str_replace( '\\/', '/', json_encode( $this->normalize( $data ) ) );
+        return str_replace( '\\/', '/', wp_json_encode( $this->normalize( $data ) ) );
     }
 
     /**
@@ -91,8 +91,12 @@ abstract class LaterPay_Core_Logger_Handler_Abstract extends LaterPay_Core_View 
      * @return mixed
      */
     protected function normalize( $data ) {
-        if ( is_bool( $data ) || is_null( $data ) ) {
-            return var_export( $data, true );
+        if ( is_bool( $data ) ) {
+            return $data ? "true" : "";
+        }
+
+        if( is_null( $data ) ) {
+            return "";
         }
 
         if ( null === $data || is_scalar( $data ) ) {
@@ -114,7 +118,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract extends LaterPay_Core_View 
         }
 
         if ( is_object( $data ) ) {
-            return sprintf( '[object] (%s: %s)', get_class( $data ), json_encode( $data ) );
+            return sprintf( '[object] (%s: %s)', get_class( $data ), wp_json_encode( $data ) );
         }
 
         if ( is_resource( $data ) ) {
@@ -143,7 +147,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract extends LaterPay_Core_View 
      */
     public function push_processor( $callback ) {
         if ( ! is_callable( $callback ) ) {
-            throw new \InvalidArgumentException( 'Processors must be valid callables (callback or object with an __invoke method), ' . var_export( $callback, true ) . ' given' );
+            throw new \InvalidArgumentException( 'Processors must be valid callables (callback or object with an __invoke method), ' . gettype( $callback ) . ' given' );
         }
         array_unshift( $this->processors, $callback );
 

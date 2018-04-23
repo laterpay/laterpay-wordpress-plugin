@@ -32,7 +32,6 @@ class LaterPay_Core_Logger_Handler_Stream extends LaterPay_Core_Logger_Handler_A
         $dir = $this->config->get( 'log_dir' );
         if ( null !== $dir && ! is_dir( $dir ) ) {
             $this->errorMessage = null;
-            set_error_handler( array( $this, 'error_handler' ) );
             $status = mkdir( $dir, 0777 );
             restore_error_handler();
             if ( false === $status ) {

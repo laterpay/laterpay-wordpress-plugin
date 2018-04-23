@@ -32,7 +32,7 @@ class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Process
      */
     public function __construct( $server_data = null, array $extra_fields = null ) {
         if ( $server_data === null ) {
-            $this->server_data = array_map( 'sanitize_text_field', $_SERVER );
+            $this->server_data = array_map( 'sanitize_text_field', $_SERVER ); // phpcs:ignore
         } elseif ( is_array( $server_data ) || $server_data instanceof \ArrayAccess ) {
             $this->server_data = $server_data;
         } else {
@@ -40,8 +40,9 @@ class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Process
         }
 
         if ( $extra_fields !== null ) {
-            foreach ( array_keys( $this->extra_fields ) as $fieldName ) {
-                if ( ! in_array( $fieldName, $extra_fields ) ) {
+            $fieldNames = array_keys( $this->extra_fields );
+            foreach ( $fieldNames as $fieldName ) {
+                if ( ! in_array( $fieldName, $extra_fields, true ) ) {
                     unset( $this->extra_fields[ $fieldName ] );
                 }
             }

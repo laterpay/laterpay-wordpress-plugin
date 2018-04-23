@@ -65,12 +65,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                 id="lp_js_useIndividualPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Individual Price', 'laterpay' ); ?></a>
         </li>
-        <li class="lp_price-type__item <?php if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( ! count( $laterpay['category_prices'] ) ) { echo 'lp_is-disabled'; } ?>">
+        <li class="lp_price-type__item <?php if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( empty( $laterpay['category_prices'] ) ) { echo ' lp_is-disabled'; } ?>">
             <a href="#"
                 id="lp_js_useCategoryDefaultPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Category Default Price', 'laterpay' ); ?></a>
         </li>
-        <li class="lp_price-type__item <?php if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( count( $laterpay['category_prices'] ) ) { echo 'lp_is-disabled'; } ?>">
+        <li class="lp_price-type__item <?php if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( ! empty( $laterpay['category_prices'] ) ) { echo ' lp_is-disabled'; } ?>">
             <a href="#"
                 id="lp_js_useGlobalDefaultPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"

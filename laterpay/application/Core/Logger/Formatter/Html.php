@@ -73,11 +73,11 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return string
      */
     private function add_head_row( $message = '', $level ) {
-        $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . laterpay_sanitize_output( __( 'Details', 'laterpay' ) ) . '</a>';
+        $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . esc_html__( 'Details', 'laterpay' ) . '</a>';
 
         $html = '<thead class="lp_js_debuggerContentTableTitle lp_debugger-content__table-title">
             <tr>
-                <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--' . esc_attr( $level ) . ' lp_vectorIcon"></span>' . laterpay_sanitize_output( $message ) . '</td>
+                <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--' . esc_attr( $level ) . ' lp_vectorIcon"></span>' . esc_html( $message ) . '</td>
                 <td class="lp_debugger-content__table-td">' . laterpay_sanitize_output( $show_details_link ) . '</td>
             </tr>
         </thead>';
@@ -90,20 +90,14 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      *
      * @param  string $th       Row header content
      * @param  string $td       Row standard cell content
-     * @param  bool   $escapeTd false if td content must not be HTML escaped
      *
      * @return string
      */
-    private function add_row( $th, $td = ' ', $escapeTd = true ) {
-        $th = htmlspecialchars( $th, ENT_NOQUOTES, 'UTF-8' );
-
-        if ( $escapeTd ) {
-            $td = htmlspecialchars( $td, ENT_NOQUOTES, 'UTF-8' );
-        }
+    private function add_row( $th, $td = ' ' ) {
 
         $html = '<tr>
-                    <th class="lp_debugger-content__table-th" title="'. esc_attr( $th ) . '">' . $th . '</th>
-                    <td class="lp_debugger-content__table-td">' . $td . '</td>
+                    <th class="lp_debugger-content__table-th" title="' . esc_attr( $th ) . '">' . esc_html( $th ) . '</th>
+                    <td class="lp_debugger-content__table-td">' . esc_html( $td ) . '</td>
                 </tr>';
 
         return $html;
@@ -123,9 +117,9 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 
         $data = $this->normalize( $data );
         if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) ) {
-            return json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+            return wp_json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
         }
 
-        return str_replace( '\\/', '/', json_encode( $data ) );
+        return str_replace( '\\/', '/', wp_json_encode( $data ) );
     }
 }

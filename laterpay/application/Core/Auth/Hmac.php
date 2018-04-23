@@ -38,11 +38,10 @@ class LaterPay_Core_Auth_Hmac
     /**
      * constructor for class Token
      *
-     * @param string $privateKey File name of private pem key
-     * @param boolean  $isPacked   key must be packed
-     *
      * @throws Exception
-     * @return \LaterPay_Core_Auth_Hmac
+     *
+     * @param string $privateKey File name of private pem key
+     * @param boolean $isPacked key must be packed
      */
     public function __construct( $privateKey = null, $isPacked = false ) {
         if ( ( $privateKey === null ) && ( self::$privateKey === null ) ) {
@@ -112,7 +111,7 @@ class LaterPay_Core_Auth_Hmac
         if ( self::$useBase64 ) {
             $fresult = base64_encode( $fresult );
             $fresult = strtr( $fresult, '+/', '-_' );
-            $fresult = urlencode( $fresult );
+            $fresult = rawurlencode( $fresult );
         }
 
         return $fresult;
@@ -147,6 +146,8 @@ class LaterPay_Core_Auth_Hmac
 
     /**
      * Retrieve instance
+     *
+     * @throws Exception
      *
      * @return LaterPay_Core_Auth_Hmac
      */

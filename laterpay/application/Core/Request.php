@@ -43,7 +43,7 @@ class LaterPay_Core_Request extends LaterPay_Core_Entity
      *
      * @var string
      */
-    const DELETE = 'DELETE';
+    const DELETE = 'DELETE';  // phpcs:ignore
 
     /**
      * PATCH method
@@ -56,10 +56,10 @@ class LaterPay_Core_Request extends LaterPay_Core_Entity
 
     public function _construct() {
         parent::_construct();
-        $this->set_data( 'get',     $_GET );
-        $this->set_data( 'post',    $_POST );
-        $this->set_data( 'cookie',  $_COOKIE );
-        $this->set_data( 'server',  $_SERVER );
+        $this->set_data( 'get',     $_GET ); // phpcs:ignore
+        $this->set_data( 'post',    $_POST ); // phpcs:ignore
+        $this->set_data( 'cookie',  $_COOKIE ); // phpcs:ignore
+        $this->set_data( 'server',  $_SERVER ); // phpcs:ignore
         $this->set_data( 'env',     $_ENV );
     }
 

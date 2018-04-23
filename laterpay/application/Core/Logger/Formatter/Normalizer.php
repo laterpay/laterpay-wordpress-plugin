@@ -87,7 +87,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
                 return $this->normalize_exception( $data );
             }
 
-            return sprintf( '[object] (%s: %s)', get_class( $data ), $this->to_json( $data, true ) );
+            return sprintf( '[object] (%s: %s)', get_class( $data ), $this->to_json( $data ) );
         }
 
         if ( is_resource( $data ) ) {
@@ -116,11 +116,12 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
             if ( isset( $frame['file'] ) ) {
                 $data['trace'][] = $frame['file'] . ':' . $frame['line'];
             } else {
-                $data['trace'][] = json_encode( $frame );
+                $data['trace'][] = wp_json_encode( $frame );
             }
         }
 
-        if ( $previous = $e->getPrevious() ) {
+        $previous = $e->getPrevious();
+        if ( ! empty( $previous ) ) {
             $data['previous'] = $this->normalize_exception( $previous );
         }
 
@@ -131,24 +132,14 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
      * Convert variable into JSON.
      *
      * @param mixed  $data
-     * @param bool   $ignoreErrors - ignore errors or not
      *
      * @return string
      */
-    protected function to_json( $data, $ignoreErrors = false ) {
-        // suppress json_encode errors since it's twitchy with some inputs
-        if ( $ignoreErrors ) {
-            if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) ) {
-                return @json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
-            }
-
-            return @json_encode( $data );
-        }
-
+    protected function to_json( $data ) {
         if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) ) {
-            return json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+            return wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
         }
 
-        return json_encode( $data );
+        return wp_json_encode( $data );
     }
 }

@@ -20,7 +20,7 @@ class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Handler_Abs
     /**
      * To handle record or not
      *
-     * @param array record data
+     * @param array $record data
      *
      * @return bool
      */

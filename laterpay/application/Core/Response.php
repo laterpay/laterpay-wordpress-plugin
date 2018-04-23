@@ -10,10 +10,6 @@
 class LaterPay_Core_Response extends LaterPay_Core_Entity
 {
 
-    /**
-     *
-     * @return LaterPay_Core_Entity
-     */
     public function _construct() {
         parent::_construct();
         $this->set_data( 'headers', array() );
@@ -56,7 +52,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
 
         if ( $replace ) {
             foreach ( $headers as $key => $header ) {
-                if ( $name == $header['name'] ) {
+                if ( $name === $header['name'] ) {
                     unset( $headers[ $key ] );
                 }
             }
@@ -132,7 +128,10 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
             $body = implode( '', $body );
         }
 
-        echo laterpay_sanitized( $body );
+        // We've cannot escape body here since we HAVE to echo the body as it is.
+        // It can contains "body" part of a request. It could contain JSON/HTML or file response.
+        // Even if it contains HTML, It is meant to output unescaped.
+        echo $body; // phpcs:ignore
     }
 
     /**

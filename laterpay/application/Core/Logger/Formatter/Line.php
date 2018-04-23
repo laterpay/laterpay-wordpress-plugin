@@ -73,8 +73,12 @@ class LaterPay_Core_Logger_Formatter_Line extends LaterPay_Core_Logger_Formatter
 
     protected function convert_to_string( $data )
     {
-        if ( null === $data || is_bool( $data ) ) {
-            return var_export( $data, true );
+        if ( null === $data ) {
+            return "";
+        }
+
+        if( is_bool( $data ) ) {
+            return $data ? "true" : "";
         }
 
         if ( is_scalar( $data ) ) {
@@ -82,9 +86,9 @@ class LaterPay_Core_Logger_Formatter_Line extends LaterPay_Core_Logger_Formatter
         }
 
         if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) ) {
-            return $this->to_json( $data, true );
+            return $this->to_json( $data );
         }
 
-        return str_replace( '\\/', '/', @json_encode( $data ) );
+        return str_replace( '\\/', '/', wp_json_encode( $data ) );
     }
 }
