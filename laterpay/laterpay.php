@@ -109,13 +109,13 @@ function laterpay_get_plugin_config() {
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
     $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
 
-    $client_address         = isset( $_SERVER['REMOTE_ADDR'] ) ? laterpay_sanitized( $_SERVER['REMOTE_ADDR'] ) : null;
+    $client_address         = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : null; // WPCS: input var pk.
     $debug_mode_enabled     = (bool) get_option( 'laterpay_debugger_enabled', false );
     $debug_mode_addresses   = (string) get_option( 'laterpay_debugger_addresses', '' );
     $debug_mode_addresses   = explode( ',', $debug_mode_addresses );
     $debug_mode_addresses   = array_map( 'trim', $debug_mode_addresses );
 
-    $config->set( 'debug_mode',         $debug_mode_enabled && ! empty( $debug_mode_addresses ) && in_array( $client_address, $debug_mode_addresses ) );
+    $config->set( 'debug_mode',         $debug_mode_enabled && ! empty( $debug_mode_addresses ) && in_array( $client_address, $debug_mode_addresses, true ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {
@@ -193,12 +193,13 @@ function laterpay_before_start() {
         laterpay_clean_plugin_cache();
 
         if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
-            require_once( $dir . 'laterpay-load.php' );
+            require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'laterpay-load.php' );
         }
 
         LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
         LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
     } catch ( Exception $e ) {
+        unset( $e );
         // deactivate laterpay plugin
         deactivate_plugins( plugin_basename( __FILE__ ) );
     }
@@ -256,33 +257,6 @@ function laterpay_get_logger() {
     wp_cache_set( 'logger', $logger, 'laterpay' );
 
     return $logger;
-}
-
-
-/**
- * This function makes sure that only the allowed HTML element names,
- * attribute names and attribute values plus only sane HTML entities will occur in $string.
- * Function is registered as 'customSanitizingFunctions' for 'WordPress.XSS.EscapeOutput' rule.
- *
- * @param string $string
- *
- * @return string
- * @link     http://codex.wordpress.org/Data_Validation Data Validation on WordPress Codex
- */
-function laterpay_sanitize_output( $string ) {
-    return wp_kses( $string, 'post' );
-}
-
-/**
- * This function required to by pass phpcs checks for valid generated html.
- * So this functions do nothing, just returns input string.
- * Function is registered as 'customAutoEscapedFunctions' for 'WordPress.XSS.EscapeOutput' rule.
- *
- * @param string $string
- * @return string
- */
-function laterpay_sanitized( $string ) {
-    return $string;
 }
 
 /**

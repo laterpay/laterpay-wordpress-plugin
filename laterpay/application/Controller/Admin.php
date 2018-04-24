@@ -186,7 +186,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        $event->set_result( laterpay_sanitized( $this->get_text_view( 'backend/partials/html5shiv' ) ) );
+        $event->set_result( $this->get_text_view( 'backend/partials/html5shiv' ) );
     }
 
     /**
@@ -588,8 +588,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-        $result = $event->get_result();
-        $result .= laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer-scripts' ) );
+        $result  = $event->get_result();
+        $result .= $this->get_text_view( 'backend/partials/pointer-scripts' );
         $event->set_result( $result );
     }
 

@@ -73,14 +73,14 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return string
      */
     private function add_head_row( $message = '', $level ) {
-        $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . esc_html__( 'Details', 'laterpay' ) . '</a>';
 
-        $html = '<thead class="lp_js_debuggerContentTableTitle lp_debugger-content__table-title">
+        /* translators: %1$s span class attribute dynamic id, %2$s method name, %3$s anchor link text */
+        $html = sprintf( '<thead class="lp_js_debuggerContentTableTitle lp_debugger-content__table-title">
             <tr>
-                <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--' . esc_attr( $level ) . ' lp_vectorIcon"></span>' . esc_html( $message ) . '</td>
-                <td class="lp_debugger-content__table-td">' . laterpay_sanitize_output( $show_details_link ) . '</td>
+                <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--%1$s lp_vectorIcon"></span>%2$s</td>
+                <td class="lp_debugger-content__table-td"><a href="#" class="lp_js_toggleLogDetails" data-icon="l">%3$s</a></td>
             </tr>
-        </thead>';
+        </thead>', esc_attr( $level ), esc_html( $message ), esc_html__( 'Details', 'laterpay' ) );
 
         return $html;
     }

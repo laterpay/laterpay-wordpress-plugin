@@ -25,7 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         $allow_html = array(
             'a' => array(
                 'href'  => array(),
-                'class' => array()
+                'class' => array(),
+                'data'  => array(),
             ),
         );
         echo wp_kses( LaterPay_Helper_View::get_admin_menu_link( $page ), $allow_html );

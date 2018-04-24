@@ -60,7 +60,7 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
 
         // add iframe placeholder
         $event->set_echo( true );
-        $event->set_result( laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/account-links' ) ) );
+        $event->set_result( $this->get_text_view( 'frontend/partials/widget/account-links' ) );
 
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-account-links' );

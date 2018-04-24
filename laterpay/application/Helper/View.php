@@ -39,7 +39,9 @@ class LaterPay_Helper_View
             $data = 'data="' . esc_attr( $data ) . '"';
         }
 
-        return laterpay_sanitize_output( '<a href="' . $href . '" ' . $data . ' class="lp_navigation-tabs__link">' . $page['title'] . '</a>' );
+        /* translators: %1$s menu link, %2$s data attribute, %3$s menu title */
+        $menu_link = sprintf( '<a href="%1$s" %2$s class="lp_navigation-tabs__link">%3$s</a>', $href, $data, $page['title'] );
+        return $menu_link;
     }
 
     /**

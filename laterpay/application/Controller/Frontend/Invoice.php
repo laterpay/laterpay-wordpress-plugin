@@ -35,7 +35,7 @@ class LaterPay_Controller_Frontend_Invoice extends LaterPay_Controller_Base
      */
     public function the_invoice_indicator( LaterPay_Core_Event $event ) {
         $event->set_echo( true );
-        $event->set_result( laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/invoice-indicator' ) ) );
+        $event->set_result( $this->get_text_view( 'frontend/partials/widget/invoice-indicator' ) );
 
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-invoice-indicator' );
