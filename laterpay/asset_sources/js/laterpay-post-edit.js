@@ -312,7 +312,7 @@
                 var $selectedCategories = $('#categorychecklist :checkbox:checked'),
                     l                   = $selectedCategories.length,
                     categoryIds         = [],
-                    categoriesList      = '',
+                    categoriesList      = [],
                     i, categoryId;
 
                 for (i = 0; i < l; i++) {
@@ -333,17 +333,19 @@
                         if (data.success && data.prices) {
                             data.prices.forEach(function(category) {
                                 var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
-                                categoriesList +=   '<li data-category="' + category.category_id + '" ' +
-                                                        'class="lp_price-type-categorized__item">' +
-                                                        '<a href="#" ' +
-                                                                'data-price="' + category.category_price + '" ' +
-                                                                'data-revenue-model="' + category.revenue_model + '">' +
-                                                            '<span>' + price + '</span>' +
-                                                            category.category_name +
-                                                        '</a>' +
-                                                    '</li>';
+
+                                var newCategory = $('<li/>',{
+                                    'data-category': category.category_id,
+                                    'calss': 'lp_price-type-categorized__item',
+                                }).append($('<a/>',{
+                                    'href': '#',
+                                    'data-price': category.category_price,
+                                    'data-revenue-model': category.revenue_model,
+                                }).append($('<span/>').text(price)).append(category.category_name));
+
+                                categoriesList.push(newCategory);
                             });
-                            $o.categoriesList.html(categoriesList);
+                            $o.categoriesList.empty().append(categoriesList);
 
                             if (data.prices.length) {
                                 $o.categoryPriceButton.removeClass($o.disabled).removeClass($o.selected);

@@ -973,7 +973,7 @@
 
             // insert cloned form into current entity editor container
             var $form = $($entity.form, $entity.template).clone();
-            $($entity.editorContainer, $wrapper).html($form);
+            $($entity.editorContainer, $wrapper).empty().append($form);
 
             populateEntityForm(type, $wrapper);
 
@@ -1076,9 +1076,13 @@
                 // update pass access in pass preview
                 $($entity.preview.access, $wrapper).text(text);
             } else if ($input.hasClass($entity.classes.priceClass)) {
+                var small = $('<small />', {
+                    class: 'lp_purchase-link__currency',
+                });
+                small.text(lpVars.currency.code);
                 // update pass price in pass preview
                 $('.lp_js_purchaseLink', $wrapper)
-                .html(text + '<small class="lp_purchase-link__currency">' + lpVars.currency.code + '</small>');
+                .empty().append(text).append(small);
                 $($entity.preview.price).text(text + ' ' + lpVars.currency.code);
             } else if ($input.hasClass($entity.classes.titleClass)) {
                 // update pass title in pass preview
@@ -1173,7 +1177,7 @@
                         $entity.data.list[id] = r.data;
 
                         // insert entity rendered on server
-                        $($entity.preview.placeholder, $wrapper).html(r.html);
+                        $($entity.preview.placeholder, $wrapper).empty().append(r.html);
 
                         // hide action links required when editing entity
                         $($entity.actions.show, $wrapper).addClass($o.hidden);
@@ -1272,7 +1276,7 @@
 
         changeDurationOptions = function(type, $period, $form) {
             var $entity = $o[type],
-                i, options = '',
+                i, options = [],
                 limit = 24,
                 period = $period.val(),
                 duration = $($entity.fields.duration, $form).val();
@@ -1286,7 +1290,11 @@
             }
 
             for(i = 1; i <= limit; i++) {
-                options += '<option value="' + i +'">' + i + '</option>';
+                var option = $('<option/>', {
+                    value:i,
+                });
+                option.text(i);
+                options.push(option);
             }
 
             $($entity.fields.duration, $form)
@@ -1331,18 +1339,53 @@
         addVoucher = function(code, voucherData, $timePass) {
             var priceValue = voucherData.price ? voucherData.price : voucherData,
                 price      = priceValue + ' ' + lpVars.currency.code,
-                title      = voucherData.title ? voucherData.title : '',
-                voucher = '<div class="lp_js_voucher lp_voucher" data-code="' + code + '" style="display:none;">' +
-                            '<input type="hidden" name="voucher_code[]" value="' + code + '">' +
-                            '<input type="hidden" name="voucher_price[]" value="' + priceValue + '">' +
-                            '<span class="lp_voucher__code">' + code + '</span> ' + // space at end is intentional
-                            '<span class="lp_voucher__code-infos">' +
-                                lpVars.i18n.voucherText + ' ' + price +
-                            '</span>' +
-                            '<input class="lp_input__title" type="text" name="voucher_title[]" value="' +
-                            title + '">' +
-                            '<a href="#" class="lp_js_deleteVoucher lp_edit-link--bold" data-icon="g"></a>' +
-                        '</div>';
+                title      = voucherData.title ? voucherData.title : '';
+
+            var voucher = $('<div/>', {
+                'class': 'lp_js_voucher lp_voucher',
+                'data-code': code,
+                'style': 'display:none;',
+
+            });
+
+            var voucherCode = $('<input/>', {
+                type: 'hidden',
+                name: 'voucher_code[]',
+                value: code
+            });
+
+            var voucherPrice = $('<input/>', {
+                type: 'hidden',
+                name: 'voucher_price[]',
+                value: priceValue
+            });
+
+            var spanVoucherCode = $('<span/>', {
+                class: 'lp_voucher__code',
+            }).text(code);
+
+            var spanVoucherInfo = $('<span/>', {
+                class: 'lp_voucher__code-infos',
+            }).text(lpVars.i18n.voucherText + ' ' + price);
+
+            var inputTitle = $('<input/>', {
+                class: 'lp_input__title',
+                type: 'text',
+                name: 'voucher_title[]',
+                value: title,
+            });
+
+            var deleteLink = $('<a/>', {
+                'class': 'lp_js_deleteVoucher lp_edit-link--bold',
+                'data-icon': 'g'
+            });
+
+            voucher.empty().append(voucherCode)
+                .append(voucherPrice)
+                .append(spanVoucherCode)
+                .append(spanVoucherInfo)
+                .append(inputTitle)
+                .append(deleteLink);
 
             $timePass
                 .find($o.voucherPlaceholder)
@@ -1353,22 +1396,36 @@
         },
 
         addVoucherToList = function(code, voucherData, $timePass) {
-            var passId          = $timePass.data($o.timepass.data.id),
-                timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
-                title           = voucherData.title ? voucherData.title : '',
-                price           = voucherData.price + ' ' + lpVars.currency.code,
-                voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
-                                        '<span class="lp_voucher__title"><b>' + title + '</b></span>' +
-                                        '<div>' +
-                                        '<span class="lp_voucher__code">' + code + '</span>' +
-                                        '<span class="lp_voucher__code-infos">' +
-                                            lpVars.i18n.voucherText + ' ' + price + '.<br>' +
-                                            '<span class="lp_js_voucherTimesRedeemed">' +
-                                                timesRedeemed +
-                                            '</span>' + ' ' + lpVars.i18n.timesRedeemed +
-                                        '</span>' +
-                                        '</div>' +
-                                    '</div>';
+            var passId = $timePass.data($o.timepass.data.id),
+                timesRedeemed = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
+                title = voucherData.title ? voucherData.title : '',
+                price = voucherData.price + ' ' + lpVars.currency.code;
+
+            var voucher = $('<div/>', {
+                'class': 'lp_js_voucher lp_voucher',
+                'data-code': code,
+            });
+
+            var voucherTitle = $('<span/>', {
+                class: 'lp_voucher__title',
+            }).append($('<b/>').text(title));
+
+            var voucherCode = $('<span/>', {
+                class: 'lp_voucher__code',
+            }).text(code);
+
+            var voucherInfo = $('<span/>', {
+                class: 'lp_voucher__code-infos'
+            }).text(lpVars.i18n.voucherText + ' ' + price)
+                .append('<br/>')
+                .append($('<span/>', {
+                    class: 'lp_js_voucherTimesRedeemed',
+                }).text(timesRedeemed))
+                .append(' ' + lpVars.i18n.timesRedeemed);
+
+            var redeemDetail = $('<div/>').append(voucherCode).append(voucherInfo);
+
+            voucher.append(voucherTitle).append(redeemDetail);
 
             $timePass.find($o.voucherList).append(voucher);
         },
@@ -1544,16 +1601,26 @@
         },
 
         createSavedBulkOperation = function(bulkOperationId, bulkMessage) {
-            var operation = '<p class="lp_bulk-operation" data-value="' +  bulkOperationId + '">' +
-                                '<a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" ' +
-                                        'data-icon="g">' +
-                                    lpVars.i18n.delete +
-                                '</a>' +
-                                '<a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m-l2">' +
-                                    lpVars.i18n.updatePrices +
-                                '</a>' +
-                                '<span class="lp_bulk-operation__message">' + bulkMessage + '</span>' +
-                            '</p>';
+            var operation = $('<p/>', {
+                'class': 'lp_bulk-operation',
+                'data-value': bulkMessage
+            });
+
+            var operationLink = $('<a/>', {
+                href: '#',
+                class: 'lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link',
+                'data-icon': 'g',
+            }).text(lpVars.i18n.delete);
+
+            var saveButton = $('<a/>', {
+                href: '#',
+                class: 'lp_js_applySavedBulkOperation button button-primary lp_m-l2',
+            }).text(lpVars.i18n.updatePrices);
+
+            var operationMessage = $('<span/>', {
+                class: 'lp_bulk-operation__message'
+            }).text(bulkMessage);
+            operation.append(operationLink).append(saveButton).append(operationMessage);
 
             $o.bulkPriceForm.after(operation);
         },

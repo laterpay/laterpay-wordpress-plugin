@@ -8,7 +8,10 @@ jQuery.fn.showLoadingIndicator = function() {
         if ($container.hasClass('lp_is-delayed')) {
             // inject the loading indicator after a delay, if the element still has that state class
             $container.removeClass('lp_is-delayed');
-            $container.empty().append('<div class="lp_js_loadingIndicator lp_loading-indicator"></div>');
+            var loadingIndicator = $('<div/>', {
+                class: 'lp_js_loadingIndicator lp_loading-indicator',
+            });
+            $container.empty().append(loadingIndicator);
         }
     }, 600);
 };
@@ -41,9 +44,8 @@ jQuery.fn.showMessage = function(message, success) {
 
     var $message     = jQuery('<div class="lp_flash-message" style="display:none;"><p></p></div>'),
         messageClass = success ? 'updated' : 'error';
-
     $container.prepend($message);
-    $message.addClass(messageClass).find('p').html(message);
+    $message.addClass(messageClass).find('p').text(message);
     if (jQuery('p:hidden', $message)) {
         $message.velocity('slideDown', { duration: 250 });
     }

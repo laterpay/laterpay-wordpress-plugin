@@ -70,16 +70,22 @@
             // Messages templates
 
             timePassFeedbackMessage = function (msg) {
-                return '<div id="lp_js_voucherCodeFeedbackMessage" class="lp_voucher__feedback-message" ' +
-                            'style="display:none;">' +
-                           msg +
-                       '</div>';
+                var message = $('<div/>', {
+                    id: 'lp_js_voucherCodeFeedbackMessage',
+                    class: 'lp_voucher__feedback-message',
+                    style: 'display:none;'
+                }).text(msg);
+
+                return message;
             },
 
             purchaseOverlayFeedbackMessage = function (msg) {
-                return '<div id="lp_js_voucherCodeFeedbackMessage" class="lp_purchase-overlay__voucher-error">' +
-                           msg +
-                       '</div>';
+                var message = $('<div/>', {
+                    id: 'lp_js_voucherCodeFeedbackMessage',
+                    class: 'lp_purchase-overlay__voucher-error'
+                }).text(msg);
+
+                return message;
             },
 
             // DOM cache
@@ -337,7 +343,7 @@
                 var $feedbackMessage = tpl(message);
 
                 if (type === 'purchase-overlay') {
-                    $wrapper.html($feedbackMessage);
+                    $wrapper.empty().append($feedbackMessage);
                 }
 
                 if (type === 'time-pass') {
@@ -371,7 +377,7 @@
                     function(r) {
                         if (r.success) {
                             // replace rating form with thank you message and remove it after a few seconds
-                            $('.lp_rating', $o.postRatingForm).addClass($o.fadingOut).html(r.message);
+                            $('.lp_rating', $o.postRatingForm).addClass($o.fadingOut).empty().append(r.message);
                             setTimeout(
                                 function() {
                                     $o.postRatingForm.fadeOut(400, function() { $(this).remove(); });
@@ -393,7 +399,7 @@
                     },
                     function(ratingSummary) {
                         if (ratingSummary) {
-                            $o.postRatingPlaceholder.html(ratingSummary);
+                            $o.postRatingPlaceholder.empty().append(ratingSummary);
                         }
                     }
                 );
@@ -421,7 +427,7 @@
                                 var gift    = r.data[i],
                                     $elem   = $($o.giftCardActionsPlaceholder + '_' + gift.id);
 
-                                $elem.html(gift.html);
+                                $elem.empty().append(gift.html);
 
                                 // add 'buy another gift card' after gift card
                                 if (gift.buy_more) {
@@ -534,7 +540,7 @@
                     },
                     function(postContent) {
                         if (postContent) {
-                            $o.postContentPlaceholder.html(postContent);
+                            $o.postContentPlaceholder.empty().append(postContent);
                             // load rating form
                             recacheRatingForm();
                             bindRatingEvents();
