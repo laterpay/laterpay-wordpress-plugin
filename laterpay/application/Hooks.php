@@ -282,4 +282,19 @@ class LaterPay_Hooks {
          */
         do_action( 'laterpay_ready', $this );
     }
+
+    /**
+     * Remove hooks related to WP_Query.
+     */
+    public function remove_wp_query_hooks() {
+        remove_filter( 'the_posts', array( $this, self::$wp_filter_prefix . 'laterpay_posts' ) );
+    }
+
+    /**
+     * Adds hooks related to WP_Query.
+     */
+    public function add_wp_query_hooks() {
+        add_filter( 'the_posts', array( $this, self::$wp_filter_prefix . 'laterpay_posts' ) );
+    }
+
 }

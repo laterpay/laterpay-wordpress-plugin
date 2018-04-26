@@ -273,10 +273,24 @@ function laterpay_event_dispatcher() {
  *
  * @return bool returns true if current site is available on VIP, otherwise false.
  */
-function laterpay_check_is_vip() {
+function laterpay_check_is_vip_classic() {
     if ( defined( 'WPCOM' ) && IS_WPCOM ) {
         return true;
     } else {
         return false;
     }
 }
+
+/**
+ * Check if current environment is `VIP-GO` or not.
+ *
+ * @return bool returns true if current site is available on VIP-GO, otherwise false
+ */
+function laterpay_check_is_vip() {
+    if ( defined( 'WPCOM_IS_VIP_ENV' ) && true === WPCOM_IS_VIP_ENV ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+

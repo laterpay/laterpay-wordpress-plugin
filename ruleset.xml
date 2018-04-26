@@ -25,4 +25,5 @@
     <rule ref="WordPress.Arrays.ArrayDeclarationSpacing.AssociativeKeyFound">
         <severity>0</severity>
     </rule>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
 </ruleset>

@@ -277,7 +277,7 @@ class LaterPay_Helper_User
      */
     public static function get_user_meta( $user_id, $meta_key, $single = false ) {
 
-        if ( laterpay_check_is_vip() ) {
+        if ( laterpay_check_is_vip_classic() ) {
             $meta_value = get_user_attribute( $user_id, $meta_key );
         } else {
             $meta_value = get_user_meta( $user_id, $meta_key, $single ); // phpcs:ignore
@@ -297,7 +297,7 @@ class LaterPay_Helper_User
      */
     public static function update_user_meta( $user_id, $meta_key, $meta_value ) {
 
-        if ( laterpay_check_is_vip() ) {
+        if ( laterpay_check_is_vip_classic() ) {
             $result = update_user_attribute( $user_id, $meta_key, $meta_value );
         } else {
             $result = update_user_meta( $user_id, $meta_key, $meta_value ); // phpcs:ignore
