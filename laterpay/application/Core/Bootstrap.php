@@ -83,6 +83,8 @@ class LaterPay_Core_Bootstrap
         $this->register_frontend_actions();
         $this->register_shortcodes();
 
+        $this->manage_cache();
+
         // LaterPay loaded finished. Triggering event for other plugins
         LaterPay_Hooks::get_instance()->laterpay_ready();
         laterpay_event_dispatcher()->dispatch( 'laterpay_init_finished' );
@@ -249,5 +251,46 @@ class LaterPay_Core_Bootstrap
      */
     private function register_wordpress_hooks() {
         LaterPay_Hooks::get_instance()->init();
+    }
+
+    /**
+     * Manage Batcache.
+     *
+     * If we find any cookie defined in `$skip_cache_keys` it will skip page-cache.
+     *
+     * To avoid caching page in the first place in WP context it will call `batcache_cancel` in case of any
+     * cookie is present.
+     */
+    private function manage_cache(){
+        if ( ! function_exists( 'vary_cache_on_function') ) {
+            return;
+        }
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $skip_cache_for_cookie = sprintf( '$skip_cache_keys = array( "laterpay_purchased_gift_card", "laterpay_tracking_code", "%s" );', sanitize_key( $client_options["token_name"] ) );
+        $skip_cache_for_cookie .= '
+        foreach ( $skip_cache_keys as $key ) {
+            if ( array_key_exists( $key, $_COOKIE ) ) {
+                return;
+            }
+        }
+        return true;';
+
+        vary_cache_on_function( $skip_cache_for_cookie );
+
+        if ( ! function_exists( 'batcache_cancel' ) ) {
+            return;
+        }
+        $skip_cache_keys = array(
+            'laterpay_purchased_gift_card',
+            'laterpay_tracking_code',
+            $client_options["token_name"],
+        );
+        foreach ( $skip_cache_keys as $key ) {
+            if ( array_key_exists( $key, $_COOKIE ) ) { // phpcs:ignore
+                // Cancel adding cache if cookie is present since it can be user specific content.
+                batcache_cancel();
+                return;
+            }
+        }
     }
 }

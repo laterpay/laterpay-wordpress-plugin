@@ -30,8 +30,8 @@ if ( 0 !== intval( $laterpay_subscription['access_to'] ) ) {
         <div class="lp_time-pass__actions">
             <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button"
                title="<?php esc_attr_e( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b"
-               data-laterpay="<?php echo( isset( $laterpay_subscription['url'] ) ? esc_url( $laterpay_subscription['url'] ) : '' ); ?>"
-               data-preview-as-visitor="<?php echo( isset( $laterpay_subscription['preview_post_as_visitor'] ) ? esc_attr( $laterpay_subscription['preview_post_as_visitor'] ) : '' ); ?>"><?php printf( '%s<small class="lp_purchase-link__currency">%s</small>', esc_html( LaterPay_Helper_View::format_number( $laterpay_subscription['price'] ) ), esc_html( $laterpay['standard_currency'] ) ); ?></a>
+               data-laterpay="<?php echo ( isset( $laterpay_subscription['url'] ) ? esc_url( $laterpay_subscription['url'] ) : '' ); ?>"
+               data-preview-as-visitor="<?php echo ( isset( $laterpay_subscription['preview_post_as_visitor'] ) ? esc_attr( $laterpay_subscription['preview_post_as_visitor'] ) : '' ); ?>"><?php printf( '%s<small class="lp_purchase-link__currency">%s</small>', esc_html( LaterPay_Helper_View::format_number( $laterpay_subscription['price'] ) ), esc_html( $laterpay['standard_currency'] ) ); ?></a>
             <a href="#" class="lp_js_flipSubscription lp_time-pass__terms"><?php esc_html_e( 'Terms', 'laterpay' ); ?></a>
         </div>
     </section>
@@ -43,13 +43,13 @@ if ( 0 !== intval( $laterpay_subscription['access_to'] ) ) {
             <tr>
                 <th class="lp_time-pass__condition-title"><?php esc_html_e( 'Validity', 'laterpay' ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_subscriptionPreviewValidity"><?php esc_html( $laterpay_subscription['duration'] . ' ' . $period ); ?></span>
+                    <span class="lp_js_subscriptionPreviewValidity"><?php echo esc_html( $laterpay_subscription['duration'] . ' ' . $period ); ?></span>
                 </td>
             </tr>
             <tr>
                 <th class="lp_time-pass__condition-title"><?php esc_html_e( 'Access to', 'laterpay' ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_subscriptionPreviewAccess"><?php esc_html( $access_type . ' ' . $access_dest ); ?></span>
+                    <span class="lp_js_subscriptionPreviewAccess"><?php echo esc_html( $access_type . ' ' . $access_dest ); ?></span>
                 </td>
             </tr>
             <tr>
@@ -61,7 +61,7 @@ if ( 0 !== intval( $laterpay_subscription['access_to'] ) ) {
             <tr>
                 <th class="lp_time-pass__condition-title"><?php esc_html_e( 'Price', 'laterpay' ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_subscriptionPreviewPrice"><?php esc_html( $price . ' ' . $laterpay['standard_currency'] ); ?></span>
+                    <span class="lp_js_subscriptionPreviewPrice"><?php echo esc_html( $price . ' ' . $laterpay['standard_currency'] ); ?></span>
                 </td>
             </tr>
             <tr>

@@ -35,8 +35,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="lp_time-pass__actions">
             <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button"
                title="<?php esc_attr_e( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b"
-               data-laterpay="<?php echo( isset( $laterpay_pass['url'] ) ? esc_url( $laterpay_pass['url'] ) : '' ); ?>"
-               data-preview-as-visitor="<?php echo( isset( $laterpay_pass['preview_post_as_visitor'] ) ? esc_attr( $laterpay_pass['preview_post_as_visitor'] ) : '' ); ?>"><?php
+               data-laterpay="<?php echo ( isset( $laterpay_pass['url'] ) ? esc_url( $laterpay_pass['url'] ) : '' ); ?>"
+               data-preview-as-visitor="<?php echo ( isset( $laterpay_pass['preview_post_as_visitor'] ) ? esc_attr( $laterpay_pass['preview_post_as_visitor'] ) : '' ); ?>"><?php
                 /* translators: %1$s formatted price, %2$s currency tpye */
                 printf( '%1$s<small class="lp_purchase-link__currency">%2$s</small>', esc_html( LaterPay_Helper_View::format_number( $laterpay_pass['price'] ) ), esc_html( $laterpay['standard_currency'] ) ); ?>
             </a>
@@ -51,13 +51,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <tr>
                     <th class="lp_time-pass__condition-title"><?php esc_html_e( 'Validity', 'laterpay' ); ?></th>
                     <td class="lp_time-pass__condition-value">
-                        <span class="lp_js_timePassPreviewValidity"><?php esc_html( $laterpay_pass['duration'] . ' ' . $period ); ?></span>
+                        <span class="lp_js_timePassPreviewValidity"><?php echo esc_html( $laterpay_pass['duration'] . ' ' . $period ); ?></span>
                     </td>
                 </tr>
                 <tr>
                     <th class="lp_time-pass__condition-title"><?php esc_html_e( 'Access to', 'laterpay' ); ?></th>
                     <td class="lp_time-pass__condition-value">
-                        <span class="lp_js_timePassPreviewAccess"><?php esc_html( $access_type . ' ' . $access_dest ); ?></span>
+                        <span class="lp_js_timePassPreviewAccess"><?php echo esc_html( $access_type . ' ' . $access_dest ); ?></span>
                     </td>
                 </tr>
                 <tr>
@@ -69,7 +69,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <tr>
                     <th class="lp_time-pass__condition-title"><?php esc_html_e( 'Price', 'laterpay' ); ?></th>
                     <td class="lp_time-pass__condition-value">
-                        <span class="lp_js_timePassPreviewPrice"><?php esc_html( $price . ' ' . $laterpay['standard_currency'] ); ?></span>
+                        <span class="lp_js_timePassPreviewPrice"><?php echo esc_html( $price . ' ' . $laterpay['standard_currency'] ); ?></span>
                     </td>
                 </tr>
             </tbody>
