@@ -76,9 +76,10 @@ class LaterPay_Core_Auth_Hmac
             $data = implode( '', $data );
         }
 
-        $crypt = new Crypt_Hash( self::$hashAlgo );
-        $crypt->setKey( self::$privateKey );
-        $hash = bin2hex( $crypt->hash( $data ) );
+        // limit at length 32 for sha224 as it was the same in previously used library.
+        $raw_hash = substr( hash_hmac( self::$hashAlgo, $data, self::$privateKey, true ), 0, 32 );
+        // hexadecimal representation of the given string.
+        $hash = bin2hex( $raw_hash );
 
         return $hash;
     }
