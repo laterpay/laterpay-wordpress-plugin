@@ -71,9 +71,9 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function get_post_ids_with_price_by_category_id( $category_id ) {
-        $laterpay_category_model = new LaterPay_Model_CategoryPrice();
-        $config                  = laterpay_get_plugin_config();
-        $ids                     = array( $category_id );
+        $laterpay_category_model = LaterPay_Model_CategoryPriceWP::get_instance();
+        $config = laterpay_get_plugin_config();
+        $ids    = array( $category_id );
 
         // get all childs for $category_id
         $category_children = get_categories( array(
@@ -221,8 +221,9 @@ class LaterPay_Helper_Pricing
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
-                $LaterPay_Category_Model = new LaterPay_Model_CategoryPrice();
-                $price                   = $LaterPay_Category_Model->get_price_by_category_id( (int) $category_id );
+
+                $LaterPay_Category_Model = LaterPay_Model_CategoryPriceWP::get_instance();
+                $price = $LaterPay_Category_Model->get_price_by_category_id( (int) $category_id );
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
@@ -435,8 +436,9 @@ class LaterPay_Helper_Pricing
 
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
                 if ( array_key_exists( 'category_id', $post_price ) ) {
-                    $category_model = new LaterPay_Model_CategoryPrice( );
-                    $revenue_model = $category_model->get_revenue_model_by_category_id( $post_price['category_id'] );
+
+                    $category_model = LaterPay_Model_CategoryPriceWP::get_instance();
+                    $revenue_model  = $category_model->get_revenue_model_by_category_id( $post_price['category_id'] );
                 }
                 break;
 
@@ -678,7 +680,7 @@ class LaterPay_Helper_Pricing
         }
 
         if ( $ids ) {
-            $laterpay_category_model = new LaterPay_Model_CategoryPrice();
+            $laterpay_category_model = LaterPay_Model_CategoryPriceWP::get_instance();
             $categories_with_price   = $laterpay_category_model->get_category_price_data_by_category_ids( $ids );
         }
 
@@ -853,7 +855,8 @@ class LaterPay_Helper_Pricing
      * @return void
      */
     public static function update_post_data_after_category_delete( $post_id ) {
-        $category_price_model = new LaterPay_Model_CategoryPrice();
+
+        $category_price_model = LaterPay_Model_CategoryPriceWP::get_instance();
         $post_categories      = wp_get_post_categories( $post_id );
         $parents              = array();
 
@@ -908,8 +911,8 @@ class LaterPay_Helper_Pricing
 
         if ( is_array( $category_ids ) && count( $category_ids ) > 0 ) {
             // this array will prevent category prices from duplication
-            $ids_used = array();
-            $laterpay_category_model = new LaterPay_Model_CategoryPrice();
+            $ids_used                = array();
+            $laterpay_category_model = LaterPay_Model_CategoryPriceWP::get_instance();
             $category_price_data     = $laterpay_category_model->get_category_price_data_by_category_ids( $category_ids );
             // add prices data to results array
             foreach ( $category_price_data as $category ) {
@@ -958,7 +961,9 @@ class LaterPay_Helper_Pricing
      * @return bool
      */
     public static function check_if_category_has_parent_with_price( $category_id ) {
-        $laterpay_category_model = new LaterPay_Model_CategoryPrice();
+
+        $laterpay_category_model = LaterPay_Model_CategoryPriceWP::get_instance();
+
         $has_price               = false;
 
         // get parent id with price

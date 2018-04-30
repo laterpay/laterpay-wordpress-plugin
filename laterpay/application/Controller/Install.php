@@ -589,12 +589,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         }
 
         // update category revenues
-        $category_price_model          = new LaterPay_Model_CategoryPrice();
+        $category_price_model          = LaterPay_Model_CategoryPriceWP::get_instance();
         $categories_with_defined_price = $category_price_model->get_categories_with_defined_price();
 
         if ( $categories_with_defined_price ) {
             foreach ( $categories_with_defined_price as $category ) {
                 if ( $category->revenue_model === 'ppul' ) {
+
                     $category_price_model->set_category_price(
                         $category->category_id,
                         $category->category_price,

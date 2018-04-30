@@ -9,6 +9,14 @@
  */
 class LaterPay_Model_CategoryPrice
 {
+    /**
+     * Object of LaterPay_Model_CategoryPrice.
+     *
+     * @var object
+     *
+     * @access protected
+     */
+    protected static $instance;
 
     /**
      * Name of terms table.
@@ -31,12 +39,25 @@ class LaterPay_Model_CategoryPrice
     /**
      * Constructor for class LaterPay_Currency_Model, load table names.
      */
-    function __construct() {
+    protected function __construct() {
         global $wpdb;
         $this->term_table = $wpdb->terms;
         $this->term_table_prices = $wpdb->prefix . 'laterpay_terms_price';
     }
 
+    /**
+     * function for sigleton object.
+     *
+     * @return object of LaterPay_Model_CategoryPrice
+     */
+    public static function get_instance() {
+
+        if ( ! isset( self::$instance ) ) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
     /**
      * Get all categories with a defined category default price.
      *

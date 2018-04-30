@@ -293,4 +293,3 @@ function laterpay_check_is_vip() {
         return false;
     }
 }
-

@@ -684,7 +684,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         $args = (array) $event->get_arguments();
         $category_id = $args[0];
 
-        $category_price_model = new LaterPay_Model_CategoryPrice();
+        $category_price_model = LaterPay_Model_CategoryPriceWP::get_instance();
         $category_price_model->delete_prices_by_category_id( $category_id );
 
         // get posts by category price id
