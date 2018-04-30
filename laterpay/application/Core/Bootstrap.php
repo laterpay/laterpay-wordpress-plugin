@@ -273,6 +273,9 @@ class LaterPay_Core_Bootstrap
                 return;
             }
         }
+        if ( ! empty( $_GET["lptoken"] ) ) {
+            return;
+        }
         return true;';
 
         vary_cache_on_function( $skip_cache_for_cookie );
@@ -291,6 +294,10 @@ class LaterPay_Core_Bootstrap
                 batcache_cancel();
                 return;
             }
+        }
+        if ( ! empty( $_GET['lptoken'] ) ) { // When laterpay payment api redirects to set token in cookie.
+            batcache_cancel();
+            return;
         }
     }
 }
