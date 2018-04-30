@@ -125,10 +125,8 @@ class LaterPay_Helper_File
         $new_url    = admin_url( self::SCRIPT_PATH );
         $uri        = $resource_url_parts['path'];
 
-        $cipher     = new Crypt_AES();
-        $cipher->setKey( SECURE_AUTH_SALT );
-        $file       = base64_encode( $cipher->encrypt( $uri ) );
-        $file       = strtr( $file, '+/', '-_' );
+        $cipher = new LaterPay_Crypt();
+        $file   = $cipher->encrypt( $uri, SECURE_AUTH_SALT );
 
         $path       = ABSPATH . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
@@ -275,9 +273,6 @@ class LaterPay_Helper_File
      */
     protected function get_decrypted_file_name( $file ) {
         $response   = new LaterPay_Core_Response();
-        // prepare file for further processing
-        $file       = strtr( $file, '-_', '+/' );
-        $file       = base64_decode( $file );
 
         if ( empty( $file ) ) {
             $response->set_http_response_code( 500 );
@@ -286,10 +281,11 @@ class LaterPay_Helper_File
             exit();
         }
 
-        $cipher = new Crypt_AES();
-        $cipher->setKey( SECURE_AUTH_SALT );
-	    $document_root = isset( $_SERVER['DOCUMENT_ROOT'] ) ? filter_var( $_SERVER['DOCUMENT_ROOT'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
-        $file   = ( isset( $document_root ) ? $document_root : ABSPATH ) . $cipher->decrypt( $file );
+        $cipher = new LaterPay_Crypt();
+        $uri    = $cipher->decrypt( $file, SECURE_AUTH_SALT );
+
+        $document_root = isset( $_SERVER['DOCUMENT_ROOT'] ) ? filter_var( $_SERVER['DOCUMENT_ROOT'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
+        $file          = ( isset( $document_root ) ? $document_root : ABSPATH ) . $uri;
 
         return $file;
     }
