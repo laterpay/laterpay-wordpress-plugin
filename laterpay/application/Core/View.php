@@ -84,6 +84,7 @@ class LaterPay_Core_View
         } else {
             include_once $view_file; // phpcs:ignore
         }
+
     }
 
     /**

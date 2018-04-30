@@ -638,15 +638,20 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function install() {
-        global $wpdb;
+        $is_not_vip = ( ! laterpay_check_is_vip() );
 
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        // Check for non-VIP env.
+        if ( $is_not_vip ) {
 
-        $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
-        $table_passes          = $wpdb->prefix . 'laterpay_passes';
-        $table_subscriptions   = $wpdb->prefix . 'laterpay_subscriptions';
+            global $wpdb;
 
-        $sql = "
+            $table_terms_price   = $wpdb->prefix . 'laterpay_terms_price';
+            $table_passes        = $wpdb->prefix . 'laterpay_passes';
+            $table_subscriptions = $wpdb->prefix . 'laterpay_subscriptions';
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+            $sql = "
             CREATE TABLE IF NOT EXISTS $table_terms_price (
                 id int(11) NOT NULL AUTO_INCREMENT,
                 term_id int(11) NOT NULL,
@@ -654,9 +659,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-        dbDelta( $sql );
+            dbDelta( $sql );
 
-        $sql = "
+            $sql = "
             CREATE TABLE IF NOT EXISTS $table_passes (
                 pass_id int(11) NOT NULL AUTO_INCREMENT,
                 duration int(11) NULL DEFAULT NULL,
@@ -673,9 +678,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 KEY period (period),
                 KEY duration (duration)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
-        dbDelta( $sql );
+            dbDelta( $sql );
 
-        $sql = "
+            $sql = "
             CREATE TABLE IF NOT EXISTS $table_subscriptions (
                 id int(11) NOT NULL AUTO_INCREMENT,
                 duration int(11) NULL DEFAULT NULL,
@@ -691,7 +696,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 KEY period (period),
                 KEY duration (duration)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
-        dbDelta( $sql );
+            dbDelta( $sql );
+
+        }
 
         add_option( 'laterpay_teaser_mode',                             '2' );
         add_option( 'laterpay_plugin_is_in_live_mode',                  '0' );
@@ -744,20 +751,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         // perform data updates
         $this->maybe_update_meta_keys();
-        $this->maybe_update_terms_price_table();
-        $this->maybe_update_currency_to_euro();
+        if ( $is_not_vip ) { $this->maybe_update_terms_price_table(); }
+        if ( $is_not_vip ) { $this->maybe_update_currency_to_euro(); }
         $this->maybe_update_options();
         $this->maybe_add_is_in_visible_test_mode_option();
         $this->maybe_clean_api_key_options();
         $this->maybe_update_unlimited_access();
-        $this->maybe_update_time_passes_table();
+        if ( $is_not_vip ) { $this->maybe_update_time_passes_table(); }
         $this->maybe_update_vouchers();
-        $this->drop_statistics_tables();
+        if ( $is_not_vip ) { $this->drop_statistics_tables(); }
         $this->init_colors_options();
         $this->set_overlay_defaults();
         $this->remove_old_api_settings();
-        $this->maybe_remove_ppul();
+        if ( $is_not_vip ) { $this->maybe_remove_ppul(); }
         $this->change_teaser_mode();
+
     }
 
     /**
