@@ -11,6 +11,15 @@ class LaterPay_Model_TimePass
 {
 
     /**
+     * instance of the LaterPay_Model_TimePass
+     *
+     * @var object of LaterPay_Model_TimePass
+     *
+     * @access private
+     */
+    private static $instance = null;
+
+    /**
      * Name of PostViews table.
      *
      * @var string
@@ -22,12 +31,24 @@ class LaterPay_Model_TimePass
     /**
      * Constructor for class LaterPay_Model_TimePass, load table name.
      */
-    function __construct() {
+    protected function __construct() {
         global $wpdb;
 
         $this->table = $wpdb->prefix . 'laterpay_passes';
     }
 
+    /**
+     * Singleton to get only one event dispatcher
+     *
+     * @return LaterPay_Model_TimePass
+     */
+    public static function get_instance() {
+        if ( ! isset( self::$instance ) ) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
     /**
      * Get time pass data.
      *

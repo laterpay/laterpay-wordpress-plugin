@@ -569,7 +569,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         }
 
         // update time pass revenues
-        $time_pass_model = new LaterPay_Model_TimePass();
+        $time_pass_model = LaterPay_Model_TimePassWP::get_instance();
         $time_passes     = $time_pass_model->get_all_time_passes();
 
         if ( $time_passes ) {

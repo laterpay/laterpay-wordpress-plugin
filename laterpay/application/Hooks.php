@@ -110,6 +110,8 @@ class LaterPay_Hooks {
         foreach ( $options as $option_name ) {
             add_action( 'update_option_' . $option_name, array( $this, self::$wp_action_prefix . 'laterpay_option_update' ) );
         }
+
+        add_action( 'init', array( $this, self::$wp_action_prefix . 'laterpay_register_passes_cpt' ) );
     }
 
     /**

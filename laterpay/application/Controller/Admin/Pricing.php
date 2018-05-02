@@ -26,6 +26,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 array( 'process_ajax_requests' ),
                 array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
+            'laterpay_register_passes_cpt' => array(
+                array( 'register_passes_cpt' ),
+            )
         );
     }
 
@@ -74,7 +77,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         // pass localized strings and variables to script
         // time pass with vouchers
-        $time_passes_model   = new LaterPay_Model_TimePass();
+        $time_passes_model   = LaterPay_Model_TimePassWP::get_instance();
         $time_passes_list    = $time_passes_model->get_active_time_passes();
         $vouchers_list       = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic  = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
@@ -114,7 +117,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $categories_with_defined_price = $category_price_model->get_categories_with_defined_price();
 
         // time passes and vouchers data
-        $time_passes_model              = new LaterPay_Model_TimePass();
+        $time_passes_model              = LaterPay_Model_TimePassWP::get_instance();
         $time_passes_list               = $time_passes_model->get_active_time_passes();
         $vouchers_list                  = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic             = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
@@ -871,7 +874,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      */
     protected function time_pass_save( LaterPay_Core_Event $event ) {
         $save_time_pass_form = new LaterPay_Form_Pass( $_POST ); // phpcs:ignore
-        $time_pass_model     = new LaterPay_Model_TimePass();
+        $time_pass_model     = LaterPay_Model_TimePassWP::get_instance();
 
         $event->set_result(
             array(
@@ -946,7 +949,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $time_id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
         if ( null !== $time_id ) {
             $time_pass_id    = sanitize_text_field( $time_id );
-            $time_pass_model = new LaterPay_Model_TimePass();
+            $time_pass_model = LaterPay_Model_TimePassWP::get_instance();
 
             // remove time pass
             $time_pass_model->delete_time_pass_by_id( $time_pass_id );
@@ -1199,5 +1202,32 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 'success' => true,
             )
         );
+    }
+
+    /**
+     * Register laterpay passes custom post type.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function register_passes_cpt( LaterPay_Core_Event $event ) {
+
+        $args = array(
+            'labels'     => array(
+                'name'          => __( 'Passes', 'laterpay' ),
+                'singular_name' => __( 'Pass', 'laterpay' ),
+            ),
+            'taxonomies' => array( 'category' ),
+        );
+
+        $result = register_post_type( LaterPay_Model_TimePassWP::$timepass_post_type, $args );
+
+        if ( is_wp_error( $result ) ) {
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => __( 'Laterpay Passes Post type Registration issue.', 'laterpay' ),
+                )
+            );
+        }
     }
 }

@@ -266,7 +266,7 @@ class LaterPay_Helper_TimePass
      */
     public static function get_tokenized_time_pass_ids( $time_passes = null ) {
         if ( ! isset( $time_passes ) ) {
-            $model       = new LaterPay_Model_TimePass();
+            $model       = LaterPay_Model_TimePassWP::get_instance();
             $time_passes = $model->get_all_time_passes();
         }
 
@@ -288,7 +288,7 @@ class LaterPay_Helper_TimePass
      * @return array $time_passes
      */
     public static function get_time_passes_list_by_post_id( $post_id, $time_passes_with_access = null, $ignore_deleted = false ) {
-        $model = new LaterPay_Model_TimePass();
+        $model = LaterPay_Model_TimePassWP::get_instance();
 
         if ( $post_id !== null ) {
             // get all post categories
@@ -393,7 +393,7 @@ class LaterPay_Helper_TimePass
      * @return array of time passes
      */
     public static function get_active_time_passes() {
-        $model = new LaterPay_Model_TimePass();
+        $model = LaterPay_Model_TimePassWP::get_instance();
         return $model->get_active_time_passes();
     }
 
@@ -406,7 +406,7 @@ class LaterPay_Helper_TimePass
      * @return array
      */
     public static function get_time_pass_by_id( $time_pass_id = null, $ignore_deleted = false ) {
-        $model = new LaterPay_Model_TimePass();
+        $model = LaterPay_Model_TimePassWP::get_instance();
 
         if ( $time_pass_id ) {
             return $model->get_pass_data( (int) $time_pass_id, $ignore_deleted );
@@ -425,7 +425,7 @@ class LaterPay_Helper_TimePass
      * @return string url || empty string if something went wrong
      */
     public static function get_laterpay_purchase_link( $time_pass_id, $data = null, $is_code_purchase = false ) {
-        $time_pass_model = new LaterPay_Model_TimePass();
+        $time_pass_model = LaterPay_Model_TimePassWP::get_instance();
 
         $time_pass = $time_pass_model->get_pass_data( $time_pass_id );
         if ( empty( $time_pass ) ) {
@@ -545,7 +545,7 @@ class LaterPay_Helper_TimePass
      * @return int count of time passes
      */
     public static function get_time_passes_count() {
-        $model = new LaterPay_Model_TimePass();
+        $model = LaterPay_Model_TimePassWP::get_instance();
 
         return $model->get_time_passes_count();
     }
