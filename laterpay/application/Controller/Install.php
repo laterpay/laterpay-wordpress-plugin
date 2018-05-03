@@ -67,8 +67,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $installed_php_version          = phpversion();
         $installed_wp_version           = $wp_version;
-        $required_php_version           = '5.2.4';
-        $required_wp_version            = '3.5.2';
+        $required_php_version           = '5.6';
+        $required_wp_version            = '4.6';
         $installed_php_is_compatible    = version_compare( $installed_php_version, $required_php_version, '>=' );
         $installed_wp_is_compatible     = version_compare( $installed_wp_version, $required_wp_version, '>=' );
 
