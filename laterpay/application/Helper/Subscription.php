@@ -159,7 +159,7 @@ class LaterPay_Helper_Subscription
      */
     public static function get_tokenized_ids( $subscriptions = null ) {
         if ( ! isset( $subscriptions ) ) {
-            $model        = new LaterPay_Model_Subscription();
+            $model        = LaterPay_Model_SubscriptionWP::get_instance();
             $subscriptions = $model->get_all_subscriptions();
         }
 
@@ -177,7 +177,7 @@ class LaterPay_Helper_Subscription
      * @return array of subscriptions
      */
     public static function get_active_subscriptions() {
-        $model = new LaterPay_Model_Subscription();
+        $model = LaterPay_Model_SubscriptionWP::get_instance();
         return $model->get_active_subscriptions();
     }
 
@@ -190,7 +190,7 @@ class LaterPay_Helper_Subscription
      * @return array
      */
     public static function get_subscription_by_id( $id = null, $ignore_deleted = false ) {
-        $model = new LaterPay_Model_Subscription();
+        $model = LaterPay_Model_SubscriptionWP::get_instance();
 
         if ( $id ) {
             return $model->get_subscription( (int) $id, $ignore_deleted );
@@ -208,7 +208,7 @@ class LaterPay_Helper_Subscription
      * @return string url || empty string if something went wrong
      */
     public static function get_subscription_purchase_link( $id, $data = null ) {
-        $subscription_model = new LaterPay_Model_Subscription();
+        $subscription_model = LaterPay_Model_SubscriptionWP::get_instance();
 
         $subscription = $subscription_model->get_subscription( $id );
         if ( empty( $subscription ) ) {
@@ -257,7 +257,7 @@ class LaterPay_Helper_Subscription
      * @return array $subscriptions
      */
     public static function get_subscriptions_list_by_post_id( $post_id, $subscriptions_with_access = null, $ignore_deleted = false ) {
-        $model = new LaterPay_Model_Subscription();
+        $model = LaterPay_Model_SubscriptionWP::get_instance();
 
         if ( $post_id !== null ) {
             // get all post categories
@@ -397,13 +397,14 @@ class LaterPay_Helper_Subscription
         return $time;
     }
 
-    /*
+    /**
      * Get count of existing subscriptions.
      *
      * @return int count of subscriptions
      */
     public static function get_subscriptions_count() {
-        $model = new LaterPay_Model_Subscription();
+        $model = LaterPay_Model_SubscriptionWP::get_instance();
         return $model->get_subscriptions_count();
     }
+
 }

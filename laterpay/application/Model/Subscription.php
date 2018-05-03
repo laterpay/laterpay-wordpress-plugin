@@ -19,22 +19,37 @@ class LaterPay_Model_Subscription
      */
     public $table;
 
+    private static $_instance;
+
     /**
-     * Constructor for class LaterPay_Model_TimePass, load table name.
+     * Constructor for class LaterPay_Model_Subscription, load table name.
      */
-    function __construct() {
+    private function __construct() {
         global $wpdb;
 
         $this->table = $wpdb->prefix . 'laterpay_subscriptions';
     }
 
     /**
-     * Get time pass data.
+     * Returns a instance of itself.
+     * This method is needed to make class singleton.
+     *
+     * @return LaterPay_Model_Subscription
+     */
+    public static function get_instance() {
+        if ( ! self::$_instance ) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+    /**
+     * Get subscription data.
      *
      * @param int  $id subscription id
      * @param bool $ignore_deleted ignore deleted subscriptions
      *
-     * @return array $time_pass array of subscriptions data
+     * @return array $subscription array of subscriptions data
      */
     public function get_subscription( $id, $ignore_deleted = false ) {
         global $wpdb;
@@ -60,7 +75,7 @@ class LaterPay_Model_Subscription
     }
 
     /**
-     * Update or create new time pass.
+     * Update or create new subscription.
      *
      * @param array $data payment data
      *

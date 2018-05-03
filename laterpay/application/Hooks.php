@@ -98,6 +98,7 @@ class LaterPay_Hooks {
         add_action( 'save_post',                        array( $this, self::$wp_action_prefix . 'laterpay_post_save' ) );
         add_action( 'edit_attachment',                  array( $this, self::$wp_action_prefix . 'laterpay_attachment_edit' ) );
         add_action( 'transition_post_status',           array( $this, self::$wp_action_prefix . 'laterpay_transition_post_status' ), 10, 3 );
+        add_action( 'init',                             array( $this, self::$wp_action_prefix . 'laterpay_register_subscription_cpt' ), 10, 1 );
 
         // cache helper to purge the cache on update_option()
         $options = array(

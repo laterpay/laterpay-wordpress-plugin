@@ -26,12 +26,31 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 array( 'process_ajax_requests' ),
                 array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
+            'laterpay_register_subscription_cpt' => array(
+                array( 'register_subscription_cpt' )
+            ),
             'laterpay_register_passes_cpt' => array(
                 array( 'register_passes_cpt' ),
-            )
+            ),
         );
     }
 
+    /**
+     * Registers 'Subscription' CPT.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function register_subscription_cpt( LaterPay_Core_Event $event ) {
+
+        register_post_type( 'lp_subscription',
+            array(
+                'labels'      => array(
+                    'name'          => __( 'Subscriptions', 'laterpay' ),
+                    'singular_name' => __( 'Subscription', 'laterpay' ),
+                )
+            )
+        );
+    }
     /**
      * @see LaterPay_Core_View::load_assets()
      */
@@ -83,7 +102,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $vouchers_statistic  = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
         // subscriptions
-        $subscriptions_model = new LaterPay_Model_Subscription();
+        $subscriptions_model = LaterPay_Model_SubscriptionWP::get_instance();
         $subscriptions_list  = $subscriptions_model->get_active_subscriptions();
 
         wp_localize_script(
@@ -123,7 +142,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $vouchers_statistic             = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
         // subscriptions data
-        $subscriptions_model            = new LaterPay_Model_Subscription();
+        $subscriptions_model            = LaterPay_Model_SubscriptionWP::get_instance();
         $subscriptions_list             = $subscriptions_model->get_active_subscriptions();
 
         // bulk price editor data
@@ -1001,7 +1020,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      */
     protected function subscription_form_save( LaterPay_Core_Event $event ) {
         $save_subscription_form = new LaterPay_Form_Subscription( $_POST ); // phpcs:ignore
-        $subscription_model     = new LaterPay_Model_Subscription();
+        $subscription_model     = LaterPay_Model_SubscriptionWP::get_instance();
 
         $event->set_result(
             array(
@@ -1044,7 +1063,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $subscription_id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
         if ( null !== $subscription_id ) {
             $sub_id             = sanitize_text_field( $subscription_id );
-            $subscription_model = new LaterPay_Model_Subscription();
+            $subscription_model = LaterPay_Model_SubscriptionWP::get_instance();
 
             // remove subscription
             $subscription_model->delete_subscription_by_id( $sub_id );

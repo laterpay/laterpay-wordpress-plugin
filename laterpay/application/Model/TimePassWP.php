@@ -137,6 +137,7 @@ class LaterPay_Model_TimePassWP {
             $row['revenue_model']   = ( isset( $post_meta['_lp_revenue_model'][0] ) ) ? $post_meta['_lp_revenue_model'][0] : '';
 
             if ( isset( $post_meta['_lp_access_to_all'][0] ) ) {
+
                 $row['access_to']       = $post_meta['_lp_access_to_all'][0];
                 $row['access_category'] = 0;
             } elseif ( isset( $post_meta['_lp_access_to_include'][0] ) ) {
@@ -145,6 +146,7 @@ class LaterPay_Model_TimePassWP {
             } elseif ( isset( $post_meta['_lp_access_to_except'][0] ) ) {
                 $row['access_to']       = 1;
                 $row['access_category'] = $post_meta['_lp_access_to_except'][0];
+
             }
 
             if ( $post->post_status === 'publish' ) {
@@ -202,17 +204,23 @@ class LaterPay_Model_TimePassWP {
             $access_data = intval( $data['access_to'] );
 
             if ( 0 === $access_data ) {
+
                 delete_post_meta( $data['pass_id'], '_lp_access_to_except' );
                 delete_post_meta( $data['pass_id'], '_lp_access_to_include' );
                 update_post_meta( $data['pass_id'], '_lp_access_to_all', $data['access_to'] );
+
             } elseif ( 1 === $access_data ) {
+
                 delete_post_meta( $data['pass_id'], '_lp_access_to_all' );
                 delete_post_meta( $data['pass_id'], '_lp_access_to_include' );
                 update_post_meta( $data['pass_id'], '_lp_access_to_except', $data['access_category'] );
+
             } else {
+
                 delete_post_meta( $data['pass_id'], '_lp_access_to_except' );
                 delete_post_meta( $data['pass_id'], '_lp_access_to_all' );
                 update_post_meta( $data['pass_id'], '_lp_access_to_include', $data['access_category'] );
+
             }
 
             update_post_meta( $data['pass_id'], '_lp_revenue_model', $data['revenue_model'] );
