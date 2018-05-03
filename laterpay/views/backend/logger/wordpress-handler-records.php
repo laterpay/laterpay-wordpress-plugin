@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <ul id="lp_js_debuggerTabs" class="lp_debugger-tabs lp_clearfix">
         <li class="lp_js_debuggerTabItem lp_is-selected lp_debugger-tabs__item">
-            <a href="#" class="lp_debugger-tabs__link"><?php printf( '%s<span class="lp_badge">%s</span>\'', esc_html__( 'Messages', 'laterpay' ), count( $laterpay_records['records'] ) ); ?></a>
+            <a href="#" class="lp_debugger-tabs__link"><?php printf( '%s<span class="lp_badge">%s</span>', esc_html__( 'Messages', 'laterpay' ), count( $laterpay_records['records'] ) ); ?></a>
         </li>
         <?php
         foreach ( $laterpay_records['tabs'] as $tab ) {

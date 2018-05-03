@@ -380,7 +380,7 @@ class LaterPay_Helper_Post
      */
     public static function get_page_by_title( $page_title, $output, $post_type ) {
 
-        if ( laterpay_check_is_vip_classic() ) {
+        if ( laterpay_check_is_vip() ) {
             $post = wpcom_vip_get_page_by_title( $page_title, $output, $post_type );
         } else {
             $post = get_page_by_title( $page_title, $output, $post_type ); // phpcs:ignore

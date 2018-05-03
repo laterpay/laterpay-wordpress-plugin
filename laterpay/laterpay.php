@@ -287,6 +287,9 @@ function laterpay_check_is_vip_classic() {
  * @return bool returns true if current site is available on VIP-GO, otherwise false
  */
 function laterpay_check_is_vip() {
+    if ( defined( 'LATERPAY_IS_VIP_DEBUG' ) && LATERPAY_IS_VIP_DEBUG ) { // Setting WPCOM_IS_VIP_ENV in local won't work.
+        return true;
+    }
     if ( defined( 'WPCOM_IS_VIP_ENV' ) && true === WPCOM_IS_VIP_ENV ) {
         return true;
     } else {

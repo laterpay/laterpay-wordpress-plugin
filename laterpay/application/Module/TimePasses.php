@@ -138,7 +138,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $subscriptions = $event->get_argument( 'subscriptions' );
 
         // don't render the widget, if there are no time passes and no subsriptions
-        if ( ! count( $time_passes_list ) && ! count( $subscriptions ) ) {
+        if ( empty( $time_passes_list ) && empty( $subscriptions ) ) {
             return;
         }
 

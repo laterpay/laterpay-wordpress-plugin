@@ -140,10 +140,14 @@ class LaterPay_Model_TimePassWP {
 
                 $row['access_to']       = $post_meta['_lp_access_to_all'][0];
                 $row['access_category'] = 0;
+
             } elseif ( isset( $post_meta['_lp_access_to_include'][0] ) ) {
+
                 $row['access_to']       = 2;
                 $row['access_category'] = $post_meta['_lp_access_to_include'][0];
+
             } elseif ( isset( $post_meta['_lp_access_to_except'][0] ) ) {
+
                 $row['access_to']       = 1;
                 $row['access_category'] = $post_meta['_lp_access_to_except'][0];
 
