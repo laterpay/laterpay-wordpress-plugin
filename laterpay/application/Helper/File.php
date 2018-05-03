@@ -128,8 +128,7 @@ class LaterPay_Helper_File
         $cipher = new LaterPay_Crypt();
         $file   = $cipher->encrypt( $uri, SECURE_AUTH_SALT );
 
-        $path       = ABSPATH . $uri;
-        $ext        = pathinfo( $path, PATHINFO_EXTENSION );
+        $ext = pathinfo( $uri, PATHINFO_EXTENSION );
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
@@ -284,8 +283,7 @@ class LaterPay_Helper_File
         $cipher = new LaterPay_Crypt();
         $uri    = $cipher->decrypt( $file, SECURE_AUTH_SALT );
 
-        $document_root = isset( $_SERVER['DOCUMENT_ROOT'] ) ? filter_var( $_SERVER['DOCUMENT_ROOT'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
-        $file          = ( isset( $document_root ) ? $document_root : ABSPATH ) . $uri;
+        $file = site_url() . $uri;
 
         return $file;
     }
@@ -305,18 +303,27 @@ class LaterPay_Helper_File
             $disposition = self::DEFAULT_FILE_DISPOSITION;
         }
 
-        $file = $this->get_decrypted_file_name( $file );
-        if ( ! file_exists( $file ) ) {
-            $response->set_http_response_code( 404 );
-            $response->send_response();
-            // exit script after response was created
-            exit();
+        $file          = $this->get_decrypted_file_name( $file );
+        $file_response = LaterPay_Wrapper::laterpay_remote_get( $file );
+
+        if ( false === is_wp_error( $file_response ) ) {
+            $response_code = wp_remote_retrieve_response_code( $file_response );
+            if ( 200 !== absint( $response_code ) ) {
+                $response->set_http_response_code( $response_code );
+                $response->send_response();
+                // exit script after response was created
+                exit();
+            }
         }
 
-        $filetype = wp_check_filetype( $file );
-        $fsize    = filesize( $file );
-        $data     = file_get_contents( $file );
-        $filename = basename( $file );
+        $file_headers = get_headers( $file,1 );
+        if ( is_array( $file_headers ) ) {
+            $file_headers = array_change_key_case( $file_headers );
+        }
+        $data         = wp_remote_retrieve_body( $file_response );
+        $fsize        = ( ! empty( $file_headers['content-length'] ) ? $file_headers['content-length'] : '' );
+        $filetype     = wp_check_filetype( $file );
+        $filename     = basename( $file );
 
         $response->set_header( 'Content-Type', $filetype['type'] );
         $response->set_header( 'Content-Disposition', $disposition . '; filename="' . $filename . '"' );
@@ -359,31 +366,5 @@ class LaterPay_Helper_File
         $content = str_replace( $search, $replace, $content );
 
         return $content;
-    }
-
-    /**
-     * Remove directory and all included files.
-     *
-     * @param $path
-     */
-    public static function delete_directory( $path ) {
-        if ( ! @is_dir( $path ) ) {
-            return;
-        }
-
-        if ( substr( $path, strlen( $path ) - 1, 1 ) !== '/' ) {
-            $path .= '/';
-        }
-        $files = glob( $path . '*', GLOB_MARK );
-        foreach ( $files as $file ) {
-            if ( @is_dir( $file ) ) {
-                self::delete_directory( $file );
-            } else {
-                unlink( $file );
-            }
-        }
-        @rmdir( $path );
-
-        return;
     }
 }
