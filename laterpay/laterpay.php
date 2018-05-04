@@ -13,8 +13,11 @@
 // Kick-off
 add_action( 'plugins_loaded', 'laterpay_init' );
 
-register_activation_hook( __FILE__, 'laterpay_activate' );
-register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
+
+if ( ! laterpay_check_is_vip() ) {
+    register_activation_hook( __FILE__, 'laterpay_activate' );
+    register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
+}
 
 /**
  * Callback for starting the plugin.
@@ -25,6 +28,12 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
  */
 function laterpay_init() {
     laterpay_before_start();
+
+    if ( laterpay_check_is_vip() && is_admin()) {
+        if( false !== get_option( 'laterpay_plugin_version' ) ) {
+            laterpay_activate();
+        }
+    }
 
     $config   = laterpay_get_plugin_config();
     $laterpay = new LaterPay_Core_Bootstrap( $config );
