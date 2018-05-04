@@ -145,14 +145,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             }
         }
 
-        $this->logger->info(
-            __METHOD__,
-            array(
-                'current_version'   => $current_version,
-                'is_up_to_date'     => $is_up_to_date,
-            )
-        );
-
         // if the table needs an update, add the 'revenue_model' column and set the current values to 'ppu'
         if ( ! $is_up_to_date ) {
             $wpdb->query( 'ALTER TABLE ' . $table . " ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT  'ppu';" );
@@ -254,15 +246,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 $is_deleted_flag_present = true;
             }
         }
-
-        $this->logger->info(
-            __METHOD__,
-            array(
-                'current_version'         => $current_version,
-                'is_up_to_date'           => $is_up_to_date,
-                'is_deleted_flag_present' => $is_deleted_flag_present,
-            )
-        );
 
         // if the table needs an update
         if ( ! $is_up_to_date ) {
@@ -733,8 +716,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_show_time_passes_widget_on_free_posts',   '' );
         add_option( 'laterpay_require_login',                           '' );
         add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
-        add_option( 'laterpay_debugger_enabled',                        defined( 'WP_DEBUG' ) && WP_DEBUG );
-        add_option( 'laterpay_debugger_addresses',                      '127.0.0.1' );
         add_option( 'laterpay_api_fallback_behavior',                   0 );
         add_option( 'laterpay_api_enabled_on_homepage',                 1 );
         add_option( 'laterpay_only_time_pass_purchases_allowed',        0 );

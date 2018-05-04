@@ -99,10 +99,7 @@ class LaterPay_Helper_Post
                     $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post->ID ), $time_passes, $subscriptions ) );
 
                     if ( empty( $result ) || ! array_key_exists('articles', $result) ) {
-                        laterpay_get_logger()->warning(
-                            __METHOD__ . ' - post not found.',
-                            array( 'result' => $result )
-                        );
+
                     } else {
                         foreach ( $result['articles'] as $article_key => $article_access ) {
                             $access = (bool)$article_access['access'];
@@ -110,13 +107,6 @@ class LaterPay_Helper_Post
                             if ($access) {
                                 $has_access = true;
                             }
-                        }
-
-                        if ( $has_access ) {
-                            laterpay_get_logger()->info(
-                                __METHOD__ . ' - post has access.',
-                                array('result' => $result)
-                            );
                         }
                     }
                 }
@@ -147,11 +137,6 @@ class LaterPay_Helper_Post
             $result = LaterPay_Helper_Request::laterpay_api_get_access( array( $code_key ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
-                laterpay_get_logger()->warning(
-                    __METHOD__ . ' - post not found.',
-                    array( 'result' => $result )
-                );
-
                 return false;
             }
 
@@ -159,11 +144,6 @@ class LaterPay_Helper_Post
             if ( array_key_exists( $code_key, $result['articles'] ) ) {
                 $access = (bool) $result['articles'][ $code_key ]['access'];
                 self::$access[ $code_key ] = $access;
-
-                laterpay_get_logger()->info(
-                    __METHOD__ . ' - post has access.',
-                    array( 'result' => $result )
-                );
 
                 return array(
                     'access'  => $access,
@@ -234,10 +214,6 @@ class LaterPay_Helper_Post
             'require_login' => (int) get_option( 'laterpay_require_login', 0 ),
         );
 
-        laterpay_get_logger()->info(
-            __METHOD__, $params
-        );
-
         if ( $revenue_model === 'sis' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
@@ -272,11 +248,6 @@ class LaterPay_Helper_Post
             'currency'                  => $config->get( 'currency.code' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
-        );
-
-        laterpay_get_logger()->info(
-            __METHOD__,
-            $view_args
         );
 
         return $view_args;

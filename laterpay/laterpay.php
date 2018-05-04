@@ -41,11 +41,7 @@ function laterpay_init() {
     try {
         $laterpay->run();
     } catch ( Exception $e ) {
-        $context = array(
-            'message' => $e->getMessage(),
-            'trace'   => $e->getTrace(),
-        );
-        laterpay_get_logger()->critical( __( 'Unexpected error during plugin init', 'laterpay' ), $context );
+        unset( $e );
     }
 }
 
@@ -118,13 +114,6 @@ function laterpay_get_plugin_config() {
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
     $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
 
-    $client_address         = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : null; // WPCS: input var pk.
-    $debug_mode_enabled     = (bool) get_option( 'laterpay_debugger_enabled', false );
-    $debug_mode_addresses   = (string) get_option( 'laterpay_debugger_addresses', '' );
-    $debug_mode_addresses   = explode( ',', $debug_mode_addresses );
-    $debug_mode_addresses   = array_map( 'trim', $debug_mode_addresses );
-
-    $config->set( 'debug_mode',         $debug_mode_enabled && ! empty( $debug_mode_addresses ) && in_array( $client_address, $debug_mode_addresses, true ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {
@@ -212,10 +201,6 @@ function laterpay_before_start() {
         // deactivate laterpay plugin
         deactivate_plugins( plugin_basename( __FILE__ ) );
     }
-
-    // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
-    // to register the required script and style filters
-    laterpay_get_logger();
 }
 
 /**
@@ -225,47 +210,6 @@ function laterpay_before_start() {
  */
 function laterpay_clean_plugin_cache() {
     wp_cache_delete( 'config', 'laterpay' );
-    wp_cache_delete( 'logger', 'laterpay' );
-}
-
-/**
- * Get logger object.
- *
- * @return LaterPay_Core_Logger
- */
-function laterpay_get_logger() {
-    // check, if the config is cached -> don't load it again
-    $logger = wp_cache_get( 'logger', 'laterpay' );
-    if ( is_a( $logger, 'LaterPay_Core_Logger' ) ) {
-        return $logger;
-    }
-
-    $config     = laterpay_get_plugin_config();
-    $handlers   = array();
-
-    if ( $config->get( 'debug_mode' ) ) {
-        // LaterPay WordPress handler to render the debugger pane
-        $wp_handler = new LaterPay_Core_Logger_Handler_WordPress( LaterPay_Core_Logger::WARNING );
-        $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
-
-        $handlers[] = $wp_handler;
-    } else {
-        $handlers[] = new LaterPay_Core_Logger_Handler_Null();
-    }
-
-    // add additional processors for more detailed log entries
-    $processors = array(
-        new LaterPay_Core_Logger_Processor_Web(),
-        new LaterPay_Core_Logger_Processor_MemoryUsage(),
-        new LaterPay_Core_Logger_Processor_MemoryPeakUsage(),
-    );
-    laterpay_event_dispatcher()->set_debug_enabled( true );
-    $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
-
-    // cache the config
-    wp_cache_set( 'logger', $logger, 'laterpay' );
-
-    return $logger;
 }
 
 /**

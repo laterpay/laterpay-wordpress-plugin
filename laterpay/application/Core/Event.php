@@ -242,18 +242,6 @@ class LaterPay_Core_Event {
                 $result = empty( $result ) ? '' : $result;
                 break;
             case self::TYPE_JSON:
-                // add debug data to JSON/AJAX output
-                $debug = laterpay_get_plugin_config()->get( 'debug_mode' );
-                if ( $debug && is_array( $result ) ) {
-                    $listeners = laterpay_event_dispatcher()->get_listeners( $this->get_name() );
-                    foreach ( $listeners as $key => $listener ) {
-                        if ( is_array( $listener ) && is_object( $listener[0] ) ) {
-                            $listeners[ $key ] = array( get_class( $listener[0] ) ) + $listener;
-                        }
-                    }
-                    $result['listeners'] = $listeners;
-                    $result['debug'] = $this->get_debug();
-                }
                 $result = LaterPay_Helper_String::laterpay_json_encode( $result );
                 break;
         }
@@ -291,21 +279,6 @@ class LaterPay_Core_Event {
         $this->echo = $echo;  // phpcs:ignore
 
         return $this;
-    }
-
-    /**
-     * Gets debug information
-     *
-     * @return array
-     */
-    public function get_debug() {
-        return array(
-            'is_echo_enabled'           => $this->is_echo_enabled() ? 'true' : 'false',
-            'is_propagation_stopped'    => $this->is_propagation_stopped() ? 'true' : 'false',
-            'propagation_stopped_by'    => $this->propagations_stopped_by,
-            'arguments'                 => $this->get_arguments(),
-            'result'                    => $this->get_result(),
-        );
     }
 
     /**

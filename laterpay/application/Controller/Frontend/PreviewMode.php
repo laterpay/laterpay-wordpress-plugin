@@ -46,12 +46,6 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
         if ( empty( $post ) ) {
             // check, if we're on a singular page
             if ( ! is_singular() ) {
-                $this->logger->warning(
-                    __METHOD__ . ' - !is_singular',
-                    array(
-                        'post' => $post,
-                    )
-                );
                 return false;
             }
 
@@ -70,24 +64,11 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
         // don't collect statistics data, if the current post_type is not an allowed post_type
         $allowed_post_types = $this->config->get( 'content.enabled_post_types' );
         if ( ! in_array( $post->post_type, $allowed_post_types, true ) ) {
-            $this->logger->warning(
-                __METHOD__ . ' - post is not purchasable',
-                array(
-                    'post'                  => $post,
-                    'allowed_post_types'    => $allowed_post_types,
-                )
-            );
             return false;
         }
 
         // don't collect statistics data, if the current post is not purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
-            $this->logger->warning(
-                __METHOD__ . ' - post is not purchasable',
-                array(
-                    'post' => $post,
-                )
-            );
             return false;
         }
 
@@ -109,15 +90,6 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
 
         // don't add the preview pane placeholder to the footer, if the user is not logged in
         if ( ! LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', get_the_ID() ) ) {
-
-            $this->logger->warning(
-                __METHOD__ . ' - user cannot switch post mode',
-                array(
-                    'post_id'       => get_the_ID(),
-                    'current_user'  => wp_get_current_user(),
-                )
-            );
-
             return;
         }
 

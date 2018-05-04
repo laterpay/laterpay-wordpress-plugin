@@ -210,13 +210,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      */
     public function render_teaser_content_box( $post ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post ) ) {
-            $this->logger->warning(
-                __METHOD__ . ' - current user can not edit teaser content',
-                array(
-                    'post'          => $post,
-                    'current_user'  => wp_get_current_user(),
-                )
-            );
             return;
         }
 
@@ -296,13 +289,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      */
     public function render_post_pricing_form( $post ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
-            $this->logger->warning(
-                __METHOD__ . ' - current user can not edit individual price',
-                array(
-                    'post'          => $post,
-                    'current_user'  => wp_get_current_user(),
-                )
-            );
             return;
         }
 

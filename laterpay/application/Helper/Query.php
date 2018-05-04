@@ -252,16 +252,6 @@ class LaterPay_Helper_Query
         $this->last_query   = $query;
         $results            = $wpdb->get_results( $query, $array_output ? ARRAY_A : OBJECT );
 
-        $logger = laterpay_get_logger();
-        $logger->info(
-            __METHOD__,
-            array(
-                'args'      => $this->query_args,
-                'query'     => $query,
-                'results'   => $results,
-            )
-        );
-
         return $results;
     }
 
@@ -278,16 +268,6 @@ class LaterPay_Helper_Query
         $query              = $this->create_query( $args );
         $this->last_query   = $query;
         $result             = $wpdb->get_row( $query );
-
-        $logger = laterpay_get_logger();
-        $logger->info(
-            __METHOD__,
-            array(
-                'args'      => $this->query_args,
-                'query'     => $query,
-                'results'   => $result,
-            )
-        );
 
         return $result;
     }

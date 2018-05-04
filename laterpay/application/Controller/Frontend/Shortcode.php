@@ -131,11 +131,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                  $msg //phpcs:ignore
             );
 
-            $this->logger->warning(
-                __METHOD__ . ' - ' . $msg,
-                array( 'attrs' => $a )
-            );
-
             if ( empty( $a['target_post_title'] ) ) {
                 $a['target_post_title'] = $a['target_page_title'];
             }
@@ -150,11 +145,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 __FUNCTION__,
                 '0.9.8.3',
                  $msg //phpcs:ignore
-            );
-
-            $this->logger->warning(
-                __METHOD__ . ' - ' . $msg,
-                array( 'attrs' => $a )
             );
 
             if ( empty( $a['target_post_id'] ) ) {
@@ -192,11 +182,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $error_message .= $error_reason;
             $error_message .= '</div>';
 
-            $this->logger->error(
-                __METHOD__ . ' - ' . $error_reason,
-                array( 'args' => $a, )
-            );
-
             $event->set_result( $error_message );
             throw new LaterPay_Core_Exception( $error_message );
         }
@@ -211,11 +196,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
-
-            $this->logger->error(
-                __METHOD__ . ' - ' . $error_reason,
-                array( 'args' => $a, )
-            );
 
             $event->set_result( $error_message );
             throw new LaterPay_Core_Exception( $error_message );
@@ -281,17 +261,6 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         $image_path     = esc_url( $a['teaser_image_path'] );
         $heading        = esc_attr( $a['heading_text'] );
         $description    = esc_attr( $a['description_text'] );
-
-        $this->logger->info(
-            __METHOD__,
-            array(
-                'image_path'    => $image_path,
-                'heading'       => $heading,
-                'description'   => $description,
-                'content_type'  => $content_type,
-                'content_types' => $content_types,
-            )
-        );
 
         // build the HTML for the teaser box
         if ( ! empty( $image_path ) ) {

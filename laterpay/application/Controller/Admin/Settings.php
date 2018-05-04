@@ -86,7 +86,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function init_laterpay_advanced_settings() {
         // add sections with fields
         $this->add_colors_settings();
-        $this->add_debugger_settings();
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
         $this->add_time_passes_settings();
@@ -147,69 +146,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         echo '</p>';
     }
 
-    /**
-     * Add debugger section and fields.
-     *
-     * @return void
-     */
-    public function add_debugger_settings() {
-        add_settings_section(
-            'laterpay_debugger',
-            __( 'Debugger Pane', 'laterpay' ),
-            array( $this, 'get_debugger_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_debugger_enabled',
-            __( 'LaterPay Debugger', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_debugger',
-            array(
-                'name'  => 'laterpay_debugger_enabled',
-                'value' => 1,
-                'type'  => 'checkbox',
-                'label' => __( 'I want to view the LaterPay debugger pane', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_debugger_enabled' );
-
-        add_settings_field(
-            'laterpay_debugger_addresses',
-            __( 'LaterPay Debugger', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_debugger',
-            array(
-                'name'  => 'laterpay_debugger_addresses',
-                'type'  => 'text',
-                'label' => __( 'List of allowed addresses to view debug(Ex.: 127.0.0.1,192.168.1.1)', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_debugger_addresses' );
-    }
-
-    /**
-     * Render the hint text for the debugger section.
-     *
-     * @return void
-     */
-    public function get_debugger_section_description() {
-        echo '<p>';
-        esc_html_e( 'The LaterPay debugger pane contains a lot of helpful plugin- and system-related
-           information for debugging the LaterPay plugin and fixing configuration problems.', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'When activated, the debugger pane is rendered at the bottom of the screen.', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'It is visible both for users from address list', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'On a production installation you should switch it off again as soon as you don\'t need it
-           anymore.', 'laterpay' );
-        echo '</p>';
-    }
 
     /**
      * Add caching section and fields.

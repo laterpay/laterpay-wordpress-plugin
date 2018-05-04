@@ -525,11 +525,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             return;
         }
 
-        $this->logger->info(
-            __METHOD__,
-            array( 'post_ids' => $post_ids )
-        );
-
         $access_result = LaterPay_Helper_Request::laterpay_api_get_access( $post_ids );
 
         if ( empty( $access_result ) || ! array_key_exists( 'articles', $access_result ) ) {
@@ -718,7 +713,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return void
      */
     public function add_frontend_stylesheets() {
-        $this->logger->info( __METHOD__ );
 
         wp_register_style(
             'laterpay-post-view',
@@ -745,7 +739,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return void
      */
     public function add_frontend_scripts() {
-        $this->logger->info( __METHOD__ );
 
         wp_register_script(
             'laterpay-post-view',
@@ -761,7 +754,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             array(
                 'ajaxUrl'               => admin_url( 'admin-ajax.php' ),
                 'post_id'               => ! empty( $post ) ? $post->ID : false,
-                'debug'                 => (bool) $this->config->get( 'debug_mode' ),
                 'caching'               => (bool) $this->config->get( 'caching.compatible_mode' ),
                 'i18n'                  => array(
                     'alert'             => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
@@ -814,12 +806,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     $count++;
                 }
             }
-
-            $context = array(
-                'hidden' => $count,
-            );
-
-            laterpay_get_logger()->info( __METHOD__, $context );
 
             $event->set_result( $result );
         }

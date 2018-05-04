@@ -21,9 +21,6 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     private $shared_listeners = array();
     private $sorted = array();
 
-    protected $debug_enabled = false;
-    protected $debug_data    = array();
-
     /**
      * Singleton to get only one event dispatcher
      *
@@ -71,8 +68,6 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             // todo: Check if output needs escaping if HTML
             echo $event->get_formatted_result(); // phpcs:ignore
         }
-        $this->set_debug_data( $event_name, $event->get_debug() );
-        laterpay_get_logger()->debug( $event_name, $event->get_debug() );
         if ( $event->is_ajax() ) { // otherwise admin-ajax.php will add extra '0' to each request
             die;
         }
@@ -95,7 +90,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
                 $arguments = $this->get_arguments( $listener, $event );
                 call_user_func_array( $listener, $arguments );
             } catch ( LaterPay_Core_Exception $e ) {
-                laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString(), 'context' => $e->getContext() ) );
+                unset( $e );
                 $event->stop_propagation();
             }
 
@@ -333,49 +328,5 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
             }
         }
         return $result;
-    }
-
-    /**
-     * Enables collecting of the debug information about raised events.
-     *
-     * @param boolean $debug_enabled
-     * @return LaterPay_Core_Event_Dispatcher
-     */
-    public function set_debug_enabled( $debug_enabled ) {
-        $this->debug_enabled = $debug_enabled;
-        return $this;
-    }
-
-    /**
-     * Returns event's debug information
-     *
-     * @return array
-     */
-    public function get_debug_data() {
-        return $this->debug_data;
-    }
-
-    /**
-     * Formats and adds event debug information into collection.
-     *
-     * @param string    $event_name  The name of the event.
-     * @param array     $context Debug information.
-     * @return LaterPay_Core_Event_Dispatcher
-     */
-    public function set_debug_data( $event_name, $context ) {
-        if ( in_array( $event_name, array( 'laterpay_post_metadata' ), true ) ) {
-            return $this;
-        }
-        if ( $this->debug_enabled ) {
-            $listeners = $this->get_listeners( $event_name );
-            $record = array(
-                'message'       => (string) $event_name,
-                'context'       => $context,
-                'extra'         => (array) $listeners,
-                'level'         => count( $listeners ) > 0 ? LaterPay_Core_Logger::DEBUG : LaterPay_Core_Logger::WARNING,
-            );
-            $this->debug_data[] = $record;
-        }
-        return $this;
     }
 }

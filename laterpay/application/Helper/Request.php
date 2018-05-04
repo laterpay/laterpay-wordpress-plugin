@@ -35,13 +35,6 @@ class LaterPay_Helper_Request {
             );
 
             self::$lp_api_availability = $client->check_health();
-
-            laterpay_get_logger()->info(
-                __METHOD__, array(
-                    'api_available'                  => self::$lp_api_availability,
-                    'laterpay_api_fallback_behavior' => $behavior[ $action ],
-                )
-            );
         }
 
         return (bool)self::$lp_api_availability;
@@ -136,13 +129,6 @@ class LaterPay_Helper_Request {
             $client_options['token_name']
         );
 
-        $context        = array(
-            'token'    => $token,
-            'redirect' => $redirect,
-        );
-
-        laterpay_get_logger()->info( __METHOD__, $context );
-
         $client->set_token( $token, $redirect );
     }
 
@@ -191,22 +177,7 @@ class LaterPay_Helper_Request {
             }
 
             self::$lp_api_availability = false;
-
-            laterpay_get_logger()->info(
-                __METHOD__, array(
-                    'api_available'                  => self::$lp_api_availability,
-                    'laterpay_api_fallback_behavior' => $action,
-                )
-            );
         }
-
-        $context = array(
-            'article_ids' => $article_ids,
-            'product_key' => $product_key,
-            'result' => $result,
-        );
-
-        laterpay_get_logger()->info(__METHOD__, $context);
 
         return $result;
     }

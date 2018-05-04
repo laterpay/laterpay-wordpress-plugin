@@ -50,7 +50,7 @@ class LaterPay_Hooks {
                     throw new RuntimeException( sprintf( 'Method "%s" is not found within LaterPay_Core_Event_Dispatcher class.', $name ) );
             }
         } catch ( Exception $e ) {
-            laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString() ) );
+            unset( $e );
         }
 
         return $result;
@@ -204,7 +204,7 @@ class LaterPay_Hooks {
             laterpay_event_dispatcher()->dispatch( $action, $event );
             $result = $event->get_result();
         } catch ( Exception $e ) {
-            laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString() ) );
+            unset( $e );
             $result = $default;
         }
         return $result;
@@ -229,7 +229,7 @@ class LaterPay_Hooks {
 
             $result = $event->get_result();
         } catch ( Exception $e ) {
-            laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString() ) );
+            unset( $e );
             $result = $default;
         }
         return $result;
