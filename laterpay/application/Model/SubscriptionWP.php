@@ -30,7 +30,7 @@ class LaterPay_Model_SubscriptionWP {
      */
     public static function get_instance() {
 
-        if(  laterpay_check_is_vip() ) {
+        if( laterpay_check_is_vip() ) {
             if ( ! self::$_instance ) {
                 self::$_instance = new self();
             }
@@ -51,28 +51,52 @@ class LaterPay_Model_SubscriptionWP {
      */
     public function get_subscription( $id, $ignore_deleted = false ) {
 
-        LaterPay_Hooks::get_instance()->remove_wp_query_hooks();
-
-        $query_args = [
-            'post_type'      => 'lp_subscription',
-            'post_status'    => [ 'draft', 'publish' ],
+        $query_args = array(
+            // Meta query is required for post id.
+            'meta_key'       => '_lp_id', // phpcs:ignore
+            'meta_value'     => $id, // phpcs:ignore
+            'meta_compare'   => '=',
             'posts_per_page' => 1,
+            'post_type'      => 'lp_subscription',
             'no_found_rows'  => true,
-            'p'              => $id
-        ];
+            'fields'         => 'ids',
+        );
 
-        if ( $ignore_deleted ) {
-            $query_args['post_status'] = 'publish';
+        $query = new WP_Query( $query_args );
+
+        $current_posts = $query->posts;
+
+        $id = ( isset( $current_posts[0] ) ) ? $current_posts[0] : '';
+
+        $subscription = array();
+
+        if ( ! empty( $id ) ) {
+
+            LaterPay_Hooks::get_instance()->remove_wp_query_hooks();
+
+            $query_args = [
+                'post_type'      => 'lp_subscription',
+                'post_status'    => [ 'draft', 'publish' ],
+                'posts_per_page' => 1,
+                'no_found_rows'  => true,
+                'p'              => $id
+            ];
+
+            if ( $ignore_deleted ) {
+                $query_args['post_status'] = 'publish';
+            }
+
+            $get_subscription_query = new WP_Query( $query_args );
+
+            $posts = $get_subscription_query->get_posts();
+
+            if ( isset( $posts[0] ) ) {
+                $subscription = $this->transform_post_to_subscription( $posts[0] );
+            }
+
+            LaterPay_Hooks::get_instance()->add_wp_query_hooks();
+
         }
-
-
-        $get_subscription_query = new WP_Query( $query_args );
-
-        $post = $get_subscription_query->get_posts()[0];
-
-        $subscription = $this->transform_post_to_subscription( $post );
-
-        LaterPay_Hooks::get_instance()->add_wp_query_hooks();
 
         return $subscription;
     }
@@ -111,7 +135,17 @@ class LaterPay_Model_SubscriptionWP {
                 $access_value = $data['access_category'];
             }
 
-            $subscription = wp_insert_post( [
+            $subscription_counter = get_option( 'lp_sub_count' );
+
+            if ( false === $subscription_counter ) {
+                $subscription_counter = 1;
+                add_option( 'lp_sub_count', $subscription_counter );
+            } else {
+                $subscription_counter = $subscription_counter + 1;
+                update_option( 'lp_sub_count', $subscription_counter );
+            }
+
+            wp_insert_post( [
                 'post_content' => $data['description'],
                 'post_title'   => $data['title'],
                 'post_status'  => 'publish',   // is_deleted
@@ -121,44 +155,66 @@ class LaterPay_Model_SubscriptionWP {
                     '_lp_period'    => $data['period'],
                     $access_key     => $access_value,
                     '_lp_price'     => $data['price'],
+                    '_lp_id'        => $subscription_counter,
                 ],
             ] );
 
-            $data['id'] = $subscription;
+            $data['id']    = $subscription_counter;
 
         } else {
 
-            wp_update_post( [
-                'ID'           => $id,
-                'post_content' => $data['description'],
-                'post_title'   => $data['title'],
-            ] );
+            $data['id'] = $id;
 
-            if ( 0 === $access_data ) {
+            $query_args = array(
+                // Meta query is required for post id.
+                'meta_key'       => '_lp_id', // phpcs:ignore
+                'meta_value'     => $id, // phpcs:ignore
+                'meta_compare'   => '=',
+                'posts_per_page' => 1,
+                'post_type'      => 'lp_subscription',
+                'no_found_rows'  => true,
+                'fields'         => 'ids',
+            );
 
-                delete_post_meta( $id, '_lp_access_to_except' );
-                delete_post_meta( $id, '_lp_access_to_include' );
-                update_post_meta( $id, '_lp_access_to_all', $data['access_to'] );
+            $query = new WP_Query( $query_args );
 
-            } elseif ( 1 === $access_data ) {
+            $current_posts = $query->posts;
 
-                delete_post_meta( $id, '_lp_access_to_all' );
-                delete_post_meta( $id, '_lp_access_to_include' );
-                update_post_meta( $id, '_lp_access_to_except', $data['access_category'] );
+            $id = isset( $current_posts[0] ) ? $current_posts[0] : '';
 
-            } else {
+            if ( ! empty( $id ) ) {
 
-                delete_post_meta( $id, '_lp_access_to_except' );
-                delete_post_meta( $id, '_lp_access_to_all' );
-                update_post_meta( $id, '_lp_access_to_include', $data['access_category'] );
+                wp_update_post( [
+                    'ID'           => $id,
+                    'post_content' => $data['description'],
+                    'post_title'   => $data['title'],
+                ] );
 
+                if ( 0 === $access_data ) {
+
+                    delete_post_meta( $id, '_lp_access_to_except' );
+                    delete_post_meta( $id, '_lp_access_to_include' );
+                    update_post_meta( $id, '_lp_access_to_all', $data['access_to'] );
+
+                } elseif ( 1 === $access_data ) {
+
+                    delete_post_meta( $id, '_lp_access_to_all' );
+                    delete_post_meta( $id, '_lp_access_to_include' );
+                    update_post_meta( $id, '_lp_access_to_except', $data['access_category'] );
+
+                } else {
+
+                    delete_post_meta( $id, '_lp_access_to_except' );
+                    delete_post_meta( $id, '_lp_access_to_all' );
+                    update_post_meta( $id, '_lp_access_to_include', $data['access_category'] );
+
+                }
+
+                update_post_meta( $id, '_lp_duration', $data['duration'] );
+                update_post_meta( $id, '_lp_period', $data['period'] );
+                update_post_meta( $id, '_lp_price', $data['price'] );
             }
 
-            update_post_meta( $id, '_lp_duration', $data['duration'] );
-            update_post_meta( $id, '_lp_period', $data['period'] );
-            update_post_meta( $id, '_lp_price', $data['price'] );
-
-            $data['id'] = $id;
         }
 
         // purge cache
@@ -269,7 +325,7 @@ class LaterPay_Model_SubscriptionWP {
         // Case 1: Subscriptions accept in all category
         // Case 2: Subscriptions except specified category
         // Case 3: Subscriptions include specified category
-	    $query_args['meta_query'] = $meta_query; // phpcs:ignore
+        $query_args['meta_query'] = $meta_query; // phpcs:ignore
 
         $get_subscriptions_in_category_query = new WP_Query( $query_args );
 
@@ -290,19 +346,42 @@ class LaterPay_Model_SubscriptionWP {
      *
      * @param integer $id subscription id
      *
-     * @return int|false the number of rows updated, or false on error
+     * @return bool true on success or false on error
      */
     public function delete_subscription_by_id( $id ) {
 
-        $result = wp_update_post( [
-            'ID'          => $id,
-            'post_status' => 'draft',
-        ] );
+        $query_args = array(
+            // Meta query is required for post id.
+            'meta_key'       => '_lp_id', // phpcs:ignore
+            'meta_value'     => $id, // phpcs:ignore
+            'meta_compare'   => '=',
+            'posts_per_page' => 1,
+            'post_type'      => 'lp_subscription',
+            'no_found_rows'  => true,
+            'fields'         => 'ids',
+        );
+
+        $query = new WP_Query( $query_args );
+
+        $current_posts = $query->posts;
+
+        $post = null;
+
+        if ( isset( $current_posts[0] ) ) {
+
+            $args = [
+                'ID'          => $current_posts[0],
+                'post_status' => 'draft',
+            ];
+            $post = wp_update_post( $args );
+
+        }
 
         // purge cache
         LaterPay_Helper_Cache::purge_cache();
 
-        return ( $result === 0 ) ? 0 : 1;
+        return ( is_wp_error( $post ) || empty( $post ) ) ? false : true;
+
     }
 
     /**
@@ -343,7 +422,7 @@ class LaterPay_Model_SubscriptionWP {
 
 
         $subscription                    = [];
-        $subscription['id']              = $post->ID;
+        $subscription['id']              = $post_meta['lp_id'];
         $subscription['title']           = $post->post_title;
         $subscription['description']     = $post->post_content;
         $subscription['is_deleted']      = $is_deleted;
@@ -371,6 +450,7 @@ class LaterPay_Model_SubscriptionWP {
         $post_meta_new['duration'] = ( isset( $post_meta['_lp_duration'][0] ) ) ? $post_meta['_lp_duration'][0] : $default_options['duration'];
         $post_meta_new['period']   = ( isset( $post_meta['_lp_period'][0] ) ) ? $post_meta['_lp_period'][0] : $default_options['period'];
         $post_meta_new['price']    = ( isset( $post_meta['_lp_price'][0] ) ) ? $post_meta['_lp_price'][0] : $default_options['price'];
+        $post_meta_new['lp_id']    = ( isset( $post_meta['_lp_id'][0] ) ) ? $post_meta['_lp_id'][0] : $default_options['lp_id'];
 
         if ( isset( $post_meta['_lp_access_to_all'][0] ) ) {
 

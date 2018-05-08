@@ -28,6 +28,7 @@ class LaterPay_Helper_Subscription
             'period'          => '3',
             'access_to'       => '0',
             'access_category' => '',
+            'lp_id'           => '',
             'price'           => $currency_config['sis_min'],
             'title'           => __( '1 Month Subscription', 'laterpay' ),
             'description'     => __( '1 month access to all content on this website (cancellable anytime)', 'laterpay' ),

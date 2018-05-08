@@ -57,12 +57,33 @@ class LaterPay_Model_TimePassWP {
      * @return array $time_pass array of time pass data
      */
     public function get_pass_data( $time_pass_id, $ignore_deleted = false ) {
-        $post = get_post( $time_pass_id );
 
-        if ( empty( $post ) || ( $ignore_deleted && $post->post_status !== 'publish' ) ) {
-            $result = array();
-        } else {
-            $result = $this->get_formatted_results( array( $post ), true );
+        $query_args = array(
+            // Meta query is required for post id.
+            'meta_key'       => '_lp_id', // phpcs:ignore
+            'meta_value'     => $time_pass_id, // phpcs:ignore
+            'meta_compare'   => '=',
+            'posts_per_page' => 1,
+            'post_type'      => self::$timepass_post_type,
+            'no_found_rows'  => true,
+            'fields'         => 'ids',
+        );
+
+        $query = new WP_Query( $query_args );
+
+        $current_posts = $query->posts;
+
+        $id = ( isset( $current_posts[0] ) ) ? $current_posts[0] : '';
+
+        $result = array();
+
+        if ( ! empty( $id ) ) {
+
+            $post = get_post( $id );
+
+            if ( ! empty( $post ) && ! ( $ignore_deleted && $post->post_status !== 'publish' ) ) {
+                $result = $this->get_formatted_results( array( $post ), true );
+            }
         }
 
         return $result;
@@ -128,7 +149,7 @@ class LaterPay_Model_TimePassWP {
             $row = array();
             $post_meta = get_post_meta( $id );
 
-            $row['pass_id']         = $id;
+            $row['pass_id']         = ( isset( $post_meta['_lp_id'][0] ) ) ? $post_meta['_lp_id'][0] : '';
             $row['title']           = $post->post_title;
             $row['description']     = $post->post_content;
             $row['duration']        = ( isset( $post_meta['_lp_duration'][0] ) ) ? $post_meta['_lp_duration'][0] : 0;
@@ -196,41 +217,80 @@ class LaterPay_Model_TimePassWP {
         );
 
         if ( empty( $time_pass_id ) ) {
-            $data['pass_id'] = wp_insert_post( $args );
+
+            $timepass_counter = get_option( 'lp_pass_count' );
+
+            if ( false === $timepass_counter ) {
+                $timepass_counter = 1;
+                add_option( 'lp_pass_count', $timepass_counter );
+            } else {
+                $timepass_counter = $timepass_counter + 1;
+                update_option( 'lp_pass_count', $timepass_counter );
+            }
+
+            $args['meta_input']['_lp_id'] = $timepass_counter;
+
+            $data['tp_id']   = wp_insert_post( $args );
+            $data['pass_id'] = $timepass_counter;
         } else {
-            $args['ID'] = $time_pass_id;
-            wp_update_post( $args );
+
+            $query_args = array(
+                // Meta query is required for post id.
+                'meta_key'       => '_lp_id', // phpcs:ignore
+                'meta_value'     => $time_pass_id, // phpcs:ignore
+                'meta_compare'   => '=',
+                'posts_per_page' => 1,
+                'post_type'      => self::$timepass_post_type,
+                'no_found_rows'  => true,
+                'fields'         => 'ids',
+            );
+
+            $query = new WP_Query( $query_args );
+
+            $current_posts = $query->posts;
+
+            $data['tp_id'] = isset( $current_posts[0] ) ? $current_posts[0] : '';
+
+            if ( ! empty( $data['tp_id'] ) ) {
+
+                $args['ID'] = $data['tp_id'];
+                wp_update_post( $args );
+
+            }
+
             $data['pass_id'] = $time_pass_id;
+
         }
 
-        if ( ! empty( $data['pass_id'] ) ) {
+
+        if ( ! empty( $data['tp_id'] ) ) {
 
             $access_data = intval( $data['access_to'] );
 
             if ( 0 === $access_data ) {
 
-                delete_post_meta( $data['pass_id'], '_lp_access_to_except' );
-                delete_post_meta( $data['pass_id'], '_lp_access_to_include' );
-                update_post_meta( $data['pass_id'], '_lp_access_to_all', $data['access_to'] );
+                delete_post_meta( $data['tp_id'], '_lp_access_to_except' );
+                delete_post_meta( $data['tp_id'], '_lp_access_to_include' );
+                update_post_meta( $data['tp_id'], '_lp_access_to_all', $data['access_to'] );
 
             } elseif ( 1 === $access_data ) {
 
-                delete_post_meta( $data['pass_id'], '_lp_access_to_all' );
-                delete_post_meta( $data['pass_id'], '_lp_access_to_include' );
-                update_post_meta( $data['pass_id'], '_lp_access_to_except', $data['access_category'] );
+                delete_post_meta( $data['tp_id'], '_lp_access_to_all' );
+                delete_post_meta( $data['tp_id'], '_lp_access_to_include' );
+                update_post_meta( $data['tp_id'], '_lp_access_to_except', $data['access_category'] );
 
             } else {
 
-                delete_post_meta( $data['pass_id'], '_lp_access_to_except' );
-                delete_post_meta( $data['pass_id'], '_lp_access_to_all' );
-                update_post_meta( $data['pass_id'], '_lp_access_to_include', $data['access_category'] );
+                delete_post_meta( $data['tp_id'], '_lp_access_to_except' );
+                delete_post_meta( $data['tp_id'], '_lp_access_to_all' );
+                update_post_meta( $data['tp_id'], '_lp_access_to_include', $data['access_category'] );
 
             }
 
-            update_post_meta( $data['pass_id'], '_lp_revenue_model', $data['revenue_model'] );
-            update_post_meta( $data['pass_id'], '_lp_price', $data['price'] );
-            update_post_meta( $data['pass_id'], '_lp_period', $data['period'] );
-            update_post_meta( $data['pass_id'], '_lp_duration', $data['duration'] );
+            update_post_meta( $data['tp_id'], '_lp_revenue_model', $data['revenue_model'] );
+            update_post_meta( $data['tp_id'], '_lp_price', $data['price'] );
+            update_post_meta( $data['tp_id'], '_lp_period', $data['period'] );
+            update_post_meta( $data['tp_id'], '_lp_duration', $data['duration'] );
 
         }
 
@@ -249,11 +309,32 @@ class LaterPay_Model_TimePassWP {
      */
     public function delete_time_pass_by_id( $time_pass_id ) {
 
-        $args = array(
-            'ID'          => $time_pass_id,
-            'post_status' => 'draft',
+        $query_args = array(
+            // Meta query is required for post id.
+            'meta_key'       => '_lp_id', // phpcs:ignore
+            'meta_value'     => $time_pass_id, // phpcs:ignore
+            'meta_compare'   => '=',
+            'posts_per_page' => 1,
+            'post_type'      => self::$timepass_post_type,
+            'no_found_rows'  => true,
+            'fields'         => 'ids',
         );
-        $post = wp_update_post( $args );
+
+        $query = new WP_Query( $query_args );
+
+        $current_posts = $query->posts;
+
+        $post = null;
+
+        if ( isset( $current_posts[0] ) ) {
+
+            $args = array(
+                'ID'          => $current_posts[0],
+                'post_status' => 'draft',
+            );
+            $post = wp_update_post( $args );
+
+        }
 
         // purge cache
         LaterPay_Helper_Cache::purge_cache();
