@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     $access_type = LaterPay_Helper_TimePass::get_access_options( $laterpay_pass['access_to'] );
     $access_dest = __( 'on this website', 'laterpay' );
     $category = get_category( $laterpay_pass['access_category'] );
-    if ( ! is_wp_error( $category ) && $laterpay_pass['access_to'] !== 0 ) {
+    if ( ! is_wp_error( $category ) && ! empty( $category ) && 0 !== $laterpay_pass['access_to'] ) {
         $access_dest = $category->name;
     }
 ?>

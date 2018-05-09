@@ -39,7 +39,8 @@ class LaterPay_Helper_Pricing
         }
 
         // check, if the current post price is not 0
-        $price = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        $price = LaterPay_Helper_Pricing::get_post_price( $post_id, true );
+
         if ( floatval( 0.00 ) === floatval( $price ) || ! in_array( get_post_type( $post_id ), (array) get_option( 'laterpay_enabled_post_types' ), true ) ) {
             // returns null for this case
             return null;
@@ -101,74 +102,19 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Apply the global default price to a post.
-     *
-     * @param int $post_id
-     *
-     * @return boolean true|false
-     */
-    public static function apply_global_default_price_to_post( $post_id ) {
-        $global_default_price = get_option( 'laterpay_global_price' );
-
-        if ( 0 === intval( $global_default_price ) ) {
-            return false;
-        }
-
-        $post = get_post( $post_id );
-        if ( $post === null ) {
-            return false;
-        }
-
-        $post_price = array();
-        $post_price['type'] = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
-
-        return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_price );
-    }
-
-
-    /**
-     * Apply the 'category default price' to all posts with a 'global default price' by a given category_id.
-     *
-     * @param integer $category_id
-     *
-     * @return array $updated_post_ids all updated post_ids
-     */
-    public static function apply_category_price_to_posts_with_global_price( $category_id ) {
-        $updated_post_ids = array();
-        $post_ids         = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
-
-        foreach ( $post_ids as $post_id ) {
-            $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
-
-            // check, if the post uses a global default price
-
-            if ( is_array( $post_price ) && ( ! array_key_exists( 'type', $post_price ) || $post_price['type'] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) ) {
-                if ( ! self::check_if_category_has_parent_with_price( $category_id ) ) {
-                    continue;
-                }
-            }
-
-            $success = LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $category_id );
-            if ( $success ) {
-                $updated_post_ids[] = $post_id;
-            }
-        }
-
-        return $updated_post_ids;
-    }
-
-    /**
      * Apply a given category default price to a given post.
      *
-     * @param int     $post_id
-     * @param int     $category_id
-     * @param boolean $strict - checks, if the given category_id is assigned to the post_id
+     * @param int     $post_id     post id to apply price.
+     * @param int     $category_id category id.
+     * @param boolean $strict      checks, if the given category_id is assigned to the post_id
      *
      * @return boolean true|false
      */
     public static function apply_category_default_price_to_post( $post_id, $category_id, $strict = false ) {
+
         $post = get_post( $post_id );
-        if ( $post === null ) {
+
+        if ( null === $post ) {
             return false;
         }
 
@@ -186,30 +132,172 @@ class LaterPay_Helper_Pricing
     }
 
     /**
+     * Recalculates Category price based on current category.
+     *
+     * @param int    $post_id             Post id.
+     * @param int    $category_id         Current category price id.
+     * @param string $post_price_type     post price type.
+     * @param array  $category_price_data details of category prices.
+     * @param array  $categories_of_post  current post categories.
+     *
+     * @return array|bool returns false on no category default price or return array containing category id and revenue model
+     */
+    public static function recalculate_post_price( $post_id, $category_id, $post_price_type, $category_price_data = array(), $categories_of_post = array() ) {
+
+        $category_default_price_revenue_model = null;
+
+        if ( empty( $categories_of_post ) ) {
+            $categories_of_post = wp_get_post_categories( $post_id );
+        }
+
+        $LaterPay_Category_Model = LaterPay_Model_CategoryPriceWP::get_instance();
+
+        if ( empty( $category_price_data ) ) {
+            $category_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $categories_of_post );
+        }
+
+        $recalculate_cat_price   = false;
+
+        // if the post has a category defined, from which to use the category default price, then let's get that price
+        if ( in_array( $category_id, $categories_of_post, true ) ) {
+
+            $category_default_price_revenue_model = (string) $LaterPay_Category_Model->get_revenue_model_by_category_id( $category_id );
+
+            // If category default value is blank.
+            if ( empty( $category_default_price_revenue_model ) ) {
+                $recalculate_cat_price = true;
+            }
+
+        } elseif ( count( $categories_of_post ) > 0 ) {
+
+            $recalculate_cat_price = true;
+        }
+
+        // Recalculate category default price.
+        if ( $recalculate_cat_price && ! in_array( $post_price_type, array( self::TYPE_INDIVIDUAL_PRICE, self::TYPE_INDIVIDUAL_DYNAMIC_PRICE ), true ) ) {
+
+            $new_category  = 0;
+            $new_cat_price = 0;
+
+            foreach ( $category_price_data as $cat_data ) {
+
+                $cat_price = floatval( $cat_data['category_price'] );
+
+                if ( ! empty( $cat_price ) && $cat_price > $new_cat_price ) {
+                    $new_cat_price = $cat_price;
+                    $new_category  = $cat_data['category_id'];
+                }
+
+            }
+
+            if ( $new_category !== 0 ) {
+
+                $post_prices = array(
+                    'type'        => LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE,
+                    'category_id' => $new_category,
+                );
+
+                $category_id = $new_category;
+                update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_prices );
+
+                $category_default_price_revenue_model = (string) $LaterPay_Category_Model->get_revenue_model_by_category_id( $new_category );
+            } else {
+                delete_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY );
+            }
+        }
+
+        if ( ! empty( $category_default_price_revenue_model ) ) {
+            return array( 'category_id' => $category_id, 'revenue_model' => $category_default_price_revenue_model );
+        }
+
+        return false;
+    }
+
+    /**
      * Get post price, depending on price type applied to post.
      *
-     * @param int $post_id
+     * @param int  $post_id     post id.
+     * @param bool $recalculate Recalculate category price or not.
      *
      * @return float $price
      */
-    public static function get_post_price( $post_id ) {
+    public static function get_post_price( $post_id, $recalculate = false ) {
         $global_default_price = get_option( 'laterpay_global_price' );
 
         $cache_key = 'laterpay_post_price_' . $post_id;
 
+        $cache_price = wp_cache_get( $cache_key, 'laterpay' );
+
         // checks if the price is in cache and returns it
-        $price = wp_cache_get( $cache_key, 'laterpay' );
-        if ( $price ) {
-            return $price;
+        if ( isset( $cache_price['price'] ) && ! empty( $cache_price['price'] ) ) {
+
+            // Return price if individual price type.
+            if ( isset( $cache_price['type'] ) && self::TYPE_INDIVIDUAL_PRICE === $cache_price['type'] ) {
+                return $cache_price['price'];
+            }
+
         }
 
-        $post = get_post( $post_id );
+        $post       = get_post( $post_id );
         $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
+
         if ( ! is_array( $post_price ) ) {
             $post_price = array();
         }
+
         $post_price_type = array_key_exists( 'type', $post_price )        ? $post_price['type']        : '';
         $category_id     = array_key_exists( 'category_id', $post_price ) ? $post_price['category_id'] : '';
+
+        // Recalculate post price.
+        if ( $recalculate && ! in_array( $post_price_type, array( self::TYPE_INDIVIDUAL_PRICE, self::TYPE_INDIVIDUAL_DYNAMIC_PRICE ), true ) ) {
+
+            $categories_of_post  = wp_get_post_categories( $post_id );
+            $category_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $categories_of_post );
+
+            if ( isset( $cache_price['type'] ) && $cache_price['type'] === LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
+
+                $category_data_exists = array_search( $category_id, array_column( $category_price_data, 'category_id' ), true );
+
+                // Check if there are no changes in category price.
+                if ( $category_data_exists !== false ) {
+
+                    $current_category_val = floatval( $category_price_data[$category_data_exists]['category_price'] );
+
+                    if( $cache_price['price'] === $current_category_val ) {
+
+                        return $cache_price['price'];
+
+                    } else {
+
+                        $cache_data = array(
+                            'type'  => $post_price_type,
+                            'price' => $current_category_val,
+                        );
+
+                        // add the price to the current post cache
+                        wp_cache_set( $cache_key, $cache_data, 'laterpay' );
+
+                        return $current_category_val;
+
+                    }
+                }
+
+            }
+
+            $new_category_data = self::recalculate_post_price( $post_id, $category_id, $post_price_type, $category_price_data, $categories_of_post );
+
+            if ( false !== $new_category_data ) {
+
+                $category_id     = $new_category_data['category_id'];
+                $post_price_type = LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE;
+
+            } else {
+
+                $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
+
+            }
+
+        }
 
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
@@ -241,8 +329,13 @@ class LaterPay_Helper_Pricing
 
         $price = (float) $price;
 
+        $cache_data = array(
+            'type'  => $post_price_type,
+            'price' => $price,
+        );
+
         // add the price to the current post cache
-        wp_cache_set( $cache_key, $price, 'laterpay' );
+        wp_cache_set( $cache_key, $cache_data, 'laterpay' );
 
         return (float) $price;
     }
@@ -255,12 +348,12 @@ class LaterPay_Helper_Pricing
      * @return string $post_price_type
      */
     public static function get_post_price_type( $post_id ) {
-        $cache_key = 'laterpay_post_price_type_' . $post_id;
+        $cache_key = 'laterpay_post_price_' . $post_id;
 
         // get the price from the cache, if it exists
         $post_price_type = wp_cache_get( $cache_key, 'laterpay' );
-        if ( $post_price_type ) {
-            return $post_price_type;
+        if ( isset( $post_price_type['type'] ) ) {
+            return $post_price_type['type'];
         }
 
         $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
@@ -281,8 +374,13 @@ class LaterPay_Helper_Pricing
                 break;
         }
 
+        $cache_data = array(
+            'type'  => $post_price_type,
+            'price' => 0.0,
+        );
+
         // cache the post price type
-        wp_cache_set( $cache_key, $post_price_type, 'laterpay' );
+        wp_cache_set( $cache_key, $cache_data, 'laterpay' );
 
         return (string) $post_price_type;
     }
@@ -509,7 +607,7 @@ class LaterPay_Helper_Pricing
             $post_prices = array();
         }
 
-        $post_price = array_key_exists( 'price', $post_prices ) ? (float) $post_prices['price'] : LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $post_price = array_key_exists( 'price', $post_prices ) ? (float) $post_prices['price'] : LaterPay_Helper_Pricing::get_post_price( $post->ID, true );
         if ( $price !== null ) {
             $post_price = $price;
         }
@@ -808,95 +906,6 @@ class LaterPay_Helper_Pricing
                                 );
 
         wp_update_post( $post_update_data );
-    }
-
-    /**
-     * Get posts by category price id with meta check
-     *
-     * @param int $category_id
-     *
-     * @return array post ids
-     */
-    public static function get_posts_by_category_price_id( $category_id ) {
-        $ids      = array();
-        $posts    = self::get_all_posts_with_price();
-        $parents  = array();
-        $category = get_category( $category_id );
-
-        if ( $category && is_object( $category ) ) {
-            // get all parents
-            $parent_id = $category->parent;
-            while ( $parent_id ) {
-                $parents[]       = $parent_id;
-                $parent_category = get_category( $parent_id );
-                $parent_id       = isset( $parent_category ) ? $parent_category->parent : null;
-            }
-
-            foreach ( $posts as $post ) {
-                $meta = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
-                if ( ! is_array( $meta ) ) {
-                    continue;
-                }
-
-                if ( array_key_exists( 'category_id', $meta ) && ( $category_id === intval( $meta['category_id'] ) || in_array( intval( $meta['category_id'] ), $parents, true ) ) ) {
-                    $ids[ $post->ID ] = $meta;
-                }
-            }
-        }
-
-        return $ids;
-    }
-
-    /**
-     * Actualize post data after category delete
-     *
-     * @param $post_id
-     *
-     * @return void
-     */
-    public static function update_post_data_after_category_delete( $post_id ) {
-
-        $category_price_model = LaterPay_Model_CategoryPriceWP::get_instance();
-        $post_categories      = wp_get_post_categories( $post_id );
-        $parents              = array();
-
-        // add parents
-        foreach ( $post_categories as $category_id ) {
-            $parent_id = get_category( $category_id )->parent;
-            while ( $parent_id ) {
-                $parents[] = $parent_id;
-                $parent_id = get_category( $parent_id )->parent;
-            }
-        }
-
-        // merge category ids
-        $post_categories = array_merge( $post_categories, $parents );
-
-        if ( empty( $post_categories ) ) {
-            // apply the global default price as new price, if no other post categories are found
-            LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post_id );
-        } else {
-            // load all category prices by the given category_ids
-            $category_price_data = $category_price_model->get_category_price_data_by_category_ids( $post_categories );
-
-            if ( count( $category_price_data ) < 1 ) {
-                // no other category prices found for this post
-                LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post_id );
-            } else {
-                // find the category with the highest price and assign its category_id to the post
-                $price = 0;
-                $new_category_id = null;
-
-                foreach ( $category_price_data as $data ) {
-                    if ( $data->category_price > $price ) {
-                        $price           = $data->category_price;
-                        $new_category_id = $data->category_id;
-                    }
-                }
-
-                LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $new_category_id );
-            }
-        }
     }
 
     /**

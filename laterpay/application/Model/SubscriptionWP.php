@@ -452,17 +452,15 @@ class LaterPay_Model_SubscriptionWP {
         $post_meta_new['price']    = ( isset( $post_meta['_lp_price'][0] ) ) ? $post_meta['_lp_price'][0] : $default_options['price'];
         $post_meta_new['lp_id']    = ( isset( $post_meta['_lp_id'][0] ) ) ? $post_meta['_lp_id'][0] : $default_options['lp_id'];
 
-        if ( isset( $post_meta['_lp_access_to_all'][0] ) ) {
+        $post_meta_new['access_to']       = 0;
+        $post_meta_new['access_category'] = 0;
 
-            $post_meta_new['access_to']       = $post_meta['_lp_access_to_all'][0];
-            $post_meta_new['access_category'] = 0;
-
-        } elseif ( isset( $post_meta['_lp_access_to_include'][0] ) ) {
+        if ( ! empty( $post_meta['_lp_access_to_include'][0] ) ) {
 
             $post_meta_new['access_to']       = 2;
             $post_meta_new['access_category'] = $post_meta['_lp_access_to_include'][0];
 
-        } elseif ( isset( $post_meta['_lp_access_to_except'][0] ) ) {
+        } elseif ( ! empty( $post_meta['_lp_access_to_except'][0] ) ) {
 
             $post_meta_new['access_to']       = 1;
             $post_meta_new['access_category'] = $post_meta['_lp_access_to_except'][0];

@@ -61,7 +61,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 
         switch ( $column_name ) {
             case 'post_price':
-                $price              = (float) LaterPay_Helper_Pricing::get_post_price( $post_id );
+                $price              = (float) LaterPay_Helper_Pricing::get_post_price( $post_id, true );
                 $localized_price    = LaterPay_Helper_View::format_number( $price );
                 $currency           = $this->config->get( 'currency.code' );
 

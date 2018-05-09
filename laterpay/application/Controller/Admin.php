@@ -55,11 +55,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 array( 'add_plugin_admin_assets' ),
                 array( 'add_admin_pointers_script' ),
             ),
-            'laterpay_delete_term_taxonomy' => array(
-                array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_plugin_is_active', 200 ),
-                array( 'update_post_prices_after_category_delete' ),
-            ),
         );
     }
 
@@ -673,30 +668,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         return $pointers;
     }
 
-    /**
-     * Update post prices after category delete.
-     *
-     * @hook delete_term_taxonomies
-     *
-     * @return void
-     */
-    public function update_post_prices_after_category_delete( LaterPay_Core_Event $event ) {
-        $args = (array) $event->get_arguments();
-        $category_id = $args[0];
-
-        $category_price_model = LaterPay_Model_CategoryPriceWP::get_instance();
-        $category_price_model->delete_prices_by_category_id( $category_id );
-
-        // get posts by category price id
-        $post_ids = LaterPay_Helper_Pricing::get_posts_by_category_price_id( $category_id );
-
-        $post_keys = array_keys( $post_ids );
-
-        foreach ( $post_keys as $post_id ) {
-            // update post prices
-            LaterPay_Helper_Pricing::update_post_data_after_category_delete( $post_id );
-        }
-    }
 
     /**
      * Get links to be rendered in the plugin backend navigation.

@@ -90,6 +90,8 @@ class LaterPay_Model_Subscription
         // fill values that weren't set from defaults
         $data = array_merge( LaterPay_Helper_Subscription::get_default_options(), $data );
 
+        unset( $data['lp_id'] ); // unset key ( used in WP schema ) before inserting to custom table.
+
         // pass_id is a primary key, set by autoincrement
         $id = $data['id'];
         unset( $data['id'] );

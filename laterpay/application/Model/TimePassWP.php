@@ -364,7 +364,7 @@ class LaterPay_Model_TimePassWP {
         // Add removed WP_Query hooks.
         LaterPay_Hooks::get_instance()->add_wp_query_hooks();
 
-        return $the_query->found_posts;
+        return $the_query->post_count;
     }
 
     /**

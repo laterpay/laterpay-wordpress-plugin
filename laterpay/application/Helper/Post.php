@@ -95,7 +95,7 @@ class LaterPay_Helper_Post
             if ( ! $has_access ) {
                 if ( array_key_exists( $post->ID, self::$access ) ) {
                     $has_access = (bool)self::$access[$post->ID];
-                } elseif ( LaterPay_Helper_Pricing::get_post_price($post->ID) > 0) {
+                } elseif ( LaterPay_Helper_Pricing::get_post_price( $post->ID, true ) > 0 ) {
                     $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post->ID ), $time_passes, $subscriptions ) );
 
                     if ( empty( $result ) || ! array_key_exists('articles', $result) ) {

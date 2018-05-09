@@ -429,7 +429,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 $delocalized_category_price,
                 $category_price_revenue_model
             );
-            $updated_post_ids = LaterPay_Helper_Pricing::apply_category_price_to_posts_with_global_price( $category_id );
         } else {
             $category_price_model->set_category_price(
                 $category_id,
@@ -465,7 +464,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
     /**
      * Delete the category price for a given category.
+     *
      * @param LaterPay_Core_Event $event
+     *
      * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
@@ -491,29 +492,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         if ( ! $success ) {
             return;
-        }
-
-        // get all posts with the deleted $category_id and loop through them
-        $post_ids = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
-        foreach ( $post_ids as $post_id ) {
-            // check, if the post has LaterPay pricing data
-            $post_price = get_post_meta( $post_id, 'laterpay_post_prices', true );
-            if ( ! is_array( $post_price ) ) {
-                continue;
-            }
-
-            // check, if the post uses a category default price
-            if ( $post_price['type'] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
-                continue;
-            }
-
-            // check, if the post has the deleted category_id as category default price
-            if ( (int) $post_price['category_id'] !== $category_id ) {
-                continue;
-            }
-
-            // update post data
-            LaterPay_Helper_Pricing::update_post_data_after_category_delete( $post_id );
         }
 
         $event->set_result(
@@ -702,7 +680,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 $meta_values            = $post_meta ? $post_meta : array();
 
                 $current_revenue_model  = isset( $meta_values['revenue_model'] ) ? $meta_values['revenue_model'] : 'ppu';
-                $current_post_price     = LaterPay_Helper_Pricing::get_post_price( $post_id );
+                $current_post_price     = LaterPay_Helper_Pricing::get_post_price( $post_id, true );
                 $current_post_type      = LaterPay_Helper_Pricing::get_post_price_type( $post_id );
                 $post_type_is_global    = ( $current_post_type === LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE );
                 $post_type_is_category  = ( $current_post_type === LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE );

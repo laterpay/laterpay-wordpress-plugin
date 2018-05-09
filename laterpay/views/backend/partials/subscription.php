@@ -17,7 +17,7 @@ $price = LaterPay_Helper_View::format_number( $laterpay_subscription['price'] );
 $access_type = LaterPay_Helper_TimePass::get_access_options( $laterpay_subscription['access_to'] );
 $access_dest = __( 'on this website', 'laterpay' );
 $category = get_category( $laterpay_subscription['access_category'] );
-if ( ! is_wp_error( $category ) && 0 !== intval( $laterpay_subscription['access_to'] ) ) {
+if ( ! is_wp_error( $category ) && ! empty( $category ) && 0 !== intval( $laterpay_subscription['access_to'] ) ) {
     $access_dest = $category->name;
 }
 ?>

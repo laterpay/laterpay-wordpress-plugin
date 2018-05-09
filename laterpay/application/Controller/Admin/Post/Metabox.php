@@ -293,32 +293,39 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
         }
 
         $post_prices = get_post_meta( $post->ID, 'laterpay_post_prices', true );
+
         if ( ! is_array( $post_prices ) ) {
             $post_prices = array();
         }
 
         $post_default_category = array_key_exists( 'category_id',   $post_prices ) ? (int) $post_prices['category_id'] : 0;
         $post_revenue_model    = array_key_exists( 'revenue_model', $post_prices ) ? $post_prices['revenue_model'] : 'ppu';
+        $post_price_type       = array_key_exists( 'type', $post_prices ) ? $post_prices['type'] : '';
         $post_status           = $post->post_status;
 
         // category default price data
         $category_price_data                    = null;
         $category_default_price_revenue_model   = null;
         $categories_of_post                     = wp_get_post_categories( $post->ID );
+
         if ( ! empty( $categories_of_post ) ) {
+
             $category_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $categories_of_post );
-            // if the post has a category defined, from which to use the category default price, then let's get that price
-            if ( $post_default_category > 0 ) {
-                $laterpay_category_model              = LaterPay_Model_CategoryPriceWP::get_instance();
-                $category_default_price_revenue_model = (string) $laterpay_category_model->get_revenue_model_by_category_id( $post_default_category );
+
+            $new_category_data = LaterPay_Helper_Pricing::recalculate_post_price( $post->ID, $post_default_category, $post_price_type, $category_price_data, $categories_of_post );
+
+            if ( false !== $new_category_data ) {
+                $post_default_category                = $new_category_data['category_id'];
+                $category_default_price_revenue_model = $new_category_data['revenue_model'];
             }
+
         }
 
         // get price data
         $global_default_price               = get_option( 'laterpay_global_price' );
         $global_default_price_revenue_model = get_option( 'laterpay_global_price_revenue_model' );
 
-        $price           = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $price           = LaterPay_Helper_Pricing::get_post_price( $post->ID, true );
         $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
 
         // set post revenue model according to the selected price type
@@ -465,9 +472,27 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      * @return bool|int false failure, post_meta_id on insert / update, or true on success
      */
     public function set_post_meta( $name, $meta_value, $post_id ) {
+
+        $cache_key = 'laterpay_post_price_' . $post_id;
+
         if ( empty( $meta_value ) ) {
+
+            wp_cache_delete( $cache_key, 'laterpay' );
             return delete_post_meta( $post_id, $name );
+
         } else {
+
+            $cache_data = array(
+                'type' => $meta_value['type'],
+            );
+
+            if ( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $meta_value['type'] ) {
+                $cache_data['price'] = LaterPay_Helper_Pricing::get_dynamic_price( get_post( $post_id ) );
+            } else {
+                $cache_data['price'] = $meta_value['price'];
+            }
+
+            wp_cache_set( $cache_key, $cache_data, 'laterpay' );
             return update_post_meta( $post_id, $name, $meta_value );
         }
     }

@@ -93,7 +93,6 @@ class LaterPay_Hooks {
 
         add_action( 'load-post.php',                    array( $this, self::$wp_action_prefix . 'laterpay_post_edit' ) );
         add_action( 'load-post-new.php',                array( $this, self::$wp_action_prefix . 'laterpay_post_new' ) );
-        add_action( 'delete_term_taxonomy',             array( $this, self::$wp_action_prefix . 'laterpay_delete_term_taxonomy' ) );
         add_action( 'add_meta_boxes',                   array( $this, self::$wp_action_prefix . 'laterpay_meta_boxes' ) );
         add_action( 'save_post',                        array( $this, self::$wp_action_prefix . 'laterpay_post_save' ) );
         add_action( 'edit_attachment',                  array( $this, self::$wp_action_prefix . 'laterpay_attachment_edit' ) );
