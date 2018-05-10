@@ -621,66 +621,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      * @return void
      */
     public function install() {
-        $is_not_vip = ( ! laterpay_check_is_vip() );
 
-        // Check for non-VIP env.
-        if ( $is_not_vip ) {
+        $is_not_vip                 = ( ! laterpay_check_is_vip() );
+        $plugin_version             = get_option( 'laterpay_plugin_version' );
+        $should_run_table_migration = ( $is_not_vip && false !== $plugin_version );
 
-            global $wpdb;
-
-            $table_terms_price   = $wpdb->prefix . 'laterpay_terms_price';
-            $table_passes        = $wpdb->prefix . 'laterpay_passes';
-            $table_subscriptions = $wpdb->prefix . 'laterpay_subscriptions';
-
-            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-            $sql = "
-            CREATE TABLE IF NOT EXISTS $table_terms_price (
-                id int(11) NOT NULL AUTO_INCREMENT,
-                term_id int(11) NOT NULL,
-                price double NOT NULL DEFAULT '0',
-                revenue_model enum('ppu','sis') NOT NULL DEFAULT 'ppu',
-                PRIMARY KEY  (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            dbDelta( $sql );
-
-            $sql = "
-            CREATE TABLE IF NOT EXISTS $table_passes (
-                pass_id int(11) NOT NULL AUTO_INCREMENT,
-                duration int(11) NULL DEFAULT NULL,
-                period int(11) NULL DEFAULT NULL,
-                access_to int(11) NULL DEFAULT NULL,
-                access_category bigint(20) NULL DEFAULT NULL,
-                price decimal(10,2) NULL DEFAULT NULL,
-                revenue_model varchar(12) NULL DEFAULT NULL,
-                title varchar(255) NULL DEFAULT NULL,
-                description varchar(255) NULL DEFAULT NULL,
-                is_deleted int(1) NOT NULL DEFAULT 0,
-                PRIMARY KEY  (pass_id),
-                KEY access_to (access_to),
-                KEY period (period),
-                KEY duration (duration)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
-            dbDelta( $sql );
-
-            $sql = "
-            CREATE TABLE IF NOT EXISTS $table_subscriptions (
-                id int(11) NOT NULL AUTO_INCREMENT,
-                duration int(11) NULL DEFAULT NULL,
-                period int(11) NULL DEFAULT NULL,
-                access_to int(11) NULL DEFAULT NULL,
-                access_category bigint(20) NULL DEFAULT NULL,
-                price decimal(10,2) NULL DEFAULT NULL,
-                title varchar(255) NULL DEFAULT NULL,
-                description varchar(255) NULL DEFAULT NULL,
-                is_deleted int(1) NOT NULL DEFAULT 0,
-                PRIMARY KEY  (id),
-                KEY access_to (access_to),
-                KEY period (period),
-                KEY duration (duration)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
-            dbDelta( $sql );
-
+        if ( false === $plugin_version ) {
+            update_option( 'laterpay_data_migrated_to_cpt', '1' );
         }
 
         add_option( 'laterpay_teaser_mode',                             '2' );
@@ -732,19 +679,19 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         // perform data updates
         $this->maybe_update_meta_keys();
-        if ( $is_not_vip ) { $this->maybe_update_terms_price_table(); }
-        if ( $is_not_vip ) { $this->maybe_update_currency_to_euro(); }
+        if ( $should_run_table_migration ) { $this->maybe_update_terms_price_table(); }
+        if ( $should_run_table_migration ) { $this->maybe_update_currency_to_euro(); }
         $this->maybe_update_options();
         $this->maybe_add_is_in_visible_test_mode_option();
         $this->maybe_clean_api_key_options();
         $this->maybe_update_unlimited_access();
-        if ( $is_not_vip ) { $this->maybe_update_time_passes_table(); }
+        if ( $should_run_table_migration ) { $this->maybe_update_time_passes_table(); }
         $this->maybe_update_vouchers();
-        if ( $is_not_vip ) { $this->drop_statistics_tables(); }
+        if ( $should_run_table_migration ) { $this->drop_statistics_tables(); }
         $this->init_colors_options();
         $this->set_overlay_defaults();
         $this->remove_old_api_settings();
-        if ( $is_not_vip ) { $this->maybe_remove_ppul(); }
+        if ( $should_run_table_migration ) { $this->maybe_remove_ppul(); }
         $this->change_teaser_mode();
 
     }
