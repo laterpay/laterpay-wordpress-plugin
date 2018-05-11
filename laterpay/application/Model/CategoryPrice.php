@@ -178,16 +178,12 @@ class LaterPay_Model_CategoryPrice
      * @return array categories
      */
     public function get_categories_by_term( $term, $limit ) {
-        global $wpdb, $wp_version;
+        global $wpdb;
 
-        if ( version_compare( $wp_version, '4.0', '>=' ) ) {
-            $term = $wpdb->esc_like( $term );
-        } else {
-            $term = like_escape( $term );
-        }
+        $term = $wpdb->esc_like( $term );
 
         $term = esc_sql( $term ) . '%';
-        $sql = "
+        $sql  = "
             SELECT
                 tm.term_id AS id,
                 tm.name AS text

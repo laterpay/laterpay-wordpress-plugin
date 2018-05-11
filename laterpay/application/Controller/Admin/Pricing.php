@@ -389,7 +389,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     'message' => __( 'An error occurred. Incorrect data provided.', 'laterpay' )
                 )
             );
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $price_category_form ), $errors['name'], $errors['value'] );
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $price_category_form ), array( $errors['name'], $errors['value'] ) );
         }
 
         $post_category_id               = $price_category_form->get_field_value( 'category_id' );

@@ -107,7 +107,6 @@ class LaterPay_Core_Auth_Hmac
      * @return string
      */
     public function get_token( $data, $ts ) {
-        $ts = $ts;
         $fresult = $this->sign( array( $data, $ts ) );
         if ( self::$useBase64 ) {
             $fresult = base64_encode( $fresult );
