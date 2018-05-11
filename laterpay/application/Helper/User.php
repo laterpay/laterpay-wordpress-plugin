@@ -199,6 +199,7 @@ class LaterPay_Helper_User
             $current_user            = wp_get_current_user();
             if ( $current_user instanceof WP_User ) {
                 $preview_post_as_visitor = self::get_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor' );
+                $preview_post_as_visitor = $preview_post_as_visitor ? $preview_post_as_visitor : 0;
                 if ( ! empty( $preview_post_as_visitor ) ) {
                     $preview_post_as_visitor = $preview_post_as_visitor[0];
                 }
