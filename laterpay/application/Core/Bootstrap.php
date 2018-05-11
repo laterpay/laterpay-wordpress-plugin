@@ -262,7 +262,7 @@ class LaterPay_Core_Bootstrap
      * cookie is present.
      */
     private function manage_cache(){
-        if ( ! function_exists( 'vary_cache_on_function') ) {
+        if ( ! laterpay_check_is_vip_classic() || ! function_exists( 'vary_cache_on_function' ) ) {
             return;
         }
         $client_options = LaterPay_Helper_Config::get_php_client_options();
