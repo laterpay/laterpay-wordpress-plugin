@@ -1,14 +1,23 @@
 <?php
 
 /**
- * LaterPay time pass model.
+ * LaterPay time pass model to work with custom tables in older versions.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Model_TimePass
+class LaterPay_Compatibility_TimePass
 {
+
+    /**
+     * instance of the LaterPay_Compatibility_TimePass
+     *
+     * @var object of LaterPay_Compatibility_TimePass
+     *
+     * @access private
+     */
+    private static $instance = null;
 
     /**
      * instance of the LaterPay_Model_TimePass
@@ -29,7 +38,7 @@ class LaterPay_Model_TimePass
     public $table;
 
     /**
-     * Constructor for class LaterPay_Model_TimePass, load table name.
+     * Constructor for class LaterPay_Compatibility_TimePass, load table name.
      */
     protected function __construct() {
         global $wpdb;
@@ -40,7 +49,7 @@ class LaterPay_Model_TimePass
     /**
      * Singleton to get only one event dispatcher
      *
-     * @return LaterPay_Model_TimePass
+     * @return LaterPay_Compatibility_TimePass
      */
     public static function get_instance() {
         if ( ! isset( self::$instance ) ) {

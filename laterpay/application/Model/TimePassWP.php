@@ -32,7 +32,7 @@ class LaterPay_Model_TimePassWP {
     /**
      * Singleton to get only one event dispatcher
      *
-     * @return LaterPay_Model_TimePassWP|LaterPay_Model_TimePass
+     * @return LaterPay_Model_TimePassWP|LaterPay_Compatibility_TimePass
      */
     public static function get_instance() {
 
@@ -44,7 +44,7 @@ class LaterPay_Model_TimePassWP {
 
             return self::$instance;
         } else {
-            return LaterPay_Model_TimePass::get_instance();
+            return LaterPay_Compatibility_TimePass::get_instance();
         }
     }
 

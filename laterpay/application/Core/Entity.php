@@ -689,7 +689,7 @@ class LaterPay_Core_Entity
      * @return string the string in camelCase
      */
     protected function _camelize( $name ) {
-        return uc_words( $name, '' );
+        return ucwords( $name, '' );
     }
 
     /**

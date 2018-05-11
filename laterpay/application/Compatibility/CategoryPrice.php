@@ -1,16 +1,16 @@
 <?php
 
 /**
- * LaterPay category price model.
+ * LaterPay category price model to work with custom tables in older versions.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Model_CategoryPrice
+class LaterPay_Compatibility_CategoryPrice
 {
     /**
-     * Object of LaterPay_Model_CategoryPrice.
+     * Object of LaterPay_Compatibility_CategoryPrice.
      *
      * @var object
      *
@@ -48,7 +48,7 @@ class LaterPay_Model_CategoryPrice
     /**
      * function for sigleton object.
      *
-     * @return object of LaterPay_Model_CategoryPrice
+     * @return object of LaterPay_Compatibility_CategoryPrice
      */
     public static function get_instance() {
 

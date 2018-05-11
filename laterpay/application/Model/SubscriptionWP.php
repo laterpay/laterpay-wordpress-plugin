@@ -26,7 +26,7 @@ class LaterPay_Model_SubscriptionWP {
      * current environment is not VIP. Otherwise returns instance of itself(on VIP platforms).
      * This method is needed to make class singleton
      *
-     * @return LaterPay_Model_Subscription|LaterPay_Model_SubscriptionWP
+     * @return LaterPay_Compatibility_Subscription|LaterPay_Model_SubscriptionWP
      */
     public static function get_instance() {
 
@@ -37,7 +37,7 @@ class LaterPay_Model_SubscriptionWP {
             return self::$_instance;
         }
         else {
-            return LaterPay_Model_Subscription::get_instance();
+            return LaterPay_Compatibility_Subscription::get_instance();
         }
     }
 

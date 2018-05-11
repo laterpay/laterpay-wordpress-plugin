@@ -18,7 +18,7 @@ class LaterPay_Model_CategoryPriceWP
     /**
      * function for sigleton object.
      *
-     * @return object LaterPay_Model_CategoryPriceWP
+     * @return object LaterPay_Model_CategoryPriceWP|LaterPay_Compatibility_CategoryPrice
      */
     public static function get_instance()
     {
@@ -29,7 +29,7 @@ class LaterPay_Model_CategoryPriceWP
 
             return self::$instance;
         } else {
-            return LaterPay_Model_CategoryPrice::get_instance();
+            return LaterPay_Compatibility_CategoryPrice::get_instance();
         }
     }
 

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * LaterPay subscription model.
+ * LaterPay subscription model to work with custom tables in older versions.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Model_Subscription
+class LaterPay_Compatibility_Subscription
 {
 
     /**
@@ -22,7 +22,7 @@ class LaterPay_Model_Subscription
     private static $_instance;
 
     /**
-     * Constructor for class LaterPay_Model_Subscription, load table name.
+     * Constructor for class LaterPay_Compatibility_Subscription, load table name.
      */
     private function __construct() {
         global $wpdb;
@@ -34,7 +34,7 @@ class LaterPay_Model_Subscription
      * Returns a instance of itself.
      * This method is needed to make class singleton.
      *
-     * @return LaterPay_Model_Subscription
+     * @return LaterPay_Compatibility_Subscription
      */
     public static function get_instance() {
         if ( ! self::$_instance ) {
