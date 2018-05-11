@@ -499,6 +499,8 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 $redirect_url .= '?' . build_query( $params );
             }
 
+            nocache_headers();
+
             wp_safe_redirect( $redirect_url );
             // exit script after redirect was set
             exit;
