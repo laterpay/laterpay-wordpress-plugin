@@ -112,18 +112,8 @@ function laterpay_get_plugin_config() {
 
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
-    $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
 
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
-
-    if ( $config->get( 'is_in_live_mode' ) ) {
-        $laterpay_dialog_library_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
-    } elseif ( $config->get( 'script_debug_mode' ) ) {
-        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
-    } else {
-        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
-    }
-    $config->set( 'laterpay_yui_js', $laterpay_dialog_library_src );
 
     // plugin headers
     $plugin_headers = get_file_data(

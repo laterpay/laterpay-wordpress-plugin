@@ -80,10 +80,8 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             'teaser_mode'                         => get_option( 'laterpay_teaser_mode', '2' ),
             'top_nav'                             => $this->get_menu(),
             'admin_menu'                          => add_query_arg( array( 'page' => $menu['account']['url'] ), admin_url( 'admin.php' ) ),
-            'is_rating_enabled'                   => $this->config->get( 'ratings_enabled' ),
             'purchase_button_positioned_manually' => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'time_passes_positioned_manually'     => get_option( 'laterpay_time_passes_positioned_manually' ),
-            'hide_free_posts'                     => get_option( 'laterpay_hide_free_posts' ),
             'overlay'                             => LaterPay_Helper_Appearance::get_current_options(),
         );
 
@@ -192,37 +190,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
 
                 break;
 
-            // update rating functionality (on / off) for purchased items
-            case 'ratings':
-                $ratings_form = new LaterPay_Form_Rating();
-
-                if ( ! $ratings_form->is_valid( $_POST ) ) { // phpcs:ignore
-                    throw new LaterPay_Core_Exception_FormValidation( get_class( $ratings_form ), $ratings_form->get_errors() );
-                }
-
-                $result = update_option( 'laterpay_ratings', ! ! $ratings_form->get_field_value( 'enable_ratings' ) );
-
-                if ( $result ) {
-                    if ( get_option( 'laterpay_ratings' ) ) {
-                        $event->set_result(
-                            array(
-                                'success' => true,
-                                'message' => __( 'Visitors can now rate the posts they have purchased.', 'laterpay' ),
-                            )
-                        );
-                        return;
-                    }
-
-                    $event->set_result(
-                        array(
-                            'success' => true,
-                            'message' => __( 'The rating of posts has been disabled.', 'laterpay' ),
-                        )
-                    );
-                    return;
-                }
-                break;
-
             case 'purchase_button_position':
                 $purchase_button_position_form = new LaterPay_Form_PurchaseButtonPosition( $_POST ); // phpcs:ignore
 
@@ -277,36 +244,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                         array(
                             'success' => true,
                             'message' => __( 'Time passes are now rendered at their default position.', 'laterpay' ),
-                        )
-                    );
-                    return;
-                }
-                break;
-
-            case 'free_posts_visibility':
-                $hide_free_posts_form = new LaterPay_Form_HideFreePosts( $_POST ); // phpcs:ignore
-
-                if ( ! $hide_free_posts_form->is_valid() ) {
-                    throw new LaterPay_Core_Exception_FormValidation( get_class( $hide_free_posts_form ), $hide_free_posts_form->get_errors() );
-                }
-
-                $result = update_option( 'laterpay_hide_free_posts', ! ! $hide_free_posts_form->get_field_value( 'hide_free_posts' ) );
-
-                if ( $result ) {
-                    if ( get_option( 'laterpay_hide_free_posts' ) ) {
-                        $event->set_result(
-                            array(
-                                'success' => true,
-                                'message' => __( 'Free posts with premium content now hided from the homepage.', 'laterpay' ),
-                            )
-                        );
-                        return;
-                    }
-
-                    $event->set_result(
-                        array(
-                            'success' => true,
-                            'message' => __( 'Free posts with premium content now hided from the homepage.', 'laterpay' ),
                         )
                     );
                     return;

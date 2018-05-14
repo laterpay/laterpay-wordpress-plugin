@@ -193,7 +193,7 @@ class LaterPay_Helper_User
      *
      * @return bool
      */
-    public static function preview_post_as_visitor( $post = null ) {
+    public static function preview_post_as_visitor() {
         if ( null === static::$_preview_post_as_visitor ) {
             $preview_post_as_visitor = 0;
             $current_user            = wp_get_current_user();

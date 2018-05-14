@@ -39,16 +39,11 @@
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
-                postRatingPlaceholder           : $('#lp_js_postRatingPlaceholder'),
 
                 // purchase buttons and purchase links
                 purchaseLink                    : '.lp_js_doPurchase',
                 purchaseOverlay                 : '.lp_js_overlayPurchase',
                 currentOverlay                  : 'input[name="lp_purchase-overlay-option"]:checked',
-
-                // content rating
-                postRatingForm                  : $('.lp_js_ratingForm'),
-                postRatingRadio                 : $('input[type=radio][name=rating_value]'),
 
                 // strings cached for better compression
                 hidden                          : 'lp_is-hidden',
@@ -89,11 +84,6 @@
             },
 
             // DOM cache
-
-            recacheRatingForm = function() {
-                $o.postRatingForm  = $('.lp_js_ratingForm');
-                $o.postRatingRadio = $('input[type=radio][name=rating_value]');
-            },
 
             recachePreviewModeContainer = function() {
                 $o.previewModeContainer = $('#lp_js_previewModeContainer');
@@ -238,14 +228,6 @@
                 return false;
             },
 
-            bindRatingEvents = function() {
-                // save rating when input is selected
-                $o.postRatingRadio
-                    .on('change', function() {
-                        savePostRating();
-                    });
-            },
-
             bindTimePassesEvents = function() {
                 // redeem voucher code
                 $($o.voucherRedeemButton)
@@ -368,41 +350,6 @@
                 $feedbackMessage.fadeOut(250, function() {
                     $feedbackMessage.unbind().remove();
                 });
-            },
-
-            savePostRating = function() {
-                $.post(
-                    lpVars.ajaxUrl,
-                    $o.postRatingForm.serializeArray(),
-                    function(r) {
-                        if (r.success) {
-                            // replace rating form with thank you message and remove it after a few seconds
-                            $('.lp_rating', $o.postRatingForm).addClass($o.fadingOut).empty().append(r.message);
-                            setTimeout(
-                                function() {
-                                    $o.postRatingForm.fadeOut(400, function() { $(this).remove(); });
-                                },
-                                4000
-                            );
-                        }
-                    },
-                    'json'
-                );
-            },
-
-            loadRatingSummary = function() {
-                $.get(
-                    lpVars.ajaxUrl,
-                    {
-                        action  : 'laterpay_post_rating_summary',
-                        post_id : lpVars.post_id
-                    },
-                    function(ratingSummary) {
-                        if (ratingSummary) {
-                            $o.postRatingPlaceholder.empty().append(ratingSummary);
-                        }
-                    }
-                );
             },
 
             loadGiftCards = function() {
@@ -531,28 +478,6 @@
                 );
             },
 
-            loadPostContent = function() {
-                $.get(
-                    lpVars.ajaxUrl,
-                    {
-                        action   : 'laterpay_post_load_purchased_content',
-                        post_id  : lpVars.post_id
-                    },
-                    function(postContent) {
-                        if (postContent) {
-                            $o.postContentPlaceholder.empty().append(postContent);
-                            // load rating form
-                            recacheRatingForm();
-                            bindRatingEvents();
-
-                            if ( $($o.premiumBox).length >= 1 ) {
-                                loadPremiumUrls();
-                            }
-                        }
-                    }
-                );
-            },
-
             handlePurchaseInTestMode = function(trigger) {
                 if ($(trigger).data('preview-as-visitor') && !$(trigger).data('is-in-visible-test-mode')) {
                     // show alert instead of loading LaterPay purchase dialogs
@@ -584,18 +509,9 @@
             },
 
             initializePage = function() {
-                // load post content via Ajax, if plugin is in caching compatible mode
-                // (recognizable by the presence of lp_js_postContentPlaceholder
-                if ($o.postContentPlaceholder.length === 1) {
-                    loadPostContent();
-                }
 
                 if ($o.previewModePlaceholder.length === 1) {
                     loadPreviewModeContainer();
-                }
-
-                if ($o.postRatingPlaceholder.length === 1) {
-                    loadRatingSummary();
                 }
 
                 if ($o.giftsWrapper.length >= 1) {
@@ -607,7 +523,6 @@
                 }
 
                 bindPurchaseEvents();
-                bindRatingEvents();
                 bindTimePassesEvents();
             };
 

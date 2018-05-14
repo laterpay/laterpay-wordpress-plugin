@@ -104,12 +104,6 @@ class LaterPay_Core_Bootstrap
         $preview_mode_controller = self::get_controller( 'Frontend_PreviewMode' );
         laterpay_event_dispatcher()->add_subscriber( $preview_mode_controller );
 
-        // add custom action to echo the LaterPay invoice indicator
-        $invoice_controller = self::get_controller( 'Frontend_Invoice' );
-        laterpay_event_dispatcher()->add_subscriber( $invoice_controller );
-        // add account links action
-        $account_controller = self::get_controller( 'Frontend_Account' );
-        laterpay_event_dispatcher()->add_subscriber( $account_controller );
     }
 
     /**
@@ -122,13 +116,10 @@ class LaterPay_Core_Bootstrap
     private function register_shortcodes() {
         $shortcode_controller = self::get_controller( 'Frontend_Shortcode' );
         // add 'free to read' shortcodes
-        LaterPay_Hooks::add_wp_shortcode( 'laterpay_premium_download', 'laterpay_shortcode_premium_download' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_box_wrapper', 'laterpay_shortcode_box_wrapper' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay', 'laterpay_shortcode_laterpay' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_time_passes', 'laterpay_shortcode_time_passes' );
-        LaterPay_Hooks::add_wp_shortcode( 'laterpay_gift_card', 'laterpay_shortcode_gift_card' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_redeem_voucher', 'laterpay_shortcode_redeem_voucher' );
-        LaterPay_Hooks::add_wp_shortcode( 'laterpay_account_links', 'laterpay_shortcode_account_links' );
 
         laterpay_event_dispatcher()->add_subscriber( $shortcode_controller );
     }
@@ -241,7 +232,6 @@ class LaterPay_Core_Bootstrap
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_TimePasses() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Subscriptions() );
-        laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Rates() );
     }
 
     /**
@@ -266,7 +256,7 @@ class LaterPay_Core_Bootstrap
             return;
         }
         $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $skip_cache_for_cookie = sprintf( '$skip_cache_keys = array( "laterpay_purchased_gift_card", "laterpay_tracking_code", "%s" );', sanitize_key( $client_options["token_name"] ) );
+        $skip_cache_for_cookie = sprintf( '$skip_cache_keys = array( "laterpay_tracking_code", "%s" );', sanitize_key( $client_options["token_name"] ) );
         $skip_cache_for_cookie .= '
         foreach ( $skip_cache_keys as $key ) {
             if ( array_key_exists( $key, $_COOKIE ) ) {
@@ -284,7 +274,6 @@ class LaterPay_Core_Bootstrap
             return;
         }
         $skip_cache_keys = array(
-            'laterpay_purchased_gift_card',
             'laterpay_tracking_code',
             $client_options["token_name"],
         );

@@ -561,12 +561,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $content = $button_event->get_result() . $content;
         }
 
-        // show rating summary if it's enabled
-        $rating_event = new LaterPay_Core_Event();
-        $rating_event->set_echo( false );
-        laterpay_event_dispatcher()->dispatch( 'laterpay_post_rating', $rating_event );
-        $content = $rating_event->get_result() . $content;
-
         $event->set_result( $content );
     }
 

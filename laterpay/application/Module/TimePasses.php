@@ -187,7 +187,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         }
 
         $is_homepage                     = is_front_page() && is_home();
-        $show_widget_on_free_posts       = get_option( 'laterpay_show_time_passes_widget_on_free_posts' );
         $time_passes_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
 
         // prevent execution, if the current post is not the given post and we are not on the homepage,
@@ -195,7 +194,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // or the post is free and we can't show the time pass widget on free posts
         if ( LaterPay_Helper_Pricing::is_purchasable() === false && ! $is_homepage ||
             did_action( 'laterpay_time_passes' ) > 1 ||
-            LaterPay_Helper_Pricing::is_purchasable() === null && ! $show_widget_on_free_posts
+            LaterPay_Helper_Pricing::is_purchasable() === null
         ) {
             $event->stop_propagation();
             return;

@@ -34,14 +34,6 @@
                 overlayButton       : '.lp_purchase-overlay__submit',
                 overlayFooter       : '.lp_purchase-overlay__footer',
 
-                // ratings
-                ratingsToggle       : $('#lp_js_enableRatingsToggle'),
-                ratingsForm         : $('#lp_js_laterpayRatingsForm'),
-
-                // hide free posts
-                hideFreePostsToggle : $('#lp_js_hideFreePostsToggle'),
-                hideFreePostsForm   : $('#lp_js_laterpayHideFreePostsForm'),
-
                 // forms
                 paidContentPreview  : $('#lp_js_paidContentPreview'),
                 previewSwitch       : $('#lp_js_paidContentPreview').find('.lp_js_switchButtonGroup'),
@@ -109,18 +101,6 @@
                 .click(function(e){
                     e.preventDefault();
                     resetOverlaySettings(lpVars.overlaySettings.default);
-                });
-
-                // toggle activation status of content rating
-                $o.ratingsToggle
-                .change(function() {
-                    saveData($o.ratingsForm);
-                });
-
-                // toggle activation status of hide free posts
-                $o.hideFreePostsToggle
-                .change(function() {
-                    saveData($o.hideFreePostsForm);
                 });
             },
 

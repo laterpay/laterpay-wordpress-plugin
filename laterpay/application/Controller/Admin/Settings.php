@@ -88,7 +88,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_colors_settings();
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
-        $this->add_time_passes_settings();
         $this->add_revenue_settings();
         $this->add_gift_codes_settings();
         $this->add_teaser_content_settings();
@@ -233,36 +232,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         esc_html_e( 'Please choose, which standard and custom post types should be sellable with LaterPay.',
             'laterpay' );
         echo '</p>';
-    }
-
-    /**
-     * Add time passes section and fields.
-     *
-     * @return void
-     */
-    public function add_time_passes_settings() {
-        add_settings_section(
-            'laterpay_time_passes',
-            __( 'Offering Time Passes on Free Posts', 'laterpay' ),
-            array( $this, 'get_time_passes_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_show_time_passes_widget_on_free_posts',
-            __( 'Time Passes Widget', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_time_passes',
-            array(
-                'name'  => 'laterpay_show_time_passes_widget_on_free_posts',
-                'value' => 1,
-                'type'  => 'checkbox',
-                'label' => __( 'I want to display the time passes widget on free and paid posts', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_show_time_passes_widget_on_free_posts' );
     }
 
     /**

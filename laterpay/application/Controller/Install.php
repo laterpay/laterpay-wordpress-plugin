@@ -448,8 +448,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_live_api_key',                            '' );
         add_option( 'laterpay_global_price',                            $this->config->get( 'currency.default_price' ) );
         add_option( 'laterpay_global_price_revenue_model',              'ppu' );
-        add_option( 'laterpay_ratings',                                 false );
-        add_option( 'laterpay_bulk_operations',                         '' );
         add_option( 'laterpay_voucher_codes',                           '' );
         add_option( 'laterpay_gift_codes',                              '' );
         add_option( 'laterpay_voucher_statistic',                       '' );
@@ -457,10 +455,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_gift_codes_usages',                       '' );
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
-        add_option( 'laterpay_landing_page',                            '' );
         add_option( 'laterpay_only_time_pass_purchases_allowed',        0 );
         add_option( 'laterpay_is_in_visible_test_mode',                 0 );
-        add_option( 'laterpay_hide_free_posts',                         0 );
 
         // advanced settings
         add_option( 'laterpay_region',                                  'us' );
@@ -470,7 +466,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_preview_excerpt_word_count_min',          '26' );
         add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
         add_option( 'laterpay_enabled_post_types',                      get_post_types( array( 'public' => true ) ) );
-        add_option( 'laterpay_show_time_passes_widget_on_free_posts',   '' );
         add_option( 'laterpay_require_login',                           '' );
         add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
         add_option( 'laterpay_api_fallback_behavior',                   0 );
