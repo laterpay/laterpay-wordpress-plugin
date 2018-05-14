@@ -22,18 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             <span class="lp_plugin-mode-indicator__text"><?php printf( '%1$s <i> %2$s </i>', esc_html__( 'Earn money in', 'laterpay' ), esc_html__( 'live mode', 'laterpay' ) ); ?></span>
         </a>
 
-        <?php echo wp_kses( $laterpay['top_nav'], array(
-            'ul' => array(
-                'class' => array(),
-            ),
-            'li' => array(
-                'class' => array(),
-            ),
-            'a'  => array(
-                'href'  => array(),
-                'class' => array(),
-            ),
-        ) ); ?>
+        <?php
+        // laterpay[account_obj] is instance of LaterPay_Controller_Admin_Account
+        $laterpay['account_obj']->get_menu(); ?>
 
     </div>
 

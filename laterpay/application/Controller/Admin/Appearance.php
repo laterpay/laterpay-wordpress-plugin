@@ -78,7 +78,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
         $view_args = array(
             'plugin_is_in_live_mode'              => $this->config->get( 'is_in_live_mode' ),
             'teaser_mode'                         => get_option( 'laterpay_teaser_mode', '2' ),
-            'top_nav'                             => $this->get_menu(),
+            'appearance_obj'                      => $this,
             'admin_menu'                          => add_query_arg( array( 'page' => $menu['account']['url'] ), admin_url( 'admin.php' ) ),
             'purchase_button_positioned_manually' => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'time_passes_positioned_manually'     => get_option( 'laterpay_time_passes_positioned_manually' ),

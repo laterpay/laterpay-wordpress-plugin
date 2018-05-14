@@ -66,7 +66,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             'credentials_url_us'                => 'https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/add#/signup',
             'plugin_is_in_live_mode'            => $this->config->get( 'is_in_live_mode' ),
             'plugin_is_in_visible_test_mode'    => get_option( 'laterpay_is_in_visible_test_mode' ),
-            'top_nav'                           => $this->get_menu(),
+            'account_obj'                       => $this,
             'admin_menu'                        => LaterPay_Helper_View::get_admin_menu(),
         );
 

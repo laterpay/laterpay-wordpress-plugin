@@ -25,18 +25,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </span>
             </a>
         <?php endif; ?>
-        <?php echo wp_kses( $laterpay['top_nav'], array(
-            'ul' => array(
-                'class' => array(),
-            ),
-            'li' => array(
-                'class' => array(),
-            ),
-            'a'  => array(
-                'href'  => array(),
-                'class' => array(),
-            ),
-        ) ); ?>
+        <?php
+        // laterpay[pricing_obj] is instance of LaterPay_Controller_Admin_Pricing
+        $laterpay['pricing_obj']->get_menu();
+        ?>
     </div>
 
     <div class="lp_pagewrap">
@@ -373,8 +365,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_js_timePassPreview lp_left">
                             <?php
-                            // value coming escaped.
-                            echo $this->render_time_pass( $pass ) //phpcs:ignore
+                                $this->render_time_pass( $pass, true );
                             ?>
                         </div>
 
@@ -426,8 +417,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <div class="lp_js_timePassPreview lp_left">
                         <?php
-                        // Value comming escaped
-                        echo $this->render_time_pass(); //phpcs:ignore
+                            $this->render_time_pass( [], false );
                         ?>
                     </div>
 
@@ -595,8 +585,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_js_subscriptionPreview lp_left">
                             <?php
-                                // ignoring because rendered output is coming escaped.
-                                echo $this->render_subscription( $subscription ); //phpcs:ignore
+                                $this->render_subscription( $subscription, true );
                             ?>
                         </div>
 
@@ -619,8 +608,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <div class="lp_js_subscriptionPreview lp_left">
                         <?php
-                            // ignoring because rendered output is coming escaped.
-                            echo $this->render_subscription(); //phpcs:ignore
+                            $this->render_subscription( [], false );
                         ?>
                     </div>
 

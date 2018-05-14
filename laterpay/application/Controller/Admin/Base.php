@@ -15,7 +15,6 @@ class LaterPay_Controller_Admin_Base extends LaterPay_Controller_Base
      * @param string $file
      * @param string $view_dir view directory
      *
-     * @return string $html
      */
     public function get_menu( $file = null, $view_dir = null ) {
         if ( empty( $file ) ) {
@@ -38,6 +37,6 @@ class LaterPay_Controller_Admin_Base extends LaterPay_Controller_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-        return $this->get_text_view( $file, $view_dir );
+        $this->render( $file, $view_dir );
     }
 }

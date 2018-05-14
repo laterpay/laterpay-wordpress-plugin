@@ -146,7 +146,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $subscriptions_list  = $subscriptions_model->get_active_subscriptions();
 
         $view_args = array(
-            'top_nav'                            => $this->get_menu(),
+            'pricing_obj'                        => $this,
             'admin_menu'                         => LaterPay_Helper_View::get_admin_menu(),
             'categories_with_defined_price'      => $categories_with_defined_price,
             'currency'                           => LaterPay_Helper_Config::get_currency_config(),
@@ -480,11 +480,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Render time pass HTML.
      *
-     * @param array $args
+     * @param array $args    timepass display arguments
+     * @param bool  $is_loop whether pass should be displayed in a loop.
      *
-     * @return string
      */
-    public function render_time_pass( $args = array() ) {
+    public function render_time_pass( $args = array(), $is_loop = false ) {
         $defaults = LaterPay_Helper_TimePass::get_default_options();
         $args     = array_merge( $defaults, $args );
 
@@ -493,9 +493,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
-        $string = $this->get_text_view( 'backend/partials/time-pass' );
-
-        return $string;
+        if ( true === $is_loop ) {
+            $this->render( 'backend/partials/time-pass', null, true );
+        } else {
+            $this->render( 'backend/partials/time-pass' );
+        }
     }
 
     /**
@@ -612,9 +614,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      *
      * @param array $args
      *
-     * @return string
      */
-    public function render_subscription( $args = array() ) {
+    public function render_subscription( $args = array(), $is_loop = false ) {
         $defaults = LaterPay_Helper_Subscription::get_default_options();
         $args     = array_merge( $defaults, $args );
 
@@ -623,9 +624,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
-        $string = $this->get_text_view( 'backend/partials/subscription' );
+        if ( true === $is_loop ) {
+            $this->render( 'backend/partials/subscription', null, true );
+        } else {
+            $this->render( 'backend/partials/subscription' );
+        }
 
-        return $string;
     }
 
     /**
