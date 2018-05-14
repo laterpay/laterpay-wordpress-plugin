@@ -389,9 +389,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
 
         if ( $is_in_visible_test_mode ) {
-            $message = __( 'The plugin is in <strong>visible</strong> test mode now.', 'laterpay' );
+            $message = sprintf( '%1$s <strong>%2$s</strong> %3$s', __( 'The plugin is in', 'laterpay' ), __( 'visible', 'laterpay' ), __( 'test mode now.', 'laterpay' ) );
         } else {
-            $message = __( 'The plugin is in <strong>invisible</strong> test mode now.', 'laterpay' );
+            $message = sprintf( '%1$s <strong>%2$s</strong> %3$s', __( 'The plugin is in', 'laterpay' ), __( 'invisible', 'laterpay' ), __( 'test mode now.', 'laterpay' ) );
         }
 
         $event->set_result(

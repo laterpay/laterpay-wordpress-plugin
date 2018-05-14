@@ -20,15 +20,6 @@ class LaterPay_Compatibility_TimePass
     private static $instance = null;
 
     /**
-     * instance of the LaterPay_Model_TimePass
-     *
-     * @var object of LaterPay_Model_TimePass
-     *
-     * @access private
-     */
-    private static $instance = null;
-
-    /**
      * Name of PostViews table.
      *
      * @var string
