@@ -140,3 +140,15 @@
 .lp_vouchers .lp_voucher {
     float: left;
 }
+
+table {
+
+    td {
+        padding: $fs--05;
+        vertical-align: top;
+    }
+
+    pre {
+        margin: 0;
+    }
+}

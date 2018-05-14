@@ -120,7 +120,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                 <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ! $laterpay['global_default_price_revenue_model'] ) { echo 'lp_is-selected'; } ?>
                                                 <?php if ( $laterpay['global_default_price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppu" <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>><?php esc_html_e( 'Pay Later', 'laterpay' ); ?>
+                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppu" <?php if ( $laterpay['global_default_price_revenue_model'] === 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < $laterpay['currency']['ppu_max'] ) ) { echo ' checked'; } ?>><?php esc_html_e( 'Pay&nbsp;Later', 'laterpay' ); ?>
                                             </label><!--
                                             --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                 <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo 'lp_is-selected'; } ?>
