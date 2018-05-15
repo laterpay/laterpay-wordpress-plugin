@@ -84,15 +84,6 @@ class LaterPay_AutoLoader
      */
     public static function register_directory( $dirName ) {
         LaterPay_AutoLoader::$paths[] = $dirName;
-        set_include_path(
-            implode(
-                PATH_SEPARATOR,
-                array(
-                    realpath( $dirName ),
-                    get_include_path(),
-                )
-            )
-        );
     }
 
     /**
