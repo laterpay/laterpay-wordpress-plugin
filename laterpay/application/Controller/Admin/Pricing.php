@@ -824,7 +824,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 'name'          => __( 'Passes', 'laterpay' ),
                 'singular_name' => __( 'Pass', 'laterpay' ),
             ),
-            'taxonomies' => array( 'category' ),
         );
 
         $result = register_post_type( LaterPay_Model_TimePassWP::$timepass_post_type, $args );

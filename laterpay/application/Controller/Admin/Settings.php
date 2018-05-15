@@ -827,7 +827,10 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'nav_menu_item',
             'revision',
             'custom_css',
-            'customize_changeset'
+            'customize_changeset',
+            'lp_passes',
+            'lp_subscription',
+            'oembed_cache',
         );
 
         $all_post_types     = get_post_types( array( ), 'objects' );

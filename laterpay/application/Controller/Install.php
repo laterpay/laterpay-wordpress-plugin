@@ -119,35 +119,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     }
 
     /**
-     * Update the existing postmeta meta_keys when the new version is greater than or equal 0.9.7.
-     *
-     * @since 0.9.7
-     * @wp-hook admin_notices
-     *
-     * @return void
-     */
-    public function maybe_update_meta_keys() {
-        global $wpdb;
-
-        // check, if the current version is greater than or equal 0.9.7
-        if ( version_compare( $this->config->get( 'version' ), '0.9.7', '>=' ) ) {
-            // map old values to new ones
-            $meta_key_mapping = array(
-                'Teaser content'    => 'laterpay_post_teaser',
-                'Pricing Post'      => 'laterpay_post_pricing',
-                'Pricing Post Type' => 'laterpay_post_pricing_type',
-            );
-
-            $sql = 'UPDATE ' . $wpdb->postmeta . " SET meta_key = '%s' WHERE meta_key = '%s'";
-
-            foreach ( $meta_key_mapping as $before => $after ) {
-                $prepared_sql = $wpdb->prepare( $sql, array( $after, $before ) );
-                $wpdb->query( $prepared_sql );
-            }
-        }
-    }
-
-    /**
      * Add option for invisible / visible test mode.
      *
      * @since 0.9.11
@@ -485,9 +456,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // perform data updates
         if ( $should_run_table_migration ) {
             $maybe_perform_updates = LaterPay_Compatibility_InstallCompat::get_instance();
-        }
-        $this->maybe_update_meta_keys();
-        if ( $should_run_table_migration ) {
+            $maybe_perform_updates->maybe_update_meta_keys();
             $maybe_perform_updates->maybe_update_terms_price_table();
             $maybe_perform_updates->maybe_update_currency_to_euro();
         }
