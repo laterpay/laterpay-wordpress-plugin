@@ -352,25 +352,12 @@ class LaterPay_Model_TimePassWP {
      * @return int number of defined time passes
      */
     public function get_time_passes_count( $ignore_deleted = false ) {
-        // Remove hooks to avoid loop.
-        LaterPay_Hooks::get_instance()->remove_wp_query_hooks();
 
-        // @TODO: Change logic posts_per_page for better performance.
-        $args = array(
-            'post_type'      => self::$timepass_post_type,
-            'post_status'    => 'publish',
-            'posts_per_page' => 100,
-            'no_found_rows'  => true,
-        );
+        $timepass_count = wp_count_posts( self::$timepass_post_type );
 
-        $ignore_deleted === true ? : $query_args['post_status'] = 'publish';
+        $result = ( ( $ignore_deleted === true ) ? $timepass_count->publish : $timepass_count->publish + $timepass_count->draft );
 
-        $the_query = new WP_Query( $args );
-
-        // Add removed WP_Query hooks.
-        LaterPay_Hooks::get_instance()->add_wp_query_hooks();
-
-        return $the_query->post_count;
+        return absint( $result );
     }
 
     /**
