@@ -18,11 +18,13 @@ class LaterPay_Model_CategoryPriceWP
     /**
      * function for sigleton object.
      *
-     * @return object LaterPay_Model_CategoryPriceWP|LaterPay_Compatibility_CategoryPrice
+     * @param boolean Force return object of current class
+     *
+     * @return object LaterPay_Model_CategoryPriceWP
      */
-    public static function get_instance()
+    public static function get_instance( $force = false )
     {
-        if ( laterpay_check_is_vip() ) {
+        if ( laterpay_check_is_vip() || laterpay_is_migration_complete() || $force ) {
             if ( ! isset( self::$instance ) ) {
                 self::$instance = new self();
             }
@@ -37,6 +39,30 @@ class LaterPay_Model_CategoryPriceWP
      * LaterPay_Model_CategoryPriceWP constructor.
      */
     protected function __construct() {}
+
+
+    /**
+     * Gets count of categories with defined category.
+     *
+     * @param array $ids
+     *
+     * @return array category_price_data
+     */
+    public function get_categories_with_defined_price_count() {
+
+        $query = array(
+            'taxonomy'   => 'category',
+            'hide_empty' => false,
+            'meta_key'   => '_lp_price',
+            'count'      => true,
+            'fields'    => 'ids',
+        );
+
+        $categories = new WP_Term_Query( $query );
+
+        return $categories->terms === null ? 0 : count( $categories->terms );
+    }
+
 
     /**
      * Get all categories with a defined category default price.
@@ -304,7 +330,7 @@ class LaterPay_Model_CategoryPriceWP
         if ( function_exists( 'wpcom_vip_term_exists' ) ) {
             $category = wpcom_vip_term_exists( $name, 'category' );
         } else {
-	        $category = term_exists( $name, 'category' ); // phpcs:ignore
+            $category = term_exists( $name, 'category' ); // phpcs:ignore
         }
 
         if ( empty( $category ) ) {

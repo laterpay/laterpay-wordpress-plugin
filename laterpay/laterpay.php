@@ -239,3 +239,12 @@ function laterpay_check_is_vip() {
         return false;
     }
 }
+
+/**
+ * Checks whether the migration is completed or not.
+ *
+ * @return bool
+ */
+function laterpay_is_migration_complete(){
+    return get_option( 'laterpay_data_migrated_to_cpt' ) !== false ;
+}

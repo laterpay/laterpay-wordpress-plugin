@@ -30,13 +30,15 @@ class LaterPay_Model_TimePassWP {
     protected function __construct() {}
 
     /**
-     * Singleton to get only one event dispatcher
+     * Singleton to get only one instance
+     *
+     * @param boolean Force return object of current class
      *
      * @return LaterPay_Model_TimePassWP|LaterPay_Compatibility_TimePass
      */
-    public static function get_instance() {
+    public static function get_instance( $force = false ) {
 
-        if ( laterpay_check_is_vip() ) {
+        if ( laterpay_check_is_vip() || laterpay_is_migration_complete() || $force ) {
 
             if ( ! isset( self::$instance ) ) {
                 self::$instance = new self();
@@ -345,9 +347,11 @@ class LaterPay_Model_TimePassWP {
     /**
      * Get count of existing time passes.
      *
+     * @param bool $ignore_deleted ignore count of deleted pass.
+     *
      * @return int number of defined time passes
      */
-    public function get_time_passes_count() {
+    public function get_time_passes_count( $ignore_deleted = false ) {
         // Remove hooks to avoid loop.
         LaterPay_Hooks::get_instance()->remove_wp_query_hooks();
 
@@ -358,6 +362,8 @@ class LaterPay_Model_TimePassWP {
             'posts_per_page' => 100,
             'no_found_rows'  => true,
         );
+
+        $ignore_deleted === true ? : $query_args['post_status'] = 'publish';
 
         $the_query = new WP_Query( $args );
 

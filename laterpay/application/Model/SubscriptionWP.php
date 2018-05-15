@@ -26,11 +26,13 @@ class LaterPay_Model_SubscriptionWP {
      * current environment is not VIP. Otherwise returns instance of itself(on VIP platforms).
      * This method is needed to make class singleton
      *
+     * @param boolean Force return object of current class
+     *
      * @return LaterPay_Compatibility_Subscription|LaterPay_Model_SubscriptionWP
      */
-    public static function get_instance() {
+    public static function get_instance( $force = false ) {
 
-        if( laterpay_check_is_vip() ) {
+        if( laterpay_check_is_vip() || laterpay_is_migration_complete() || $force ) {
             if ( ! self::$_instance ) {
                 self::$_instance = new self();
             }
@@ -387,17 +389,20 @@ class LaterPay_Model_SubscriptionWP {
     /**
      * Get count of existing subscriptions.
      *
+     * @param bool $ignore_deleted to get count of deleted subscription or not.
+     *
      * @return int number of defined subscriptions
      */
-    public function get_subscriptions_count() {
+    public function get_subscriptions_count( $ignore_deleted = false ) {
 
         LaterPay_Hooks::get_instance()->remove_wp_query_hooks();
 
         $query_args = array(
             'post_type'      => 'lp_subscription',
-            'post_status'    => 'publish',
             'posts_per_page' => 1,
         );
+
+        $ignore_deleted === true ? : $query_args['post_status'] = 'publish';
 
         $subscription_posts_query = new WP_Query( $query_args );
 

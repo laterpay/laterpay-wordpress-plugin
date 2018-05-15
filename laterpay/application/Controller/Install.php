@@ -25,11 +25,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             ),
             'laterpay_admin_notices' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'render_requirements_notices' )
+                array( 'render_requirements_notices' ),
             ),
             'laterpay_init_finished' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'install_updates' )
+                array( 'install_updates' ),
             )
         );
     }
