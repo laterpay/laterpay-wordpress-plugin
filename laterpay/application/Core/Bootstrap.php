@@ -35,7 +35,7 @@ class LaterPay_Core_Bootstrap
         $textdomain_dir     = dirname( $this->config->get( 'plugin_base_name' ) );
         $textdomain_path    = $textdomain_dir . $this->config->get( 'text_domain_path' );
         load_plugin_textdomain(
-            'laterpay', 
+            'laterpay',
             false,
             $textdomain_path
         );

@@ -365,7 +365,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_js_timePassPreview lp_left">
                             <?php
-                                $this->render_time_pass( $pass, true );
+                                // value coming escaped.
+                                echo $this->render_time_pass( $pass ) //phpcs:ignore
                             ?>
                         </div>
 
@@ -417,7 +418,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <div class="lp_js_timePassPreview lp_left">
                         <?php
-                            $this->render_time_pass( [], false );
+                            // Value comming escaped
+                            echo $this->render_time_pass(); //phpcs:ignore
                         ?>
                     </div>
 
@@ -585,7 +587,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <div class="lp_js_subscriptionPreview lp_left">
                             <?php
-                                $this->render_subscription( $subscription, true );
+                                // ignoring because rendered output is coming escaped.
+                                echo $this->render_subscription( $subscription ); //phpcs:ignore
                             ?>
                         </div>
 
@@ -608,7 +611,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <div class="lp_js_subscriptionPreview lp_left">
                         <?php
-                            $this->render_subscription( [], false );
+                            // ignoring because rendered output is coming escaped.
+                            echo $this->render_subscription(); //phpcs:ignore
                         ?>
                     </div>
 

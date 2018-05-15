@@ -480,11 +480,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Render time pass HTML.
      *
-     * @param array $args    timepass display arguments
-     * @param bool  $is_loop whether pass should be displayed in a loop.
+     * @param array $args timepass display arguments
      *
+     * @return string
      */
-    public function render_time_pass( $args = array(), $is_loop = false ) {
+    public function render_time_pass( $args = array() ) {
         $defaults = LaterPay_Helper_TimePass::get_default_options();
         $args     = array_merge( $defaults, $args );
 
@@ -493,11 +493,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
-        if ( true === $is_loop ) {
-            $this->render( 'backend/partials/time-pass', null, true );
-        } else {
-            $this->render( 'backend/partials/time-pass' );
-        }
+        $string = $this->get_text_view( 'backend/partials/time-pass' );
+
+        return $string;
     }
 
     /**
@@ -614,6 +612,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      *
      * @param array $args
      *
+     * @return string
      */
     public function render_subscription( $args = array(), $is_loop = false ) {
         $defaults = LaterPay_Helper_Subscription::get_default_options();
@@ -624,12 +623,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
-        if ( true === $is_loop ) {
-            $this->render( 'backend/partials/subscription', null, true );
-        } else {
-            $this->render( 'backend/partials/subscription' );
-        }
+        $string = $this->get_text_view( 'backend/partials/subscription' );
 
+        return $string;
     }
 
     /**
