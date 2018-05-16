@@ -164,7 +164,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 $button_text_color       = filter_input( INPUT_POST, 'button_text_color', FILTER_SANITIZE_STRING );
                 $link_main_color         = filter_input( INPUT_POST, 'link_main_color', FILTER_SANITIZE_STRING );
                 $link_hover_color        = filter_input( INPUT_POST, 'link_hover_color', FILTER_SANITIZE_STRING );
-                $show_footer             = filter_input( INPUT_POST, 'show_footer', FILTER_SANITIZE_STRING );
+                $show_footer             = isset( $_POST['show_footer'] ) ? sanitize_text_field( $_POST['show_footer'] ) : ''; // WPCS:input var ok.
                 $footer_background_color = filter_input( INPUT_POST, 'footer_background_color', FILTER_SANITIZE_STRING );
 
                 update_option( 'laterpay_overlay_header_title',      $header_title );
@@ -177,7 +177,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 update_option( 'laterpay_overlay_link_main_color',   $link_main_color );
                 update_option( 'laterpay_overlay_link_hover_color',  $link_hover_color );
                 if ( null !== $show_footer ) {
-                    update_option( 'laterpay_overlay_show_footer',       (int) $show_footer );
+                    update_option( 'laterpay_overlay_show_footer', (int) $show_footer );
                 }
                 update_option( 'laterpay_overlay_footer_bg_color',   $footer_background_color );
 
