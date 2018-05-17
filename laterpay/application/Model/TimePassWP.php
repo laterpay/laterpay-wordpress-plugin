@@ -201,6 +201,9 @@ class LaterPay_Model_TimePassWP {
      * @return array $data array of saved/updated time pass data
      */
     public function update_time_pass( $data ) {
+        if ( ! empty( $data['counter_id'] ) ) {
+            $counter_id = $data['counter_id'];
+        }
         // leave only the required keys
         $data = array_intersect_key( $data, LaterPay_Helper_TimePass::get_default_options() );
 
@@ -220,18 +223,14 @@ class LaterPay_Model_TimePassWP {
 
         if ( empty( $time_pass_id ) ) {
 
-            $timepass_counter = get_option( 'lp_pass_count' );
-
-            if ( false === $timepass_counter ) {
-                $timepass_counter = 1;
-                add_option( 'lp_pass_count', $timepass_counter );
+            if ( isset( $counter_id ) ) {
+                $timepass_counter = $counter_id;
             } else {
+                $timepass_counter = get_option( 'lp_pass_count', 0 );
                 $timepass_counter = $timepass_counter + 1;
                 update_option( 'lp_pass_count', $timepass_counter );
             }
-
             $args['meta_input']['_lp_id'] = $timepass_counter;
-
             $data['tp_id']   = wp_insert_post( $args );
             $data['pass_id'] = $timepass_counter;
         } else {

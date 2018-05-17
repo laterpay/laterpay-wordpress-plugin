@@ -112,6 +112,10 @@ class LaterPay_Model_SubscriptionWP {
      */
     public function update_subscription( $data ) {
 
+        if ( ! empty( $data['counter_id'] ) ) { // Migration.
+            $counter_id = $data['counter_id'];
+        }
+
         // leave only the required keys
         $data = array_intersect_key( $data, LaterPay_Helper_Subscription::get_default_options() );
 
@@ -137,12 +141,10 @@ class LaterPay_Model_SubscriptionWP {
                 $access_value = $data['access_category'];
             }
 
-            $subscription_counter = get_option( 'lp_sub_count' );
-
-            if ( false === $subscription_counter ) {
-                $subscription_counter = 1;
-                add_option( 'lp_sub_count', $subscription_counter );
+            if ( isset( $counter_id ) ) {
+                $subscription_counter = $counter_id;
             } else {
+                $subscription_counter = get_option( 'lp_sub_count', 0 );
                 $subscription_counter = $subscription_counter + 1;
                 update_option( 'lp_sub_count', $subscription_counter );
             }
@@ -248,7 +250,6 @@ class LaterPay_Model_SubscriptionWP {
         $query_args = array(
             'post_type'      => 'lp_subscription',
             'post_status'    => [ 'publish', 'draft' ],
-            'orderby'        => 'post_title',
             'posts_per_page' => 100,   // TODO: Add pagination and user control over it.
             'no_found_rows'  => true,
         );

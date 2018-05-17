@@ -150,10 +150,10 @@ class LaterPay_Core_Bootstrap
         laterpay_event_dispatcher()->add_subscriber( $controller );
 
         // register callbacks for adding meta_boxes
-        $post_metabox_controller    = self::get_controller( 'Admin_Post_Metabox' );
+        $post_metabox_controller = self::get_controller( 'Admin_Post_Metabox' );
         laterpay_event_dispatcher()->add_subscriber( $post_metabox_controller );
 
-        $column_controller          = self::get_controller( 'Admin_Post_Column' );
+        $column_controller = self::get_controller( 'Admin_Post_Column' );
         laterpay_event_dispatcher()->add_subscriber( $column_controller );
     }
 
@@ -228,10 +228,16 @@ class LaterPay_Core_Bootstrap
      * @return void
      */
     private function register_modules() {
+
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Appearance() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_TimePasses() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Subscriptions() );
+
+        if ( ! laterpay_check_is_vip() && ! laterpay_is_migration_complete() ) {
+            laterpay_event_dispatcher()->add_subscriber( new LaterPay_Compatibility_Migrate() );
+        }
+
     }
 
     /**

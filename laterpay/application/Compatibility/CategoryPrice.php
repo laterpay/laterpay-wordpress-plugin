@@ -91,6 +91,26 @@ class LaterPay_Compatibility_CategoryPrice
     }
 
     /**
+     * Gets count of categories with defined category.
+     *
+     * @return array category_price_data
+     */
+    public function get_categories_with_defined_price_count() {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                count(*) AS category_price_count 
+            FROM
+                {$this->term_table_prices}
+            ;";
+
+        $categories = $wpdb->get_row( $sql );
+
+        return $categories->category_price_count;
+    }
+
+    /**
      * Get categories with defined category default prices by list of category ids.
      *
      * @param array $ids
