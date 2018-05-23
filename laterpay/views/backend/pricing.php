@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="lp_navigation">
         <?php if ( ! $laterpay['plugin_is_in_live_mode'] ) : ?>
-            <a href="<?php echo esc_url_raw( add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ) ); ?>"
+            <a href="<?php echo esc_url( add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ) ); ?>"
                 class="lp_plugin-mode-indicator"
                 data-icon="h">
                 <h2 class="lp_plugin-mode-indicator__title"><?php esc_html_e( 'Test mode', 'laterpay' ); ?></h2>
