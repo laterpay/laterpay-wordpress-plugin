@@ -13,15 +13,20 @@ $args = array_merge( array(
     'class'                         => 'lp_js_doPurchase lp_js_purchaseLink lp_purchase-link',
     'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                     => 'b',
-    'data-laterpay'                 => $laterpay['link'],
-    'data-post-id'                  => $laterpay['post_id'],
+    'data-laterpay'                 => esc_url( $laterpay['link'] ),
+    'data-post-id'                  => absint( $laterpay['post_id'] ),
     ),
     $laterpay['attributes']
 );
-$arg_str = '';
-foreach ( $args as $key => $value ) {
-    $arg_str .= ' ' . $key . '="' . esc_attr( $value ) . '" ';
-}
+$whitelisted_attr = array(
+    'href',
+    'class',
+    'title',
+    'data-icon',
+    'data-laterpay',
+    'data-post-id',
+    'data-preview-post-as-visitor',
+);
 
 if ( $laterpay['revenue_model'] === 'sis' ) :
     /* translators: %1$s purchase text, %2$s formatted price, %3$s currency tpye */
@@ -36,4 +41,4 @@ if ( isset( $laterpay['link_text'] ) ) {
 }
 ?>
 
-<a <?php echo $arg_str; ?>><?php echo $link_text; // phpcs:ignore ?></a>
+<a <?php laterpay_whitelisted_attributes( $args, $whitelisted_attr ); ?>><?php echo $link_text; // phpcs:ignore ?></a>

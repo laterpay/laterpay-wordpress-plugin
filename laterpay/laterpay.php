@@ -248,3 +248,17 @@ function laterpay_check_is_vip() {
 function laterpay_is_migration_complete(){
     return get_option( 'laterpay_data_migrated_to_cpt' ) !== false ;
 }
+
+/**
+ * Laterpay display attributes.
+ *
+ * @param array $args arguments.
+ * @param array $whitelisted_keys default params.
+ */
+function laterpay_whitelisted_attributes( $args, $whitelisted_keys ) {
+    $whitelisted_keys = array_flip( $whitelisted_keys );
+    $new_args = array_intersect_key( $args, $whitelisted_keys );
+    foreach ( $new_args as $key => $value ) {
+        echo $key . '="' . esc_attr( $value ) . '" '; // phpcs:ignore
+    }
+}
