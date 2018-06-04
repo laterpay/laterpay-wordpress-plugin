@@ -22,7 +22,7 @@ class LaterPay_Core_Event {
     /**
      * Should be event result output
      */
-    protected $echo = true;
+    protected $echo = false;
 
     /**
      * Event result
@@ -102,6 +102,7 @@ class LaterPay_Core_Event {
      */
     public function set_ajax( $ajax ) {
         $this->ajax = $ajax;
+        $this->set_echo( true );
     }
 
     /**

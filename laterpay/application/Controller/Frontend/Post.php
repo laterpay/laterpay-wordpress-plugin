@@ -641,10 +641,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-        $html = $event->get_result();
-        $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
-
-        $event->set_result( $html );
+        $this->render( 'frontend/partials/post/teaser', null, true );
     }
 
     /**
@@ -673,8 +670,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         $html = $event->get_result();
         $html .= str_replace( array( '{price}', '{currency}', '{teaser_content}' ), array( $price, $currency, $teaser_content ), $feed_hint );
-
-        $event->set_result( $html );
+	    echo wp_kses_post( $html );
     }
 
     /**
