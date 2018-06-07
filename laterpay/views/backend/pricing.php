@@ -580,10 +580,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <span class="lp_js_subscriptionId lp_subscription__id"><?php echo esc_html( $subscription['id'] ); ?></span>
                         </div>
                         <div class="lp_js_subscriptionPreview lp_left">
-                            <?php
-                                // ignoring because rendered output is coming escaped.
-                                echo $this->render_subscription( $subscription ); //phpcs:ignore
-                            ?>
+                            <?php $this->render_subscription( $subscription, true ); ?>
                         </div>
 
                         <div class="lp_js_subscriptionEditorContainer lp_subscription-editor"></div>
@@ -604,10 +601,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
 
                     <div class="lp_js_subscriptionPreview lp_left">
-                        <?php
-                            // ignoring because rendered output is coming escaped.
-                            echo $this->render_subscription(); //phpcs:ignore
-                        ?>
+                        <?php $this->render_subscription( array(), true ); ?>
                     </div>
 
                     <div class="lp_js_subscriptionEditorContainer lp_subscription-editor">
