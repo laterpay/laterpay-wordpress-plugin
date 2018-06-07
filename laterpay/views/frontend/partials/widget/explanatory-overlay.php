@@ -36,7 +36,23 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php
                     // ignoring this because generated html is escaped in,
                     // views/frontend/partials/widget/purchase-button.php
-                    echo $overlay_data['action']; // phpcs:ignore
+                echo wp_kses( $overlay_data['action_html_escaped'], [
+                    'div' => [
+                        'class' => [],
+                    ],
+                    'a' => [
+                        'href' => [],
+                        'class' => [],
+                        'title' => [],
+                        'data-icon' => [],
+                        'data-laterpay' => [],
+                        'data-post-id' => [],
+                        'data-preview-post-as-visitor' => [],
+                    ],
+                    'small' => [
+                        'class' => [],
+                    ],
+                ] );
                 ?>
             </div>
             <div class="lp_powered-by">

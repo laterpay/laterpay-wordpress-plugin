@@ -381,7 +381,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $overlay_content = array(
                 'title'      => $overlay_title,
                 'benefits'   => $overlay_benefits,
-                'action'     => $this->get_text_view( 'frontend/partials/widget/time-passes-link' ),
+                'action_html_escaped'     => $this->get_text_view( 'frontend/partials/widget/time-passes-link' ),
             );
             $event->set_result( $overlay_content );
         }
