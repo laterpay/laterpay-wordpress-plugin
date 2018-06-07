@@ -482,9 +482,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      *
      * @param array $args timepass display arguments
      *
-     * @return string
+     * @param bool $echo should echo model.
+     *
+     * @return string|void
      */
-    public function render_time_pass( $args = array() ) {
+    public function render_time_pass( $args = array(), $echo = false ) {
         $defaults = LaterPay_Helper_TimePass::get_default_options();
         $args     = array_merge( $defaults, $args );
 
@@ -493,9 +495,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
-        $string = $this->get_text_view( 'backend/partials/time-pass' );
-
-        return $string;
+        if ( $echo ) {
+            $this->render( 'backend/partials/time-pass', null, true );
+        } else {
+            return $this->get_text_view( 'backend/partials/time-pass' );
+        }
     }
 
     /**
