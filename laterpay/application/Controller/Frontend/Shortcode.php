@@ -20,12 +20,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_get_premium_shortcode_link' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_get_premium_shortcode_link' ),
             ),
             'wp_ajax_nopriv_laterpay_get_premium_shortcode_link' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_get_premium_shortcode_link' ),
             ),
         );
