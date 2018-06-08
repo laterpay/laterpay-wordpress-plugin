@@ -64,12 +64,9 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         // apply registered in wordpress filters for the event result
         $result = LaterPay_Hooks::apply_filters( $event_name, $event->get_result() );
         $event->set_result( $result );
-        if ( $event->is_echo_enabled() ) {
-            // todo: Check if output needs escaping if HTML
+        if ( $event->is_echo_enabled() && $event->is_ajax() ) {
             echo $event->get_formatted_result(); // phpcs:ignore
-        }
-        if ( $event->is_ajax() ) { // otherwise admin-ajax.php will add extra '0' to each request
-            die;
+	        die;
         }
         return $event;
     }

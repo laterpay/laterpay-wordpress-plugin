@@ -173,7 +173,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      * @return void
      */
     public function add_html5shiv_to_admin_head( LaterPay_Core_Event $event ) {
-        $event->set_echo( true );
         $view_args = array(
             'scripts' => array(
                 '//html5shim.googlecode.com/svn/trunk/html5.js',
@@ -181,7 +180,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        $event->set_result( $this->get_text_view( 'backend/partials/html5shiv' ) );
+	    $this->render( 'backend/partials/html5shiv' );
     }
 
     /**
@@ -583,9 +582,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-        $result  = $event->get_result();
-        $result .= $this->get_text_view( 'backend/partials/pointer-scripts' );
-        $event->set_result( $result );
+        $this->render( 'backend/partials/pointer-scripts', null, true );
     }
 
     /**

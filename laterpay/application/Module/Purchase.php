@@ -115,9 +115,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         );
 
         $this->assign( 'laterpay', $view_args );
-        $html = $this->get_text_view( 'frontend/partials/widget/purchase-button' );
+        $html_escaped = $this->get_text_view( 'frontend/partials/widget/purchase-button' );
 
-        $event->set_result( $html )
+        $event->set_result( $html_escaped )
             ->set_arguments( $view_args );
     }
 
@@ -142,9 +142,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         );
 
         $this->assign( 'overlay', $view_args );
-        $html = $this->get_text_view( 'frontend/partials/widget/explanatory-overlay' );
+        $html_escaped = $this->get_text_view( 'frontend/partials/widget/explanatory-overlay' );
 
-        $event->set_result( $html );
+        $event->set_result( $html_escaped );
     }
 
     /**
@@ -303,9 +303,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $action_event );
 
         $overlay_content = array(
-            'title'         => $overlay_title,
-            'benefits'      => $overlay_benefits,
-            'action'        => (string) $action_event->get_result(),
+            'title' => $overlay_title,
+            'benefits' => $overlay_benefits,
+            'action_html_escaped' => (string) $action_event->get_result(),
         );
 
         $event->set_result( $overlay_content );

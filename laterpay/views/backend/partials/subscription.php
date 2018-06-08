@@ -25,8 +25,8 @@ if ( ! is_wp_error( $category ) && ! empty( $category ) && 0 !== intval( $laterp
 <div class="lp_js_subscription lp_time-pass lp_time-pass-<?php echo esc_attr( $laterpay_subscription['id'] ); ?>" data-sub-id="<?php echo esc_attr( $laterpay_subscription['id'] ); ?>">
 
     <section class="lp_time-pass__front">
-        <h4 class="lp_js_subscriptionPreviewTitle lp_time-pass__title"><?php esc_html_e( $laterpay_subscription['title'] ); ?></h4>
-        <p class="lp_js_subscriptionPreviewDescription lp_time-pass__description"><?php esc_html_e( $laterpay_subscription['description'] ); ?></p>
+        <h4 class="lp_js_subscriptionPreviewTitle lp_time-pass__title"><?php echo esc_html( $laterpay_subscription['title'] ); ?></h4>
+        <p class="lp_js_subscriptionPreviewDescription lp_time-pass__description"><?php echo esc_html( $laterpay_subscription['description'] ); ?></p>
         <div class="lp_time-pass__actions">
             <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button"
                title="<?php esc_attr_e( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b"

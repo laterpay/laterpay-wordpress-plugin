@@ -15,17 +15,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 $args = array_merge( array(
     'href'                          => '#',
     'class'                         => 'lp_js_doPurchase lp_purchase-button',
-    'title'                         => esc_html__( 'Buy now with LaterPay', 'laterpay' ),
+    'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                     => 'b',
     'data-laterpay'                 => esc_url( $laterpay['link'] ),
     'data-post-id'                  => $laterpay['post_id'],
     ),
     $laterpay['attributes']
 );
-$arg_str = '';
-foreach ( $args as $key => $value ) {
-    $arg_str .= ' ' . $key . '="' . esc_attr( $value ) . '" ';
-}
+$whitelisted_attr = array(
+    'href',
+    'class',
+    'title',
+    'data-icon',
+    'data-laterpay',
+    'data-post-id',
+    'data-preview-post-as-visitor',
+);
 /* translators: %1$s formatted price, %2$s currency tpye */
 $link_text = sprintf( '%1$s<small class="lp_purchase-link__currency">%2$s</small>', esc_html( LaterPay_Helper_View::format_number( $laterpay['price'] ) ), esc_html( $laterpay['currency'] ) );
 
@@ -35,5 +40,5 @@ if ( isset( $laterpay['link_text'] ) ) {
 }
 ?>
 
-<div><a <?php echo $arg_str; ?>><?php echo $link_text; // phpcs:ignore ?></a></div>
+<div><a <?php laterpay_whitelisted_attributes( $args, $whitelisted_attr ); ?>><?php echo $link_text; // phpcs:ignore ?></a></div>
 <div><a class="lp_bought_notification" href="<?php echo esc_url( $laterpay['identify_url'] ); ?>"><?php echo esc_html( $laterpay['notification_text'] ); ?></a></div>

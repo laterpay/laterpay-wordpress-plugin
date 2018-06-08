@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="lp_navigation">
         <?php if ( ! $laterpay['plugin_is_in_live_mode'] ) : ?>
-            <a href="<?php echo esc_url_raw( add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ) ); ?>"
+            <a href="<?php echo esc_url( add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ) ); ?>"
                 class="lp_plugin-mode-indicator"
                 data-icon="h">
                 <h2 class="lp_plugin-mode-indicator__title"><?php esc_html_e( 'Test mode', 'laterpay' ); ?></h2>
@@ -364,10 +364,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <span class="lp_js_timePassId lp_time-pass__id"><?php echo esc_html( $pass['pass_id'] ); ?></span>
                         </div>
                         <div class="lp_js_timePassPreview lp_left">
-                            <?php
-                                // value coming escaped.
-                                echo $this->render_time_pass( $pass ) //phpcs:ignore
-                            ?>
+                            <?php $this->render_time_pass( $pass, true ); ?>
                         </div>
 
                         <div class="lp_js_timePassEditorContainer lp_time-pass-editor"></div>
@@ -417,10 +414,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
 
                     <div class="lp_js_timePassPreview lp_left">
-                        <?php
-                            // Value comming escaped
-                            echo $this->render_time_pass(); //phpcs:ignore
-                        ?>
+                        <?php $this->render_time_pass( array(), true ); ?>
                     </div>
 
                     <div class="lp_js_timePassEditorContainer lp_time-pass-editor">
@@ -586,10 +580,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <span class="lp_js_subscriptionId lp_subscription__id"><?php echo esc_html( $subscription['id'] ); ?></span>
                         </div>
                         <div class="lp_js_subscriptionPreview lp_left">
-                            <?php
-                                // ignoring because rendered output is coming escaped.
-                                echo $this->render_subscription( $subscription ); //phpcs:ignore
-                            ?>
+                            <?php $this->render_subscription( $subscription, true ); ?>
                         </div>
 
                         <div class="lp_js_subscriptionEditorContainer lp_subscription-editor"></div>
@@ -610,10 +601,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
 
                     <div class="lp_js_subscriptionPreview lp_left">
-                        <?php
-                            // ignoring because rendered output is coming escaped.
-                            echo $this->render_subscription(); //phpcs:ignore
-                        ?>
+                        <?php $this->render_subscription( array(), true ); ?>
                     </div>
 
                     <div class="lp_js_subscriptionEditorContainer lp_subscription-editor">
