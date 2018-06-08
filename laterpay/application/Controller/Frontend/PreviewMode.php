@@ -190,7 +190,8 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        $event->set_result( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
+        $this->render( 'frontend/partials/post/select-preview-mode-tab' );
+        die;
     }
 
     /**

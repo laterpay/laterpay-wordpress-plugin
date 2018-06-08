@@ -65,8 +65,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
         $result = LaterPay_Hooks::apply_filters( $event_name, $event->get_result() );
         $event->set_result( $result );
         if ( $event->is_echo_enabled() && $event->is_ajax() ) {
-            echo $event->get_formatted_result(); // phpcs:ignore
-	        die;
+            wp_send_json( $event->get_result() );
         }
         return $event;
     }
