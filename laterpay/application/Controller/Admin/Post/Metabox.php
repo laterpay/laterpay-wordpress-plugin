@@ -41,17 +41,14 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_reset_post_publication_date' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'reset_post_publication_date' ),
             ),
             'wp_ajax_laterpay_get_dynamic_pricing_data' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'get_dynamic_pricing_data' ),
             ),
             'wp_ajax_laterpay_remove_post_dynamic_pricing' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'remove_dynamic_pricing_data' ),
             ),
         );

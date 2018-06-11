@@ -53,12 +53,10 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_redeem_voucher_code' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_redeem_voucher_code' ),
             ),
             'wp_ajax_nopriv_laterpay_redeem_voucher_code' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_redeem_voucher_code' ),
             ),
             'wp_ajax_laterpay_load_files' => array(

@@ -20,12 +20,10 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_preview_mode_visibility' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_visibility' ),
             ),
             'wp_ajax_laterpay_post_toggle_preview' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_preview' ),
             ),
             'wp_ajax_laterpay_preview_mode_render' => array(
@@ -190,7 +188,8 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        $event->set_result( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
+        $this->render( 'frontend/partials/post/select-preview-mode-tab' );
+        die;
     }
 
     /**
