@@ -799,7 +799,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $only_time_pass = 0; // allow individual and time pass purchases
         }
 
-        if ( $only_time_pass === 1 && ! LaterPay_Helper_TimePass::get_time_passes_count() ) {
+        if ( 1 === $only_time_pass && ! LaterPay_Helper_TimePass::get_time_passes_count( true ) ) {
             $event->set_result(
                 array(
                     'success' => false,

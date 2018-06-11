@@ -542,11 +542,13 @@ class LaterPay_Helper_TimePass
     /*
      * Get count of existing time passes.
      *
+     * @param bool $ignore_deleted ignore count of deleted pass.
+     *
      * @return int count of time passes
      */
-    public static function get_time_passes_count() {
+    public static function get_time_passes_count( $ignore_deleted = false ) {
         $model = LaterPay_Model_TimePassWP::get_instance();
 
-        return $model->get_time_passes_count();
+        return $model->get_time_passes_count( $ignore_deleted );
     }
 }
