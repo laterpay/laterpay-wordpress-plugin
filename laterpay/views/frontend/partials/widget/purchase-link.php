@@ -41,4 +41,4 @@ if ( isset( $laterpay['link_text'] ) ) {
 }
 ?>
 
-<a <?php laterpay_whitelisted_attributes( $args, $whitelisted_attr ); ?>><?php echo $link_text; // phpcs:ignore ?></a>
+<a <?php laterpay_whitelisted_attributes( $args, $whitelisted_attr ); ?>><?php echo wp_kses_post( $link_text ); // phpcs:ignore ?></a>

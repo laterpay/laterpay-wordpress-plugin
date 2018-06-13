@@ -40,5 +40,5 @@ if ( isset( $laterpay['link_text'] ) ) {
 }
 ?>
 
-<div><a <?php laterpay_whitelisted_attributes( $args, $whitelisted_attr ); ?>><?php echo $link_text; // phpcs:ignore ?></a></div>
+<div><a <?php laterpay_whitelisted_attributes( $args, $whitelisted_attr ); ?>><?php echo wp_kses_post( $link_text ); // phpcs:ignore ?></a></div>
 <div><a class="lp_bought_notification" href="<?php echo esc_url( $laterpay['identify_url'] ); ?>"><?php echo esc_html( $laterpay['notification_text'] ); ?></a></div>
