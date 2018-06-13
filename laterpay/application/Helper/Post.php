@@ -328,10 +328,10 @@ class LaterPay_Helper_Post
 
         if ( count( $teaser_content ) > 1 ) {
             if ( $more ) {
-                $output .= '<span id="more-' . $post_id . '"></span>' . $teaser_content[1];
+                $output .= '<span id="more-' . intval( $post_id ) . '"></span>' . wp_kses_post( $teaser_content[1] );
             } else {
                 if ( ! empty( $more_link_text ) ) {
-                    $output .= '<a href="' . get_permalink() . "#more-{$post_id}\" class=\"more-link\">$more_link_text</a>";
+                    $output .= '<a href="' . esc_url( get_permalink() ) . "#more-".intval( $post_id )."\" class=\"more-link\">".wp_kses_post( $more_link_text ). "</a>";
                 }
                 $output = force_balance_tags( $output );
             }
