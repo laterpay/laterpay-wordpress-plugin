@@ -34,7 +34,7 @@
 
 	        $.post( ajaxurl, data, function ( response ) {
 
-		        if ( typeof response === 'string' ) {
+		        if ( $.type( response ) === 'string' ) {
 			        response = JSON.parse( response );
 		        }
 

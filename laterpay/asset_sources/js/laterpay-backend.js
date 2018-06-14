@@ -32,7 +32,7 @@ jQuery.fn.showMessage = function(message, success) {
     var $container  = jQuery(this);
 
 	try {
-		if ( typeof message === 'string' ) {
+		if ( jQuery.type( message ) === 'string' ) {
 			message = JSON.parse( message );
 		}
 		success = message.success;
