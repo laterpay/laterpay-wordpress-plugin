@@ -45,6 +45,10 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
      */
     public function render_data_migration_notice( LaterPay_Core_Event $event ) {
 
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
         if ( ! laterpay_check_is_vip() && ! laterpay_is_migration_complete() ) {
             printf( '<div id="lp_migration_notice" class="notice notice-error"><p>%s <a id="lp_js_startDataMigration" href="#">%s</a> %s</p></div>',
                 esc_html__( 'Your laterpay data needs to be migrated. Click', 'laterpay' ),
@@ -77,7 +81,6 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
                 'MigrationCompleted'      => esc_html( esc_js( __( 'Migration Completed.',       'laterpay' ) ) ),
             )
         );
-
     }
 
     /**
@@ -89,6 +92,10 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
      * @return void
      */
     public function ajax_start_migration( LaterPay_Core_Event $event ) {
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
 
         check_ajax_referer('migration_nonce', 'security' );
 
@@ -298,6 +305,10 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
      *  Drop laterpay custom tables.
      */
     public function drop_custom_tables() {
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
 
         // TODO: Call this function after migration is finished
         check_ajax_referer( 'migration_nonce', 'security' );
