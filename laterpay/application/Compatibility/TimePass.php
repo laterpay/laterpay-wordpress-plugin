@@ -258,20 +258,20 @@ class LaterPay_Compatibility_TimePass
     /**
      * Get count of existing time passes.
      *
+     * @param boolean $ignore_deleted Should deleted posts be ignored or not
+     *
      * @return int number of defined time passes
      */
-    public function get_time_passes_count() {
+    public function get_time_passes_count( $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
             SELECT
                 count(*) AS c_passes
             FROM
-                {$this->table}
-            WHERE
-                is_deleted = 0
-            ;
-        ";
+                {$this->table}";
+
+        $ignore_deleted === false ? $sql .= ';' : $sql .= ' WHERE is_deleted = 0;';
 
         $list = $wpdb->get_results( $sql );
 

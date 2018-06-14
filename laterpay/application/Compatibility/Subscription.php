@@ -254,20 +254,20 @@ class LaterPay_Compatibility_Subscription
     /**
      * Get count of existing subscriptions.
      *
+     * @param boolean $ignore_deleted Should deleted posts be ignored or not
+     *
      * @return int number of defined subscriptions
      */
-    public function get_subscriptions_count() {
+    public function get_subscriptions_count( $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
             SELECT
                 count(*) AS subs
             FROM
-                {$this->table}
-            WHERE
-                is_deleted = 0
-            ;
-        ";
+                {$this->table}";
+
+        $ignore_deleted === false ? $sql .= ';' : $sql .= ' WHERE is_deleted = 0;';
 
         $list = $wpdb->get_results( $sql );
 

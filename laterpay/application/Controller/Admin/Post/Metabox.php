@@ -485,6 +485,11 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
 
             if ( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $meta_value['type'] ) {
                 $cache_data['price'] = LaterPay_Helper_Pricing::get_dynamic_price( get_post( $post_id ) );
+            } elseif ( LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE === $meta_value['type'] ) {
+
+                $LaterPay_Category_Model = LaterPay_Model_CategoryPriceWP::get_instance();
+                $cache_data['price'] = $LaterPay_Category_Model->get_price_by_category_id( (int) $meta_value['category_id'] );
+
             } else {
                 $cache_data['price'] = $meta_value['price'];
             }
