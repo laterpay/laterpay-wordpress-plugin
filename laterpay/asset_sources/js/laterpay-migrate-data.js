@@ -34,7 +34,9 @@
 
 	        $.post( ajaxurl, data, function ( response ) {
 
-		        response = JSON.parse( response );
+		        if ( typeof response === 'string' ) {
+			        response = JSON.parse( response );
+		        }
 
 		        if ( 'subscription_migrated' in response && response.subscription_migrated !== true ) {
 			        migrateIfNeeded( 'subscription', response.offset );
