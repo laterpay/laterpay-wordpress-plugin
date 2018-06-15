@@ -11,93 +11,84 @@ Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
-Sell digital content with LaterPay. It allows super easy and fast purchases from 0.05 up to 149.99 €/$ at a revenue-based fee and no fixed costs.
+Monetize your blog and content with LaterPay. We offer a frictionless transaction experience that helps you increase your revenue streams, conversion rates and online customer interactions.
 
 == Description ==
 
-The LaterPay WordPress plugin offers the following features:
+= Overview =
+[![What LaterPay can do for you in one minute.](https://i.vimeocdn.com/video/705759670_295x166.jpg)](https://vimeo.com/273858404 "What LaterPay can do for you in one minute.")
 
-= Pricing =
-The plugin allows you to set different price types for your blog posts:
+Monetize your blog and content with LaterPay. We offer a frictionless transaction experience that helps you increase your revenue streams, conversion rates and online customer interactions.
 
-* Global default price: This price is by default applied to all new and existing posts of the blog.
-* Category default price: This price is applied to all new and existing posts in a given category.
-     If a category default price is set, it overwrites the global default price.
-     E.g. setting a category default price of 0.00, while having set a global default price of 0.49,
-     makes all posts in that category free.
-* Individual price: This price can be set for each post on the ‘Add / Edit Post’ page.
-     It overwrites both the category default price and the global default price for the respective article.
-     E.g. setting an individual price of 0.19 with a category default price of 0.10 and a global
-     default price of 0.00 results in a price for that post of 0.19.
+Suggested users:
 
-You may also apply a dynamic pricing scheme to posts: For every single post, you can set a price curve that changes the price of a blog post
-over time, starting from the publication date.
-E.g. you can offer a breaking news post for 0.49 for the first two days and then automatically reduce the price
-to 0.05 until the fifth day to increase your sales.
+* bloggers
+* small to medium-sized online magazines
 
-With time passes, you can sell time-limited access to all the LaterPay content
-* on your entire website
-* in a specific category
-* on your entire website except for a specific category.
-The user will have access to all the covered content during the validity period and afterwards, this access will expire automatically.
-If you delete a time pass from the WordPress plugin, users, who have purchased this time pass before, will still be able to access their purchase.
-Time passes are by default displayed below your posts or can be positioned manually using a shortcode or a WordPress action.
-
-For each time pass, you can create any number of voucher codes that enable your users to purchase a time pass for a reduced price.
-A user can enter a voucher code below the respective time pass and its price will then be updated.
-Voucher codes are not user specific and can be used for any number of times until you delete them. Deleting a voucher code will not affect the access to time passes which have already been purchased with this code.
-
-= Presentation =
-* LaterPay button: Each post with a price > 0.00 automatically contains a LaterPay button at the beginning of the
-  post content. You can choose to not show this button and instead render it from within your theme by calling
-  do_action( 'laterpay_purchase_button' ) within your theme.
-* Teaser content: Every post you sell with LaterPay has to contain a teaser.
-  The teaser is shown to the user before purchasing a post.
-  The plugin automatically generates teaser content by taking the first 120 words of every existing post.
-  You can refine the teaser content on the ‘Add / Edit Post’ page.
-
-You have the choice between two presentation modes for your teaser content:
-
-* Teaser only: This mode shows only the teaser with an unobtrusive purchase link below.
-* Teaser + overlay: This mode shows the teaser, an excerpt of the full content under a semi-transparent overlay that briefly explains LaterPay's benefits. The plugin never loads the full content before a user has bought it.
-
-Furthermore, the plugin provides:
+NOTE: the plugin provides:
 
 * Support for all standard post types and custom post types.
-* Full localization: The plugin is fully localized for English and German.
+* The plugin is fully localized for English and German.
+
+Contact us: [support@laterpay.net](mailto:support@laterpay.net)
+
+= Pricing =
+The LaterPay plugin allows you to set different price types for your blog posts:
+
+* **Global default price**: This price is by default applied to all new and existing posts of the blog.
+* **Category default price**: This price is applied to all new and existing posts in a given category:
+    * If a category default price is set, it overwrites the global default price.
+    * For example: setting a category default price of $0.00, while having set a global default price of $0.49 makes all posts in that category free.
+* **Individual price**: This price can be set for each post on the ‘Add / Edit Post’ page:
+    * It overwrites both the category default price and the global default price for the respective article.
+    * For example: setting an individual price of $0.19 with a category default price of $0.10 and a global default price of $0.00 results in a price for that post of $0.19.
+* You can also apply a **dynamic pricing** scheme to posts. That means for every single post, you can set a price curve that changes the price of a blog post over time, starting from the publication date:
+    * For example: you can offer a breaking news post for $0.49 for the first two days and then automatically reduce the price to $0.05 until the fifth day to increase your sales.
+* With **Time-Pass**:
+    * You can sell time-limited access to all the LaterPay content:
+        * on your entire website
+        * in a specific category
+        * on your entire website except for a specific category.
+    * The user will have access to all the covered content during the validity period and afterwards, this access will expire automatically.
+    * If you delete a time pass from the WordPress plugin, users, who have purchased this time pass before, will still be able to access their purchase.
+    * Time passes are by default displayed below your posts or can be positioned manually using a shortcode or a WordPress action.
+    * For each time pass, you can create any number of voucher codes that enable your users to purchase a time pass for a reduced price.
+    * A user can enter a voucher code below the respective time pass and its price will then be updated.
+        * Voucher codes are not user specific and can be used for any number of times until you delete them. Deleting a voucher code will not affect the access to time passes which have already been purchased with this code.
+
+= Presentation / Visual elements =
+* LaterPay button: Each post with a price > 0.00 automatically contains a LaterPay button at the beginning of the post content. You can choose to not show this button and instead render it from within your theme by calling `do_action( ‘laterpay_purchase_button’ )` within your theme.
+* Teaser content: Every post you sell with LaterPay has to contain a teaser:
+    * The teaser is shown to the user before purchasing a post.
+    * The plugin automatically generates teaser content by taking the first 120 words of every existing post.
+    * You can refine the teaser content on the ‘Add / Edit Post’ page.
+    * You have the choice between two presentation modes for your teaser content:
+        * Teaser only: This mode shows only the teaser with an unobtrusive purchase link below.
+        * Teaser + overlay: This mode shows the teaser, an excerpt of the full content under a semi-transparent overlay that briefly explains LaterPay’s benefits. The plugin never loads the full content before a user has bought it.
 
 = Security =
-File protection: The plugin secures files in paid posts against downloading them via a shared direct link.
-So even if a user purchases a post and shares the direct link to a contained file, other users won't be able
-to access that file, unless they've already bought the post.
+* File protection: The plugin secures files in paid posts against downloading them via a shared direct link.
+* So even if a user purchases a post and shares the direct link to a contained file, other users won’t be able to access that file, unless they’ve already bought the post.
 
-= Crawler Friendliness =
-* Social media: The plugin supports Facebook, Twitter, and Google+ crawlers, so it won't hurt your social media reach.
+= Crawler friendliness =
+* Social media: The plugin supports Facebook, Twitter, and Google+ crawlers, so it won’t hurt your social media reach.
 * Google and Google News: The plugin also supports Google and Google News crawlers.
-  They will never have access to the full content but only to your teaser content.
-  So depending on the presentation mode you've chosen, Google will access only the teaser content or
-  the teaser content plus an excerpt of the full content.
+* Crawlers will never have access to the full content but only to your teaser content.
+    * So depending on the presentation mode you’ve chosen, Google will access only the teaser content or the teaser content plus an excerpt of the full content.
 
-= Caching Compatibility =
-The plugin automatically detects if one of the available WordPress caching plugins (WP Super Cache, W3 Total Cache,
-Quick Cache, WP Fastest Cache, Cachify, WP-Cache.com) are active and sets the config-key `caching.compatible_mode`
-accordingly. If the site is in caching compatibly mode, the post page is rendered without the actual post content,
-which the plugin then requests using Ajax. If the user has not purchased the post already, only the teaser content and
-the purchase button are displayed.
+= Caching compatibility =
+The plugin automatically detects if one of the available WordPress caching plugins (WP Super Cache, W3 Total Cache, Quick Cache, WP Fastest Cache, Cachify, WP-Cache.com) are active and sets the config-key caching.compatible_mode accordingly. If the site is in caching compatibility mode, the post page is rendered without the actual post content,
+which the plugin then requests using Ajax. If the user has not purchased the post already, only the teaser content and the purchase button are displayed.
 
-= Test and Live Mode =
-* Test mode: The test mode lets you test your plugin configuration. While providing the full plugin functionality,
-  no real transactions are processed. We highly recommend to configure and test the integration of the LaterPay
-  WordPress plugin into your site on a test system, not on your production system. You can choose, whether LaterPay
-  should be visible for your visitors in test mode or not.
-* Live mode: After integrating and testing the plugin, you might want to start selling content and process real transactions. To sign up for a live merchant account, please [click here if you are based in the EU](https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/add#/signup) or [click here if you are based in the US](https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/add#/signup). After the registration and the check of your contract information, we will send you an email with your LaterPay live API credentials for switching your plugin to live mode.
+= Test and Live mode =
+* **Test mode:** The test mode lets you test your plugin configuration. While providing the full plugin functionality, no real transactions are processed. We highly recommend to configure and test the integration of the LaterPay WordPress plugin into your site on a test system, not on your production system. You can choose, whether LaterPay  should be visible for your visitors in test mode or not.
+* **Live mode:** After integrating and testing the plugin, you might want to start selling content and process real transactions. To sign up for a live merchant account, [click here if you are based in the US](https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/add#/signup) or [click here if you are based in the EU](https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/add#/signup) . After the registration and the check of your contract information, we will send you an email with your LaterPay live API credentials for switching your plugin to live mode.
 
 = Statistics =
-You can access sales statistics in your LaterPay merchant account on web.laterpay.net/merchant (for European merchants) or web.uselaterpay.com/merchant (for U.S. merchants).
-If have any questions about your LaterPay merchant account, please contact us via support@laterpay.net.
+You can access sales statistics in your LaterPay merchant account on [web.uselaterpay.com/merchant](web.uselaterpay.com/merchant) (for U.S. merchants) or [web.laterpay.com/merchant](web.laterpay.com/merchant) (for European merchants) or If have any questions about your LaterPay merchant account, please contact us via [support@laterpay.net](mailto:support@laterpay.net).
 
-= Roles and Capabilities =
-Some plugin features won't be available for certain user roles, based on the WordPress model of roles and capabilities:
+= Roles and capabilities =
+Some plugin features won’t be available for certain user roles, based on the WordPress model of roles and capabilities:
 
 * Subscribers (and regular, non-registered visitors): **cannot change any** plugin settings
 * Contributors: can edit the teaser content of their **own** posts
@@ -106,12 +97,16 @@ Some plugin features won't be available for certain user roles, based on the Wor
 * Super Admins and Admins: Can **additionally** access the plugin backend, edit the plugin settings and (un-)install
 and (de-)activate the LaterPay WordPress plugin.
 
-= Custom Hooks =
-To integrate with existing access management systems, we provide several filters which you can hook into.
-These filters allow you to give a user access to content without having to purchase it. You can use
-add_filter( 'laterpay_post_access', your_callback_returning_boolean ) to provide access to a post or page
-without necessitating a purchase. This still checks for access with the LaterPay API. To disable it for any post or page
-use add_filter( 'laterpay_access_check_enabled', your_callback_returning_boolean ).
+= Custom hooks =
+To integrate with existing access management systems, we provide several filters which you can hook into. These filters allow you to give a user access to content without having to purchase it. You can use `add_filter( ‘laterpay_post_access’, your_callback_returning_boolean )` to provide access to a post or page without necessitating a purchase. This still checks for access with the LaterPay API. To disable it for any post or page use `add_filter( ‘laterpay_access_check_enabled’, your_callback_returning_boolean )`.
+
+= Note to our users =
+The LaterPay WordPress plugin is one possible implementation of the LaterPay API that is targeted at the typical needs of bloggers and small to medium-sized online magazines.
+You can — and are highly welcome — to modify the LaterPay plugin to fit your requirements.
+If you are an expert WordPress user who is comfortable with web technologies and want to explore every last possibility of the LaterPay API, you may be better off by modifying the plugin or writing your own integration from scratch.
+As a rule of thumb, if you employ a whole team of developers, it is very likely that you may want to make a few modifications to the LaterPay WordPress plugin.
+If you have made a modification that would benefit other users of the LaterPay WordPress plugin, we will happily have a look at your work and integrate it into the official plugin.
+If you want to suggest a feature or report a bug, please send your message to [wordpress@laterpay.net](mailto:wordpress@laterpay.net)
 
 == Installation ==
 
