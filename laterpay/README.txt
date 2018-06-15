@@ -16,9 +16,9 @@ Monetize your blog and content with LaterPay. We offer a frictionless transactio
 == Description ==
 
 = Overview =
-[![What LaterPay can do for you in one minute.](https://i.vimeocdn.com/video/705759670_295x166.jpg)](https://vimeo.com/273858404 "What LaterPay can do for you in one minute.")
-
 Monetize your blog and content with LaterPay. We offer a frictionless transaction experience that helps you increase your revenue streams, conversion rates and online customer interactions.
+
+[What LaterPay can do for you in one minute.](https://vimeo.com/273858404 "What LaterPay can do for you in one minute.")
 
 Suggested users:
 
