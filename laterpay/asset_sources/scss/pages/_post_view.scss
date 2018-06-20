@@ -322,15 +322,6 @@
     padding: $fs--05 $fs !important;
 }
 
-
-// LaterPay login and logout links rendered from shortcode / action ----------------------------------------------------
-.lp_account-links iframe {
-    background: transparent;
-    margin: $fs;
-    padding: $fs--05;
-}
-
-
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:567px) {
     .lp_overlay-text .lp_benefits {

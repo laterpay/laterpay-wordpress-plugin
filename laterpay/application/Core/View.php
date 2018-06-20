@@ -25,8 +25,6 @@ class LaterPay_Core_View
 
     /**
      * @param LaterPay_Model_Config $config
-     *
-     * @return LaterPay_Core_View
      */
     public function __construct( $config = null ) {
         $this->config = ( $config && $config instanceof LaterPay_Model_Config ) ? $config : laterpay_get_plugin_config();
@@ -70,7 +68,7 @@ class LaterPay_Core_View
      *
      * @return void
      */
-    public function render( $file, $view_dir = null ) {
+    public function render( $file, $view_dir = null, $is_loop = false ) {
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
@@ -78,16 +76,15 @@ class LaterPay_Core_View
         $view_dir  = isset( $view_dir ) ? $view_dir : $this->config->get( 'view_dir' );
         $view_file = $view_dir . $file . '.php';
         if ( ! file_exists( $view_file ) ) {
-            $msg = sprintf(
-                __( '%s : <code>%s</code> not found', 'laterpay' ),
-                __METHOD__,
-                __FILE__
-            );
-
             return;
         }
 
-        include_once( $view_file );
+        if ( true === $is_loop ) {
+            include $view_file; // phpcs:ignore
+        } else {
+            include_once $view_file; // phpcs:ignore
+        }
+
     }
 
     /**
@@ -118,17 +115,11 @@ class LaterPay_Core_View
         $view_dir  = isset( $view_dir ) ? $view_dir : $this->config->get( 'view_dir' );
         $view_file = $view_dir . $file . '.php';
         if ( ! file_exists( $view_file ) ) {
-            $msg = sprintf(
-                __( '%s : <code>%s</code> not found', 'laterpay' ),
-                __METHOD__,
-                $file
-            );
-
             return '';
         }
 
         ob_start();
-        include( $view_file );
+        include $view_file;      // phpcs:ignore
         $thread = ob_get_contents();
         ob_end_clean();
         $html = $thread;

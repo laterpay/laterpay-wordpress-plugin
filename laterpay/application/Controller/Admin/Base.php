@@ -15,14 +15,18 @@ class LaterPay_Controller_Admin_Base extends LaterPay_Controller_Base
      * @param string $file
      * @param string $view_dir view directory
      *
-     * @return string $html
      */
     public function get_menu( $file = null, $view_dir = null ) {
         if ( empty( $file ) ) {
             $file = 'backend/partials/navigation';
         }
 
-        $current_page   = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : LaterPay_Helper_View::$pluginPage;
+        $current_page_value = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+        if ( null !== $current_page_value ) {
+            $current_page = $current_page_value;
+        } else {
+            $current_page = LaterPay_Helper_View::$pluginPage;
+        }
         $menu           = LaterPay_Helper_View::get_admin_menu();
         $plugin_page    = LaterPay_Helper_View::$pluginPage;
 
@@ -33,6 +37,6 @@ class LaterPay_Controller_Admin_Base extends LaterPay_Controller_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-        return $this->get_text_view( $file, $view_dir );
+        $this->render( $file, $view_dir );
     }
 }

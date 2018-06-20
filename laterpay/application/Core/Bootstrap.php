@@ -26,12 +26,12 @@ class LaterPay_Core_Bootstrap
     /**
      * @param LaterPay_Model_Config $config
      *
-     * @return LaterPay_Core_Bootstrap
+     * @return void
      */
     public function __construct( LaterPay_Model_Config $config ) {
         $this->config = $config;
 
-        // load the textdomain for 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook'
+        // load the textdomain for plugins_loaded, register_activation_hook, and register_deactivation_hook
         $textdomain_dir     = dirname( $this->config->get( 'plugin_base_name' ) );
         $textdomain_path    = $textdomain_dir . $this->config->get( 'text_domain_path' );
         load_plugin_textdomain(
@@ -67,7 +67,7 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Start the plugin on plugins_loaded hook.
-     *
+     * @throws LaterPay_Core_Exception
      * @wp-hook plugins_loaded
      *
      * @return void
@@ -83,6 +83,8 @@ class LaterPay_Core_Bootstrap
         $this->register_frontend_actions();
         $this->register_shortcodes();
 
+        $this->manage_cache();
+
         // LaterPay loaded finished. Triggering event for other plugins
         LaterPay_Hooks::get_instance()->laterpay_ready();
         laterpay_event_dispatcher()->dispatch( 'laterpay_init_finished' );
@@ -90,6 +92,7 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Internal function to register global actions for frontend and backend.
+     * @throws LaterPay_Core_Exception
      *
      * @return void
      */
@@ -101,35 +104,30 @@ class LaterPay_Core_Bootstrap
         $preview_mode_controller = self::get_controller( 'Frontend_PreviewMode' );
         laterpay_event_dispatcher()->add_subscriber( $preview_mode_controller );
 
-        // add custom action to echo the LaterPay invoice indicator
-        $invoice_controller = self::get_controller( 'Frontend_Invoice' );
-        laterpay_event_dispatcher()->add_subscriber( $invoice_controller );
-        // add account links action
-        $account_controller = self::get_controller( 'Frontend_Account' );
-        laterpay_event_dispatcher()->add_subscriber( $account_controller );
     }
 
     /**
      * Internal function to register all shortcodes.
+     *
+     * @throws LaterPay_Core_Exception
      *
      * @return void
      */
     private function register_shortcodes() {
         $shortcode_controller = self::get_controller( 'Frontend_Shortcode' );
         // add 'free to read' shortcodes
-        LaterPay_Hooks::add_wp_shortcode( 'laterpay_premium_download', 'laterpay_shortcode_premium_download' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_box_wrapper', 'laterpay_shortcode_box_wrapper' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay', 'laterpay_shortcode_laterpay' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_time_passes', 'laterpay_shortcode_time_passes' );
-        LaterPay_Hooks::add_wp_shortcode( 'laterpay_gift_card', 'laterpay_shortcode_gift_card' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_redeem_voucher', 'laterpay_shortcode_redeem_voucher' );
-        LaterPay_Hooks::add_wp_shortcode( 'laterpay_account_links', 'laterpay_shortcode_account_links' );
 
         laterpay_event_dispatcher()->add_subscriber( $shortcode_controller );
     }
 
     /**
      * Internal function to register the admin actions step 2 after the 'plugin_is_working' check.
+     *
+     * @throws LaterPay_Core_Exception
      *
      * @return void
      */
@@ -152,10 +150,10 @@ class LaterPay_Core_Bootstrap
         laterpay_event_dispatcher()->add_subscriber( $controller );
 
         // register callbacks for adding meta_boxes
-        $post_metabox_controller    = self::get_controller( 'Admin_Post_Metabox' );
+        $post_metabox_controller = self::get_controller( 'Admin_Post_Metabox' );
         laterpay_event_dispatcher()->add_subscriber( $post_metabox_controller );
 
-        $column_controller          = self::get_controller( 'Admin_Post_Column' );
+        $column_controller = self::get_controller( 'Admin_Post_Column' );
         laterpay_event_dispatcher()->add_subscriber( $column_controller );
     }
 
@@ -173,6 +171,8 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Internal function to register all upgrade checks.
+     *
+     * @throws LaterPay_Core_Exception
      *
      * @return void
      */
@@ -196,6 +196,8 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Install callback to create custom database tables.
+     *
+     * @throws LaterPay_Core_Exception
      *
      * @wp-hook register_activation_hook
      *
@@ -226,11 +228,16 @@ class LaterPay_Core_Bootstrap
      * @return void
      */
     private function register_modules() {
+
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Appearance() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_TimePasses() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Subscriptions() );
-        laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Rates() );
+
+        if ( ! laterpay_check_is_vip() && ! laterpay_is_migration_complete() ) {
+            laterpay_event_dispatcher()->add_subscriber( new LaterPay_Compatibility_Migrate() );
+        }
+
     }
 
     /**
@@ -240,5 +247,52 @@ class LaterPay_Core_Bootstrap
      */
     private function register_wordpress_hooks() {
         LaterPay_Hooks::get_instance()->init();
+    }
+
+    /**
+     * Manage Batcache.
+     *
+     * If we find any cookie defined in `$skip_cache_keys` it will skip page-cache.
+     *
+     * To avoid caching page in the first place in WP context it will call `batcache_cancel` in case of any
+     * cookie is present.
+     */
+    private function manage_cache(){
+        if ( ! laterpay_check_is_vip_classic() || ! function_exists( 'vary_cache_on_function' ) ) {
+            return;
+        }
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $skip_cache_for_cookie = sprintf( '$skip_cache_keys = array( "laterpay_tracking_code", "%s" );', sanitize_key( $client_options["token_name"] ) );
+        $skip_cache_for_cookie .= '
+        foreach ( $skip_cache_keys as $key ) {
+            if ( array_key_exists( $key, $_COOKIE ) ) {
+                return;
+            }
+        }
+        if ( ! empty( $_GET["lptoken"] ) ) {
+            return;
+        }
+        return true;';
+
+        vary_cache_on_function( $skip_cache_for_cookie );
+
+        if ( ! function_exists( 'batcache_cancel' ) ) {
+            return;
+        }
+        $skip_cache_keys = array(
+            'laterpay_tracking_code',
+            $client_options["token_name"],
+        );
+        foreach ( $skip_cache_keys as $key ) {
+            if ( array_key_exists( $key, $_COOKIE ) ) { // phpcs:ignore
+                // Cancel adding cache if cookie is present since it can be user specific content.
+                batcache_cancel();
+                return;
+            }
+        }
+        if ( ! empty( $_GET['lptoken'] ) ) { // When laterpay payment api redirects to set token in cookie.
+            batcache_cancel();
+            return;
+        }
     }
 }

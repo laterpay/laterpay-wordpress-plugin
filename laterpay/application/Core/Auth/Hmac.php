@@ -38,11 +38,10 @@ class LaterPay_Core_Auth_Hmac
     /**
      * constructor for class Token
      *
-     * @param string $privateKey File name of private pem key
-     * @param boolean  $isPacked   key must be packed
-     *
      * @throws Exception
-     * @return \LaterPay_Core_Auth_Hmac
+     *
+     * @param string $privateKey File name of private pem key
+     * @param boolean $isPacked key must be packed
      */
     public function __construct( $privateKey = null, $isPacked = false ) {
         if ( ( $privateKey === null ) && ( self::$privateKey === null ) ) {
@@ -77,9 +76,10 @@ class LaterPay_Core_Auth_Hmac
             $data = implode( '', $data );
         }
 
-        $crypt = new Crypt_Hash( self::$hashAlgo );
-        $crypt->setKey( self::$privateKey );
-        $hash = bin2hex( $crypt->hash( $data ) );
+        // limit at length 32 for sha224 as it was the same in previously used library.
+        $raw_hash = substr( hash_hmac( self::$hashAlgo, $data, self::$privateKey, true ), 0, 32 );
+        // hexadecimal representation of the given string.
+        $hash = bin2hex( $raw_hash );
 
         return $hash;
     }
@@ -107,12 +107,11 @@ class LaterPay_Core_Auth_Hmac
      * @return string
      */
     public function get_token( $data, $ts ) {
-        $ts = $ts;
         $fresult = $this->sign( array( $data, $ts ) );
         if ( self::$useBase64 ) {
             $fresult = base64_encode( $fresult );
             $fresult = strtr( $fresult, '+/', '-_' );
-            $fresult = urlencode( $fresult );
+            $fresult = rawurlencode( $fresult );
         }
 
         return $fresult;
@@ -147,6 +146,8 @@ class LaterPay_Core_Auth_Hmac
 
     /**
      * Retrieve instance
+     *
+     * @throws Exception
      *
      * @return LaterPay_Core_Auth_Hmac
      */

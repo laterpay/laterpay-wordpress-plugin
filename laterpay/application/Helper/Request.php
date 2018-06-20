@@ -35,13 +35,6 @@ class LaterPay_Helper_Request {
             );
 
             self::$lp_api_availability = $client->check_health();
-
-            laterpay_get_logger()->info(
-                __METHOD__, array(
-                    'api_available'                  => self::$lp_api_availability,
-                    'laterpay_api_fallback_behavior' => $behavior[ $action ],
-                )
-            );
         }
 
         return (bool)self::$lp_api_availability;
@@ -53,8 +46,8 @@ class LaterPay_Helper_Request {
      * @return bool
      */
     public static function is_ajax() {
-        $server = isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ? sanitize_text_field( $_SERVER['HTTP_X_REQUESTED_WITH'] ) : '';
-        return ! empty( $server ) && strtolower( $server ) == 'xmlhttprequest';
+        $server = isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ? sanitize_text_field( $_SERVER['HTTP_X_REQUESTED_WITH'] ) : ''; // WPCS: input var ok.
+        return ( 'xmlhttprequest' === ! empty( $server ) && strtolower( $server ) );
     }
 
     /**
@@ -63,17 +56,18 @@ class LaterPay_Helper_Request {
      * @return string $url
      */
     public static function get_current_url() {
-        $ssl = isset( $_SERVER['HTTPS'] ) && sanitize_text_field( $_SERVER['HTTPS'] ) == 'on';
+        $ssl = ( isset( $_SERVER['HTTPS'] ) && 'on' === sanitize_text_field( $_SERVER['HTTPS'] ) ); // WPCS: input var ok.
         // Check for Cloudflare Universal SSL / flexible SSL
-        if ( isset( $_SERVER['HTTP_CF_VISITOR'] ) && strpos( $_SERVER['HTTP_CF_VISITOR'], 'https' ) !== false ) {
+        $http_cf_Visitor = isset( $_SERVER['HTTP_CF_VISITOR'] ) ? sanitize_text_field( $_SERVER['HTTP_CF_VISITOR'] ) : ''; // WPCS: input var ok.
+        if ( ! empty( $http_cf_Visitor ) && strpos( $http_cf_Visitor, 'https' ) !== false ) {
             $ssl = true;
         }
-        $uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( $_SERVER['REQUEST_URI'] ) : '';
+        $uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( $_SERVER['REQUEST_URI'] ) : ''; // WPCS: input var ok.
 
         // process Ajax requests
         if ( self::is_ajax() ) {
-            $url    = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( $_SERVER['HTTP_REFERER'] ) : '';
-            $parts  = parse_url( $url );
+            $url    = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( $_SERVER['HTTP_REFERER'] ) : ''; // WPCS: input var ok.
+            $parts  = wp_parse_url( $url );
 
             if ( ! empty( $parts ) ) {
                 $uri = $parts['path'];
@@ -95,20 +89,23 @@ class LaterPay_Helper_Request {
         } else {
             $pageURL = 'http://';
         }
-        $serverPort = isset( $_SERVER['SERVER_PORT'] )? absint( $_SERVER['SERVER_PORT'] ) : '';
-        $serverName = isset( $_SERVER['SERVER_NAME'] ) ? sanitize_text_field( $_SERVER['SERVER_NAME'] ) : '';
-        if ( $serverName == 'localhost' and function_exists( 'site_url' ) ) {
+        $serverPort = isset( $_SERVER['SERVER_PORT'] )? absint( $_SERVER['SERVER_PORT'] ) : ''; // WPCS: input var ok.
+        $serverName = isset( $_SERVER['SERVER_NAME'] ) ? sanitize_text_field( $_SERVER['SERVER_NAME'] ) : ''; // WPCS: input var ok.
+        if ( 'localhost' === $serverName && function_exists( 'site_url' ) ) {
             $serverName = (str_replace( array('http://', 'https://'), '', site_url() )) ; // WP function
+
+            $cf_Visitor = isset( $_SERVER['HTTP_CF_VISITOR'] ) ? sanitize_text_field( $_SERVER['HTTP_CF_VISITOR'] ) : ''; // WPCS: input var ok.
+
             // overwrite port on Heroku
-            if ( isset( $_SERVER['HTTP_CF_VISITOR'] ) && strpos( $_SERVER['HTTP_CF_VISITOR'], 'https' ) !== false ) {
+            if ( ! empty( $cf_Visitor ) && strpos( $cf_Visitor, 'https' ) !== false ) {
                 $serverPort = 443;
             } else {
                 $serverPort = 80;
             }
         }
-        if ( ! $ssl && $serverPort != '80' ) {
+        if ( ! $ssl && 80 !== absint( $serverPort ) ) {
             $pageURL .= $serverName . ':' . $serverPort . $uri;
-        } else if ( $ssl && $serverPort != '443' ) {
+        } else if ( $ssl && 443 !== absint( $serverPort ) ) {
             $pageURL .= $serverName . ':' . $serverPort . $uri;
         } else {
             $pageURL .= $serverName . $uri;
@@ -131,13 +128,6 @@ class LaterPay_Helper_Request {
             $client_options['web_root'],
             $client_options['token_name']
         );
-
-        $context        = array(
-            'token'    => $token,
-            'redirect' => $redirect,
-        );
-
-        laterpay_get_logger()->info( __METHOD__, $context );
 
         $client->set_token( $token, $redirect );
     }
@@ -167,6 +157,8 @@ class LaterPay_Helper_Request {
 
         } catch (Exception $exception) {
 
+            unset( $exception );
+
             $action = (int)get_option('laterpay_api_fallback_behavior', 0);
             $result['articles'] = array();
 
@@ -185,22 +177,7 @@ class LaterPay_Helper_Request {
             }
 
             self::$lp_api_availability = false;
-
-            laterpay_get_logger()->info(
-                __METHOD__, array(
-                    'api_available'                  => self::$lp_api_availability,
-                    'laterpay_api_fallback_behavior' => $action,
-                )
-            );
         }
-
-        $context = array(
-            'article_ids' => $article_ids,
-            'product_key' => $product_key,
-            'result' => $result,
-        );
-
-        laterpay_get_logger()->info(__METHOD__, $context);
 
         return $result;
     }

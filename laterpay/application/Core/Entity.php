@@ -96,7 +96,7 @@ class LaterPay_Core_Entity
 
         if ( ! empty( $existing_short_keys ) ) {
             foreach ( $existing_short_keys as $key ) {
-                $fullFieldName = array_search( $key, $this->_syncFieldsMap );
+                $fullFieldName = array_search( $key, $this->_syncFieldsMap, true );
                 $this->_data[ $fullFieldName ] = $this->_data[ $key ];
             }
         }
@@ -127,7 +127,7 @@ class LaterPay_Core_Entity
     /**
      * Internal constructor not dependent on parameters. Can be used for object initialization.
      *
-     * @return  LaterPay_Core_Entity
+     * @return  void
      */
     protected function _construct() { }
 
@@ -291,7 +291,8 @@ class LaterPay_Core_Entity
      */
     public function unset_old_data( $key = null ) {
         if ( is_null( $key ) ) {
-            foreach ( $this->_syncFieldsMap as $key => $newFieldName ) {
+            $keys = array_keys( $this->_syncFieldsMap );
+            foreach ( $keys as $key ) {
                 unset( $this->_data[ $key ] );
             }
         } else {
@@ -316,18 +317,18 @@ class LaterPay_Core_Entity
      * @return array
      */
     public function get_data( $key = '', $index = null ) {
-        if ( $key === '' ) {
+        if ( empty( $key ) ) {
             return $this->_data;
         }
 
         $default = null;
 
-        // accept a/b/c as ['a']['b']['c']
+        // @phpcs:ignore accept a/b/c as ['a']['b']['c']
         if ( strpos( $key, '/' ) ) {
             $keyArr = explode( '/', $key );
             $data = $this->_data;
-            foreach ( $keyArr as $i => $k ) {
-                if ( $k === '' ) {
+            foreach ( $keyArr as $k ) {
+                if ( empty( $k ) ) {
                     return $default;
                 }
                 if ( is_array( $data ) ) {
@@ -401,7 +402,7 @@ class LaterPay_Core_Entity
      * @param string $key
      * @param mixed  $args
      *
-     * @return Varien_Object
+     * @return LaterPay_Core_Entity
      */
     public function set_data_using_method( $key, $args = array() ) {
         $method = 'set' . $this->_camelize( $key );
@@ -548,7 +549,7 @@ class LaterPay_Core_Entity
      */
     public function to_json( array $arrAttributes = array() ) {
         $arrData    = $this->to_array( $arrAttributes );
-        $json       = json_encode( $arrData );
+        $json       = wp_json_encode( $arrData );
 
         return $json;
     }
@@ -615,8 +616,8 @@ class LaterPay_Core_Entity
                 $key = $this->_underscore( substr( $method, 3 ) );
                 return isset( $this->_data[ $key ] );
         }
-
-        throw new Varien_Exception( 'Invalid method ' . get_class( $this ) . '::' . $method . '(' . print_r( $args, 1 ) . ')' );
+        $call_argument = '(' . isset($args[0]) ? (string) $args[0] : '' . ')';
+        throw new Varien_Exception( 'Invalid method ' . get_class( $this ) . '::' . $method . $call_argument ); // @phpcs:ignore
     }
 
     /**
@@ -688,7 +689,7 @@ class LaterPay_Core_Entity
      * @return string the string in camelCase
      */
     protected function _camelize( $name ) {
-        return uc_words( $name, '' );
+        return ucwords( $name, '' );
     }
 
     /**
@@ -710,7 +711,7 @@ class LaterPay_Core_Entity
         }
 
         foreach ( $this->_data as $key => $value ) {
-            if ( in_array( $key, $attributes ) ) {
+            if ( in_array( $key, $attributes, true ) ) {
                 $data[] = $key . $valueSeparator . $quote . $value . $quote;
             }
         }
@@ -748,7 +749,7 @@ class LaterPay_Core_Entity
      * @param string $key
      * @param mixed  $data
      *
-     * @return Varien_Object
+     * @return LaterPay_Core_Entity
      */
     public function set_original_data( $key = null, $data = null ) {
         if ( is_null( $key ) ) {
@@ -771,7 +772,7 @@ class LaterPay_Core_Entity
         $newData = $this->get_data( $field );
         $origData = $this->get_original_data( $field );
 
-        return $newData != $origData;
+        return ( $newData !== $origData );
     }
 
     /**
@@ -779,46 +780,12 @@ class LaterPay_Core_Entity
      *
      * @param boolean $value
      *
-     * @return Varien_Object
+     * @return LaterPay_Core_Entity
      */
     public function set_data_changes( $value ) {
         $this->_has_data_changes = (bool) $value;
 
         return $this;
-    }
-
-    /**
-     * Render object data as string in debug mode.
-     *
-     * @param mixed $data
-     * @param array $objects
-     *
-     * @return string
-     */
-    public function debug( $data = null, &$objects = array() ) {
-        if ( is_null( $data ) ) {
-            $hash = spl_object_hash( $this );
-
-            if ( ! empty( $objects[ $hash ] ) ) {
-                return '*** RECURSION ***';
-            }
-
-            $objects[ $hash ] = true;
-            $data           = $this->get_data();
-        }
-
-        $debug = array();
-        foreach ( $data as $key => $value ) {
-            if ( is_scalar( $value ) ) {
-                $debug[ $key ] = $value;
-            } elseif ( is_array( $value ) ) {
-                $debug[ $key ] = $this->debug( $value, $objects );
-            } elseif ( $value instanceof Varien_Object ) {
-                $debug[ $key . ' (' . get_class( $value ) . ')' ] = $value->debug( null, $objects );
-            }
-        }
-
-        return $debug;
     }
 
     /**
@@ -902,7 +869,8 @@ class LaterPay_Core_Entity
      */
     public function flag_dirty( $field, $flag = true ) {
         if ( is_null( $field ) ) {
-            foreach ( $this->get_data() as $field => $value ) {
+            $fields = array_keys( $this->get_data() );
+            foreach ( $fields as $field ) {
                 $this->flag_dirty( $field, $flag );
             }
         } else {

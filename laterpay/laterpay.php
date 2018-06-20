@@ -13,8 +13,11 @@
 // Kick-off
 add_action( 'plugins_loaded', 'laterpay_init' );
 
-register_activation_hook( __FILE__, 'laterpay_activate' );
-register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
+
+if ( ! laterpay_check_is_vip() ) {
+    register_activation_hook( __FILE__, 'laterpay_activate' );
+    register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
+}
 
 /**
  * Callback for starting the plugin.
@@ -26,17 +29,19 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
 function laterpay_init() {
     laterpay_before_start();
 
+    if ( laterpay_check_is_vip() && is_admin()) {
+        if( false !== get_option( 'laterpay_plugin_version' ) ) {
+            laterpay_activate();
+        }
+    }
+
     $config   = laterpay_get_plugin_config();
     $laterpay = new LaterPay_Core_Bootstrap( $config );
 
     try {
         $laterpay->run();
     } catch ( Exception $e ) {
-        $context = array(
-            'message' => $e->getMessage(),
-            'trace'   => $e->getTrace(),
-        );
-        laterpay_get_logger()->critical( __( 'Unexpected error during plugin init', 'laterpay' ), $context );
+        unset( $e );
     }
 }
 
@@ -107,25 +112,8 @@ function laterpay_get_plugin_config() {
 
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
-    $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
 
-    $client_address         = isset( $_SERVER['REMOTE_ADDR'] ) ? laterpay_sanitized( $_SERVER['REMOTE_ADDR'] ) : null;
-    $debug_mode_enabled     = (bool) get_option( 'laterpay_debugger_enabled', false );
-    $debug_mode_addresses   = (string) get_option( 'laterpay_debugger_addresses', '' );
-    $debug_mode_addresses   = explode( ',', $debug_mode_addresses );
-    $debug_mode_addresses   = array_map( 'trim', $debug_mode_addresses );
-
-    $config->set( 'debug_mode',         $debug_mode_enabled && ! empty( $debug_mode_addresses ) && in_array( $client_address, $debug_mode_addresses ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
-
-    if ( $config->get( 'is_in_live_mode' ) ) {
-        $laterpay_dialog_library_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
-    } elseif ( $config->get( 'script_debug_mode' ) ) {
-        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
-    } else {
-        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
-    }
-    $config->set( 'laterpay_yui_js', $laterpay_dialog_library_src );
 
     // plugin headers
     $plugin_headers = get_file_data(
@@ -193,19 +181,16 @@ function laterpay_before_start() {
         laterpay_clean_plugin_cache();
 
         if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
-            require_once( $dir . 'laterpay-load.php' );
+            require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'laterpay-load.php' );
         }
 
         LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
         LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
     } catch ( Exception $e ) {
+        unset( $e );
         // deactivate laterpay plugin
         deactivate_plugins( plugin_basename( __FILE__ ) );
     }
-
-    // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
-    // to register the required script and style filters
-    laterpay_get_logger();
 }
 
 /**
@@ -215,74 +200,6 @@ function laterpay_before_start() {
  */
 function laterpay_clean_plugin_cache() {
     wp_cache_delete( 'config', 'laterpay' );
-    wp_cache_delete( 'logger', 'laterpay' );
-}
-
-/**
- * Get logger object.
- *
- * @return LaterPay_Core_Logger
- */
-function laterpay_get_logger() {
-    // check, if the config is cached -> don't load it again
-    $logger = wp_cache_get( 'logger', 'laterpay' );
-    if ( is_a( $logger, 'LaterPay_Core_Logger' ) ) {
-        return $logger;
-    }
-
-    $config     = laterpay_get_plugin_config();
-    $handlers   = array();
-
-    if ( $config->get( 'debug_mode' ) ) {
-        // LaterPay WordPress handler to render the debugger pane
-        $wp_handler = new LaterPay_Core_Logger_Handler_WordPress( LaterPay_Core_Logger::WARNING );
-        $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
-
-        $handlers[] = $wp_handler;
-    } else {
-        $handlers[] = new LaterPay_Core_Logger_Handler_Null();
-    }
-
-    // add additional processors for more detailed log entries
-    $processors = array(
-        new LaterPay_Core_Logger_Processor_Web(),
-        new LaterPay_Core_Logger_Processor_MemoryUsage(),
-        new LaterPay_Core_Logger_Processor_MemoryPeakUsage(),
-    );
-    laterpay_event_dispatcher()->set_debug_enabled( true );
-    $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
-
-    // cache the config
-    wp_cache_set( 'logger', $logger, 'laterpay' );
-
-    return $logger;
-}
-
-
-/**
- * This function makes sure that only the allowed HTML element names,
- * attribute names and attribute values plus only sane HTML entities will occur in $string.
- * Function is registered as 'customSanitizingFunctions' for 'WordPress.XSS.EscapeOutput' rule.
- *
- * @param string $string
- *
- * @return string
- * @link     http://codex.wordpress.org/Data_Validation Data Validation on WordPress Codex
- */
-function laterpay_sanitize_output( $string ) {
-    return wp_kses( $string, 'post' );
-}
-
-/**
- * This function required to by pass phpcs checks for valid generated html.
- * So this functions do nothing, just returns input string.
- * Function is registered as 'customAutoEscapedFunctions' for 'WordPress.XSS.EscapeOutput' rule.
- *
- * @param string $string
- * @return string
- */
-function laterpay_sanitized( $string ) {
-    return $string;
 }
 
 /**
@@ -294,3 +211,54 @@ function laterpay_event_dispatcher() {
     return LaterPay_Core_Event_Dispatcher::get_dispatcher();
 }
 
+/**
+ * Check if current environment is `VIP` or not.
+ *
+ * @return bool returns true if current site is available on VIP, otherwise false.
+ */
+function laterpay_check_is_vip_classic() {
+    if ( defined( 'WPCOM' ) && IS_WPCOM ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Check if current environment is `VIP-GO` or not.
+ *
+ * @return bool returns true if current site is available on VIP-GO, otherwise false
+ */
+function laterpay_check_is_vip() {
+    if ( defined( 'LATERPAY_IS_VIP_DEBUG' ) && LATERPAY_IS_VIP_DEBUG ) { // Setting WPCOM_IS_VIP_ENV in local won't work.
+        return true;
+    }
+    if ( defined( 'WPCOM_IS_VIP_ENV' ) && true === WPCOM_IS_VIP_ENV ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Checks whether the migration is completed or not.
+ *
+ * @return bool
+ */
+function laterpay_is_migration_complete(){
+    return get_option( 'laterpay_data_migrated_to_cpt' ) !== false ;
+}
+
+/**
+ * Laterpay display attributes.
+ *
+ * @param array $args arguments.
+ * @param array $whitelisted_keys default params.
+ */
+function laterpay_whitelisted_attributes( $args, $whitelisted_keys ) {
+    $whitelisted_keys = array_flip( $whitelisted_keys );
+    $new_args = array_intersect_key( $args, $whitelisted_keys );
+    foreach ( $new_args as $key => $value ) {
+        echo $key . '="' . esc_attr( $value ) . '" '; // phpcs:ignore
+    }
+}

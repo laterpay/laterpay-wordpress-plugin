@@ -55,11 +55,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 array( 'add_plugin_admin_assets' ),
                 array( 'add_admin_pointers_script' ),
             ),
-            'laterpay_delete_term_taxonomy' => array(
-                array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_plugin_is_active', 200 ),
-                array( 'update_post_prices_after_category_delete' ),
-            ),
         );
     }
 
@@ -116,9 +111,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      * @return void
      */
     public function __call( $name, $args ) {
-        if ( substr( $name, 0, 4 ) == 'run_' ) {
+        if ( substr( $name, 0, 4 ) === 'run_' ) {
             return $this->run( strtolower( substr( $name, 4 ) ) );
-        } elseif ( substr( $name, 0, 5 ) == 'help_' ) {
+        } elseif ( substr( $name, 0, 5 ) === 'help_' ) {
             return $this->help( strtolower( substr( $name, 5 ) ) );
         }
     }
@@ -178,7 +173,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      * @return void
      */
     public function add_html5shiv_to_admin_head( LaterPay_Core_Event $event ) {
-        $event->set_echo( true );
         $view_args = array(
             'scripts' => array(
                 '//html5shim.googlecode.com/svn/trunk/html5.js',
@@ -186,7 +180,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        $event->set_result( laterpay_sanitized( $this->get_text_view( 'backend/partials/html5shiv' ) ) );
+	    $this->render( 'backend/partials/html5shiv' );
     }
 
     /**
@@ -199,8 +193,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
     public function run( $tab = '' ) {
         $this->load_assets();
 
-        if ( isset( $_GET['tab'] ) ) {
-            $tab = sanitize_text_field( $_GET['tab'] );
+        if ( '' === $tab ) {
+            $tab = filter_input(INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
         }
 
         // return default tab, if no specific tab is requested
@@ -588,9 +582,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
 
         $this->assign( 'laterpay', $view_args );
-        $result = $event->get_result();
-        $result .= laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer-scripts' ) );
-        $event->set_result( $result );
+        $this->render( 'backend/partials/pointer-scripts', null, true );
     }
 
     /**
@@ -635,17 +627,17 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      * @return array $pointers
      */
     public function get_pointers_to_be_shown() {
-        $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+        $dismissed_pointers = explode( ',', (string) LaterPay_Helper_User::get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
         $pointers = array();
 
-        if ( ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers ) ) {
+        if ( ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers, true ) ) {
             $pointers[] = LaterPay_Controller_Admin::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page
-        if ( ! in_array( LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER, $dismissed_pointers ) ) {
+        if ( ! in_array( LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER, $dismissed_pointers, true ) ) {
             $pointers[] = LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER;
         }
-        if ( ! in_array( LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER, $dismissed_pointers ) ) {
+        if ( ! in_array( LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER, $dismissed_pointers, true ) ) {
             $pointers[] = LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER;
         }
 
@@ -673,27 +665,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         return $pointers;
     }
 
-    /**
-     * Update post prices after category delete.
-     *
-     * @hook delete_term_taxonomies
-     *
-     * @return void
-     */
-    public function update_post_prices_after_category_delete( LaterPay_Core_Event $event ) {
-        $args = (array) $event->get_arguments();
-        $category_id = $args[0];
-
-        $category_price_model = new LaterPay_Model_CategoryPrice();
-        $category_price_model->delete_prices_by_category_id( $category_id );
-
-        // get posts by category price id
-        $post_ids = LaterPay_Helper_Pricing::get_posts_by_category_price_id( $category_id );
-        foreach ( $post_ids as $post_id => $meta ) {
-            // update post prices
-            LaterPay_Helper_Pricing::update_post_data_after_category_delete( $post_id );
-        }
-    }
 
     /**
      * Get links to be rendered in the plugin backend navigation.

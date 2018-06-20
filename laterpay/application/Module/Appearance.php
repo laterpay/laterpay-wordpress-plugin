@@ -34,9 +34,6 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             'laterpay_on_enabled_post_type' => array(
                 array( 'on_enabled_post_type' ),
             ),
-            'laterpay_on_ajax_send_json' => array(
-                array( 'on_ajax_send_json' ),
-            ),
             'laterpay_on_ajax_user_can_activate_plugins' => array(
                 array( 'on_ajax_user_can_activate_plugins' ),
             ),
@@ -153,8 +150,8 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         } else {
             $post = get_post();
         }
-
-        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
+        $is_enabled_post_type = in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ), true );
+        if ( ! $is_enabled_post_type  ) {
             $event->stop_propagation();
         }
     }
@@ -178,15 +175,6 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         }
 
         $event->set_result( $content );
-    }
-
-    /**
-     * Stops bubbling if post is not in enabled post type list.
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function on_ajax_send_json( LaterPay_Core_Event $event ) {
-        $event->set_type( LaterPay_Core_Event::TYPE_JSON );
     }
 
     /**

@@ -75,7 +75,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->assign( 'laterpay', $view_args );
 
         // render view template for options page
-        echo laterpay_sanitized( $this->get_text_view( 'backend/options' ) );
+        $this->render( 'backend/options' );
     }
 
     /**
@@ -86,10 +86,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function init_laterpay_advanced_settings() {
         // add sections with fields
         $this->add_colors_settings();
-        $this->add_debugger_settings();
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
-        $this->add_time_passes_settings();
         $this->add_revenue_settings();
         $this->add_gift_codes_settings();
         $this->add_teaser_content_settings();
@@ -142,70 +140,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_colors_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'You can customize the colors of clickable LaterPay elements.', 'laterpay' ) .
-            '</p>' );
+        echo '<p>';
+        esc_html_e( 'You can customize the colors of clickable LaterPay elements.', 'laterpay' );
+        echo '</p>';
     }
 
-    /**
-     * Add debugger section and fields.
-     *
-     * @return void
-     */
-    public function add_debugger_settings() {
-        add_settings_section(
-            'laterpay_debugger',
-            __( 'Debugger Pane', 'laterpay' ),
-            array( $this, 'get_debugger_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_debugger_enabled',
-            __( 'LaterPay Debugger', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_debugger',
-            array(
-                'name'  => 'laterpay_debugger_enabled',
-                'value' => 1,
-                'type'  => 'checkbox',
-                'label' => __( 'I want to view the LaterPay debugger pane', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_debugger_enabled' );
-
-        add_settings_field(
-            'laterpay_debugger_addresses',
-            __( 'LaterPay Debugger', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_debugger',
-            array(
-                'name'  => 'laterpay_debugger_addresses',
-                'type'  => 'text',
-                'label' => __( 'List of allowed addresses to view debug(Ex.: 127.0.0.1,192.168.1.1)', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_debugger_addresses' );
-    }
-
-    /**
-     * Render the hint text for the debugger section.
-     *
-     * @return void
-     */
-    public function get_debugger_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'The LaterPay debugger pane contains a lot of helpful plugin- and system-related information
-               for debugging the LaterPay plugin and fixing configuration problems.<br>
-               When activated, the debugger pane is rendered at the bottom of the screen.<br>
-               It is visible both for users from address list<br>
-               On a production installation you should switch it off again as soon as you don\'t need it anymore.', 'laterpay' ) .
-        '</p>' );
-    }
 
     /**
      * Add caching section and fields.
@@ -243,15 +182,20 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_caching_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'You MUST enable caching compatiblity mode, if you are using a caching solution that caches
-                entire HTML pages.<br>
-                In caching compatibility mode the plugin works like this:<br>
-                It renders paid posts only with the teaser content. This allows to cache them as static files without
-                risking to leak the paid content.<br>
-                When someone visits the page, it makes an Ajax request to determine, if the visitor has already bought
-                the post and replaces the teaser with the full content, if required.', 'laterpay' ) .
-        '</p>' );
+        echo '<p>';
+        esc_html_e( 'You MUST enable caching compatiblity mode, if you are using a caching solution
+           that caches entire HTML pages.', 'laterpay' );
+        echo  '<br/>';
+        esc_html_e( 'In caching compatibility mode the plugin works
+           like this:', 'laterpay' );
+        echo  '<br/>';
+        esc_html_e( 'It renders paid posts only with the teaser content. This allows to cache
+           them as static files without risking to leak the paid content.', 'laterpay' );
+        echo  '<br/>';
+        esc_html_e( 'When someone visits
+           the page, it makes an Ajax request to determine, if the visitor has already bought the post
+           and replaces the teaser with the full content, if required.', 'laterpay' );
+        echo '</p>';
     }
 
     /**
@@ -284,40 +228,10 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_enabled_post_types_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'Please choose, which standard and custom post types should be sellable with LaterPay.',
-            'laterpay' ) .
-        '</p>' );
-    }
-
-    /**
-     * Add time passes section and fields.
-     *
-     * @return void
-     */
-    public function add_time_passes_settings() {
-        add_settings_section(
-            'laterpay_time_passes',
-            __( 'Offering Time Passes on Free Posts', 'laterpay' ),
-            array( $this, 'get_time_passes_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_show_time_passes_widget_on_free_posts',
-            __( 'Time Passes Widget', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_time_passes',
-            array(
-                'name'  => 'laterpay_show_time_passes_widget_on_free_posts',
-                'value' => 1,
-                'type'  => 'checkbox',
-                'label' => __( 'I want to display the time passes widget on free and paid posts', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_show_time_passes_widget_on_free_posts' );
+        echo '<p>';
+        esc_html_e( 'Please choose, which standard and custom post types should be sellable with LaterPay.',
+            'laterpay' );
+        echo '</p>';
     }
 
     /**
@@ -326,10 +240,10 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_time_passes_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.',
-            'laterpay' ) .
-        '</p>' );
+        echo '<p>';
+        esc_html_e( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.',
+            'laterpay' );
+        echo '</p>';
     }
 
     /**
@@ -366,10 +280,9 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_revenue_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'Please choose if you want to require a login for "Pay Later" purchases.',
-                'laterpay' ) .
-            '</p>' );
+        echo '<p>';
+        esc_html_e( 'Please choose if you want to require a login for "Pay Later" purchases.','laterpay' );
+        echo '</p>';
     }
 
     /**
@@ -406,9 +319,9 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_gift_codes_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'Specify, how many times a gift code can be redeemed for the associated time pass.', 'laterpay' ) .
-        '</p>' );
+        echo '<p>';
+        esc_html_e( 'Specify, how many times a gift code can be redeemed for the associated time pass.','laterpay' );
+        echo '</p>';
     }
 
     /**
@@ -474,13 +387,16 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_teaser_content_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
-                without teaser content.<br>
-                While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED.<br>
-                If you really, really want to have NO teaser content for a post, enter one space
-                into the teaser content editor for that post.', 'laterpay' ) .
-        '</p>' );
+        echo '<p>';
+        esc_html_e( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
+            without teaser content.', 'laterpay' );
+        echo '<br/>';
+        esc_html_e( 'While technically possible, setting this parameter to zero is
+            HIGHLY DISCOURAGED.', 'laterpay' );
+        echo '<br/>';
+        esc_html_e( 'If you really, really want to have NO teaser content for a post,
+            enter one space into the teaser content editor for that post.', 'laterpay' );
+        echo '</p>';
     }
 
     /**
@@ -549,12 +465,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_preview_excerpt_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
-                an excerpt of the full content, covered by a semi-transparent overlay.<br>
-                The following three parameters give you fine-grained control over the length of this excerpt.<br>
-                These settings do not affect the teaser content in any way.', 'laterpay' ) .
-        '</p>' );
+        echo '<p>';
+        esc_html_e( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
+            an excerpt of the full content, covered by a semi-transparent overlay.', 'laterpay' );
+        echo '<br/>';
+        esc_html_e( 'The following three parameters give you fine-grained control over the length of this excerpt.', 'laterpay' );
+        echo '<br/>';
+        esc_html_e( 'These settings do not affect the teaser content in any way.', 'laterpay' );
+        echo '</p>';
     }
 
     /**
@@ -586,7 +504,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
         // get custom roles
         foreach ( $wp_roles->roles as $role => $role_data ) {
-            if ( ! in_array( $role, $default_roles ) ) {
+            if ( ! in_array( $role, $default_roles, true ) ) {
                 $this->has_custom_roles = true;
                 $custom_roles[ $role ] = $role_data['name'];
             }
@@ -630,24 +548,26 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_unlimited_access_section_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( "You can give logged-in users unlimited access to specific categories depending on their user
-                role.<br>
-                This feature can be useful e.g. for giving free access to existing subscribers.<br>
-                We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay' ) .
-        '</p>' );
+        echo '<p>';
+        esc_html_e( 'You can give logged-in users unlimited access to specific categories depending on their user role.', 'laterpay' );
+        echo '<br/>';
+        esc_html_e( 'This feature can be useful e.g. for giving free access to existing subscribers.', 'laterpay' );
+        echo '<br/>';
+        esc_html_e( 'We recommend the plugin \'User Role Editor\' for adding custom roles to WordPress.', 'laterpay' );
+        echo '</p>';
 
         if ( $this->has_custom_roles ) {
             // show header
-            echo laterpay_sanitize_output( '<table class="form-table">
-                        <tr>
-                            <th>' . __( 'User Role', 'laterpay' ) . '</th>
-                            <td>' . __( 'Unlimited Access to Categories', 'laterpay' ) . '</td>
-                        </tr>
-                  </table>' );
+            echo '<table class="form-table"><tr><th>';
+            esc_html_e( 'User Role', 'laterpay' );
+            echo '</th><td>';
+            esc_html_e( 'Unlimited Access to Categories', 'laterpay' );
+            echo'</td></tr></table>';
         } else {
             // tell the user that he needs to have at least one custom role defined
-            echo laterpay_sanitize_output( '<h4>' . __( 'Please add a custom role first.', 'laterpay' ) . '</h4>' );
+            echo '<h4>';
+            esc_html_e( 'Please add a custom role first.', 'laterpay' );
+            echo '</h4>';
         }
     }
 
@@ -659,7 +579,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_input_field_markup( $field = null ) {
-        $inputs_markup = '';
 
         if ( $field && isset( $field['name'] ) ) {
             $option_value = get_option( $field['name'] );
@@ -673,56 +592,56 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             }
             $classes = array_unique( $classes );
 
-            if ( $type == 'text' ) {
+            if ( $type === 'text' ) {
                 $classes[] = 'regular-text';
             }
 
-            $inputs_markup = '';
             if ( isset( $field['label'] ) ) {
-                $inputs_markup .= '<label>';
+                echo '<label>';
             }
 
-            $inputs_markup .= '<input type="' . $type . '" name="' . $field['name'] . '" value="' . sanitize_text_field( $field_value ) . '"';
+            echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $field['name'] ) . '" value="' . esc_attr( $field_value ) . '"';
 
             // add id, if set
             if ( isset( $field['id'] ) ) {
-                $inputs_markup .= ' id="' . $field['id'] . '"';
+                echo ' id="' . esc_attr( $field['id'] ). '"';
             }
 
             if ( isset( $field['label'] ) ) {
-                $inputs_markup .= ' style="margin-right:5px;"';
+                echo ' style="margin-right:5px;"';
             }
 
             // add classes, if set
-            $inputs_markup .= ! empty( $classes ) ? ' class="' . implode( ' ', $classes ) . '"' : '';
+            if ( ! empty( $classes ) ) {
+                echo ' class="' . esc_attr( implode( ' ', $classes ) ) . '"';
+            }
 
             // add checked property, if set
-            if ( 'checkbox' == $type ) {
-                $inputs_markup .= $option_value ? ' checked' : '';
+            if ( 'checkbox' === $type ) {
+                echo $option_value ? ' checked' : '';
             }
 
             // add disabled property, if set
             if ( isset( $field['disabled'] ) && $field['disabled'] ) {
-                $inputs_markup .= ' disabled';
+                echo ' disabled';
             }
 
             // add onclick support
             if ( isset( $field['onclick'] ) && $field['onclick'] ) {
-                $inputs_markup .= ' onclick="' . $field['onclick'] . '"';
+                // already using esc_js in add_laterpay_pro_merchant()
+                echo ' onclick="' . esc_attr( $field['onclick'] ) . '"';
             }
 
-            $inputs_markup .= '>';
+            echo '>';
 
             if ( isset( $field['appended_text'] ) ) {
-                $inputs_markup .= '<dfn class="lp_appended-text">' . laterpay_sanitize_output( $field['appended_text'] ) . '</dfn>';
+                echo '<dfn class="lp_appended-text">' . esc_html( $field['appended_text'] ) . '</dfn>';
             }
             if ( isset( $field['label'] ) ) {
-                $inputs_markup .= $field['label'];
-                $inputs_markup .= '</label>';
+                echo esc_html( $field['label'] );
+                echo '</label>';
             }
         }
-
-        echo laterpay_sanitized( $inputs_markup );
     }
 
     /**
@@ -733,7 +652,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_select_field_markup( $field = null ) {
-        $select_markup = '';
 
         if ( $field && isset( $field['name'] ) ) {
             $field_value  = isset( $field['value'] ) ? $field['value'] : get_option( $field['name'] );
@@ -743,26 +661,28 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 $classes = array($classes);
             }
 
-            $select_markup = '';
             if ( isset( $field['label'] ) ) {
-                $select_markup .= '<label>';
+                echo '<label>';
             }
             // remove duplicated classes
             $classes = array_unique( $classes );
 
-            $select_markup .= '<select name="' . $field['name'] . '"';
+            echo '<select name="' . esc_attr( $field['name'] ) . '"';
 
             if ( isset( $field['id'] ) ) {
-                $select_markup .= ' id="' . $field['id'] . '"';
+                echo ' id="' . esc_attr( $field['id'] ) . '"';
             }
 
             if ( isset( $field['disabled'] ) && $field['disabled'] ) {
-                $select_markup .= ' disabled';
+                echo ' disabled';
             }
-            $select_markup .= ! empty( $classes ) ? ' class="' . implode( ' ', $classes ) . '"' : '';
-            $select_markup .= '>';
 
-            $options_markup = '';
+            if ( ! empty( $classes ) ) {
+                echo ' class="' . esc_attr( implode( ' ', $classes ) ) . '"';
+            }
+
+            echo '>';
+
             foreach ( $options as $option ) {
                 if ( ! is_array( $option ) ) {
                     $option_value = $option_text = $option;
@@ -771,23 +691,21 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                     $option_text    = isset( $option['text'] ) ? $option['text'] : '';
                 }
                 $selected = '';
-                if ( $field_value == $option_value ) {
+                if ( absint( $field_value ) === absint( $option_value ) ) {
                     $selected = 'selected';
                 }
-                $options_markup .= '<option value="' . esc_attr( $option_value ) .  '" ' . $selected . '>' . laterpay_sanitize_output( $option_text ) . '</option>';
+                echo '<option value="' . esc_attr( $option_value ) .  '" ' . esc_attr( $selected ) . '>' . esc_html( $option_text ) . '</option>';
             }
-            $select_markup .= $options_markup;
-            $select_markup .= '</select>';
+
+            echo '</select>';
             if ( isset( $field['appended_text'] ) ) {
-                $select_markup .= '<dfn class="lp_appended-text">' . laterpay_sanitize_output( $field['appended_text'] ) . '</dfn>';
+                echo '<dfn class="lp_appended-text">' . esc_html( $field['appended_text'] ) . '</dfn>';
             }
             if ( isset( $field['label'] ) ) {
-                $select_markup .= $field['label'];
-                $select_markup .= '</label>';
+                echo esc_html( $field['label'] );
+                echo '</label>';
             }
         }
-
-        echo laterpay_sanitized( $select_markup );
     }
 
     /**
@@ -802,34 +720,35 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $categories = isset( $field['categories'] ) ? $field['categories'] : array();
         $unlimited  = get_option( 'laterpay_unlimited_access' ) ? get_option( 'laterpay_unlimited_access' ) : array();
 
-        $inputs_markup  = '';
-        $count          = 1;
+        $count = 1;
 
         if ( $role ) {
             foreach ( $categories as $id => $name ) {
                 $need_default   = ! isset( $unlimited[ $role ] ) || ! $unlimited[ $role ];
                 $is_none_or_all = in_array( $id, array( 'none', 'all' ), true );
-                $is_selected    = ! $need_default ? in_array( $id, $unlimited[ $role ] ) : false;
+                $is_selected    = ! $need_default ? in_array( (string) $id, $unlimited[ $role ], true ) : false;
 
-                $inputs_markup .= '<input type="checkbox" ';
-                $inputs_markup .= 'id="lp_category--' . $role . $count . '"';
-                $inputs_markup .= 'class="lp_category-access-input';
-                $inputs_markup .= $is_none_or_all ? ' lp_global-access" ' : '" ';
-                $inputs_markup .= 'name="laterpay_unlimited_access[' . $role . '][]"';
-                $inputs_markup .= 'value="' . $id . '" ';
-                $inputs_markup .= $is_selected || ( $need_default && $id === 'none' ) ? 'checked' : '';
-                $inputs_markup .= '>';
-                $inputs_markup .= '<label class="lp_category-access-label';
-                $inputs_markup .= $is_none_or_all ? ' lp_global-access" ' : '" ';
-                $inputs_markup .= 'for="lp_category--' . $role . $count . '">';
-                $inputs_markup .= $is_none_or_all ? __( $name, 'laterpay' ) : $name;
-                $inputs_markup .= '</label>';
+                echo '<input type="checkbox" ';
+                echo 'id="lp_category--' . esc_attr( $role . $count ) . '"';
+                echo 'class="lp_category-access-input';
+                echo $is_none_or_all ? ' lp_global-access" ' : '" ';
+                echo 'name="laterpay_unlimited_access[' . esc_attr( $role ) . '][]"';
+                echo 'value="' . esc_attr( $id ) . '" ';
+
+                if( $is_selected || ( $need_default && $id === 'none' ) ) {
+                    echo 'checked';
+                }
+
+                echo '>';
+                echo '<label class="lp_category-access-label';
+                echo $is_none_or_all ? ' lp_global-access" ' : '" ';
+                echo 'for="lp_category--' . esc_attr( $role . $count ) . '">';
+                echo esc_html__( $name, 'laterpay' );
+                echo '</label>';
 
                 $count += 1;
             }
         }
-
-        echo laterpay_sanitized( $inputs_markup );
     }
 
     /**
@@ -855,7 +774,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 // check, if selected categories cover entire blog
                 $covered = 1;
                 foreach ( $categories as $category ) {
-                    if ( ! in_array( $category->term_id, $data ) ) {
+                    if ( ! in_array( ( string ) $category->term_id, $data, true ) ) {
                         $covered = 0;
                         break;
                     }
@@ -868,23 +787,23 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 }
 
                 // filter values, if entire blog is not covered
-                if ( in_array( 'all', $data ) && in_array( 'none', $data ) && count( $data ) == 2 ) {
+                if ( in_array( 'all', $data, true ) && in_array( 'none', $data, true ) && count( $data ) === 2 ) {
                     // unset option 'all', if option 'all' and option 'none' are selected at the same time
-                    unset( $data[ array_search( 'all', $data ) ] );
+                    unset( $data[ array_search( 'all', $data, true ) ] );
                 } elseif ( count( $data ) > 1 ) {
                     // unset option 'all', if at least one category is selected
-                    if ( array_search( 'all', $data ) !== false ) {
+                    if ( array_search( 'all', $data, true ) !== false ) {
                         foreach ( $data as $key => $option ) {
-                            if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
+                            if ( ! in_array( $option, array( 'none', 'all' ), true ) ) {
                                 unset( $data[ $key ] );
                             }
                         }
                     }
 
                     // unset all categories, if option 'none' is selected
-                    if ( array_search( 'none', $data ) !== false ) {
+                    if ( array_search( 'none', $data, true ) !== false ) {
                         foreach ( $data as $key => $option ) {
-                            if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
+                            if ( ! in_array( $option, array( 'none', 'all' ), true ) ) {
                                 unset( $data[ $key ] );
                             }
                         }
@@ -908,29 +827,30 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'nav_menu_item',
             'revision',
             'custom_css',
-            'customize_changeset'
+            'customize_changeset',
+            'lp_passes',
+            'lp_subscription',
+            'oembed_cache',
         );
 
         $all_post_types     = get_post_types( array( ), 'objects' );
         $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
 
-        $inputs_markup = '<ul class="post_types">';
+        echo '<ul class="post_types">';
         foreach ( $all_post_types as $slug => $post_type ) {
             if (in_array($slug, $hidden_post_types, true)) {
                 continue;
             }
-            $inputs_markup .= '<li><label title="' . $post_type->labels->name . '">';
-            $inputs_markup .= '<input type="checkbox" name="laterpay_enabled_post_types[]" value="' . $slug . '" ';
+            echo '<li><label title="' . esc_attr( $post_type->labels->name ) . '">';
+            echo '<input type="checkbox" name="laterpay_enabled_post_types[]" value="' . esc_attr( $slug ) . '" ';
             if ( is_array( $enabled_post_types ) && in_array( $slug, $enabled_post_types, true ) ) {
-                $inputs_markup .= 'checked';
+                echo 'checked';
             }
-            $inputs_markup .= '>';
-            $inputs_markup .= '<span>' . $post_type->labels->name . '</span>';
-            $inputs_markup .= '</label></li>';
+            echo '>';
+            echo '<span>' . esc_html( $post_type->labels->name ) . '</span>';
+            echo '</label></li>';
         }
-        $inputs_markup .= '</ul>';
-
-        echo laterpay_sanitized( $inputs_markup );
+        echo '</ul>';
     }
 
     /**
@@ -988,9 +908,9 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_laterpay_api_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'Define fallback behavior in case LaterPay API is not responding and option to disallow plugin to contact LaterPay API on homepage', 'laterpay' ) .
-        '</p>' );
+        echo '<p>';
+        esc_html_e( 'Define fallback behavior in case LaterPay API is not responding and option to disallow plugin to contact LaterPay API on homepage', 'laterpay' );
+        echo '</p>';
     }
 
     /**
@@ -1044,7 +964,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 'value'   => 1,
                 'type'    => 'checkbox',
                 'label'   => __( 'I have a LaterPay Pro merchant account.', 'laterpay' ),
-                'onclick' => "if (this.checked) return confirm('{$confirm_message}'); else return true;"
+                'onclick' => "if (this.checked) return confirm('" . esc_js( "{$confirm_message}" ) . "'); else return true;"
             )
         );
 
@@ -1057,8 +977,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return void
      */
     public function get_laterpay_pro_merchant_description() {
-        echo laterpay_sanitize_output( '<p>' .
-            __( 'Please choose, if you have a LaterPay Pro merchant account.', 'laterpay' ) .
-            '</p>' );
+        echo '<p>';
+        esc_html_e( 'Please choose, if you have a LaterPay Pro merchant account.', 'laterpay' );
+        echo '</p>';
     }
 }

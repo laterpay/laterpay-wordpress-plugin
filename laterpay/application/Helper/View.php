@@ -35,11 +35,12 @@ class LaterPay_Helper_View
 
         $data = '';
         if ( isset( $page['data'] ) ) {
-            $data = json_encode( $page['data'] );
-            $data = 'data="' . esc_attr( $data ) . '"';
+            $data = wp_json_encode( $page['data'] );
         }
 
-        return laterpay_sanitize_output( '<a href="' . $href . '" ' . $data . ' class="lp_navigation-tabs__link">' . $page['title'] . '</a>' );
+        /* translators: %1$s menu link, %2$s data attribute, %3$s menu title */
+        $menu_link = sprintf( '<a href="%1$s" data="%2$s" class="lp_navigation-tabs__link">%3$s</a>', esc_url( $href ), esc_attr( $data ), esc_html( $page['title'] ) );
+        return $menu_link;
     }
 
     /**
@@ -246,8 +247,8 @@ class LaterPay_Helper_View
      */
     public static function get_error_message( $error_reason, $atts ) {
         $error_message  = '<div class="lp_shortcodeError">';
-        $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-        $error_message .= $error_reason;
+        $error_message .= esc_html__( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+        $error_message .= wp_kses_post( $error_reason );
         $error_message .= '</div>';
 
         return $error_message;

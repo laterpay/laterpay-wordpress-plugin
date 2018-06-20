@@ -178,11 +178,6 @@
                 }
             },
 
-            // landing page
-            landingPageInput                        : '.lp_js_landingPageInput',
-            landingPageSave                         : '#lp_js_landingPageSave',
-            landingPageForm                         : $('#lp_js_landingPageForm'),
-
             // vouchers
             voucherPriceInput                       : '.lp_js_voucherPriceInput',
             generateVoucherCode                     : '.lp_js_generateVoucherCode',
@@ -193,23 +188,6 @@
             voucherList                             : '.lp_js_voucherList',
             voucher                                 : '.lp_js_voucher',
             voucherTimesRedeemed                    : '.lp_js_voucherTimesRedeemed',
-
-            // bulk price editor
-            bulkPriceForm                           : $('#lp_js_bulkPriceEditorForm'),
-            bulkPriceFormHiddenField                : $('#lp_js_bulkPriceEditorHiddenFormInput'),
-            bulkPriceOperationIdHiddenField         : $('#lp_js_bulkPriceEditorHiddenIdInput'),
-            bulkPriceMessageHiddenField             : $('#lp_js_bulkPriceEditorHiddenMessageInput'),
-            bulkPriceAction                         : $('#lp_js_selectBulkAction'),
-            bulkPriceObjects                        : $('#lp_js_selectBulkObjects'),
-            bulkPriceObjectsCategory                : $('#lp_js_selectBulkObjectsCategory'),
-            bulkPriceObjectsCategoryWithPrice       : $('#lp_js_selectBulkObjectsCategoryWithPrice'),
-            bulkPriceChangeAmountPreposition        : $('#lp_js_bulkPriceEditorAmountPreposition'),
-            bulkPriceChangeAmount                   : $('#lp_js_setBulkChangeAmount'),
-            bulkPriceChangeUnit                     : $('#lp_js_selectBulkChangeUnit'),
-            bulkPriceSubmit                         : $('#lp_js_applyBulkOperation'),
-            bulkSaveOperationLink                   : $('#lp_js_saveBulkOperation'),
-            bulkDeleteOperationLink                 : '.lp_js_deleteSavedBulkOperation',
-            bulkApplySavedOperationLink             : '.lp_js_applySavedBulkOperation',
 
             // strings cached for better compression
             editing                                 : 'lp_is-editing',
@@ -497,60 +475,6 @@
                 flipEntity('subscription', this);
             })
             .on('click', $o.subscription.actions.flip, function(e) {e.preventDefault();});
-
-            $o.landingPageForm
-            .on('click', $o.landingPageSave, function(e) {
-                saveLandingPage($o.landingPageForm);
-                e.preventDefault();
-            });
-
-            // bulk price editor events ----------------------------------------------------------------------------
-            // select action or objects
-            $o.bulkPriceAction.add($o.bulkPriceObjects)
-            .on('change', function() {
-                handleBulkEditorSettingsUpdate($o.bulkPriceAction.val(), $o.bulkPriceObjects.val());
-            });
-
-            // update displayed price of the category to be reset
-            $o.bulkPriceObjectsCategoryWithPrice
-            .on('change', function() {
-                $o.bulkPriceChangeAmountPreposition.text(
-                    lpVars.i18n.toCategoryDefaultPrice + ' ' +
-                    $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
-                    lpVars.currency.code
-                );
-            });
-
-            // execute bulk operation
-            $o.bulkPriceForm
-            .on('submit', function(e) {
-                $o.bulkPriceFormHiddenField.val('bulk_price_form');
-                $o.bulkPriceOperationIdHiddenField.val(undefined);
-                $o.bulkPriceMessageHiddenField.val(undefined);
-                applyBulkOperation();
-                e.preventDefault();
-            });
-
-            // save bulk operation for re-use
-            $o.bulkSaveOperationLink
-            .mousedown(function() {
-                saveBulkOperation();
-            })
-            .click(function(e) {e.preventDefault();});
-
-            // execute saved bulk operation
-            $o.body
-            .on('mousedown', $o.bulkApplySavedOperationLink, function() {
-                applySavedBulkOperation($(this).parent());
-            })
-            .on('click', $o.bulkApplySavedOperationLink, function(e) {e.preventDefault();});
-
-            // delete saved bulk operation
-            $o.body
-            .on('mousedown', $o.bulkDeleteOperationLink, function() {
-                deleteSavedBulkOperation($(this).parent());
-            })
-            .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
         },
 
         validatePrice = function($form, disableRevenueValidation, $input, subscriptionValidation) {
@@ -973,7 +897,7 @@
 
             // insert cloned form into current entity editor container
             var $form = $($entity.form, $entity.template).clone();
-            $($entity.editorContainer, $wrapper).html($form);
+            $($entity.editorContainer, $wrapper).empty().append($form);
 
             populateEntityForm(type, $wrapper);
 
@@ -1076,9 +1000,13 @@
                 // update pass access in pass preview
                 $($entity.preview.access, $wrapper).text(text);
             } else if ($input.hasClass($entity.classes.priceClass)) {
+                var small = $('<small />', {
+                    class: 'lp_purchase-link__currency',
+                });
+                small.text(lpVars.currency.code);
                 // update pass price in pass preview
                 $('.lp_js_purchaseLink', $wrapper)
-                .html(text + '<small class="lp_purchase-link__currency">' + lpVars.currency.code + '</small>');
+                .empty().append(text).append(small);
                 $($entity.preview.price).text(text + ' ' + lpVars.currency.code);
             } else if ($input.hasClass($entity.classes.titleClass)) {
                 // update pass title in pass preview
@@ -1173,7 +1101,7 @@
                         $entity.data.list[id] = r.data;
 
                         // insert entity rendered on server
-                        $($entity.preview.placeholder, $wrapper).html(r.html);
+                        $($entity.preview.placeholder, $wrapper).empty().append(r.html);
 
                         // hide action links required when editing entity
                         $($entity.actions.show, $wrapper).addClass($o.hidden);
@@ -1272,7 +1200,7 @@
 
         changeDurationOptions = function(type, $period, $form) {
             var $entity = $o[type],
-                i, options = '',
+                i, options = [],
                 limit = 24,
                 period = $period.val(),
                 duration = $($entity.fields.duration, $form).val();
@@ -1286,7 +1214,11 @@
             }
 
             for(i = 1; i <= limit; i++) {
-                options += '<option value="' + i +'">' + i + '</option>';
+                var option = $('<option/>', {
+                    value:i,
+                });
+                option.text(i);
+                options.push(option);
             }
 
             $($entity.fields.duration, $form)
@@ -1331,18 +1263,53 @@
         addVoucher = function(code, voucherData, $timePass) {
             var priceValue = voucherData.price ? voucherData.price : voucherData,
                 price      = priceValue + ' ' + lpVars.currency.code,
-                title      = voucherData.title ? voucherData.title : '',
-                voucher = '<div class="lp_js_voucher lp_voucher" data-code="' + code + '" style="display:none;">' +
-                            '<input type="hidden" name="voucher_code[]" value="' + code + '">' +
-                            '<input type="hidden" name="voucher_price[]" value="' + priceValue + '">' +
-                            '<span class="lp_voucher__code">' + code + '</span> ' + // space at end is intentional
-                            '<span class="lp_voucher__code-infos">' +
-                                lpVars.i18n.voucherText + ' ' + price +
-                            '</span>' +
-                            '<input class="lp_input__title" type="text" name="voucher_title[]" value="' +
-                            title + '">' +
-                            '<a href="#" class="lp_js_deleteVoucher lp_edit-link--bold" data-icon="g"></a>' +
-                        '</div>';
+                title      = voucherData.title ? voucherData.title : '';
+
+            var voucher = $('<div/>', {
+                'class': 'lp_js_voucher lp_voucher',
+                'data-code': code,
+                'style': 'display:none;',
+
+            });
+
+            var voucherCode = $('<input/>', {
+                type: 'hidden',
+                name: 'voucher_code[]',
+                value: code
+            });
+
+            var voucherPrice = $('<input/>', {
+                type: 'hidden',
+                name: 'voucher_price[]',
+                value: priceValue
+            });
+
+            var spanVoucherCode = $('<span/>', {
+                class: 'lp_voucher__code',
+            }).text(code);
+
+            var spanVoucherInfo = $('<span/>', {
+                class: 'lp_voucher__code-infos',
+            }).text(lpVars.i18n.voucherText + ' ' + price);
+
+            var inputTitle = $('<input/>', {
+                class: 'lp_input__title',
+                type: 'text',
+                name: 'voucher_title[]',
+                value: title,
+            });
+
+            var deleteLink = $('<a/>', {
+                'class': 'lp_js_deleteVoucher lp_edit-link--bold',
+                'data-icon': 'g'
+            });
+
+            voucher.empty().append(voucherCode)
+                .append(voucherPrice)
+                .append(spanVoucherCode)
+                .append(spanVoucherInfo)
+                .append(inputTitle)
+                .append(deleteLink);
 
             $timePass
                 .find($o.voucherPlaceholder)
@@ -1353,22 +1320,36 @@
         },
 
         addVoucherToList = function(code, voucherData, $timePass) {
-            var passId          = $timePass.data($o.timepass.data.id),
-                timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
-                title           = voucherData.title ? voucherData.title : '',
-                price           = voucherData.price + ' ' + lpVars.currency.code,
-                voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
-                                        '<span class="lp_voucher__title"><b>' + title + '</b></span>' +
-                                        '<div>' +
-                                        '<span class="lp_voucher__code">' + code + '</span>' +
-                                        '<span class="lp_voucher__code-infos">' +
-                                            lpVars.i18n.voucherText + ' ' + price + '.<br>' +
-                                            '<span class="lp_js_voucherTimesRedeemed">' +
-                                                timesRedeemed +
-                                            '</span>' + ' ' + lpVars.i18n.timesRedeemed +
-                                        '</span>' +
-                                        '</div>' +
-                                    '</div>';
+            var passId = $timePass.data($o.timepass.data.id),
+                timesRedeemed = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
+                title = voucherData.title ? voucherData.title : '',
+                price = voucherData.price + ' ' + lpVars.currency.code;
+
+            var voucher = $('<div/>', {
+                'class': 'lp_js_voucher lp_voucher',
+                'data-code': code,
+            });
+
+            var voucherTitle = $('<span/>', {
+                class: 'lp_voucher__title',
+            }).append($('<b/>').text(title));
+
+            var voucherCode = $('<span/>', {
+                class: 'lp_voucher__code',
+            }).text(code);
+
+            var voucherInfo = $('<span/>', {
+                class: 'lp_voucher__code-infos'
+            }).text(lpVars.i18n.voucherText + ' ' + price)
+                .append('<br/>')
+                .append($('<span/>', {
+                    class: 'lp_js_voucherTimesRedeemed',
+                }).text(timesRedeemed))
+                .append(' ' + lpVars.i18n.timesRedeemed);
+
+            var redeemDetail = $('<div/>').append(voucherCode).append(voucherInfo);
+
+            voucher.append(voucherTitle).append(redeemDetail);
 
             $timePass.find($o.voucherList).append(voucher);
         },
@@ -1387,203 +1368,6 @@
                     $(this).remove();
                 }
             });
-        },
-
-        saveLandingPage = function($form) {
-            $.post(
-                ajaxurl,
-                $form.serializeArray(),
-                function(data) {
-                    $o.navigation.showMessage(data);
-                }
-            );
-        },
-
-        applyBulkOperation = function(data) {
-            $.post(
-                ajaxurl,
-                data || $o.bulkPriceForm.serializeArray(),
-                function(r) {
-                    $o.navigation.showMessage(r);
-                },
-                'json'
-            );
-        },
-
-        addOptionInCategory = function(categoryToBeSelected) {
-            $o.bulkPriceObjects
-            .removeClass($o.disabled)
-            .append($('<option>', {
-                value    : 'in_category',
-                text     : lpVars.inCategoryLabel,
-                selected : !!categoryToBeSelected // coerce categoryToBeSelected to Boolean
-            }));
-        },
-
-        handleBulkEditorSettingsUpdate = function(action, selector) {
-            // hide some fields if needed, change separator, and add percent unit option
-            var showCategory = (selector === 'in_category');
-
-            // clear currency options
-            $o.bulkPriceChangeUnit
-                .find('option')
-                .each(function() {
-                    if ($(this).text() === '%') {
-                        $(this).remove();
-                    }
-                })
-            .end()
-            .addClass($o.disabled);
-
-            // clear object options
-            $o.bulkPriceObjects
-                .find('option')
-                .each(function() {
-                    if ($(this).val() === 'in_category') {
-                        $(this).remove();
-                        $o.bulkPriceObjects.addClass($o.disabled);
-                    }
-                });
-
-            // hide some of the bulk price editor settings
-            $o.bulkPriceObjectsCategory.prop('disabled', true).hide();
-            $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', true).hide();
-            $o.bulkPriceChangeAmountPreposition.hide();
-            $o.bulkPriceChangeAmount.prop('disabled', true).hide();
-            $o.bulkPriceChangeUnit.prop('disabled', true).hide();
-
-            switch (action) {
-                case 'set':
-                    $o.bulkPriceChangeAmountPreposition.show().text(lpVars.i18n.to);
-                    $o.bulkPriceChangeAmount.prop('disabled', false).show();
-                    $o.bulkPriceChangeUnit.show();
-                    break;
-
-                case 'increase':
-                case 'reduce':
-                    $o.bulkPriceChangeAmountPreposition.show().text(lpVars.i18n.by);
-                    $o.bulkPriceChangeAmount.prop('disabled', false).show();
-                    $o.bulkPriceChangeUnit.prop('disabled', false).show();
-                    $o.bulkPriceChangeUnit
-                    .removeClass($o.disabled)
-                    .append($('<option>', {
-                        value   : 'percent',
-                        text    :  '%'
-                    }));
-                    break;
-
-                case 'free':
-                    if ($o.bulkPriceObjectsCategory.length) {
-                        addOptionInCategory(showCategory);
-                        if (showCategory) {
-                            $o.bulkPriceObjectsCategory.prop('disabled', false).show();
-                        }
-                    }
-                    break;
-
-                case 'reset':
-                    $o.bulkPriceChangeAmountPreposition.text(
-                        lpVars.i18n.toGlobalDefaultPrice + ' ' +
-                            lpVars.globalDefaultPrice + ' ' +
-                            lpVars.currency.code
-                    );
-                    if ($o.bulkPriceObjectsCategoryWithPrice.length) {
-                        addOptionInCategory(showCategory);
-                        if (showCategory) {
-                            $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false).show().change();
-                        }
-                    }
-                    $o.bulkPriceChangeAmountPreposition.show();
-                    break;
-
-                default:
-                    break;
-            }
-        },
-
-        saveBulkOperation = function() {
-            var actionVal   = $.trim($o.bulkPriceAction.find('option:selected').val()),
-                action      = (actionVal === 'free') ?
-                                lpVars.i18n.make :
-                                $o.bulkPriceAction.find('option:selected').text(),
-                objects     = $o.bulkPriceObjects.find('option:selected').text(),
-                category    = ($.trim($o.bulkPriceObjects.find('option:selected').val()) === 'all') ?
-                                '' :
-                                '"' + $.trim($o.bulkPriceObjectsCategory.find('option:selected').text()) + '"',
-                preposition = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
-                                '' :
-                                $o.bulkPriceChangeAmountPreposition.text(),
-                actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
-                                lpVars.i18n.free :
-                                '',
-                amount      = (actionVal === 'free' || actionVal === 'reset') ?
-                                '' :
-                                $o.bulkPriceChangeAmount.val() +
-                                $o.bulkPriceChangeUnit.find('option:selected').text(),
-                description = [action, objects, category, preposition, amount, actionExt];
-
-            // concatenate description and remove excess spaces
-            description = $.trim(description.join(' ').replace(/\s+/g, ' '));
-
-            $o.bulkPriceFormHiddenField.val('bulk_price_form_save');
-            $o.bulkPriceOperationIdHiddenField.val(undefined);
-            $o.bulkPriceMessageHiddenField.val(description);
-
-            $.post(
-                ajaxurl,
-                $o.bulkPriceForm.serializeArray(),
-                function(r) {
-                    if (r.success) {
-                        // create new saved bulk operation
-                        createSavedBulkOperation(r.data.id, r.data.message);
-                    }
-                    $o.navigation.showMessage(r);
-                },
-                'json'
-            );
-        },
-
-        createSavedBulkOperation = function(bulkOperationId, bulkMessage) {
-            var operation = '<p class="lp_bulk-operation" data-value="' +  bulkOperationId + '">' +
-                                '<a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" ' +
-                                        'data-icon="g">' +
-                                    lpVars.i18n.delete +
-                                '</a>' +
-                                '<a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m-l2">' +
-                                    lpVars.i18n.updatePrices +
-                                '</a>' +
-                                '<span class="lp_bulk-operation__message">' + bulkMessage + '</span>' +
-                            '</p>';
-
-            $o.bulkPriceForm.after(operation);
-        },
-
-        applySavedBulkOperation = function($item) {
-            $o.bulkPriceFormHiddenField.val('bulk_price_form');
-            $o.bulkPriceOperationIdHiddenField.val($item.data('value'));
-
-            applyBulkOperation();
-        },
-
-        deleteSavedBulkOperation = function($item) {
-            $o.bulkPriceFormHiddenField.val('bulk_price_form_delete');
-            $o.bulkPriceOperationIdHiddenField.val($item.data('value'));
-
-            $item.velocity('fadeOut', { duration: 250 });
-
-            $.post(
-                ajaxurl,
-                $o.bulkPriceForm.serializeArray(),
-                function(r) {
-                    if (r.success) {
-                        $item.remove();
-                    } else {
-                        $item.velocity('fadeIn', { duration: 250 });
-                    }
-                    $o.navigation.showMessage(r);
-                },
-                'json'
-            );
         },
 
         changePurchaseMode = function($form) {
@@ -1624,10 +1408,6 @@
 
         initializePage = function() {
             bindEvents();
-
-            // trigger change event of bulk price editor on page load to initialize the bulk price editor,
-            // see handleBulkEditorSettingsUpdate()
-            $o.bulkPriceAction.change();
         };
 
         initializePage();

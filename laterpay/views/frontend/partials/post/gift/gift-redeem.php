@@ -9,8 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div>
     <?php if ( $gift_pass ) : ?>
-        <?php echo laterpay_sanitized( $this->render_gift_pass( $gift_pass, true ) ); ?>
+        <?php
+            $this->render_gift_pass( $gift_pass, true );
+        ?>
     <?php else : ?>
-        <?php echo laterpay_sanitized( $this->render_redeem_form() ); ?>
+        <?php
+            $this->render_redeem_form();
+        ?>
     <?php endif; ?>
 </div>

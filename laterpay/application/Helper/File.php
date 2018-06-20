@@ -58,12 +58,12 @@ class LaterPay_Helper_File
         }
 
         // get path of resource
-        $blog_url_parts = parse_url( get_bloginfo( 'wpurl' ) );
+        $blog_url_parts = wp_parse_url( get_bloginfo( 'wpurl' ) );
         if ( ! $blog_url_parts ) {
             return false;
         }
 
-        if ( $blog_url_parts['host'] != $resource_url_parts['host'] ) {
+        if ( $blog_url_parts['host'] !== $resource_url_parts['host'] ) {
             // don't encrypt, because resource is not located at current host
             return false;
         }
@@ -73,28 +73,28 @@ class LaterPay_Helper_File
             self::$protected_urls = array();
             // add path of wp-uploads folder to $protected_urls
             $upload_dir = wp_upload_dir();
-            $upload_url = parse_url( $upload_dir['baseurl'] );
+            $upload_url = wp_parse_url( $upload_dir['baseurl'] );
             $upload_url = $upload_url['path'];
             $upload_url = ltrim( $upload_url, '/' );
             self::$protected_urls['upload_url'] = $upload_url;
 
             // add path of wp-content folder to $protected_urls
             $content_url = content_url();
-            $content_url = parse_url( $content_url );
+            $content_url = wp_parse_url( $content_url );
             $content_url = $content_url['path'];
             $content_url = ltrim( $content_url, '/' );
             self::$protected_urls['content_url'] = $content_url;
 
             // add path of wp-includes folder to $protected_urls
             $includes_url = includes_url();
-            $includes_url = parse_url( $includes_url );
+            $includes_url = wp_parse_url( $includes_url );
             $includes_url = $includes_url['path'];
             $includes_url = ltrim( $includes_url, '/' );
             self::$protected_urls['includes_url'] = $includes_url;
         }
 
         // check, if resource is located inside one of the protected folders
-        foreach ( self::$protected_urls as $protected_name => $protected_url ) {
+        foreach ( self::$protected_urls as $protected_url ) {
             if ( strstr( $uri, $protected_url ) ) {
                 // encrypt, because URI is among the protected URIs
                 return true;
@@ -116,7 +116,7 @@ class LaterPay_Helper_File
      * @return string $url
      */
     public static function get_encrypted_resource_url( $post_id, $url, $use_auth, $set_file_disposition = null ) {
-        $resource_url_parts = parse_url( $url );
+        $resource_url_parts = wp_parse_url( $url );
         if ( ! self::check_url_encrypt( $resource_url_parts ) ) {
             // return unmodified URL, if file should not be encrypted
             return $url;
@@ -125,13 +125,10 @@ class LaterPay_Helper_File
         $new_url    = admin_url( self::SCRIPT_PATH );
         $uri        = $resource_url_parts['path'];
 
-        $cipher     = new Crypt_AES();
-        $cipher->setKey( SECURE_AUTH_SALT );
-        $file       = base64_encode( $cipher->encrypt( $uri ) );
-        $file       = strtr( $file, '+/', '-_' );
+        $cipher = new LaterPay_Crypt();
+        $file   = $cipher->encrypt( $uri, SECURE_AUTH_SALT );
 
-        $path       = ABSPATH . $uri;
-        $ext        = pathinfo( $path, PATHINFO_EXTENSION );
+        $ext = pathinfo( $uri, PATHINFO_EXTENSION );
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
@@ -183,7 +180,6 @@ class LaterPay_Helper_File
         // request parameters
         $file               = $request->get_param( 'file' );                // required, relative file path
         $aid                = $request->get_param( 'aid' );                 // required, article id
-        $mt                 = $request->get_param( 'mt' );                  // optional, need to convert file to requested type
         $lptoken            = $request->get_param( 'lptoken' );             // optional, to update token
         $hmac               = $request->get_param( 'hmac' );                // required, token to validate request
         $ts                 = $request->get_param( 'ts' );                  // required, timestamp
@@ -213,7 +209,7 @@ class LaterPay_Helper_File
         }
 
         if ( ! empty( $hmac ) && ! empty( $ts ) ) {
-            $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+	        $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
             if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $request_method ) ) {
                 $response->set_http_response_code( 401 );
                 $response->send_response();
@@ -276,9 +272,6 @@ class LaterPay_Helper_File
      */
     protected function get_decrypted_file_name( $file ) {
         $response   = new LaterPay_Core_Response();
-        // prepare file for further processing
-        $file       = strtr( $file, '-_', '+/' );
-        $file       = base64_decode( $file );
 
         if ( empty( $file ) ) {
             $response->set_http_response_code( 500 );
@@ -287,9 +280,10 @@ class LaterPay_Helper_File
             exit();
         }
 
-        $cipher = new Crypt_AES();
-        $cipher->setKey( SECURE_AUTH_SALT );
-        $file   = ( isset( $_SERVER['DOCUMENT_ROOT'] ) ? sanitize_text_field( $_SERVER['DOCUMENT_ROOT'] ) : ABSPATH ) . $cipher->decrypt( $file );
+        $cipher = new LaterPay_Crypt();
+        $uri    = $cipher->decrypt( $file, SECURE_AUTH_SALT );
+
+        $file = site_url() . $uri;
 
         return $file;
     }
@@ -309,18 +303,27 @@ class LaterPay_Helper_File
             $disposition = self::DEFAULT_FILE_DISPOSITION;
         }
 
-        $file = $this->get_decrypted_file_name( $file );
-        if ( ! file_exists( $file ) ) {
-            $response->set_http_response_code( 404 );
-            $response->send_response();
-            // exit script after response was created
-            exit();
+        $file          = $this->get_decrypted_file_name( $file );
+        $file_response = LaterPay_Wrapper::laterpay_remote_get( $file );
+
+        if ( false === is_wp_error( $file_response ) ) {
+            $response_code = wp_remote_retrieve_response_code( $file_response );
+            if ( 200 !== absint( $response_code ) ) {
+                $response->set_http_response_code( $response_code );
+                $response->send_response();
+                // exit script after response was created
+                exit();
+            }
         }
 
-        $filetype = wp_check_filetype( $file );
-        $fsize    = filesize( $file );
-        $data     = file_get_contents( $file );
-        $filename = basename( $file );
+        $file_headers = get_headers( $file,1 );
+        if ( is_array( $file_headers ) ) {
+            $file_headers = array_change_key_case( $file_headers );
+        }
+        $data         = wp_remote_retrieve_body( $file_response );
+        $fsize        = ( ! empty( $file_headers['content-length'] ) ? $file_headers['content-length'] : '' );
+        $filetype     = wp_check_filetype( $file );
+        $filename     = basename( $file );
 
         $response->set_header( 'Content-Type', $filetype['type'] );
         $response->set_header( 'Content-Disposition', $disposition . '; filename="' . $filename . '"' );
@@ -355,7 +358,7 @@ class LaterPay_Helper_File
 
         foreach ( $urls as $resource_url ) {
             $new_url = self::get_encrypted_resource_url( $post_id, $resource_url, $use_auth );
-            if ( $new_url != $resource_url ) {
+            if ( $new_url !== $resource_url ) {
                 $search[]   = $resource_url;
                 $replace[]  = $new_url;
             }
@@ -363,31 +366,5 @@ class LaterPay_Helper_File
         $content = str_replace( $search, $replace, $content );
 
         return $content;
-    }
-
-    /**
-     * Remove directory and all included files.
-     *
-     * @param $path
-     */
-    public static function delete_directory( $path ) {
-        if ( ! @is_dir( $path ) ) {
-            return;
-        }
-
-        if ( substr( $path, strlen( $path ) - 1, 1 ) != '/' ) {
-            $path .= '/';
-        }
-        $files = glob( $path . '*', GLOB_MARK );
-        foreach ( $files as $file ) {
-            if ( @is_dir( $file ) ) {
-                self::delete_directory( $file );
-            } else {
-                unlink( $file );
-            }
-        }
-        @rmdir( $path );
-
-        return;
     }
 }

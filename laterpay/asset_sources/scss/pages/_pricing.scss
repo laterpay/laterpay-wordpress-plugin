@@ -141,34 +141,14 @@
     float: left;
 }
 
+table {
 
-// bulk price editor ---------------------------------------------------------------------------------------------------
-/**
- * 1. Remove arrows from select
- */
-select.lp_is-disabled {
-    appearance: none; /* 1 */
-    background-color: transparent;
-    border-color: transparent;
-    color: darken($text, 13%);
-
-    &::-ms-expand {
-        display: none; /* 1 - IE */
-    }
-}
-
-.lp_saved-bulk-operation {
-    width: 600px;
-
-    .lp_saved-bulk-operation__message {
-        line-height: 2.25;
+    td {
+        padding: $fs--05;
+        vertical-align: top;
     }
 
-    a {
-        float: right;
+    pre {
+        margin: 0;
     }
-}
-
-.button.button-primary.lp_ml\+ {
-    margin-left: $fs--2;
 }

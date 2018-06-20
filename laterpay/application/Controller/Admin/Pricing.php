@@ -16,19 +16,39 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         return array(
             'wp_ajax_laterpay_pricing' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'process_ajax_requests' ),
                 array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
             'wp_ajax_laterpay_get_category_prices' => array(
                 array( 'laterpay_on_admin_view', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'process_ajax_requests' ),
                 array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
+            ),
+            'laterpay_register_subscription_cpt' => array(
+                array( 'register_subscription_cpt' )
+            ),
+            'laterpay_register_passes_cpt' => array(
+                array( 'register_passes_cpt' ),
             ),
         );
     }
 
+    /**
+     * Registers 'Subscription' CPT.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function register_subscription_cpt( LaterPay_Core_Event $event ) {
+
+        register_post_type( 'lp_subscription',
+            array(
+                'labels'      => array(
+                    'name'          => __( 'Subscriptions', 'laterpay' ),
+                    'singular_name' => __( 'Subscription', 'laterpay' ),
+                )
+            )
+        );
+    }
     /**
      * @see LaterPay_Core_View::load_assets()
      */
@@ -74,13 +94,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         // pass localized strings and variables to script
         // time pass with vouchers
-        $time_passes_model   = new LaterPay_Model_TimePass();
+        $time_passes_model   = LaterPay_Model_TimePassWP::get_instance();
         $time_passes_list    = $time_passes_model->get_active_time_passes();
         $vouchers_list       = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic  = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
         // subscriptions
-        $subscriptions_model = new LaterPay_Model_Subscription();
+        $subscriptions_model = LaterPay_Model_SubscriptionWP::get_instance();
         $subscriptions_list  = $subscriptions_model->get_active_subscriptions();
 
         wp_localize_script(
@@ -89,13 +109,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             array(
                 'locale'                => get_locale(),
                 'i18n'                  => $i18n,
-                'currency'              => json_encode( LaterPay_Helper_Config::get_currency_config() ),
+                'currency'              => wp_json_encode( LaterPay_Helper_Config::get_currency_config() ),
                 'globalDefaultPrice'    => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
                 'time_passes_list'      => $this->get_time_passes_json( $time_passes_list ),
                 'subscriptions_list'    => $this->get_subscriptions_json( $subscriptions_list ),
-                'vouchers_list'         => json_encode( $vouchers_list ),
-                'vouchers_statistic'    => json_encode( $vouchers_statistic ),
+                'vouchers_list'         => wp_json_encode( $vouchers_list ),
+                'vouchers_statistic'    => wp_json_encode( $vouchers_statistic ),
                 'l10n_print_after'      => 'lpVars.currency = JSON.parse(lpVars.currency);
                                             lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
                                             lpVars.subscriptions_list = JSON.parse(lpVars.subscriptions_list);
@@ -110,56 +130,32 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      */
     public function render_page() {
         $this->load_assets();
-
-        $category_price_model           = new LaterPay_Model_CategoryPrice();
-        $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
+        $category_price_model          = LaterPay_Model_CategoryPriceWP::get_instance();
+        $categories_with_defined_price = $category_price_model->get_categories_with_defined_price();
 
         // time passes and vouchers data
-        $time_passes_model              = new LaterPay_Model_TimePass();
-        $time_passes_list               = $time_passes_model->get_active_time_passes();
-        $vouchers_list                  = LaterPay_Helper_Voucher::get_all_vouchers();
-        $vouchers_statistic             = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
+        $time_passes_model  = LaterPay_Model_TimePassWP::get_instance();
+        $time_passes_list   = $time_passes_model->get_active_time_passes();
+        $vouchers_list      = LaterPay_Helper_Voucher::get_all_vouchers();
+        $vouchers_statistic = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
         // subscriptions data
-        $subscriptions_model            = new LaterPay_Model_Subscription();
-        $subscriptions_list             = $subscriptions_model->get_active_subscriptions();
-
-        // bulk price editor data
-        $bulk_actions = array(
-            'set'      => __( 'Set price of', 'laterpay' ),
-            'increase' => __( 'Increase price of', 'laterpay' ),
-            'reduce'   => __( 'Reduce price of', 'laterpay' ),
-            'free'     => __( 'Make free', 'laterpay' ),
-            'reset'    => __( 'Reset', 'laterpay' ),
-        );
-
-        $bulk_selectors = array(
-            'all'      => __( 'All posts', 'laterpay' ),
-        );
-
-        $bulk_categories            = get_categories();
-        $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
-        $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
+        $subscriptions_model = LaterPay_Model_SubscriptionWP::get_instance();
+        $subscriptions_list  = $subscriptions_model->get_active_subscriptions();
 
         $view_args = array(
-            'top_nav'                               => $this->get_menu(),
-            'admin_menu'                            => LaterPay_Helper_View::get_admin_menu(),
-            'categories_with_defined_price'         => $categories_with_defined_price,
-            'currency'                              => LaterPay_Helper_Config::get_currency_config(),
-            'plugin_is_in_live_mode'                => $this->config->get( 'is_in_live_mode' ),
-            'global_default_price'                  => get_option( 'laterpay_global_price' ),
-            'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
-            'passes_list'                           => $time_passes_list,
-            'vouchers_list'                         => $vouchers_list,
-            'vouchers_statistic'                    => $vouchers_statistic,
-            'subscriptions_list'                    => $subscriptions_list,
-            'bulk_actions'                          => $bulk_actions,
-            'bulk_selectors'                        => $bulk_selectors,
-            'bulk_categories'                       => $bulk_categories,
-            'bulk_categories_with_price'            => $bulk_categories_with_price,
-            'bulk_saved_operations'                 => $bulk_saved_operations,
-            'landing_page'                          => get_option( 'laterpay_landing_page' ),
-            'only_time_pass_purchases_allowed'      => get_option( 'laterpay_only_time_pass_purchases_allowed' ),
+            'pricing_obj'                        => $this,
+            'admin_menu'                         => LaterPay_Helper_View::get_admin_menu(),
+            'categories_with_defined_price'      => $categories_with_defined_price,
+            'currency'                           => LaterPay_Helper_Config::get_currency_config(),
+            'plugin_is_in_live_mode'             => $this->config->get( 'is_in_live_mode' ),
+            'global_default_price'               => get_option( 'laterpay_global_price' ),
+            'global_default_price_revenue_model' => get_option( 'laterpay_global_price_revenue_model' ),
+            'passes_list'                        => $time_passes_list,
+            'vouchers_list'                      => $vouchers_list,
+            'vouchers_statistic'                 => $vouchers_statistic,
+            'subscriptions_list'                 => $subscriptions_list,
+            'only_time_pass_purchases_allowed'   => get_option( 'laterpay_only_time_pass_purchases_allowed' ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -182,13 +178,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             )
         );
 
-        if ( ! isset( $_POST['form'] ) ) {
+        $retrieved_nonce = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING );
+
+        if ( ! isset( $_POST['form'] ) && ! wp_verify_nonce( $retrieved_nonce, 'laterpay_form' ) ) { // WPCS: input var ok.
             // invalid request
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'form' );
         }
 
         // save changes in submitted form
-        switch ( sanitize_text_field( $_POST['form'] ) ) {
+        $submitted_form_value = filter_input( INPUT_POST, 'form', FILTER_SANITIZE_STRING );
+        switch ( $submitted_form_value ) {
             case 'global_price_form':
                 $this->update_global_default_price( $event );
                 break;
@@ -202,26 +201,17 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 break;
 
             case 'laterpay_get_category_prices':
-                if ( ! isset( $_POST['category_ids'] ) || ! is_array( $_POST['category_ids'] ) ) {
-                    $_POST['category_ids'] = array();
+                $category_ids = filter_input( INPUT_POST, 'category_ids', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+                if ( null === $category_ids || ! is_array( $category_ids ) ) {
+                    $category_ids = array();
                 }
-                $categories = array_map( 'sanitize_text_field', $_POST['category_ids'] );
+
+                $categories   = array_map( 'absint', $category_ids );
+
                 $event->set_result( array(
                     'success' => true,
                     'prices'  => $this->get_category_prices( $categories ),
                 ));
-                break;
-
-            case 'bulk_price_form':
-                $this->change_posts_price( $event );
-                break;
-
-            case 'bulk_price_form_save':
-                $this->save_bulk_operation( $event );
-                break;
-
-            case 'bulk_price_form_delete':
-                $this->delete_bulk_operation( $event );
                 break;
 
             case 'time_pass_form_save':
@@ -244,23 +234,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 $this->generate_voucher_code( $event );
                 break;
 
-            case 'save_landing_page':
-                $this->save_landing_page( $event );
-                break;
-
             case 'laterpay_get_categories_with_price':
-                if ( ! isset( $_POST['term'] ) ) {
+                $post_term = filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING );
+                if ( null === $post_term ) {
                     throw new LaterPay_Core_Exception_InvalidIncomingData( 'term' );
                 }
 
                 // return categories that match a given search term
-                $category_price_model = new LaterPay_Model_CategoryPrice();
-                $args = array();
-
-                if ( ! empty( $_POST['term'] ) ) {
-                    $args['name__like'] = sanitize_text_field( $_POST['term'] );
+                $category_price_model = LaterPay_Model_CategoryPriceWP::get_instance();
+                $args                 = array();
+                if ( ! empty( $post_term ) ) {
+                    $args['name__like'] = $post_term;
                 }
-
                 $event->set_result( array(
                     'success'    => true,
                     'categories' => $category_price_model->get_categories_without_price_by_term( $args ),
@@ -272,9 +257,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 $args = array(
                     'hide_empty' => false,
                 );
-
-                if ( isset( $_POST['term'] ) && ! empty( $_POST['term'] ) ) {
-                    $args['name__like'] = sanitize_text_field( $_POST['term'] );
+                $post_term = filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING );
+                if ( null !== $post_term && ! empty( $post_term ) ) {
+                    $args['name__like'] = $post_term;
                 }
 
                 $event->set_result( array(
@@ -305,7 +290,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     protected function update_global_default_price( LaterPay_Core_Event $event ) {
         $global_price_form = new LaterPay_Form_GlobalPrice();
 
-        if ( ! $global_price_form->is_valid( $_POST ) ) {
+        if ( ! $global_price_form->is_valid( $_POST ) ) { // phpcs:ignore
             $event->set_result(
                 array(
                     'success'       => false,
@@ -355,8 +340,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      */
     protected function set_category_default_price( LaterPay_Core_Event $event ) {
         $price_category_form = new LaterPay_Form_PriceCategory();
-
-        if ( ! $price_category_form->is_valid( $_POST ) ) {
+        if ( ! $price_category_form->is_valid( $_POST ) ) { // phpcs:ignore
             $errors = $price_category_form->get_errors();
             $event->set_result(
                 array(
@@ -364,7 +348,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     'message' => __( 'An error occurred. Incorrect data provided.', 'laterpay' )
                 )
             );
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $price_category_form ), $errors['name'], $errors['value'] );
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $price_category_form ), array( $errors['name'], $errors['value'] ) );
         }
 
         $post_category_id               = $price_category_form->get_field_value( 'category_id' );
@@ -383,10 +367,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             return;
         }
 
-        $category_id                  = $term->term_id;
-        $category_price_model         = new LaterPay_Model_CategoryPrice();
-        $category_price_id            = $category_price_model->get_price_id_by_category_id( $category_id );
-        $delocalized_category_price   = $price_category_form->get_field_value( 'price' );
+        $category_id                = $term->term_id;
+        $category_price_model       = LaterPay_Model_CategoryPriceWP::get_instance();
+        $category_price_id          = $category_price_model->get_price_id_by_category_id( $post_category_id );
+        $delocalized_category_price = $price_category_form->get_field_value( 'price' );
 
         if ( empty( $category_id ) ) {
             $event->set_result(
@@ -404,7 +388,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 $delocalized_category_price,
                 $category_price_revenue_model
             );
-            $updated_post_ids = LaterPay_Helper_Pricing::apply_category_price_to_posts_with_global_price( $category_id );
         } else {
             $category_price_model->set_category_price(
                 $category_id,
@@ -440,7 +423,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
     /**
      * Delete the category price for a given category.
+     *
      * @param LaterPay_Core_Event $event
+     *
      * @throws LaterPay_Core_Exception_FormValidation
      *
      * @return void
@@ -454,41 +439,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             )
         );
 
-        if ( ! $price_category_delete_form->is_valid( $_POST ) ) {
+        if ( ! $price_category_delete_form->is_valid( $_POST ) ) { // phpcs:ignore
             throw new LaterPay_Core_Exception_FormValidation( get_class( $price_category_delete_form ), $price_category_delete_form->get_errors() );
         }
 
         $category_id = $price_category_delete_form->get_field_value( 'category_id' );
 
         // delete the category_price
-        $category_price_model = new LaterPay_Model_CategoryPrice();
+        $category_price_model = LaterPay_Model_CategoryPriceWP::get_instance();
         $success              = $category_price_model->delete_prices_by_category_id( $category_id );
 
         if ( ! $success ) {
             return;
-        }
-
-        // get all posts with the deleted $category_id and loop through them
-        $post_ids = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
-        foreach ( $post_ids as $post_id ) {
-            // check, if the post has LaterPay pricing data
-            $post_price = get_post_meta( $post_id, 'laterpay_post_prices', true );
-            if ( ! is_array( $post_price ) ) {
-                continue;
-            }
-
-            // check, if the post uses a category default price
-            if ( $post_price['type'] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
-                continue;
-            }
-
-            // check, if the post has the deleted category_id as category default price
-            if ( (int) $post_price['category_id'] !== $category_id ) {
-                continue;
-            }
-
-            // update post data
-            LaterPay_Helper_Pricing::update_post_data_after_category_delete( $post_id );
         }
 
         $event->set_result(
@@ -514,331 +476,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     }
 
     /**
-     * Update post prices in bulk.
-     *
-     * This function does not change the price type of a post.
-     * It gets the price type of each post to be updated and updates the associated individual price, category default
-     * price, or global default price.
-     * It also ensures that the resulting price and revenue model is valid.
-     *
-     * @param LaterPay_Core_Event $event
-     * @throws LaterPay_Core_Exception_FormValidation
-     *
-     * @return void
-     */
-    protected function change_posts_price( LaterPay_Core_Event $event ) {
-        $bulk_price_form = new LaterPay_Form_BulkPrice( $_POST );
-        $event->set_result(
-            array(
-                'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-            )
-        );
-
-        if ( ! $bulk_price_form->is_valid() ) {
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $bulk_price_form ), $bulk_price_form->get_errors() );
-        }
-
-        $bulk_operation_id = $bulk_price_form->get_field_value( 'bulk_operation_id' );
-        if ( $bulk_operation_id !== null ) {
-            $operation_data = LaterPay_Helper_Pricing::get_bulk_operation_data_by_id( $bulk_operation_id );
-            if ( ! $bulk_price_form->is_valid( $operation_data ) ) {
-                return;
-            }
-        }
-
-        // get scope of posts to be processed from selector
-        $posts                = null;
-        $category_price_model = new LaterPay_Model_CategoryPrice();
-        $selector             = $bulk_price_form->get_field_value( 'bulk_selector' );
-        $action               = $bulk_price_form->get_field_value( 'bulk_action' );
-        $change_unit          = $bulk_price_form->get_field_value( 'bulk_change_unit' );
-        $price                = $bulk_price_form->get_field_value( 'bulk_price' );
-        $is_percent           = ( $change_unit == 'percent' );
-        $default_currency     = $this->config->get( 'currency.code' );
-        $update_all           = ( $selector === 'all');
-        $category_id          = null;
-        // flash message parts
-        $message_parts        = array(
-                                  'all'         => __( 'The prices of all posts', 'laterpay' ),
-                                  'category'    => '',
-                                  'have_been'   => __( 'have been', 'laterpay' ),
-                                  'action'      => __( 'set', 'laterpay' ),
-                                  'preposition' => __( 'to', 'laterpay' ),
-                                  'amount'      => '',
-                                  'unit'        => '',
-                              );
-
-        if ( ! $update_all ) {
-            $category_id = $bulk_price_form->get_field_value( 'bulk_category' );
-
-            if ( $category_id === null ) {
-                $category_id = $bulk_price_form->get_field_value( 'bulk_category_with_price' );
-            }
-
-            if ( $category_id !== null ) {
-                $category_name             = get_the_category_by_ID( $category_id );
-                $posts                     = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
-                $message_parts['category'] = sprintf( __( '%s %s', 'laterpay' ), str_replace( '_', ' ', $selector ), $category_name );
-            }
-        } else {
-            $posts = LaterPay_Helper_Pricing::get_all_posts_with_price();
-        }
-
-        $price     = ( $price === null ) ? 0 : $price;
-        $new_price = LaterPay_Helper_Pricing::ensure_valid_price( $price );
-
-        // pre-post-processing actions - correct global and categories default prices, set flash message parts;
-        // run exactly once, independent of actual number of posts
-        switch ( $action ) {
-            case 'set':
-                $this->update_global_and_categories_prices_with_new_price( $new_price );
-                // set flash message parts
-                $message_parts['action']        = __( 'set', 'laterpay' );
-                $message_parts['preposition']   = __( 'to', 'laterpay' );
-                $message_parts['amount']        = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::ensure_valid_price( $new_price ) );
-                $message_parts['unit']          = $default_currency;
-                break;
-
-            case 'increase':
-            case 'reduce':
-                $is_reduction                   = ( $action === 'reduce' );
-
-                // process global price
-                $global_price                   = get_option( 'laterpay_global_price' );
-                $change_amount                  = $is_percent ? $global_price * $price / 100 : $price;
-                $new_price                      = $is_reduction ? $global_price - $change_amount : $global_price + $change_amount;
-                $global_price_revenue           = LaterPay_Helper_Pricing::ensure_valid_revenue_model( get_option( 'laterpay_global_price_revenue_model' ), $new_price );
-                update_option( 'laterpay_global_price', LaterPay_Helper_Pricing::ensure_valid_price( $new_price ) );
-                update_option( 'laterpay_global_price_revenue_model', $global_price_revenue );
-
-                // process category default prices
-                $categories                     = $category_price_model->get_categories_with_defined_price();
-                if ( $categories ) {
-                    foreach ( $categories as $category ) {
-                        $change_amount          = $is_percent ? $category->category_price * $price / 100 : $price;
-                        $new_price              = $is_reduction ? $category->category_price - $change_amount : $category->category_price + $change_amount;
-                        $new_price              = LaterPay_Helper_Pricing::ensure_valid_price( $new_price );
-                        $revenue_model          = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $category->revenue_model, $new_price );
-                        $category_price_model->set_category_price( $category->category_id, $new_price, $revenue_model, $category->id );
-                    }
-                }
-
-                // set flash message parts
-                $message_parts['action']        = $is_reduction ? __( 'decreased', 'laterpay' ) : __( 'increased', 'laterpay' );
-                $message_parts['preposition']   = __( 'by', 'laterpay' );
-                $message_parts['amount']        = $is_percent ? $price : LaterPay_Helper_View::format_number( $price );
-                $message_parts['unit']          = $is_percent ? '%' : $change_unit;
-                break;
-
-            case 'free':
-                if ( ! $update_all && $category_id !== null ) {
-                    $category_price_id = $category_price_model->get_price_id_by_category_id( $category_id );
-                    $category_price_model->set_category_price( $category_id, $new_price, 'ppu', $category_price_id );
-                } elseif ( $update_all ) {
-                    $this->update_global_and_categories_prices_with_new_price( $new_price );
-                }
-                $message_parts['all']           = __( 'All posts', 'laterpay' );
-                $message_parts['action']        = __( 'made free', 'laterpay' );
-                $message_parts['preposition']   = '';
-                break;
-
-            case 'reset':
-                $message_parts['action']            = __( 'reset', 'laterpay' );
-                if ( $update_all ) {
-                    $category_price_model->delete_all_category_prices();
-                    $new_price                      = get_option( 'laterpay_global_price' );
-                    // set flash message parts
-                    $message_parts['preposition']   = __( 'to global default price of', 'laterpay' );
-                    $message_parts['amount']        = LaterPay_Helper_View::format_number( $new_price );
-                    $message_parts['unit']          = $default_currency;
-                } else {
-                    $new_price                      = $category_price_model->get_price_by_category_id( $category_id );
-                    // set flash message parts
-                    $message_parts['preposition']   = __( 'to category default price of', 'laterpay' );
-                    $message_parts['amount']        = LaterPay_Helper_View::format_number( $new_price );
-                    $message_parts['unit']          = $default_currency;
-                }
-                break;
-
-            default:
-                return;
-        }
-
-        // update post prices
-        if ( $posts ) {
-            foreach ( $posts as $post ) {
-                $post_id                = is_int( $post ) ? $post : $post->ID;
-                $post_meta              = get_post_meta( $post_id, 'laterpay_post_prices', true );
-                $meta_values            = $post_meta ? $post_meta : array();
-
-                $current_revenue_model  = isset( $meta_values['revenue_model'] ) ? $meta_values['revenue_model'] : 'ppu';
-                $current_post_price     = LaterPay_Helper_Pricing::get_post_price( $post_id );
-                $current_post_type      = LaterPay_Helper_Pricing::get_post_price_type( $post_id );
-                $post_type_is_global    = ( $current_post_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE );
-                $post_type_is_category  = ( $current_post_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE );
-                $is_individual          = ( ! $post_type_is_global && ! $post_type_is_category );
-
-                $new_price              = LaterPay_Helper_Pricing::ensure_valid_price( $price );
-
-                switch ( $action ) {
-                    case 'increase':
-                    case 'reduce':
-                        if ( $is_individual ) {
-                            $is_reduction   = ( $action === 'reduce' );
-                            $change_amount  = $is_percent ? $current_post_price * $price / 100 : $price;
-                            $new_price      = $is_reduction ? $current_post_price - $change_amount : $current_post_price + $change_amount;
-                        }
-                        break;
-
-                    case 'free':
-                        if ( ! $update_all && ! $is_individual ) {
-                            $meta_values['type']        = LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE;
-                            $meta_values['category_id'] = $category_id;
-                            $new_price                  = $category_price_model->get_price_by_category_id( $category_id );
-                        }
-                        break;
-
-                    case 'reset':
-                        if ( $update_all ) {
-                            $meta_values['type']        = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
-                            $new_price                  = get_option( 'laterpay_global_price' );
-                        } else {
-                            $meta_values['type']        = LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE;
-                            $meta_values['category_id'] = $category_id;
-                            $new_price                  = $category_price_model->get_price_by_category_id( $category_id );
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-
-                // make sure the price is within the valid range
-                $meta_values['price']           = LaterPay_Helper_Pricing::ensure_valid_price( $new_price );
-                // adjust revenue model to new price, if required
-                $meta_values['revenue_model']   = LaterPay_Helper_Pricing::ensure_valid_revenue_model(
-                    $current_revenue_model,
-                    $meta_values['price']
-                );
-
-                // save updated pricing data
-                update_post_meta(
-                    $post_id,
-                    'laterpay_post_prices',
-                    $meta_values
-                );
-            }
-        }
-
-        // render flash message
-        $event->set_result(
-            array(
-                'success' => true,
-                'message' => trim( preg_replace( '/\s+/', ' ', implode( ' ', $message_parts ) ) ) . '.',
-            )
-        );
-    }
-
-    /**
-     * Update global and category default prices with new price.
-     *
-     * @param array $price
-     *
-     * @return void
-     */
-    protected function update_global_and_categories_prices_with_new_price( $price ) {
-        $global_revenue_model = LaterPay_Helper_Pricing::ensure_valid_revenue_model( get_option( 'laterpay_global_price_revenue_model' ), $price );
-        update_option( 'laterpay_global_price', $price );
-        update_option( 'laterpay_global_price_revenue_model', $global_revenue_model );
-
-        // update all category prices
-        $category_price_model = new LaterPay_Model_CategoryPrice();
-        $categories           = $category_price_model->get_categories_with_defined_price();
-        $revenue_model        = LaterPay_Helper_Pricing::ensure_valid_revenue_model( 'ppu', $price );
-        if ( $categories ) {
-            foreach ( $categories as $category ) {
-                $category_price_model->set_category_price( $category->category_id, $price, $revenue_model, $category->id );
-            }
-        }
-    }
-
-    /**
-     * Save bulk operation.
-     * @param LaterPay_Core_Event $event
-     * @throws LaterPay_Core_Exception_FormValidation
-     *
-     * @return void
-     */
-    protected function save_bulk_operation( LaterPay_Core_Event $event ) {
-        $save_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
-        $event->set_result(
-            array(
-                'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-            )
-        );
-
-        if ( ! $save_bulk_operation_form->is_valid() ) {
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $save_bulk_operation_form ), $save_bulk_operation_form->get_errors() );
-        }
-
-        // create data array
-        $data         = $save_bulk_operation_form->get_form_values( true, 'bulk_', array( 'bulk_message' ) );
-        $bulk_message = $save_bulk_operation_form->get_field_value( 'bulk_message' );
-
-        $event->set_result(
-            array(
-                'success' => true,
-                'data'    => array(
-                    'id'      => LaterPay_Helper_Pricing::save_bulk_operation( $data, $bulk_message ),
-                    'message' => $save_bulk_operation_form->get_field_value( 'bulk_message' ),
-                ),
-                'message' => __( 'Bulk operation saved.', 'laterpay' ),
-            )
-        );
-    }
-
-    /**
-     * Delete bulk operation.
-     * @param LaterPay_Core_Event $event
-     * @throws LaterPay_Core_Exception_FormValidation
-     *
-     * @return void
-     */
-    protected function delete_bulk_operation( LaterPay_Core_Event $event ) {
-        $remove_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
-        $event->set_result(
-            array(
-                'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
-            )
-        );
-
-        if ( ! $remove_bulk_operation_form->is_valid() ) {
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $remove_bulk_operation_form ), $remove_bulk_operation_form->get_errors() );
-        }
-
-        $bulk_operation_id = $remove_bulk_operation_form->get_field_value( 'bulk_operation_id' );
-        $result = LaterPay_Helper_Pricing::delete_bulk_operation_by_id( $bulk_operation_id );
-        if ( $result ) {
-            $event->set_result(
-                array(
-                    'success' => true,
-                    'message' => __( 'Bulk operation deleted.', 'laterpay' ),
-                )
-            );
-        }
-    }
-
-    /**
      * Render time pass HTML.
      *
-     * @param array $args
+     * @param array $args timepass display arguments
+     * @param bool $echo  should echo.
      *
-     * @return string
+     * @return string|void
      */
-    public function render_time_pass( $args = array() ) {
+    public function render_time_pass( $args = array(), $echo = false ) {
         $defaults = LaterPay_Helper_TimePass::get_default_options();
         $args     = array_merge( $defaults, $args );
 
@@ -847,9 +492,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
-        $string = $this->get_text_view( 'backend/partials/time-pass' );
-
-        return $string;
+        if ( $echo ) {
+            $this->render( 'backend/partials/time-pass', null, true );
+        } else {
+            return $this->get_text_view( 'backend/partials/time-pass' );
+        }
     }
 
     /**
@@ -861,8 +508,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @return void
      */
     protected function time_pass_save( LaterPay_Core_Event $event ) {
-        $save_time_pass_form = new LaterPay_Form_Pass( $_POST );
-        $time_pass_model     = new LaterPay_Model_TimePass();
+        $save_time_pass_form = new LaterPay_Form_Pass( $_POST ); // phpcs:ignore
+        $time_pass_model     = LaterPay_Model_TimePassWP::get_instance();
 
         $event->set_result(
             array(
@@ -934,9 +581,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @return void
      */
     protected function time_pass_delete( LaterPay_Core_Event $event ) {
-        if ( isset( $_POST['id'] ) ) {
-            $time_pass_id    = sanitize_text_field( $_POST['id'] );
-            $time_pass_model = new LaterPay_Model_TimePass();
+        $time_id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+        if ( null !== $time_id ) {
+            $time_pass_id    = sanitize_text_field( $time_id );
+            $time_pass_model = LaterPay_Model_TimePassWP::get_instance();
 
             // remove time pass
             $time_pass_model->delete_time_pass_by_id( $time_pass_id );
@@ -963,11 +611,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     /**
      * Render time pass HTML.
      *
-     * @param array $args
+     * @param array $args   arguments.
+     * @param bool $echo    should echo.
      *
-     * @return string
+     * @return string|void
      */
-    public function render_subscription( $args = array() ) {
+    public function render_subscription( $args = array(), $echo = false ) {
         $defaults = LaterPay_Helper_Subscription::get_default_options();
         $args     = array_merge( $defaults, $args );
 
@@ -976,9 +625,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'standard_currency' => $this->config->get( 'currency.code' ),
         ));
 
-        $string = $this->get_text_view( 'backend/partials/subscription' );
-
-        return $string;
+        if ( $echo ) {
+            $this->render( 'backend/partials/subscription', null, true );
+        } else {
+            return $this->get_text_view( 'backend/partials/subscription' );
+        }
     }
 
     /**
@@ -987,8 +638,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @param LaterPay_Core_Event $event
      */
     protected function subscription_form_save( LaterPay_Core_Event $event ) {
-        $save_subscription_form = new LaterPay_Form_Subscription( $_POST );
-        $subscription_model     = new LaterPay_Model_Subscription();
+        $save_subscription_form = new LaterPay_Form_Subscription( $_POST ); // phpcs:ignore
+        $subscription_model     = LaterPay_Model_SubscriptionWP::get_instance();
 
         $event->set_result(
             array(
@@ -1028,9 +679,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @param LaterPay_Core_Event $event
      */
     protected function subscription_delete( LaterPay_Core_Event $event ) {
-        if ( isset( $_POST['id'] ) ) {
-            $sub_id             = sanitize_text_field( $_POST['id'] );
-            $subscription_model = new LaterPay_Model_Subscription();
+        $subscription_id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+        if ( null !== $subscription_id ) {
+            $sub_id             = sanitize_text_field( $subscription_id );
+            $subscription_model = LaterPay_Model_SubscriptionWP::get_instance();
 
             // remove subscription
             $subscription_model->delete_subscription_by_id( $sub_id );
@@ -1066,7 +718,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $time_passes_array[ $time_pass['pass_id'] ] = $time_pass;
         }
 
-        return json_encode( $time_passes_array );
+        return wp_json_encode( $time_passes_array );
     }
 
     /**
@@ -1084,7 +736,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $subscriptions_array[ $subscription['id'] ] = $subscription;
         }
 
-        return json_encode( $subscriptions_array );
+        return wp_json_encode( $subscriptions_array );
     }
 
     /**
@@ -1104,13 +756,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             )
         );
 
-        if ( ! isset( $_POST['price'] ) ) {
+        $voucher_price = filter_input( INPUT_POST, 'price', FILTER_SANITIZE_STRING );
+
+        if ( null === $voucher_price ) {
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'price' );
         }
 
-        $price = sanitize_text_field( $_POST['price'] );
-
-        if ( ! ( $price >= $currency['ppu_min'] && $price <= $currency['sis_max'] ) && $price != 0 ) {
+        $price = sanitize_text_field( $voucher_price );
+        //validates price given for time pass before creating voucher.
+        if ( ! ( $price >= $currency['ppu_min'] && $price <= $currency['sis_max'] ) && floatval( 0 ) !== floatval( $price ) ) {
             return;
         }
 
@@ -1119,32 +773,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             array(
                 'success' => true,
                 'code'    => LaterPay_Helper_Voucher::generate_voucher_code(),
-            )
-        );
-    }
-
-    /**
-     * Save landing page URL the user is forwarded to after redeeming a gift card voucher.
-     *
-     * @param LaterPay_Core_Event $event
-     * @throws LaterPay_Core_Exception_FormValidation
-     *
-     * @return void
-     */
-    private function save_landing_page( LaterPay_Core_Event $event ) {
-        $landing_page_form  = new LaterPay_Form_LandingPage( $_POST );
-
-        if ( ! $landing_page_form->is_valid() ) {
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $landing_page_form ), $landing_page_form->get_errors() );
-        }
-
-        // save URL and confirm with flash message, if the URL is valid
-        update_option( 'laterpay_landing_page', $landing_page_form->get_field_value( 'landing_url' ) );
-
-        $event->set_result(
-            array(
-                'success' => true,
-                'message' => __( 'Landing page saved.', 'laterpay' ),
             )
         );
     }
@@ -1160,13 +788,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      * @return void
      */
     private function change_purchase_mode( LaterPay_Core_Event $event ) {
-        if ( isset( $_POST['only_time_pass_purchase_mode'] ) ) {
+
+        $time_pass_purchase_mode = filter_input( INPUT_POST, 'only_time_pass_purchase_mode', FILTER_SANITIZE_STRING );
+
+        if ( null !== $time_pass_purchase_mode ) {
             $only_time_pass = 1; // allow time pass purchases only
         } else {
             $only_time_pass = 0; // allow individual and time pass purchases
         }
 
-        if ( $only_time_pass === 1 && ! LaterPay_Helper_TimePass::get_time_passes_count() ) {
+        if ( 1 === $only_time_pass && ! LaterPay_Helper_TimePass::get_time_passes_count( true ) ) {
             $event->set_result(
                 array(
                     'success' => false,
@@ -1183,5 +814,31 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 'success' => true,
             )
         );
+    }
+
+    /**
+     * Register laterpay passes custom post type.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function register_passes_cpt( LaterPay_Core_Event $event ) {
+
+        $args = array(
+            'labels'     => array(
+                'name'          => __( 'Passes', 'laterpay' ),
+                'singular_name' => __( 'Pass', 'laterpay' ),
+            ),
+        );
+
+        $result = register_post_type( LaterPay_Model_TimePassWP::$timepass_post_type, $args );
+
+        if ( is_wp_error( $result ) ) {
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => __( 'Laterpay Passes Post type Registration issue.', 'laterpay' ),
+                )
+            );
+        }
     }
 }

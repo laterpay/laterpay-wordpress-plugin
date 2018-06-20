@@ -50,7 +50,7 @@ class LaterPay_Hooks {
                     throw new RuntimeException( sprintf( 'Method "%s" is not found within LaterPay_Core_Event_Dispatcher class.', $name ) );
             }
         } catch ( Exception $e ) {
-            laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString() ) );
+            unset( $e );
         }
 
         return $result;
@@ -93,11 +93,11 @@ class LaterPay_Hooks {
 
         add_action( 'load-post.php',                    array( $this, self::$wp_action_prefix . 'laterpay_post_edit' ) );
         add_action( 'load-post-new.php',                array( $this, self::$wp_action_prefix . 'laterpay_post_new' ) );
-        add_action( 'delete_term_taxonomy',             array( $this, self::$wp_action_prefix . 'laterpay_delete_term_taxonomy' ) );
         add_action( 'add_meta_boxes',                   array( $this, self::$wp_action_prefix . 'laterpay_meta_boxes' ) );
         add_action( 'save_post',                        array( $this, self::$wp_action_prefix . 'laterpay_post_save' ) );
         add_action( 'edit_attachment',                  array( $this, self::$wp_action_prefix . 'laterpay_attachment_edit' ) );
         add_action( 'transition_post_status',           array( $this, self::$wp_action_prefix . 'laterpay_transition_post_status' ), 10, 3 );
+        add_action( 'init',                             array( $this, self::$wp_action_prefix . 'laterpay_register_subscription_cpt' ), 10, 1 );
 
         // cache helper to purge the cache on update_option()
         $options = array(
@@ -110,6 +110,8 @@ class LaterPay_Hooks {
         foreach ( $options as $option_name ) {
             add_action( 'update_option_' . $option_name, array( $this, self::$wp_action_prefix . 'laterpay_option_update' ) );
         }
+
+        add_action( 'init', array( $this, self::$wp_action_prefix . 'laterpay_register_passes_cpt' ) );
     }
 
     /**
@@ -132,7 +134,8 @@ class LaterPay_Hooks {
      * @param string $event_name Event name.
      */
     public static function register_laterpay_action( $event_name ) {
-        if ( ! in_array( $event_name, self::$lp_actions ) ) {
+        $check_event_name = in_array( $event_name, self::$lp_actions, true );
+        if ( ! $check_event_name ) {
             self::add_wp_action( $event_name, $event_name );
             self::$lp_actions[] = $event_name;
         }
@@ -144,7 +147,8 @@ class LaterPay_Hooks {
      * @param string $event_name Event name.
      */
     public static function register_laterpay_shortcode( $event_name ) {
-        if ( ! in_array( $event_name, self::$lp_shortcodes ) ) {
+        $check_event_name = in_array( $event_name, self::$lp_shortcodes, true );
+        if ( ! $check_event_name ) {
             if ( strpos( $event_name, 'laterpay_shortcode_' ) !== false ) {
                 $name = substr( $event_name, 19 );
             }
@@ -199,7 +203,7 @@ class LaterPay_Hooks {
             laterpay_event_dispatcher()->dispatch( $action, $event );
             $result = $event->get_result();
         } catch ( Exception $e ) {
-            laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString() ) );
+            unset( $e );
             $result = $default;
         }
         return $result;
@@ -224,7 +228,7 @@ class LaterPay_Hooks {
 
             $result = $event->get_result();
         } catch ( Exception $e ) {
-            laterpay_get_logger()->error( $e->getMessage(), array( 'trace' => $e->getTraceAsString() ) );
+            unset( $e );
             $result = $default;
         }
         return $result;
@@ -280,4 +284,19 @@ class LaterPay_Hooks {
          */
         do_action( 'laterpay_ready', $this );
     }
+
+    /**
+     * Remove hooks related to WP_Query.
+     */
+    public function remove_wp_query_hooks() {
+        remove_filter( 'the_posts', array( $this, self::$wp_filter_prefix . 'laterpay_posts' ) );
+    }
+
+    /**
+     * Adds hooks related to WP_Query.
+     */
+    public function add_wp_query_hooks() {
+        add_filter( 'the_posts', array( $this, self::$wp_filter_prefix . 'laterpay_posts' ) );
+    }
+
 }

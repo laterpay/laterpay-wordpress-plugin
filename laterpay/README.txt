@@ -127,9 +127,6 @@ The plugin's settings page (Settings > LaterPay) allows you to adjust some param
 = Colors =
 You can define a primary and a secondary color to adjust the appearance of LaterPay elements on your website to your website's identity.
 
-= Debugger =
-The plugin comes with a debugging toolbar which displays helpful information for debugging purposes. You can choose whether you want to activate or deactive the debugger and also specify a set of IP addresses, for which the debugger should be displayed.
-
 = Caching Compatibility Mode =
 The plugin detects on activation or update, if you are using one of the common caching plugins and automatically
 switches to caching compatibility mode.

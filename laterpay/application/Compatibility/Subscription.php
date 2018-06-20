@@ -1,13 +1,13 @@
 <?php
 
 /**
- * LaterPay subscription model.
+ * LaterPay subscription model to work with custom tables in older versions.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Model_Subscription
+class LaterPay_Compatibility_Subscription
 {
 
     /**
@@ -19,22 +19,37 @@ class LaterPay_Model_Subscription
      */
     public $table;
 
+    private static $_instance;
+
     /**
-     * Constructor for class LaterPay_Model_TimePass, load table name.
+     * Constructor for class LaterPay_Compatibility_Subscription, load table name.
      */
-    function __construct() {
+    private function __construct() {
         global $wpdb;
 
         $this->table = $wpdb->prefix . 'laterpay_subscriptions';
     }
 
     /**
-     * Get time pass data.
+     * Returns a instance of itself.
+     * This method is needed to make class singleton.
+     *
+     * @return LaterPay_Compatibility_Subscription
+     */
+    public static function get_instance() {
+        if ( ! self::$_instance ) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+    /**
+     * Get subscription data.
      *
      * @param int  $id subscription id
      * @param bool $ignore_deleted ignore deleted subscriptions
      *
-     * @return array $time_pass array of subscriptions data
+     * @return array $subscription array of subscriptions data
      */
     public function get_subscription( $id, $ignore_deleted = false ) {
         global $wpdb;
@@ -60,7 +75,7 @@ class LaterPay_Model_Subscription
     }
 
     /**
-     * Update or create new time pass.
+     * Update or create new subscription.
      *
      * @param array $data payment data
      *
@@ -74,6 +89,8 @@ class LaterPay_Model_Subscription
 
         // fill values that weren't set from defaults
         $data = array_merge( LaterPay_Helper_Subscription::get_default_options(), $data );
+
+        unset( $data['lp_id'] ); // unset key ( used in WP schema ) before inserting to custom table.
 
         // pass_id is a primary key, set by autoincrement
         $id = $data['id'];
@@ -237,20 +254,20 @@ class LaterPay_Model_Subscription
     /**
      * Get count of existing subscriptions.
      *
+     * @param boolean $ignore_deleted Should deleted posts be ignored or not
+     *
      * @return int number of defined subscriptions
      */
-    public function get_subscriptions_count() {
+    public function get_subscriptions_count( $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
             SELECT
                 count(*) AS subs
             FROM
-                {$this->table}
-            WHERE
-                is_deleted = 0
-            ;
-        ";
+                {$this->table}";
+
+        $ignore_deleted === false ? $sql .= ';' : $sql .= ' WHERE is_deleted = 0;';
 
         $list = $wpdb->get_results( $sql );
 

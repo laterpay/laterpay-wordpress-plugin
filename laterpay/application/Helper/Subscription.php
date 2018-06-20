@@ -28,6 +28,7 @@ class LaterPay_Helper_Subscription
             'period'          => '3',
             'access_to'       => '0',
             'access_category' => '',
+            'lp_id'           => '',
             'price'           => $currency_config['sis_min'],
             'title'           => __( '1 Month Subscription', 'laterpay' ),
             'description'     => __( '1 month access to all content on this website (cancellable anytime)', 'laterpay' ),
@@ -116,11 +117,7 @@ class LaterPay_Helper_Subscription
 
         if ( $elements && is_array( $elements ) ) {
             foreach ( $elements as $id => $name ) {
-                if ( $id == $default_value ) {
-                    $options_html .= '<option selected="selected" value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
-                } else {
-                    $options_html .= '<option value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
-                }
+                $options_html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $id ), esc_attr( selected( $default_value, $id, false ) ), esc_html( $name ) );
             }
         }
 
@@ -163,7 +160,7 @@ class LaterPay_Helper_Subscription
      */
     public static function get_tokenized_ids( $subscriptions = null ) {
         if ( ! isset( $subscriptions ) ) {
-            $model        = new LaterPay_Model_Subscription();
+            $model        = LaterPay_Model_SubscriptionWP::get_instance();
             $subscriptions = $model->get_all_subscriptions();
         }
 
@@ -181,7 +178,7 @@ class LaterPay_Helper_Subscription
      * @return array of subscriptions
      */
     public static function get_active_subscriptions() {
-        $model = new LaterPay_Model_Subscription();
+        $model = LaterPay_Model_SubscriptionWP::get_instance();
         return $model->get_active_subscriptions();
     }
 
@@ -194,7 +191,7 @@ class LaterPay_Helper_Subscription
      * @return array
      */
     public static function get_subscription_by_id( $id = null, $ignore_deleted = false ) {
-        $model = new LaterPay_Model_Subscription();
+        $model = LaterPay_Model_SubscriptionWP::get_instance();
 
         if ( $id ) {
             return $model->get_subscription( (int) $id, $ignore_deleted );
@@ -212,7 +209,7 @@ class LaterPay_Helper_Subscription
      * @return string url || empty string if something went wrong
      */
     public static function get_subscription_purchase_link( $id, $data = null ) {
-        $subscription_model = new LaterPay_Model_Subscription();
+        $subscription_model = LaterPay_Model_SubscriptionWP::get_instance();
 
         $subscription = $subscription_model->get_subscription( $id );
         if ( empty( $subscription ) ) {
@@ -261,7 +258,7 @@ class LaterPay_Helper_Subscription
      * @return array $subscriptions
      */
     public static function get_subscriptions_list_by_post_id( $post_id, $subscriptions_with_access = null, $ignore_deleted = false ) {
-        $model = new LaterPay_Model_Subscription();
+        $model = LaterPay_Model_SubscriptionWP::get_instance();
 
         if ( $post_id !== null ) {
             // get all post categories
@@ -286,11 +283,12 @@ class LaterPay_Helper_Subscription
         }
 
         // correct result, if we have purchased subscriptions
-        if ( $subscriptions_with_access ) {
+        if ( ! empty( $subscriptions_with_access ) ) {
+            $subscriptions_with_access = array_map( 'absint', $subscriptions_with_access );
             // check, if user has access to the current post with subscription
             $has_access = false;
             foreach ( $subscriptions as $subscription ) {
-                if ( in_array( $subscription['pass_id'], $subscriptions_with_access ) ) {
+                if ( in_array( absint( $subscription['pass_id'] ), $subscriptions_with_access, true ) ) {
                     $has_access = true;
                     break;
                 }
@@ -400,13 +398,14 @@ class LaterPay_Helper_Subscription
         return $time;
     }
 
-    /*
+    /**
      * Get count of existing subscriptions.
      *
      * @return int count of subscriptions
      */
     public static function get_subscriptions_count() {
-        $model = new LaterPay_Model_Subscription();
+        $model = LaterPay_Model_SubscriptionWP::get_instance();
         return $model->get_subscriptions_count();
     }
+
 }

@@ -223,11 +223,7 @@ class LaterPay_Helper_TimePass
 
         if ( $elements && is_array( $elements ) ) {
             foreach ( $elements as $id => $name ) {
-                if ( $id == $default_value ) {
-                    $options_html .= '<option selected="selected" value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
-                } else {
-                    $options_html .= '<option value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
-                }
+                $options_html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $id ), esc_attr( selected( $default_value, $id, false ) ), esc_html( $name ) );
             }
         }
 
@@ -270,7 +266,7 @@ class LaterPay_Helper_TimePass
      */
     public static function get_tokenized_time_pass_ids( $time_passes = null ) {
         if ( ! isset( $time_passes ) ) {
-            $model       = new LaterPay_Model_TimePass();
+            $model       = LaterPay_Model_TimePassWP::get_instance();
             $time_passes = $model->get_all_time_passes();
         }
 
@@ -292,7 +288,7 @@ class LaterPay_Helper_TimePass
      * @return array $time_passes
      */
     public static function get_time_passes_list_by_post_id( $post_id, $time_passes_with_access = null, $ignore_deleted = false ) {
-        $model = new LaterPay_Model_TimePass();
+        $model = LaterPay_Model_TimePassWP::get_instance();
 
         if ( $post_id !== null ) {
             // get all post categories
@@ -318,10 +314,11 @@ class LaterPay_Helper_TimePass
 
         // correct result, if we have purchased time passes
         if ( $time_passes_with_access ) {
+            $time_passes_with_access = array_map( 'absint', $time_passes_with_access );
             // check, if user has access to the current post with time pass
             $has_access = false;
             foreach ( $time_passes as $time_pass ) {
-                if ( in_array( $time_pass['pass_id'], $time_passes_with_access ) ) {
+                if ( in_array( absint( $time_pass['pass_id'] ), $time_passes_with_access, true ) ) {
                     $has_access = true;
                     break;
                 }
@@ -396,7 +393,7 @@ class LaterPay_Helper_TimePass
      * @return array of time passes
      */
     public static function get_active_time_passes() {
-        $model = new LaterPay_Model_TimePass();
+        $model = LaterPay_Model_TimePassWP::get_instance();
         return $model->get_active_time_passes();
     }
 
@@ -409,7 +406,7 @@ class LaterPay_Helper_TimePass
      * @return array
      */
     public static function get_time_pass_by_id( $time_pass_id = null, $ignore_deleted = false ) {
-        $model = new LaterPay_Model_TimePass();
+        $model = LaterPay_Model_TimePassWP::get_instance();
 
         if ( $time_pass_id ) {
             return $model->get_pass_data( (int) $time_pass_id, $ignore_deleted );
@@ -428,7 +425,7 @@ class LaterPay_Helper_TimePass
      * @return string url || empty string if something went wrong
      */
     public static function get_laterpay_purchase_link( $time_pass_id, $data = null, $is_code_purchase = false ) {
-        $time_pass_model = new LaterPay_Model_TimePass();
+        $time_pass_model = LaterPay_Model_TimePassWP::get_instance();
 
         $time_pass = $time_pass_model->get_pass_data( $time_pass_id );
         if ( empty( $time_pass ) ) {
@@ -466,7 +463,9 @@ class LaterPay_Helper_TimePass
         );
 
         if ( empty( $data['link'] ) ) {
-            $parsed_link = explode( '?', $_SERVER['REQUEST_URI'] );
+            if( isset( $_SERVER['REQUEST_URI'] ) ) { // phpcs:ignore
+                $parsed_link = explode( '?', esc_url( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore
+            }
             $back_url    = $back_url . '?' . build_query( $url_params );
 
             // if params exists in uri
@@ -543,11 +542,13 @@ class LaterPay_Helper_TimePass
     /*
      * Get count of existing time passes.
      *
+     * @param bool $ignore_deleted ignore count of deleted pass.
+     *
      * @return int count of time passes
      */
-    public static function get_time_passes_count() {
-        $model = new LaterPay_Model_TimePass();
+    public static function get_time_passes_count( $ignore_deleted = false ) {
+        $model = LaterPay_Model_TimePassWP::get_instance();
 
-        return $model->get_time_passes_count();
+        return $model->get_time_passes_count( $ignore_deleted );
     }
 }

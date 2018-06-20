@@ -65,7 +65,10 @@ class LaterPay_Helper_Post
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $token_name     = $client_options['token_name'];
 
-        if ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $_COOKIE[ $token_name ] ) ) {
+        // @Todo: Fix cookie usage for WP VIP.
+        $token_name = filter_input( INPUT_COOKIE, $token_name, FILTER_SANITIZE_STRING );
+
+        if ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $token_name ) ) {
 
             // check, if parent post has access with time passes
             $parent_post = $is_attachment ? $main_post_id : $post->ID;
@@ -92,14 +95,11 @@ class LaterPay_Helper_Post
             if ( ! $has_access ) {
                 if ( array_key_exists( $post->ID, self::$access ) ) {
                     $has_access = (bool)self::$access[$post->ID];
-                } elseif ( LaterPay_Helper_Pricing::get_post_price($post->ID) > 0) {
+                } elseif ( LaterPay_Helper_Pricing::get_post_price( $post->ID, true ) > 0 ) {
                     $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post->ID ), $time_passes, $subscriptions ) );
 
                     if ( empty( $result ) || ! array_key_exists('articles', $result) ) {
-                        laterpay_get_logger()->warning(
-                            __METHOD__ . ' - post not found.',
-                            array( 'result' => $result )
-                        );
+
                     } else {
                         foreach ( $result['articles'] as $article_key => $article_access ) {
                             $access = (bool)$article_access['access'];
@@ -107,13 +107,6 @@ class LaterPay_Helper_Post
                             if ($access) {
                                 $has_access = true;
                             }
-                        }
-
-                        if ( $has_access ) {
-                            laterpay_get_logger()->info(
-                                __METHOD__ . ' - post has access.',
-                                array('result' => $result)
-                            );
                         }
                     }
                 }
@@ -130,9 +123,12 @@ class LaterPay_Helper_Post
      * @return mixed return false if gift card is incorrect or doesn't exist, access data otherwise
      */
     public static function has_purchased_gift_card() {
-        if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
+
+        $purchased_gift_card = filter_input( INPUT_COOKIE, 'laterpay_purchased_gift_card', FILTER_SANITIZE_STRING );
+
+        if ( isset( $purchased_gift_card ) ) {
             // get gift code and unset session variable
-            $cookies = isset( $_COOKIE['laterpay_purchased_gift_card'] ) ? sanitize_text_field( $_COOKIE['laterpay_purchased_gift_card'] ) : '';
+            $cookies = ( isset( $purchased_gift_card ) ) ? $purchased_gift_card : '';
             list( $code, $time_pass_id ) = explode( '|', $cookies );
             // create gift code token
             $code_key = '[#' . $code . ']';
@@ -141,11 +137,6 @@ class LaterPay_Helper_Post
             $result = LaterPay_Helper_Request::laterpay_api_get_access( array( $code_key ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
-                laterpay_get_logger()->warning(
-                    __METHOD__ . ' - post not found.',
-                    array( 'result' => $result )
-                );
-
                 return false;
             }
 
@@ -153,11 +144,6 @@ class LaterPay_Helper_Post
             if ( array_key_exists( $code_key, $result['articles'] ) ) {
                 $access = (bool) $result['articles'][ $code_key ]['access'];
                 self::$access[ $code_key ] = $access;
-
-                laterpay_get_logger()->info(
-                    __METHOD__ . ' - post has access.',
-                    array( 'result' => $result )
-                );
 
                 return array(
                     'access'  => $access,
@@ -210,13 +196,14 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post->ID;
         }
 
-	    $parsed_link = explode( '?', $_SERVER['REQUEST_URI'] );
-	    $back_url    = get_permalink( $post->ID ) . '?' . build_query( $url_params );
+	    $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL ) : ''; // phpcs:ignore
+        $parsed_link = explode( '?', $request_uri );
+        $back_url    = get_permalink( $post->ID ) . '?' . build_query( $url_params );
 
-	    // if params exists in uri
-	    if ( ! empty( $parsed_link[1] ) ) {
-		    $back_url .= '&' . $parsed_link[1];
-	    }
+        // if params exists in uri
+        if ( ! empty( $parsed_link[1] ) ) {
+            $back_url .= '&' . $parsed_link[1];
+        }
 
         // parameters for LaterPay purchase form
         $params = array(
@@ -225,10 +212,6 @@ class LaterPay_Helper_Post
             'url'           => $back_url,
             'title'         => $post->post_title,
             'require_login' => (int) get_option( 'laterpay_require_login', 0 ),
-        );
-
-        laterpay_get_logger()->info(
-            __METHOD__, $params
         );
 
         if ( $revenue_model === 'sis' ) {
@@ -265,11 +248,6 @@ class LaterPay_Helper_Post
             'currency'                  => $config->get( 'currency.code' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
-        );
-
-        laterpay_get_logger()->info(
-            __METHOD__,
-            $view_args
         );
 
         return $view_args;
@@ -329,7 +307,7 @@ class LaterPay_Helper_Post
         if ( preg_match( '/<!--more(.*?)?-->/', $teaser_content, $matches ) ) {
             $teaser_content = explode( $matches[0], $teaser_content, 2 );
             if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) ) {
-                $more_link_text = strip_tags( wp_kses_no_null( trim( $matches[1] ) ) );
+                $more_link_text = wp_strip_all_tags( wp_kses_no_null( trim( $matches[1] ) ) );
             }
             $has_teaser = true;
         } else {
@@ -350,15 +328,35 @@ class LaterPay_Helper_Post
 
         if ( count( $teaser_content ) > 1 ) {
             if ( $more ) {
-                $output .= '<span id="more-' . $post_id . '"></span>' . $teaser_content[1];
+                $output .= '<span id="more-' . intval( $post_id ) . '"></span>' . wp_kses_post( $teaser_content[1] );
             } else {
                 if ( ! empty( $more_link_text ) ) {
-                    $output .= '<a href="' . get_permalink() . "#more-{$post_id}\" class=\"more-link\">$more_link_text</a>";
+                    $output .= '<a href="' . esc_url( get_permalink() ) . "#more-".intval( $post_id )."\" class=\"more-link\">".wp_kses_post( $more_link_text ). "</a>";
                 }
                 $output = force_balance_tags( $output );
             }
         }
 
         return $output;
+    }
+
+    /*
+     * Retrieves a page given its title.
+     *
+     * @param string  $page_title Page title.
+     * @param string  $output     Optional. Output type; OBJECT*, ARRAY_N, or ARRAY_A.
+     * @param string  $post_type  Optional. Post type; default is 'page'.
+     *
+     * @return mixed WP_Post on success or null on failure.
+     */
+    public static function get_page_by_title( $page_title, $output, $post_type ) {
+
+        if ( laterpay_check_is_vip() ) {
+            $post = wpcom_vip_get_page_by_title( $page_title, $output, $post_type );
+        } else {
+            $post = get_page_by_title( $page_title, $output, $post_type ); // phpcs:ignore
+        }
+
+        return $post;
     }
 }

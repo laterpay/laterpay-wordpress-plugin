@@ -113,7 +113,7 @@ class LaterPay_Helper_User
         $has_cap = false;
 
         foreach ( $user->roles as $role ) {
-            if ( ! isset( $unlimited_access[ $role ] ) || false !== array_search( 'none', $unlimited_access[ $role ] ) ) {
+            if ( ! isset( $unlimited_access[ $role ] ) || false !== array_search( 'none', $unlimited_access[ $role ], true ) ) {
                 continue;
             }
 
@@ -183,7 +183,7 @@ class LaterPay_Helper_User
             return false;
         }
 
-        return in_array( $role, (array) $user->roles );
+        return in_array( $role, (array) $user->roles, true );
     }
 
     /**
@@ -193,12 +193,13 @@ class LaterPay_Helper_User
      *
      * @return bool
      */
-    public static function preview_post_as_visitor( $post = null ) {
+    public static function preview_post_as_visitor() {
         if ( null === static::$_preview_post_as_visitor ) {
             $preview_post_as_visitor = 0;
             $current_user            = wp_get_current_user();
             if ( $current_user instanceof WP_User ) {
-                $preview_post_as_visitor = get_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor' );
+                $preview_post_as_visitor = self::get_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor' );
+                $preview_post_as_visitor = $preview_post_as_visitor ? $preview_post_as_visitor : 0;
                 if ( ! empty( $preview_post_as_visitor ) ) {
                     $preview_post_as_visitor = $preview_post_as_visitor[0];
                 }
@@ -219,8 +220,8 @@ class LaterPay_Helper_User
             static::$_hide_preview_mode_pane = false;
             $current_user = wp_get_current_user();
 
-            if ($current_user instanceof WP_User &&
-                true === (bool) get_user_meta($current_user->ID, 'laterpay_hide_preview_mode_pane', true)
+            if ( $current_user instanceof WP_User &&
+                true === (bool) self::get_user_meta( $current_user->ID, 'laterpay_hide_preview_mode_pane', true )
             ) {
                 static::$_hide_preview_mode_pane = true;
             }
@@ -239,7 +240,7 @@ class LaterPay_Helper_User
             list( $uniqueId, $control_code ) = explode( '.', sanitize_text_field( $_COOKIE['laterpay_tracking_code'] ) );
 
             // make sure only authorized information is recorded
-            if ( $control_code != md5( $uniqueId . AUTH_SALT ) ) {
+            if ( $control_code !== md5( $uniqueId . AUTH_SALT ) ) {
                 return null;
             }
 
@@ -265,4 +266,45 @@ class LaterPay_Helper_User
             '/'
         );
     }
+
+    /*
+     * Retrieves user_meta based on VIP and Non-VIP environments
+     *
+     * @param int    $user_id  User ID.
+     * @param string $meta_key Metadata key.
+     * @param bool   $single   Whether to return a single value.
+     *
+     * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
+     */
+    public static function get_user_meta( $user_id, $meta_key, $single = false ) {
+
+        if ( laterpay_check_is_vip_classic() ) {
+            $meta_value = get_user_attribute( $user_id, $meta_key );
+        } else {
+            $meta_value = get_user_meta( $user_id, $meta_key, $single ); // phpcs:ignore
+        }
+
+        return $meta_value;
+    }
+
+    /*
+     * Updates user meta field based on user ID.
+     *
+     * @param int    $user_id    User ID.
+     * @param string $meta_key   Metadata key.
+     * @param mixed  $meta_value Metadata value.
+     *
+     * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
+     */
+    public static function update_user_meta( $user_id, $meta_key, $meta_value ) {
+
+        if ( laterpay_check_is_vip_classic() ) {
+            $result = update_user_attribute( $user_id, $meta_key, $meta_value );
+        } else {
+            $result = update_user_meta( $user_id, $meta_key, $meta_value ); // phpcs:ignore
+        }
+
+        return $result;
+    }
+
 }

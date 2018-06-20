@@ -1,14 +1,22 @@
 <?php
 
 /**
- * LaterPay category price model.
+ * LaterPay category price model to work with custom tables in older versions.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Model_CategoryPrice
+class LaterPay_Compatibility_CategoryPrice
 {
+    /**
+     * Object of LaterPay_Compatibility_CategoryPrice.
+     *
+     * @var object
+     *
+     * @access protected
+     */
+    protected static $instance;
 
     /**
      * Name of terms table.
@@ -26,17 +34,30 @@ class LaterPay_Model_CategoryPrice
      *
      * @access public
      */
-    public $table_prices;
+    public $term_table_prices;
 
     /**
      * Constructor for class LaterPay_Currency_Model, load table names.
      */
-    function __construct() {
+    protected function __construct() {
         global $wpdb;
         $this->term_table = $wpdb->terms;
         $this->term_table_prices = $wpdb->prefix . 'laterpay_terms_price';
     }
 
+    /**
+     * function for sigleton object.
+     *
+     * @return object of LaterPay_Compatibility_CategoryPrice
+     */
+    public static function get_instance() {
+
+        if ( ! isset( self::$instance ) ) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
     /**
      * Get all categories with a defined category default price.
      *
@@ -67,6 +88,26 @@ class LaterPay_Model_CategoryPrice
         $categories = $wpdb->get_results( $sql );
 
         return $categories;
+    }
+
+    /**
+     * Gets count of categories with defined category.
+     *
+     * @return array category_price_data
+     */
+    public function get_categories_with_defined_price_count() {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                count(*) AS category_price_count 
+            FROM
+                {$this->term_table_prices}
+            ;";
+
+        $categories = $wpdb->get_row( $sql );
+
+        return $categories->category_price_count;
     }
 
     /**
@@ -157,16 +198,12 @@ class LaterPay_Model_CategoryPrice
      * @return array categories
      */
     public function get_categories_by_term( $term, $limit ) {
-        global $wpdb, $wp_version;
+        global $wpdb;
 
-        if ( version_compare( $wp_version, '4.0', '>=' ) ) {
-            $term = $wpdb->esc_like( $term );
-        } else {
-            $term = like_escape( $term );
-        }
+        $term = $wpdb->esc_like( $term );
 
         $term = esc_sql( $term ) . '%';
-        $sql = "
+        $sql  = "
             SELECT
                 tm.term_id AS id,
                 tm.name AS text

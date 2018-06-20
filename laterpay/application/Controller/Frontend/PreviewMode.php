@@ -20,12 +20,10 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
             ),
             'wp_ajax_laterpay_preview_mode_visibility' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_visibility' ),
             ),
             'wp_ajax_laterpay_post_toggle_preview' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
-                array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_toggle_preview' ),
             ),
             'wp_ajax_laterpay_preview_mode_render' => array(
@@ -46,12 +44,6 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
         if ( empty( $post ) ) {
             // check, if we're on a singular page
             if ( ! is_singular() ) {
-                $this->logger->warning(
-                    __METHOD__ . ' - !is_singular',
-                    array(
-                        'post' => $post,
-                    )
-                );
                 return false;
             }
 
@@ -69,25 +61,12 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
 
         // don't collect statistics data, if the current post_type is not an allowed post_type
         $allowed_post_types = $this->config->get( 'content.enabled_post_types' );
-        if ( ! in_array( $post->post_type, $allowed_post_types ) ) {
-            $this->logger->warning(
-                __METHOD__ . ' - post is not purchasable',
-                array(
-                    'post'                  => $post,
-                    'allowed_post_types'    => $allowed_post_types,
-                )
-            );
+        if ( ! in_array( $post->post_type, $allowed_post_types, true ) ) {
             return false;
         }
 
         // don't collect statistics data, if the current post is not purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
-            $this->logger->warning(
-                __METHOD__ . ' - post is not purchasable',
-                array(
-                    'post' => $post,
-                )
-            );
             return false;
         }
 
@@ -109,21 +88,10 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
 
         // don't add the preview pane placeholder to the footer, if the user is not logged in
         if ( ! LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', get_the_ID() ) ) {
-
-            $this->logger->warning(
-                __METHOD__ . ' - user cannot switch post mode',
-                array(
-                    'post_id'       => get_the_ID(),
-                    'current_user'  => wp_get_current_user(),
-                )
-            );
-
             return;
         }
 
-        $footer = $event->get_result();
-        $footer .= '<div id="lp_js_previewModePlaceholder"></div>';
-        $event->set_result( $footer );
+        echo '<div id="lp_js_previewModePlaceholder"></div>';
     }
 
     /**
@@ -136,7 +104,7 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_toggle_preview( LaterPay_Core_Event $event ) {
-        $preview_form = new LaterPay_Form_PreviewModeForm( $_POST );
+        $preview_form = new LaterPay_Form_PreviewModeForm( $_POST ); // phpcs:ignore
 
         if ( ! $preview_form->is_valid() ) {
             throw new LaterPay_Core_Exception_FormValidation( get_class( $preview_form ), $preview_form->get_errors() );
@@ -170,7 +138,7 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
             return;
         }
 
-        $result = update_user_meta(
+        $result = LaterPay_Helper_User::update_user_meta(
             $current_user->ID,
             'laterpay_preview_post_as_visitor',
             $preview_post
@@ -199,7 +167,7 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_render_tab_preview_mode( LaterPay_Core_Event $event ) {
-        $preview_form = new LaterPay_Form_PreviewMode( $_GET );
+        $preview_form = new LaterPay_Form_PreviewMode( $_GET ); //phpcs:ignore
 
         if ( ! $preview_form->is_valid() ) {
             $event->stop_propagation();
@@ -220,7 +188,8 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-        $event->set_result( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
+        $this->render( 'frontend/partials/post/select-preview-mode-tab' );
+        die;
     }
 
     /**
@@ -233,7 +202,7 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
      * @return void
      */
     public function ajax_toggle_visibility( LaterPay_Core_Event $event ) {
-        $preview_mode_visibility_form = new LaterPay_Form_PreviewModeVisibility( $_POST );
+        $preview_mode_visibility_form = new LaterPay_Form_PreviewModeVisibility( $_POST ); // phpcs:ignore
 
         if ( ! $preview_mode_visibility_form->is_valid() ) {
             throw new LaterPay_Core_Exception_FormValidation( get_class( $preview_mode_visibility_form ), $preview_mode_visibility_form->get_errors() );
@@ -254,7 +223,7 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
             return;
         }
 
-        $result = update_user_meta(
+        $result = LaterPay_Helper_User::update_user_meta(
             $current_user->ID,
             'laterpay_hide_preview_mode_pane',
             $preview_mode_visibility_form->get_field_value( 'hide_preview_mode_pane' )

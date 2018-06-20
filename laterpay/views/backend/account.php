@@ -13,23 +13,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
     <div class="lp_navigation">
-        <a  href="<?php echo esc_url_raw( add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ) ); ?>"
+        <a  href="<?php echo esc_url( add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ) ); ?>"
             id="lp_js_pluginModeIndicator"
             class="lp_plugin-mode-indicator"
             <?php if ( $laterpay['plugin_is_in_live_mode'] ) : ?>style="display:none;"<?php endif; ?>
             data-icon="h">
-            <h2 class="lp_plugin-mode-indicator__title"><?php echo laterpay_sanitize_output( __( 'Test mode', 'laterpay' ) ); ?></h2>
-            <span class="lp_plugin-mode-indicator__text"><?php echo laterpay_sanitize_output( __( 'Earn money in <i>live mode</i>', 'laterpay' ) ); ?></span>
+            <h2 class="lp_plugin-mode-indicator__title"><?php esc_html_e(  'Test mode', 'laterpay' ); ?></h2>
+            <span class="lp_plugin-mode-indicator__text"><?php printf( '%1$s <i> %2$s </i>', esc_html__( 'Earn money in', 'laterpay' ), esc_html__( 'live mode', 'laterpay' ) ); ?></span>
         </a>
 
-        <?php echo laterpay_sanitized( $laterpay['top_nav'] ); ?>
+        <?php
+        // laterpay[account_obj] is instance of LaterPay_Controller_Admin_Account
+        $laterpay['account_obj']->get_menu(); ?>
+
     </div>
 
 
     <div class="lp_pagewrap">
 
         <div class="lp_greybox lp_mt lp_mr lp_mb">
-            <?php echo laterpay_sanitize_output( __( 'The LaterPay plugin is in', 'laterpay' ) ); ?><div class="lp_toggle">
+            <?php esc_html_e( 'The LaterPay plugin is in', 'laterpay' ); ?><div class="lp_toggle">
                 <form id="laterpay_plugin_mode" method="post">
                     <input type="hidden" name="form"    value="laterpay_plugin_mode">
                     <input type="hidden" name="action"  value="laterpay_account">
@@ -45,11 +48,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <span class="lp_toggle__handle"></span>
                     </label>
                 </form>
-            </div><?php echo laterpay_sanitize_output( __( 'mode.', 'laterpay' ) ); ?>
+            </div><?php esc_html_e( 'mode.', 'laterpay' ); ?>
             <div id="lp_js_pluginVisibilitySetting"
                 class="lp_inline-block"
                 <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
-                <?php echo laterpay_sanitize_output( __( 'It is invisible', 'laterpay' ) ); ?><div class="lp_toggle">
+                <?php esc_html_e( 'It is invisible', 'laterpay' ); ?><div class="lp_toggle">
                     <form id="laterpay_test_mode" method="post">
                         <input type="hidden" name="form"    value="laterpay_test_mode">
                         <input type="hidden" name="action"  value="laterpay_account">
@@ -66,7 +69,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <span class="lp_toggle__handle"></span>
                         </label>
                     </form>
-                </div><?php echo laterpay_sanitize_output( __( 'visible to visitors.', 'laterpay' ) ); ?>
+                </div><?php esc_html_e(  'visible to visitors.', 'laterpay' ); ?>
             </div>
         </div>
 
@@ -74,10 +77,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <div class="lp_api-credentials lp_api-credentials--sandbox" data-icon="h">
                 <fieldset class="lp_api-credentials__fieldset">
-                    <legend class="lp_api-credentials__legend"><?php echo laterpay_sanitize_output( __( 'Sandbox Environment', 'laterpay' ) ); ?></legend>
+                    <legend class="lp_api-credentials__legend"><?php esc_html_e(  'Sandbox Environment', 'laterpay' ); ?></legend>
 
                     <dfn class="lp_api-credentials__hint">
-                        <?php echo laterpay_sanitize_output( __( 'for testing with simulated payments', 'laterpay' ) ); ?>
+                        <?php esc_html_e( 'for testing with simulated payments', 'laterpay' ); ?>
                     </dfn>
 
                     <ul class="lp_api-credentials__list">
@@ -96,8 +99,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     maxlength="22"
                                     required>
                                 <label for="laterpay_sandbox_merchant_id"
-                                    alt="<?php echo esc_attr( __( 'Paste Sandbox Merchant ID here', 'laterpay' ) ); ?>"
-                                    placeholder="<?php echo esc_attr( __( 'Merchant ID', 'laterpay' ) ); ?>">
+                                       alt="<?php esc_attr_e( 'Paste Sandbox Merchant ID here', 'laterpay' ); ?>"
+                                       placeholder="<?php esc_attr_e( 'Merchant ID', 'laterpay' ); ?>">
                                 </label>
                             </form>
                         </li>
@@ -116,8 +119,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     maxlength="32"
                                     required>
                                 <label for="laterpay_sandbox_api_key"
-                                    alt="<?php echo esc_attr( __( 'Paste Sandbox API Key here', 'laterpay' ) ); ?>"
-                                    placeholder="<?php echo esc_attr( __( 'API Key', 'laterpay' ) ); ?>">
+                                       alt="<?php esc_attr_e( 'Paste Sandbox API Key here', 'laterpay' ); ?>"
+                                       placeholder="<?php esc_attr_e( 'API Key', 'laterpay' ); ?>">
                                 </label>
                             </form>
                         </li>
@@ -130,10 +133,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                 class="lp_api-credentials lp_api-credentials--live<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' lp_is-live'; } ?>"
                 data-icon="k">
                 <fieldset class="lp_api-credentials__fieldset">
-                    <legend class="lp_api-credentials__legend"><?php echo laterpay_sanitize_output( __( 'Live Environment', 'laterpay' ) ); ?></legend>
+                    <legend class="lp_api-credentials__legend"><?php esc_html_e( 'Live Environment', 'laterpay' ); ?></legend>
 
                     <dfn class="lp_api-credentials__hint">
-                        <?php echo laterpay_sanitize_output( __( 'for processing real financial transactions', 'laterpay' ) ); ?>
+                        <?php esc_html_e( 'for processing real financial transactions', 'laterpay' ); ?>
                     </dfn>
 
                     <ul class="lp_api-credentials__list">
@@ -152,8 +155,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     maxlength="22"
                                     required>
                                 <label for="laterpay_live_merchant_id"
-                                    alt="<?php echo esc_attr( __( 'Paste Live Merchant ID here', 'laterpay' ) ); ?>"
-                                    placeholder="<?php echo esc_attr( __( 'Merchant ID', 'laterpay' ) ); ?>">
+                                    alt="<?php esc_attr_e( 'Paste Live Merchant ID here', 'laterpay' ); ?>"
+                                    placeholder="<?php esc_attr_e( 'Merchant ID', 'laterpay' ); ?>">
                                 </label>
                             </form>
                         </li>
@@ -172,8 +175,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     maxlength="32"
                                     required>
                                 <label for="laterpay_sandbox_api_key"
-                                    alt="<?php echo esc_attr( __( 'Paste Live API Key here', 'laterpay' ) ); ?>"
-                                    placeholder="<?php echo esc_attr( __( 'API Key', 'laterpay' ) ); ?>">
+                                    alt="<?php esc_attr_e( 'Paste Live API Key here', 'laterpay' ); ?>"
+                                    placeholder="<?php esc_attr_e( 'API Key', 'laterpay' ); ?>">
                                 </label>
                             </form>
                         </li>
@@ -185,7 +188,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 class="button button-primary"
                                 target="_blank"
                                 <?php if ( ! empty( $laterpay['live_merchant_id'] ) && ! empty( $laterpay['live_api_key'] ) ) { echo 'style="display:none";'; } ?>>
-                                <?php echo laterpay_sanitize_output( __( 'Request Live API Credentials', 'laterpay' ) ); ?>
+                                <?php esc_html_e( 'Request Live API Credentials', 'laterpay' ); ?>
                             </a>
                         </li>
                     </ul>
@@ -195,16 +198,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <div class="lp_clearfix">
             <fieldset class="lp_fieldset">
-                <legend class="lp_legend"><?php echo laterpay_sanitize_output( __( 'Region and Currency', 'laterpay' ) ); ?></legend>
+                <legend class="lp_legend"><?php esc_html_e( 'Region and Currency', 'laterpay' ); ?></legend>
 
-                <p class="lp_bold"><?php echo laterpay_sanitize_output( __( 'Select the region for your LaterPay merchant account', 'laterpay' ) ); ?></p>
+                <p class="lp_bold"><?php esc_html_e( 'Select the region for your LaterPay merchant account', 'laterpay' ); ?></p>
 
                 <p>
                     <dfn>
-                        <?php echo laterpay_sanitize_output( __( "Is the selling company or person based in Europe or in the United States?<br>
-                        If you select 'Europe', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform.<br>
-                        If you select 'United States', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform. 
-                        ", 'laterpay' ) ); ?>
+                        <?php esc_html_e( "Is the selling company or person based in Europe or in the United States?", "laterpay" ); ?>
+                        <br>
+                        <?php esc_html_e( "If you select 'Europe', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform.", "laterpay" ); ?>
+                        <br>
+                        <?php esc_html_e( "If you select 'United States', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform.", "laterpay" ); ?>
                     </dfn>
                 </p>
 
@@ -213,17 +217,24 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <input type="hidden" name="action"  value="laterpay_account">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                     <select id="lp_js_apiRegionSection" name="laterpay_region" class="lp_input">
-                        <option value="eu" <?php if ( $laterpay['region'] === 'eu' ) echo 'selected'; ?>><?php echo laterpay_sanitize_output( __( 'Europe (EUR)', 'laterpay' ) ); ?></option>
-                        <option value="us" <?php if ( $laterpay['region'] === 'us' ) echo 'selected'; ?>><?php echo laterpay_sanitize_output( __( 'United States (USD)', 'laterpay' ) ); ?></option>
+                        <option value="eu" <?php selected( $laterpay['region'], 'eu' ); ?>><?php esc_html_e( 'Europe (EUR)', 'laterpay' ); ?></option>
+                        <option value="us" <?php selected( $laterpay['region'], 'us' ); ?>><?php esc_html_e( 'United States (USD)', 'laterpay' ); ?></option>
                     </select>
                 </form>
 
                 <p id="lp_js_regionNotice" <?php if ( $laterpay['region'] === 'us' ) : ?>class="hidden"<?php endif; ?>>
                     <dfn class="lp_region_notice" data-icon="n">
-                        <?php echo laterpay_sanitize_output( __( "<b>Important:</b> The minimum value for \"Pay Now\" prices in the U.S. region is <b>$1.99</b>.<br>
-                        If you have already set \"Pay Now\" prices lower than 1.99, make sure to change them before you switch to the U.S. region.<br>
-                        If you haven't done any configuration yet, you can safely switch the region without further adjustments. 
-                        ", 'laterpay' ) ); ?>
+                        <b>
+                            <?php esc_html_e( "Important:", 'laterpay' ); ?>
+                        </b>
+                        <?php esc_html_e( " The minimum value for \"Pay Now\" prices in the U.S. region is", "laterpay" ); ?>
+                        <b>
+                            <?php esc_html_e( "$1.99", "laterpay" ); ?>
+                        </b>
+                        <br>
+                        <?php esc_html_e( "If you have already set \"Pay Now\" prices lower than 1.99, make sure to change them before you switch to the U.S. region.", "laterpay" ); ?>
+                        <br>
+                        <?php esc_html_e( "If you haven't done any configuration yet, you can safely switch the region without further adjustments. ", "laterpay" ); ?>
                     </dfn>
                 </p>
             </fieldset>

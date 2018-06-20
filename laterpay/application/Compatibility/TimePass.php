@@ -1,14 +1,23 @@
 <?php
 
 /**
- * LaterPay time pass model.
+ * LaterPay time pass model to work with custom tables in older versions.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Model_TimePass
+class LaterPay_Compatibility_TimePass
 {
+
+    /**
+     * instance of the LaterPay_Compatibility_TimePass
+     *
+     * @var object of LaterPay_Compatibility_TimePass
+     *
+     * @access private
+     */
+    private static $instance = null;
 
     /**
      * Name of PostViews table.
@@ -20,14 +29,26 @@ class LaterPay_Model_TimePass
     public $table;
 
     /**
-     * Constructor for class LaterPay_Model_TimePass, load table name.
+     * Constructor for class LaterPay_Compatibility_TimePass, load table name.
      */
-    function __construct() {
+    protected function __construct() {
         global $wpdb;
 
         $this->table = $wpdb->prefix . 'laterpay_passes';
     }
 
+    /**
+     * Singleton to get only one event dispatcher
+     *
+     * @return LaterPay_Compatibility_TimePass
+     */
+    public static function get_instance() {
+        if ( ! isset( self::$instance ) ) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
     /**
      * Get time pass data.
      *
@@ -237,20 +258,20 @@ class LaterPay_Model_TimePass
     /**
      * Get count of existing time passes.
      *
+     * @param boolean $ignore_deleted Should deleted posts be ignored or not
+     *
      * @return int number of defined time passes
      */
-    public function get_time_passes_count() {
+    public function get_time_passes_count( $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
             SELECT
                 count(*) AS c_passes
             FROM
-                {$this->table}
-            WHERE
-                is_deleted = 0
-            ;
-        ";
+                {$this->table}";
+
+        $ignore_deleted === false ? $sql .= ';' : $sql .= ' WHERE is_deleted = 0;';
 
         $list = $wpdb->get_results( $sql );
 

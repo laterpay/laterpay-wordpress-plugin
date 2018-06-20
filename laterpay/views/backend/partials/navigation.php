@@ -21,11 +21,20 @@ if ( ! defined( 'ABSPATH' ) ) {
         ?>
     <?php endif; ?>
     <li class="lp_navigation-tabs__item <?php echo esc_attr( $current_page_class ); ?>">
-        <?php echo laterpay_sanitized( LaterPay_Helper_View::get_admin_menu_link( $page ) ); ?>
+        <?php
+        $allow_html = array(
+            'a' => array(
+                'href'  => array(),
+                'class' => array(),
+                'data'  => array(),
+            ),
+        );
+        echo wp_kses( LaterPay_Helper_View::get_admin_menu_link( $page ), $allow_html );
+        ?>
         <?php if ( isset( $page['submenu'] ) ) : ?>
             <ul class="lp_navigation-tabs__submenu">
                 <li class="lp_navigation-tabs__item">
-                    <?php echo laterpay_sanitized( LaterPay_Helper_View::get_admin_menu_link( $page['submenu'] ) ); ?>
+                    <?php echo wp_kses( LaterPay_Helper_View::get_admin_menu_link( $page['submenu'] ), $allow_html ); ?>
                 </li>
             </ul>
         <?php endif; ?>

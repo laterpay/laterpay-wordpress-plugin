@@ -38,7 +38,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 
         foreach ( $columns as $key => $val ) {
             $extended_columns[ $key ] = $val;
-            if ( $key == $insert_after ) {
+            if ( ( string ) $key === $insert_after ) {
                 $extended_columns['post_price']         = __( 'Price', 'laterpay' );
                 $extended_columns['post_price_type']    = __( 'Price Type', 'laterpay' );
             }
@@ -57,19 +57,19 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
      */
     public function add_data_to_posts_table( LaterPay_Core_Event $event ) {
         list( $column_name, $post_id ) = $event->get_arguments() + array( '', '' );
-        $event->set_echo( true );
 
         switch ( $column_name ) {
             case 'post_price':
-                $price              = (float) LaterPay_Helper_Pricing::get_post_price( $post_id );
+                $price              = (float) LaterPay_Helper_Pricing::get_post_price( $post_id, true );
                 $localized_price    = LaterPay_Helper_View::format_number( $price );
                 $currency           = $this->config->get( 'currency.code' );
 
+                /* translators: %1$s post price, %2$s currency code */
+                printf( '<strong>%1$s</strong> <span>%2$s</span>', esc_html( $localized_price ), esc_html( $currency ) );
+
                 // render the price of the post, if it exists
-                if ( $price > 0 ) {
-                    $event->set_result( laterpay_sanitize_output( "<strong>$localized_price</strong> <span>$currency</span>" ) );
-                } else {
-                    $event->set_result( '&mdash;' );
+                if ( $price <= 0 ) {
+                    echo '&mdash;';
                 }
                 break;
 
@@ -83,32 +83,32 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                     // render the price type of the post, if it exists
                     switch ( $post_prices['type'] ) {
                         case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
-                            $revenue_model      = ( LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ) == 'sis' )
+                            $revenue_model      = ( LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ) === 'sis' )
                                                     ? __( 'Pay Now', 'laterpay' )
                                                     : __( 'Pay Later', 'laterpay' );
                             $post_price_type    = __( 'individual price', 'laterpay' ) . ' (' . $revenue_model . ')';
                             break;
 
                         case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                            $post_price_type = __( 'dynamic individual price', 'laterpay' );
+                            $post_price_type = esc_html__( 'dynamic individual price', 'laterpay' );
                             break;
 
                         case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
-                            $post_price_type = __( 'category default price', 'laterpay' );
+                            $post_price_type = esc_html__( 'category default price', 'laterpay' );
                             break;
 
                         case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
-                            $post_price_type = __( 'global default price', 'laterpay' );
+                            $post_price_type = esc_html__( 'global default price', 'laterpay' );
                             break;
 
                         default:
                             $post_price_type = '&mdash;';
                     }
 
-                    $event->set_result( laterpay_sanitize_output( $post_price_type ) );
+	                echo esc_html( $post_price_type );
                 } else {
                     // label the post to use the global default price
-                    $event->set_result( laterpay_sanitize_output( __( 'global default price', 'laterpay' ) ) );
+	                esc_html_e( 'global default price', 'laterpay' );
                 }
                 break;
         }
