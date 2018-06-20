@@ -35,3 +35,6 @@ jobs:
 
       # run tests!
       # - run: phpunit
+
+      - run: composer run-script wpcs
+      - run: composer run-script phpcs
