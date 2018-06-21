@@ -185,7 +185,7 @@ Please see the "Test and Live Mode" section.
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
-= 0.9.28 (June 14, 2018): Bugfix Release (v1.0 RC30) =
+= 0.10.0 (June 21, 2018): Bugfix Release (v1.0 RC30) =
 * Set Minimum PHP version to 5.6
 * Set Minimum WordPress version to 4.6
 * Remove deprecated features from plugin backend
