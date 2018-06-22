@@ -8,6 +8,7 @@ var gulp                        = require('gulp'),
     Q                           = require('q'),
     prompt                      = require('prompt'),
     dateFormat                  = require('dateformat'),
+    zip                         = require('gulp-zip'),
     p                           = {
                                         allfiles        : [
                                                             './laterpay/**/*.php',
@@ -27,7 +28,9 @@ var gulp                        = require('gulp'),
                                         distIMG         : './laterpay/built_assets/img/',
                                         distPlugin      : './laterpay/',
                                         distSVN         : './svn-working-copy/',
-                                        svnURL          : 'http://plugins.svn.wordpress.org/laterpay'
+                                        svnURL          : 'http://plugins.svn.wordpress.org/laterpay',
+                                        nonVIP          : './vip-build/laterpay/application/Compatibility',
+                                        distVIP         : './vip-build',
                                     };
 // OPTIONS -------------------------------------------------------------------------------------------------------------
 var gulpKnownOptions = {
@@ -51,6 +54,41 @@ gulp.task('clean', function(cb) {
             p.distIMG + '*.svg',
             p.distPlugin + 'vendor'
         ], cb);
+});
+
+// remove non-vip files.
+gulp.task( 'vip-clean', function( cb ) {
+    return del( [
+        p.distVIP,
+        p.distPlugin + 'laterpay.zip'
+    ], cb );
+});
+
+// copy plugin files to vip build.
+gulp.task('vip-copy', function(){
+    return gulp.src(p.distPlugin + '**/*')
+        .pipe(gulp.dest( p.distVIP + '/laterpay' ));
+});
+
+// remove un-wanted files from vip build.
+gulp.task( 'vip-filter', function( cb ) {
+    return del( [
+        p.nonVIP
+    ], cb );
+});
+
+// create zip for vip build
+gulp.task( 'vip-zip', function() {
+    return gulp.src('./vip-build/laterpay/**')
+        .pipe(zip('laterpay.zip'))
+        .pipe(gulp.dest('./'))
+});
+
+// clean up after zip creation
+gulp.task( 'vip-final', function( cb ) {
+    return del( [
+        './vip-build'
+    ], cb );
 });
 
 // CSS-related tasks
@@ -637,6 +675,27 @@ gulp.task('release:production', function () {
             } else {
                 deferred.resolve();
                 console.log('RELEASE FINISHED SUCCESSFULLY');
+            }
+        });
+    return deferred.promise;
+});
+
+gulp.task('vip', ['vip-clean'], function () {
+    var deferred = Q.defer();
+    runSequence(
+        'build',
+        'composer',
+        'vip-copy',
+        'vip-filter',
+        'vip-zip',
+        'vip-final',
+        function (error) {
+            if (error) {
+                deferred.reject(error.message);
+                console.log(error.message);
+            } else {
+                deferred.resolve();
+                console.log('VIP BUILD COMPLETE');
             }
         });
     return deferred.promise;
