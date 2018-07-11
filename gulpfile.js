@@ -235,7 +235,7 @@ gulp.task('precommit', ['sniffphp', 'js-format'], function() {
 // build project for release
 gulp.task('build', ['clean'], function() {
     var deferred = Q.defer();
-    runSequence(['img-build','css-build','js-build'], function(error){
+    runSequence(['img-build','css-build','js-build','composer'], function(error){
         if (error) {
             deferred.reject(error.message);
             console.log(error.message);
