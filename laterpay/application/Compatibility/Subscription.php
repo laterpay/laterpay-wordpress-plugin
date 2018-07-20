@@ -201,11 +201,13 @@ class LaterPay_Compatibility_Subscription
 
         if ( $term_ids ) {
             $prepared_ids = implode( ',', $term_ids );
-            if ( $exclude ) {
-                $sql .= " subs.access_category NOT IN ( {$prepared_ids} ) AND subs.access_to = 1";
-            } else {
-                $sql .= " subs.access_category IN ( {$prepared_ids} ) AND subs.access_to <> 1";
-            }
+
+            $sql .= " subs.access_category NOT IN ( {$prepared_ids} ) AND subs.access_to = 1";
+
+            $sql .= "OR";
+
+            $sql .= " subs.access_category IN ( {$prepared_ids} ) AND subs.access_to <> 1";
+
             $sql .= ' OR ';
         }
 

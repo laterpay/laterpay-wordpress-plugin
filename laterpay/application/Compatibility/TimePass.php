@@ -205,11 +205,13 @@ class LaterPay_Compatibility_TimePass
 
         if ( $term_ids ) {
             $prepared_ids = implode( ',', $term_ids );
-            if ( $exclude ) {
-                $sql .= " pt.access_category NOT IN ( {$prepared_ids} ) AND pt.access_to = 1";
-            } else {
-                $sql .= " pt.access_category IN ( {$prepared_ids} ) AND pt.access_to <> 1";
-            }
+
+            $sql .= " pt.access_category NOT IN ( {$prepared_ids} ) AND pt.access_to = 1";
+
+            $sql .= "OR";
+
+            $sql .= " pt.access_category IN ( {$prepared_ids} ) AND pt.access_to <> 1";
+
             $sql .= ' OR ';
         }
 
