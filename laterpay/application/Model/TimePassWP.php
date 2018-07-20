@@ -392,27 +392,17 @@ class LaterPay_Model_TimePassWP {
                 'key'     => '_lp_access_to_all',
                 'compare' => 'EXISTS',
             ),
+            array(
+                'key'     => '_lp_access_to_except',
+                'value'   => $term_ids,
+                'compare' => 'NOT IN',
+            ),
+            array(
+                'key'     => '_lp_access_to_include',
+                'value'   => $term_ids,
+                'compare' => 'IN',
+            ),
         );
-
-        if ( $exclude ) {
-
-            $meta_query[] =array(
-                array(
-                    'key'     => '_lp_access_to_except',
-                    'value'   => $term_ids,
-                    'compare' => 'NOT IN',
-                ),
-            );
-        } else {
-
-            $meta_query[] = array(
-                array(
-                    'key'     => '_lp_access_to_include',
-                    'value'   => $term_ids,
-                    'compare' => 'IN',
-                ),
-            );
-        }
 
         // Meta query used to get all passes with different cases
         // Case 1: Passes accept in all category
