@@ -203,9 +203,9 @@ class LaterPay_Compatibility_Subscription
         if ( $term_ids ) {
             $prepared_ids = implode( ',', $term_ids );
 
-            $access_to_except = " pt.access_category NOT IN ( {$prepared_ids} ) AND pt.access_to = 1";
+            $access_to_except = " subs.access_category NOT IN ( {$prepared_ids} ) AND subs.access_to = 1";
 
-            $access_to_include = " pt.access_category IN ( {$prepared_ids} ) AND pt.access_to <> 1";
+            $access_to_include = " subs.access_category IN ( {$prepared_ids} ) AND subs.access_to <> 1";
 
             if( $include_all ) {
                 $sql .=$access_to_except." OR ".$access_to_include;
