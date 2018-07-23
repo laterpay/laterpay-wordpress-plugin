@@ -277,7 +277,7 @@ class LaterPay_Helper_Subscription
             }
 
             // get list of subscriptions that cover this post
-            $subscriptions = $model->get_subscriptions_by_category_ids( $post_category_ids );
+            $subscriptions = $model->get_subscriptions_by_category_ids( $post_category_ids, false, false, true );
         } else {
             $subscriptions = $model->get_subscriptions_by_category_ids();
         }

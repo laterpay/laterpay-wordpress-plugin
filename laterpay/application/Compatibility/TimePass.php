@@ -183,10 +183,11 @@ class LaterPay_Compatibility_TimePass
      * @param null $term_ids array of category ids
      * @param bool $exclude  categories to be excluded from the list
      * @param bool $ignore_deleted ignore deleted time passes
+     * @param bool $include_all include all time passes
      *
      * @return array $time_passes list of time passes
      */
-    public function get_time_passes_by_category_ids( $term_ids = null, $exclude = null, $ignore_deleted = false ) {
+    public function get_time_passes_by_category_ids( $term_ids = null, $exclude = false, $ignore_deleted = false, $include_all = false ) {
         global $wpdb;
 
         $sql = "
@@ -206,11 +207,20 @@ class LaterPay_Compatibility_TimePass
         if ( $term_ids ) {
             $prepared_ids = implode( ',', $term_ids );
 
-            $sql .= " pt.access_category NOT IN ( {$prepared_ids} ) AND pt.access_to = 1";
+            $access_to_except = " pt.access_category NOT IN ( {$prepared_ids} ) AND pt.access_to = 1";
 
-            $sql .= "OR";
+            $access_to_include = " pt.access_category IN ( {$prepared_ids} ) AND pt.access_to <> 1";
 
-            $sql .= " pt.access_category IN ( {$prepared_ids} ) AND pt.access_to <> 1";
+            if( $include_all ) {
+                $sql .=$access_to_except." OR ".$access_to_include;
+            } else{
+
+                if ( $exclude ) {
+                    $sql .= $access_to_except;
+                } else {
+                    $sql .= $access_to_include;
+                }
+            }
 
             $sql .= ' OR ';
         }

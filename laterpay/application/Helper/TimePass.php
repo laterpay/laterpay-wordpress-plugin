@@ -307,7 +307,7 @@ class LaterPay_Helper_TimePass
             }
 
             // get list of time passes that cover this post
-            $time_passes = $model->get_time_passes_by_category_ids( $post_category_ids );
+            $time_passes = $model->get_time_passes_by_category_ids( $post_category_ids, false, false, true );
         } else {
             $time_passes = $model->get_time_passes_by_category_ids();
         }
