@@ -321,7 +321,7 @@ class LaterPay_Helper_Subscription
                 if ( $excluded_categories ) {
                     foreach ( $excluded_categories as $excluded_category_id ) {
                         // search for excluded category in covered categories
-                        $has_covered_category = array_search( $excluded_category_id, $covered_categories );
+                        $has_covered_category = array_search( $excluded_category_id, $covered_categories['included'], true );
                         if ( $has_covered_category !== false ) {
                             return array();
                         } else {
