@@ -179,10 +179,11 @@ class LaterPay_Compatibility_Subscription
      * @param null $term_ids array of category ids
      * @param bool $exclude  categories to be excluded from the list
      * @param bool $ignore_deleted ignore deleted subscriptions
+     * @param bool $include_all include all subscriptions
      *
      * @return array $subscriptions list of subscriptions
      */
-    public function get_subscriptions_by_category_ids( $term_ids = null, $exclude = null, $ignore_deleted = false ) {
+    public function get_subscriptions_by_category_ids( $term_ids = null, $exclude = false, $ignore_deleted = false, $include_all = false ) {
         global $wpdb;
 
         $sql = "
@@ -201,11 +202,22 @@ class LaterPay_Compatibility_Subscription
 
         if ( $term_ids ) {
             $prepared_ids = implode( ',', $term_ids );
-            if ( $exclude ) {
-                $sql .= " subs.access_category NOT IN ( {$prepared_ids} ) AND subs.access_to = 1";
+
+            $access_to_except = " subs.access_category NOT IN ( {$prepared_ids} ) AND subs.access_to = 1";
+
+            $access_to_include = " subs.access_category IN ( {$prepared_ids} ) AND subs.access_to <> 1";
+
+            if ( $include_all ) {
+                $sql .= $access_to_except . " OR " . $access_to_include;
             } else {
-                $sql .= " subs.access_category IN ( {$prepared_ids} ) AND subs.access_to <> 1";
+
+                if ( $exclude ) {
+                    $sql .= $access_to_except;
+                } else {
+                    $sql .= $access_to_include;
+                }
             }
+
             $sql .= ' OR ';
         }
 
