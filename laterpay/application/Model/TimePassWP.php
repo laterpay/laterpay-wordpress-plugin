@@ -401,10 +401,10 @@ class LaterPay_Model_TimePassWP {
             'compare' => 'IN',
         );
 
-        if( $include_all ) {
-            array_push($meta_query, $access_to_except, $access_to_include );
+        if ( $include_all ) {
+            array_push( $meta_query, $access_to_except, $access_to_include );
         } else {
-            if( $exclude ) {
+            if ( $exclude ) {
                 $meta_query[] = $access_to_except;
             } else {
                 $meta_query[] = $access_to_include;
