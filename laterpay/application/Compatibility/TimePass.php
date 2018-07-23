@@ -211,9 +211,9 @@ class LaterPay_Compatibility_TimePass
 
             $access_to_include = " pt.access_category IN ( {$prepared_ids} ) AND pt.access_to <> 1";
 
-            if( $include_all ) {
-                $sql .=$access_to_except." OR ".$access_to_include;
-            } else{
+            if ( $include_all ) {
+                $sql .= $access_to_except . " OR " . $access_to_include;
+            } else {
 
                 if ( $exclude ) {
                     $sql .= $access_to_except;

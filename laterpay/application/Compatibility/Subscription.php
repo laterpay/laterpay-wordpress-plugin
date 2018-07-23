@@ -207,9 +207,9 @@ class LaterPay_Compatibility_Subscription
 
             $access_to_include = " subs.access_category IN ( {$prepared_ids} ) AND subs.access_to <> 1";
 
-            if( $include_all ) {
-                $sql .=$access_to_except." OR ".$access_to_include;
-            } else{
+            if ( $include_all ) {
+                $sql .= $access_to_except . " OR " . $access_to_include;
+            } else {
 
                 if ( $exclude ) {
                     $sql .= $access_to_except;
