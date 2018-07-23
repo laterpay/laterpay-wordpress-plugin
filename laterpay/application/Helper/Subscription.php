@@ -288,7 +288,7 @@ class LaterPay_Helper_Subscription
             // check, if user has access to the current post with subscription
             $has_access = false;
             foreach ( $subscriptions as $subscription ) {
-                if ( in_array( absint( $subscription['pass_id'] ), $subscriptions_with_access, true ) ) {
+                if ( in_array( absint( $subscription['id'] ), $subscriptions_with_access, true ) ) {
                     $has_access = true;
                     break;
                 }
