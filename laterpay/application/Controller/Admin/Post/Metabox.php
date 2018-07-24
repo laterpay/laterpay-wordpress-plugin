@@ -491,7 +491,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 $cache_data['price'] = $LaterPay_Category_Model->get_price_by_category_id( (int) $meta_value['category_id'] );
 
             } else {
-                $cache_data['price'] = $meta_value['price'];
+                if ( isset( $meta_value['price'] ) ) {
+                    $cache_data['price'] = $meta_value['price'];
+                }
             }
 
             wp_cache_set( $cache_key, $cache_data, 'laterpay' );
