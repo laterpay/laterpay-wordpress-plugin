@@ -716,9 +716,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <p>
                         <?php esc_html_e( 'Click the "Create" button to add a Subscription.', 'laterpay' ); ?>
                     </p>
-                    <p>
-                        <span style="color: red;" data-icon="n"></span><?php esc_html_e( 'Important: if your LaterPay merchant account has been created before June 2017, please contact sales@laterpay.net to check, if subscriptions are enabled for your account.', 'laterpay' ); ?>
-                    </p>
                 </div>
             </div>
         </div>
