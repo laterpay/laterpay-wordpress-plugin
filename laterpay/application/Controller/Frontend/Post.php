@@ -378,6 +378,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         $content = $event->get_result();
 
+        // Get the value of purchase type ( individual / timepass )
+        $only_timepass = (bool) get_option( 'laterpay_only_time_pass_purchases_allowed' );
+
         if ( $event->has_argument( 'post' ) ) {
             $post = $event->get_argument( 'post' );
         } else {
@@ -403,6 +406,20 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         // switch to 'admin' mode and load the correct content, if user can read post statistics
         if ($user_has_unlimited_access && ! $preview_post_as_visitor ) {
             $access = true;
+        }
+
+        // Check if no individual post type is allowed.
+        if ( $only_timepass ) {
+
+            // Getting list of timepass by post id.
+            $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post->ID, null, true );
+
+            // Check if no timepass exists.
+            if ( 0 === count( $time_passes_list ) ) {
+
+                // Give access to post.
+                $access = true;
+            }
         }
 
         // set necessary arguments

@@ -297,8 +297,16 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
 
         if ( $only_time_passes_allowed ) {
-            $content .= esc_html__( 'Buy a time pass to read the full content.', 'laterpay' );
+
+            // Getting list of timepass by post id.
+            $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post->ID, null, true );
+
+            // Show message only if any timepass exists
+            if ( 0 !== count( $time_passes_list ) ) {
+                $content .= esc_html__('Buy a time pass to read the full content.', 'laterpay');
+            }
         }
+
         $time_pass_event = new LaterPay_Core_Event();
         $time_pass_event->set_echo( false );
         laterpay_event_dispatcher()->dispatch( 'laterpay_time_passes', $time_pass_event );
