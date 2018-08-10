@@ -37,7 +37,7 @@ class LaterPay_Controller_Admin_Notice extends LaterPay_Controller_Base
 
         printf( '<div id="lp_wpengine_notice" class="notice notice-error"> <p>%s ( <b> %s </b> ) %s <a id="wpengn_done_btn" class="lp_wpengn_nbtn" > %s </a> </p> </div>',
             esc_html__( 'Please contact WPEngine customer service to bypass the required cookies', 'laterpay' ),
-            esc_html__( 'token, laterpay_purchased_gift_card and laterpay_tracking_code', 'laterpay' ),
+            esc_html__( 'laterpay_token, laterpay_purchased_gift_card and laterpay_tracking_code', 'laterpay' ),
             esc_html__( 'in order for the plugin to work properly with page-cache.', 'laterpay' ),
             esc_html__( 'Done', 'laterpay' ) );
 
