@@ -414,8 +414,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             // Getting list of timepass by post id.
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post->ID, null, true );
 
-            // Check if no timepass exists.
-            if ( 0 === count( $time_passes_list ) ) {
+            // Getting list of subscription by post id.
+            $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post->ID, null, true );
+
+            // Check if no timepass/subscription exists.
+            if ( ( 0 === count( $time_passes_list ) ) && ( 0 === count( $subscriptions_list ) ) ) {
 
                 // Give access to post.
                 $access = true;
