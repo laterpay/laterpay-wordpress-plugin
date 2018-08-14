@@ -35,7 +35,7 @@ var gulp                        = require('gulp'),
 // OPTIONS -------------------------------------------------------------------------------------------------------------
 var gulpKnownOptions = {
     string: 'version',
-    default: { version: '1.0' }
+    default: { version: '0.12.1' }
 };
 var gulpOptions = minimist(process.argv.slice(2), gulpKnownOptions);
 gulpOptions.svn = {};
@@ -323,7 +323,7 @@ var getMilestoneNumber = function() {
     },
     svnPropset = function(type, path){
         var deferred = Q.defer();
-        plugins.svn.exec({
+        plugins.svn2.exec({
             cwd: p.distSVN,
             args: 'propset svn:mime-type ' + type + ' ' + path
         }, function(err){
@@ -463,7 +463,7 @@ gulp.task('svn-add', function(){
    var svnChangeList = function(types){
            var deferred = Q.defer();
            console.log('Started SVN changelist...');
-           plugins.svn.exec({
+           plugins.svn2.exec({
                args: 'st | grep "^[' + types + ']" | cut -c9-',
                cwd: p.distSVN
            }, function(err, response){
@@ -483,7 +483,7 @@ gulp.task('svn-add', function(){
        svnAdd = function () {
            var deferred = Q.defer();
            console.log('Started SVN adding of the new and modified files...');
-           plugins.svn.add('*', {
+           plugins.svn2.add('*', {
                args: '--force',
                cwd: p.distSVN
            }, function(err){
@@ -498,7 +498,7 @@ gulp.task('svn-add', function(){
        },
        svnDelete = function (file) {
            var deferred = Q.defer();
-           plugins.svn.delete(file, {
+           plugins.svn2.delete(file, {
                cwd: p.distSVN
            }, function(err){
                if(err) {
@@ -550,7 +550,7 @@ gulp.task('svn-add', function(){
 // Run svn commit
 gulp.task('svn-commit', ['svn-prompt-credentials'], function(){
     var deferred = Q.defer();
-    plugins.svn.commit('Release ' + gulpOptions.version, {
+    plugins.svn2.commit('Release ' + gulpOptions.version, {
         cwd: p.distSVN,
         username: gulpOptions.svn.username,
         password: gulpOptions.svn.password
@@ -568,7 +568,7 @@ gulp.task('svn-commit', ['svn-prompt-credentials'], function(){
 // Run svn tag
 gulp.task('svn-tag', ['svn-prompt-credentials'], function(){
     var deferred = Q.defer();
-    plugins.svn.tag('v' + gulpOptions.version, 'Release ' + gulpOptions.version,{
+    plugins.svn2.tag('v' + gulpOptions.version, 'Release ' + gulpOptions.version,{
         cwd: p.distSVN,
         projectRoot: p.svnURL,
         username: gulpOptions.svn.username,
@@ -609,7 +609,7 @@ gulp.task('svn-copy-laterpay', function(){
 gulp.task('svn-checkout', function(){
     var deferred = Q.defer();
     console.log('Fetching SVN repo[' + p.svnURL + ']...');
-    plugins.svn.checkout(p.svnURL, p.distSVN,{
+    plugins.svn2.checkout(p.svnURL, p.distSVN,{
         username: gulpOptions.svn.username,
         password: gulpOptions.svn.password
     }, function(err){
