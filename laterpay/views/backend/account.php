@@ -242,7 +242,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <div class="lp_clearfix">
             <fieldset class="lp_fieldset">
-                <legend class="lp_legend"><?php esc_html_e( 'General F.A.Q\'s', 'laterpay' ); ?></legend>
+                <legend class="lp_legend"><?php esc_html_e( 'General FAQs', 'laterpay' ); ?></legend>
 
                 <details class="lp-faq">
                     <summary><?php esc_html_e( 'Having Trouble with Page Cache?', 'laterpay' ); ?></summary>

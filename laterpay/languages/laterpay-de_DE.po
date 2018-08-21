@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2018-08-01 15:37+0530\n"
-"PO-Revision-Date: 2018-08-01 15:51+0530\n"
+"POT-Creation-Date: 2018-08-21 18:20+0530\n"
+"PO-Revision-Date: 2018-08-21 18:21+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
 "__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
@@ -21,38 +21,6 @@ msgstr ""
 "esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
 "X-Loco-Target-Locale: de_DE\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#: built_assets/js/vendor/velocity.min.js:3
-msgid "translateX"
-msgstr ""
-
-#: built_assets/js/vendor/velocity.min.js:3
-msgid "translateY"
-msgstr ""
-
-#: built_assets/js/vendor/velocity.min.js:3
-msgid "skewX"
-msgstr ""
-
-#: built_assets/js/vendor/velocity.min.js:3
-msgid "skewY"
-msgstr ""
-
-#: built_assets/js/vendor/velocity.min.js:3
-msgid "scale"
-msgstr ""
-
-#: built_assets/js/vendor/velocity.min.js:3
-msgid "scaleX"
-msgstr ""
-
-#: built_assets/js/vendor/velocity.min.js:3
-msgid "scaleY"
-msgstr ""
-
-#: built_assets/js/vendor/velocity.min.js:3
-msgid "rotateZ"
-msgstr ""
 
 #: application/Compatibility/Migrate.php:54
 msgid "Your laterpay data needs to be migrated. Click"
@@ -687,7 +655,7 @@ msgid "Please contact WPEngine customer service to bypass the required cookies"
 msgstr ""
 
 #: application/Controller/Admin/Notice.php:40
-msgid "token, laterpay_purchased_gift_card and laterpay_tracking_code"
+msgid "laterpay_token, laterpay_purchased_gift_card and laterpay_tracking_code"
 msgstr ""
 
 #: application/Controller/Admin/Notice.php:41
@@ -1308,43 +1276,43 @@ msgstr "Ich habe ein LaterPay Pro Händlerkonto."
 msgid "Please choose, if you have a LaterPay Pro merchant account."
 msgstr "Bitte aktivieren, wenn Sie ein LaterPay Pro Händlerkonto besitzen."
 
-#: application/Controller/Frontend/Post.php:553
+#: application/Controller/Frontend/Post.php:573
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr ""
 "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: application/Controller/Frontend/Post.php:554
+#: application/Controller/Frontend/Post.php:574
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: application/Controller/Frontend/Post.php:555
+#: application/Controller/Frontend/Post.php:575
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: application/Controller/Frontend/Post.php:556
+#: application/Controller/Frontend/Post.php:576
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
-#: application/Controller/Frontend/Post.php:557
+#: application/Controller/Frontend/Post.php:577
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:559
+#: application/Controller/Frontend/Post.php:579
 #: application/Module/Purchase.php:176
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
-#: application/Controller/Frontend/Post.php:560
+#: application/Controller/Frontend/Post.php:580
 #: application/Module/Purchase.php:172 application/Module/Purchase.php:271
 #: application/Module/Purchase.php:284
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
-#: application/Controller/Frontend/Post.php:561
+#: application/Controller/Frontend/Post.php:581
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
-#: application/Controller/Frontend/Post.php:668
+#: application/Controller/Frontend/Post.php:688
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
 "&mdash; {teaser_content}"
@@ -1525,7 +1493,7 @@ msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:260 application/Module/TimePasses.php:368
+#: application/Module/Purchase.php:260 application/Module/TimePasses.php:376
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
@@ -1541,7 +1509,7 @@ msgstr ""
 "Zahlungsmethode Ihres Vertrauens."
 
 #: application/Module/Purchase.php:276 application/Module/Purchase.php:289
-#: application/Module/TimePasses.php:376
+#: application/Module/TimePasses.php:384
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
@@ -1576,31 +1544,63 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie %s %s erreicht haben. Erst dann müssen Sie "
 "sich registrieren und bezahlen."
 
-#: application/Module/TimePasses.php:300
+#: application/Module/TimePasses.php:306
 msgid "Buy a time pass to read the full content."
 msgstr "Kaufen Sie einen Zeitpass, um den gesamten Inhalt anzuzeigen."
 
-#: application/Module/TimePasses.php:340
+#: application/Module/TimePasses.php:348
 msgid "Wrong time pass id or no time passes specified."
 msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
 
-#: application/Module/TimePasses.php:371
+#: application/Module/TimePasses.php:379
 msgid "Buy Time Pass"
 msgstr "Zeitpass kaufen"
 
-#: application/Module/TimePasses.php:372
+#: application/Module/TimePasses.php:380
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
 "Ihres Vertrauens."
 
-#: application/Module/TimePasses.php:377
+#: application/Module/TimePasses.php:385
 msgid ""
 "Immediately access your content. <br>A time pass is not a subscription, it "
 "expires automatically."
 msgstr ""
 "Greifen Sie sofort auf Ihre Inhalte zu.<br>\n"
 "Ein Zeitpass ist kein Abo, denn er läuft automatisch aus."
+
+#: built_assets/js/vendor/velocity.min.js:3
+msgid "translateX"
+msgstr ""
+
+#: built_assets/js/vendor/velocity.min.js:3
+msgid "translateY"
+msgstr ""
+
+#: built_assets/js/vendor/velocity.min.js:3
+msgid "skewX"
+msgstr ""
+
+#: built_assets/js/vendor/velocity.min.js:3
+msgid "skewY"
+msgstr ""
+
+#: built_assets/js/vendor/velocity.min.js:3
+msgid "scale"
+msgstr ""
+
+#: built_assets/js/vendor/velocity.min.js:3
+msgid "scaleX"
+msgstr ""
+
+#: built_assets/js/vendor/velocity.min.js:3
+msgid "scaleY"
+msgstr ""
+
+#: built_assets/js/vendor/velocity.min.js:3
+msgid "rotateZ"
+msgstr ""
 
 #: views/backend/account.php:21 views/backend/appearance.php:19
 #: views/backend/pricing.php:19
@@ -1732,6 +1732,57 @@ msgstr ""
 msgid ""
 "If you haven't done any configuration yet, you can safely switch the region "
 "without further adjustments. "
+msgstr ""
+
+#: views/backend/account.php:245
+msgid "General FAQs"
+msgstr ""
+
+#: views/backend/account.php:248
+msgid "Having Trouble with Page Cache?"
+msgstr ""
+
+#: views/backend/account.php:252
+msgid ""
+"You need to whitelist the following cookies from caching in order for page-"
+"cache to work properly with laterpay."
+msgstr ""
+
+#: views/backend/account.php:258
+msgid ""
+"We have already taken care of this if you're on a WordPress VIP Environment."
+msgstr ""
+
+#: views/backend/account.php:267
+msgid "Having Trouble on WPEngine?"
+msgstr ""
+
+#: views/backend/account.php:271
+msgid ""
+"If you're facing the issue on WPEngine even after whitelisting requested "
+"cookies, please check if any of your active plugin/theme is using"
+msgstr ""
+
+#: views/backend/account.php:271
+msgid "session*"
+msgstr ""
+
+#: views/backend/account.php:271
+#, fuzzy
+#| msgid "Subscriptions"
+msgid "functions."
+msgstr "Abos"
+
+#: views/backend/account.php:272
+msgid "Please Check"
+msgstr ""
+
+#: views/backend/account.php:272
+msgid "this"
+msgstr ""
+
+#: views/backend/account.php:272
+msgid "for more information regarding session usage on WPEngine."
 msgstr ""
 
 #: views/backend/appearance.php:33
@@ -2219,16 +2270,6 @@ msgstr ""
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr "Klicken Sie auf den \"Erstellen\" Button, um ein Abo hinzuzufügen."
 
-#: views/backend/pricing.php:720
-msgid ""
-"Important: if your LaterPay merchant account has been created before June "
-"2017, please contact sales@laterpay.net to check, if subscriptions are "
-"enabled for your account."
-msgstr ""
-"Wichtig: Wenn Ihr LaterPay Händlerkonto vor Juni 2017 erstellt wurde, "
-"kontaktieren Sie bitte sales@laterpay.net um zu prüfen, ob Abos für Ihr "
-"Konto aktiviert sind."
-
 #: views/frontend/partials/post/gift/gift-actions.php:18
 msgid "Gift Code"
 msgstr "Gutschein-Code"
@@ -2305,6 +2346,15 @@ msgstr "Zeitpass kaufen"
 #: views/frontend/partials/widget/time-passes.php:34
 msgid "Redeem Voucher >"
 msgstr "Gutschein einlösen >"
+
+#~ msgid ""
+#~ "Important: if your LaterPay merchant account has been created before June "
+#~ "2017, please contact sales@laterpay.net to check, if subscriptions are "
+#~ "enabled for your account."
+#~ msgstr ""
+#~ "Wichtig: Wenn Ihr LaterPay Händlerkonto vor Juni 2017 erstellt wurde, "
+#~ "kontaktieren Sie bitte sales@laterpay.net um zu prüfen, ob Abos für Ihr "
+#~ "Konto aktiviert sind."
 
 #~ msgid "Unexpected error during plugin init"
 #~ msgstr "Unerwarteter Fehler während Plugin-Initialisierung"
