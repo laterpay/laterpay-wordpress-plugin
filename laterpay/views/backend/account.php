@@ -249,8 +249,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <br/>
                     <div class="lp-details-summary">
-                        <p><?php esc_html_e( 'If you are using page-cache you need to whitelist cookies.', 'laterpay' ); ?></p>
-                        <p><?php esc_html_e( 'Cookies to be bypassed for LaterPay to work on an environment with page-cahce enabled.', 'laterpay' ); ?></p>
+                        <p><?php esc_html_e( 'You need to whitelist the following cookies from caching in order for page-cache to work properly with laterpay.', 'laterpay' ); ?></p>
                         <ol class="lp-list">
                             <li>laterpay_token</li>
                             <li>laterpay_purchased_gift_card</li>
@@ -260,16 +259,22 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </details>
 
+                <?php
+                // Only show info if on WPEngine environment.
+                if ( function_exists( 'is_wpe' ) && is_wpe() ) {
+                    ?>
                 <details class="lp-faq">
                     <summary><?php esc_html_e( 'Having Trouble on WPEngine?', 'laterpay' ); ?></summary>
 
                     <br/>
-                    <p><?php esc_html_e( 'Details on Plugin behaviour on a WPEngine Environment.', 'laterpay' ); ?></p>
                     <div class="lp-details-summary">
-                        <p><?php printf( '%1$s <i>%2$s</i> %3$s', esc_html__( 'If you\'re facing the issue on WPEngine even after whitelisting requested cookies, please check if any of your active plugin/theme is using', 'laterpay' ), esc_attr__( 'session*', 'laterpay' ), esc_html__( 'functions.', 'laterpay' ) ); ?></p>
+                        <p><?php printf( '%1$s  <code>%2$s</code> %3$s', esc_html__( 'If you\'re facing the issue on WPEngine even after whitelisting requested cookies, please check if any of your active plugin/theme is using', 'laterpay' ), esc_attr__( 'session*', 'laterpay' ), esc_html__( 'functions.', 'laterpay' ) ); ?></p>
                         <p class="lp-text"><?php printf('%1$s <a href=%2$s target="_blank">%3$s</a> %4$s', esc_html__( 'Please Check', 'laterpay' ), esc_url( 'https://wpengine.com/support/cookies-and-php-sessions/' ), esc_html__( 'this', 'laterpay' ), esc_html__( 'for more information regarding session usage on WPEngine.',  'laterpay' ) ); ?></p>
                     </div>
                 </details>
+                    <?php
+                }
+                ?>
 
             </fieldset>
         </div>
