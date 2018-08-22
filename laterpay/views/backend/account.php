@@ -240,6 +240,45 @@ if ( ! defined( 'ABSPATH' ) ) {
             </fieldset>
         </div>
 
+        <div class="lp_clearfix">
+            <fieldset class="lp_fieldset">
+                <legend class="lp_legend"><?php esc_html_e( 'General FAQs', 'laterpay' ); ?></legend>
+
+                <details class="lp-faq">
+                    <summary><?php esc_html_e( 'Having Trouble with Page Cache?', 'laterpay' ); ?></summary>
+
+                    <br/>
+                    <div class="lp-details-summary">
+                        <p><?php esc_html_e( 'You need to whitelist the following cookies from caching in order for page-cache to work properly with laterpay.', 'laterpay' ); ?></p>
+                        <ol class="lp-list">
+                            <li>laterpay_token</li>
+                            <li>laterpay_purchased_gift_card</li>
+                            <li>laterpay_tracking_code</li>
+                        </ol>
+                        <p class="lp-text"><?php esc_html_e( 'We have already taken care of this if you\'re on a WordPress VIP Environment.', 'laterpay' ); ?></p>
+                    </div>
+                </details>
+
+                <?php
+                // Only show info if on WPEngine environment.
+                if ( function_exists( 'is_wpe' ) && is_wpe() ) {
+                    ?>
+                <details class="lp-faq">
+                    <summary><?php esc_html_e( 'Having Trouble on WPEngine?', 'laterpay' ); ?></summary>
+
+                    <br/>
+                    <div class="lp-details-summary">
+                        <p><?php printf( '%1$s  <code>%2$s</code> %3$s', esc_html__( 'If you\'re facing the issue on WPEngine even after whitelisting requested cookies, please check if any of your active plugin/theme is using', 'laterpay' ), esc_attr__( 'session*', 'laterpay' ), esc_html__( 'functions.', 'laterpay' ) ); ?></p>
+                        <p class="lp-text"><?php printf('%1$s <a href=%2$s target="_blank">%3$s</a> %4$s', esc_html__( 'Please Check', 'laterpay' ), esc_url( 'https://wpengine.com/support/cookies-and-php-sessions/' ), esc_html__( 'this', 'laterpay' ), esc_html__( 'for more information regarding session usage on WPEngine.',  'laterpay' ) ); ?></p>
+                    </div>
+                </details>
+                    <?php
+                }
+                ?>
+
+            </fieldset>
+        </div>
+
     </div>
 
 </div>
