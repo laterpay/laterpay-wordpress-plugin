@@ -588,10 +588,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             // remove vouchers
             LaterPay_Helper_Voucher::delete_voucher_code( $time_pass_id );
 
+            if ( ! LaterPay_Helper_TimePass::get_time_passes_count( true ) && ! LaterPay_Helper_Subscription::get_subscriptions_count( true ) ) {
+
+                update_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
+            }
+
             $event->set_result(
                 array(
-                    'success' => true,
-                    'message' => __( 'Time pass deleted.', 'laterpay' ),
+                    'success'             => true,
+                    'purchase_mode_value' => get_option( 'laterpay_only_time_pass_purchases_allowed' ),
+                    'message'             => __( 'Time pass deleted.', 'laterpay' ),
                 )
             );
         } else {
@@ -683,10 +689,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             // remove subscription
             $subscription_model->delete_subscription_by_id( $sub_id );
 
+            if ( ! LaterPay_Helper_TimePass::get_time_passes_count( true ) && ! LaterPay_Helper_Subscription::get_subscriptions_count( true ) ) {
+
+                update_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
+            }
+
             $event->set_result(
                 array(
-                    'success' => true,
-                    'message' => __( 'Subscription deleted.', 'laterpay' ),
+                    'success'             => true,
+                    'purchase_mode_value' => get_option( 'laterpay_only_time_pass_purchases_allowed' ),
+                    'message'             => __( 'Subscription deleted.', 'laterpay' ),
                 )
             );
         } else {

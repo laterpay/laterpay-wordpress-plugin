@@ -1161,11 +1161,11 @@
                                     if ($($entity.wrapper + ':visible').length === 0) {
                                         $($o.emptyState, $entity.editor).velocity('fadeIn', { duration: 400 });
 
-                                        // switch the purchase mode button back to also allow individual purchases
-                                        if ($o.purchaseModeInput.prop('checked')) {
-                                            $o.purchaseModeInput
-                                            .prop('checked', false)
-                                            .change();
+                                        // set toggle according to current purchase mode value.
+                                        if ( '1' === r.purchase_mode_value ) {
+                                            $o.purchaseModeInput.prop('checked', true );
+                                        } else {
+                                            $o.purchaseModeInput.prop('checked', false );
                                         }
                                     }
                                 } else {
