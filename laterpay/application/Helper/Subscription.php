@@ -401,11 +401,14 @@ class LaterPay_Helper_Subscription
     /**
      * Get count of existing subscriptions.
      *
+     * @param bool $ignore_deleted ignore count of deleted pass.
+     *
      * @return int count of subscriptions
      */
-    public static function get_subscriptions_count() {
+    public static function get_subscriptions_count( $ignore_deleted = false ) {
         $model = LaterPay_Model_SubscriptionWP::get_instance();
-        return $model->get_subscriptions_count();
+
+        return $model->get_subscriptions_count( $ignore_deleted );
     }
 
 }
