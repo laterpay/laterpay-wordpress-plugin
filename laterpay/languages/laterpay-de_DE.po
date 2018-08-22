@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2018-08-21 18:20+0530\n"
-"PO-Revision-Date: 2018-08-21 18:21+0530\n"
+"POT-Creation-Date: 2018-08-23 00:41+0530\n"
+"PO-Revision-Date: 2018-08-23 00:41+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -503,8 +503,8 @@ msgstr "LaterPay funktioniert nicht ohne gültige API Zugangsdaten."
 #: application/Controller/Admin/Account.php:89
 #: application/Controller/Admin/Appearance.php:105
 #: application/Controller/Admin/Pricing.php:177
-#: application/Controller/Admin/Pricing.php:364
-#: application/Controller/Admin/Pricing.php:438
+#: application/Controller/Admin/Pricing.php:360
+#: application/Controller/Admin/Pricing.php:434
 #: application/Controller/Frontend/PreviewMode.php:115
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
@@ -585,7 +585,7 @@ msgstr ""
 
 #: application/Controller/Admin/Account.php:366
 #: application/Controller/Admin/Pricing.php:299
-#: application/Controller/Admin/Pricing.php:348
+#: application/Controller/Admin/Pricing.php:344
 msgid "An error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
 
@@ -690,7 +690,7 @@ msgid "Price Type"
 msgstr "Preistyp"
 
 #: application/Controller/Admin/Post/Column.php:87
-#: application/Helper/Pricing.php:865
+#: application/Helper/Pricing.php:873
 #: views/backend/partials/post-pricing-form.php:40
 #: views/backend/pricing.php:120 views/backend/pricing.php:225
 #: views/backend/pricing.php:330 views/backend/pricing.php:499
@@ -698,7 +698,7 @@ msgid "Pay Now"
 msgstr "Sofort zahlen"
 
 #: application/Controller/Admin/Post/Column.php:88
-#: application/Helper/Pricing.php:868 application/Module/Purchase.php:294
+#: application/Helper/Pricing.php:876 application/Module/Purchase.php:294
 #: views/backend/partials/post-pricing-form.php:27
 #: views/backend/pricing.php:220 views/backend/pricing.php:325
 #: views/backend/pricing.php:494
@@ -858,86 +858,83 @@ msgid "All posts in category"
 msgstr "aller Beiträge in Kategorie"
 
 #: application/Controller/Admin/Pricing.php:313
-msgid "All posts are free by default now."
-msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
-
-#: application/Controller/Admin/Pricing.php:316
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der allgemeine Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: application/Controller/Admin/Pricing.php:379
+#: application/Controller/Admin/Pricing.php:375
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: application/Controller/Admin/Pricing.php:415
+#: application/Controller/Admin/Pricing.php:411
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: application/Controller/Admin/Pricing.php:460
+#: application/Controller/Admin/Pricing.php:456
 #, php-format
 msgid "The default price for category %s was deleted."
 msgstr "Der Standardpreis für die Kategorie %s wurde entfernt."
 
-#: application/Controller/Admin/Pricing.php:518
+#: application/Controller/Admin/Pricing.php:514
 msgid "An error occurred when trying to save the time pass. Please try again."
 msgstr ""
 "Beim Speichern des Zeitpasses ist ein Fehler aufgetreten. Bitte versuchen "
 "Sie es noch einmal."
 
-#: application/Controller/Admin/Pricing.php:573
+#: application/Controller/Admin/Pricing.php:569
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: application/Controller/Admin/Pricing.php:598
+#: application/Controller/Admin/Pricing.php:600
 msgid "Time pass deleted."
 msgstr "Zeitpass gelöscht."
 
-#: application/Controller/Admin/Pricing.php:605
+#: application/Controller/Admin/Pricing.php:607
 msgid "The selected pass was deleted already."
 msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 
-#: application/Controller/Admin/Pricing.php:648
+#: application/Controller/Admin/Pricing.php:650
 msgid ""
 "An error occurred when trying to save the subscription. Please try again."
 msgstr ""
 "Während des Speicherns des Abos ist ein Fehler aufgetreten. Bitte versuchen "
 "Sie es erneut."
 
-#: application/Controller/Admin/Pricing.php:671
+#: application/Controller/Admin/Pricing.php:673
 msgid "Subscription saved."
 msgstr "Abo gespeichert."
 
-#: application/Controller/Admin/Pricing.php:693
+#: application/Controller/Admin/Pricing.php:701
 msgid "Subscription deleted."
 msgstr "Abo gelöscht."
 
-#: application/Controller/Admin/Pricing.php:700
+#: application/Controller/Admin/Pricing.php:708
 msgid "The selected subscription was deleted already."
 msgstr "Dieses Abo wurde bereits gelöscht."
 
-#: application/Controller/Admin/Pricing.php:755
+#: application/Controller/Admin/Pricing.php:763
 msgid "Incorrect voucher price."
 msgstr "Ungültiger Gutschein-Preis."
 
-#: application/Controller/Admin/Pricing.php:804
+#: application/Controller/Admin/Pricing.php:812
 msgid ""
-"You have to create a time pass, before you can disable individual purchases."
+"You have to create a time pass or subscription, before you can disable "
+"individual purchases."
 msgstr ""
 "Sie müssen einen Zeitpass erstellen, bevor Sie Einzelkäufe deaktivieren "
 "können."
 
-#: application/Controller/Admin/Pricing.php:828
+#: application/Controller/Admin/Pricing.php:836
 msgid "Passes"
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:829 views/backend/pricing.php:363
+#: application/Controller/Admin/Pricing.php:837 views/backend/pricing.php:363
 #: views/backend/pricing.php:412
 msgid "Pass"
 msgstr "Pass"
 
-#: application/Controller/Admin/Pricing.php:839
+#: application/Controller/Admin/Pricing.php:847
 msgid "Laterpay Passes Post type Registration issue."
 msgstr ""
 
@@ -1276,43 +1273,43 @@ msgstr "Ich habe ein LaterPay Pro Händlerkonto."
 msgid "Please choose, if you have a LaterPay Pro merchant account."
 msgstr "Bitte aktivieren, wenn Sie ein LaterPay Pro Händlerkonto besitzen."
 
-#: application/Controller/Frontend/Post.php:573
+#: application/Controller/Frontend/Post.php:596
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr ""
 "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: application/Controller/Frontend/Post.php:574
+#: application/Controller/Frontend/Post.php:597
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: application/Controller/Frontend/Post.php:575
+#: application/Controller/Frontend/Post.php:598
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: application/Controller/Frontend/Post.php:576
+#: application/Controller/Frontend/Post.php:599
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
-#: application/Controller/Frontend/Post.php:577
+#: application/Controller/Frontend/Post.php:600
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:579
+#: application/Controller/Frontend/Post.php:602
 #: application/Module/Purchase.php:176
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
-#: application/Controller/Frontend/Post.php:580
+#: application/Controller/Frontend/Post.php:603
 #: application/Module/Purchase.php:172 application/Module/Purchase.php:271
 #: application/Module/Purchase.php:284
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
-#: application/Controller/Frontend/Post.php:581
+#: application/Controller/Frontend/Post.php:604
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
-#: application/Controller/Frontend/Post.php:688
+#: application/Controller/Frontend/Post.php:674
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
 "&mdash; {teaser_content}"
@@ -1493,7 +1490,8 @@ msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:260 application/Module/TimePasses.php:376
+#: application/Module/Purchase.php:260 application/Module/TimePasses.php:398
+#: application/Module/TimePasses.php:420 application/Module/TimePasses.php:437
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
@@ -1509,7 +1507,7 @@ msgstr ""
 "Zahlungsmethode Ihres Vertrauens."
 
 #: application/Module/Purchase.php:276 application/Module/Purchase.php:289
-#: application/Module/TimePasses.php:384
+#: application/Module/TimePasses.php:406
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
@@ -1544,31 +1542,61 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie %s %s erreicht haben. Erst dann müssen Sie "
 "sich registrieren und bezahlen."
 
-#: application/Module/TimePasses.php:306
+#: application/Module/TimePasses.php:305
+msgid "Buy a time pass or subscription to read the full content."
+msgstr "Kaufen Sie einen Zeitpass, um den gesamten Inhalt anzuzeigen."
+
+#: application/Module/TimePasses.php:307
 msgid "Buy a time pass to read the full content."
 msgstr "Kaufen Sie einen Zeitpass, um den gesamten Inhalt anzuzeigen."
 
-#: application/Module/TimePasses.php:348
+#: application/Module/TimePasses.php:309
+msgid "Buy a subscription to read the full content."
+msgstr "Kaufen Sie einen Zeitpass, um den gesamten Inhalt anzuzeigen."
+
+#: application/Module/TimePasses.php:350
 msgid "Wrong time pass id or no time passes specified."
 msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
 
-#: application/Module/TimePasses.php:379
+#: application/Module/TimePasses.php:401
 msgid "Buy Time Pass"
 msgstr "Zeitpass kaufen"
 
-#: application/Module/TimePasses.php:380
+#: application/Module/TimePasses.php:402
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
 "Ihres Vertrauens."
 
-#: application/Module/TimePasses.php:385
+#: application/Module/TimePasses.php:407
 msgid ""
 "Immediately access your content. <br>A time pass is not a subscription, it "
 "expires automatically."
 msgstr ""
 "Greifen Sie sofort auf Ihre Inhalte zu.<br>\n"
 "Ein Zeitpass ist kein Abo, denn er läuft automatisch aus."
+
+#: application/Module/TimePasses.php:423
+msgid "Buy Subscription"
+msgstr "Abos"
+
+#: application/Module/TimePasses.php:424
+msgid "Buy a LaterPay subscription and pay with a payment method you trust."
+msgstr ""
+"Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
+"Ihres Vertrauens."
+
+#: application/Module/TimePasses.php:440
+msgid "Buy a Time Pass or Subscription"
+msgstr "Positionierung von Zeitpässen"
+
+#: application/Module/TimePasses.php:441
+msgid ""
+"Buy a LaterPay timepass or subscription and pay with a payment method you "
+"trust."
+msgstr ""
+"Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
+"Ihres Vertrauens."
 
 #: built_assets/js/vendor/velocity.min.js:3
 msgid "translateX"
@@ -1768,8 +1796,6 @@ msgid "session*"
 msgstr ""
 
 #: views/backend/account.php:271
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "functions."
 msgstr "Abos"
 
@@ -2335,6 +2361,14 @@ msgstr "Code eingeben"
 msgid "Redeem Voucher Code"
 msgstr "Gutschein-Code einlösen"
 
+#: views/frontend/partials/widget/subscriptions-link.php:8
+msgid "View available LaterPay Subscriptions"
+msgstr "Verfügbare LaterPay Zeitpässe anzeigen"
+
+#: views/frontend/partials/widget/subscriptions-link.php:8
+msgid "Get a Subscription"
+msgstr "Abos"
+
 #: views/frontend/partials/widget/time-passes-link.php:8
 msgid "View available LaterPay Time Passes"
 msgstr "Verfügbare LaterPay Zeitpässe anzeigen"
@@ -2346,6 +2380,17 @@ msgstr "Zeitpass kaufen"
 #: views/frontend/partials/widget/time-passes.php:34
 msgid "Redeem Voucher >"
 msgstr "Gutschein einlösen >"
+
+#: views/frontend/partials/widget/timepass-subscription-link.php:8
+msgid "View available LaterPay Time Passes and Subscriptions"
+msgstr "Verfügbare LaterPay Zeitpässe anzeigen"
+
+#: views/frontend/partials/widget/timepass-subscription-link.php:8
+msgid "Get a Time Pass or Subscription"
+msgstr "Positionierung von Zeitpässen"
+
+#~ msgid "All posts are free by default now."
+#~ msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
 
 #~ msgid ""
 #~ "Important: if your LaterPay merchant account has been created before June "
