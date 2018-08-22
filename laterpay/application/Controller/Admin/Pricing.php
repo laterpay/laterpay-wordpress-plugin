@@ -309,15 +309,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         update_option( 'laterpay_global_price', $delocalized_global_price );
         update_option( 'laterpay_global_price_revenue_model', $global_price_revenue_model );
 
-        if ( ! get_option( 'laterpay_global_price' ) ) {
-            $message = __( 'All posts are free by default now.', 'laterpay' );
-        } else {
-            $message = sprintf(
-                __( 'The global default price for all posts is %s %s now.', 'laterpay' ),
-                $localized_global_price,
-                $this->config->get( 'currency.code' )
-            );
-        }
+        $message = sprintf(
+            __( 'The global default price for all posts is %s %s now.', 'laterpay' ),
+            $localized_global_price,
+            $this->config->get( 'currency.code' )
+        );
 
         $event->set_result(
             array(
