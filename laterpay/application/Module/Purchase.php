@@ -169,16 +169,20 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
         $only_timepass = (bool) get_option( 'laterpay_only_time_pass_purchases_allowed' );
 
+        // If Individual purchase is turned off then select revenue model of timepass or subscription.
         if ( $only_timepass ) {
 
             $content_data = (array) $overlay_content_event->get_result();
 
+            // Check if timepass(es) exist.
             if ( ! empty( $content_data['timepasses'] ) ) {
 
+                // If timepass(es) available, then select revenue model of first timepass.
                 $revenue_model = $content_data['timepasses'][0]['revenue'];
 
             } else {
 
+                // If timepass(es) not available, then select revenue model of subscription.
                 $revenue_model = 'sub';
 
             }
