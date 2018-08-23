@@ -52,14 +52,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <?php endif; ?>
                         <?php if ( isset( $overlay_data['timepasses'] ) ) : ?>
+                            <?php $individual_timepass = ( !isset( $overlay_data['article'] ) && empty( $overlay_data['subscriptions'] ) && count( $overlay_data['timepasses'] ) === 1 ); ?>
                             <?php foreach ( $overlay_data['timepasses'] as $timepass ) : ?>
-                                <div class="lp_purchase-overlay-option lp_js_timePass"
+                                <div class="lp_purchase-overlay-option <?php if ( $individual_timepass ):?> lp_purchase-overlay-option-single<?php endif;?> lp_js_timePass"
                                      data-pass-id="<?php echo esc_attr( $timepass['id'] ); ?>"
                                      data-revenue="<?php echo esc_attr( $timepass['revenue'] );?>">
                                     <div class="lp_purchase-overlay-option__button">
                                         <input id="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id ); ?>" type="radio"
                                                class="lp_purchase-overlay-option__input" value="<?php echo esc_url( $timepass['url'] ); ?>"
-                                               name="lp_purchase-overlay-option">
+                                               name="lp_purchase-overlay-option" <?php if ( $individual_timepass ):?> checked <?php endif;?>>
                                         <label for="lp_purchaseOverlayOptionInput<?php echo esc_html( $input_id++ ); ?>" class="lp_purchase-overlay-option__label"></label>
                                     </div>
                                     <div class="lp_purchase-overlay-option__name">
@@ -82,11 +83,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php endforeach; ?>
                         <?php endif; ?>
                         <?php if ( isset( $overlay_data['subscriptions'] ) ) : ?>
+                            <?php $individual_subscription = ( !isset( $overlay_data['article'] ) && empty( $overlay_data['timepasses'] ) && count( $overlay_data['subscriptions'] ) === 1 ); ?>
                             <?php foreach ( $overlay_data['subscriptions'] as $subscription ) : ?>
-                                <div class="lp_purchase-overlay-option" data-revenue="<?php echo esc_attr( $subscription['revenue'] );?>">
+                                <div class="lp_purchase-overlay-option <?php if ( $individual_subscription ):?> lp_purchase-overlay-option-single<?php endif;?>" data-revenue="<?php echo esc_attr( $subscription['revenue'] );?>">
                                     <div class="lp_purchase-overlay-option__button">
                                         <input id="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id ); ?>" type="radio"
-                                               class="lp_purchase-overlay-option__input" value="<?php echo esc_url( $subscription['url'] ); ?>" name="lp_purchase-overlay-option">
+                                               class="lp_purchase-overlay-option__input" value="<?php echo esc_url( $subscription['url'] ); ?>" name="lp_purchase-overlay-option" <?php if ( $individual_subscription ):?> checked <?php endif;?>>
                                         <label for="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id++ ); ?>" class="lp_purchase-overlay-option__label"></label>
                                     </div>
                                     <div class="lp_purchase-overlay-option__name">
