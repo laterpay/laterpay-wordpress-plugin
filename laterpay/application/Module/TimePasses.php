@@ -421,7 +421,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $overlay_benefits = array(
                 array(
                     'title' => __( 'Buy Subscription', 'laterpay' ),
-                    'text'  => __( 'Buy a LaterPay subscription and pay with a payment method you trust.', 'laterpay' ),
+                    'text'  => __( 'Buy a subscription and pay with a payment method you trust.', 'laterpay' ),
                     'class' => 'lp_benefit--buy-now',
                 ),
             );
@@ -438,7 +438,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $overlay_benefits = array(
                 array(
                     'title' => __( 'Buy a Time Pass or Subscription', 'laterpay' ),
-                    'text'  => __( 'Buy a LaterPay timepass or subscription and pay with a payment method you trust.', 'laterpay' ),
+                    'text'  => __( 'Buy a timepass or subscription and pay with a payment method you trust.', 'laterpay' ),
                     'class' => 'lp_benefit--buy-now',
                 ),
             );

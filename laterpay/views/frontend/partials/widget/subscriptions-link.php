@@ -5,4 +5,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<a href="#lp_js_timePassWidget" class="lp_button" title="<?php esc_attr_e( 'View available LaterPay Subscriptions', 'laterpay' ); ?>"><?php esc_html_e( 'Get a Subscription', 'laterpay' ); ?></a>
+<a href="#lp_js_timePassWidget" class="lp_button" title="<?php esc_attr_e( 'View available Subscriptions', 'laterpay' ); ?>"><?php esc_html_e( 'Get a Subscription', 'laterpay' ); ?></a>
