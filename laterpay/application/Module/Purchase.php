@@ -193,6 +193,9 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             case 'sis':
                 $submit_text = __('Buy Now', 'laterpay');
                 break;
+            case 'sub':
+                $submit_text = __('Subscribe Now', 'laterpay');
+                break;
             case 'ppu':
             default:
                 $submit_text = __('Buy Now, Pay Later', 'laterpay');
