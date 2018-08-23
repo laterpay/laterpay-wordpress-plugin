@@ -167,6 +167,24 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $content_ids = LaterPay_Helper_Post::get_content_ids( $post->ID );
         $revenue_model = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
 
+        $only_timepass = (bool) get_option( 'laterpay_only_time_pass_purchases_allowed' );
+
+        if ( $only_timepass ) {
+
+            $content_data = (array) $overlay_content_event->get_result();
+
+            if ( ! empty( $content_data['timepasses'] ) ) {
+
+                $revenue_model = $content_data['timepasses'][0]['revenue'];
+
+            } else {
+
+                $revenue_model = 'sub';
+
+            }
+
+        }
+
         switch ($revenue_model) {
             case 'sis':
                 $submit_text = __('Buy Now', 'laterpay');
