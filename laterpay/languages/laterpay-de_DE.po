@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2018-08-23 00:41+0530\n"
-"PO-Revision-Date: 2018-08-23 00:41+0530\n"
+"POT-Creation-Date: 2018-08-23 22:08+0530\n"
+"PO-Revision-Date: 2018-08-23 22:08+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1544,7 +1544,7 @@ msgstr ""
 
 #: application/Module/TimePasses.php:305
 msgid "Buy a time pass or subscription to read the full content."
-msgstr "Kaufen Sie einen Zeitpass, um den gesamten Inhalt anzuzeigen."
+msgstr "Kaufen Sie einen Zeitpass oder ein Abo, um den gesamten Inhalt zu lesen"
 
 #: application/Module/TimePasses.php:307
 msgid "Buy a time pass to read the full content."
@@ -1552,7 +1552,7 @@ msgstr "Kaufen Sie einen Zeitpass, um den gesamten Inhalt anzuzeigen."
 
 #: application/Module/TimePasses.php:309
 msgid "Buy a subscription to read the full content."
-msgstr "Kaufen Sie einen Zeitpass, um den gesamten Inhalt anzuzeigen."
+msgstr "Kaufen Sie ein Abo, um den gesamten Inhalt zu lesen."
 
 #: application/Module/TimePasses.php:350
 msgid "Wrong time pass id or no time passes specified."
@@ -1578,25 +1578,23 @@ msgstr ""
 
 #: application/Module/TimePasses.php:423
 msgid "Buy Subscription"
-msgstr "Abos"
+msgstr "Abo kaufen"
 
 #: application/Module/TimePasses.php:424
-msgid "Buy a LaterPay subscription and pay with a payment method you trust."
+msgid "Buy a subscription and pay with a payment method you trust."
 msgstr ""
-"Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
-"Ihres Vertrauens."
+"Kaufen Sie ein Abo und bezahlen Sie mit einer Zahlungsmethode,  "
+"der Sie vertrauen."
 
 #: application/Module/TimePasses.php:440
 msgid "Buy a Time Pass or Subscription"
-msgstr "Positionierung von Zeitpässen"
+msgstr "Kaufen Sie einen Zeitpass oder ein Abo"
 
 #: application/Module/TimePasses.php:441
-msgid ""
-"Buy a LaterPay timepass or subscription and pay with a payment method you "
-"trust."
+msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
-"Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
-"Ihres Vertrauens."
+"Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer Zahlungsmethode, "
+"der Sie vertrauen."
 
 #: built_assets/js/vendor/velocity.min.js:3
 msgid "translateX"
@@ -2362,12 +2360,12 @@ msgid "Redeem Voucher Code"
 msgstr "Gutschein-Code einlösen"
 
 #: views/frontend/partials/widget/subscriptions-link.php:8
-msgid "View available LaterPay Subscriptions"
-msgstr "Verfügbare LaterPay Zeitpässe anzeigen"
+msgid "View available Subscriptions"
+msgstr "Verfügbare Abos anzeigen"
 
 #: views/frontend/partials/widget/subscriptions-link.php:8
 msgid "Get a Subscription"
-msgstr "Abos"
+msgstr "Abo kaufen"
 
 #: views/frontend/partials/widget/time-passes-link.php:8
 msgid "View available LaterPay Time Passes"
@@ -2382,12 +2380,12 @@ msgid "Redeem Voucher >"
 msgstr "Gutschein einlösen >"
 
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
-msgid "View available LaterPay Time Passes and Subscriptions"
-msgstr "Verfügbare LaterPay Zeitpässe anzeigen"
+msgid "View available Time Passes and Subscriptions"
+msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
-msgstr "Positionierung von Zeitpässen"
+msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
 #~ msgid "All posts are free by default now."
 #~ msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
