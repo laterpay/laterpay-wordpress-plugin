@@ -4,8 +4,8 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 4.6
-Tested up to: 4.9.6
-Stable tag: 0.12.1
+Tested up to: 4.9.8
+Stable tag: 0.12.2
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -185,6 +185,11 @@ Please see the "Test and Live Mode" section.
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 0.12.2 (August 24, 2018): Bugfix Release (v1.0 RC33) =
+* Add FAQ section in account tab, to inform users about known issues.
+* Fix issue with edit screen pointers.
+* Fix issue with global default price revenue model.
+
 = 0.12.0 (August 13, 2018): Bugfix Release (v1.0 RC32) =
 * Fix issue with post purchase display.
 * Fix translation issues.
@@ -631,8 +636,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 0.12.0 ( August 13, 2018 ): Bugfix Release (v1.0 RC32) =
-Fixed various bugs with laterpay functionality.
+= 0.12.2 ( August 24, 2018 ): Bugfix Release (v1.0 RC33) =
+Added FAQ section in Account tab and Fixed various bugs with laterpay functionality.
 
 == Arbitrary section ==
 
