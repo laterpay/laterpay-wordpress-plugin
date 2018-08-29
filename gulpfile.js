@@ -9,6 +9,7 @@ var gulp                        = require('gulp'),
     prompt                      = require('prompt'),
     dateFormat                  = require('dateformat'),
     zip                         = require('gulp-zip'),
+    wpPot                       = require('gulp-wp-pot'),
     p                           = {
                                         allfiles        : [
                                                             './laterpay/**/*.php',
@@ -54,6 +55,16 @@ gulp.task('clean', function(cb) {
             p.distIMG + '*.svg',
             p.distPlugin + 'vendor'
         ], cb);
+});
+
+// create laterpay.po file.
+gulp.task('makepot', function () {
+	return gulp.src(p.phpfiles)
+		.pipe(wpPot( {
+			domain: 'laterpay',
+			package: 'LaterPay'
+		} ))
+		.pipe(gulp.dest( p.distPlugin + 'languages/' + 'laterpay.po'));
 });
 
 // remove non-vip files.
