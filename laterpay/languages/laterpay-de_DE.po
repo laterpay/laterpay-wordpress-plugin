@@ -1762,52 +1762,56 @@ msgstr ""
 
 #: views/backend/account.php:245
 msgid "General FAQs"
-msgstr ""
+msgstr "Allgemeine FAQs"
 
 #: views/backend/account.php:248
 msgid "Having Trouble with Page Cache?"
-msgstr ""
+msgstr "Probleme mit dem Seiten-Cache?"
 
 #: views/backend/account.php:252
 msgid ""
 "You need to whitelist the following cookies from caching in order for page-"
 "cache to work properly with laterpay."
 msgstr ""
+"Sie müssen die folgenden Cookies in Ihrem Cache auf die White-List setzen, "
+"damit das Seiten-Cache ordnungsgemäß mit LaterPay funktioniert."
 
 #: views/backend/account.php:258
 msgid ""
 "We have already taken care of this if you're on a WordPress VIP Environment."
-msgstr ""
+msgstr "Wir haben uns bereits darum gekümmert, wenn Sie in einer WordPress VIP-Umgebung sind."
 
 #: views/backend/account.php:267
 msgid "Having Trouble on WPEngine?"
-msgstr ""
+msgstr "Probleme mit WPEngine?"
 
 #: views/backend/account.php:271
 msgid ""
 "If you're facing the issue on WPEngine even after whitelisting requested "
 "cookies, please check if any of your active plugin/theme is using"
 msgstr ""
+"Wenn das Problem auf WPEngine auch nach dem Aufrufen der angeforderten Cookies auf der White-List auftritt, "
+"überprüfen Sie, ob eines Ihrer aktiven Plugins / Themes verwendet wird"
 
 #: views/backend/account.php:271
 msgid "session*"
-msgstr ""
+msgstr "Session*"
 
 #: views/backend/account.php:271
 msgid "functions."
-msgstr "Abos"
+msgstr "Funktionen."
 
 #: views/backend/account.php:272
 msgid "Please Check"
-msgstr ""
+msgstr "Bitte klicken Sie"
 
 #: views/backend/account.php:272
 msgid "this"
-msgstr ""
+msgstr "hier"
 
 #: views/backend/account.php:272
 msgid "for more information regarding session usage on WPEngine."
-msgstr ""
+msgstr "für weitere Informationen zu Session-Verwendung in WPEngine."
 
 #: views/backend/appearance.php:33
 msgid "Content Preview for Paid Posts"

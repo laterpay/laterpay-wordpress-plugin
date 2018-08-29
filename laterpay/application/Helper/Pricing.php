@@ -497,6 +497,7 @@ class LaterPay_Helper_Pricing
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
+            default:
                 $revenue_model = get_option( 'laterpay_global_price_revenue_model' );
                 break;
         }
