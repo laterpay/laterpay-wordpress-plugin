@@ -310,7 +310,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         update_option( 'laterpay_global_price_revenue_model', $global_price_revenue_model );
 
         $message = sprintf(
-            __( 'The global default price for all posts is %s %s now.', 'laterpay' ),
+            esc_html__( 'The global default price for all posts is %s %s now.', 'laterpay' ),
             $localized_global_price,
             $this->config->get( 'currency.code' )
         );
@@ -597,7 +597,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 array(
                     'success'             => true,
                     'purchase_mode_value' => get_option( 'laterpay_only_time_pass_purchases_allowed' ),
-                    'message'             => __( 'Time pass deleted.', 'laterpay' ),
+                    'message'             => esc_html__( 'Time pass deleted.', 'laterpay' ),
                 )
             );
         } else {
@@ -698,7 +698,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 array(
                     'success'             => true,
                     'purchase_mode_value' => get_option( 'laterpay_only_time_pass_purchases_allowed' ),
-                    'message'             => __( 'Subscription deleted.', 'laterpay' ),
+                    'message'             => esc_html__( 'Subscription deleted.', 'laterpay' ),
                 )
             );
         } else {
@@ -809,7 +809,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $event->set_result(
                 array(
                     'success' => false,
-                    'message' => __( 'You have to create a time pass or subscription, before you can disable individual purchases.', 'laterpay' ),
+                    'message' => esc_html__( 'You have to create a time pass or subscription, before you can disable individual purchases.', 'laterpay' ),
                 )
             );
             return;

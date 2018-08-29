@@ -417,11 +417,11 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $event->set_result( $overlay_content );
 
         } else if ( ( floatval( 0.00 ) === floatval( $price ) || $only_time_passes_allowed ) && ( 0 === count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) ) {
-            $overlay_title = __( 'Read Now', 'laterpay' );
+            $overlay_title = esc_html__( 'Read Now', 'laterpay' );
             $overlay_benefits = array(
                 array(
-                    'title' => __( 'Buy Subscription', 'laterpay' ),
-                    'text'  => __( 'Buy a subscription and pay with a payment method you trust.', 'laterpay' ),
+                    'title' => esc_html__( 'Buy Subscription', 'laterpay' ),
+                    'text'  => esc_html__( 'Buy a subscription and pay with a payment method you trust.', 'laterpay' ),
                     'class' => 'lp_benefit--buy-now',
                 ),
             );
@@ -434,11 +434,11 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $event->set_result( $overlay_content );
 
         } else if ( ( floatval( 0.00 ) === floatval( $price ) || $only_time_passes_allowed ) && ( 0 !== count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) ) {
-            $overlay_title = __( 'Read Now', 'laterpay' );
+            $overlay_title = esc_html__( 'Read Now', 'laterpay' );
             $overlay_benefits = array(
                 array(
-                    'title' => __( 'Buy a Time Pass or Subscription', 'laterpay' ),
-                    'text'  => __( 'Buy a timepass or subscription and pay with a payment method you trust.', 'laterpay' ),
+                    'title' => esc_html__( 'Buy a Time Pass or Subscription', 'laterpay' ),
+                    'text'  => esc_html__( 'Buy a timepass or subscription and pay with a payment method you trust.', 'laterpay' ),
                     'class' => 'lp_benefit--buy-now',
                 ),
             );
