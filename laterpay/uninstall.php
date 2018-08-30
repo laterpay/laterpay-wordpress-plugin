@@ -141,7 +141,7 @@ if ( ! empty( $terms ) ) {
 // Get all timepasses and subscriptions.
 $args = [
      'post_type'      => [ 'lp_passes', 'lp_subscription' ],
-     'posts_per_page' => 100,
+     'posts_per_page' => 300,
      'no_found_rows'  => true,
      'post_status'    => [ 'publish', 'draft' ],
 ];
