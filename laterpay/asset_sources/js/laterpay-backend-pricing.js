@@ -209,10 +209,10 @@
             });
 
             // validate price and revenue model when entering a price
-            // (function is only triggered 800ms after the keyup)
+            // (function is only triggered 1500ms after the keyup)
             $o.body.on('keyup', $o.priceInput, debounce(function() {
                     validatePrice($(this).parents('form'));
-                }, 800)
+                }, 1500)
             );
 
             // enabled revenue models events -----------------------------------------------------------------------
@@ -339,7 +339,7 @@
             .on('keyup', $o.timepass.fields.price, debounce(function() {
                     validatePrice($(this).parents('form'), false, $(this));
                     updateEntityPreview('timepass', $(this).parents($o.timepass.wrapper), $(this));
-                }, 800)
+                }, 1500)
             );
 
             // cancel
@@ -374,7 +374,7 @@
             $o.timepass.editor
             .on('keyup', $o.voucherPriceInput, debounce(function() {
                     validatePrice($(this).parents('form'), true, $(this));
-                }, 800)
+                }, 1500)
             );
 
             // generate voucher code
@@ -445,7 +445,7 @@
             .on('keyup', $o.subscription.fields.price, debounce(function() {
                     validatePrice($(this).parents('form'), true, $(this), true);
                     updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
-                }, 1000)
+                }, 1500)
             );
 
             // cancel
