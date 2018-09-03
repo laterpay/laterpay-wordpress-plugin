@@ -279,6 +279,30 @@ if ( ! defined( 'ABSPATH' ) ) {
             </fieldset>
         </div>
 
+        <div class="lp_clearfix">
+            <fieldset class="lp_fieldset">
+                <legend class="lp_legend"><?php esc_html_e( 'Who is LaterPay?', 'laterpay' ); ?></legend>
+
+                <p class="lp_bold"><?php esc_html_e( 'Meet the online payment system that cares about the user experience as much as you do', 'laterpay' ); ?></p>
+
+                <p>
+                    <?php esc_html_e( 'With LaterPay, your users can purchase digital content and services, or make contributions and
+                    donations, with a single click—a frictionless experience that turns traffic into transactions.', 'laterpay' ); ?>
+                    <br/><br/>
+
+                    <?php esc_html_e( 'Requiring upfront registration and payment results in customer abandon rates of up to 98%.', 'laterpay' ); ?>
+                    <br/>
+                    <?php esc_html_e( 'LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold.', 'laterpay' ); ?>
+                    <br/>
+                    <?php esc_html_e( 'Only then, once your content’s value is firmly established, is the customer asked to register and pay.', 'laterpay' ); ?>
+                    <br/>
+                    <?php esc_html_e( 'This results in shopping cart conversion rates of over 80%.', 'laterpay' ); ?>
+                    <br/>
+                    <?php esc_html_e( 'LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ); ?>
+                </p>
+            </fieldset>
+        </div>
+
     </div>
 
 </div>
