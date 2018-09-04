@@ -248,6 +248,16 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </h2>
                         <p>
                             <?php
+                            /* translators: %1$s info text, %2$s link to wordpress categories codex page, %3$s link text*/
+                            printf( '%1$s<br/><a href="%2$s" target="_blank">%3$s</a>',
+                                esc_html__( 'Not familiar with WordPress categories?', 'laterpay' ),
+                                esc_url( 'https://codex.wordpress.org/Posts_Categories_Screen' ),
+                                esc_html__( 'Click here to learn more.', 'laterpay' )
+                            );
+                            ?>
+                        </p>
+                        <p>
+                            <?php
                             /* translators: %1$s info text1, %2$s info text2*/
                             printf( '%1$s<br>%2$s', esc_html__( 'Category default prices are convenient for selling different categories of content at different standard prices.', 'laterpay' ), esc_html__( 'Individual prices can be set when editing a post.', 'laterpay' ) );
                             ?>
