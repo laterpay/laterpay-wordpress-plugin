@@ -64,7 +64,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      * @return void
      */
     public function add_to_admin_panel() {
-        $plugin_page = LaterPay_Helper_View::$pluginPage;
+        if( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
+            $plugin_page = LaterPay_Helper_View::$pluginPage;
+        } else {
+            $plugin_page = 'laterpay-account-tab';
+        }
         add_menu_page(
             __( 'LaterPay Plugin Settings', 'laterpay' ),
             'LaterPay',
