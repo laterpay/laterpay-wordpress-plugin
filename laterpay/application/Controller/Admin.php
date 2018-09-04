@@ -201,14 +201,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $tab = filter_input(INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
         }
 
-        // return default tab, if no specific tab is requested
-        if ( empty( $tab ) ) {
-            $tab = 'pricing';
-        }
-
         switch ( $tab ) {
-            default:
-            // render pricing tab
             case 'pricing':
                 $pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
                 $pricing_controller->render_page();
