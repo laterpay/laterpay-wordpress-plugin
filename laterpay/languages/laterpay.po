@@ -591,54 +591,54 @@ msgstr ""
 msgid "live mode"
 msgstr ""
 
-#: laterpay/views/backend/account.php:36
+#: laterpay/views/backend/account.php:35
+msgid "The LaterPay plugin is in"
+msgstr ""
+
+#: laterpay/views/backend/account.php:51
+msgid "mode."
+msgstr ""
+
+#: laterpay/views/backend/account.php:55
+msgid "It is invisible"
+msgstr ""
+
+#: laterpay/views/backend/account.php:72
+msgid "visible to visitors."
+msgstr ""
+
+#: laterpay/views/backend/account.php:78
 msgid "Who is LaterPay?"
 msgstr ""
 
-#: laterpay/views/backend/account.php:38
+#: laterpay/views/backend/account.php:80
 msgid "Meet the online payment system that cares about the user experience as much as you do"
 msgstr ""
 
-#: laterpay/views/backend/account.php:41
+#: laterpay/views/backend/account.php:83
 msgid ""
 "With LaterPay, your users can purchase digital content and services, or make contributions and\n"
 "                    donations, with a single click—a frictionless experience that turns traffic into transactions."
 msgstr ""
 
-#: laterpay/views/backend/account.php:45
+#: laterpay/views/backend/account.php:87
 msgid "Requiring upfront registration and payment results in customer abandon rates of up to 98%."
 msgstr ""
 
-#: laterpay/views/backend/account.php:47
+#: laterpay/views/backend/account.php:89
 msgid "LaterPay's patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold."
 msgstr ""
 
-#: laterpay/views/backend/account.php:49
+#: laterpay/views/backend/account.php:91
 msgid "Only then, once your content’s value is firmly established, is the customer asked to register and pay."
 msgstr ""
 
-#: laterpay/views/backend/account.php:51
+#: laterpay/views/backend/account.php:93
 msgid "This results in shopping cart conversion rates of over 80%."
 msgstr ""
 
-#: laterpay/views/backend/account.php:53
+#: laterpay/views/backend/account.php:95
 msgid "LaterPay’s frictionless customer onboarding helps you turn traffic into transactions."
-msgstr ""
-
-#: laterpay/views/backend/account.php:59
-msgid "The LaterPay plugin is in"
-msgstr ""
-
-#: laterpay/views/backend/account.php:75
-msgid "mode."
-msgstr ""
-
-#: laterpay/views/backend/account.php:79
-msgid "It is invisible"
-msgstr ""
-
-#: laterpay/views/backend/account.php:96
-msgid "visible to visitors."
 msgstr ""
 
 #: laterpay/views/backend/account.php:104
