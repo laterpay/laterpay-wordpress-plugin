@@ -847,7 +847,7 @@ msgid "Call action 'laterpay_purchase_button' in your theme to render the LaterP
 msgstr ""
 
 #: laterpay/views/backend/appearance.php:237
-msgid "Display of LaterPay Time Passes"
+msgid "Display of LaterPay Subscriptions & Time Passes"
 msgstr ""
 
 #: laterpay/views/backend/appearance.php:265
