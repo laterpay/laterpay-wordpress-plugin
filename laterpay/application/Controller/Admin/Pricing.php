@@ -90,6 +90,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'confirmDeleteSubscription' => __( 'Do you really want to discontinue this subscription? If you delete it, it will continue to renew for users who have an active subscription until the user cancels it. Existing subscribers will still have access to the content in their subscription. New users won\'t be able to buy the subscription anymore. Do you want to delete this subscription?', 'laterpay' ),
             'voucherText'               => __( 'reduces the price to', 'laterpay' ),
             'timesRedeemed'             => __( 'times redeemed.', 'laterpay' ),
+            'payLaterToolTip'           => esc_html__( 'Pay Later allows users to gain access now by committing to pay once their invoice reaches $5 or 5€, it is available for posts with pricing between 0.05 and 5.00', 'laterpay' ),
+            'payNowToolTip'             => esc_html__( 'Pay Now requires users pay for purchased content immediately, available for posts with pricing above $1.99 or 1.49€', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
