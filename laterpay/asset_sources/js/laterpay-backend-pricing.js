@@ -545,6 +545,11 @@
                 // enable Pay-per-Use
                 $payPerUse.removeProp('disabled')
                     .parent('label').removeClass($o.disabled);
+
+                // Add info tooltip when disabled.
+                $singleSale.parent('label').attr( 'data-tooltip', lpVars.i18n.payNowToolTip );
+                $singleSale.parent('label').addClass( 'lp_tooltip' );
+                $payPerUse.parent('label').removeClass( 'lp_tooltip' );
             } else {
                 // disable Pay-per-Use
                 $payPerUse.prop('disabled', 'disabled')
@@ -556,6 +561,11 @@
                 // (prices > 149.99 Euro are fixed by validatePrice already)
                 $singleSale.removeProp('disabled')
                     .parent('label').removeClass($o.disabled);
+
+                // Add info tooltip when disabled.
+                $payPerUse.parent('label').attr( 'data-tooltip', lpVars.i18n.payLaterToolTip );
+                $payPerUse.parent('label').addClass( 'lp_tooltip' );
+                $singleSale.parent('label').removeClass( 'lp_tooltip' );
             } else {
                 // disable Single Sale
                 $singleSale.prop('disabled', 'disabled')
