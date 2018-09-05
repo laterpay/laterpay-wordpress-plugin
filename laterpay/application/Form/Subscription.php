@@ -190,5 +190,35 @@ class LaterPay_Form_Subscription extends LaterPay_Form_Abstract
                 )
             )
         );
+
+        $this->set_field(
+            'voucher_code',
+            array(
+                'validators' => array(
+                    'is_array',
+                ),
+                'can_be_null' => true,
+            )
+        );
+
+        $this->set_field(
+            'voucher_price',
+            array(
+                'validators' => array(
+                    'is_array',
+                ),
+                'can_be_null' => true,
+            )
+        );
+
+        $this->set_field(
+            'voucher_title',
+            array(
+                'validators' => array(
+                    'is_array',
+                ),
+                'can_be_null' => true,
+            )
+        );
     }
 }

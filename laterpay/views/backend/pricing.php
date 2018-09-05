@@ -610,6 +610,35 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <a href="#" class="lp_js_cancelEditingSubscription lp_inline-block lp_pd- lp_hidden"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_editSubscription lp_edit-link--bold lp_rounded--topright lp_inline-block" data-icon="d"></a>
                         <a href="#" class="lp_js_deleteSubscription lp_edit-link--bold lp_inline-block" data-icon="g"></a>
+
+                        <div class="lp_js_voucherList lp_vouchers">
+                            <?php if ( isset( $laterpay['sub_vouchers_list'][ $subscription['id'] ] ) ) : ?>
+                                <?php foreach ( $laterpay['sub_vouchers_list'][ $subscription['id'] ] as $voucher_code => $voucher_data ) : ?>
+                                    <div class="lp_js_voucher lp_voucher">
+                                        <?php if ( $voucher_data['title'] ) : ?>
+                                            <span class="lp_voucher__title"><b> <?php echo esc_html( $voucher_data['title'] ); ?></b></span>
+                                        <?php endif; ?>
+                                        <div>
+                                            <span class="lp_voucher__code"><?php echo esc_html( $voucher_code ); ?></span>
+                                            <span class="lp_voucher__code-infos">
+                                            <?php esc_html_e( 'reduces the price to', 'laterpay' ); ?>
+                                                <?php echo esc_html( $voucher_data['price'] . ' ' . $laterpay['currency']['code'] ); ?>.
+                                            <br>
+                                            <span class="lp_js_voucherTimesRedeemed">
+                                                <?php
+                                                echo esc_html( ( ! isset( $laterpay['vouchers_statistic'][ $subscription['id'] ][ $voucher_code ] ) ) ?
+                                                    0 :
+                                                    $laterpay['vouchers_statistic'][ $subscription['id'] ][ $voucher_code ]
+                                                );
+                                                ?>
+                                            </span>
+                                                <?php esc_html_e( 'times redeemed.', 'laterpay' ); ?>
+                                        </span>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 <?php endforeach; ?>
 
@@ -717,6 +746,22 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </td>
                                 </tr>
                             </table>
+
+                            <div class="lp_js_voucherEditor lp_mt-">
+                                <?php esc_html_e( 'Offer this subscription at a reduced price of', 'laterpay' ); ?>
+                                <input type="text"
+                                       name="voucher_price_temp"
+                                       class="lp_js_voucherPriceInput lp_input lp_number-input"
+                                       value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_Subscription::get_default_options( 'price' ) ) ); ?>"
+                                       maxlength="6">
+                                <span><?php echo esc_html( $laterpay['currency']['code'] ); ?></span>
+                                <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
+                                    <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
+                                </a>
+
+                                <div class="lp_js_voucherPlaceholder"></div>
+                            </div>
+
                         </form>
                     </div>
 
@@ -725,6 +770,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <a href="#" class="lp_js_editSubscription lp_edit-link--bold lp_rounded--topright lp_inline-block lp_hidden" data-icon="d"></a><br>
                     <a href="#" class="lp_js_deleteSubscription lp_edit-link--bold lp_inline-block lp_hidden" data-icon="g"></a>
+
+                    <div class="lp_js_voucherList lp_vouchers"></div>
                 </div>
 
                 <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['subscriptions_list'] ) ) { echo ' style="display:none;"'; } ?>>

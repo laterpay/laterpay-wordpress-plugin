@@ -171,6 +171,7 @@
                 data                                : {
                     id                                  : 'sub-id',
                     list                                : lpVars.subscriptions_list,
+                    vouchers                            : lpVars.sub_vouchers_list,
                     deleteConfirm                       : lpVars.i18n.confirmDeleteSubscription,
                     fields                              : {
                         id                              : 'id'
@@ -475,6 +476,29 @@
                 flipEntity('subscription', this);
             })
             .on('click', $o.subscription.actions.flip, function(e) {e.preventDefault();});
+
+            // set voucher price
+            $o.subscription.editor
+                .on('keyup', $o.voucherPriceInput, debounce(function() {
+                        validatePrice($(this).parents('form'), true, $(this), true);
+                    }, 1500)
+                );
+
+            // generate voucher code
+            $o.subscription.editor
+                .on('mousedown', $o.generateVoucherCode, function() {
+                    generateVoucherCode($(this).parents($o.subscription.wrapper));
+                })
+                .on('click', $o.generateVoucherCode, function(e) {
+                    e.preventDefault();
+                });
+
+            // delete voucher code
+            $o.subscription.editor
+                .on('click', $o.voucherDeleteLink, function(e) {
+                    deleteVoucher($(this).parent());
+                    e.preventDefault();
+                });
         },
 
         validatePrice = function($form, disableRevenueValidation, $input, subscriptionValidation) {
@@ -961,7 +985,19 @@
                     });
                 }
             } else if (type === 'subscription') {
-                validatePrice($wrapper.find('form'), true, $($entity.fields.price, $wrapper));
+                var sub_vouchers = $entity.data.vouchers[entityId];
+                validatePrice($wrapper.find('form'), true, $($entity.fields.price, $wrapper), true);
+
+                // set price input value into the voucher price input
+                $($o.voucherPriceInput, $wrapper).val($($entity.fields.price, $wrapper).val());
+
+                // re-generate vouchers list
+                clearVouchersList($wrapper);
+                if (sub_vouchers instanceof Object) {
+                    $.each(sub_vouchers, function(code, voucherData) {
+                        addVoucher(code, voucherData, $wrapper);
+                    });
+                }
             }
 
             $($entity.categoryWrapper, $wrapper).hide();
@@ -1062,17 +1098,15 @@
             // hide action links required when editing time pass
             $($entity.actions.show, $wrapper).addClass($o.hidden);
 
-            if (type === 'timepass') {
-                // re-generate vouchers list
-                clearVouchersList($wrapper);
-                if ($entity.data.vouchers[id] instanceof Object) {
-                    $.each($entity.data.vouchers[id], function(code, voucherData) {
-                        addVoucherToList(code, voucherData, $wrapper);
-                    });
+            // re-generate vouchers list
+            clearVouchersList($wrapper);
+            if ($entity.data.vouchers[id] instanceof Object) {
+                $.each($entity.data.vouchers[id], function(code, voucherData) {
+                    addVoucherToList(code, voucherData, $wrapper);
+                });
 
-                    // show vouchers
-                    $wrapper.find($o.voucherList).show();
-                }
+                // show vouchers
+                $wrapper.find($o.voucherList).show();
             }
 
             // show 'create' button, if it is hidden
@@ -1092,10 +1126,8 @@
                         // form has been saved
                         var id = r.data[$entity.data.fields.id];
 
-                        if (type === 'timepass') {
-                            // update vouchers
-                            $entity.data.vouchers[id] = r.vouchers;
-                        }
+                        // update vouchers
+                        $entity.data.vouchers[id] = r.vouchers;
 
                         if (!$entity.data.list[id]) {
                             $wrapper.data($entity.data.id, id);
@@ -1127,9 +1159,7 @@
                                 $(this).remove();
 
                                 // re-generate vouchers list
-                                if (type === 'timepass') {
-                                    regenerateVouchers($wrapper, $entity, id);
-                                }
+                                regenerateVouchers($wrapper, $entity, id);
                             }
                         });
 
