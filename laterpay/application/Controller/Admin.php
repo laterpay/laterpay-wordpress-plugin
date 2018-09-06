@@ -693,6 +693,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             'cap'   => 'activate_plugins',
         );
 
+        if ( ! get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
+            $menu = array_reverse( $menu );
+        }
+
         $event->set_result( $menu );
     }
 }
