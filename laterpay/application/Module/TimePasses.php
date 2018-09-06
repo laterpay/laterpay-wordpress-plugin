@@ -119,6 +119,8 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // get time passes list
         $time_passes_with_access = $this->get_time_passes_with_access();
 
+        $subscriptions_list = [];
+
         if ( isset( $time_pass_id ) ) {
             $check_time_pass_id = in_array( $time_pass_id, $time_passes_with_access, true );
             if ( $check_time_pass_id ) {
@@ -126,12 +128,14 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             }
             $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) );
         } else {
+            $post_id = ( ( ! $is_homepage ) && ( ! empty( $post ) ) ) ? $post->ID: null;
             // check, if we are on the homepage or on a post / page page
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
-                ! $is_homepage && ! empty( $post )? $post->ID: null,
+                $post_id,
                 $time_passes_with_access,
                 true
             );
+            $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post_id, null, true );
         }
 
         // get subscriptions
@@ -142,8 +146,11 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             return;
         }
 
-        // check, if the time passes to be rendered have vouchers
-        $has_vouchers = LaterPay_Helper_Voucher::passes_have_vouchers( $time_passes_list );
+        // check, if the time passes / subscriptions to be rendered have vouchers
+        $time_pass_has_vouchers    = LaterPay_Helper_Voucher::passes_have_vouchers( $time_passes_list );
+        $subscription_has_vouchers = LaterPay_Helper_Voucher::subscriptions_have_vouchers( $subscriptions_list );
+
+        $has_vouchers = $time_pass_has_vouchers || $subscription_has_vouchers;
 
         $view_args = array(
             'passes_list'                    => $time_passes_list,

@@ -225,6 +225,29 @@ class LaterPay_Helper_Voucher
         return $has_vouchers;
     }
 
+    /**
+     * Check, if given subscriptions have vouchers.
+     *
+     * @param array $subscriptions array of subscriptions
+     * @param bool  $is_gift
+     *
+     * @return bool $has_vouchers
+     */
+    public static function subscriptions_have_vouchers( $subscriptions, $is_gift = false ) {
+        $has_vouchers = false;
+
+        if ( $subscriptions && is_array( $subscriptions ) ) {
+            foreach ( $subscriptions as $subscription ) {
+                if ( self::get_time_pass_subscription_vouchers( $subscription['id'], $is_gift, true ) ) {
+                    $has_vouchers = true;
+                    break;
+                }
+            }
+        }
+
+        return $has_vouchers;
+    }
+
 
     /**
      * Actualize voucher statistic.
