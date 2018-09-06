@@ -78,7 +78,7 @@ class LaterPay_Helper_Voucher
         $vouchers     = self::get_all_vouchers( $is_gift, $for_subscription );
         $option_name  = $is_gift ? self::GIFT_CODES_OPTION : self::VOUCHER_CODES_OPTION;
 
-        if ( $for_subscription ) {
+        if ( ! $is_gift && $for_subscription ) {
             $option_name = self::SUBSCRIPTION_VOUCHER_CODES_OPTION;
         }
 
@@ -123,7 +123,7 @@ class LaterPay_Helper_Voucher
     public static function get_all_vouchers( $is_gift = false, $for_subscription = false ) {
         $option_name = $is_gift ? self::GIFT_CODES_OPTION : self::VOUCHER_CODES_OPTION;
 
-        if ( $for_subscription ) {
+        if ( ! $is_gift && $for_subscription ) {
             $option_name = self::SUBSCRIPTION_VOUCHER_CODES_OPTION;
         }
 
