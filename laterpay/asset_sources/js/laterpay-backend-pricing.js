@@ -534,6 +534,26 @@
                 }
             }
 
+            // Check if voucher price exceeds timepass/subscription price.
+            if ( $input.attr( 'name' ) === 'voucher_price_temp' ) {
+                var parentPrice = $form.find('[name=price]').val();
+                if ( price > parentPrice ) {
+                    // strip non-number characters
+                    parentPrice = parentPrice.replace( /[^0-9\,\.]/g, '' );
+
+                    // convert price to proper float value
+                    parentPrice = parseFloat( parentPrice.replace( ',', '.') ).toFixed( 2 );
+
+                    // prevent non-number prices
+                    if ( isNaN( parentPrice ) ) {
+                        parentPrice = 0;
+                    }
+
+                    // prevent negative prices
+                    price = Math.abs( parentPrice );
+                }
+            }
+
             if ( ! disableRevenueValidation ) {
                 validateRevenueModel(price, $form);
             }
