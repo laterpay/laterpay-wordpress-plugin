@@ -121,9 +121,20 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             </label>
                                         </div>
                                     </td>
+                                    <td rowspan="2" class="lp_revenu_td_width">
+                                        <div class="lp_show_revenue_info">
+                                            <?php
+                                            printf(
+                                                '<b>%1$s</b>%2$s <a href="%3$s">%4$s</a>',
+                                                esc_html__( 'TIP:', 'laterpay' ),
+                                                esc_html__( ' "Pay Later" is LaterPay\'s patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice.', 'laterpay' ),
+                                                esc_url( 'https://support.laterpay.net/hc/en-us/articles/201251457-What-is-LaterPay-' ),
+                                                esc_html__( ' Click here to learn more.', 'laterpay' )
+                                            );
+                                            ?>
+                                        </div>
+                                    </td>
                                 </tr>
-                            </tbody>
-                            <tfoot>
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td>
@@ -131,19 +142,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <a href="#" id="lp_js_cancelEditingGlobalDefaultPrice" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
                                     </td>
                                 </tr>
-                            </tfoot>
+                            </tbody>
                         </table>
-                        <div class="lp_show_revenue_info">
-                            <?php
-                            printf(
-                                '<b>%1$s</b>%2$s <br/><a href="%3$s">%4$s</a>',
-                                esc_html__( 'TIP:', 'laterpay' ),
-                                esc_html__( ' "Pay Later" is LaterPay\'s patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice.', 'laterpay' ),
-                                esc_url( 'https://support.laterpay.net/hc/en-us/articles/201251457-What-is-LaterPay-' ),
-                                esc_html__( ' Click here to learn more.', 'laterpay' )
-                            );
-                            ?>
-                        </div>
                     </div>
                 </form>
             </div><!--
