@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] !== 'ppu' || $laterpay['price'] > $laterpay['currency']['ppu_max'] ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"
-                    data-tooltip="<?php echo esc_attr( __( 'Pay Later allows users to gain access now by committing to pay once their invoice reaches $5 or 5€, it is available for posts with pricing between 0.05 and 5.00', 'laterpay' ) ); ?>">
+                    data-tooltip="<?php echo esc_attr( __( 'Pay Later allows users to gain access now by committing to pay once their invoice reaches $5 or 5€; it is available for posts with pricing between 0.05 and 5.00', 'laterpay' ) ); ?>">
                 <input type="radio"
                     name="post_revenue_model"
                     value="ppu"
@@ -59,7 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] !== 'sis' ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"
-                    data-tooltip="<?php echo esc_attr( __( 'Pay Now requires users pay for purchased content immediately, available for posts with pricing above $1.99 or 1.49€', 'laterpay' ) ); ?>">
+                    data-tooltip="<?php echo esc_attr( __( 'Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.49€', 'laterpay' ) ); ?>">
                 <input type="radio"
                     name="post_revenue_model"
                     value="sis"
