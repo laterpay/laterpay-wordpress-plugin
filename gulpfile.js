@@ -36,7 +36,7 @@ var gulp                        = require('gulp'),
 // OPTIONS -------------------------------------------------------------------------------------------------------------
 var gulpKnownOptions = {
     string: 'version',
-    default: { version: '0.12.2' }
+    default: { version: '2.0.0' }
 };
 var gulpOptions = minimist(process.argv.slice(2), gulpKnownOptions);
 gulpOptions.svn = {};
