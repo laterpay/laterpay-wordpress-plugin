@@ -550,9 +550,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $voucher_titles = $save_time_pass_form->get_field_value( 'voucher_title' );
             foreach ( $voucher_codes as $idx => $code ) {
                 // normalize prices and format with 2 digits in form
-                $voucher_price = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
+                $voucher_price           = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
+                $formatted_voucher_price = number_format( LaterPay_Helper_View::normalize( $voucher_price ), 2, '.', '' );
+
+                if ( floatval( $formatted_voucher_price ) > floatval( $data['price'] ) ) {
+                    $formatted_voucher_price = $data['price'];
+                }
+
                 $vouchers_data[ $code ] = array(
-                    'price' => number_format( LaterPay_Helper_View::normalize( $voucher_price ), 2, '.', '' ),
+                    'price' => $formatted_voucher_price,
                     'title' => isset( $voucher_titles[ $idx ] ) ? $voucher_titles[ $idx ] : '',
                 );
             }
@@ -683,9 +689,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $voucher_titles = $save_subscription_form->get_field_value( 'voucher_title' );
             foreach ( $voucher_codes as $idx => $code ) {
                 // normalize prices and format with 2 digits in form
-                $voucher_price = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
+                $voucher_price           = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
+                $formatted_voucher_price = number_format( LaterPay_Helper_View::normalize( $voucher_price ), 2, '.', '' );
+
+                if ( floatval( $formatted_voucher_price ) > floatval( $data['price'] ) ) {
+                    $formatted_voucher_price = $data['price'];
+                }
+
                 $vouchers_data[ $code ] = array(
-                    'price' => number_format( LaterPay_Helper_View::normalize( $voucher_price ), 2, '.', '' ),
+                    'price' => $formatted_voucher_price,
                     'title' => isset( $voucher_titles[ $idx ] ) ? $voucher_titles[ $idx ] : '',
                 );
             }

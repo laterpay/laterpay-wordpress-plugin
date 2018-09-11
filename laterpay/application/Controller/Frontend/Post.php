@@ -124,19 +124,19 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             if ( 'time_pass' === $code_data['type'] ) {
                 $url                 = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
                 $url_data['pass_id'] = $pass_id;
-	            $url_data['type']    = 'time_pass';
+                $url_data['type']    = 'time_pass';
             } else {
-	            $url                = LaterPay_Helper_Subscription::get_subscription_purchase_link( $pass_id, $data );
-	            $url_data['sub_id'] = $pass_id;
-	            $url_data['type']   = 'subscription';
+                $url                = LaterPay_Helper_Subscription::get_subscription_purchase_link( $pass_id, $data );
+                $url_data['sub_id'] = $pass_id;
+                $url_data['type']   = 'subscription';
 
             }
 
             if ( $url ) {
 
                 $url_data['success'] = true;
-                $url_data['price'] = LaterPay_Helper_View::format_number( $code_data['price'] );
-                $url_data['url'] = $url;
+                $url_data['price']   = LaterPay_Helper_View::format_number( $code_data['price'] );
+                $url_data['url']     = $url;
 
                 $event->set_result(
                     $url_data

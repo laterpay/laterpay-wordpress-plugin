@@ -381,7 +381,7 @@
             // generate voucher code
             $o.timepass.editor
             .on('mousedown', $o.generateVoucherCode, function() {
-                generateVoucherCode($(this).parents($o.timepass.wrapper));
+                generateVoucherCode( 'timepass', $(this).parents($o.timepass.wrapper));
             })
             .on('click', $o.generateVoucherCode, function(e) {
                 e.preventDefault();
@@ -487,7 +487,7 @@
             // generate voucher code
             $o.subscription.editor
                 .on('mousedown', $o.generateVoucherCode, function() {
-                    generateVoucherCode($(this).parents($o.subscription.wrapper));
+                    generateVoucherCode( 'subscription', $(this).parents($o.subscription.wrapper));
                 })
                 .on('click', $o.generateVoucherCode, function(e) {
                     e.preventDefault();
@@ -1301,7 +1301,17 @@
             }
         },
 
-        generateVoucherCode = function($timePass) {
+        generateVoucherCode = function( type, $timePass) {
+
+            var isSubscription = false;
+
+            if ( 'subscription' === type ) {
+                isSubscription = true;
+            }
+
+            // Validate voucher price before generation
+            validatePrice( $timePass, true, $('.lp_js_voucherPriceInput', $timePass), isSubscription );
+
             $.post(
                 ajaxurl,
                 {
