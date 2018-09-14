@@ -277,8 +277,8 @@
 
                                     if ( 'time_pass' === r.type ) {
                                         $($o.timePass).each(function() {
-                                            // check for each shown time pass
-                                            // if the request returned updated data for it
+                                            // Check for each shown time pass,
+                                            // if the request returned updated data for it.
                                             passId = $(this).data('pass-id');
                                             if (passId === r.pass_id) {
                                                 has_matches = true;
@@ -289,8 +289,8 @@
 
                                     if ( 'subscription' === r.type ) {
                                         $($o.subscription).each(function() {
-                                            // check for each shown subscription
-                                            // if the request returned updated data for it
+                                            // Check for each shown subscription,
+                                            // if the request returned updated data for it.
                                             subId = $(this).data('sub-id');
                                             if (subId === r.sub_id) {
                                                 has_matches = true;

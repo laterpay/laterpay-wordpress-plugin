@@ -98,13 +98,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // time pass with vouchers
         $time_passes_model   = LaterPay_Model_TimePassWP::get_instance();
         $time_passes_list    = $time_passes_model->get_active_time_passes();
-        $vouchers_list       = LaterPay_Helper_Voucher::get_all_vouchers();
+        $vouchers_list       = LaterPay_Helper_Voucher::get_all_time_pass_vouchers();
         $vouchers_statistic  = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
         // subscriptions and its vouchers if any.
         $subscriptions_model = LaterPay_Model_SubscriptionWP::get_instance();
         $subscriptions_list  = $subscriptions_model->get_active_subscriptions();
-        $sub_vouchers_list   = LaterPay_Helper_Voucher::get_all_vouchers( false, true );
+        $sub_vouchers_list   = LaterPay_Helper_Voucher::get_all_subscription_vouchers();
 
         wp_localize_script(
             'laterpay-backend-pricing',
@@ -141,8 +141,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // time passes and vouchers data
         $time_passes_model  = LaterPay_Model_TimePassWP::get_instance();
         $time_passes_list   = $time_passes_model->get_active_time_passes();
-        $vouchers_list      = LaterPay_Helper_Voucher::get_all_vouchers();
-        $sub_vouchers_list  = LaterPay_Helper_Voucher::get_all_vouchers( false, true );
+        $vouchers_list      = LaterPay_Helper_Voucher::get_all_time_pass_vouchers();
+        $sub_vouchers_list  = LaterPay_Helper_Voucher::get_all_subscription_vouchers();
         $vouchers_statistic = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
         // subscriptions data
@@ -565,13 +565,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         }
 
         // save vouchers for this pass
-        LaterPay_Helper_Voucher::save_vouchers( $pass_id, $vouchers_data );
+        LaterPay_Helper_Voucher::save_time_pass_vouchers( $pass_id, $vouchers_data );
 
         $data['category_name']   = get_the_category_by_ID( $data['access_category'] );
         $hmtl_data               = $data;
         $data['price']           = number_format( $data['price'], 2, '.', '' );
         $data['localized_price'] = LaterPay_Helper_View::format_number( $data['price'] );
-        $vouchers                = LaterPay_Helper_Voucher::get_time_pass_subscription_vouchers( $pass_id );
+        $vouchers                = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id );
 
         $event->set_result(
             array(
@@ -599,7 +599,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $time_pass_model->delete_time_pass_by_id( $time_pass_id );
 
             // remove vouchers
-            LaterPay_Helper_Voucher::delete_voucher_code( $time_pass_id );
+            LaterPay_Helper_Voucher::delete_time_pass_voucher_code( $time_pass_id );
 
             if ( ! LaterPay_Helper_TimePass::get_time_passes_count( true ) && ! LaterPay_Helper_Subscription::get_subscriptions_count( true ) ) {
 
@@ -679,10 +679,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $data['price']           = number_format( $data['price'], 2, '.', '' );
         $data['localized_price'] = LaterPay_Helper_View::format_number( $data['price'] );
 
-        // default vouchers data
+        // Default vouchers data.
         $vouchers_data = array();
 
-        // set vouchers data
+        // Set vouchers data.
         $voucher_codes = $save_subscription_form->get_field_value( 'voucher_code' );
         if ( $voucher_codes && is_array( $voucher_codes ) ) {
             $voucher_prices = $save_subscription_form->get_field_value( 'voucher_price' );
@@ -703,9 +703,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             }
         }
 
-        // save vouchers for this subscription
-        LaterPay_Helper_Voucher::save_vouchers( $sub_id, $vouchers_data, false, true );
-        $vouchers = LaterPay_Helper_Voucher::get_time_pass_subscription_vouchers( $sub_id, false, true );
+        // Save vouchers for this subscription.
+        LaterPay_Helper_Voucher::save_subscription_vouchers( $sub_id, $vouchers_data );
+        $vouchers = LaterPay_Helper_Voucher::get_subscription_vouchers( $sub_id );
 
         $event->set_result(
             array(
@@ -729,11 +729,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $sub_id             = sanitize_text_field( $subscription_id );
             $subscription_model = LaterPay_Model_SubscriptionWP::get_instance();
 
-            // remove subscription
+            // Remove subscription.
             $subscription_model->delete_subscription_by_id( $sub_id );
 
-            // remove vouchers
-            LaterPay_Helper_Voucher::delete_voucher_code( $sub_id, null, null, true );
+            // Remove vouchers.
+            LaterPay_Helper_Voucher::delete_subscription_voucher_code( $sub_id );
 
             if ( ! LaterPay_Helper_TimePass::get_time_passes_count( true ) && ! LaterPay_Helper_Subscription::get_subscriptions_count( true ) ) {
 

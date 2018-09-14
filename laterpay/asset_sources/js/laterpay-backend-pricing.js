@@ -477,14 +477,14 @@
             })
             .on('click', $o.subscription.actions.flip, function(e) {e.preventDefault();});
 
-            // set voucher price
+            // Set voucher price.
             $o.subscription.editor
                 .on('keyup', $o.voucherPriceInput, debounce(function() {
                         validatePrice($(this).parents('form'), true, $(this), true);
                     }, 1500)
                 );
 
-            // generate voucher code
+            // Generate voucher code.
             $o.subscription.editor
                 .on('mousedown', $o.generateVoucherCode, function() {
                     generateVoucherCode( 'subscription', $(this).parents($o.subscription.wrapper));
@@ -493,7 +493,7 @@
                     e.preventDefault();
                 });
 
-            // delete voucher code
+            // Delete voucher code.
             $o.subscription.editor
                 .on('click', $o.voucherDeleteLink, function(e) {
                     deleteVoucher($(this).parent());
@@ -534,17 +534,17 @@
                 }
             }
 
-            // Check if voucher price exceeds timepass/subscription price.
+            // Check if voucher price exceeds time pass / subscription price.
             if ( $input.attr( 'name' ) === 'voucher_price_temp' ) {
                 var parentPrice = $form.find('[name=price]').val();
                 if ( price > parentPrice ) {
-                    // strip non-number characters
+                    // Strip non-number characters.
                     parentPrice = parentPrice.replace( /[^0-9\,\.]/g, '' );
 
-                    // convert price to proper float value
+                    // Convert price to proper float value.
                     parentPrice = parseFloat( parentPrice.replace( ',', '.') ).toFixed( 2 );
 
-                    // prevent non-number prices
+                    // Prevent non-number prices.
                     if ( isNaN( parentPrice ) ) {
                         parentPrice = 0;
                     }
@@ -1008,10 +1008,10 @@
                 var sub_vouchers = $entity.data.vouchers[entityId];
                 validatePrice($wrapper.find('form'), true, $($entity.fields.price, $wrapper), true);
 
-                // set price input value into the voucher price input
+                // Set price input value into the voucher price input.
                 $($o.voucherPriceInput, $wrapper).val($($entity.fields.price, $wrapper).val());
 
-                // re-generate vouchers list
+                // Re-generate vouchers list.
                 clearVouchersList($wrapper);
                 if (sub_vouchers instanceof Object) {
                     $.each(sub_vouchers, function(code, voucherData) {
@@ -1118,14 +1118,14 @@
             // hide action links required when editing time pass
             $($entity.actions.show, $wrapper).addClass($o.hidden);
 
-            // re-generate vouchers list
+            // Re-generate vouchers list.
             clearVouchersList($wrapper);
             if ($entity.data.vouchers[id] instanceof Object) {
                 $.each($entity.data.vouchers[id], function(code, voucherData) {
                     addVoucherToList(code, voucherData, $wrapper);
                 });
 
-                // show vouchers
+                // Show vouchers.
                 $wrapper.find($o.voucherList).show();
             }
 
@@ -1146,7 +1146,7 @@
                         // form has been saved
                         var id = r.data[$entity.data.fields.id];
 
-                        // update vouchers
+                        // Update vouchers.
                         $entity.data.vouchers[id] = r.vouchers;
 
                         if (!$entity.data.list[id]) {
@@ -1309,7 +1309,7 @@
                 isSubscription = true;
             }
 
-            // Validate voucher price before generation
+            // Validate voucher price before generation.
             validatePrice( $timePass, true, $('.lp_js_voucherPriceInput', $timePass), isSubscription );
 
             $.post(

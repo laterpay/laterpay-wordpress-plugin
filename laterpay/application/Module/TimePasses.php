@@ -129,7 +129,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) );
         } else {
             $post_id = ( ( ! $is_homepage ) && ( ! empty( $post ) ) ) ? $post->ID: null;
-            // check, if we are on the homepage or on a post / page page
+            // Check if we are on the homepage or on a post / page page.
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
                 $post_id,
                 $time_passes_with_access,

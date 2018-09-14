@@ -91,7 +91,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'link' );
         }
 
-        // check, if voucher code exists and time pass or subscription is available for purchase
+        // Check if voucher code exists and time pass or subscription is available for purchase.
         $is_gift     = true;
         $code        = sanitize_text_field( $_GET['code'] ); // phpcs:ignore
         $code_data   = LaterPay_Helper_Voucher::check_voucher_code( $code, $is_gift );
@@ -109,7 +109,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             if ( $is_gift ) {
                 LaterPay_Helper_Voucher::update_gift_code_usages( $code );
             }
-            // get new URL for this time pass / subscription
+            // Get new URL for this time pass / subscription.
             $pass_id    = $code_data['pass_id'];
             // prepare URL before use
             $data       = array(
@@ -120,7 +120,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
             $url_data = [];
 
-            // get new purchase URL
+            // Get new purchase URL.
             if ( 'time_pass' === $code_data['type'] ) {
                 $url                 = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
                 $url_data['pass_id'] = $pass_id;

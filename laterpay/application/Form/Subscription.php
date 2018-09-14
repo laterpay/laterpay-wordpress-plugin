@@ -191,6 +191,7 @@ class LaterPay_Form_Subscription extends LaterPay_Form_Abstract
             )
         );
 
+        // Add validators for voucher.
         $this->set_field(
             'voucher_code',
             array(
