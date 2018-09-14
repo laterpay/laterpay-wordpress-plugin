@@ -473,7 +473,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                             'price' => 0,
                             'title' => null,
                         );
-                        LaterPay_Helper_Voucher::save_pass_vouchers( $pass_id, $gift_cards, true );
+                        LaterPay_Helper_Voucher::save_time_pass_vouchers( $pass_id, $gift_cards, true );
                         // set cookie to store information that gift card was purchased
                         setcookie(
                             'laterpay_purchased_gift_card',

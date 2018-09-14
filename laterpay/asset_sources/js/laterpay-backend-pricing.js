@@ -171,6 +171,7 @@
                 data                                : {
                     id                                  : 'sub-id',
                     list                                : lpVars.subscriptions_list,
+                    vouchers                            : lpVars.sub_vouchers_list,
                     deleteConfirm                       : lpVars.i18n.confirmDeleteSubscription,
                     fields                              : {
                         id                              : 'id'
@@ -380,7 +381,7 @@
             // generate voucher code
             $o.timepass.editor
             .on('mousedown', $o.generateVoucherCode, function() {
-                generateVoucherCode($(this).parents($o.timepass.wrapper));
+                generateVoucherCode( 'timepass', $(this).parents($o.timepass.wrapper));
             })
             .on('click', $o.generateVoucherCode, function(e) {
                 e.preventDefault();
@@ -475,6 +476,29 @@
                 flipEntity('subscription', this);
             })
             .on('click', $o.subscription.actions.flip, function(e) {e.preventDefault();});
+
+            // Set voucher price.
+            $o.subscription.editor
+                .on('keyup', $o.voucherPriceInput, debounce(function() {
+                        validatePrice($(this).parents('form'), true, $(this), true);
+                    }, 1500)
+                );
+
+            // Generate voucher code.
+            $o.subscription.editor
+                .on('mousedown', $o.generateVoucherCode, function() {
+                    generateVoucherCode( 'subscription', $(this).parents($o.subscription.wrapper));
+                })
+                .on('click', $o.generateVoucherCode, function(e) {
+                    e.preventDefault();
+                });
+
+            // Delete voucher code.
+            $o.subscription.editor
+                .on('click', $o.voucherDeleteLink, function(e) {
+                    deleteVoucher($(this).parent());
+                    e.preventDefault();
+                });
         },
 
         validatePrice = function($form, disableRevenueValidation, $input, subscriptionValidation) {
@@ -507,6 +531,26 @@
                     price = lpVars.currency.sis_max;
                 } else if (price > 0 && price < lpVars.currency.ppu_min) {
                     price = lpVars.currency.ppu_min;
+                }
+            }
+
+            // Check if voucher price exceeds time pass / subscription price.
+            if ( $input.attr( 'name' ) === 'voucher_price_temp' ) {
+                var parentPrice = $form.find('[name=price]').val();
+                if ( price > parentPrice ) {
+                    // Strip non-number characters.
+                    parentPrice = parentPrice.replace( /[^0-9\,\.]/g, '' );
+
+                    // Convert price to proper float value.
+                    parentPrice = parseFloat( parentPrice.replace( ',', '.') ).toFixed( 2 );
+
+                    // Prevent non-number prices.
+                    if ( isNaN( parentPrice ) ) {
+                        parentPrice = 0;
+                    }
+
+                    // prevent negative prices
+                    price = Math.abs( parentPrice );
                 }
             }
 
@@ -961,7 +1005,19 @@
                     });
                 }
             } else if (type === 'subscription') {
-                validatePrice($wrapper.find('form'), true, $($entity.fields.price, $wrapper));
+                var sub_vouchers = $entity.data.vouchers[entityId];
+                validatePrice($wrapper.find('form'), true, $($entity.fields.price, $wrapper), true);
+
+                // Set price input value into the voucher price input.
+                $($o.voucherPriceInput, $wrapper).val($($entity.fields.price, $wrapper).val());
+
+                // Re-generate vouchers list.
+                clearVouchersList($wrapper);
+                if (sub_vouchers instanceof Object) {
+                    $.each(sub_vouchers, function(code, voucherData) {
+                        addVoucher(code, voucherData, $wrapper);
+                    });
+                }
             }
 
             $($entity.categoryWrapper, $wrapper).hide();
@@ -1062,17 +1118,15 @@
             // hide action links required when editing time pass
             $($entity.actions.show, $wrapper).addClass($o.hidden);
 
-            if (type === 'timepass') {
-                // re-generate vouchers list
-                clearVouchersList($wrapper);
-                if ($entity.data.vouchers[id] instanceof Object) {
-                    $.each($entity.data.vouchers[id], function(code, voucherData) {
-                        addVoucherToList(code, voucherData, $wrapper);
-                    });
+            // Re-generate vouchers list.
+            clearVouchersList($wrapper);
+            if ($entity.data.vouchers[id] instanceof Object) {
+                $.each($entity.data.vouchers[id], function(code, voucherData) {
+                    addVoucherToList(code, voucherData, $wrapper);
+                });
 
-                    // show vouchers
-                    $wrapper.find($o.voucherList).show();
-                }
+                // Show vouchers.
+                $wrapper.find($o.voucherList).show();
             }
 
             // show 'create' button, if it is hidden
@@ -1092,10 +1146,8 @@
                         // form has been saved
                         var id = r.data[$entity.data.fields.id];
 
-                        if (type === 'timepass') {
-                            // update vouchers
-                            $entity.data.vouchers[id] = r.vouchers;
-                        }
+                        // Update vouchers.
+                        $entity.data.vouchers[id] = r.vouchers;
 
                         if (!$entity.data.list[id]) {
                             $wrapper.data($entity.data.id, id);
@@ -1127,9 +1179,7 @@
                                 $(this).remove();
 
                                 // re-generate vouchers list
-                                if (type === 'timepass') {
-                                    regenerateVouchers($wrapper, $entity, id);
-                                }
+                                regenerateVouchers($wrapper, $entity, id);
                             }
                         });
 
@@ -1251,7 +1301,17 @@
             }
         },
 
-        generateVoucherCode = function($timePass) {
+        generateVoucherCode = function( type, $timePass) {
+
+            var isSubscription = false;
+
+            if ( 'subscription' === type ) {
+                isSubscription = true;
+            }
+
+            // Validate voucher price before generation.
+            validatePrice( $timePass, true, $('.lp_js_voucherPriceInput', $timePass), isSubscription );
+
             $.post(
                 ajaxurl,
                 {
