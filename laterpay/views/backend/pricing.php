@@ -407,16 +407,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <span class="lp_voucher__code-infos">
                                             <?php esc_html_e( 'reduces the price to', 'laterpay' ); ?>
                                             <?php echo esc_html( $voucher_data['price'] . ' ' . $laterpay['currency']['code'] ); ?>.
-                                            <br>
-                                            <span class="lp_js_voucherTimesRedeemed">
-                                                <?php
-                                                    echo esc_html( ( ! isset( $laterpay['vouchers_statistic'][ $pass['pass_id'] ][ $voucher_code ] ) ) ?
-                                                        0 :
-                                                        $laterpay['vouchers_statistic'][ $pass['pass_id'] ][ $voucher_code ]
-                                                    );
-                                                ?>
-                                            </span>
-                                            <?php esc_html_e( 'times redeemed.', 'laterpay' ); ?>
                                         </span>
                                         </div>
                                     </div>
@@ -623,16 +613,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <span class="lp_voucher__code-infos">
                                             <?php esc_html_e( 'reduces the price to', 'laterpay' ); ?>
                                                 <?php echo esc_html( $voucher_data['price'] . ' ' . $laterpay['currency']['code'] ); ?>.
-                                            <br>
-                                            <span class="lp_js_voucherTimesRedeemed">
-                                                <?php
-                                                echo esc_html( ( ! isset( $laterpay['vouchers_statistic'][ $subscription['id'] ][ $voucher_code ] ) ) ?
-                                                    0 :
-                                                    $laterpay['vouchers_statistic'][ $subscription['id'] ][ $voucher_code ]
-                                                );
-                                                ?>
-                                            </span>
-                                                <?php esc_html_e( 'times redeemed.', 'laterpay' ); ?>
                                         </span>
                                         </div>
                                     </div>
