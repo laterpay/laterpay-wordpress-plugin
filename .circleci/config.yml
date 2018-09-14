@@ -7,7 +7,7 @@ jobs:
   build:
     branches:
       only:
-        - master
+        - develop
     working_directory: ~/repo
     docker:
       # specify the version you desire here
