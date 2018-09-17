@@ -145,6 +145,18 @@
     float: left;
 }
 
+.lp_js_voucher_msg {
+
+    display: none;
+    font-size: $fs--085;
+    padding: 5px 0 5px 0;
+    text-align: justify;
+
+   &[data-icon]:before {
+    color: red;
+    }
+}
+
 table {
 
     td {

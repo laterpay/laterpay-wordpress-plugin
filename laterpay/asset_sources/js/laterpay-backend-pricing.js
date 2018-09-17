@@ -534,26 +534,6 @@
                 }
             }
 
-            // Check if voucher price exceeds time pass / subscription price.
-            if ( $input.attr( 'name' ) === 'voucher_price_temp' ) {
-                var parentPrice = $form.find('[name=price]').val();
-                if ( price > parentPrice ) {
-                    // Strip non-number characters.
-                    parentPrice = parentPrice.replace( /[^0-9\,\.]/g, '' );
-
-                    // Convert price to proper float value.
-                    parentPrice = parseFloat( parentPrice.replace( ',', '.') ).toFixed( 2 );
-
-                    // Prevent non-number prices.
-                    if ( isNaN( parentPrice ) ) {
-                        parentPrice = 0;
-                    }
-
-                    // prevent negative prices
-                    price = Math.abs( parentPrice );
-                }
-            }
-
             if ( ! disableRevenueValidation ) {
                 validateRevenueModel(price, $form);
             }
@@ -1311,6 +1291,22 @@
 
             // Validate voucher price before generation.
             validatePrice( $timePass, true, $('.lp_js_voucherPriceInput', $timePass), isSubscription );
+
+            // Check if voucher price exceeds time pass / subscription price.
+            if ( isSubscription ) {
+                if ( $timePass.find($o.voucherPriceInput).val() >
+                    $timePass.find( $o.subscription.fields.price ).val() ) {
+                    $timePass.find('.lp_js_voucher_msg').css( 'display','block' );
+                    return;
+                }
+            } else {
+                if ( $timePass.find($o.voucherPriceInput).val() > $timePass.find( $o.timepass.fields.price ).val() ) {
+                    $timePass.find('.lp_js_voucher_msg').css( 'display','block' );
+                    return;
+                }
+            }
+
+            $timePass.find('.lp_js_voucher_msg').hide();
 
             $.post(
                 ajaxurl,

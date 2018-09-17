@@ -536,7 +536,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </td>
                                 </tr>
                             </table>
-
+                            <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'time pass price.', 'laterpay' )  ); ?></span>
                             <div class="lp_js_voucherEditor lp_mt-">
                                 <?php esc_html_e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?>
                                 <input type="text"
@@ -726,7 +726,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </td>
                                 </tr>
                             </table>
-
+                            <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'subscription price.', 'laterpay' )  ); ?></span>
                             <div class="lp_js_voucherEditor lp_mt-">
                                 <?php esc_html_e( 'Offer this subscription at a reduced price of', 'laterpay' ); ?>
                                 <input type="text"
