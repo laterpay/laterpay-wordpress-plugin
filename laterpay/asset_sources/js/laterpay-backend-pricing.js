@@ -346,6 +346,8 @@
             // cancel
             $o.timepass.editor
             .on('click', $o.timepass.actions.cancel, function(e) {
+                $( $o.timepass.actions.save ).removeAttr( 'disabled' );
+                $( $o.timepass.actions.save ).attr( 'href', '#' );
                 cancelEditingEntity('timepass', $(this).parents($o.timepass.wrapper));
                 e.preventDefault();
             });
@@ -455,6 +457,8 @@
             // cancel
             $o.subscription.editor
             .on('click', $o.subscription.actions.cancel, function(e) {
+                $( $o.subscription.actions.save ).removeAttr( 'disabled' );
+                $( $o.subscription.actions.save ).attr( 'href', '#' );
                 cancelEditingEntity('subscription', $(this).parents($o.subscription.wrapper));
                 e.preventDefault();
             });
