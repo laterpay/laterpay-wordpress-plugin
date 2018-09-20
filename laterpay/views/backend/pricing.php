@@ -536,7 +536,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </td>
                                 </tr>
                             </table>
-                            <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'time pass price.', 'laterpay' )  ); ?></span>
+
                             <div class="lp_js_voucherEditor lp_mt-">
                                 <?php esc_html_e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?>
                                 <input type="text"
@@ -545,6 +545,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                        value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>"
                                        maxlength="6">
                                 <span><?php echo esc_html( $laterpay['currency']['code'] ); ?></span>
+                                <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'time pass price.', 'laterpay' )  ); ?></span>
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
@@ -726,7 +727,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </td>
                                 </tr>
                             </table>
-                            <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'subscription price.', 'laterpay' )  ); ?></span>
+
                             <div class="lp_js_voucherEditor lp_mt-">
                                 <?php esc_html_e( 'Offer this subscription at a reduced price of', 'laterpay' ); ?>
                                 <input type="text"
@@ -735,6 +736,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                        value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_Subscription::get_default_options( 'price' ) ) ); ?>"
                                        maxlength="6">
                                 <span><?php echo esc_html( $laterpay['currency']['code'] ); ?></span>
+                                <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'subscription price.', 'laterpay' )  ); ?></span>
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
