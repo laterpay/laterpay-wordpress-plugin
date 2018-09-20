@@ -346,6 +346,8 @@
             // cancel
             $o.timepass.editor
             .on('click', $o.timepass.actions.cancel, function(e) {
+                $( $o.timepass.actions.save ).removeAttr( 'disabled' );
+                $( $o.timepass.actions.save ).attr( 'href', '#' );
                 cancelEditingEntity('timepass', $(this).parents($o.timepass.wrapper));
                 e.preventDefault();
             });
@@ -353,6 +355,9 @@
             // save
             $o.timepass.editor
             .on('click', $o.timepass.actions.save, function(e) {
+                if ( $( this ).is('[disabled=disabled]') ) {
+                    return false;
+                }
                 saveEntity('timepass', $(this).parents($o.timepass.wrapper));
                 e.preventDefault();
             });
@@ -452,6 +457,8 @@
             // cancel
             $o.subscription.editor
             .on('click', $o.subscription.actions.cancel, function(e) {
+                $( $o.subscription.actions.save ).removeAttr( 'disabled' );
+                $( $o.subscription.actions.save ).attr( 'href', '#' );
                 cancelEditingEntity('subscription', $(this).parents($o.subscription.wrapper));
                 e.preventDefault();
             });
@@ -459,6 +466,9 @@
             // save
             $o.subscription.editor
             .on('click', $o.subscription.actions.save, function(e) {
+                if ( $( this ).is('[disabled=disabled]') ) {
+                    return false;
+                }
                 saveEntity('subscription', $(this).parents($o.subscription.wrapper));
                 e.preventDefault();
             });
@@ -1296,14 +1306,22 @@
             if ( isSubscription ) {
                 if ( $timePass.find($o.voucherPriceInput).val() >
                     $timePass.find( $o.subscription.fields.price ).val() ) {
+                    $( $o.subscription.actions.save ).attr( 'disabled', 'disabled' );
+                    $( $o.subscription.actions.save ).removeAttr( 'href' );
                     $timePass.find('.lp_js_voucher_msg').css( 'display','block' );
                     return;
                 }
+                $( $o.subscription.actions.save ).removeAttr( 'disabled' );
+                $( $o.subscription.actions.save ).attr( 'href', '#' );
             } else {
                 if ( $timePass.find($o.voucherPriceInput).val() > $timePass.find( $o.timepass.fields.price ).val() ) {
-                    $timePass.find('.lp_js_voucher_msg').css( 'display','block' );
+                    $( $o.timepass.actions.save ).attr( 'disabled', 'disabled' );
+                    $( $o.timepass.actions.save ).removeAttr( 'href' );
+                    $timePass.find( '.lp_js_voucher_msg' ).css( 'display','block' );
                     return;
                 }
+                $( $o.timepass.actions.save ).removeAttr( 'disabled' );
+                $( $o.timepass.actions.save ).attr( 'href', '#' );
             }
 
             $timePass.find('.lp_js_voucher_msg').hide();
