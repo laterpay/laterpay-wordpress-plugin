@@ -540,6 +540,11 @@
             if ( isSubscription ) {
               if ( $entity.find($o.voucherPriceInput).val() >
                 $entity.find( $o.subscription.fields.price ).val() ) {
+                $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMaximumPrice );
+                $entity.find('.lp_js_voucher_msg').css( 'display','block' );
+                return;
+              } else if ( $entity.find($o.voucherPriceInput).val() < lpVars.currency.sis_min) {
+                $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMinimum );
                 $entity.find('.lp_js_voucher_msg').css( 'display','block' );
                 return;
               }

@@ -92,6 +92,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'timesRedeemed'             => __( 'times redeemed.', 'laterpay' ),
             'payLaterToolTip'           => esc_html__( 'Pay Later allows users to gain access now by committing to pay once their invoice reaches $5 or 5€; it is available for posts with pricing between 0.05 and 5.00', 'laterpay' ),
             'payNowToolTip'             => esc_html__( 'Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.49€', 'laterpay' ),
+            'subVoucherMinimum'         => esc_html__( 'Subscriptions, like other Pay Now content, must have pricing above $1.99 or 1.49€', 'laterpay' ),
+            'subVoucherMaximumPrice'    => esc_html__( 'The voucher price must be less than or equal to the subscription price.', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
