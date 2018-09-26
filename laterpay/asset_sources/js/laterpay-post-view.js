@@ -59,7 +59,10 @@
                 voucherCancel                   : '.lp_js_voucherCancel',
                 redeemVoucherButton             : '.lp_js_redeemVoucher',
                 overlayMessageContainer         : '.lp_js_purchaseOverlayMessageContainer',
-                overlayTimePassPrice            : '.lp_js_timePassPrice'
+                overlayTimePassPrice            : '.lp_js_timePassPrice',
+
+                lp_ga_element                   : $('#lp_ga_ua_id'),
+                lp_ga_user_element              : $('#lp_ga_user_ua_id')
             },
 
             // Messages templates
@@ -522,6 +525,13 @@
                 return matches ? decodeURIComponent(matches[1]) : undefined;
             },
 
+            initiateTracking = function() {
+              if( $($o.lp_ga_element).length >= 1 ) {
+                var ga = window[window['GoogleAnalyticsObject'] || 'ga'];
+                if (typeof ga === 'function') {
+                }
+              }
+            },
             initializePage = function() {
 
                 if ($o.previewModePlaceholder.length === 1) {
@@ -535,6 +545,8 @@
                 if ($($o.premiumBox).length >= 1) {
                     loadPremiumUrls();
                 }
+
+                initiateTracking();
 
                 bindPurchaseEvents();
                 bindTimePassesEvents();

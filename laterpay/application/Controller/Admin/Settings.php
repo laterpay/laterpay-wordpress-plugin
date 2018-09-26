@@ -43,6 +43,33 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             $this->config->version
         );
         wp_enqueue_style('laterpay-options');
+
+	    add_thickbox();
+
+	    // load page-specific JS
+	    wp_register_script(
+		    'laterpay-backend-options',
+		    $this->config->js_url . '/laterpay-backend-options.js',
+		    array( 'jquery' ),
+		    $this->config->version,
+		    true
+	    );
+	    wp_enqueue_script( 'laterpay-backend-options' );
+
+	    wp_localize_script(
+		    'laterpay-backend-options',
+		    'lpVars',
+		    array(
+		    	'modal' => array(
+		    		'id' => 'lp_ga_modal_id',
+					'title' => 'Disable Tracking'
+				),
+			    'i18n' => array(
+				    'alertEmptyCode' => __( 'Please enter UA-ID to enable Personal Analytics!', 'laterpay' ),
+				    'invalidCode' => __( 'Please enter valid UA-ID code!', 'laterpay' ),
+			    )
+		    )
+	    );
     }
 
     /**
@@ -86,6 +113,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function init_laterpay_advanced_settings() {
         // add sections with fields
         $this->add_colors_settings();
+        $this->add_ga_tracking_settings();
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
         $this->add_revenue_settings();
@@ -981,4 +1009,189 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         esc_html_e( 'Please choose, if you have a LaterPay Pro merchant account.', 'laterpay' );
         echo '</p>';
     }
+
+	/**
+	 * Method to render ga fields.
+	 *
+	 * @param array $fields array of field params
+	 *
+	 * @return void
+	 */
+	public function get_ga_field_markup( $fields = null ) {
+
+		if ( ! empty( $fields ) && is_array( $fields ) ) {
+			foreach ( $fields as $field ) {
+				if ( $field && isset( $field['parent_name'] ) ) {
+					$option_value = get_option( $field['parent_name'] );
+					$field_value  = isset( $option_value[$field['name']] ) ? $option_value[$field['name']] : '';
+					$type         = isset( $field['type'] ) ? $field['type'] : 'text';
+					$classes      = isset( $field['classes'] ) ? $field['classes'] : array();
+
+					// clean 'class' data
+					if ( ! is_array( $classes ) ) {
+						$classes = array($classes);
+					}
+					$classes = array_unique( $classes );
+
+					if ( $type === 'text' ) {
+						$classes[] = 'regular-text';
+					}
+
+					if ( isset( $field['label'] ) ) {
+						echo '<label>';
+					}
+
+					echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $field['parent_name'] . '[' . $field['name'] . ']' ) . '" value="' . esc_attr( $field_value ) . '"';
+
+					// add id, if set
+					if ( isset( $field['id'] ) ) {
+						echo ' id="' . esc_attr( $field['id'] ). '"';
+					}
+
+					if ( isset( $field['label'] ) ) {
+						echo ' style="margin-right:5px;"';
+					}
+
+					// add classes, if set
+					if ( ! empty( $classes ) ) {
+						echo ' class="' . esc_attr( implode( ' ', $classes ) ) . '"';
+					}
+
+
+					// add checked property, if set
+					if ( 'checkbox' === $type ) {
+						echo $field_value ? ' checked' : '';
+					}
+
+					// add disabled property, if set
+					if ( isset( $field['disabled'] ) && $field['disabled'] ) {
+						echo ' disabled';
+					}
+
+					// add disabled property, if set
+					if ( isset( $field['readonly'] ) && $field['readonly'] ) {
+						echo ' readonly';
+					}
+
+					// add onclick support
+					if ( isset( $field['onclick'] ) && $field['onclick'] ) {
+						echo ' onclick="' . esc_attr( $field['onclick'] ) . '"';
+					}
+
+					echo '>';
+
+					if ( isset( $field['appended_text'] ) ) {
+						echo '<dfn class="lp_appended-text">' . esc_html( $field['appended_text'] ) . '</dfn>';
+					}
+					if ( isset( $field['label'] ) ) {
+						echo esc_html( $field['label'] );
+						echo '</label>';
+					}
+
+					if ( isset( $field['modal'] ) ) {
+						echo '<div id="' . esc_attr( $field['modal']['id'] ) . '" style="display:none;">';
+						echo '<p>' . wp_kses( $field['modal']['message'], [ 'br' => [] ] ) . '</p>';
+						echo '<button class="lp_js_disableTracking button button-primary lp_mt- lp_mb-">' .
+						     esc_html( $field['modal']['saveText'] ) . '</button>';
+						echo '<button type="button" class="button button-secondary lp_mt- lp_mb- lp_js_ga_cancel">' . esc_html( $field['modal']['cancelText'] ) . '</button>';
+						echo '</div>';
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Add Google Analytics Tracking Section.
+	 *
+	 * @return void
+	 */
+	public function add_ga_tracking_settings() {
+		add_settings_section(
+			'laterpay_ga_tracking',
+			esc_html__( 'Google Analytics Tracking', 'laterpay' ),
+			array( $this, 'get_ga_tracking_section_description' ),
+			'laterpay'
+		);
+
+		add_settings_field(
+			'laterpay_user_tracking_data',
+			__( 'Your Personal Google Analytics:', 'laterpay' ),
+			array( $this, 'get_ga_field_markup' ),
+			'laterpay',
+			'laterpay_ga_tracking',
+			array(
+				array(
+					'name'    => 'laterpay_ga_personal_enabled_status',
+					'value'   => 1,
+					'type'    => 'checkbox',
+					'parent_name' => 'laterpay_user_tracking_data'
+				),
+				array(
+					'name'    => 'laterpay_ga_personal_ua_id',
+					'type'    => 'text',
+					'classes' => ['lp_ga-input'],
+					'parent_name' => 'laterpay_user_tracking_data'
+				)
+			)
+		);
+
+		register_setting( 'laterpay', 'laterpay_user_tracking_data' );
+
+		add_settings_field(
+			'laterpay_tracking_data',
+			__( 'LaterPay Google Analytics:', 'laterpay' ),
+			array( $this, 'get_ga_field_markup' ),
+			'laterpay',
+			'laterpay_ga_tracking',
+			array(
+				array(
+					'name'        => 'laterpay_ga_enabled_status',
+					'value'       => 1,
+					'type'        => 'checkbox',
+					'parent_name' => 'laterpay_tracking_data',
+					'modal'       => array(
+						'id' => 'lp_ga_modal_id',
+						'message'    => sprintf( '%1$s <br/><br/> %2$s', esc_html__( 'LaterPay collects this information to improve our products and 
+										services and also so that you can determine the effectiveness of your pricing 
+										strategy using our Merchant Analytics dashboard.', 'laterpay' ),
+										esc_html__( 'Are you sure you would like to 
+										disable this feature?', 'laterpay' ) ),
+						'saveText'   => __( 'Yes, Disable Tracking', 'laterpay' ),
+						'cancelText' => __( 'Cancel', 'laterpay' ),
+					),
+					),
+				array(
+					'name'        => 'laterpay_ga_ua_id',
+					'type'        => 'text',
+					'classes'     => ['lp_ga-input'],
+					'readonly'    => true,
+					'parent_name' => 'laterpay_tracking_data',
+				)
+			)
+		);
+
+		register_setting( 'laterpay', 'laterpay_tracking_data' );
+
+	}
+
+	public function get_ga_tracking_section_description() {
+		echo '<p>';
+		printf( '%1$s <br/> %2$s <a href="%3$s" target="_blank">%4$s</a> %5$s',
+			esc_html__( 'LaterPay is not in the business of selling data. This tracking information is for your benefit 
+			so that you can determine the effectiveness of ','laterpay' ),
+			esc_html__( 'your pricing strategy. To view your analytics, log in to your LaterPay account at', 'laterpay'),
+			esc_url( 'https://www.laterpay.net/' ),
+			'laterpay.net',
+			esc_html__( 'to view your Merchant Analytics dashboard.', 'laterpay' )
+		);
+		echo '</p>';
+
+		echo '<table class="form-table"><tr><th></th> <td>';
+		esc_html_e( 'Enabled', 'laterpay' );
+		echo '</td><td width="79%">';
+		esc_html_e( 'Google Analytics "UA-ID"', 'laterpay' );
+		echo'</td></tr></table>';
+	}
+
 }

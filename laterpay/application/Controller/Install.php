@@ -479,6 +479,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             $maybe_perform_updates->maybe_remove_ppul();
         }
         $this->change_teaser_mode();
+        $this->init_ga_options();
 
     }
 
@@ -493,4 +494,32 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $laterpay_capabilities = new LaterPay_Core_Capability();
         $laterpay_capabilities->update_roles( (array) $roles );
     }
+
+	/**
+	 * Init ga options
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return void
+	 */
+	public function init_ga_options() {
+		$current_version = get_option( 'laterpay_plugin_version' );
+		if ( version_compare( $current_version, '2.0.0', '<' ) ) {
+			return;
+		}
+
+		$lp_personal_data = array(
+			'laterpay_ga_personal_enabled_status' => 0,
+			'laterpay_ga_personal_ua_id' => ''
+		);
+
+		update_option( 'laterpay_user_tracking_data', $lp_personal_data );
+
+		$lp_tracking_data = array(
+			'laterpay_ga_enabled_status' => 1,
+			'laterpay_ga_ua_id' => $this->config->get( 'tracking_ua_id.sandbox' )
+		);
+
+		update_option( 'laterpay_tracking_data', $lp_tracking_data );
+	}
 }

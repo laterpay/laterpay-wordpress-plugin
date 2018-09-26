@@ -174,6 +174,14 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             $content = '<div id="lp_js_postContentPlaceholder">' . $content . '</div>';
         }
 
+        $lp_tracking_data      = get_option( 'laterpay_tracking_data' );
+        $lp_user_tracking_data = get_option( 'laterpay_user_tracking_data' );
+        if ( '1' === $lp_tracking_data['laterpay_ga_enabled_status'] && ! empty( $lp_tracking_data['laterpay_ga_ua_id'] ) ) {
+	        $content .= '<input type="hidden" id="lp_ga_ua_id" value="' . esc_attr( $lp_tracking_data['laterpay_ga_ua_id'] ) . '" >';
+        }
+        if ( '1' === $lp_user_tracking_data['laterpay_ga_personal_enabled_status'] && ! empty( $lp_user_tracking_data['laterpay_ga_personal_ua_id'] ) ) {
+	        $content .= '<input type="hidden" id="lp_ga_user_ua_id" value="' . esc_attr( $lp_user_tracking_data['laterpay_ga_personal_ua_id'] ) . '" >';
+        }
         $event->set_result( $content );
     }
 
