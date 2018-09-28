@@ -1,7 +1,8 @@
 (function ( $ ) {
     $( function () {
 
-      var user_tracking_status = jQuery('input[name="laterpay_user_tracking_data[laterpay_ga_personal_enabled_status]"]');
+      var user_tracking_status =
+        jQuery('input[name="laterpay_user_tracking_data[laterpay_ga_personal_enabled_status]"]');
       var user_ua_id           = jQuery('input[name="laterpay_user_tracking_data[laterpay_ga_personal_ua_id]"]');
 
       var laterpay_tracking_status = jQuery('input[name="laterpay_tracking_data[laterpay_ga_enabled_status]"]');

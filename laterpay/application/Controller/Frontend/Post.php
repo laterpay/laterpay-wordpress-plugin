@@ -616,6 +616,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     )
                 ),
                 'default_currency'      => $this->config->get( 'currency.code' ),
+                'gaData'                => array(
+                    'postTitle'         => ! empty( $post ) ? $post->post_title : '',
+                    'postPermalink'     => ! empty( $post ) ? get_permalink( $post->ID ) : '',
+                    'blogName'          => get_bloginfo( 'name' ),
+                ),
             )
         );
 
