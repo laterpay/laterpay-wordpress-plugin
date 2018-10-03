@@ -87,6 +87,32 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <?php esc_html_e( 'Edit Global Default Price', 'laterpay' ); ?>
                                     </th>
                                 </tr>
+								<tr>
+									<td colspan="3">
+										<div>
+											<label class="lp_js_postPriceLabel">
+												<input type="radio" class="lp_js_postPriceDisplayOption" value="1" name="post_price_option">
+												<?php esc_html_e( 'Make article free unless price is set on post page', 'laterpay' ); ?>
+											</label>
+											<p class="lp_tooltip" data-tooltip="<?php echo esc_attr( 'All articles will be free by default; Time Passes & Subscriptions will only be displayed if an Individual Article Price greater than 0.00 is manually set on the Post page.', true ) ?>" style="margin: 0">
+												<span data-icon="m" class="lp_js_postPriceSpan"></span>
+											</p>
+											<br/>
+											<label class="lp_js_postPriceLabel">
+												<input type="radio" class="lp_js_postPriceDisplayOption" value="1" name="post_price_option">
+												<?php esc_html_e( 'Posts cannot be purchased individually', 'laterpay' ); ?>
+											</label>
+											<p class="lp_tooltip" data-tooltip="<?php echo esc_attr( 'Only Time Passes & Subscriptions will be displayed in the purchase dialog.', true ) ?>" style="margin: 0">
+												<span data-icon="m" class="lp_js_postPriceSpan"></span>
+											</p>
+											<br/>
+											<label class="lp_js_postPriceLabel">
+												<input type="radio" class="lp_js_postPriceDisplayOption" value="1" name="post_price_option">
+												<?php esc_html_e( 'Set individual article default price', 'laterpay' ); ?>
+											</label>
+										</div>
+									</td>
+								</tr>
                             </thead>
                             <tbody>
                                 <tr>

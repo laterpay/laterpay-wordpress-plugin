@@ -34,6 +34,33 @@
     td.lp_revenu_td_width {
         width: 55%;
     }
+
+    label.lp_js_postPriceLabel {
+        color: #a2a2a2;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    input[type=radio].lp_js_postPriceDisplayOption {
+        margin-right: 15px;
+        border: 2px  solid #9a9a9a;
+
+        &:checked:before {
+            content: "";
+            display: block;
+            position: relative;
+            top: -3px;
+            left: -3px;
+            width: 10px;
+            height: 10px;
+            background: #3ca096;
+        }
+    }
+
+    span.lp_js_postPriceSpan {
+        font-size: 20px;
+        position: relative;
+        top: 5px;
+    }
 }
 
 .lp_price-section {
