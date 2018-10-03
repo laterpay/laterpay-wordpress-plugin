@@ -1,3 +1,5 @@
+/*globals wp*/
+
 (function($) {$(function() {
 
     // encapsulate all LaterPay Javascript in function laterPayPostEdit
@@ -52,6 +54,15 @@
                 .submit(function() {
                     saveDynamicPricingData();
                 });
+
+                if ( wp.data ) {
+                    var editPost = wp.data.select( 'core/edit-post' );
+                    wp.data.subscribe( function() {
+                        if ( editPost.isSavingMetaBoxes() ) {
+                            saveDynamicPricingData();
+                        }
+                    } );
+                }
 
                 // validate manually entered prices
                 // (function is only triggered 800ms after the keyup)
