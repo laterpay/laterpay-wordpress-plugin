@@ -55,14 +55,7 @@
                     saveDynamicPricingData();
                 });
 
-                if ( wp.data ) {
-                    var editPost = wp.data.select( 'core/edit-post' );
-                    wp.data.subscribe( function() {
-                        if ( editPost.isSavingMetaBoxes() ) {
-                            saveDynamicPricingData();
-                        }
-                    } );
-                }
+                subscribeToGutenbergUpdates();
 
                 // validate manually entered prices
                 // (function is only triggered 800ms after the keyup)
@@ -105,6 +98,35 @@
                     applyCategoryPrice(this);
                 })
                 .on('click', 'a', function(e) {e.preventDefault();});
+            },
+
+            /**
+             * Subscribe to gutenberg editor updates.
+             *
+             * @return { void }
+             */
+            subscribeToGutenbergUpdates = function() {
+                var editPost, editor, categories;
+
+                if ( ! wp.data ) {
+                    return;
+                }
+
+                editPost = wp.data.select( 'core/edit-post' );
+                editor = wp.data.select( 'core/editor' );
+                categories = editor.getPostEdits().categories;
+
+                wp.data.subscribe( function() {
+                    if ( editPost.isSavingMetaBoxes() ) {
+                        saveDynamicPricingData();
+                    }
+
+                    if ( categories !== editor.getPostEdits().categories ) {
+
+                        // @todo Refactor and call updateSelectedCategory() here.
+                        categories = editor.getPostEdits().categories;
+                    }
+                } );
             },
 
             switchPricingType = function(trigger) {
