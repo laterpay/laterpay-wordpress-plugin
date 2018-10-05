@@ -41,6 +41,13 @@
                 singleSale              : 'sis'
             },
 
+            /**
+             * Category ids selected by the user from categories meta box.
+             *
+             * @type {Array}
+             */
+            categoryIds = [],
+
             bindEvents = function() {
                 // switch pricing type
                 $o.pricingTypeButtons
@@ -122,9 +129,10 @@
                     }
 
                     if ( categories !== editor.getPostEdits().categories ) {
+                        categoryIds = editor.getPostEdits().categories;
 
-                        // @todo Refactor and call updateSelectedCategory() here.
-                        categories = editor.getPostEdits().categories;
+                        updateApplicableCategoriesList();
+                        categories = categoryIds;
                     }
                 } );
             },
@@ -344,13 +352,14 @@
             updateApplicableCategoriesList = function() {
                 var $selectedCategories = $('#categorychecklist :checkbox:checked'),
                     l                   = $selectedCategories.length,
-                    categoryIds         = [],
                     categoriesList      = [],
                     i, categoryId;
 
-                for (i = 0; i < l; i++) {
-                    categoryId = parseInt($selectedCategories.eq(i).val(), 10);
-                    categoryIds.push(categoryId);
+                if ( ! wp.data ) {
+                    for (i = 0; i < l; i++) {
+                        categoryId = parseInt($selectedCategories.eq(i).val(), 10);
+                        categoryIds.push(categoryId);
+                    }
                 }
 
                 // make Ajax request for prices and names of categories
