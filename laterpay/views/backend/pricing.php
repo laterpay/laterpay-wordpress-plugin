@@ -32,26 +32,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 
     <div class="lp_pagewrap">
-        <div class="lp_greybox lp_mt lp_mb lp_mr">
-            <?php esc_html_e( 'Posts can', 'laterpay' ); ?>
-            <div class="lp_toggle">
-                <form id="lp_js_changePurchaseModeForm" method="post" action="">
-                    <input type="hidden" name="form"    value="change_purchase_mode_form">
-                    <input type="hidden" name="action"  value="laterpay_pricing">
-                    <label class="lp_toggle__label lp_toggle__label-pass">
-                        <input type="checkbox"
-                               name="only_time_pass_purchase_mode"
-                               class="lp_js_onlyTimePassPurchaseModeInput lp_toggle__input"
-                               value="1"
-                                <?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo 'checked'; } ?>
-                        >
-                        <span class="lp_toggle__text"></span>
-                        <span class="lp_toggle__handle"></span>
-                    </label>
-                </form>
-            </div>
-            <?php esc_html_e( 'cannot be purchased individually.', 'laterpay' ); ?>
-        </div>
 
         <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++">
             <div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">

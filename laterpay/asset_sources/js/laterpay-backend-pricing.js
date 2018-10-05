@@ -12,8 +12,6 @@
             emptyState                              : '.lp_js_emptyState',
 
             // enabled revenue models
-            purchaseModeForm                        : $('#lp_js_changePurchaseModeForm'),
-            purchaseModeInput                       : $('.lp_js_onlyTimePassPurchaseModeInput'),
             timePassOnlyHideElements                : $('.lp_js_hideInTimePassOnlyMode'),
 
             // global default price
@@ -218,13 +216,6 @@
                     validatePrice($(this).parents('form'));
                 }, 1500)
             );
-
-            // enabled revenue models events -----------------------------------------------------------------------
-            // change
-            $o.purchaseModeInput
-            .on('change', function() {
-                changePurchaseMode($o.purchaseModeForm);
-            });
 
             // global default price events -------------------------------------------------------------------------
             // edit
@@ -1235,13 +1226,6 @@
                                     // show empty state hint, if there are no time passes
                                     if ($($entity.wrapper + ':visible').length === 0) {
                                         $($o.emptyState, $entity.editor).velocity('fadeIn', { duration: 400 });
-
-                                        // set toggle according to current purchase mode value.
-                                        if ( '1' === r.purchase_mode_value ) {
-                                            $o.purchaseModeInput.prop('checked', true );
-                                        } else {
-                                            $o.purchaseModeInput.prop('checked', false );
-                                        }
                                     }
                                 } else {
                                     $(this).stop().show();
@@ -1443,27 +1427,6 @@
                     $(this).remove();
                 }
             });
-        },
-
-        changePurchaseMode = function($form) {
-            var serializedForm = $form.serialize();
-            // disable button during Ajax request
-            $o.purchaseModeInput.prop('disabled', true);
-
-            $.post(
-                ajaxurl,
-                serializedForm,
-                function(data) {
-                    if (!data.success) {
-                        $o.navigation.showMessage(data);
-                        $o.purchaseModeInput.prop('checked', false);
-                    }
-                },
-                'json'
-            );
-
-            // re-enable button after Ajax request
-            $o.purchaseModeInput.prop('disabled', false);
         },
 
         // throttle the execution of a function by a given delay

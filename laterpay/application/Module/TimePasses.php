@@ -385,7 +385,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // check, if the current post price is not 0
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID, true );
 
-        $only_time_passes_allowed = (int) get_option( 'laterpay_only_time_pass_purchases_allowed' );
+        $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
 
         // Getting list of timepass by post id.
         $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post->ID, null, true );
@@ -394,7 +394,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post->ID, null, true );
 
         // determine overlay title to show
-        if ( ( floatval( 0.00 ) === floatval( $price ) || 0 === $only_time_passes_allowed ) && ( 0 !== count( $time_passes_list ) && 0 === count( $subscriptions_list ) ) ) {
+        if ( ( floatval( 0.00 ) === floatval( $price ) || 1 === $post_price_behaviour ) && ( 0 !== count( $time_passes_list ) && 0 === count( $subscriptions_list ) ) ) {
             $overlay_title = __( 'Read Now', 'laterpay' );
             $overlay_benefits = array(
                 array(
@@ -416,7 +416,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
 
             $event->set_result( $overlay_content );
 
-        } else if ( ( floatval( 0.00 ) === floatval( $price ) || 0 === $only_time_passes_allowed ) && ( 0 === count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) ) {
+        } else if ( ( floatval( 0.00 ) === floatval( $price ) || 1 === $post_price_behaviour ) && ( 0 === count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) ) {
             $overlay_title = esc_html__( 'Read Now', 'laterpay' );
             $overlay_benefits = array(
                 array(
@@ -433,7 +433,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
 
             $event->set_result( $overlay_content );
 
-        } else if ( ( floatval( 0.00 ) === floatval( $price ) || 0 === $only_time_passes_allowed ) && ( 0 !== count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) ) {
+        } else if ( ( floatval( 0.00 ) === floatval( $price ) || 1 === $post_price_behaviour ) && ( 0 !== count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) ) {
             $overlay_title = esc_html__( 'Read Now', 'laterpay' );
             $overlay_benefits = array(
                 array(
@@ -495,8 +495,8 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * @param LaterPay_Core_Event $event
      */
     public function check_only_time_pass_purchases_allowed( LaterPay_Core_Event $event ) {
-        $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
-        if ( $only_time_passes_allowed ) {
+	    $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
+        if ( 1 === $post_price_behaviour ) {
             $event->stop_propagation();
         }
     }

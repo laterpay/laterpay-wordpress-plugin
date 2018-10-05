@@ -112,6 +112,10 @@ delete_option( 'laterpay_region' );
 delete_option( 'laterpay_plugin_version' );
 delete_option( 'laterpay_pro_merchant' );
 
+
+// Delete Post Price Display Behaviour Option.
+delete_option( 'laterpay_post_price_behaviour' );
+
 // Delete laterpay migrated option.
 delete_option( 'laterpay_data_migrated_to_cpt' );
 
