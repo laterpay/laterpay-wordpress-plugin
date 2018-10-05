@@ -478,6 +478,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             $maybe_perform_updates->maybe_remove_ppul();
         }
         $this->change_teaser_mode();
+        $this->update_default_pricing_behaviour();
 
     }
 
@@ -491,5 +492,25 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // update capabilities
         $laterpay_capabilities = new LaterPay_Core_Capability();
         $laterpay_capabilities->update_roles( (array) $roles );
+    }
+
+    public function update_default_pricing_behaviour() {
+        $current_version = get_option( 'laterpay_plugin_version' );
+        if ( version_compare( $current_version, '2.0.0', '<' ) ) {
+            return;
+        }
+
+        if ( false === get_option( 'laterpay_post_price_behaviour' ) ) {
+            $only_timepass        = (bool) get_option( 'laterpay_only_time_pass_purchases_allowed' );
+            $current_global_price = ( float) get_option( 'laterpay_global_price' );
+
+            if ( true === $only_timepass ) {
+                update_option( 'laterpay_post_price_behaviour', 0 );
+            } else if ( ( true === $only_timepass ) && ( floatval( 0.00 ) === $current_global_price ) ) {
+                update_option( 'laterpay_post_price_behaviour', 1 );
+            } else {
+                update_option( 'laterpay_post_price_behaviour', 2 );
+            }
+        }
     }
 }

@@ -307,24 +307,34 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $delocalized_global_price   = $global_price_form->get_field_value( 'laterpay_global_price' );
         $global_price_revenue_model = $global_price_form->get_field_value( 'laterpay_global_price_revenue_model' );
         $localized_global_price     = LaterPay_Helper_View::format_number( $delocalized_global_price );
+        $lp_post_price_behaviour    = $global_price_form->get_field_value( 'lp_post_price_behaviour' );
 
         update_option( 'laterpay_global_price', $delocalized_global_price );
         update_option( 'laterpay_global_price_revenue_model', $global_price_revenue_model );
+        update_option( 'laterpay_post_price_behaviour', $lp_post_price_behaviour );
 
-        $message = sprintf(
-            esc_html__( 'The global default price for all posts is %s %s now.', 'laterpay' ),
-            $localized_global_price,
-            $this->config->get( 'currency.code' )
-        );
+        if ( 0 === $lp_post_price_behaviour ) {
+	        $message = esc_html__( 'All articles will be free by default; Time Passes & Subscriptions will only be 
+	        displayed if an Individual Article Price greater than 0.00 is manually set on the Post page.', 'laterpay' );
+        } elseif ( 1 === $lp_post_price_behaviour ) {
+	        $message = esc_html__( 'Only Time Passes & Subscriptions will be displayed in the purchase dialog.', 'laterpay' );
+        } elseif ( 2 === $lp_post_price_behaviour ) {
+	        $message = sprintf(
+		        esc_html__( 'The global default price for all posts is %s %s now.', 'laterpay' ),
+		        $localized_global_price,
+		        $this->config->get( 'currency.code' )
+	        );
+        }
 
         $event->set_result(
             array(
-                'success'             => true,
-                'price'               => number_format( $delocalized_global_price, 2, '.', '' ),
-                'localized_price'     => $localized_global_price,
-                'revenue_model'       => $global_price_revenue_model,
-                'revenue_model_label' => LaterPay_Helper_Pricing::get_revenue_label( $global_price_revenue_model ),
-                'message'             => $message,
+                'success'              => true,
+                'price'                => number_format( $delocalized_global_price, 2, '.', '' ),
+                'localized_price'      => $localized_global_price,
+                'revenue_model'        => $global_price_revenue_model,
+                'revenue_model_label'  => LaterPay_Helper_Pricing::get_revenue_label( $global_price_revenue_model ),
+                'post_price_behaviour' => $lp_post_price_behaviour,
+                'message'              => $message,
             )
         );
     }

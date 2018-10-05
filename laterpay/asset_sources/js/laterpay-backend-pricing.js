@@ -197,7 +197,11 @@
             selected                                : 'lp_is-selected',
             disabled                                : 'lp_is-disabled',
             hidden                                  : 'lp_hidden',
-            navigation                              : $('.lp_navigation')
+            navigation                              : $('.lp_navigation'),
+            lp_make_post_free                       : $('#lp_make_post_free'),
+            lp_disable_individual_purchase          : $('#lp_disable_individual_purchase'),
+            lp_set_inidvidual_price                 : $('#lp_set_individual_price'),
+            lp_current_post_price_val               : $('input[name="lp_current_post_price_val"]')
         },
 
         bindEvents = function() {
@@ -475,6 +479,24 @@
                 flipEntity('subscription', this);
             })
             .on('click', $o.subscription.actions.flip, function(e) {e.preventDefault();});
+
+            $o.lp_make_post_free.on('click', function() {
+              $( '#lp_js_globalPriceSection' ).hide();
+              $( '#lp_js_globalRevenueSection' ).hide();
+              return true;
+            });
+
+            $o.lp_disable_individual_purchase.on('click', function() {
+              $( '#lp_js_globalPriceSection' ).hide();
+              $( '#lp_js_globalRevenueSection' ).hide();
+              return true;
+            });
+
+            $o.lp_set_inidvidual_price.on('click', function() {
+              $( '#lp_js_globalPriceSection' ).show();
+              $( '#lp_js_globalRevenueSection' ).show();
+              return true;
+            });
         },
 
         validatePrice = function($form, disableRevenueValidation, $input, subscriptionValidation) {
@@ -613,6 +635,26 @@
             .prop('checked', 'checked')
                 .parent('label')
                 .addClass($o.selected);
+            var currentPostPriceBehaviour = $o.lp_current_post_price_val.val();
+            if ( '2' === currentPostPriceBehaviour ) {
+              $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
+              $o.lp_disable_individual_purchase.removeProp( 'checked' );
+              $o.lp_make_post_free.removeProp( 'checked' );
+              $( '#lp_js_globalPriceSection' ).show();
+              $( '#lp_js_globalRevenueSection' ).show();
+            } else if ( '1' === currentPostPriceBehaviour ) {
+              $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
+              $o.lp_set_inidvidual_price.removeProp( 'checked' );
+              $o.lp_make_post_free.removeProp( 'checked' );
+              $( '#lp_js_globalPriceSection' ).hide();
+              $( '#lp_js_globalRevenueSection' ).hide();
+            } else if ( '0' === currentPostPriceBehaviour ) {
+              $o.lp_make_post_free.attr( 'checked', 'checked' );
+              $o.lp_set_inidvidual_price.removeProp( 'checked' );
+              $o.lp_disable_individual_purchase.removeProp( 'checked' );
+              $( '#lp_js_globalPriceSection' ).hide();
+              $( '#lp_js_globalRevenueSection' ).hide();
+            }
         },
 
         saveGlobalDefaultPrice = function() {
@@ -629,6 +671,29 @@
                         $o.globalDefaultPriceRevenueModelDisplay
                             .text(r.revenue_model_label)
                             .data('revenue', r.revenue_model);
+
+                        if ( 2 === r.post_price_behaviour ) {
+                          $o.lp_current_post_price_val.val('2');
+                          $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
+                          $o.lp_disable_individual_purchase.removeProp( 'checked' );
+                          $o.lp_make_post_free.removeProp( 'checked' );
+                          $( '#lp_js_globalPriceSection' ).show();
+                          $( '#lp_js_globalRevenueSection' ).show();
+                        } else if ( 1 === r.post_price_behaviour ) {
+                          $o.lp_current_post_price_val.val('1');
+                          $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
+                          $o.lp_set_inidvidual_price.removeProp( 'checked' );
+                          $o.lp_make_post_free.removeProp( 'checked' );
+                          $( '#lp_js_globalPriceSection' ).hide();
+                          $( '#lp_js_globalRevenueSection' ).hide();
+                        } else if ( 0 === r.post_price_behaviour ) {
+                          $o.lp_current_post_price_val.val('0');
+                          $o.lp_make_post_free.attr( 'checked', 'checked' );
+                          $o.lp_set_inidvidual_price.removeProp( 'checked' );
+                          $o.lp_disable_individual_purchase.removeProp( 'checked' );
+                          $( '#lp_js_globalPriceSection' ).hide();
+                          $( '#lp_js_globalRevenueSection' ).hide();
+                        }
                     }
                     $o.navigation.showMessage(r);
                     exitEditModeGlobalDefaultPrice();
