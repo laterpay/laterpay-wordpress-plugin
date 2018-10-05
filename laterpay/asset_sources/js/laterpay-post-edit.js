@@ -356,6 +356,8 @@
                     i, categoryId;
 
                 if ( ! wp.data ) {
+                    categoryIds = [];
+
                     for (i = 0; i < l; i++) {
                         categoryId = parseInt($selectedCategories.eq(i).val(), 10);
                         categoryIds.push(categoryId);
