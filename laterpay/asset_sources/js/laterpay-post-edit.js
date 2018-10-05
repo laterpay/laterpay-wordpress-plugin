@@ -125,6 +125,11 @@
 
                 wp.data.subscribe( function() {
                     if ( editPost.isSavingMetaBoxes() ) {
+
+                        if ( window.tinyMCE ) {
+                            window.tinyMCE.triggerSave();
+                        }
+
                         saveDynamicPricingData();
                     }
 
