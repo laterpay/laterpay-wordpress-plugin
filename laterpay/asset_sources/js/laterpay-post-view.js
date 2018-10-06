@@ -273,17 +273,31 @@
                             if (r.success) {
                                 if (!is_gift) {
                                     var has_matches = false,
-                                        passId;
-                                    $($o.timePass).each(function() {
-                                        // check for each shown time pass, if the request returned updated data for it
-                                        passId = $(this).data('pass-id');
-                                        if (passId === r.pass_id) {
+                                        passId,subId;
 
-                                            has_matches = true;
+                                    if ( 'time_pass' === r.type ) {
+                                        $($o.timePass).each(function() {
+                                            // Check for each shown time pass,
+                                            // if the request returned updated data for it.
+                                            passId = $(this).data('pass-id');
+                                            if (passId === r.pass_id) {
+                                                has_matches = true;
+                                                return false;
+                                            }
+                                        });
+                                    }
 
-                                            return false;
-                                        }
-                                    });
+                                    if ( 'subscription' === r.type ) {
+                                        $($o.subscription).each(function() {
+                                            // Check for each shown subscription,
+                                            // if the request returned updated data for it.
+                                            subId = $(this).data('sub-id');
+                                            if (subId === r.sub_id) {
+                                                has_matches = true;
+                                                return false;
+                                            }
+                                        });
+                                    }
 
                                     if (has_matches) {
                                         // voucher is valid for at least one displayed time pass ->

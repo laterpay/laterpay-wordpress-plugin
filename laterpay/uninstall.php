@@ -88,6 +88,7 @@ delete_option( 'laterpay_preview_excerpt_word_count_max' );
 delete_option( 'laterpay_unlimited_access' );
 
 delete_option( 'laterpay_voucher_codes' );
+delete_option( 'laterpay_subscription_voucher_codes' );
 delete_option( 'laterpay_gift_codes' );
 delete_option( 'laterpay_voucher_statistic' );
 delete_option( 'laterpay_gift_statistic' );

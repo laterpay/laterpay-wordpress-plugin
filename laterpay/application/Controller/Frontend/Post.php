@@ -91,7 +91,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'link' );
         }
 
-        // check, if voucher code exists and time pass is available for purchase
+        // Check if voucher code exists and time pass or subscription is available for purchase.
         $is_gift     = true;
         $code        = sanitize_text_field( $_GET['code'] ); // phpcs:ignore
         $code_data   = LaterPay_Helper_Voucher::check_voucher_code( $code, $is_gift );
@@ -109,7 +109,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             if ( $is_gift ) {
                 LaterPay_Helper_Voucher::update_gift_code_usages( $code );
             }
-            // get new URL for this time pass
+            // Get new URL for this time pass / subscription.
             $pass_id    = $code_data['pass_id'];
             // prepare URL before use
             $data       = array(
@@ -118,17 +118,28 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 'price'   => $code_data['price'],
             );
 
-            // get new purchase URL
-            $url = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
+            $url_data = [];
+
+            // Get new purchase URL.
+            if ( 'time_pass' === $code_data['type'] ) {
+                $url                 = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
+                $url_data['pass_id'] = $pass_id;
+                $url_data['type']    = 'time_pass';
+            } else {
+                $url                = LaterPay_Helper_Subscription::get_subscription_purchase_link( $pass_id, $data );
+                $url_data['sub_id'] = $pass_id;
+                $url_data['type']   = 'subscription';
+
+            }
 
             if ( $url ) {
+
+                $url_data['success'] = true;
+                $url_data['price']   = LaterPay_Helper_View::format_number( $code_data['price'] );
+                $url_data['url']     = $url;
+
                 $event->set_result(
-                    array(
-                        'success' => true,
-                        'pass_id' => $pass_id,
-                        'price'   => LaterPay_Helper_View::format_number( $code_data['price'] ),
-                        'url'     => $url,
-                    )
+                    $url_data
                 );
             }
             return;

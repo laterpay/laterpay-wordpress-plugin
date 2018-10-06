@@ -19,7 +19,7 @@ The plugin is available on http://wordpress.org/plugins/laterpay
 2. Create your feature branch (`git checkout -b feature/my_new_feature`)
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin feature/my_new_feature`)
-5. Create a new Pull Request
+5. Create a new Pull Request to develop.
 
 This project uses Gulp to build its assets.
 Gulp is a node.js module. If you have node.js running, you can install gulp with ```sudo npm install -g gulp```.
