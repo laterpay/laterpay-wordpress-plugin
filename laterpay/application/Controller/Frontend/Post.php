@@ -457,6 +457,17 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 // Give access to post.
                 $access = true;
             }
+        } elseif ( 0 === $post_purchase_behaviour ) {
+            $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+            $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
+            if ( ( empty( $post_price_type ) ||
+                   LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE === $post_price_type ) ||
+                 ( floatval( 0.00 ) === floatval(  $post_price ) &&
+                   ( LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE === $post_price_type ||
+                     LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $post_price_type ||
+                     LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE === $post_price_type ) ) ) {
+                $access = true;
+            }
         }
 
         // set necessary arguments
