@@ -442,8 +442,10 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             $access = true;
         }
 
+	    $global_default_price = get_option( 'laterpay_global_price' );
+
         // Check if no individual post type is allowed.
-        if ( 1 === $post_purchase_behaviour ) {
+        if ( 1 === $post_purchase_behaviour || ( 2 === $post_purchase_behaviour && floatval( 0.00 ) === (float) $global_default_price ) ) {
 
             // Getting list of timepass by post id.
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post->ID, null, true );
