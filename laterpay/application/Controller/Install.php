@@ -493,6 +493,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $laterpay_capabilities->update_roles( (array) $roles );
     }
 
+    /**
+     * Update Default Pricing Behaviour to Provide Backwards Compatibility
+     *
+     * @since 2.1.0
+     */
     public function update_default_pricing_behaviour() {
         $current_version = get_option( 'laterpay_plugin_version' );
         if ( version_compare( $current_version, '2.0.0', '<' ) ) {
@@ -510,6 +515,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             } else {
                 update_option( 'laterpay_post_price_behaviour', 2 );
             }
+
+            delete_option( 'laterpay_only_time_pass_purchases_allowed' );
         }
     }
 }

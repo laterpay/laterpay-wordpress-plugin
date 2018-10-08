@@ -167,10 +167,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $content_ids = LaterPay_Helper_Post::get_content_ids( $post->ID );
         $revenue_model = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
 
+        // Get the value of purchase type.
         $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
-	    $global_default_price = get_option( 'laterpay_global_price' );
+        // Global Price Value.
+        $global_default_price = get_option( 'laterpay_global_price' );
 
-	    // If Individual purchase is turned off then select revenue model of timepass or subscription.
+        // If Individual purchase is turned off then select revenue model of timepass or subscription.
         if ( 1 === $post_price_behaviour || ( 2 === $post_price_behaviour && floatval( 0.00 ) === (float) $global_default_price ) ) {
 
             $content_data = (array) $overlay_content_event->get_result();
@@ -349,8 +351,10 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $data = $event->get_result();
         $post = $event->get_argument( 'post' );
 
-	    $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
-	    $global_default_price = get_option( 'laterpay_global_price' );
+        // Get the value of purchase type.
+        $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
+        // Global Price Value.
+        $global_default_price = get_option( 'laterpay_global_price' );
 
         if ( 1 === $post_price_behaviour || ( 2 === $post_price_behaviour && floatval( 0.00 ) === (float) $global_default_price ) ) {
             return;

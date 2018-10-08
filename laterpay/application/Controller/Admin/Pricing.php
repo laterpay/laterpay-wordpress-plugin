@@ -316,16 +316,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         update_option( 'laterpay_post_price_behaviour', $lp_post_price_behaviour );
 
         if ( 0 === $lp_post_price_behaviour ) {
-	        $message = esc_html__( 'All articles will be free by default; Time Passes & Subscriptions will only be 
-	        displayed if an Individual Article Price greater than 0.00 is manually set on the Post page.', 'laterpay' );
+            $message = esc_html__( 'All articles will be free by default; Time Passes & Subscriptions will only be
+            displayed if an Individual Article Price greater than 0.00 is manually set on the Post page.', 'laterpay' );
         } elseif ( 1 === $lp_post_price_behaviour ) {
-	        $message = esc_html__( 'Only Time Passes & Subscriptions will be displayed in the purchase dialog.', 'laterpay' );
+            $message = esc_html__( 'Only Time Passes & Subscriptions will be displayed in the purchase dialog.', 'laterpay' );
         } elseif ( 2 === $lp_post_price_behaviour ) {
-	        $message = sprintf(
-		        esc_html__( 'The global default price for all posts is %s %s now.', 'laterpay' ),
-		        $localized_global_price,
-		        $this->config->get( 'currency.code' )
-	        );
+            $message = sprintf(
+                esc_html__( 'The global default price for all posts is %s %s now.', 'laterpay' ),
+                $localized_global_price,
+                $this->config->get( 'currency.code' )
+            );
         }
 
         $event->set_result(

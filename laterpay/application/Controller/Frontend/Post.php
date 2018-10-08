@@ -412,7 +412,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         $content = $event->get_result();
 
-        // Get the value of purchase type
+        // Get the value of purchase type.
         $post_purchase_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
 
         if ( $event->has_argument( 'post' ) ) {
@@ -442,7 +442,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             $access = true;
         }
 
-	    $global_default_price = get_option( 'laterpay_global_price' );
+        // Global Price Value.
+        $global_default_price = get_option( 'laterpay_global_price' );
 
         // Check if no individual post type is allowed.
         if ( 1 === $post_purchase_behaviour || ( 2 === $post_purchase_behaviour && floatval( 0.00 ) === (float) $global_default_price ) ) {

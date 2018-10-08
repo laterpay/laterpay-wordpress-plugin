@@ -116,23 +116,23 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $call_to_action_text = '';
         }
 
-	    // Get the value of purchase type
-	    $post_purchase_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
+        // Get the value of purchase type
+        $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
 
-	    // If 'Make article free unless price is set on post page' is selected only show time pass or subscription
-	    // if the individual post price greater than 0.
-	    if ( 0 === $post_purchase_behaviour ) {
-		    $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-		    $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
-		    if ( ( empty( $post_price_type ) ||
-		           LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE === $post_price_type ) ||
-		         ( floatval( 0.00 ) === floatval(  $post_price ) &&
-		           ( LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE === $post_price_type ||
-		             LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $post_price_type ||
-		             LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE === $post_price_type ) ) ) {
-			    return;
-		    }
-	    }
+        // If 'Make article free unless price is set on post page' is selected only show time pass or subscription
+        // if the individual post price greater than 0.
+        if ( 0 === $post_price_behaviour ) {
+            $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+            $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
+            if ( ( empty( $post_price_type ) ||
+                   LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE === $post_price_type ) ||
+                 ( floatval( 0.00 ) === floatval(  $post_price ) &&
+                   ( LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE === $post_price_type ||
+                     LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $post_price_type ||
+                     LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE === $post_price_type ) ) ) {
+                return;
+            }
+        }
 
         // get time passes list
         $time_passes_with_access = $this->get_time_passes_with_access();
@@ -325,30 +325,30 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // Getting list of subscription by post id.
         $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post->ID, null, true );
 
-	    // Get the value of purchase type
-	    $post_purchase_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
+        // Get the value of purchase type
+        $post_purchase_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
 
-	    // If 'Make article free unless price is set on post page' is selected only show time pass or subscription
-	    // if the individual post price greater than 0.
-	    if ( 0 === $post_purchase_behaviour ) {
-		    $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-		    $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
-		    if ( ( floatval(  $post_price ) > floatval( 0.00 ) ) &&
-		           ( LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE === $post_price_type ||
-		             LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $post_price_type ||
-		             LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE === $post_price_type ) ) {
+        // If 'Make article free unless price is set on post page' is selected only show time pass or subscription
+        // if the individual post price greater than 0.
+        if ( 0 === $post_purchase_behaviour ) {
+            $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+            $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
+            if ( ( floatval(  $post_price ) > floatval( 0.00 ) ) &&
+                   ( LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE === $post_price_type ||
+                     LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $post_price_type ||
+                     LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE === $post_price_type ) ) {
 
-			    // Show message only if any timepass or subscription exists
-			    if ( 0 !== count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) {
-				    $content .= esc_html__( 'Buy a time pass or subscription to read the full content.', 'laterpay' );
-			    } elseif ( 0 !== count( $time_passes_list ) && 0 === count( $subscriptions_list ) ) {
-				    $content .= esc_html__('Buy a time pass to read the full content.', 'laterpay');
-			    } elseif ( 0 === count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) {
-				    $content .= esc_html__('Buy a subscription to read the full content.', 'laterpay');
-			    }
+                // Show message only if any timepass or subscription exists
+                if ( 0 !== count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) {
+                    $content .= esc_html__( 'Buy a time pass or subscription to read the full content.', 'laterpay' );
+                } elseif ( 0 !== count( $time_passes_list ) && 0 === count( $subscriptions_list ) ) {
+                    $content .= esc_html__('Buy a time pass to read the full content.', 'laterpay');
+                } elseif ( 0 === count( $time_passes_list ) && 0 !== count( $subscriptions_list ) ) {
+                    $content .= esc_html__('Buy a subscription to read the full content.', 'laterpay');
+                }
 
-		    }
-	    }
+            }
+        }
 
         $time_pass_event = new LaterPay_Core_Event();
         $time_pass_event->set_echo( false );
@@ -426,6 +426,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // check, if the current post price is not 0
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID, true );
 
+        // Get the value of purchase type.
         $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
 
         // Getting list of timepass by post id.
@@ -434,7 +435,8 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // Getting list of subscription by post id.
         $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post->ID, null, true );
 
-	    $global_default_price = get_option( 'laterpay_global_price' );
+        // Global Price Value.
+        $global_default_price = get_option( 'laterpay_global_price' );
 
         // determine overlay title to show
         if ( ( floatval( 0.00 ) === floatval( $price ) || 1 === $post_price_behaviour ||
@@ -544,8 +546,10 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
      * @param LaterPay_Core_Event $event
      */
     public function check_only_time_pass_purchases_allowed( LaterPay_Core_Event $event ) {
-	    $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
-	    $global_default_price = get_option( 'laterpay_global_price' );
+        // Get the value of purchase type.
+        $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
+        // Global Price Value.
+        $global_default_price = get_option( 'laterpay_global_price' );
 
         if ( 1 === $post_price_behaviour || ( 2 === $post_price_behaviour && floatval( 0.00 ) === (float) $global_default_price ) ) {
             $event->stop_propagation();
