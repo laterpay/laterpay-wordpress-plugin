@@ -394,6 +394,13 @@
                 e.preventDefault();
             });
 
+            // validate voucher price on input.
+            $o.timepass.editor
+            .on( 'keyup', $o.voucherPriceInput, function (e) {
+               validateVoucherPrice( 'timepass', $(this).parents($o.timepass.wrapper) );
+               e.preventDefault();
+            } );
+
             // subscription events ----------------------------------------------------------------------------------
             // add
             $o.subscription.actions.create
@@ -504,6 +511,50 @@
                     deleteVoucher($(this).parent());
                     e.preventDefault();
                 });
+
+            // validate voucher price on input.
+            $o.subscription.editor
+            .on( 'keyup', $o.voucherPriceInput, function (e) {
+              validateVoucherPrice( 'subscription', $(this).parents($o.subscription.wrapper) );
+              e.preventDefault();
+            } );
+        },
+
+        /**
+         * Checks if voucher price exceeds time pass / subscription price.
+         * Disable's saving of time pass / subscription
+         */
+        validateVoucherPrice = function(type, $entity) {
+
+            var isSubscription = false;
+
+            if ( 'subscription' === type ) {
+              isSubscription = true;
+            }
+
+            if ( isSubscription ) {
+              if ( $entity.find($o.voucherPriceInput).val() >
+                $entity.find( $o.subscription.fields.price ).val() ) {
+                $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMaximumPrice );
+                $entity.find('.lp_js_voucher_msg').css( 'display','block' );
+                return;
+              } else if ( $entity.find($o.voucherPriceInput).val() < lpVars.currency.sis_min) {
+                $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMinimum );
+                $entity.find('.lp_js_voucher_msg').css( 'display','block' );
+                return;
+              }
+              $( $o.subscription.actions.save ).removeAttr( 'disabled' );
+              $( $o.subscription.actions.save ).attr( 'href', '#' );
+            } else {
+              if ( $entity.find($o.voucherPriceInput).val() > $entity.find( $o.timepass.fields.price ).val() ) {
+                $entity.find('.lp_js_voucher_msg').css( 'display','block' );
+                return;
+              }
+              $( $o.timepass.actions.save ).removeAttr( 'disabled' );
+              $( $o.timepass.actions.save ).attr( 'href', '#' );
+            }
+
+            $entity.find('.lp_js_voucher_msg').hide();
 
             $o.lp_make_post_free.on('click', function() {
               $( '#lp_js_globalPriceSection' ).hide();
