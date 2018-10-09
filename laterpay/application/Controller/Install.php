@@ -376,7 +376,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
     public function change_teaser_mode()
     {
         $current_version = get_option( 'laterpay_plugin_version' );
-        if ( version_compare( $current_version, '1.0.0', '<' ) ) {
+        if ( version_compare( $current_version, '0.10.0', '>' ) ) {
             return;
         }
 
