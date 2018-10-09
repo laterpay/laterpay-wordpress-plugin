@@ -412,8 +412,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         $content = $event->get_result();
 
-        // Get the value of purchase type ( individual / timepass )
-        $only_timepass = (bool) get_option( 'laterpay_only_time_pass_purchases_allowed' );
+        // Get the value of purchase type.
+        $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
 
         if ( $event->has_argument( 'post' ) ) {
             $post = $event->get_argument( 'post' );
@@ -442,8 +442,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             $access = true;
         }
 
+        // Global Price Value.
+        $global_default_price = get_option( 'laterpay_global_price' );
+
+        $post_price_type_one            = ( 1 === $post_price_behaviour );
+        $post_price_type_two_price_zero = ( 2 === $post_price_behaviour && floatval( 0.00 ) === (float) $global_default_price );
+
         // Check if no individual post type is allowed.
-        if ( $only_timepass ) {
+        if ( $post_price_type_one || $post_price_type_two_price_zero ) {
 
             // Getting list of timepass by post id.
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post->ID, null, true );
@@ -455,6 +461,23 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             if ( ( 0 === count( $time_passes_list ) ) && ( 0 === count( $subscriptions_list ) ) ) {
 
                 // Give access to post.
+                $access = true;
+            }
+        } elseif ( 0 === $post_price_behaviour ) {
+            $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+            $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
+            $is_price_zero   = floatval( 0.00 ) === floatval(  $post_price );
+
+            $is_global_price_type     = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE === $post_price_type;
+            $is_individual_price_type = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE === $post_price_type;
+            $is_dynamic_price_type    = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $post_price_type;
+            $is_category_price_type   = LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE === $post_price_type;
+
+            $is_price_zero_and_type_not_global = ( $is_price_zero &&
+                                                   ( $is_category_price_type || $is_dynamic_price_type ||
+                                                     $is_individual_price_type ) );
+
+            if ( ( empty( $post_price_type ) || $is_global_price_type ) || $is_price_zero_and_type_not_global ) {
                 $access = true;
             }
         }

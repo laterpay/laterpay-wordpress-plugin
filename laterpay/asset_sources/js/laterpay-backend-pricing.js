@@ -12,8 +12,6 @@
             emptyState                              : '.lp_js_emptyState',
 
             // enabled revenue models
-            purchaseModeForm                        : $('#lp_js_changePurchaseModeForm'),
-            purchaseModeInput                       : $('.lp_js_onlyTimePassPurchaseModeInput'),
             timePassOnlyHideElements                : $('.lp_js_hideInTimePassOnlyMode'),
 
             // global default price
@@ -198,7 +196,14 @@
             selected                                : 'lp_is-selected',
             disabled                                : 'lp_is-disabled',
             hidden                                  : 'lp_hidden',
-            navigation                              : $('.lp_navigation')
+            navigation                              : $('.lp_navigation'),
+            lp_make_post_free                       : $('#lp_make_post_free'),
+            lp_disable_individual_purchase          : $('#lp_disable_individual_purchase'),
+            lp_set_inidvidual_price                 : $('#lp_set_individual_price'),
+            lp_current_post_price_val               : $('input[name="lp_current_post_price_val"]'),
+            lp_global_price_section                 : $('#lp_js_globalPriceSection'),
+            lp_global_revenue_section               : $('#lp_js_globalRevenueSection'),
+            lp_js_form_buttons_section              : $('#lp_js_formButtons')
         },
 
         bindEvents = function() {
@@ -215,13 +220,6 @@
                     validatePrice($(this).parents('form'));
                 }, 1500)
             );
-
-            // enabled revenue models events -----------------------------------------------------------------------
-            // change
-            $o.purchaseModeInput
-            .on('change', function() {
-                changePurchaseMode($o.purchaseModeForm);
-            });
 
             // global default price events -------------------------------------------------------------------------
             // edit
@@ -523,6 +521,27 @@
               validateVoucherPrice( 'subscription', $(this).parents($o.subscription.wrapper) );
               e.preventDefault();
             } );
+
+            $o.lp_make_post_free.on('click', function() {
+              $o.lp_global_price_section.hide();
+              $o.lp_global_revenue_section.hide();
+              $o.lp_js_form_buttons_section.css( 'float', 'right' );
+              return true;
+            });
+
+            $o.lp_disable_individual_purchase.on('click', function() {
+              $o.lp_global_price_section.hide();
+              $o.lp_global_revenue_section.hide();
+              $o.lp_js_form_buttons_section.css( 'float', 'right' );
+              return true;
+            });
+
+            $o.lp_set_inidvidual_price.on('click', function() {
+              $o.lp_global_price_section.show();
+              $o.lp_global_revenue_section.show();
+              $o.lp_js_form_buttons_section.css( 'float', 'none' );
+              return true;
+            });
         },
 
         /**
@@ -698,6 +717,30 @@
             .prop('checked', 'checked')
                 .parent('label')
                 .addClass($o.selected);
+
+            var currentPostPriceBehaviour = $o.lp_current_post_price_val.val();
+            if ( '2' === currentPostPriceBehaviour ) {
+              $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
+              $o.lp_disable_individual_purchase.removeProp( 'checked' );
+              $o.lp_make_post_free.removeProp( 'checked' );
+              $o.lp_global_price_section.show();
+              $o.lp_global_revenue_section.show();
+              $o.lp_js_form_buttons_section.css( 'float', 'none' );
+            } else if ( '1' === currentPostPriceBehaviour ) {
+              $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
+              $o.lp_set_inidvidual_price.removeProp( 'checked' );
+              $o.lp_make_post_free.removeProp( 'checked' );
+              $o.lp_global_price_section.hide();
+              $o.lp_global_revenue_section.hide();
+              $o.lp_js_form_buttons_section.css( 'float', 'right' );
+            } else if ( '0' === currentPostPriceBehaviour ) {
+              $o.lp_make_post_free.attr( 'checked', 'checked' );
+              $o.lp_set_inidvidual_price.removeProp( 'checked' );
+              $o.lp_disable_individual_purchase.removeProp( 'checked' );
+              $o.lp_global_price_section.hide();
+              $o.lp_global_revenue_section.hide();
+              $o.lp_js_form_buttons_section.css( 'float', 'right' );
+            }
         },
 
         saveGlobalDefaultPrice = function() {
@@ -714,6 +757,32 @@
                         $o.globalDefaultPriceRevenueModelDisplay
                             .text(r.revenue_model_label)
                             .data('revenue', r.revenue_model);
+
+                        if ( 2 === r.post_price_behaviour ) {
+                          $o.lp_current_post_price_val.val('2');
+                          $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
+                          $o.lp_disable_individual_purchase.removeProp( 'checked' );
+                          $o.lp_make_post_free.removeProp( 'checked' );
+                          $o.lp_global_price_section.show();
+                          $o.lp_global_revenue_section.show();
+                          $o.lp_js_form_buttons_section.css( 'float', 'none' );
+                        } else if ( 1 === r.post_price_behaviour ) {
+                          $o.lp_current_post_price_val.val('1');
+                          $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
+                          $o.lp_set_inidvidual_price.removeProp( 'checked' );
+                          $o.lp_make_post_free.removeProp( 'checked' );
+                          $o.lp_global_price_section.hide();
+                          $o.lp_global_revenue_section.hide();
+                          $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                        } else if ( 0 === r.post_price_behaviour ) {
+                          $o.lp_current_post_price_val.val('0');
+                          $o.lp_make_post_free.attr( 'checked', 'checked' );
+                          $o.lp_set_inidvidual_price.removeProp( 'checked' );
+                          $o.lp_disable_individual_purchase.removeProp( 'checked' );
+                          $o.lp_global_price_section.hide();
+                          $o.lp_global_revenue_section.hide();
+                          $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                        }
                     }
                     $o.navigation.showMessage(r);
                     exitEditModeGlobalDefaultPrice();
@@ -1261,13 +1330,6 @@
                                     // show empty state hint, if there are no time passes
                                     if ($($entity.wrapper + ':visible').length === 0) {
                                         $($o.emptyState, $entity.editor).velocity('fadeIn', { duration: 400 });
-
-                                        // set toggle according to current purchase mode value.
-                                        if ( '1' === r.purchase_mode_value ) {
-                                            $o.purchaseModeInput.prop('checked', true );
-                                        } else {
-                                            $o.purchaseModeInput.prop('checked', false );
-                                        }
                                     }
                                 } else {
                                     $(this).stop().show();
@@ -1503,27 +1565,6 @@
                     $(this).remove();
                 }
             });
-        },
-
-        changePurchaseMode = function($form) {
-            var serializedForm = $form.serialize();
-            // disable button during Ajax request
-            $o.purchaseModeInput.prop('disabled', true);
-
-            $.post(
-                ajaxurl,
-                serializedForm,
-                function(data) {
-                    if (!data.success) {
-                        $o.navigation.showMessage(data);
-                        $o.purchaseModeInput.prop('checked', false);
-                    }
-                },
-                'json'
-            );
-
-            // re-enable button after Ajax request
-            $o.purchaseModeInput.prop('disabled', false);
         },
 
         // throttle the execution of a function by a given delay
