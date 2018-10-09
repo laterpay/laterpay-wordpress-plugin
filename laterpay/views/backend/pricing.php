@@ -70,10 +70,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <tr>
                                     <td colspan="3">
                                         <?php
-                                        $selected_option = ( int )get_option( 'laterpay_post_price_behaviour', 2 );
+                                        $selected_option = ( int ) get_option( 'laterpay_post_price_behaviour', 2 );
                                         ?>
                                         <label class="lp_js_postPriceLabel">
-                                            <input type="radio" class="lp_js_postPriceDisplayOption" value="0" <?php echo ( 0 === $selected_option ) ? 'checked' : '' ?> name="lp_post_price_behaviour" id="lp_make_post_free">
+                                            <input type="radio" class="lp_js_postPriceDisplayOption" value="0" <?php checked( $selected_option, 0 ); ?> name="lp_post_price_behaviour" id="lp_make_post_free">
                                             <?php esc_html_e( 'Make article free unless price is set on post page', 'laterpay' ); ?>
                                         </label>
                                         <p class="lp_tooltip lp_tooltip_p" data-tooltip="<?php echo esc_attr( 'All articles will be free by default; Time Passes & Subscriptions will only be displayed if an Individual Article Price greater than 0.00 is manually set on the Post page.', true ) ?>">
@@ -81,7 +81,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         </p>
                                         <br/>
                                         <label class="lp_js_postPriceLabel">
-                                            <input type="radio" class="lp_js_postPriceDisplayOption" value="1" <?php echo ( 1 === $selected_option ) ? 'checked' : '' ?> name="lp_post_price_behaviour" id="lp_disable_individual_purchase">
+                                            <input type="radio" class="lp_js_postPriceDisplayOption" value="1" <?php checked( $selected_option, 1 ); ?> name="lp_post_price_behaviour" id="lp_disable_individual_purchase">
                                             <?php esc_html_e( 'Posts cannot be purchased individually', 'laterpay' ); ?>
                                         </label>
                                         <p class="lp_tooltip lp_tooltip_p" data-tooltip="<?php echo esc_attr( 'Only Time Passes & Subscriptions will be displayed in the purchase dialog.', true ) ?>">
@@ -89,7 +89,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         </p>
                                         <br/>
                                         <label class="lp_js_postPriceLabel">
-                                            <input type="radio" class="lp_js_postPriceDisplayOption" value="2" <?php echo ( 2 === $selected_option ) ? 'checked' : '' ?> name="lp_post_price_behaviour" id="lp_set_individual_price">
+                                            <input type="radio" class="lp_js_postPriceDisplayOption" value="2" <?php checked( $selected_option, 2 ); ?> name="lp_post_price_behaviour" id="lp_set_individual_price">
                                             <?php esc_html_e( 'Set individual article default price', 'laterpay' ); ?>
                                         </label>
                                         <input type="hidden" value="<?php echo esc_attr( $selected_option ); ?>" name="lp_current_post_price_val">

@@ -332,11 +332,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             array(
                 'success'              => true,
                 'price'                => number_format( $delocalized_global_price, 2, '.', '' ),
-                'localized_price'      => $localized_global_price,
-                'revenue_model'        => $global_price_revenue_model,
-                'revenue_model_label'  => LaterPay_Helper_Pricing::get_revenue_label( $global_price_revenue_model ),
-                'post_price_behaviour' => $lp_post_price_behaviour,
-                'message'              => $message,
+                'localized_price'      => esc_html( $localized_global_price ),
+                'revenue_model'        => esc_html( $global_price_revenue_model ),
+                'revenue_model_label'  => esc_html( LaterPay_Helper_Pricing::get_revenue_label( $global_price_revenue_model ) ),
+                'post_price_behaviour' => intval( $lp_post_price_behaviour ),
+                'message'              => esc_html( $message ),
             )
         );
     }

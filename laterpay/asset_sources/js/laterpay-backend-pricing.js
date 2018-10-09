@@ -200,7 +200,10 @@
             lp_make_post_free                       : $('#lp_make_post_free'),
             lp_disable_individual_purchase          : $('#lp_disable_individual_purchase'),
             lp_set_inidvidual_price                 : $('#lp_set_individual_price'),
-            lp_current_post_price_val               : $('input[name="lp_current_post_price_val"]')
+            lp_current_post_price_val               : $('input[name="lp_current_post_price_val"]'),
+            lp_global_price_section                 : $('#lp_js_globalPriceSection'),
+            lp_global_revenue_section               : $('#lp_js_globalRevenueSection'),
+            lp_js_form_buttons_section              : $('#lp_js_formButtons')
         },
 
         bindEvents = function() {
@@ -520,23 +523,23 @@
             } );
 
             $o.lp_make_post_free.on('click', function() {
-              $( '#lp_js_globalPriceSection' ).hide();
-              $( '#lp_js_globalRevenueSection' ).hide();
-              $( '#lp_js_formButtons' ).css( 'float', 'right' );
+              $o.lp_global_price_section.hide();
+              $o.lp_global_revenue_section.hide();
+              $o.lp_js_form_buttons_section.css( 'float', 'right' );
               return true;
             });
 
             $o.lp_disable_individual_purchase.on('click', function() {
-              $( '#lp_js_globalPriceSection' ).hide();
-              $( '#lp_js_globalRevenueSection' ).hide();
-              $( '#lp_js_formButtons' ).css( 'float', 'right' );
+              $o.lp_global_price_section.hide();
+              $o.lp_global_revenue_section.hide();
+              $o.lp_js_form_buttons_section.css( 'float', 'right' );
               return true;
             });
 
             $o.lp_set_inidvidual_price.on('click', function() {
-              $( '#lp_js_globalPriceSection' ).show();
-              $( '#lp_js_globalRevenueSection' ).show();
-              $( '#lp_js_formButtons' ).css( 'float', 'none' );
+              $o.lp_global_price_section.show();
+              $o.lp_global_revenue_section.show();
+              $o.lp_js_form_buttons_section.css( 'float', 'none' );
               return true;
             });
         },
@@ -720,23 +723,23 @@
               $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
               $o.lp_disable_individual_purchase.removeProp( 'checked' );
               $o.lp_make_post_free.removeProp( 'checked' );
-              $( '#lp_js_globalPriceSection' ).show();
-              $( '#lp_js_globalRevenueSection' ).show();
-              $( '#lp_js_formButtons' ).css( 'float', 'none' );
+              $o.lp_global_price_section.show();
+              $o.lp_global_revenue_section.show();
+              $o.lp_js_form_buttons_section.css( 'float', 'none' );
             } else if ( '1' === currentPostPriceBehaviour ) {
               $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
               $o.lp_set_inidvidual_price.removeProp( 'checked' );
               $o.lp_make_post_free.removeProp( 'checked' );
-              $( '#lp_js_globalPriceSection' ).hide();
-              $( '#lp_js_globalRevenueSection' ).hide();
-              $( '#lp_js_formButtons' ).css( 'float', 'right' );
+              $o.lp_global_price_section.hide();
+              $o.lp_global_revenue_section.hide();
+              $o.lp_js_form_buttons_section.css( 'float', 'right' );
             } else if ( '0' === currentPostPriceBehaviour ) {
               $o.lp_make_post_free.attr( 'checked', 'checked' );
               $o.lp_set_inidvidual_price.removeProp( 'checked' );
               $o.lp_disable_individual_purchase.removeProp( 'checked' );
-              $( '#lp_js_globalPriceSection' ).hide();
-              $( '#lp_js_globalRevenueSection' ).hide();
-              $( '#lp_js_formButtons' ).css( 'float', 'right' );
+              $o.lp_global_price_section.hide();
+              $o.lp_global_revenue_section.hide();
+              $o.lp_js_form_buttons_section.css( 'float', 'right' );
             }
         },
 
@@ -760,25 +763,25 @@
                           $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
                           $o.lp_disable_individual_purchase.removeProp( 'checked' );
                           $o.lp_make_post_free.removeProp( 'checked' );
-                          $( '#lp_js_globalPriceSection' ).show();
-                          $( '#lp_js_globalRevenueSection' ).show();
-                          $( '#lp_js_formButtons' ).css( 'float', 'none' );
+                          $o.lp_global_price_section.show();
+                          $o.lp_global_revenue_section.show();
+                          $o.lp_js_form_buttons_section.css( 'float', 'none' );
                         } else if ( 1 === r.post_price_behaviour ) {
                           $o.lp_current_post_price_val.val('1');
                           $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
                           $o.lp_set_inidvidual_price.removeProp( 'checked' );
                           $o.lp_make_post_free.removeProp( 'checked' );
-                          $( '#lp_js_globalPriceSection' ).hide();
-                          $( '#lp_js_globalRevenueSection' ).hide();
-                          $( '#lp_js_formButtons' ).css( 'float', 'right' );
+                          $o.lp_global_price_section.hide();
+                          $o.lp_global_revenue_section.hide();
+                          $o.lp_js_form_buttons_section.css( 'float', 'right' );
                         } else if ( 0 === r.post_price_behaviour ) {
                           $o.lp_current_post_price_val.val('0');
                           $o.lp_make_post_free.attr( 'checked', 'checked' );
                           $o.lp_set_inidvidual_price.removeProp( 'checked' );
                           $o.lp_disable_individual_purchase.removeProp( 'checked' );
-                          $( '#lp_js_globalPriceSection' ).hide();
-                          $( '#lp_js_globalRevenueSection' ).hide();
-                          $( '#lp_js_formButtons' ).css( 'float', 'right' );
+                          $o.lp_global_price_section.hide();
+                          $o.lp_global_revenue_section.hide();
+                          $o.lp_js_form_buttons_section.css( 'float', 'right' );
                         }
                     }
                     $o.navigation.showMessage(r);
