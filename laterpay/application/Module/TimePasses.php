@@ -122,6 +122,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // If 'Make article free unless price is set on post page' is selected only show time pass or subscription
         // if the individual post price greater than 0.
         if ( 0 === $post_price_behaviour ) {
+            // @todo: Refactor Code.
             $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
             $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
             $is_price_zero   = floatval( 0.00 ) === floatval(  $post_price );
@@ -334,6 +335,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // Get the value of purchase type
         $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
 
+        // @todo: Refactor Code.
         $post_price           = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         $post_price_type      = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
         $price_more_than_zero = floatval(  $post_price ) > floatval( 0.00 );

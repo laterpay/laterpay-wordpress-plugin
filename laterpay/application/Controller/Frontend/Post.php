@@ -464,6 +464,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 $access = true;
             }
         } elseif ( 0 === $post_price_behaviour ) {
+
+            // @todo: Refactor Code.
             $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
             $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
             $is_price_zero   = floatval( 0.00 ) === floatval(  $post_price );
