@@ -61,8 +61,7 @@
                 overlayMessageContainer         : '.lp_js_purchaseOverlayMessageContainer',
                 overlayTimePassPrice            : '.lp_js_timePassPrice',
 
-                lp_ga_element                   : $('#lp_ga_ua_id'),
-                lp_ga_user_element              : $('#lp_ga_user_ua_id'),
+                lp_ga_element                   : $('#lp_ga_tracking'),
                 lp_already_bought               : '.lp_bought_notification'
             },
 
@@ -127,6 +126,7 @@
                         if ( $(this).data( 'preview-post-as-visitor' ) ) {
                             alert(lpVars.i18n.alert);
                         } else {
+                            // Send GA Event On Click of Buy Button.
                             sendGAEvent( 'Paid Content Purchase' );
                             window.location.href = $(this).data('laterpay');
                         }
@@ -142,6 +142,7 @@
                         if ( $(this).data( 'preview-post-as-visitor' ) ) {
                             alert(lpVars.i18n.alert);
                         } else {
+                            // Send GA Event On Click of Buy Button.
                             sendGAEvent( 'Paid Content Purchase' );
                             purchaseOverlaySubmit($(this).attr('data-purchase-action'));
                         }
@@ -214,6 +215,7 @@
                     });
             },
             bindAlreadyPurchasedEvents = function() {
+              // handle clicks on already bought link.
               $o.body
               .on('click', $o.lp_already_bought, function(e) {
                 e.preventDefault();
@@ -540,17 +542,16 @@
               if ( true === injectNow ) {
                 (function(i,s,o,g,r,a,m){
                   i.GoogleAnalyticsObject=r;i[r]=i[r]||function(){
-                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,'script','https://www.google-analytics.com/analytics.js', 'lpga'
-                )
+                    (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+                })(window,document,'script','https://www.google-analytics.com/analytics.js', 'lpga');
                 return lpga;
               }
             },
             sendParentEvent = function( injectNow, eventlabel, eventAction ) {
               var lpga = injectGAScript( injectNow );
               if (typeof lpga === 'function') {
-                lpga( 'create', $($o.lp_ga_element).val(), 'auto', 'lpParentTracker' );
+                lpga( 'create', lpVars.gaData.lp_tracking_id, 'auto', 'lpParentTracker' );
                 lpga('lpParentTracker.send', 'event', {
                   eventCategory : 'LaterPay WordPress Plugin',
                   eventAction   : eventAction,
@@ -561,7 +562,7 @@
             sendUserEvent = function( injectNow, eventlabel, eventAction ) {
               var lpga = injectGAScript( injectNow );
               if (typeof lpga === 'function') {
-                lpga( 'create', $($o.lp_ga_user_element).val(), 'auto', 'lpUserTracker' );
+                lpga( 'create', lpVars.gaData.lp_user_tracking_id, 'auto', 'lpUserTracker' );
                 lpga( 'lpUserTracker.send', 'event', {
                   eventCategory : 'LaterPay WordPress Plugin',
                   eventAction   : eventAction,
@@ -570,18 +571,18 @@
               }
             },
             sendGAEvent = function( eventAction ) {
-              var eventlabel = lpVars.gaData.postTitle + ',' +
-                lpVars.gaData.postPermalink + ',' + lpVars.gaData.blogName;
+              var eventlabel = lpVars.gaData.postTitle + ',' + lpVars.gaData.blogName + ',' +
+                lpVars.gaData.postPermalink;
 
-              if( $($o.lp_ga_user_element).length >= 1 && $($o.lp_ga_element).length >= 1) {
+              if( lpVars.gaData.lp_user_tracking_id.length > 0 && lpVars.gaData.lp_tracking_id.length > 0 ) {
 
                 var ga = window[window.GoogleAnalyticsObject || 'ga'];
 
                 if (typeof ga === 'function') {
                   var trackers = ga.getAll();
                   trackers.forEach(function(tracker) {
-                    if ( $($o.lp_ga_element).val() === tracker.get('trackingId') ||
-                      $($o.lp_ga_user_element).val() === tracker.get('trackingId') ) {
+                    if ( lpVars.gaData.lp_tracking_id === tracker.get('trackingId') ||
+                      lpVars.gaData.lp_user_tracking_id === tracker.get('trackingId') ) {
                       var trackerName = tracker.get('name');
                       ga( trackerName + '.send', 'event', {
                         eventCategory : 'LaterPay WordPress Plugin',
@@ -592,11 +593,47 @@
                   sendParentEvent( true, eventlabel, eventAction );
                   sendUserEvent( true, eventlabel, eventAction );
                 }
-              } else if( $($o.lp_ga_user_element).length >= 1 && $($o.lp_ga_element).length === 0 ) {
+              } else if( lpVars.gaData.lp_user_tracking_id.length > 0 && lpVars.gaData.lp_tracking_id.length === 0 ) {
                 sendUserEvent( true, eventlabel, eventAction );
               }
-              else if( $($o.lp_ga_user_element).length === 0 && $($o.lp_ga_element).length >= 1 ) {
+              else if( lpVars.gaData.lp_user_tracking_id.length === 0 && lpVars.gaData.lp_tracking_id.length > 0 ) {
                 sendParentEvent( true, eventlabel, eventAction );
+              }
+            },
+            createCookie = function (name, value, days) {
+              var expires = '';
+              if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = '; expires=' + date.toGMTString();
+              } else {
+                expires = '';
+              }
+
+              document.cookie = name + '=' + value + expires + '; path=/';
+            },
+            readCookie = function (name) {
+              var nameEQ = name + '=';
+              var ca = document.cookie.split(';');
+              for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') {
+                  c = c.substring(1, c.length);
+                }
+                if (c.indexOf(nameEQ) === 0) {
+                  return c.substring(nameEQ.length, c.length);
+                }
+
+              }
+              return null;
+            },
+            eraseCookie = function (name) {
+              createCookie(name, '', -1);
+            },
+            readPurchasedCookie = function() {
+              if ( '1' === readCookie('lp_ga_purchased') ) {
+                sendGAEvent( 'Paid Content Purchase Complete' );
+                eraseCookie('lp_ga_purchased');
               }
             },
             initializePage = function() {
@@ -613,7 +650,10 @@
                     loadPremiumUrls();
                 }
 
-                sendGAEvent( 'Paid Content Replacement Show' );
+                readPurchasedCookie();
+                if ( $($o.lp_ga_element).length >= 1 ) {
+                  sendGAEvent( 'Paid Content Replacement Show' );
+                }
 
                 bindPurchaseEvents();
                 bindTimePassesEvents();

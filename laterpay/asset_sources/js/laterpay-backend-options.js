@@ -18,6 +18,7 @@
         class : 'lp_ga_span',
       });
 
+      // Validation For Personal Google Analytics Setting.
       user_tracking_status.on('click', function() {
           if ( true === user_tracking_status.prop('checked') ) {
             if ( user_ua_id.val() === '' ) {
@@ -54,6 +55,7 @@
         }
       });
 
+      // Validation For LaterPay Google Analytics Setting.
       laterpay_tracking_status.on('click', function() {
         if ( true === laterpay_tracking_status.prop('checked') ) {
           if ( laterpay_ua_id.val() === '' ) {
@@ -80,6 +82,7 @@
 
       });
 
+      // Modal Events.
       modalClose.click(function(){
         laterpay_tracking_status.attr( 'checked', 'checked' );
         laterpay_tracking_status.val( 1 );
@@ -92,6 +95,7 @@
         jQuery('#TB_closeWindowButton').click();
       });
 
+      // Validation Before Saving Settings.
       settingSave.click(function(){
         if ( user_ua_id.val() === '' || false === validateGAId(user_ua_id.val()) ) {
           user_tracking_status.removeProp( 'checked' );
@@ -99,6 +103,7 @@
         }
       });
 
+      // Validate Google Tracking ID.
       function validateGAId(id) {
         return /^(UA)-\d+-\d+$/i.test(id);
       }

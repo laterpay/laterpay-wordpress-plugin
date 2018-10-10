@@ -495,31 +495,33 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $laterpay_capabilities->update_roles( (array) $roles );
     }
 
-	/**
-	 * Init ga options
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return void
-	 */
-	public function init_ga_options() {
-		$current_version = get_option( 'laterpay_plugin_version' );
-		if ( version_compare( $current_version, '2.0.0', '<' ) ) {
-			return;
-		}
+    /**
+     * Init ga options.
+     * Add options needed for sending Google Analytics Events.
+     *
+     * @since 2.2.0
+     *
+     * @return void
+     */
+    public function init_ga_options() {
+        $current_version = get_option( 'laterpay_plugin_version' );
+        // @todo change version compared to `2.1.0`
+        if ( version_compare( $current_version, '2.0.0', '<' ) ) {
+            return;
+        }
 
-		$lp_personal_data = array(
-			'laterpay_ga_personal_enabled_status' => 0,
-			'laterpay_ga_personal_ua_id' => ''
-		);
+        $lp_personal_data = array(
+            'laterpay_ga_personal_enabled_status' => 0,
+            'laterpay_ga_personal_ua_id' => ''
+        );
 
-		update_option( 'laterpay_user_tracking_data', $lp_personal_data );
+        update_option( 'laterpay_user_tracking_data', $lp_personal_data );
 
-		$lp_tracking_data = array(
-			'laterpay_ga_enabled_status' => 1,
-			'laterpay_ga_ua_id' => $this->config->get( 'tracking_ua_id.sandbox' )
-		);
+        $lp_tracking_data = array(
+            'laterpay_ga_enabled_status' => 1,
+            'laterpay_ga_ua_id' => $this->config->get( 'tracking_ua_id.sandbox' )
+        );
 
-		update_option( 'laterpay_tracking_data', $lp_tracking_data );
-	}
+        update_option( 'laterpay_tracking_data', $lp_tracking_data );
+    }
 }
