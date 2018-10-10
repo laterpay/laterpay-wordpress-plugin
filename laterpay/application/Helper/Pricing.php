@@ -62,6 +62,7 @@ class LaterPay_Helper_Pricing
         // If 'Make article free unless price is set on post page' is selected only show time pass or subscription
         // if the individual post price greater than 0.
         if ( 0 === $post_price_behaviour ) {
+            // @todo: Refactor Code.
             $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post_id );
 
             $is_global_price_type     = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE === $post_price_type;
