@@ -110,11 +110,12 @@
             /**
              * Subscribe to gutenberg editor updates.
              *
-             * @return { void }
+             * @return {void}
              */
             subscribeToGutenbergUpdates = function() {
                 var editPost, editor, categories;
 
+                // Bail out early if gutenberg is not enabled.
                 if ( ! wp.data ) {
                     return;
                 }
@@ -126,6 +127,7 @@
                 wp.data.subscribe( function() {
                     if ( editPost.isSavingMetaBoxes() ) {
 
+                        // Gutenberg does not save tinyMCE by default.
                         if ( window.tinyMCE ) {
                             window.tinyMCE.triggerSave();
                         }
@@ -133,6 +135,7 @@
                         saveDynamicPricingData();
                     }
 
+                    // Checks if the category value has changed.
                     if ( categories !== editor.getPostEdits().categories ) {
                         categoryIds = editor.getPostEdits().categories;
 
