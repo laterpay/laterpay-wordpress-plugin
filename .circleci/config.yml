@@ -7,7 +7,7 @@ jobs:
   build:
     branches:
       only:
-        - master
+        - develop
     working_directory: ~/repo
     docker:
       # specify the version you desire here
@@ -58,4 +58,4 @@ jobs:
                 cd "$WP_PROJECT_FOLDER"
                 rm -rf wp-content/plugins/laterpay
                 cp -r ~/repo/laterpay/ wp-content/plugins/laterpay
-                git add . && git commit -m "Master Build Pushed on `date +'%Y-%m-%d %H:%M:%S'`" -q && git push origin -q
+                git add . && git commit --allow-empty -m "Develop Build Pushed on `date +'%Y-%m-%d %H:%M:%S'`" -q && git push origin -q
