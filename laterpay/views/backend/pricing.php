@@ -28,6 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php
         // laterpay[pricing_obj] is instance of LaterPay_Controller_Admin_Pricing
         $laterpay['pricing_obj']->get_menu();
+        $selected_option = ( int ) get_option( 'laterpay_post_price_behaviour', 2 );
         ?>
     </div>
 
@@ -44,18 +45,40 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                     <div id="lp_js_globalDefaultPriceShowElements" class="lp_greybox lp_price-panel">
-                        <?php esc_html_e( 'Every post costs', 'laterpay' ); ?>
-                        <span id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text" data-price="<?php echo esc_attr( $laterpay['global_default_price'] ); ?>">
-                            <?php echo esc_html( LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ) ); ?>
+                        <div id="lp_js_globalPriceOptionTwo" style="display:<?php echo ( 2 === $selected_option ) ? 'block' : 'none'; ?>">
+                            <?php
+                            esc_html_e( 'Every post costs', 'laterpay' );
+                            ?>
+                            <span id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text" data-price="<?php echo esc_attr( $laterpay['global_default_price'] ); ?>">
+                                <?php echo esc_html( LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ) ); ?>
+                            </span>
+                            <span class="lp_js_currency lp_currency">
+                                <?php echo esc_html( $laterpay['currency']['code'] ); ?>
+                            </span>
+                            <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge" data-revenue="<?php echo esc_attr( $laterpay['global_default_price_revenue_model'] ); ?>">
+                                <?php echo esc_html( LaterPay_Helper_Pricing::get_revenue_label( $laterpay['global_default_price_revenue_model'] ) ); ?>
+                            </span>
+                        </div>
+                        <span id="lp_js_globalPriceOptionOne" style="display:<?php echo ( 1 === $selected_option ) ? 'block' : 'none'; ?>">
+                            <?php
+                            printf( '%1$s <br/> %2$s',
+                                esc_html__( 'Posts cannot be purchased individually;', 'laterpay' ),
+                                esc_html__( 'only Time Passes & Subscriptions will be displayed.', 'laterpay' )
+                            );
+                            ?>
                         </span>
-                        <span class="lp_js_currency lp_currency">
-                            <?php echo esc_html( $laterpay['currency']['code'] ); ?>
+                        <span id="lp_js_globalPriceOptionZero" style="display:<?php echo ( 0 === $selected_option ) ? 'block' : 'none'; ?>">
+                            <?php
+                            printf( '<b>%1$s</b> %2$s <br/> %3$s',
+                                esc_html__( 'Every post is FREE', 'laterpay' ),
+                                esc_html__( 'unless they match a Category Default Price', 'laterpay' ),
+                                esc_html__( 'or have an Individual Article Price set on the Post page.', 'laterpay' )
+                            );
+                            ?>
                         </span>
-                        <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge" data-revenue="<?php echo esc_attr( $laterpay['global_default_price_revenue_model'] ); ?>">
-                            <?php echo esc_html( LaterPay_Helper_Pricing::get_revenue_label( $laterpay['global_default_price_revenue_model'] ) ); ?>
-                        </span>
+
                         <div class="lp_price-panel__buttons">
-                            <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
+                            <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link--bold lp_change-link lp_rounded--right" <?php echo ( 0 === $selected_option || 1 === $selected_option ) ? 'style="padding: 21px;"' : ''; ?> data-icon="d"></a>
                         </div>
                     </div>
 
@@ -69,14 +92,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        <?php
-                                        $selected_option = ( int ) get_option( 'laterpay_post_price_behaviour', 2 );
-                                        ?>
                                         <label class="lp_js_postPriceLabel">
                                             <input type="radio" class="lp_js_postPriceDisplayOption" value="0" <?php checked( $selected_option, 0 ); ?> name="lp_post_price_behaviour" id="lp_make_post_free">
-                                            <?php esc_html_e( 'Make article free unless price is set on post page', 'laterpay' ); ?>
+                                            <?php esc_html_e( 'FREE unless price is set on post page or by category', 'laterpay' ); ?>
                                         </label>
-                                        <p class="lp_tooltip lp_tooltip_p" data-tooltip="<?php echo esc_attr( 'All articles will be free by default; Time Passes & Subscriptions will only be displayed if an Individual Article Price greater than 0.00 is manually set on the Post page.', true ) ?>">
+                                        <p class="lp_tooltip lp_tooltip_p" data-tooltip="<?php echo esc_attr( 'All articles will be free by default; Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post page.', true ) ?>">
                                             <span data-icon="m" class="lp_js_postPriceSpan"></span>
                                         </p>
                                         <br/>
