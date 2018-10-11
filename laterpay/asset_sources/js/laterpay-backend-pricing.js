@@ -186,7 +186,6 @@
             voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
             voucherList                             : '.lp_js_voucherList',
             voucher                                 : '.lp_js_voucher',
-            voucherTimesRedeemed                    : '.lp_js_voucherTimesRedeemed',
 
             // strings cached for better compression
             editing                                 : 'lp_is-editing',
@@ -203,7 +202,10 @@
             lp_current_post_price_val               : $('input[name="lp_current_post_price_val"]'),
             lp_global_price_section                 : $('#lp_js_globalPriceSection'),
             lp_global_revenue_section               : $('#lp_js_globalRevenueSection'),
-            lp_js_form_buttons_section              : $('#lp_js_formButtons')
+            lp_js_form_buttons_section              : $('#lp_js_formButtons'),
+            lp_js_globalPriceOptionZero             : $('#lp_js_globalPriceOptionZero'),
+            lp_js_globalPriceOptionOne              : $('#lp_js_globalPriceOptionOne'),
+            lp_js_globalPriceOptionTwo              : $('#lp_js_globalPriceOptionTwo'),
         },
 
         bindEvents = function() {
@@ -766,6 +768,10 @@
                           $o.lp_global_price_section.show();
                           $o.lp_global_revenue_section.show();
                           $o.lp_js_form_buttons_section.css( 'float', 'none' );
+                          $o.lp_js_globalPriceOptionTwo.show();
+                          $o.editGlobalDefaultPrice.css( 'padding', '14px' );
+                          $o.lp_js_globalPriceOptionOne.hide();
+                          $o.lp_js_globalPriceOptionZero.hide();
                         } else if ( 1 === r.post_price_behaviour ) {
                           $o.lp_current_post_price_val.val('1');
                           $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
@@ -774,6 +780,10 @@
                           $o.lp_global_price_section.hide();
                           $o.lp_global_revenue_section.hide();
                           $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                          $o.lp_js_globalPriceOptionOne.show();
+                          $o.editGlobalDefaultPrice.css( 'padding', '21px' );
+                          $o.lp_js_globalPriceOptionTwo.hide();
+                          $o.lp_js_globalPriceOptionZero.hide();
                         } else if ( 0 === r.post_price_behaviour ) {
                           $o.lp_current_post_price_val.val('0');
                           $o.lp_make_post_free.attr( 'checked', 'checked' );
@@ -782,6 +792,10 @@
                           $o.lp_global_price_section.hide();
                           $o.lp_global_revenue_section.hide();
                           $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                          $o.lp_js_globalPriceOptionZero.show();
+                          $o.editGlobalDefaultPrice.css( 'padding', '21px' );
+                          $o.lp_js_globalPriceOptionTwo.hide();
+                          $o.lp_js_globalPriceOptionOne.hide();
                         }
                     }
                     $o.navigation.showMessage(r);
@@ -1517,9 +1531,7 @@
         },
 
         addVoucherToList = function(code, voucherData, $timePass) {
-            var passId = $timePass.data($o.timepass.data.id),
-                timesRedeemed = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
-                title = voucherData.title ? voucherData.title : '',
+            var title = voucherData.title ? voucherData.title : '',
                 price = voucherData.price + ' ' + lpVars.currency.code;
 
             var voucher = $('<div/>', {
@@ -1537,12 +1549,7 @@
 
             var voucherInfo = $('<span/>', {
                 class: 'lp_voucher__code-infos'
-            }).text(lpVars.i18n.voucherText + ' ' + price)
-                .append('<br/>')
-                .append($('<span/>', {
-                    class: 'lp_js_voucherTimesRedeemed',
-                }).text(timesRedeemed))
-                .append(' ' + lpVars.i18n.timesRedeemed);
+            }).text(lpVars.i18n.voucherText + ' ' + price);
 
             var redeemDetail = $('<div/>').append(voucherCode).append(voucherInfo);
 
