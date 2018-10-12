@@ -78,7 +78,6 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 
                 $is_price_zero                        = floatval( 0.00 ) === floatval( $price );
                 $post_price_type_one                  = ( 1 === $post_price_behaviour );
-                $post_price_type_two_price_zero       = ( 2 === $post_price_behaviour && floatval( 0.00 ) === (float) $global_default_price );
                 $is_time_pass_subscription_count_zero = ( ( 0 === count( $time_passes_list ) ) && ( 0 === count( $subscriptions_list ) ) );
                 $is_post_type_not_supported           = ( ! in_array( get_post_type( $post_id ), (array) get_option( 'laterpay_enabled_post_types' ), true ) );
 
@@ -100,22 +99,15 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                     } else {
                         /* translators: %1$s post price, %2$s currency code */
                         printf( '<strong>%1$s</strong> <span>%2$s</span>', esc_html( $localized_price ), esc_html( $currency ) );
-                        // render the price of the post, if it exists
-                        if ( $price <= 0 ) {
-                            echo '&mdash;';
-                        }
                     }
-                } else if ( $post_price_type_one || 2 === $post_price_behaviour ) {
-                    if ( ( ( $is_price_zero || $post_price_type_one || $post_price_type_two_price_zero ) &&
-                           $is_time_pass_subscription_count_zero ) || $is_post_type_not_supported ) {
+                } else if ( $post_price_type_one ) {
+                    echo '--';
+                } else if ( 2 === $post_price_behaviour ) {
+                    if ( ( $is_price_zero && $is_time_pass_subscription_count_zero ) || $is_post_type_not_supported ) {
                         esc_html_e( 'FREE', 'laterpay' );
                     } else {
                         /* translators: %1$s post price, %2$s currency code */
                         printf( '<strong>%1$s</strong> <span>%2$s</span>', esc_html( $localized_price ), esc_html( $currency ) );
-                        // render the price of the post, if it exists
-                        if ( $price <= 0 ) {
-                            echo '&mdash;';
-                        }
                     }
                 }
 
