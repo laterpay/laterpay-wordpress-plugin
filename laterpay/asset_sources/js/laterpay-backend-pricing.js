@@ -812,7 +812,9 @@
                           // Update category panel.
                           $o.addCategory.attr( 'disabled', 'disabled' );
                           $o.categoryButtonContainer.addClass('lp_tooltip');
-                          $o.categoryPanelWarning.show();
+                          if ( $($o.categoryDefaultPriceForm + ':visible').length > 0 ) {
+                            $o.categoryPanelWarning.show();
+                          }
                         } else if ( 0 === r.post_price_behaviour ) {
                           // Change current selected radio and behaviour.
                           $o.lp_current_post_price_val.val('0');
