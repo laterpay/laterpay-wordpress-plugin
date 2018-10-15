@@ -45,9 +45,12 @@ if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAU
 if ( ! empty( $laterpay['category_prices'] ) ) {
     $global_disabled_class = ' lp_is-disabled';
 }
+
+$is_in_live_mode        = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
+$is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' );
 ?>
 <div class="lp_clearfix lp_postMetaBox">
-    <?php if ( ! get_option( 'laterpay_plugin_is_in_live_mode' ) ) : ?>
+    <?php if ( ! $is_in_live_mode ) : ?>
     <div class="lp_tooltip" data-tooltip="<?php echo esc_attr( __( 'Click here to finish your account set up', 'laterpay' ) ); ?>">
             <a href="<?php echo esc_url( add_query_arg( array( 'page' => 'laterpay-account-tab' ), admin_url( 'admin.php' ) ) ); ?>"
                class="lp_plugin-mode-indicator"
@@ -62,7 +65,7 @@ if ( ! empty( $laterpay['category_prices'] ) ) {
             </a>
     </div>
     <?php endif; ?>
-    <?php if( ! get_option( 'laterpay_is_in_visible_test_mode' ) ): ?>
+    <?php if( ! $is_in_live_mode && ! $is_visible_to_visitors ): ?>
     <p class="account_setup_warning" data-icon="n">
         <?php
         printf( '%1s <a href="%2$s">%3$s</a> %4$s',
