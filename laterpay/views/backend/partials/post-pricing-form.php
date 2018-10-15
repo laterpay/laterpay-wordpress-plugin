@@ -10,6 +10,42 @@ if ( ! defined( 'ABSPATH' ) ) {
     lpVars.postId = <?php echo esc_html( $laterpay['post_id'] ); ?>;
     lpVars.limits = <?php echo wp_json_encode( $laterpay['price_ranges'] ); ?>;
 </script>
+<?php
+// Get the value of purchase type
+$post_price_behaviour   = (int) get_option( 'laterpay_post_price_behaviour' );
+
+$individual_selected_class = '';
+$type_one_disabled_class   = '';
+$category_selected_class   = '';
+$category_disabled_class   = '';
+$global_selected_class     = '';
+$global_disabled_class     = '';
+
+if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ), true )
+     && ( 1 !== $post_price_behaviour ) ) {
+    $individual_selected_class = 'lp_is-selected';
+}
+
+if ( 1 === $post_price_behaviour ) {
+    $type_one_disabled_class = 'lp_is-disabled lp_tooltip';
+}
+
+if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
+    $category_selected_class = 'lp_is-selected';
+}
+
+if ( empty( $laterpay['category_prices'] ) || 1 === $post_price_behaviour ) {
+    $category_disabled_class = 'lp_is-disabled lp_tooltip';
+}
+
+if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
+    $global_selected_class = 'lp_is-selected';
+}
+
+if ( ! empty( $laterpay['category_prices'] ) ) {
+    $global_disabled_class = ' lp_is-disabled';
+}
+?>
 <div class="lp_clearfix lp_postMetaBox">
     <?php if ( ! get_option( 'laterpay_plugin_is_in_live_mode' ) ) : ?>
     <div class="lp_tooltip" data-tooltip="<?php echo esc_attr( __( 'Click here to finish your account set up', 'laterpay' ) ); ?>">
@@ -37,10 +73,6 @@ if ( ! defined( 'ABSPATH' ) ) {
         ?>
     </p>
     <?php endif; ?>
-    <?php
-    // Get the value of purchase type
-    $post_price_behaviour = (int) get_option( 'laterpay_post_price_behaviour' );
-    ?>
     <div class="lp_js_postEditGlobalBehaviour">
         <?php
         if ( 0 === $post_price_behaviour ) {
@@ -119,19 +151,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div id="lp_js_priceType" class="lp_price-type<?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE, LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ), true ) ) { echo ' lp_is-expanded'; } ?>">
     <ul id="lp_js_priceTypeButtonGroup" class="lp_price-type__list lp_clearfix">
-        <li class="lp_price-type__item <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ), true ) && ( 1 !== $post_price_behaviour ) ) { echo 'lp_is-selected'; } if ( 1 === $post_price_behaviour ) { echo ' lp_is-disabled lp_tooltip'; } ?>" data-tooltip="<?php echo esc_attr__( 'To allow articles to be purchased individually, visit the LaterPay Pricing tab & adjust your Global Default Price.', 'laterpay' ); ?>" >
+        <li class="lp_price-type__item <?php echo esc_attr( $individual_selected_class . ' ' . $type_one_disabled_class ); ?>" data-tooltip="<?php echo esc_attr__( 'To allow articles to be purchased individually, visit the LaterPay Pricing tab & adjust your Global Default Price.', 'laterpay' ); ?>" >
             <a href="#"
                 id="lp_js_useIndividualPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Individual Price', 'laterpay' ); ?></a>
         </li>
-        <li class="lp_price-type__item <?php if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( empty( $laterpay['category_prices'] ) || 1 === $post_price_behaviour ) { echo ' lp_is-disabled lp_tooltip'; } ?>"
-            <?php if ( $laterpay['no_category_price_set'] && ( 1 !== $post_price_behaviour ) ) { printf( '%1$s="%2$s"', 'data-tooltip',  esc_html__( 'It looks like you have not set up a Category Default Price. Go to the LaterPay > Pricing page to set up Category Default Prices.', 'laterpay' ) ); } elseif ( empty( $laterpay['category_prices'] ) ) { printf( '%1$s="%2$s"', 'data-tooltip',  esc_html__( 'Please select a category from the "Categories" panel below to enable Category Default Pricing.', 'laterpay' ) ); } ?>
+        <li class="lp_price-type__item <?php echo esc_attr( $category_selected_class . ' ' .$category_disabled_class ); ?>"
+            <?php if ( $laterpay['no_category_price_set'] && ( 1 !== $post_price_behaviour ) ) { printf( '%1$s="%2$s"', 'data-tooltip',  esc_html__( 'It looks like you have not set up a Category Default Price. Go to the LaterPay > Pricing page to set up Category Default Prices.', 'laterpay' ) ); } elseif ( empty( $laterpay['category_prices'] ) && ( 1 !== $post_price_behaviour ) ) { printf( '%1$s="%2$s"', 'data-tooltip',  esc_html__( 'Please select a category from the "Categories" panel below to enable Category Default Pricing.', 'laterpay' ) ); } ?>
             <?php if ( 1 === $post_price_behaviour ) { printf( '%1$s="%2$s"', 'data-tooltip',  esc_html__( 'To allow articles to be purchased individually, visit the LaterPay Pricing tab & adjust your Global Default Price.', 'laterpay' ) ); } ?>>
             <a href="#"
                 id="lp_js_useCategoryDefaultPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Category Default Price', 'laterpay' ); ?></a>
         </li>
-        <li class="lp_price-type__item <?php if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( ! empty( $laterpay['category_prices'] ) && ( 1 !== $post_price_behaviour ) ) { echo ' lp_is-disabled'; } ?>">
+        <li class="lp_price-type__item <?php echo esc_attr( $global_selected_class . ' ' . $global_disabled_class ); ?>">
             <a href="#"
                 id="lp_js_useGlobalDefaultPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"
