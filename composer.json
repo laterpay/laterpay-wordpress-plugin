@@ -32,7 +32,7 @@
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "*",
-        "automattic/vipwpcs": "dev-master",
+        "automattic/vipwpcs": "^0.3.0",
         "wimg/php-compatibility": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
     },
