@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </script>
 <?php
 // Get the value of purchase type
-$post_price_behaviour   = (int) get_option( 'laterpay_post_price_behaviour' );
+$post_price_behaviour = LaterPay_Helper_Pricing::get_post_price_behaviour();
 
 $individual_selected_class = '';
 $type_one_disabled_class   = '';
@@ -84,7 +84,7 @@ if ( ! empty( $laterpay['category_prices'] ) ) {
                 ?>
             </span>
             <?php
-        } else if ( 1 === $post_price_behaviour ) {
+        } elseif ( 1 === $post_price_behaviour ) {
             ?>
             <p class="lp_postEditTypeOne"><?php esc_html_e( 'Posts cannot be purchased individually', 'laterpay' ); ?></p>
             <span class="lp_postEditTypeOne">
