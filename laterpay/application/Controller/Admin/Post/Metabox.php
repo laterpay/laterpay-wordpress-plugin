@@ -137,6 +137,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'i18nAddDynamicPricing'     => __( 'Add dynamic pricing', 'laterpay' ),
                 'i18nRemoveDynamicPricing'  => __( 'Remove dynamic pricing', 'laterpay' ),
                 'l10n_print_after'          => 'jQuery.extend(lpVars, laterpay_post_edit)',
+                'postPriceBehaviour'        => LaterPay_Helper_Pricing::get_post_price_behaviour(),
             )
         );
         wp_localize_script(
