@@ -10,6 +10,9 @@
         </properties>
     </rule>
 
+    <!-- https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/#use-elseif-not-else-if -->
+    <rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+
     <arg name="extensions" value="php"/>
     <rule ref="PHPCompatibility"/>
     <config name="testVersion" value="5.6-"/>

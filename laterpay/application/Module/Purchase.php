@@ -167,10 +167,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $content_ids = LaterPay_Helper_Post::get_content_ids( $post->ID );
         $revenue_model = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
 
-        $only_timepass = (bool) get_option( 'laterpay_only_time_pass_purchases_allowed' );
+        // Get the value of purchase type.
+        $post_price_behaviour = LaterPay_Helper_Pricing::get_post_price_behaviour();
+        $post_price_type_one  = ( 1 === $post_price_behaviour );
 
         // If Individual purchase is turned off then select revenue model of timepass or subscription.
-        if ( $only_timepass ) {
+        if ( $post_price_type_one || LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() ) {
 
             $content_data = (array) $overlay_content_event->get_result();
 
@@ -348,7 +350,11 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         $data = $event->get_result();
         $post = $event->get_argument( 'post' );
 
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
+        // Get the value of purchase type.
+        $post_price_behaviour = LaterPay_Helper_Pricing::get_post_price_behaviour();
+        $post_price_type_one  = ( 1 === $post_price_behaviour );
+
+        if ( $post_price_type_one || LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() ) {
             return;
         }
 
