@@ -616,7 +616,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $is_enabled_lp_user_tracking = ( ! empty( $lp_user_tracking_data['laterpay_ga_personal_enabled_status'] ) &&
                                          '1' === $lp_user_tracking_data['laterpay_ga_personal_enabled_status'] );
 
-        // We will be using config value, not the one stored in option,
+        // Add LaterPay Tracking Id if enabled. We will be using config value, not the one stored in option,
         // to make sure correct tracking id is, available for GA.
         if ( $is_enabled_lp_tracking && ! empty( $lp_tracking_data['laterpay_ga_ua_id'] ) ) {
             $lp_is_plugin_live = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
@@ -627,6 +627,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             }
         }
 
+        // Add user tracking id if enabled.
         if ( $is_enabled_lp_user_tracking && ! empty( $lp_user_tracking_data['laterpay_ga_personal_ua_id'] ) ) {
             $lp_user_tracking_id = $lp_user_tracking_data['laterpay_ga_personal_ua_id'];
         }

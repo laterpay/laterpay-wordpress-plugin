@@ -511,7 +511,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
             if ( true === $only_timepass ) {
                 update_option( 'laterpay_post_price_behaviour', 1 );
-            } else if ( floatval( 0.00 ) === $current_global_price ) {
+            } elseif ( floatval( 0.00 ) === $current_global_price ) {
                 update_option( 'laterpay_post_price_behaviour', 0 );
             } else {
                 update_option( 'laterpay_post_price_behaviour', 2 );
@@ -559,8 +559,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // Add Personal Google Analytics Data.
         update_option( 'laterpay_user_tracking_data', $lp_personal_data );
 
-	    $lp_is_plugin_live = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
+        $lp_is_plugin_live = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
 
+        // Add LaterPay UA-ID according to status.
         if ( $lp_is_plugin_live ) {
             $lp_tracking_data['laterpay_ga_ua_id'] = $this->config->get( 'tracking_ua_id.live' );
         } else {

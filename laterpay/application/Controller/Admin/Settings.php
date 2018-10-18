@@ -44,6 +44,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
         wp_enqueue_style('laterpay-options');
 
+        // Add thickbox to display modal.
         add_thickbox();
 
         // load page-specific JS
@@ -56,6 +57,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
         wp_enqueue_script( 'laterpay-backend-options' );
 
+        // Localize string to be used in script.
         wp_localize_script(
             'laterpay-backend-options',
             'lpVars',
@@ -65,8 +67,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                     'title' => 'Disable Tracking'
                 ),
                 'i18n'  => array(
-                    'alertEmptyCode' => __( 'Please enter UA-ID to enable Personal Analytics!', 'laterpay' ),
-                    'invalidCode'    => __( 'Please enter valid UA-ID code!', 'laterpay' ),
+                    'alertEmptyCode' => esc_html__( 'Please enter UA-ID to enable Personal Analytics!', 'laterpay' ),
+                    'invalidCode'    => esc_html__( 'Please enter valid UA-ID code!', 'laterpay' ),
                 )
             )
         );
@@ -1034,7 +1036,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                     $classes = array_unique( $classes );
 
                     // add class if type is text.
-                    if ( $type === 'text' ) {
+                    if ( 'text' === $type ) {
                         $classes[] = 'regular-text';
                     }
 
@@ -1082,11 +1084,13 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
                     echo '>';
 
+                    // Display Auto Detected Text.
                     if ( 'text' === $type ) {
                         if ( isset( $field['show_notice'] ) && 1 === $field['show_notice'] ) {
                             echo '<span style="font-style: italic;font-weight: 600;">(' . esc_html__( 'auto detected', 'laterpay' ) . ')</span>';
                         }
 
+                        // Update option and remove value.
                         $this->update_auto_detection_value( 0 );
                     }
 
@@ -1129,15 +1133,17 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
         $user_tracking = $this->get_ga_tracking_value();
 
+        // Get Value of Auto Detected Text if set.
         if ( ! empty( $user_tracking['auto_detected'] ) && 1 === (int) $user_tracking['auto_detected'] ) {
             $show_notice = 1;
         } else {
             $show_notice = 0;
         }
 
+        // Add Personal GA Section.
         add_settings_field(
             'laterpay_user_tracking_data',
-            __( 'Your Personal Google Analytics:', 'laterpay' ),
+            esc_html__( 'Your Personal Google Analytics:', 'laterpay' ),
             array( $this, 'get_ga_field_markup' ),
             'laterpay',
             'laterpay_ga_tracking',
@@ -1153,13 +1159,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                     'type'        => 'text',
                     'classes'     => ['lp_ga-input'],
                     'parent_name' => 'laterpay_user_tracking_data',
-	                'show_notice' => $show_notice,
+                    'show_notice' => $show_notice,
                 )
             )
         );
 
         register_setting( 'laterpay', 'laterpay_user_tracking_data' );
 
+        // Add LaterPay GA Section.
         add_settings_field(
             'laterpay_tracking_data',
             __( 'LaterPay Google Analytics:', 'laterpay' ),

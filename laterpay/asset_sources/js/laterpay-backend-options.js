@@ -1,6 +1,7 @@
 (function ( $ ) {
     $( function () {
 
+      // This file is used for validation of user inputs on Google Analytics Fields.
       var user_tracking_status =
         jQuery('input[name="laterpay_user_tracking_data[laterpay_ga_personal_enabled_status]"]');
       var user_ua_id           = jQuery('input[name="laterpay_user_tracking_data[laterpay_ga_personal_ua_id]"]');
@@ -105,7 +106,7 @@
 
       // Validate Google Tracking ID.
       function validateGAId(id) {
-        return /^(UA)-\d+-\d+$/i.test(id);
+        return /^(UA|YT|MO)-\d+-\d+$/i.test(id);
       }
 
     } );
