@@ -574,67 +574,85 @@
               var eventlabel = lpVars.gaData.postTitle + ',' + lpVars.gaData.blogName + ',' +
                 lpVars.gaData.postPermalink;
 
-              if( lpVars.gaData.lp_user_tracking_id.length > 0 && lpVars.gaData.lp_tracking_id.length > 0 ) {
+              var sentUserEvent = false;
+              var __gaTracker   = detectMonsterInsightsGA();
+              var trackers      = '';
+              var userUAID      = lpVars.gaData.lp_user_tracking_id;
+              var lpUAID        = lpVars.gaData.lp_tracking_id;
 
-                var ga = window[window.GoogleAnalyticsObject || 'ga'];
+              if( userUAID.length > 0 && lpUAID.length > 0 ) {
 
-                if (typeof ga === 'function') {
-                  var trackers = ga.getAll();
-                  trackers.forEach(function(tracker) {
-                    if ( lpVars.gaData.lp_tracking_id === tracker.get('trackingId') ||
-                      lpVars.gaData.lp_user_tracking_id === tracker.get('trackingId') ) {
-                      var trackerName = tracker.get('name');
-                      ga( trackerName + '.send', 'event', {
-                        eventCategory : 'LaterPay WordPress Plugin',
-                        eventAction   : eventAction,
-                        eventLabel    : eventlabel,
-                  }); } });
+                if (typeof __gaTracker === 'function' ) {
+                    trackers = __gaTracker.getAll();
+                    trackers.forEach(function(tracker) {
+                        if ( userUAID === tracker.get('trackingId') ) {
+                            sentUserEvent = true;
+                            var trackerName = tracker.get('name');
+                            __gaTracker( trackerName + '.send', 'event', {
+                                eventCategory : 'LaterPay WordPress Plugin',
+                                eventAction   : eventAction,
+                                eventLabel    : eventlabel,
+                            });
+                        }
+                    });
+
+                    if ( true === sentUserEvent ) {
+                        createTrackerAndSendEvent( lpUAID, 'lpParentTracker', eventAction, eventlabel );
+                    } else {
+                        createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction, eventlabel );
+                        createTrackerAndSendEvent( __gaTracker, userUAID, 'lpUserTracker', eventAction, eventlabel );
+                    }
                 } else {
-                  sendParentEvent( true, eventlabel, eventAction );
-                  sendUserEvent( true, eventlabel, eventAction );
+                    sendParentEvent( true, eventlabel, eventAction );
+                    sendUserEvent( true, eventlabel, eventAction );
                 }
-              } else if( lpVars.gaData.lp_user_tracking_id.length > 0 && lpVars.gaData.lp_tracking_id.length === 0 ) {
-                sendUserEvent( true, eventlabel, eventAction );
-              }
-              else if( lpVars.gaData.lp_user_tracking_id.length === 0 && lpVars.gaData.lp_tracking_id.length > 0 ) {
-                sendParentEvent( true, eventlabel, eventAction );
-              }
-            },
-            createCookie = function (name, value, days) {
-              var expires = '';
-              if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = '; expires=' + date.toGMTString();
-              } else {
-                expires = '';
-              }
+              } else if( userUAID.length > 0 && lpUAID.length === 0 ) {
+                  if (typeof __gaTracker === 'function') {
+                      trackers = __gaTracker.getAll();
+                      trackers.forEach(function (tracker) {
+                          if (userUAID === tracker.get('trackingId')) {
+                              sentUserEvent = true;
+                              var trackerName = tracker.get('name');
+                              __gaTracker(trackerName + '.send', 'event', {
+                                  eventCategory: 'LaterPay WordPress Plugin',
+                                  eventAction  : eventAction,
+                                  eventLabel   : eventlabel,
+                              });
+                          }
+                      });
 
-              document.cookie = name + '=' + value + expires + '; path=/';
-            },
-            readCookie = function (name) {
-              var nameEQ = name + '=';
-              var ca = document.cookie.split(';');
-              for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) === ' ') {
-                  c = c.substring(1, c.length);
-                }
-                if (c.indexOf(nameEQ) === 0) {
-                  return c.substring(nameEQ.length, c.length);
-                }
-
+                      if (true !== sentUserEvent) {
+                          sendUserEvent(true, eventlabel, eventAction);
+                      }
+                  } else {
+                      sendUserEvent(true, eventlabel, eventAction);
+                  }
+              } else if( userUAID.length === 0 && lpUAID.length > 0 ) {
+                  if (typeof __gaTracker === 'function' ) {
+                      createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction, eventlabel );
+                  } else{
+                      sendParentEvent( true, eventlabel, eventAction );
+                  }
               }
-              return null;
-            },
-            eraseCookie = function (name) {
-              createCookie(name, '', -1);
             },
             readPurchasedCookie = function() {
-              if ( '1' === readCookie('lp_ga_purchased') ) {
+              if ( '1' === get_cookie( 'lp_ga_purchased' ) ) {
                 sendGAEvent( 'Paid Content Purchase Complete' );
-                eraseCookie('lp_ga_purchased');
+                delete_cookie('lp_ga_purchased');
               }
+            },
+            detectMonsterInsightsGA = function () {
+                if ( typeof window.mi_track_user === 'boolean' && true === window.mi_trac_user ) {
+                   return window[window.GoogleAnalyticsObject || '__gaTracker'];
+                }
+            },
+            createTrackerAndSendEvent = function ( gaTracker, trackingId, trackerName, eventAction, eventLabel) {
+                gaTracker( 'create', trackingId, 'auto', trackerName );
+                gaTracker( trackerName + '.send', 'event', {
+                    eventCategory : 'LaterPay WordPress Plugin',
+                    eventAction   : eventAction,
+                    eventLabel    : eventLabel,
+                });
             },
             initializePage = function() {
 

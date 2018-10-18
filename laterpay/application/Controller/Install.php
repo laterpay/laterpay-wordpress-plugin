@@ -505,23 +505,45 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      */
     public function init_ga_options() {
         $current_version = get_option( 'laterpay_plugin_version' );
-        // @todo change version compared to `2.1.0`
+        // @todo: change version compared to `2.1.0`
+        // @todo: Only Add / Update option only if current one doesn't exist.
         if ( version_compare( $current_version, '2.0.0', '<' ) ) {
             return;
         }
 
-        $lp_personal_data = array(
-            'laterpay_ga_personal_enabled_status' => 0,
-            'laterpay_ga_personal_ua_id' => ''
-        );
+        $lp_personal_data = [];
+        $lp_tracking_data = [];
 
+        $lp_personal_data['laterpay_ga_personal_enabled_status'] = 0;
+        $lp_personal_data['laterpay_ga_personal_ua_id']          = '';
+
+        if ( is_multisite() ) {
+            $monster_insights_network_profile = get_site_option( 'monsterinsights_network_profile', array() );
+            $monster_ua_id                    = $monster_insights_network_profile['ua'];
+        } else {
+            $monster_insights_profile = get_option( 'monsterinsights_site_profile', array() );
+            $monster_ua_id            = $monster_insights_profile['viewname'];
+        }
+
+        if ( ! empty( $monster_ua_id ) ) {
+            $lp_personal_data['auto_detected']              = 1;
+            $lp_personal_data['laterpay_ga_personal_ua_id'] = $monster_ua_id;
+        }
+
+        // Add Personal Google Analytics Data.
         update_option( 'laterpay_user_tracking_data', $lp_personal_data );
 
-        $lp_tracking_data = array(
-            'laterpay_ga_enabled_status' => 1,
-            'laterpay_ga_ua_id' => $this->config->get( 'tracking_ua_id.sandbox' )
-        );
+	    $lp_is_plugin_live = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
 
+        if ( $lp_is_plugin_live ) {
+            $lp_tracking_data['laterpay_ga_ua_id'] = $this->config->get( 'tracking_ua_id.live' );
+        } else {
+            $lp_tracking_data['laterpay_ga_ua_id'] = $this->config->get( 'tracking_ua_id.sandbox' );
+        }
+
+        $lp_tracking_data['laterpay_ga_enabled_status'] = 1;
+
+        // Add LaterPay Google Analytics Data.
         update_option( 'laterpay_tracking_data', $lp_tracking_data );
     }
 }

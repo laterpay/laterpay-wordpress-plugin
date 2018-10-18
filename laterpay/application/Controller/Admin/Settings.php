@@ -1082,6 +1082,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
                     echo '>';
 
+                    if ( 'text' === $type ) {
+                        if ( isset( $field['show_notice'] ) && 1 === $field['show_notice'] ) {
+                            echo '<span style="font-style: italic;font-weight: 600;">(' . esc_html__( 'auto detected', 'laterpay' ) . ')</span>';
+                        }
+
+                        $this->update_auto_detection_value( 0 );
+                    }
+
                     // add extra text if set.
                     if ( isset( $field['appended_text'] ) ) {
                         echo '<dfn class="lp_appended-text">' . esc_html( $field['appended_text'] ) . '</dfn>';
@@ -1119,6 +1127,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'laterpay'
         );
 
+        $user_tracking = $this->get_ga_tracking_value();
+
+        if ( ! empty( $user_tracking['auto_detected'] ) && 1 === (int) $user_tracking['auto_detected'] ) {
+            $show_notice = 1;
+        } else {
+            $show_notice = 0;
+        }
+
         add_settings_field(
             'laterpay_user_tracking_data',
             __( 'Your Personal Google Analytics:', 'laterpay' ),
@@ -1130,13 +1146,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                     'name'        => 'laterpay_ga_personal_enabled_status',
                     'value'       => 1,
                     'type'        => 'checkbox',
-                    'parent_name' => 'laterpay_user_tracking_data'
+                    'parent_name' => 'laterpay_user_tracking_data',
                 ),
                 array(
                     'name'        => 'laterpay_ga_personal_ua_id',
                     'type'        => 'text',
                     'classes'     => ['lp_ga-input'],
-                    'parent_name' => 'laterpay_user_tracking_data'
+                    'parent_name' => 'laterpay_user_tracking_data',
+	                'show_notice' => $show_notice,
                 )
             )
         );
@@ -1180,6 +1197,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
     }
 
+    /**
+     * Get Google Analytics Track Section Description.
+     *
+     * @return void
+     */
     public function get_ga_tracking_section_description() {
         echo '<p>';
         printf( '%1$s <br/> %2$s <a href="%3$s" target="_blank">%4$s</a> %5$s',
@@ -1197,6 +1219,32 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         echo '</td><td width="79%">';
         esc_html_e( 'Google Analytics "UA-ID"', 'laterpay' );
         echo'</td></tr></table>';
+    }
+
+    /**
+     * Get User Tracking Data.
+     *
+     * @return array
+     */
+    public function get_ga_tracking_value() {
+        return get_option( 'laterpay_user_tracking_data', array() );
+    }
+
+    /**
+     * Update option value fro User Tracking Data.
+     *
+     * @param int $status Status to set for auto detected property.
+     *
+     * @return void
+     */
+    public function update_auto_detection_value( $status ) {
+
+        $user_tracking = $this->get_ga_tracking_value();
+
+        if ( 0 === $status ) {
+            unset( $user_tracking['auto_detected'] );
+            update_option( 'laterpay_user_tracking_data', $user_tracking );
+        }
     }
 
 }
