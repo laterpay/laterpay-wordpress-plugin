@@ -217,7 +217,7 @@ function laterpay_event_dispatcher() {
  * @return bool returns true if current site is available on VIP, otherwise false.
  */
 function laterpay_check_is_vip_classic() {
-    if ( defined( 'WPCOM' ) && IS_WPCOM ) {
+    if ( defined( 'IS_WPCOM' ) && IS_WPCOM ) {
         return true;
     } else {
         return false;
