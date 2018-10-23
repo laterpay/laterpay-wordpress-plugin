@@ -105,7 +105,7 @@ $is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' 
         }
         ?>
     </div>
-    <div class="lp_layout lp_mt+ lp_mb+" style="display:<?php echo ( 1 === $post_price_behaviour ) ? 'none': 'block'; ?>">
+    <div class="lp_layout lp_mt+ lp_mb+" style="display:<?php echo ( 1 === $post_price_behaviour || ( 0 === $post_price_behaviour && ! empty( $global_selected_class ) ) ) ? 'none': 'block'; ?>" id="lp_js_priceEditSection">
         <div id="lp_js_postPriceRevenueModel" class="lp_layout__item lp_3/8">
             <label class="lp_badge lp_badge--revenue-model lp_tooltip
                     <?php if ( $laterpay['post_revenue_model'] === 'ppu' ) { echo 'lp_is-selected'; } ?>

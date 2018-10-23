@@ -16,6 +16,11 @@ class LaterPay_Helper_Cache
      * @return bool|void
      */
     public static function reset_opcode_cache() {
+
+        if ( laterpay_check_is_vip() || laterpay_check_is_vip_classic() ) {
+            return;
+        }
+
         $reset = false;
 
         if ( function_exists( 'opcache_reset' ) ) {
