@@ -180,11 +180,11 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
 
         // Check if LaterPay Tracking Setting is Enabled.
         $is_enabled_lp_tracking = ( ! empty( $lp_tracking_data['laterpay_ga_enabled_status'] ) &&
-                                    '1' === $lp_tracking_data['laterpay_ga_enabled_status'] );
+                                    1 === intval( $lp_tracking_data['laterpay_ga_enabled_status'] ) );
 
         // Check if Personal Tracking Setting is Enabled.
         $is_enabled_lp_user_tracking = ( ! empty( $lp_user_tracking_data['laterpay_ga_personal_enabled_status'] ) &&
-                                         '1' === $lp_user_tracking_data['laterpay_ga_personal_enabled_status'] );
+                                         1 === intval( $lp_user_tracking_data['laterpay_ga_personal_enabled_status'] ) );
 
         $is_any_tracking_enabled = ( $is_enabled_lp_tracking || $is_enabled_lp_user_tracking );
 
