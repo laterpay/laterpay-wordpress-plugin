@@ -558,6 +558,8 @@
                 return lpga;
               }
             },
+
+            // Send event to LaterPay GA.
             sendParentEvent = function( injectNow, eventlabel, eventAction ) {
               var lpga = injectGAScript( injectNow );
               if (typeof lpga === 'function') {
@@ -569,6 +571,8 @@
                 });
               }
             },
+
+            // Send event to User GA.
             sendUserEvent = function( injectNow, eventlabel, eventAction ) {
               var lpga = injectGAScript( injectNow );
               if (typeof lpga === 'function') {
@@ -580,6 +584,8 @@
                 });
               }
             },
+
+            // Send GA Event conditionally.
             sendGAEvent = function( eventAction ) {
               var eventlabel = lpVars.gaData.postTitle + ',' + lpVars.gaData.blogName + ',' +
                 lpVars.gaData.postPermalink;
@@ -645,17 +651,23 @@
                   }
               }
             },
+
+            // Read Post Purchased Cookie.
             readPurchasedCookie = function() {
               if ( '1' === get_cookie( 'lp_ga_purchased' ) ) {
                 sendGAEvent( 'Paid Content Purchase Complete' );
                 delete_cookie('lp_ga_purchased');
               }
             },
+
+            // Detect if GA is Enabled by MonsterInsights Plugin.
             detectMonsterInsightsGA = function () {
                 if ( typeof window.mi_track_user === 'boolean' && true === window.mi_trac_user ) {
                    return window[window.GoogleAnalyticsObject || '__gaTracker'];
                 }
             },
+
+            // Create a tracker and send event to GA.
             createTrackerAndSendEvent = function ( gaTracker, trackingId, trackerName, eventAction, eventLabel) {
                 gaTracker( 'create', trackingId, 'auto', trackerName );
                 gaTracker( trackerName + '.send', 'event', {
@@ -678,7 +690,10 @@
                     loadPremiumUrls();
                 }
 
+                // Read purchased cookie on page load.
                 readPurchasedCookie();
+
+                // Send GA Event on Page load.
                 if ( $($o.lp_ga_element).length >= 1 ) {
                   sendGAEvent( 'Paid Content Replacement Show' );
                 }
