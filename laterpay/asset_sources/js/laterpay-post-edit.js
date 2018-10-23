@@ -1,3 +1,5 @@
+/*globals wp*/
+
 (function($) {$(function() {
 
     // encapsulate all LaterPay Javascript in function laterPayPostEdit
@@ -40,6 +42,13 @@
                 singleSale              : 'sis'
             },
 
+            /**
+             * Category ids selected by the user from categories meta box.
+             *
+             * @type {Array}
+             */
+            categoryIds = [],
+
             bindEvents = function() {
                 // switch pricing type
                 $o.pricingTypeButtons
@@ -53,6 +62,8 @@
                 .submit(function() {
                     saveDynamicPricingData();
                 });
+
+                subscribeToGutenbergUpdates();
 
                 // validate manually entered prices
                 // (function is only triggered 800ms after the keyup)
@@ -116,6 +127,44 @@
                     $o.priceEditSection.show();
                 });
 
+            },
+
+            /**
+             * Subscribe to gutenberg editor updates.
+             *
+             * @return {void}
+             */
+            subscribeToGutenbergUpdates = function() {
+                var editPost, editor, categories;
+
+                // Bail out early if gutenberg is not enabled.
+                if ( ! wp.data ) {
+                    return;
+                }
+
+                editPost = wp.data.select( 'core/edit-post' );
+                editor = wp.data.select( 'core/editor' );
+                categories = editor.getPostEdits().categories;
+
+                wp.data.subscribe( function() {
+                    if ( editPost.isSavingMetaBoxes() ) {
+
+                        // Gutenberg does not save tinyMCE by default.
+                        if ( window.tinyMCE ) {
+                            window.tinyMCE.triggerSave();
+                        }
+
+                        saveDynamicPricingData();
+                    }
+
+                    // Checks if the category value has changed.
+                    if ( categories !== editor.getPostEdits().categories ) {
+                        categoryIds = editor.getPostEdits().categories;
+
+                        updateApplicableCategoriesList();
+                        categories = categoryIds;
+                    }
+                } );
             },
 
             switchPricingType = function(trigger) {
@@ -333,13 +382,16 @@
             updateApplicableCategoriesList = function() {
                 var $selectedCategories = $('#categorychecklist :checkbox:checked'),
                     l                   = $selectedCategories.length,
-                    categoryIds         = [],
                     categoriesList      = [],
                     i, categoryId;
 
-                for (i = 0; i < l; i++) {
-                    categoryId = parseInt($selectedCategories.eq(i).val(), 10);
-                    categoryIds.push(categoryId);
+                if ( ! wp.data ) {
+                    categoryIds = [];
+
+                    for (i = 0; i < l; i++) {
+                        categoryId = parseInt($selectedCategories.eq(i).val(), 10);
+                        categoryIds.push(categoryId);
+                    }
                 }
 
                 // make Ajax request for prices and names of categories
