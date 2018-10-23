@@ -219,7 +219,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             'tabindex'        => null,
             'editor_css'      => '',
             'editor_class'    => '',
-            'teeny'           => 1,
             'dfw'             => 1,
             'tinymce'         => 1,
             'quicktags'       => 1,
