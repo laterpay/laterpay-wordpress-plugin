@@ -418,30 +418,33 @@
                     types.push($(boxes[i]).data('content-type'));
                 });
 
-                $.get(
-                    lpVars.ajaxUrl,
-                    {
+                $.ajax( {
+                    url       : lpVars.ajaxUrl,
+                    method    : 'GET',
+                    data      :{
                         action  : 'laterpay_get_premium_shortcode_link',
                         ids     : ids,
                         types   : types,
                         post_id : lpVars.post_id
                     },
-                    function(r) {
-                        if (r.data) {
-                            var url = null;
-                            $.each(r.data, function(i) {
-                                url = r.data[i];
-                                $.each(boxes, function(j) {
-                                    if ($(boxes[j]).data('post-id').toString() === i) {
-                                        $(boxes[j]).prepend(url);
-                                    }
-                                });
-                            });
-                        }
-                        initiateAttachmentDownload();
+                    xhrFields : {
+                        withCredentials : true
                     },
-                    'json'
-                );
+                    dataType  : 'json',
+                } ).done( function ( r ) {
+                    if (r.data) {
+                        var url = null;
+                        $.each(r.data, function(i) {
+                            url = r.data[i];
+                            $.each(boxes, function(j) {
+                                if ($(boxes[j]).data('post-id').toString() === i) {
+                                    $(boxes[j]).prepend(url);
+                                }
+                            });
+                        });
+                    }
+                    initiateAttachmentDownload();
+                } );
             },
 
             loadPreviewModeContainer = function() {
