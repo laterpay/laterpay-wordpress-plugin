@@ -553,14 +553,18 @@
             // Injects Google Analytics Script.
             injectGAScript = function ( injectNow ) {
               if ( true === injectNow ) {
-                  /*jshint ignore:start*/
-                  // This injector script from GA is used as is from Google Doc for it, gave some warnings so ignoring.
-                  (function(i,s,o,g,r,a,m){
-                  i.GoogleAnalyticsObject=r;i[r]=i[r]||function(){
-                    (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-                })(window,document,'script','https://www.google-analytics.com/analytics.js', 'lpga');
-                  /*jshint ignore:end*/
+                  // This injector script is for GA have made minor modifications to fix linting issue.
+                  (function(i, s, o, g, r, a, m) {
+                      i.GoogleAnalyticsObject = r;
+                      i[r] = i[r] || function() {
+                          (i[r].q = i[r].q || []).push(arguments);
+                      }; i[r].l = 1 * new Date();
+                      a = s.createElement(o);
+                          m = s.getElementsByTagName(o)[0];
+                      a.async = 1;
+                      a.src = g;
+                      m.parentNode.insertBefore(a, m);
+                  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'lpga');
                   return window[window.GoogleAnalyticsObject || 'lpga'];
               }
             },
