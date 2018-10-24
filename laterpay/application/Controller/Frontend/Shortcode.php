@@ -76,7 +76,9 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      *
      */
     public function render_premium_download_box( LaterPay_Core_Event $event ) {
+
         list( $atts ) = $event->get_arguments() + array( array() );
+
         // provide default values for empty shortcode attributes
         $a = shortcode_atts( array(
             'target_post_id'    => '',
@@ -91,53 +93,63 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         ), $atts );
 
         $error_reason = '';
+
         // get URL for target page
         $page = null;
+
         if ( $a['target_post_id'] !== '' ) {
             $page = get_post( absint( $a['target_post_id'] ) );
         }
+
         // target_post_id was provided, but didn't work
         if ( $page === null && $a['target_post_id'] !== '' ) {
             $error_reason = sprintf(
-                __( 'We couldn\'t find a page for target_post_id="%s" on this site.', 'laterpay' ),
+                esc_html__( 'We couldn\'t find a page for target_post_id="%s" on this site.', 'laterpay' ),
                 absint( $a['target_post_id'] )
             );
         }
+
         if ( $page === null && $a['target_post_title'] !== '' ) {
             $page = LaterPay_Helper_Post::get_page_by_title( $a['target_post_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
         }
+
         // target_post_title was provided, but didn't work (no invalid target_post_id was provided)
         if ( $page === null && empty( $error_reason ) ) {
             $error_reason = sprintf(
-                __( 'We couldn\'t find a page for target_post_title="%s" on this site.', 'laterpay' ),
+                esc_html__( 'We couldn\'t find a page for target_post_title="%s" on this site.', 'laterpay' ),
                 esc_html( $a['target_post_title'] )
             );
         }
+
         if ( $page === null ) {
             $error_message  = '<div class="lp_shortcode-error">';
-            $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+            $error_message .= esc_html__( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
 
             $event->set_result( $error_message );
             throw new LaterPay_Core_Exception( $error_message );
         }
+
         $page_id = $page->ID;
+
         // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
         if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ), true ) ) {
-            $error_reason = __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
+            $error_reason   = esc_html__( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
             $error_message  = '<div class="lp_shortcode-error">';
-            $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+            $error_message .= esc_html__( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
 
             $event->set_result( $error_message );
             throw new LaterPay_Core_Exception( $error_message );
         }
+
         // check, if page has a custom post type
-        $custom_post_types      = get_post_types( array( '_builtin' => false ) );
-        $custom_types           = array_keys( $custom_post_types );
-        $is_custom_post_type    = ! empty( $custom_types ) && in_array( $page->post_type, $custom_types, true );
+        $custom_post_types   = get_post_types( array( '_builtin' => false ) );
+        $custom_types        = array_keys( $custom_post_types );
+        $is_custom_post_type = ! empty( $custom_types ) && in_array( $page->post_type, $custom_types, true );
+
         // get the URL of the target page
         if ( $is_custom_post_type ) {
             // getting the permalink of a custom post type requires get_post_permalink instead of get_permalink
@@ -145,7 +157,9 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         } else {
             $page_url = get_permalink( $page_id );
         }
+
         $content_types = array( 'file', 'gallery', 'audio', 'video', 'text' );
+
         if ( empty( $a['content_type'] ) ) {
             // determine $content_type from MIME type of files attached to post
             $page_mime_type = get_post_mime_type( $page_id );
@@ -181,33 +195,36 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         } else {
             $content_type = 'text';
         }
-        // escape user input
-        $image_path     = esc_url( $a['teaser_image_path'] );
-        $heading        = esc_attr( $a['heading_text'] );
-        $description    = esc_attr( $a['description_text'] );
+
+        $image_path  = $a['teaser_image_path'];
+        $heading     = $a['heading_text'];
+        $description = $a['description_text'];
 
         // build the HTML for the teaser box
         if ( ! empty( $image_path ) ) {
             $html = '<div class="lp_js_premium-file-box lp_premium-file-box" '
-                    . 'style="background-image:url(' . $image_path . ')'
-                    . '" data-post-id="' . $page_id
-                    . '" data-content-type="' . $content_type
-                    . '" data-page-url="' . $page_url
+                    . 'style="background-image:url(' . esc_url( $image_path ) . ')'
+                    . '" data-post-id="' . esc_attr( $page_id )
+                    . '" data-content-type="' . esc_attr( $content_type )
+                    . '" data-page-url="' . esc_url ( $page_url )
                     . '">';
         } else {
-            $html = '<div class="lp_js_premium-file-box lp_premium-file-box lp_is-' . $content_type
-                    . '" data-post-id="' . $page_id
-                    . '" data-content-type="' . $content_type
-                    . '" data-page-url="' . $page_url
+            $html = '<div class="lp_js_premium-file-box lp_premium-file-box lp_is-' . esc_attr( $content_type )
+                    . '" data-post-id="' . esc_attr( $page_id )
+                    . '" data-content-type="' . esc_attr( $content_type )
+                    . '" data-page-url="' . esc_url( $page_url )
                     . '">';
         }
+
         // create a premium box
-        $html .= '    <div class="lp_premium-file-box__details">';
-        $html .= '        <h3 class="lp_premium-file-box__title">' . $heading . '</h3>';
+        $html .= '<div class="lp_premium-file-box__details">';
+        $html .= '<h3 class="lp_premium-file-box__title">' . esc_attr( $heading ) . '</h3>';
+
         if ( ! empty( $description ) ) {
-            $html .= '    <p class="lp_premium-file-box__text">' . $description . '</p>';
+            $html .= '<p class="lp_premium-file-box__text">' . esc_attr( $description ) . '</p>';
         }
-        $html .= '    </div>';
+
+        $html .= '</div>';
         $html .= '</div>';
         $event->set_result( $html );
     }
