@@ -619,7 +619,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         // Add LaterPay Tracking Id if enabled. We will be using config value, not the one stored in option,
         // to make sure correct tracking id is, available for GA.
         if ( $is_enabled_lp_tracking && ! empty( $lp_tracking_data['laterpay_ga_ua_id'] ) ) {
-            $lp_is_plugin_live = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
+            $lp_is_plugin_live = LaterPay_Helper_View::is_plugin_in_live_mode();
             if ( $lp_is_plugin_live ) {
                 $lp_config_id = $this->config->get( 'tracking_ua_id.live' );
             } else {

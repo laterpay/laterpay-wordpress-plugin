@@ -342,7 +342,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
         // Update LaterPay Google Analytics Tracking Value According to current region.
         $regional_settings = LaterPay_Helper_Config::get_regional_settings();
-        $lp_is_plugin_live = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
+        $lp_is_plugin_live = LaterPay_Helper_View::is_plugin_in_live_mode();
 
         if ( $lp_is_plugin_live ) {
             $lp_config_id = $regional_settings['tracking_ua_id.live'];

@@ -1,3 +1,4 @@
+/*global tb_show */
 (function ( $ ) {
     $( function () {
 
@@ -78,7 +79,9 @@
 
         if ( false === laterpay_tracking_status.prop('checked') ) {
           laterpay_tracking_status.attr( 'checked', 'checked' );
-          tb_show( lpVars.modal.title, '#TB_inline?inlineId=' + lpVars.modal.id + '&height=185&width=375');
+          if ( typeof tb_show === 'function' ) {
+              tb_show( lpVars.modal.title, '#TB_inline?inlineId=' + lpVars.modal.id + '&height=185&width=375');
+          }
         }
 
       });

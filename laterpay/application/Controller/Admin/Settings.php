@@ -64,7 +64,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             array(
                 'modal' => array(
                     'id'    => 'lp_ga_modal_id',
-                    'title' => 'Disable Tracking'
+                    'title' => esc_html__( 'Disable Tracking', 'laterpay' )
                 ),
                 'i18n'  => array(
                     'alertEmptyCode' => esc_html__( 'Please enter UA-ID to enable Personal Analytics!', 'laterpay' ),
