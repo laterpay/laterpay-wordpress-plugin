@@ -167,7 +167,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             // add teaser content metabox below content editor
             add_meta_box(
                 'lp_post-teaser',
-                __( 'Teaser Content', 'laterpay' ),
+                esc_html__( 'LaterPay Teaser Content', 'laterpay' ),
                 array( $this, 'render_teaser_content_box' ),
                 $post_type,
                 'normal',
