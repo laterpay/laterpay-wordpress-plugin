@@ -445,11 +445,13 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             return;
         }
 
-        // Add cookie when the user is redirected back after a purchase.
-        try {
-            setcookie( 'lp_ga_purchased', 1, time() + 30, '/' );
-        } catch ( Exception $e ) {
-            unset( $e );
+        if ( LaterPay_Helper_Appearance::is_any_ga_tracking_enabled() ) {
+            // Add cookie when the user is redirected back after a purchase.
+            try {
+                setcookie( 'lp_ga_purchased', 1, time() + 30, '/' );
+            } catch ( Exception $e ) {
+                unset( $e );
+            }
         }
 
         $client_options  = LaterPay_Helper_Config::get_php_client_options();
