@@ -551,10 +551,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
              */
             if ( is_multisite() ) {
                 $monster_insights_network_profile = get_site_option( 'monsterinsights_network_profile', array() );
-                $monster_ua_id                    = $monster_insights_network_profile['ua'];
+                $monster_ua_id                    = ( ! empty( $monster_insights_network_profile['ua'] ) ? $monster_insights_network_profile['ua'] : '' );
             } else {
                 $monster_insights_profile = get_option( 'monsterinsights_site_profile', array() );
-                $monster_ua_id            = $monster_insights_profile['viewname'];
+                $monster_ua_id            = ( ! empty( $monster_insights_profile['viewname'] ) ? $monster_insights_profile['viewname'] : '' );
             }
 
             if ( ! empty( $monster_ua_id ) ) {
