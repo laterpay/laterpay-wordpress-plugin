@@ -185,6 +185,9 @@ Please see the "Test and Live Mode" section.
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.2.1 ( October 25, 2018 ) Hotfix Release =
+Fix warnings on Install/Update due to GA settings.
+
 = 2.2.0 ( October 25, 2018 ) =
 * Integrate Google Analytics to send data to the user and LaterPay GA account.
 * Fix issues with Gutenberg Compatibility.
@@ -662,8 +665,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.2.0 ( October 25, 2018 ) =
-Integrated Google Analytics, Fixes for Gutenberg Compatibility, Restored [laterpay_premium_download] shortcode and minor updates with LaterPay functionality.
+= 2.2.1 ( October 25, 2018 ) =
+Fix warnings on Install/Update due to GA settings.
 
 == Arbitrary section ==
 
