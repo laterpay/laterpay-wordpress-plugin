@@ -538,6 +538,18 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
             $redirect_url = get_permalink( $request->get_param( 'post_id' ) );
 
+            // If permalink contains query string then build back url accordingly.
+            if ( strpos( $redirect_url, '?' ) ) {
+                $exploded_link = explode( '?', $redirect_url );
+                $url_args      = wp_parse_args( $exploded_link[1] );
+
+                foreach( $url_args as $key => $value ) {
+                    if ( isset( $params[$key] ) ) {
+                        unset( $params[$key] );
+                    }
+                }
+            }
+
             if ( ! empty( $params ) ) {
                 $redirect_url .= '?' . build_query( $params );
             }

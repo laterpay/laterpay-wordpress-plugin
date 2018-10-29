@@ -441,11 +441,14 @@ class LaterPay_Helper_TimePass
             $data = array();
         }
 
+        // Get Post Permalink.
+        $post_permalink = get_permalink();
+
         $config         = laterpay_get_plugin_config();
         $currency       = $config->get( 'currency.code' );
         $price          = isset( $data['price'] ) ? $data['price'] : $time_pass['price'];
         $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $time_pass['revenue_model'], $price );
-        $back_url       = isset( $data['link'] ) ? $data['link'] : get_permalink();
+        $back_url       = isset( $data['link'] ) ? $data['link'] : $post_permalink;
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
@@ -466,7 +469,16 @@ class LaterPay_Helper_TimePass
             if( isset( $_SERVER['REQUEST_URI'] ) ) { // phpcs:ignore
                 $parsed_link = explode( '?', esc_url( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore
             }
-            $back_url    = $back_url . '?' . build_query( $url_params );
+
+            // Build URL Params.
+            $build_params = build_query( $url_params );
+            $back_url     = $back_url . '?' . $build_params;
+
+            // If permalink contains query string then build back url accordingly.
+            if ( strpos( $post_permalink, '?' ) ) {
+                $exploded_link = explode( '?', $post_permalink );
+                $back_url      = $exploded_link[0] . '?' . $build_params;
+            }
 
             // if params exists in uri
             if ( ! empty( $parsed_link[1] ) ) {

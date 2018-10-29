@@ -196,9 +196,22 @@ class LaterPay_Helper_Post
             $url_params['download_attached'] = $post->ID;
         }
 
-	    $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL ) : ''; // phpcs:ignore
+        $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL ) : ''; // phpcs:ignore
         $parsed_link = explode( '?', $request_uri );
-        $back_url    = get_permalink( $post->ID ) . '?' . build_query( $url_params );
+
+        // Get Post Permalink.
+        $post_permalink = get_permalink( $post->ID );
+
+        // Build URL Params.
+        $build_params = build_query( $url_params );
+
+        $back_url = $post_permalink . '?' . $build_params;
+
+        // If permalink contains query string then build back url accordingly.
+        if ( strpos( $post_permalink, '?' ) ) {
+            $exploded_link = explode( '?', $post_permalink );
+            $back_url      = $exploded_link[0] . '?' . $build_params;
+        }
 
         // if params exists in uri
         if ( ! empty( $parsed_link[1] ) ) {
