@@ -437,10 +437,10 @@
                     url       : lpVars.ajaxUrl,
                     method    : 'GET',
                     data      :{
-                        action  : 'laterpay_get_premium_shortcode_link',
-                        ids     : ids,
-                        types   : types,
-                        post_id : lpVars.post_id
+                        action     : 'laterpay_get_premium_shortcode_link',
+                        ids        : ids,
+                        types      : types,
+                        parent_pid : lpVars.post_id
                     },
                     xhrFields : {
                         withCredentials : true

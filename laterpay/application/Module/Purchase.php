@@ -538,6 +538,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
             $redirect_url = get_permalink( $request->get_param( 'post_id' ) );
 
+            // Redirect back to Shortcode page if it was a Shortcode purchase.
+            if ( ! empty( $params['parent_pid'] ) ) {
+                $redirect_url = get_permalink( $request->get_param( 'parent_pid' ) );
+                unset( $params['parent_pid'], $params['action'], $params['attachment_id'] );
+            }
+
             // If permalink contains query string then build back url accordingly.
             if ( strpos( $redirect_url, '?' ) ) {
                 $exploded_link = explode( '?', $redirect_url );
@@ -551,7 +557,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             }
 
             if ( ! empty( $params ) ) {
-                $redirect_url .= '?' . build_query( $params );
+                $redirect_url = add_query_arg( $params, $redirect_url );
             }
 
             nocache_headers();

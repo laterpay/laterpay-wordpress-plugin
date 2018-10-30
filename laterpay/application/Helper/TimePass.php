@@ -470,19 +470,31 @@ class LaterPay_Helper_TimePass
                 $parsed_link = explode( '?', esc_url( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore
             }
 
-            // Build URL Params.
-            $build_params = build_query( $url_params );
-            $back_url     = $back_url . '?' . $build_params;
-
-            // If permalink contains query string then build back url accordingly.
-            if ( strpos( $post_permalink, '?' ) ) {
-                $exploded_link = explode( '?', $post_permalink );
-                $back_url      = $exploded_link[0] . '?' . $build_params;
-            }
+            // Build URL.
+            $back_url = add_query_arg( $url_params, $post_permalink );
 
             // if params exists in uri
             if ( ! empty( $parsed_link[1] ) ) {
-                $back_url .= '&' . $parsed_link[1];
+
+                // If parsed link has extra params process them accordingly.
+                parse_str( $parsed_link[1], $extra_params );
+
+                // Get query args in the already built url.
+                $parsed_url = wp_parse_url( $back_url );
+                parse_str( $parsed_url['query'], $parsed_url_params );
+
+                foreach ( $extra_params as $key => $value ) {
+                    //unset unused variable.
+                    unset( $value );
+
+                    // Don't add array / existing params to url building array.
+                    if ( is_array( $extra_params[$key] ) || isset( $url_params[$key] ) || isset( $parsed_url_params[$key] ) ) {
+                        unset( $extra_params[$key] );
+                    }
+                }
+
+                // Build back URL according to new params.
+                $back_url = add_query_arg( $extra_params, $back_url );
             }
         }
 
