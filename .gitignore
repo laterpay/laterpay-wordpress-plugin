@@ -11,3 +11,4 @@ selenium-tests/*
 svn-working-copy/*
 composer.lock
 laterpay.zip
+.tinypng-sigs
