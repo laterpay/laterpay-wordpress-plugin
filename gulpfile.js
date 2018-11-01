@@ -171,7 +171,7 @@ gulp.task('img-build-png',function(){
     return gulp.src(p.srcPNG)
                .pipe(plumber())
                .pipe(tinypng({                                                    // compress with TinyPNG
-                   key     : '5Y0XuX5OMOhgB-vRqRc8i41ABKv3amul',
+                   key     : 'zHVYVbFVusUoUxg4qs6GnrIMnHhPfGfG',
                    sigFile : './laterpay/asset_sources/.tinypng-sigs',
                    log     : true,
                }))
