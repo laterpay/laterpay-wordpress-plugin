@@ -60,12 +60,12 @@ gulp.task('clean', function(cb) {
 
 // create laterpay.po file.
 gulp.task('makepot', function () {
-	return gulp.src(p.phpfiles)
-		.pipe(wpPot( {
-			domain: 'laterpay',
-			package: 'LaterPay'
-		} ))
-		.pipe(gulp.dest( p.distPlugin + 'languages/' + 'laterpay.po'));
+    return gulp.src(p.phpfiles)
+        .pipe(wpPot( {
+            domain: 'laterpay',
+            package: 'LaterPay'
+        } ))
+        .pipe(gulp.dest( p.distPlugin + 'languages/' + 'laterpay.po'));
 });
 
 // remove non-vip files.
@@ -168,15 +168,14 @@ gulp.task('img-build-svg', function() {
             .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 });
 gulp.task('img-build-png',function(){
-	return gulp.src(p.srcPNG)
-	           .pipe(plumber())
-	           .pipe(tinypng({                                                    // compress with TinyPNG
-		           key: '5Y0XuX5OMOhgB-vRqRc8i41ABKv3amul',
-		           sigFile: './laterpay/asset_sources/.tinypng-sigs',
-		           log: true,
-		           parallel: true,
-	           }))
-	           .pipe(gulp.dest(p.distIMG));                                       // move to target folder
+    return gulp.src(p.srcPNG)
+               .pipe(plumber())
+               .pipe(tinypng({                                                    // compress with TinyPNG
+                   key     : '5Y0XuX5OMOhgB-vRqRc8i41ABKv3amul',
+                   sigFile : './laterpay/asset_sources/.tinypng-sigs',
+                   log     : true,
+               }))
+               .pipe(gulp.dest(p.distIMG));                                       // move to target folder
 });
 gulp.task('img-build', function() {
     var deferred = Q.defer();
