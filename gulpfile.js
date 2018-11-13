@@ -10,6 +10,8 @@ var gulp                        = require('gulp'),
     dateFormat                  = require('dateformat'),
     zip                         = require('gulp-zip'),
     wpPot                       = require('gulp-wp-pot'),
+    plumber                     = require('gulp-plumber'),
+    tinypng                     = require('gulp-tinypng-extended'),
     p                           = {
                                         allfiles        : [
                                                             './laterpay/**/*.php',
@@ -51,7 +53,6 @@ gulp.task('clean', function(cb) {
             p.distCSS + '*.css',
             p.distCSS + '*.scss',
             p.distCSS + 'maps/*.map',
-            p.distIMG + '*.png',
             p.distIMG + '*.svg',
             p.distPlugin + 'vendor'
         ], cb);
@@ -59,12 +60,12 @@ gulp.task('clean', function(cb) {
 
 // create laterpay.po file.
 gulp.task('makepot', function () {
-	return gulp.src(p.phpfiles)
-		.pipe(wpPot( {
-			domain: 'laterpay',
-			package: 'LaterPay'
-		} ))
-		.pipe(gulp.dest( p.distPlugin + 'languages/' + 'laterpay.po'));
+    return gulp.src(p.phpfiles)
+        .pipe(wpPot( {
+            domain: 'laterpay',
+            package: 'LaterPay'
+        } ))
+        .pipe(gulp.dest( p.distPlugin + 'languages/' + 'laterpay.po'));
 });
 
 // remove non-vip files.
@@ -166,10 +167,15 @@ gulp.task('img-build-svg', function() {
             .pipe(plugins.svgmin())                                                 // compress with svgmin
             .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 });
-gulp.task('img-build-png', function() {
+gulp.task('img-build-png',function(){
     return gulp.src(p.srcPNG)
-        .pipe(plugins.tinypng('5Y0XuX5OMOhgB-vRqRc8i41ABKv3amul'))              // compress with TinyPNG
-        .pipe(gulp.dest(p.distIMG));                                            // move to target folder
+               .pipe(plumber())
+               .pipe(tinypng({                                                    // compress with TinyPNG
+                   key     : 'zHVYVbFVusUoUxg4qs6GnrIMnHhPfGfG',
+                   sigFile : './laterpay/asset_sources/.tinypng-sigs',
+                   log     : true,
+               }))
+               .pipe(gulp.dest(p.distIMG));                                       // move to target folder
 });
 gulp.task('img-build', function() {
     var deferred = Q.defer();
