@@ -213,7 +213,13 @@ class LaterPay_Helper_Post
 
             // Get query args in the already built url.
             $parsed_url = wp_parse_url( $back_url );
-            parse_str( $parsed_url['query'], $parsed_url_params );
+
+            // Initialize array just to be safe.
+            $parsed_url_params = [];
+
+            if ( ! empty( $parsed_url['query'] ) ) {
+                parse_str( $parsed_url['query'], $parsed_url_params );
+            }
 
             foreach ( $extra_params as $key => $value ) {
                 //unset unused variable.
