@@ -475,26 +475,7 @@ class LaterPay_Helper_TimePass
 
             // if params exists in uri
             if ( ! empty( $parsed_link[1] ) ) {
-
-                // If parsed link has extra params process them accordingly.
-                parse_str( $parsed_link[1], $extra_params );
-
-                // Get query args in the already built url.
-                $parsed_url = wp_parse_url( $back_url );
-                parse_str( $parsed_url['query'], $parsed_url_params );
-
-                foreach ( $extra_params as $key => $value ) {
-                    //unset unused variable.
-                    unset( $value );
-
-                    // Don't add array / existing params to url building array.
-                    if ( is_array( $extra_params[$key] ) || isset( $url_params[$key] ) || isset( $parsed_url_params[$key] ) ) {
-                        unset( $extra_params[$key] );
-                    }
-                }
-
-                // Build back URL according to new params.
-                $back_url = add_query_arg( $extra_params, $back_url );
+                $back_url = LaterPay_Helper_Post::get_back_url_extra_params( $parsed_link[1], $back_url, $url_params );
             }
         }
 
