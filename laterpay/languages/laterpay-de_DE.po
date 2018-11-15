@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2018-10-25 10:19+0530\n"
-"PO-Revision-Date: 2018-10-25 10:19+0530\n"
+"POT-Creation-Date: 2018-11-15 11:40+0530\n"
+"PO-Revision-Date: 2018-11-15 11:40+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -760,7 +760,9 @@ msgid "Today"
 msgstr "Heute"
 
 #: application/Controller/Admin/Post/Metabox.php:170
-msgid "Teaser Content"
+#, fuzzy
+#| msgid "Teaser Content"
+msgid "LaterPay Teaser Content"
 msgstr "Teaser für den Beitrag"
 
 #: application/Controller/Admin/Post/Metabox.php:193
@@ -1443,7 +1445,7 @@ msgid "Updated."
 msgstr "Aktualisiert."
 
 #: application/Controller/Frontend/PreviewMode.php:215
-#: application/Module/Appearance.php:209
+#: application/Module/Appearance.php:195
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
@@ -1535,7 +1537,7 @@ msgstr "Es existiert kein Beitrag mit der ID \"%s\"."
 msgid "Read now, pay later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: application/Helper/Post.php:301
+#: application/Helper/Post.php:306
 msgid "(more&hellip;)"
 msgstr ""
 
