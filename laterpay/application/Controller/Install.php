@@ -445,9 +445,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         // keep the plugin version up to date
         update_option( 'laterpay_plugin_version', $this->config->get( 'version' ) );
 
-        // clear opcode cache
-        LaterPay_Helper_Cache::reset_opcode_cache();
-
         // update capabilities
         $laterpay_capabilities = new LaterPay_Core_Capability();
         $laterpay_capabilities->populate_roles();
