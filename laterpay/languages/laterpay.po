@@ -481,7 +481,7 @@ msgstr ""
 msgid "Problem with inserted shortcode:"
 msgstr ""
 
-#: laterpay/application/Module/Appearance.php:209, laterpay/application/Controller/Frontend/PreviewMode.php:215
+#: laterpay/application/Module/Appearance.php:195, laterpay/application/Controller/Frontend/PreviewMode.php:215
 msgid "You don't have sufficient user capabilities to do this."
 msgstr ""
 
@@ -2050,7 +2050,7 @@ msgid "Today"
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Post/Metabox.php:170
-msgid "Teaser Content"
+msgid "LaterPay Teaser Content"
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Post/Metabox.php:193
