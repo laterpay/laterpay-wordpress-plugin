@@ -124,7 +124,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
         $this->add_laterpay_api_settings();
-        $this->add_laterpay_pro_merchant();
     }
 
     public function add_colors_settings() {
@@ -658,7 +657,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
             // add onclick support
             if ( isset( $field['onclick'] ) && $field['onclick'] ) {
-                // already using esc_js in add_laterpay_pro_merchant()
                 echo ' onclick="' . esc_attr( $field['onclick'] ) . '"';
             }
 
@@ -966,50 +964,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 'description'   => __( 'Premium content is hidden from users. Direct access would be blocked.', 'laterpay' ),
             ),
         );
-    }
-
-    /**
-     * Add LaterPay Pro merchant settings
-     *
-     * @return void
-     */
-    public function add_laterpay_pro_merchant() {
-        add_settings_section(
-            'laterpay_pro_merchant',
-            __( 'LaterPay Pro Merchant', 'laterpay' ),
-            array( $this, 'get_laterpay_pro_merchant_description' ),
-            'laterpay'
-        );
-
-        $confirm_message = __( 'Only choose this option, if you have a LaterPay Pro merchant account. Otherwise, selling content with LaterPay might not work anymore.If you have questions about LaterPay Pro, please contact sales@laterpay.net. Are you sure that you want to choose this option?', 'laterpay' );
-
-        add_settings_field(
-            'laterpay_pro_merchant',
-            __( 'LaterPay Pro Merchant', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_pro_merchant',
-            array(
-                'name'    => 'laterpay_pro_merchant',
-                'value'   => 1,
-                'type'    => 'checkbox',
-                'label'   => __( 'I have a LaterPay Pro merchant account.', 'laterpay' ),
-                'onclick' => "if (this.checked) return confirm('" . esc_js( "{$confirm_message}" ) . "'); else return true;"
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_pro_merchant' );
-    }
-
-    /**
-     * Render the hint text for the LaterPay Pro Merchant section.
-     *
-     * @return void
-     */
-    public function get_laterpay_pro_merchant_description() {
-        echo '<p>';
-        esc_html_e( 'Please choose, if you have a LaterPay Pro merchant account.', 'laterpay' );
-        echo '</p>';
     }
 
     /**
