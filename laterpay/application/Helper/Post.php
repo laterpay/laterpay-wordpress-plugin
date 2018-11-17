@@ -68,7 +68,7 @@ class LaterPay_Helper_Post
         // @Todo: Fix cookie usage for WP VIP.
         $token_name = filter_input( INPUT_COOKIE, $token_name, FILTER_SANITIZE_STRING );
 
-        if ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $token_name ) ) {
+        if ( ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $token_name ) ) || ( ! LaterPay_Helper_Request::isLpApiAvailability() ) ) {
 
             // check, if parent post has access with time passes
             $parent_post = $is_attachment ? $main_post_id : $post->ID;

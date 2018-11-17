@@ -355,7 +355,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                         $result[] = $post;
                     } else {
                         $key = array_search( $post->ID, $post_ids, true );
-                        if ( $key ) {
+                        if ( false !== $key ) {
                             unset( $post_ids[ $key ] );
                         }
                     }
