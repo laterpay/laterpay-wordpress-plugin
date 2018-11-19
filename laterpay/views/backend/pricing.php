@@ -55,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <form id="lp_js_globalEnabledPostTypesForm" method="post" action="">
                 <input type="hidden" name="form"    value="update_enabled_post_types">
                 <input type="hidden" name="action"  value="laterpay_enabled_post_types">
-                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                <?php wp_nonce_field( 'laterpay_form' ); ?>
                 <table>
                     <tr>
                         <th class="lp_posts_section_heading"><?php esc_html_e( 'Enabled Post Types', 'laterpay' ) ?></th>
@@ -66,14 +66,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     if ( in_array( $slug, $hidden_post_types, true ) ) {
                                         continue;
                                     }
-                                    echo '<li><label title="' . esc_attr( $post_type_data->labels->name ) . '">';
-                                    echo '<input type="checkbox" name="laterpay_enabled_post_types[]" value="' . esc_attr( $slug ) . '" ';
-                                    if ( is_array( $enabled_post_types ) && in_array( $slug, $enabled_post_types, true ) ) {
-                                        echo 'checked';
-                                    }
-                                    echo '>';
-                                    echo '<span>' . esc_html( $post_type_data->labels->name ) . '</span>';
-                                    echo '</label></li>';
+                                    ?>
+                                    <li>
+                                        <label title="<?php echo esc_attr( $post_type_data->labels->name ); ?>">
+                                            <input type="checkbox" name="laterpay_enabled_post_types[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( is_array( $enabled_post_types ) ? in_array( $slug, $enabled_post_types, true ) : '' ); ?>>
+                                            <span><?php echo esc_html( $post_type_data->labels->name ); ?></span>
+                                        </label>
+                                    </li>
+                                    <?php
                                 }
                                 ?>
                             </ul>
