@@ -41,16 +41,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="lp_pagewrap">
 
         <div class="lp_enabled_post_types">
-            <h2><?php esc_html_e( 'Default Pricing', 'laterpay' ); ?></h2>
-            <p>
-                <?php
-                printf(
-                    '%1$s <br/> %2$s',
-                    esc_html__( 'All WordPress Posts, Pages and Media will display the pricing options below unless this is overridden by setting an alternate', 'laterpay' ),
-                    esc_html__( 'Individual Article Price on the specific page or by a rule established on the Custom Pricing Tab.', 'laterpay' )
-                );
-                ?>
-            </p>
+            <h2><?php esc_html_e( 'Paid Content', 'laterpay' ); ?></h2>
+            <p><?php esc_html_e( 'Please choose which of the following post types are eligible to be sold with LaterPay.', 'laterpay' ); ?></p>
 
             <form id="lp_js_globalEnabledPostTypesForm" method="post" action="">
                 <input type="hidden" name="form"    value="update_enabled_post_types">
