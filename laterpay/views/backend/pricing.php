@@ -664,10 +664,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display:none;"'; } ?>>
                     <h2>
-                        <?php esc_html_e( 'Sell bundles of content', 'laterpay' ); ?>
+                        <?php esc_html_e( 'Sell time-limited access to content', 'laterpay' ); ?>
                     </h2>
                     <p>
-                        <?php esc_html_e( 'With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically.', 'laterpay' ); ?>
+                        <?php esc_html_e( 'With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically and are a great option for readers who are not quite ready to commit to a subscription.', 'laterpay' ); ?>
                     </p>
                     <p>
                         <?php esc_html_e( 'Click the "Create" button to add a Time Pass.', 'laterpay' ); ?>
