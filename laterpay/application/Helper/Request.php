@@ -140,6 +140,7 @@ class LaterPay_Helper_Request {
     public static function laterpay_api_get_access( $article_ids, $product_key = null )
     {
         $result = array();
+        $action = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
 
         try {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
@@ -154,15 +155,16 @@ class LaterPay_Helper_Request {
             $result = $client->get_access($article_ids, $product_key);
 
             // Possible value of status is ok or error in case of wrong params which means api is working.
-            if ( is_array( $result ) && array_key_exists( 'status', $result ) ) {
+            if ( ( is_array( $result ) && array_key_exists( 'status', $result ) ) ||  ( empty( $result ) && $client->check_health() ) ) {
                 self::$lp_api_availability = true;
+            } else {
+                throw new Exception( 'Unable to reach LaterPay API' );
             }
 
         } catch (Exception $exception) {
 
             unset( $exception );
 
-            $action = (int)get_option('laterpay_api_fallback_behavior', 0);
             $result['articles'] = array();
 
             switch ($action) {
