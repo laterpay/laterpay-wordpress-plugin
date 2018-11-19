@@ -476,6 +476,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->change_teaser_mode();
         $this->update_default_pricing_behaviour();
         $this->init_ga_options();
+        $this->remove_laterpay_pro_merchant_option();
 
     }
 
@@ -578,5 +579,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             // Add LaterPay Google Analytics Data.
             update_option( 'laterpay_tracking_data', $lp_tracking_data );
         }
+    }
+
+    /**
+     * Clean up LaterPay Pro Merchant option.
+     *
+     * @since 2.3.0
+     */
+    public function remove_laterpay_pro_merchant_option() {
+        $current_version = get_option( 'laterpay_plugin_version' );
+
+        if ( version_compare( $current_version, '2.2.2', '<' ) ) {
+            return;
+        }
+
+        // Delete option for all versions above 2.2.2.
+        delete_option('laterpay_pro_merchant' );
     }
 }
