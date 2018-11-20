@@ -117,7 +117,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_colors_settings();
         $this->add_ga_tracking_settings();
         $this->add_caching_settings();
-        $this->add_enabled_post_types_settings();
         $this->add_revenue_settings();
         $this->add_gift_codes_settings();
         $this->add_teaser_content_settings();
@@ -224,42 +223,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         esc_html_e( 'When someone visits
            the page, it makes an Ajax request to determine, if the visitor has already bought the post
            and replaces the teaser with the full content, if required.', 'laterpay' );
-        echo '</p>';
-    }
-
-    /**
-     * Add activated post types section and fields.
-     *
-     * @return void
-     */
-    public function add_enabled_post_types_settings() {
-        add_settings_section(
-            'laterpay_post_types',
-            __( 'LaterPay-enabled Post Types', 'laterpay' ),
-            array( $this, 'get_enabled_post_types_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_enabled_post_types',
-            __( 'Enabled Post Types', 'laterpay' ),
-            array( $this, 'get_enabled_post_types_markup' ),
-            'laterpay',
-            'laterpay_post_types'
-        );
-
-        register_setting( 'laterpay', 'laterpay_enabled_post_types' );
-    }
-
-    /**
-     * Render the hint text for the enabled post types section.
-     *
-     * @return void
-     */
-    public function get_enabled_post_types_section_description() {
-        echo '<p>';
-        esc_html_e( 'Please choose, which standard and custom post types should be sellable with LaterPay.',
-            'laterpay' );
         echo '</p>';
     }
 
@@ -843,42 +806,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         }
 
         return $valid;
-    }
-
-    /**
-     * Render the inputs for the enabled post types section.
-     *
-     * @return void
-     */
-    public function get_enabled_post_types_markup() {
-        $hidden_post_types = array(
-            'nav_menu_item',
-            'revision',
-            'custom_css',
-            'customize_changeset',
-            'lp_passes',
-            'lp_subscription',
-            'oembed_cache',
-        );
-
-        $all_post_types     = get_post_types( array( ), 'objects' );
-        $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
-
-        echo '<ul class="post_types">';
-        foreach ( $all_post_types as $slug => $post_type ) {
-            if (in_array($slug, $hidden_post_types, true)) {
-                continue;
-            }
-            echo '<li><label title="' . esc_attr( $post_type->labels->name ) . '">';
-            echo '<input type="checkbox" name="laterpay_enabled_post_types[]" value="' . esc_attr( $slug ) . '" ';
-            if ( is_array( $enabled_post_types ) && in_array( $slug, $enabled_post_types, true ) ) {
-                echo 'checked';
-            }
-            echo '>';
-            echo '<span>' . esc_html( $post_type->labels->name ) . '</span>';
-            echo '</label></li>';
-        }
-        echo '</ul>';
     }
 
     /**

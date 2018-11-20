@@ -45,6 +45,11 @@
             categoryDefaultPriceInput               : '.lp_js_categoryDefaultPriceInput',
             categoryId                              : '.lp_js_categoryDefaultPriceCategoryId',
 
+            // global enabled post types.
+            globalEnabledPostTypesForm              : $('#lp_js_globalEnabledPostTypesForm'),
+            saveEnabledPostTypes                    : $('#lp_js_saveEnabledPostTypes'),
+            cancelEditingEnabledPostTypes           : $('#lp_js_cancelEditingEnabledPostTypes'),
+
             // time passes
             timepass                                : {
                 editor                                  : $('#lp_time-passes'),
@@ -553,6 +558,17 @@
               $o.lp_js_form_buttons_section.css( 'float', 'none' );
               return true;
             });
+
+            // enabled post type change events.
+            // save.
+            $o.saveEnabledPostTypes.on('mousedown', function() {
+                saveEnabledPostTypes();
+            }).click(function(e) {e.preventDefault();});
+
+            // cancel.
+            $o.cancelEditingEnabledPostTypes.on('mousedown', function() {
+                $o.globalEnabledPostTypesForm.trigger( 'reset' );
+            }).click(function(e) {e.preventDefault();});
         },
 
         /**
@@ -1621,6 +1637,17 @@
                     $(this).remove();
                 }
             });
+        },
+
+        saveEnabledPostTypes = function() {
+            $.post(
+                ajaxurl,
+                $o.globalEnabledPostTypesForm.serializeArray(),
+                function(r) {
+                    $o.navigation.showMessage(r);
+                },
+                'json'
+            );
         },
 
         // throttle the execution of a function by a given delay

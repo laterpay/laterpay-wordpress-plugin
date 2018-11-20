@@ -31,10 +31,58 @@ if ( ! defined( 'ABSPATH' ) ) {
         $selected_option = ( int ) get_option( 'laterpay_post_price_behaviour', 2 );
         $hasCategories   = ( count( $laterpay['categories_with_defined_price'] ) > 0 );
         $isGlobalTypeOne = ( 1 === $selected_option );
+
+        $hidden_post_types  = $laterpay['hidden_post_types'];
+        $all_post_types     = $laterpay['all_post_types'];
+        $enabled_post_types = $laterpay['enabled_post_types'];
         ?>
     </div>
 
     <div class="lp_pagewrap">
+
+        <div class="lp_enabled_post_types">
+            <h2><?php esc_html_e( 'Paid Content', 'laterpay' ); ?></h2>
+            <p><?php esc_html_e( 'Please choose which of the following post types are eligible to be sold with LaterPay.', 'laterpay' ); ?></p>
+
+            <form id="lp_js_globalEnabledPostTypesForm" method="post" action="">
+                <input type="hidden" name="form"    value="update_enabled_post_types">
+                <input type="hidden" name="action"  value="laterpay_enabled_post_types">
+                <?php wp_nonce_field( 'laterpay_form' ); ?>
+                <table>
+                    <tr>
+                        <th class="lp_posts_section_heading"><?php esc_html_e( 'Enabled Post Types', 'laterpay' ) ?></th>
+                        <td>
+                            <ul class="post_types">
+                                <?php
+                                foreach ( $all_post_types as $slug => $post_type_data ) {
+
+                                    if ( in_array( $slug, $hidden_post_types, true ) ) {
+                                        continue;
+                                    }
+
+                                    $is_checked = ( is_array( $enabled_post_types ) ) ? in_array( $slug, $enabled_post_types, true ) : '';
+                                    ?>
+                                    <li>
+                                        <label title="<?php echo esc_attr( $post_type_data->labels->name ); ?>">
+                                            <input type="checkbox" name="laterpay_enabled_post_types[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( $is_checked ); ?>>
+                                            <span><?php echo esc_html( $post_type_data->labels->name ); ?></span>
+                                        </label>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="lp_js_postTypeFormButtons">
+                            <a href="#" id="lp_js_saveEnabledPostTypes" class="button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" id="lp_js_cancelEditingEnabledPostTypes" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
 
         <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++">
             <div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
@@ -611,10 +659,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display:none;"'; } ?>>
                     <h2>
-                        <?php esc_html_e( 'Sell bundles of content', 'laterpay' ); ?>
+                        <?php esc_html_e( 'Sell time-limited access to content', 'laterpay' ); ?>
                     </h2>
                     <p>
-                        <?php esc_html_e( 'With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically.', 'laterpay' ); ?>
+                        <?php esc_html_e( 'With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically and are a great option for readers who are not quite ready to commit to a subscription.', 'laterpay' ); ?>
                     </p>
                     <p>
                         <?php esc_html_e( 'Click the "Create" button to add a Time Pass.', 'laterpay' ); ?>

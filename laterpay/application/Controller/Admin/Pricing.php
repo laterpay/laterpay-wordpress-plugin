@@ -24,6 +24,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 array( 'process_ajax_requests' ),
                 array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
+            'wp_ajax_laterpay_enabled_post_types' => array(
+                array( 'laterpay_on_admin_view', 200 ),
+                array( 'process_ajax_requests' ),
+                array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
+            ),
             'laterpay_register_subscription_cpt' => array(
                 array( 'register_subscription_cpt' )
             ),
@@ -150,6 +155,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $subscriptions_model = LaterPay_Model_SubscriptionWP::get_instance();
         $subscriptions_list  = $subscriptions_model->get_active_subscriptions();
 
+        // Get all post types.
+        $all_post_types = get_post_types( array( ), 'objects' );
+
+        // Get already enabled post type data.
+        $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
+
         $view_args = array(
             'pricing_obj'                        => $this,
             'admin_menu'                         => LaterPay_Helper_View::get_admin_menu(),
@@ -163,6 +174,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'sub_vouchers_list'                  => $sub_vouchers_list,
             'vouchers_statistic'                 => $vouchers_statistic,
             'subscriptions_list'                 => $subscriptions_list,
+            'hidden_post_types'                  => self::get_hidden_post_types(),
+            'all_post_types'                     => $all_post_types,
+            'enabled_post_types'                 => $enabled_post_types,
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -273,6 +287,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     'success'    => true,
                     'categories' => get_categories( $args ),
                 ));
+                break;
+
+            case 'update_enabled_post_types':
+                $this->update_enabled_post_types( $event );
                 break;
 
             default:
@@ -849,5 +867,82 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 )
             );
         }
+    }
+
+    /**
+     * Update enabled post types for LaterPay functionality.
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @throws LaterPay_Core_Exception_FormValidation
+     *
+     * @return void
+     */
+    protected function update_enabled_post_types( LaterPay_Core_Event $event ) {
+        $enabled_post_type = new LaterPay_Form_EnabledPostType();
+
+        $event->set_result(
+            array(
+                'success' => false,
+                'message' => esc_html__( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
+
+        if ( ! $enabled_post_type->is_valid( $_POST ) ) { // phpcs:ignore
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $enabled_post_type ), $enabled_post_type->get_errors() );
+        }
+
+        $enabled_post_types = $enabled_post_type->get_field_value( 'laterpay_enabled_post_types' );
+
+        // Get all post types.
+        $all_post_types = array_keys( get_post_types( array( ), 'objects' ) );
+
+        // Get allowed post types.
+        $allowed_post_types = array_diff( $all_post_types, self::get_hidden_post_types() );
+
+        // If received data is not null, use valid values from received data.
+        if ( null !== $enabled_post_types ) {
+            $enabled_post_types = array_intersect( $allowed_post_types, $enabled_post_types );
+        } else {
+            $enabled_post_types = '';
+        }
+
+        // Update option for enabled post types.
+        $is_updated = LaterPay_Helper_Option::update_laterpay_option( 'laterpay_enabled_post_types', $enabled_post_types );
+
+        if ( ! $is_updated ) {
+
+            // Display different error if option was not updated.
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => esc_html__( 'Unable to update LaterPay Enabled Post Type(s).', 'laterpay' ),
+                )
+            );
+
+            return;
+
+        }
+
+        // Set success message.
+        $event->set_result(
+            array(
+                'success' => true,
+                'message' => esc_html__( 'Successfully Updated LaterPay Enabled Post Type(s).', 'laterpay' ),
+            )
+        );
+    }
+
+    public static function get_hidden_post_types() {
+        // Post Types to be hidden.
+        return [
+            'nav_menu_item',
+            'revision',
+            'custom_css',
+            'customize_changeset',
+            'lp_passes',
+            'lp_subscription',
+            'oembed_cache',
+        ];
     }
 }

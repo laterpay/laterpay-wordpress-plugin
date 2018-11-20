@@ -238,3 +238,16 @@ table {
         text-decoration: underline;
     }
 }
+
+.lp_enabled_post_types {
+
+    ul.post_types {
+        display: -webkit-flex;
+        display: flex;
+
+        li {
+            margin: 0 10px;
+        }
+    }
+
+}
