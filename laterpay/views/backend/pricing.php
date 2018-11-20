@@ -55,13 +55,16 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <ul class="post_types">
                                 <?php
                                 foreach ( $all_post_types as $slug => $post_type_data ) {
+
                                     if ( in_array( $slug, $hidden_post_types, true ) ) {
                                         continue;
                                     }
+
+                                    $is_checked = ( is_array( $enabled_post_types ) ) ? in_array( $slug, $enabled_post_types, true ) : '';
                                     ?>
                                     <li>
                                         <label title="<?php echo esc_attr( $post_type_data->labels->name ); ?>">
-                                            <input type="checkbox" name="laterpay_enabled_post_types[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( is_array( $enabled_post_types ) ? in_array( $slug, $enabled_post_types, true ) : '' ); ?>>
+                                            <input type="checkbox" name="laterpay_enabled_post_types[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( $is_checked ); ?>>
                                             <span><?php echo esc_html( $post_type_data->labels->name ); ?></span>
                                         </label>
                                     </li>
