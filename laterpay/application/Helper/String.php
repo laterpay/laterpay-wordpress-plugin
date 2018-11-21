@@ -204,4 +204,59 @@ class LaterPay_Helper_String
         return wp_json_encode( $data, $options, $depth );
     }
 
+    /**
+     * Get scrambled content.
+     *
+     * @param string $content Post Content.
+     *
+     * @return string
+     */
+    public static function get_scrambled_text( $content ) {
+        $final_content = '';
+        $tags          = [];
+
+        // Split the content by tags and store all words.
+        $words = preg_split('/<(.*?)>/', $content );
+
+        // Get All Tags from the content.
+        preg_match_all('/<(.*?)>/', $content, $matches, PREG_SET_ORDER, 0);
+
+        // Store all tags.
+        foreach ( $matches as $match ) {
+            if ( ! empty( $match[0] ) ) {
+                $tags[] = $match[0];
+            }
+        }
+
+        // Append the words and tags.
+        foreach ( $words as $key => $value ) {
+
+            $tag = ( ! empty( $tags[ $key ] ) ) ? $tags[ $key ] : '';
+
+            // Scramble the string before appending to final content.
+            $final_content  .= self::scramble_text( $value ) . $tag;
+
+        }
+
+        return $final_content;
+    }
+
+
+    /**
+     * Convert single word to scrambled text.
+     *
+     * @param string $content_string String with words.
+     *
+     * @return string
+     */
+    public static function scramble_text( $content_string ) {
+        $scrambled_array = [];
+        $words           = explode( ' ', $content_string );
+
+        foreach ( $words as $word ) {
+            $scrambled_array[] = str_rot13( $word );
+        }
+
+        return implode( ' ', $scrambled_array );
+    }
 }
