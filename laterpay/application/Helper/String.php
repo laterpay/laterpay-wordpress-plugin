@@ -217,9 +217,43 @@ class LaterPay_Helper_String
 
         // Search for string in content and replaced with scrambled text.
         foreach ( $words as $word ) {
-            $content = str_replace( $word, str_rot13( $word ), $content );
+            $content = str_replace( $word, self::str_rot( $word, wp_rand( 1, 20 ) ), $content );
         }
 
         return $content;
+    }
+
+    /**
+     * Return random rotated string.
+     *
+     * Function reference : http://php.net/manual/en/function.str-rot13.php#107475
+     *
+     * @param string $s String to be rotated.
+     * @param int    $n Random number to used for string rotation.
+     *
+     * @return string
+     */
+    public static function str_rot( $s, $n = 13 ) {
+
+        static $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+
+        $n = (int) $n % 26;
+
+        if ( ! $n ) {
+            return $s;
+        }
+
+        if ( $n < 0 ) {
+            $n += 26;
+        }
+
+        if ( $n === 13 ) {
+            return str_rot13( $s );
+        }
+
+        $rep = substr( $letters, $n * 2 ) . substr( $letters, 0, $n * 2 );
+
+        return strtr( $s, $letters, $rep );
+
     }
 }
