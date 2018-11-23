@@ -561,7 +561,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             }
 
             if ( ! empty( $params ) ) {
-                $redirect_url = add_query_arg( $params, $redirect_url );
+                $redirect_url = add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $params ), $redirect_url );
             }
 
             nocache_headers();

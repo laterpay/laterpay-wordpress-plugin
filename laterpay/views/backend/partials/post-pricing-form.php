@@ -52,7 +52,7 @@ $is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' 
 <div class="lp_clearfix lp_postMetaBox">
     <?php if ( ! $is_in_live_mode ) : ?>
     <div class="lp_tooltip" data-tooltip="<?php echo esc_attr( __( 'Click here to finish your account set up', 'laterpay' ) ); ?>">
-            <a href="<?php echo esc_url( add_query_arg( array( 'page' => 'laterpay-account-tab' ), admin_url( 'admin.php' ) ) ); ?>"
+            <a href="<?php echo esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => 'laterpay-account-tab' ) ), admin_url( 'admin.php' ) ) ); ?>"
                class="lp_plugin-mode-indicator"
                data-icon="h">
                 <h2 class="lp_plugin-mode-indicator__title"><?php esc_html_e( 'Test mode', 'laterpay' ); ?></h2>
@@ -70,7 +70,7 @@ $is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' 
         <?php
         printf( '%1s <a href="%2$s">%3$s</a> %4$s',
             esc_html__( 'Your LaterPay Plugin is currently invisible to viewers. Click', 'laterpay' ),
-            esc_url( add_query_arg( array( 'page' => 'laterpay-account-tab' ), admin_url( 'admin.php' ) ) ),
+            esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => 'laterpay-account-tab' ) ), admin_url( 'admin.php' ) ) ),
             esc_html__( 'here', 'laterpay' ),
             esc_html__( 'to toggle visibility.', 'laterpay' ) );
         ?>
@@ -96,7 +96,7 @@ $is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' 
                         '%1$s <br/><br/> %2$s<a href="%3$s">%4$s</a>',
                         esc_html__( 'Only Time Passes & Subscriptions will be displayed in the purchase dialog.', 'laterpay' ),
                         esc_html__( 'If you would like to allow articles to be purchased individually,', 'laterpay' ),
-                        esc_url( add_query_arg( array( 'page' => 'laterpay-pricing-tab' ), admin_url( 'admin.php' ) ) ),
+                        esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => 'laterpay-pricing-tab' ) ), admin_url( 'admin.php' ) ) ),
                         esc_html__( 'click here to adjust your Global Default Price.', 'laterpay' )
                     );
                 ?>
