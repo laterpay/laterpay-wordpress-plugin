@@ -31,7 +31,7 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
             'wp_ajax_laterpay_drop_custom_tables' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 300 ),
-                array( 'drop_custom_tables' ),
+                array( 'drop_custom_tables',400 ),
             ),
         );
     }
@@ -50,10 +50,16 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
         }
 
         if ( ! laterpay_check_is_vip() && ! laterpay_is_migration_complete() ) {
-            printf( '<div id="lp_migration_notice" class="notice notice-error"><p>%s <a id="lp_js_startDataMigration" href="#">%s</a> %s</p></div>',
+            printf( '<div id="lp_migration_notice" class="notice notice-error"><p>%s</p><p>%s <a id="lp_js_startDataMigration" href="#">%s</a> %s</p></div>',
+                esc_html__( 'Support for custom table will be completley removed in upcoming versions.', 'laterpay' ),
                 esc_html__( 'Your laterpay data needs to be migrated. Click', 'laterpay' ),
                 esc_html__( 'here', 'laterpay' ),
                 esc_html__( 'to migrate data.', 'laterpay' ) );
+        } elseif ( ! laterpay_check_is_vip() && laterpay_is_migration_complete() && laterpay_custom_table_exists() ) {
+            printf( '<div id="lp_migration_notice" class="notice notice-error"><p>%s <a id="lp_js_removeCustomTable" href="#">%s</a> %s</p></div>',
+                esc_html__( 'Your laterpay data has been migrated. Click', 'laterpay' ),
+                esc_html__( 'here', 'laterpay' ),
+                esc_html__( 'to clean up.', 'laterpay' ) );
         }
 
         // load page-specific JS
@@ -79,6 +85,8 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
                 'MigratingTimepasses'     => esc_html( esc_js( __( 'Migrating Timepasses.',      'laterpay' ) ) ),
                 'MigratingCategoryPrices' => esc_html( esc_js( __( 'Migrating Category Prices.', 'laterpay' ) ) ),
                 'MigrationCompleted'      => esc_html( esc_js( __( 'Migration Completed.',       'laterpay' ) ) ),
+                'RemovingCustomTables'    => esc_html( esc_js( __( 'Migration Cleanup Started',  'laterpay' ) ) ),
+                'RemovedCustomTables'     => esc_html( esc_js( __( 'Migration Cleanup Completed', 'laterpay' ) ) ),
             )
         );
     }
@@ -303,14 +311,18 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
 
     /**
      *  Drop laterpay custom tables.
+     *
+     * @wp-hook wp_ajax_laterpay_drop_custom_tables
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
      */
-    public function drop_custom_tables() {
+    public function drop_custom_tables( LaterPay_Core_Event $event ) {
 
         if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
             return;
         }
 
-        // TODO: Call this function after migration is finished
         check_ajax_referer( 'migration_nonce', 'security' );
 
         global $wpdb;
@@ -323,6 +335,7 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
         $wpdb->query( 'DROP TABLE IF EXISTS ' . $subscription_table . ';' );
         $wpdb->query( 'DROP TABLE IF EXISTS ' . $term_table . ';' );
 
-        update_option( 'laterpay_data_migrated_to_cpt', '1' );
+        $event->set_result( true );
+
     }
 }

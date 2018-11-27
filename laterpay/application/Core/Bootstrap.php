@@ -238,7 +238,7 @@ class LaterPay_Core_Bootstrap
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_TimePasses() );
         laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Subscriptions() );
 
-        if ( ! laterpay_check_is_vip() && ! laterpay_is_migration_complete() ) {
+        if ( ! laterpay_check_is_vip() && ( ( ! laterpay_is_migration_complete() ) || ( laterpay_is_migration_complete() && laterpay_custom_table_exists() ) ) ) {
             laterpay_event_dispatcher()->add_subscriber( new LaterPay_Compatibility_Migrate() );
         }
 

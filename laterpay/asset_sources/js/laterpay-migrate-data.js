@@ -4,6 +4,7 @@
 	$( function () {
 
 		var startMigrationButton = jQuery( '#lp_js_startDataMigration' );
+		var removeCustomTableButton = jQuery( '#lp_js_removeCustomTable' );
 		var migrationNoticeBox = jQuery( '#lp_migration_notice' );
 
 		startMigrationButton.on( 'click', function () {
@@ -20,6 +21,22 @@
 			migrationNoticeBox.append( lp_i18n.MigratingSubscriptions );
 
 			migrateIfNeeded( 'subscription', 0 );
+
+		} );
+
+		removeCustomTableButton.on( 'click', function () {
+
+			migrationNoticeBox.removeClass( 'notice-error' ).addClass( 'notice-info' );
+
+			migrationNoticeBox.empty().append( lp_i18n.RemovingCustomTables );
+			$( '<img />' )
+				.attr( 'id', 'migration-loader' )
+				.attr( 'src', '/wp-admin/images/loading.gif' )
+				.appendTo( migrationNoticeBox );
+			$( '<br />' ).appendTo( migrationNoticeBox );
+			$( '<br />' ).appendTo( migrationNoticeBox );
+
+			removeCustomTables();
 
 		} );
 
@@ -83,5 +100,37 @@
                 }
 	        } );
         }
+
+		function removeCustomTables() {
+
+			var data = {
+				action: 'laterpay_drop_custom_tables',
+				security: migration_nonce,
+			};
+
+			$.post( ajaxurl, data, function ( response ) {
+
+				if ($.type(response) === 'string') {
+					response = JSON.parse(response);
+				}
+
+				if ( true === response ) {
+
+					migrationNoticeBox.append( lp_i18n.RemovedCustomTables );
+					$( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
+
+					$( '<button/>' ).attr( 'type', 'button' )
+						.addClass( 'notice-dismiss' )
+						.appendTo( migrationNoticeBox );
+
+					$( '#migration-loader' ).remove();
+					migrationNoticeBox.removeClass( 'notice-info' ).addClass( 'notice-success' );
+
+					$( '.notice-dismiss' ).click( function () {
+						migrationNoticeBox.remove();
+					} );
+				}
+			});
+		}
     } );
 })( jQuery );
