@@ -198,4 +198,20 @@ class LaterPay_Helper_Request {
 
         return $is_homepage && ! $enabled_on_homepage;
     }
+
+    /**
+     * URL encode parameters.
+     *
+     * @param array $params Parameters to be added to URL.
+     *
+     * @return array|string
+     */
+    public static function laterpay_encode_url_params( $params ) {
+
+        if ( ! empty( $params ) && is_array( $params ) ) {
+            return array_map( 'rawurlencode', $params );
+        }
+
+        return $params;
+    }
 }

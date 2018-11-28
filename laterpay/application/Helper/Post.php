@@ -203,7 +203,7 @@ class LaterPay_Helper_Post
         $post_permalink = get_permalink( $post->ID );
 
         // Build URL.
-        $back_url = add_query_arg( $url_params, $post_permalink );
+        $back_url = add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $url_params ), $post_permalink );
 
         // if params exists in uri.
         if ( ! empty( $parsed_link[1] ) ) {
@@ -399,7 +399,7 @@ class LaterPay_Helper_Post
         }
 
         // Build back URL according to new params and return.
-        return add_query_arg( $extra_params, $back_url );
+        return add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $extra_params ), $back_url );
 
     }
 }
