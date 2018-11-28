@@ -212,15 +212,55 @@ class LaterPay_Helper_String
      * @return string
      */
     public static function get_scrambled_text( $content ) {
+        $final_content = '';
+        $tags          = [];
+
+        $allowed_tags = [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ];
+
         // Split the content by tags and store all words.
-        $words = preg_split('/<(.*?)>/', $content );
+        $words = preg_split( '/<(.*?)>/', $content );
+
+        // Get All Tags from the content.
+        preg_match_all( '/<(.*?)>/', $content, $matches, PREG_SET_ORDER, 0 );
+
+        // Store all tags.
+        foreach ( $matches as $match ) {
+            if ( ! empty( $match[0] ) ) {
+                $tags[] = $match[0];
+            }
+        }
+
+        // Append the words and tags.
+        foreach ( $words as $key => $value ) {
+            $tag = ( ! empty( $tags[ $key ] ) ) ? $tags[ $key ] : '';
+
+            if ( ! in_array( trim( $tag, '<>/' ), $allowed_tags, true ) ) {
+                // Scramble the string before appending to final content.
+                $final_content .= self::scramble_text( $value ) . $tag;
+            } else {
+                $final_content .= $value . $tag;
+            }
+        }
+
+        return $final_content;
+    }
+
+    /**
+     * Convert single word to scrambled text.
+     *
+     * @param string $content_string String with words.
+     *
+     * @return string
+     */
+    public static function scramble_text( $content_string ) {
+        $scrambled_array = [];
+        $words           = explode( ' ', $content_string );
 
         // Search for string in content and replaced with scrambled text.
         foreach ( $words as $word ) {
-            $content = str_replace( $word, self::str_rot( $word, wp_rand( 1, 20 ) ), $content );
+            $scrambled_array[] = self::str_rot( $word, wp_rand( 1, 20 ) );
         }
-
-        return $content;
+        return implode( ' ', $scrambled_array );
     }
 
     /**
