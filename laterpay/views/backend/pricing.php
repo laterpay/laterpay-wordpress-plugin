@@ -41,47 +41,48 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="lp_pagewrap">
 
         <div class="lp_enabled_post_types">
-            <h2><?php esc_html_e( 'Paid Content', 'laterpay' ); ?></h2>
-            <p><?php esc_html_e( 'Please choose which of the following post types are eligible to be sold with LaterPay.', 'laterpay' ); ?></p>
+            <h2><?php esc_html_e( 'LaterPay Content', 'laterpay' ); ?></h2>
+            <div class="lp_enabled_post_types_inner_div">
+                <p><?php esc_html_e( 'Which content would you like to sell with LaterPay?', 'laterpay' ); ?></p>
 
-            <form id="lp_js_globalEnabledPostTypesForm" method="post" action="">
-                <input type="hidden" name="form"    value="update_enabled_post_types">
-                <input type="hidden" name="action"  value="laterpay_enabled_post_types">
-                <?php wp_nonce_field( 'laterpay_form' ); ?>
-                <table>
-                    <tr>
-                        <th class="lp_posts_section_heading"><?php esc_html_e( 'Enabled Post Types', 'laterpay' ) ?></th>
-                        <td>
-                            <ul class="post_types">
-                                <?php
-                                foreach ( $all_post_types as $slug => $post_type_data ) {
-
-                                    if ( in_array( $slug, $hidden_post_types, true ) ) {
-                                        continue;
-                                    }
-
-                                    $is_checked = ( is_array( $enabled_post_types ) ) ? in_array( $slug, $enabled_post_types, true ) : '';
-                                    ?>
-                                    <li>
-                                        <label title="<?php echo esc_attr( $post_type_data->labels->name ); ?>">
-                                            <input type="checkbox" name="laterpay_enabled_post_types[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( $is_checked ); ?>>
-                                            <span><?php echo esc_html( $post_type_data->labels->name ); ?></span>
-                                        </label>
-                                    </li>
+                <form id="lp_js_globalEnabledPostTypesForm" method="post" action="">
+                    <input type="hidden" name="form"    value="update_enabled_post_types">
+                    <input type="hidden" name="action"  value="laterpay_enabled_post_types">
+                    <?php wp_nonce_field( 'laterpay_form' ); ?>
+                    <table width="100%">
+                        <tr>
+                            <td style="padding-left: 0;">
+                                <ul class="post_types">
                                     <?php
-                                }
-                                ?>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="lp_js_postTypeFormButtons">
-                            <a href="#" id="lp_js_saveEnabledPostTypes" class="button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
-                            <a href="#" id="lp_js_cancelEditingEnabledPostTypes" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                                    foreach ( $all_post_types as $slug => $post_type_data ) {
+
+                                        if ( in_array( $slug, $hidden_post_types, true ) ) {
+                                            continue;
+                                        }
+
+                                        $is_checked = ( is_array( $enabled_post_types ) ) ? in_array( $slug, $enabled_post_types, true ) : '';
+                                        ?>
+                                        <li>
+                                            <label title="<?php echo esc_attr( $post_type_data->labels->name ); ?>">
+                                                <input type="checkbox" name="laterpay_enabled_post_types[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( $is_checked ); ?>>
+                                                <span><?php echo esc_html( $post_type_data->labels->name ); ?></span>
+                                            </label>
+                                        </li>
+                                        <?php
+                                    }
+                                    ?>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="lp_js_postTypeFormButtons">
+                                <a href="#" id="lp_js_saveEnabledPostTypes" class="button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                                <a href="#" id="lp_js_cancelEditingEnabledPostTypes" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
         </div>
 
         <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++">
