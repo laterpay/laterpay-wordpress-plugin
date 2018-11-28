@@ -259,27 +259,6 @@ function laterpay_is_migration_complete(){
 }
 
 /**
- * Checks whether the migration is completed or not.
- *
- * @return bool
- */
-function laterpay_custom_table_exists(){
-
-    global $wpdb;
-    $table       = $wpdb->prefix . 'laterpay_terms_price';
-    $table_terms = $wpdb->get_results( 'SHOW TABLES LIKE \'' . $table . '\';' );
-
-    if ( $table_terms ) {
-
-        $current_version = get_option( 'laterpay_plugin_version' );
-
-        if ( version_compare( $current_version, '0.10.0', '>=' ) ) {
-            return true;
-        }
-    }
-}
-
-/**
  * Laterpay display attributes.
  *
  * @param array $args arguments.
