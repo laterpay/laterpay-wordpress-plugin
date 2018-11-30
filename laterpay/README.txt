@@ -190,7 +190,7 @@ Please see the "Test and Live Mode" section.
 * Fix issue with LaterPay Fallback behaviour.
 * Scramble blurred content in "Teaser + Purchase Overlay".
 * Update Time Passes Description.
-* Update Migration Notice.
+* Update Migration Notice and Script ( Migration will migrate old data and Remove custom tables ).
 * Remove support for LaterPay Pro Merchant.
 
 = 2.2.2 ( November 15, 2018 ) =
@@ -680,7 +680,7 @@ KNOWN BUGS:
 == Upgrade notice ==
 
 = 2.3.0 ( November 30, 2018 ) =
-Fix issue with LaterPay fallback behaviour, Remove support for LaterPay Pro merchant, Scramble blurred content text and minor updates with LaterPay functionality.
+Update Migration script to migrate data and remove custom tables, Fix issue with LaterPay fallback behaviour, Remove support for LaterPay Pro merchant, Scramble blurred content text and minor updates with LaterPay functionality.
 
 == Arbitrary section ==
 
