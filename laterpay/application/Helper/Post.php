@@ -68,7 +68,7 @@ class LaterPay_Helper_Post
         // @Todo: Fix cookie usage for WP VIP.
         $token_name = filter_input( INPUT_COOKIE, $token_name, FILTER_SANITIZE_STRING );
 
-        if ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $token_name ) ) {
+        if ( ( apply_filters( 'laterpay_access_check_enabled', true ) && isset( $token_name ) ) || ( ! LaterPay_Helper_Request::isLpApiAvailability() ) ) {
 
             // check, if parent post has access with time passes
             $parent_post = $is_attachment ? $main_post_id : $post->ID;
@@ -203,7 +203,7 @@ class LaterPay_Helper_Post
         $post_permalink = get_permalink( $post->ID );
 
         // Build URL.
-        $back_url = add_query_arg( $url_params, $post_permalink );
+        $back_url = add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $url_params ), $post_permalink );
 
         // if params exists in uri.
         if ( ! empty( $parsed_link[1] ) ) {
@@ -399,7 +399,7 @@ class LaterPay_Helper_Post
         }
 
         // Build back URL according to new params and return.
-        return add_query_arg( $extra_params, $back_url );
+        return add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $extra_params ), $back_url );
 
     }
 }

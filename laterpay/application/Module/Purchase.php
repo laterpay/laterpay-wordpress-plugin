@@ -359,10 +359,11 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         }
 
         $data['article'] = array(
-            'title'     => $post->post_title,
-            'price'     => LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $post->ID ) ),
-            'revenue'   => LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID ),
-            'url'       => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
+            'title'        => $post->post_title,
+            'price'        => LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $post->ID ) ),
+            'actual_price' => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
+            'revenue'      => LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID ),
+            'url'          => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
         );
 
         $event->set_result( $data );
@@ -561,7 +562,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             }
 
             if ( ! empty( $params ) ) {
-                $redirect_url = add_query_arg( $params, $redirect_url );
+                $redirect_url = add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $params ), $redirect_url );
             }
 
             nocache_headers();

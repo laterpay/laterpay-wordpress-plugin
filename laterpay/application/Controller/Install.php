@@ -476,6 +476,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->change_teaser_mode();
         $this->update_default_pricing_behaviour();
         $this->init_ga_options();
+        $this->remove_laterpay_pro_merchant_option();
+        $this->remove_custom_table_support();
 
     }
 
@@ -578,5 +580,52 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             // Add LaterPay Google Analytics Data.
             update_option( 'laterpay_tracking_data', $lp_tracking_data );
         }
+    }
+
+    /**
+     * Clean up LaterPay Pro Merchant option.
+     *
+     * @since 2.3.0
+     */
+    public function remove_laterpay_pro_merchant_option() {
+        $current_version = get_option( 'laterpay_plugin_version' );
+
+        if ( version_compare( $current_version, '2.2.2', '<' ) ) {
+            return;
+        }
+
+        // Delete option for all versions above 2.2.2.
+        delete_option('laterpay_pro_merchant' );
+    }
+
+    /**
+     * Remove custom table support.
+     *
+     * @since 2.3.0
+     */
+    public function remove_custom_table_support() {
+        $current_version = get_option( 'laterpay_plugin_version' );
+
+        if ( laterpay_check_is_vip() || version_compare( $current_version, '0.10.0', '<' ) ) {
+            return;
+        }
+
+        global $wpdb;
+
+        $table       = $wpdb->prefix . 'laterpay_terms_price';
+        $table_terms = $wpdb->get_results( 'SHOW TABLES LIKE \'' . $table . '\';' );
+
+        if ( $table_terms && laterpay_is_migration_complete() ) {
+
+            $timepass_table     = $wpdb->prefix . 'laterpay_passes';
+            $subscription_table = $wpdb->prefix . 'laterpay_subscriptions';
+            $term_table         = $wpdb->prefix . 'laterpay_terms_price';
+
+            $wpdb->query( 'DROP TABLE IF EXISTS ' . $timepass_table . ';' );
+            $wpdb->query( 'DROP TABLE IF EXISTS ' . $subscription_table . ';' );
+            $wpdb->query( 'DROP TABLE IF EXISTS ' . $term_table . ';' );
+
+        }
+
     }
 }

@@ -471,7 +471,7 @@ class LaterPay_Helper_TimePass
             }
 
             // Build URL.
-            $back_url = add_query_arg( $url_params, $post_permalink );
+            $back_url = add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $url_params ), $post_permalink );
 
             // if params exists in uri
             if ( ! empty( $parsed_link[1] ) ) {
