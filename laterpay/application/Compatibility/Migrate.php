@@ -40,7 +40,9 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
      */
     public function render_data_migration_notice( LaterPay_Core_Event $event ) {
 
-        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+        $current_version = get_option( 'laterpay_plugin_version' );
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) || version_compare( $current_version, '2.3.0', '>' ) ) {
             return;
         }
 

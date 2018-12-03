@@ -85,6 +85,15 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             $notices[] = sprintf( $template, 'Wordpress', $required_wp_version, 'Wordpress', $installed_wp_version );
         }
 
+        if ( ! laterpay_check_is_vip() && ! laterpay_is_migration_complete() ) {
+            $notices[] = sprintf(
+                '<p>%s %s %s</p>',
+                esc_html__( 'LaterPay has updated their plugin to remove dependencies on custom tables.', 'laterpay' ),
+                esc_html__( 'You must migrate your data before you can update to future versions of LaterPay.', 'laterpay' ),
+                esc_html__( 'This will not result in any visible changes to your site or your plugin set up.', 'laterpay' )
+            );
+        }
+
         // deactivate plugin, if requirements are not fulfilled
         if ( count( $notices ) > 0 ) {
             // suppress 'Plugin activated' notice
