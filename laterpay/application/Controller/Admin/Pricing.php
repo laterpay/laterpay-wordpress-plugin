@@ -60,6 +60,36 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     public function load_assets() {
         parent::load_assets();
 
+        LaterPay_Controller_Admin::register_common_scripts();
+
+        $site_url            = get_site_url();
+	    $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
+	    $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
+
+	    $sb_merch_key          = get_option( 'laterpay_sandbox_merchant_id' );
+	    $live_merch_key = get_option( 'laterpay_live_merchant_id' );
+	    $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
+
+	    $time_passes_count   = LaterPay_Helper_TimePass::get_time_passes_count( true );
+	    $subscriptions_count = LaterPay_Helper_Subscription::get_subscriptions_count( true );
+
+	    wp_localize_script(
+		    'laterpay-common',
+		    'lpCommonVar',
+		    array(
+			    'current_page'        => esc_js( 'pricing' ),
+			    'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ): '',
+			    'lp_enabled_post_types' => ( ! empty( $enabled_post_types ) ) ? $enabled_post_types : '',
+			    'categories_count' => LaterPay_Model_CategoryPriceWP::get_instance()->get_categories_with_defined_price_count(),
+			    'time_passes_count' => $time_passes_count,
+			    'subscriptions_count' => $subscriptions_count,
+			    'sandbox_merchant_id' => ( ! empty( $sb_merch_key ) ) ? $sb_merch_key : '',
+			    'live_merchant_id'    => ( ! empty( $live_merch_key ) ) ? $sb_merch_key : '',
+			    'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
+			    'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
+		    )
+	    );
+
         // load page-specific JS
         wp_register_script(
             'laterpay-select2',
@@ -71,7 +101,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         wp_register_script(
             'laterpay-backend-pricing',
             $this->config->get( 'js_url' ) . 'laterpay-backend-pricing.js',
-            array( 'jquery', 'laterpay-select2' ),
+            array( 'jquery', 'laterpay-select2', 'laterpay-common' ),
             $this->config->get( 'version' ),
             true
         );

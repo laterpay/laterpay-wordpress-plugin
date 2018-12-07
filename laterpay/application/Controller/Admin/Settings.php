@@ -35,6 +35,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     {
         parent::load_assets();
 
+        LaterPay_Controller_Admin::register_common_scripts();
+
         // register and enqueue stylesheet
         wp_register_style(
             'laterpay-options',
@@ -51,7 +53,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         wp_register_script(
             'laterpay-backend-options',
             $this->config->js_url . '/laterpay-backend-options.js',
-            array( 'jquery' ),
+            array( 'jquery', 'laterpay-common' ),
             $this->config->version,
             true
         );
