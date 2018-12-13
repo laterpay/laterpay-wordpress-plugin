@@ -1,3 +1,4 @@
+/* global lpGlobal */
 (function($) {$(function() {
     // encapsulate all LaterPay Javascript in function laterPayBackendPricing
     function laterPayBackendPricing() {
@@ -775,6 +776,10 @@
             var validatedPrice = validatePrice($o.globalDefaultPriceForm);
             $o.globalDefaultPriceInput.val(validatedPrice);
 
+            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + lpVars.gaData.site_url + ' | ',
+                finalLabel,finalGAValue = '';
+            var eveCategory = 'LaterPay WordPress Plugin Pricing', eveAction = 'Set Global Default Price';
+
             $.post(
                 ajaxurl,
                 $o.globalDefaultPriceForm.serializeArray(),
@@ -786,6 +791,13 @@
                             .data('revenue', r.revenue_model);
 
                         if ( 2 === r.post_price_behaviour ) {
+
+                          finalLabel   = commonLabel + 'Individual Article | ' + r.revenue_model_label;
+                          finalGAValue = Math.ceil( r.price * 100 );
+
+                          // Send GA event for change.
+                          lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
+
                           // Change current selected radio and behaviour.
                           $o.lp_current_post_price_val.val('2');
                           $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
@@ -808,6 +820,13 @@
                           $o.categoryButtonContainer.removeClass('lp_tooltip');
                           $o.categoryPanelWarning.hide();
                         } else if ( 1 === r.post_price_behaviour ) {
+
+                          finalLabel   = commonLabel + 'Cannot Purchase Individually | null';
+                          finalGAValue = 0;
+
+                          // Send GA event for change.
+                          lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
+
                           // Change current selected radio and behaviour.
                           $o.lp_current_post_price_val.val('1');
                           $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
@@ -832,6 +851,13 @@
                             $o.categoryPanelWarning.show();
                           }
                         } else if ( 0 === r.post_price_behaviour ) {
+
+                         finalLabel   = commonLabel + 'Free | null';
+                         finalGAValue = 0;
+
+                         // Send GA event for change.
+                         lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
+
                           // Change current selected radio and behaviour.
                           $o.lp_current_post_price_val.val('0');
                           $o.lp_make_post_free.attr( 'checked', 'checked' );
@@ -923,6 +949,21 @@
                 $form.serializeArray(),
                 function(r) {
                     if (r.success) {
+
+                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + lpVars.gaData.site_url + ' | ',
+                            finalLabel,finalGAValue = '';
+
+                        var eveCategory = 'LaterPay WordPress Plugin Pricing', eveAction = 'Edit Category Default';
+                        finalLabel      = commonLabel + r.category + ' | ' + r.revenue_model_label;
+                        finalGAValue    = Math.ceil( r.price * 100 );
+
+                        if ( '' === $($o.categoryId, $form).val() ) {
+                            eveAction = 'Create Category Default';
+                        }
+
+                        // Send GA event for category create/edit.
+                        lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
+
                         // update displayed price information
                         $($o.categoryDefaultPriceDisplay, $form).text(r.localized_price).data('price', r.price);
                         $($o.revenueModelLabelDisplay, $form)
@@ -1332,6 +1373,54 @@
                 $($entity.form, $wrapper).serializeArray(),
                 function(r) {
                     if (r.success) {
+
+                        var gaPeriod = [ 'Hour', 'Day', 'Week', 'Month', 'Year' ];
+
+                        // Initialize variables.
+                        var currentId = $wrapper.find($entity.preview.wrapper).data($entity.data.id),
+                            entityType = 'Time Pass', revenueType = 'Pay Later';
+
+                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + lpVars.gaData.site_url + ' | ',
+                            finalLabel,finalGAValue, gaDuration, gaCategory, gaVoucherCount = '';
+
+                        // Change Revenue Label.
+                        if ( 'sis' === r.revenueModel ) {
+                            revenueType = 'Pay Now';
+                        }
+
+                        // Change Revenue Label and entity type for subscription.
+                        if ( 'subscription' === type ) {
+                            entityType  = 'Subscription';
+                            revenueType = 'Pay Now';
+                        }
+
+                        // Finalize Event Action.
+                        var eveCategory = 'LaterPay WordPress Plugin Pricing', eveAction = 'Create ' + entityType;
+
+                        // Update Event Action if entity is being edited.
+                        if ( 0 !== currentId ) {
+                            eveAction = 'Edit ' + entityType;
+                        }
+
+                        // Changes according to Entity Access to.
+                        if ( 0 === r.data.access_to ) {
+                            gaCategory = 'All';
+                        } else if ( 1 === r.data.access_to ) {
+                            gaCategory = 'Content except ' + r.data.category_name;
+                        } else if ( 2 === r.data.access_to ) {
+                            gaCategory = 'Content in ' + r.data.category_name;
+                        }
+
+                        gaDuration     = r.data.duration + ' ' + gaPeriod[r.data.period];
+                        gaVoucherCount = Object.keys(r.vouchers).length;
+
+                        finalGAValue = Math.ceil( r.data.price * 100 );
+                        finalLabel   = commonLabel + gaDuration + ' | ' + revenueType +
+                            ' | ' + gaCategory + ' | ' + gaVoucherCount;
+
+                        // Send GA event for entity create/edit.
+                        lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
+
                         // form has been saved
                         var id = r.data[$entity.data.fields.id];
 

@@ -116,8 +116,8 @@
 
             bindPurchaseEvents = function() {
 
-				var eventlabel = lpVars.gaData.postTitle + ',' + lpVars.gaData.blogName + ',' +
-					lpVars.gaData.postPermalink;
+                var eventlabel = lpVars.gaData.postTitle + ',' + lpVars.gaData.blogName + ',' +
+                    lpVars.gaData.postPermalink;
 
                 // handle clicks on purchase links in test mode
                 $o.body
@@ -131,7 +131,7 @@
                             alert(lpVars.i18n.alert);
                         } else {
                             // Send GA Event On Click of Buy Button.
-							lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin', eventlabel );
+                            lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin', eventlabel );
                             window.location.href = $(this).data('laterpay');
                         }
                     });
@@ -147,7 +147,7 @@
                             alert(lpVars.i18n.alert);
                         } else {
                             // Send GA Event On Click of Buy Button.
-							lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin', eventlabel );
+                            lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin', eventlabel );
                             purchaseOverlaySubmit($(this).attr('data-purchase-action'));
                         }
                     });
