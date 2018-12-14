@@ -37,6 +37,24 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
         LaterPay_Controller_Admin::register_common_scripts();
 
+        $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
+        $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
+
+        $sb_merch_key   = get_option( 'laterpay_sandbox_merchant_id' );
+        $live_merch_key = get_option( 'laterpay_live_merchant_id' );
+
+        wp_localize_script(
+            'laterpay-common',
+            'lpCommonVar',
+            array(
+                'current_page'        => esc_js( 'settings' ),
+                'sandbox_merchant_id' => ( ! empty( $sb_merch_key ) ) ? $sb_merch_key : '',
+                'live_merchant_id'    => ( ! empty( $live_merch_key ) ) ? $sb_merch_key : '',
+                'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
+                'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
+            )
+        );
+
         // register and enqueue stylesheet
         wp_register_style(
             'laterpay-options',
@@ -59,6 +77,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
         wp_enqueue_script( 'laterpay-backend-options' );
 
+        $custom_role_names = array_keys( get_option( 'laterpay_unlimited_access', [] ) );
+
         // Localize string to be used in script.
         wp_localize_script(
             'laterpay-backend-options',
@@ -71,7 +91,12 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 'i18n'  => array(
                     'alertEmptyCode' => esc_html__( 'Please enter UA-ID to enable Personal Analytics!', 'laterpay' ),
                     'invalidCode'    => esc_html__( 'Please enter valid UA-ID code!', 'laterpay' ),
-                )
+                ),
+                'gaData' => array(
+                    'custom_roles' => $custom_role_names,
+                    'sandbox_merchant_id' => ( ! empty( $sb_merch_key ) ) ? $sb_merch_key : '',
+                    'live_merchant_id'    => ( ! empty( $live_merch_key ) ) ? $sb_merch_key : '',
+                ),
             )
         );
     }

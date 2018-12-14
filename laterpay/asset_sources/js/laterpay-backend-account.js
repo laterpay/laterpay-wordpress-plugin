@@ -1,3 +1,4 @@
+/* global lpGlobal*/
 (function($) {$(function() {
 
     // encapsulate all LaterPay Javascript in function laterPayBackendAccount
@@ -199,6 +200,13 @@
                     )
                     .done(function() {
                         $o.requestSent = false;
+
+                        if ( 'laterpay_plugin_mode' === form_id ) {
+                            var pluginStatus = $o.pluginModeToggle.prop('checked') ? 'Live' : 'Test';
+                            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+                            var eveCategory = 'LP WP Account', eveAction = 'Account Status Change';
+                            lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + pluginStatus );
+                        }
                     });
                 }
             },

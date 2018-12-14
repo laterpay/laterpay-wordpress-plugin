@@ -127,28 +127,30 @@
 
         sendSummaryEvents = function () {
 
-            var lp_post_types = '', contentLabel, categoryLabel, timepassLabel, subsLabel, versionLabel = '';
+            var lp_post_types = '', contentLabel, categoryLabel, timepassLabel, subsLabel, versionLabel, siteLabel = '';
 
             $.each(lpCommonVar.lp_enabled_post_types, function(i){
                 lp_post_types += lpCommonVar.lp_enabled_post_types[i] + ',';
             });
 
-            var commonLabel = lpCommonVar.sandbox_merchant_id + ' | ' + lpCommonVar.site_url + ' | ';
+            var commonLabel = lpCommonVar.sandbox_merchant_id + ' | ';
 
             contentLabel  = commonLabel + lp_post_types;
             categoryLabel = commonLabel + 'Count Category Prices';
             timepassLabel = commonLabel + 'Count Time Passes';
             subsLabel     = commonLabel + 'Count Subscriptions';
             versionLabel  = commonLabel + lpCommonVar.lp_current_version;
+            siteLabel     = commonLabel + lpCommonVar.site_url;
 
-            var eveCategory = 'LaterPay WordPress Plugin Pricing';
+            var eveCategory = 'LP WP Pricing';
 
+            // Send Summary GA Events.
             lpGlobal.sendLPGAEvent( 'LaterPay Content', eveCategory, contentLabel );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, categoryLabel, lpCommonVar.categories_count );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, timepassLabel, lpCommonVar.time_passes_count );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, subsLabel, lpCommonVar.subscriptions_count );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, versionLabel );
-
+            lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, siteLabel );
 
             setDataInStorage( 'lpSummarySentDate', Date.now() );
 
@@ -164,18 +166,21 @@
 
         initializePage = function() {
 
-            if ( 'pricing' === lpCommonVar.current_page ) {
+            if ( typeof(lpCommonVar) !== 'undefined' ) {
 
-                if ( supportsLocalStorage() ) {
-                    var lastSent = getDataFromStorage( 'lpSummarySentDate' );
+                if ( 'pricing' === lpCommonVar.current_page ) {
 
-                    if ( daysPassedSinceEvent( Date.now(), lastSent ) > 1 || null === lastSent ) {
+                    if ( supportsLocalStorage() ) {
+                        var lastSent = getDataFromStorage( 'lpSummarySentDate' );
+
+                        if ( daysPassedSinceEvent( Date.now(), lastSent ) > 1 || null === lastSent ) {
+                            sendSummaryEvents();
+                            localStorage.setItem( 'lpSummarySentDate', Date.now() );
+                        }
+
+                    } else {
                         sendSummaryEvents();
-                        localStorage.setItem( 'lpSummarySentDate', Date.now() );
                     }
-
-                } else {
-                    sendSummaryEvents();
                 }
 
             }

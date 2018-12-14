@@ -27,14 +27,35 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     public function load_assets() {
         parent::load_assets();
 
+        LaterPay_Controller_Admin::register_common_scripts();
+
+        $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
+        $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
+
+        $sb_merch_key   = get_option( 'laterpay_sandbox_merchant_id' );
+        $live_merch_key = get_option( 'laterpay_live_merchant_id' );
+
+        wp_localize_script(
+            'laterpay-common',
+            'lpCommonVar',
+            array(
+                'current_page'        => esc_js( 'account' ),
+                'sandbox_merchant_id' => ( ! empty( $sb_merch_key ) ) ? $sb_merch_key : '',
+                'live_merchant_id'    => ( ! empty( $live_merch_key ) ) ? $sb_merch_key : '',
+                'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
+                'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
+            )
+        );
+
         // load page-specific JS
         wp_register_script(
             'laterpay-backend-account',
             $this->config->js_url . 'laterpay-backend-account.js',
-            array( 'jquery' ),
+            array( 'jquery', 'laterpay-common' ),
             $this->config->version,
             true
         );
+
         wp_enqueue_script( 'laterpay-backend-account' );
 
         // pass localized strings and variables to script
@@ -45,6 +66,10 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 'i18nApiKeyInvalid'     => __( 'The API key you entered is not a valid LaterPay API key!', 'laterpay' ),
                 'i18nMerchantIdInvalid' => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay' ),
                 'i18nPreventUnload'     => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
+                'gaData' => array(
+                    'sandbox_merchant_id' => ( ! empty( $sb_merch_key ) ) ? $sb_merch_key : '',
+                    'live_merchant_id'    => ( ! empty( $live_merch_key ) ) ? $sb_merch_key : '',
+                ),
             )
         );
     }
