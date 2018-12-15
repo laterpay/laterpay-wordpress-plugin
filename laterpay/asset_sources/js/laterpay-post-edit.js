@@ -1,4 +1,4 @@
-/*globals wp*/
+/* globals wp,lpGlobal */
 
 (function($) {$(function() {
 
@@ -606,8 +606,26 @@
             },
 
             saveDynamicPricingData = function() {
+
+                // Get Data to be sent to GA.
+                var selectedType = jQuery('#lp_js_priceTypeButtonGroup li.lp_is-selected').text().trim();
+                var lpPrice = validatePrice($o.priceInput.val()) * 100;
+                var eventAction = 'Pricing for Post', eventCategory = 'LP WP Post',
+                    commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + lpVars.postId + ' | ';
+
+                var selectedCategories = $('#categorychecklist :checkbox:checked'), categoryLabel = [];
+
+                // Loop through selected categories and store in an array.
+                $.each( selectedCategories, function( i ) {
+                    categoryLabel.push($('#'+selectedCategories[i].id).parent().text().trim());
+                } );
+
+                // Send GA event with category details.
+                lpGlobal.sendLPGAEvent( 'Post Published', eventCategory, commonLabel + categoryLabel.join(',') );
+
                 // don't try to save dynamic pricing data, if pricing type is not dynamic but static
                 if (!$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
+                    lpGlobal.sendLPGAEvent( eventAction, eventCategory, commonLabel + selectedType, lpPrice );
                     return;
                 }
 
@@ -619,6 +637,13 @@
                     $('input[name=change_start_price_after_days]').val(data[1].x);
                     $('input[name=transitional_period_end_after_days]').val(data[2].x);
                     $('input[name=reach_end_price_after_days]').val(data[3].x);
+
+                    // Send GA event with dynamic price data.
+                    lpGlobal.sendLPGAEvent( eventAction, eventCategory, commonLabel + selectedType,
+                        Math.round( data[3].y * 100 ) );
+                    lpGlobal.sendLPGAEvent( eventAction, eventCategory, commonLabel + 'Dynamic Price',
+                        Math.round( data[0].y * 100 ) );
+
                 } else if (window.dynamicPricingWidget.get_data().length === 3) {
                     $('input[name=start_price]').val(data[0].y);
                     $('input[name=end_price]').val(data[2].y);

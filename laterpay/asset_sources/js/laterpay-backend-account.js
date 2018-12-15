@@ -203,7 +203,8 @@
 
                         if ( 'laterpay_plugin_mode' === form_id ) {
                             var pluginStatus = $o.pluginModeToggle.prop('checked') ? 'Live' : 'Test';
-                            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+                            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' +
+                                lpVars.gaData.site_url + ' | ';
                             var eveCategory = 'LP WP Account', eveAction = 'Account Status Change';
                             lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + pluginStatus );
                         }

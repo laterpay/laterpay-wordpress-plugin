@@ -85,7 +85,8 @@
         },
 
         // Create a tracker and send event to GA.
-        createTrackerAndSendEvent = function ( gaTracker, trackingId, trackerName, eventAction, eventLabel, eventCategory, eventValue ) {
+        createTrackerAndSendEvent = function ( gaTracker, trackingId, trackerName, eventAction, eventLabel,
+                                               eventCategory, eventValue ) {
             gaTracker( 'create', trackingId, 'auto', trackerName );
             gaTracker( trackerName + '.send', 'event', {
                 eventCategory : eventCategory,
@@ -127,30 +128,22 @@
 
         sendSummaryEvents = function () {
 
-            var lp_post_types = '', contentLabel, categoryLabel, timepassLabel, subsLabel, versionLabel, siteLabel = '';
-
-            $.each(lpCommonVar.lp_enabled_post_types, function(i){
-                lp_post_types += lpCommonVar.lp_enabled_post_types[i] + ',';
-            });
+            var categoryLabel, timepassLabel, subsLabel, versionLabel = '';
 
             var commonLabel = lpCommonVar.sandbox_merchant_id + ' | ';
 
-            contentLabel  = commonLabel + lp_post_types;
             categoryLabel = commonLabel + 'Count Category Prices';
             timepassLabel = commonLabel + 'Count Time Passes';
             subsLabel     = commonLabel + 'Count Subscriptions';
             versionLabel  = commonLabel + lpCommonVar.lp_current_version;
-            siteLabel     = commonLabel + lpCommonVar.site_url;
 
             var eveCategory = 'LP WP Pricing';
 
             // Send Summary GA Events.
-            lpGlobal.sendLPGAEvent( 'LaterPay Content', eveCategory, contentLabel );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, categoryLabel, lpCommonVar.categories_count );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, timepassLabel, lpCommonVar.time_passes_count );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, subsLabel, lpCommonVar.subscriptions_count );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, versionLabel );
-            lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, siteLabel );
 
             setDataInStorage( 'lpSummarySentDate', Date.now() );
 
@@ -225,10 +218,13 @@
                         });
 
                         if ( true === sentUserEvent ) {
-                            createTrackerAndSendEvent( lpUAID, 'lpParentTracker', eventAction, eventLabel, eventCategory, eventValue );
+                            createTrackerAndSendEvent( lpUAID, 'lpParentTracker', eventAction, eventLabel,
+                                eventCategory, eventValue );
                         } else {
-                            createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction, eventLabel, eventCategory, eventValue );
-                            createTrackerAndSendEvent( __gaTracker, userUAID, 'lpUserTracker', eventAction, eventLabel, eventCategory, eventValue );
+                            createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction,
+                                eventLabel, eventCategory, eventValue );
+                            createTrackerAndSendEvent( __gaTracker, userUAID, 'lpUserTracker', eventAction,
+                                eventLabel, eventCategory, eventValue );
                         }
                     } else {
                         sendParentEvent( true, eventLabel, eventAction, eventCategory );
@@ -258,7 +254,8 @@
                     }
                 } else if( userUAID.length === 0 && lpUAID.length > 0 ) {
                     if (typeof __gaTracker === 'function' ) {
-                        createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction, eventLabel, eventCategory, eventValue );
+                        createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction, eventLabel,
+                            eventCategory, eventValue );
                     } else{
                         sendParentEvent( true, eventLabel, eventAction, eventCategory, eventValue );
                     }

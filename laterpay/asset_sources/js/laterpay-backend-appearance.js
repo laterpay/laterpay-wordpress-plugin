@@ -1,3 +1,4 @@
+/* globals lpGlobal */
 (function($) {$(function() {
 
     // encapsulate all LaterPay Javascript in function laterPayBackendAppearance
@@ -113,7 +114,9 @@
 
                 $('input[name=form]', $form).val('paid_content_preview');
 
-                switch($('input:checked', $form).val())
+                var selectedLayout = $('input:checked', $form).val();
+
+                switch(selectedLayout)
                 {
                     case '0':
                     case '1':
@@ -139,6 +142,11 @@
                         break;
                 }
 
+                var appearanceLayouts = [ 'Purchase Link', 'Explanatory Overlay', 'Purchase Overlay'];
+                var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+                lpGlobal.sendLPGAEvent( 'Overall Appearance', 'LP WP Appearance', commonLabel +
+                    appearanceLayouts[parseInt(selectedLayout)] );
+
                 saveData($form);
             },
 
@@ -156,6 +164,9 @@
                         break;
                     case '1':
                         $form.find($o.buttonGroupHint).fadeIn();
+                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+                        lpGlobal.sendLPGAEvent( 'Custom Position', 'LP WP Appearance', commonLabel +
+                            'Purchase Button' );
                         break;
                     default:
                         break;
@@ -178,6 +189,9 @@
                         break;
                     case '1':
                         $form.find($o.buttonGroupHint).fadeIn();
+                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+                        lpGlobal.sendLPGAEvent( 'Custom Position', 'LP WP Appearance', commonLabel +
+                            'Subscriptions & Time Passes' );
                         break;
                     default:
                         break;

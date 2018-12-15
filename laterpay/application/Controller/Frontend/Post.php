@@ -614,15 +614,15 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
         $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
 
-	    // Update LaterPay Google Analytics Tracking Value According to current region.
-	    $regional_settings = LaterPay_Helper_Config::get_regional_settings();
-	    $lp_is_plugin_live = LaterPay_Helper_View::is_plugin_in_live_mode();
+        // Update LaterPay Google Analytics Tracking Value According to current region.
+        $regional_settings = LaterPay_Helper_Config::get_regional_settings();
+        $lp_is_plugin_live = LaterPay_Helper_View::is_plugin_in_live_mode();
 
-	    if ( $lp_is_plugin_live ) {
-		    $lp_config_id = $regional_settings['tracking_ua_id.live'];
-	    } else {
-		    $lp_config_id = $regional_settings['tracking_ua_id.sandbox'];
-	    }
+        if ( $lp_is_plugin_live ) {
+            $lp_config_id = $regional_settings['tracking_ua_id.live'];
+        } else {
+            $lp_config_id = $regional_settings['tracking_ua_id.sandbox'];
+        }
 
         wp_localize_script(
             'laterpay-common',

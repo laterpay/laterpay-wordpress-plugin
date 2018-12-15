@@ -31,17 +31,15 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
         $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
         $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
-
-        $sb_merch_key   = get_option( 'laterpay_sandbox_merchant_id' );
-        $live_merch_key = get_option( 'laterpay_live_merchant_id' );
+        $merchant_key        = LaterPay_Controller_Admin::get_merchant_id_for_ga();
+        $site_url            = get_site_url();
 
         wp_localize_script(
             'laterpay-common',
             'lpCommonVar',
             array(
                 'current_page'        => esc_js( 'account' ),
-                'sandbox_merchant_id' => ( ! empty( $sb_merch_key ) ) ? $sb_merch_key : '',
-                'live_merchant_id'    => ( ! empty( $live_merch_key ) ) ? $sb_merch_key : '',
+                'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
                 'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
             )
@@ -66,9 +64,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 'i18nApiKeyInvalid'     => __( 'The API key you entered is not a valid LaterPay API key!', 'laterpay' ),
                 'i18nMerchantIdInvalid' => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay' ),
                 'i18nPreventUnload'     => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
-                'gaData' => array(
-                    'sandbox_merchant_id' => ( ! empty( $sb_merch_key ) ) ? $sb_merch_key : '',
-                    'live_merchant_id'    => ( ! empty( $live_merch_key ) ) ? $sb_merch_key : '',
+                'gaData'                => array(
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
+                    'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ): '',
                 ),
             )
         );

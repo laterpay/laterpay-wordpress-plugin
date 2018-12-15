@@ -778,7 +778,7 @@
 
             var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ',
                 finalLabel,finalGAValue = '';
-            var eveCategory = 'LP WP Pricing', eveAction = 'Set Global Default Price';
+            var eveCategory = 'LP WP Pricing', eveAction = 'Save Global Default Price';
 
             $.post(
                 ajaxurl,
@@ -1729,6 +1729,18 @@
         },
 
         saveEnabledPostTypes = function() {
+
+            var lp_post_types = $('ul.post_types :checkbox:checked'), contentLabel = [];
+
+            // Loop through selected categories and store in an array.
+            $.each( lp_post_types, function( i ) {
+                contentLabel.push($(lp_post_types[i]).next().text().trim());
+            } );
+
+            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+
+            contentLabel  = commonLabel + contentLabel.join(',');
+
             $.post(
                 ajaxurl,
                 $o.globalEnabledPostTypesForm.serializeArray(),
@@ -1737,6 +1749,8 @@
                 },
                 'json'
             );
+
+            lpGlobal.sendLPGAEvent( 'LaterPay Content', 'LP WP Pricing', contentLabel );
         },
 
         // throttle the execution of a function by a given delay

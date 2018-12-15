@@ -766,4 +766,21 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         return '';
     }
 
+    /**
+     * Get merchant id based on plugin status.
+     *
+     * @return string
+     */
+    public static function get_merchant_id_for_ga() {
+
+        $sb_merch_key   = get_option( 'laterpay_sandbox_merchant_id' );
+        $live_merch_key = get_option( 'laterpay_live_merchant_id' );
+
+        if ( LaterPay_Helper_View::is_plugin_in_live_mode() ) {
+            return $live_merch_key;
+        }
+
+        return $sb_merch_key;
+    }
+
 }

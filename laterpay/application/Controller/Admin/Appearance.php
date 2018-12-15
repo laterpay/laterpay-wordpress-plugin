@@ -41,11 +41,28 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
     public function load_assets() {
         parent::load_assets();
 
+        LaterPay_Controller_Admin::register_common_scripts();
+
+        $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
+        $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
+        $merchant_key        = LaterPay_Controller_Admin::get_merchant_id_for_ga();
+
+        wp_localize_script(
+            'laterpay-common',
+            'lpCommonVar',
+            array(
+                'current_page'        => esc_js( 'account' ),
+                'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
+                'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
+                'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
+            )
+        );
+
         // load page-specific JS
         wp_register_script(
             'laterpay-backend-appearance',
             $this->config->js_url . '/laterpay-backend-appearance.js',
-            array( 'jquery' ),
+            array( 'jquery', 'laterpay-common' ),
             $this->config->version,
             true
         );
@@ -62,6 +79,9 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                     )
                 ),
                 'l10n_print_after' => 'lpVars.overlaySettings = JSON.parse(lpVars.overlaySettings)',
+                'gaData'           => array(
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
+                ),
             )
         );
     }
