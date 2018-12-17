@@ -80,12 +80,18 @@ $is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' 
         <?php
         if ( 0 === $post_price_behaviour ) {
             ?>
-            <p class="lp_postEditTypeZero"><?php esc_html_e( 'FREE', 'laterpay' ); ?></p>
-            <span class="lp_postEditTypeZero">
-                <?php
+            <div id="lp_postEditTypeZero"
+                <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) : ?>
+                    <?php echo ' style="display:none;"'; ?>
+                <?php endif; ?>
+            >
+                <p class="lp_postEditTypeZero"><?php esc_html_e( 'FREE', 'laterpay' ); ?></p>
+                <span class="lp_postEditTypeZero">
+                    <?php
                     esc_html_e( 'All articles are free by default; Time Passes & Subscriptions will only be displayed if an Individual Article Price greater than 0.00 is manually set by selecting “Individual Price” below.', 'laterpay' );
-                ?>
-            </span>
+                    ?>
+                </span>
+            </div>
             <?php
         } elseif ( 1 === $post_price_behaviour ) {
             ?>

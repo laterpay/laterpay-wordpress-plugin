@@ -19,6 +19,7 @@
                 categoryPriceSelector   : '#lp_js_useCategoryDefaultPrice',
                 categoryPriceButton     : $('#lp_js_useCategoryDefaultPrice').parent(),
                 globalPriceButton       : $('#lp_js_useGlobalDefaultPrice').parent(),
+                postEditTypeZero        : $('#lp_postEditTypeZero'),
                 priceEditSection        : $('#lp_js_priceEditSection'),
 
                 // details sections for chosen pricing type
@@ -110,20 +111,41 @@
                 // Hide Pricing Section If Post Price Behaviour is Free and Global Default Price is selected.
                 $o.globalPriceButton.on( 'click', 'a', function (e) {
                     e.preventDefault();
+
+                    if ( $o.globalPriceButton.hasClass('lp_is-disabled') ) {
+                        return;
+                    }
+
                     if ( '0' === lpVars.postPriceBehaviour ) {
                         $o.priceEditSection.hide();
+                        $o.postEditTypeZero.show();
                     }
                 });
 
                 // Display Price Editing Section if hidden.
                 $o.individualPriceButton.on( 'click', 'a', function (e) {
                     e.preventDefault();
+
+                    if ( $o.individualPriceButton.hasClass('lp_is-disabled') ) {
+                        return;
+                    }
+
                     $o.priceEditSection.show();
+
+                    if ( '0' === lpVars.postPriceBehaviour ) {
+                        $o.postEditTypeZero.hide();
+                    }
+
                 });
 
                 // Display Price Editing Section if hidden.
                 $($o.categoryPriceSelector).on( 'click', function (e) {
                     e.preventDefault();
+
+                    if ( $($o.categoryPriceSelector).parent().hasClass('lp_is-disabled') ) {
+                        return;
+                    }
+
                     $o.priceEditSection.show();
                 });
 
