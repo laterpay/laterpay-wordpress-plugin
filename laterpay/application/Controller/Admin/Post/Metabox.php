@@ -93,22 +93,10 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      */
     public function load_scripts() {
 
-        LaterPay_Controller_Admin::register_common_scripts();
+        // Get data for GA.
+        $merchant_key = LaterPay_Controller_Admin::get_merchant_id_for_ga();
 
-        $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
-        $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
-        $merchant_key        = LaterPay_Controller_Admin::get_merchant_id_for_ga();
-
-        wp_localize_script(
-            'laterpay-common',
-            'lpCommonVar',
-            array(
-                'current_page'        => esc_js( 'post_edit' ),
-                'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
-                'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
-                'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
-            )
-        );
+        LaterPay_Controller_Admin::register_common_scripts( 'post_edit' );
 
         wp_register_script(
             'laterpay-d3',
@@ -157,7 +145,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'l10n_print_after'          => 'jQuery.extend(lpVars, laterpay_post_edit)',
                 'postPriceBehaviour'        => LaterPay_Helper_Pricing::get_post_price_behaviour(),
                 'gaData'                    => array(
-                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
                 ),
             )
         );

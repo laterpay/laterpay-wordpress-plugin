@@ -609,32 +609,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $post      = get_post();
         $site_name = get_bloginfo( 'name' );
 
-        LaterPay_Controller_Admin::register_common_scripts();
+        // Get data for GA.
+        $data_for_localize = [
+            'postTitle'     => ( ! empty( $post ) ? esc_html( $post->post_title ) : '' ),
+            'postPermalink' => ( ! empty( $post ) ? esc_url( get_permalink( $post->ID ) ) : '' ),
+            'blogName'      => ( ! empty( $site_name ) ? esc_html( $site_name ) : '' ),
+        ];
 
-        $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
-        $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
-
-        // Update LaterPay Google Analytics Tracking Value According to current region.
-        $regional_settings = LaterPay_Helper_Config::get_regional_settings();
-        $lp_is_plugin_live = LaterPay_Helper_View::is_plugin_in_live_mode();
-
-        if ( $lp_is_plugin_live ) {
-            $lp_config_id = $regional_settings['tracking_ua_id.live'];
-        } else {
-            $lp_config_id = $regional_settings['tracking_ua_id.sandbox'];
-        }
-
-        wp_localize_script(
-            'laterpay-common',
-            'lpCommonVar',
-            array(
-                'postTitle'           => ( ! empty( $post ) ? esc_html( $post->post_title ) : '' ),
-                'postPermalink'       => ( ! empty( $post ) ? esc_url( get_permalink( $post->ID ) ) : '' ),
-                'blogName'            => ( ! empty( $site_name ) ? esc_html( $site_name ) : '' ),
-                'lp_tracking_id'      => ( ! empty( $lp_config_id ) ? esc_html( $lp_config_id ) : '' ),
-                'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ? esc_html( $lp_user_tracking_id ) : '' ),
-            )
-        );
+        LaterPay_Controller_Admin::register_common_scripts( 'front_post', $data_for_localize );
 
         wp_register_script(
             'laterpay-post-view',

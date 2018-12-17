@@ -121,7 +121,8 @@
         }
 
         var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
-        var eveCategory = 'LP WP Settings', eveAction = 'Modify LaterPay Settings';
+        var eveCategory = 'LP WP Settings';
+        var eveAction = 'Modify LaterPay Settings';
 
         // Send GA Events for Settings.
         lpGlobal.sendLPGAEvent( 'Main color', eveCategory, commonLabel + lp_main_color );
@@ -153,7 +154,8 @@
       // Return count of enabled roles with unlimited access.
       function getEnabledRoles () {
 
-          var countRoles = 0, getOutOfLoop = false;
+          var countRoles = 0;
+          var getOutOfLoop = false;
 
           jQuery.each( lpVars.gaData.custom_roles, function( i ) {
 

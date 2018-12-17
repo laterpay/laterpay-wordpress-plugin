@@ -702,8 +702,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
     /**
      * Register a common script if not already registered to be used at multiple places.
+     *
+     * @param $page              string Current Page Name.
+     * @param $data_for_localize array  Array of data to be localized.
      */
-    public static function register_common_scripts() {
+    public static function register_common_scripts( $page, $data_for_localize = [] ) {
 
         if ( false === wp_script_is( 'laterpay-common', 'registered' ) ) {
             $config = laterpay_get_plugin_config();
@@ -716,6 +719,25 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 true
             );
         }
+
+        $lp_config_id        = self::get_tracking_id();
+        $lp_user_tracking_id = self::get_tracking_id( 'user' );
+        $merchant_key        = self::get_merchant_id_for_ga();
+
+        $ga_data = [
+            'current_page'        => esc_js( $page ),
+            'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
+            'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
+            'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
+        ];
+
+        $final_data = array_merge( $ga_data,$data_for_localize );
+
+        wp_localize_script(
+            'laterpay-common',
+            'lpCommonVar',
+            $final_data
+        );
     }
 
     /**

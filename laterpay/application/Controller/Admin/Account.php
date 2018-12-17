@@ -27,23 +27,11 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     public function load_assets() {
         parent::load_assets();
 
-        LaterPay_Controller_Admin::register_common_scripts();
+        // Get data for GA.
+        $merchant_key = LaterPay_Controller_Admin::get_merchant_id_for_ga();
+        $site_url     = get_site_url();
 
-        $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
-        $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
-        $merchant_key        = LaterPay_Controller_Admin::get_merchant_id_for_ga();
-        $site_url            = get_site_url();
-
-        wp_localize_script(
-            'laterpay-common',
-            'lpCommonVar',
-            array(
-                'current_page'        => esc_js( 'account' ),
-                'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
-                'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
-                'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
-            )
-        );
+        LaterPay_Controller_Admin::register_common_scripts( 'account' );
 
         // load page-specific JS
         wp_register_script(
@@ -65,7 +53,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 'i18nMerchantIdInvalid' => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay' ),
                 'i18nPreventUnload'     => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
                 'gaData'                => array(
-                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
                     'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ): '',
                 ),
             )

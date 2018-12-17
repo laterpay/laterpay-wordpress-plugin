@@ -60,30 +60,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     public function load_assets() {
         parent::load_assets();
 
-        LaterPay_Controller_Admin::register_common_scripts();
+        // Get data for GA.
+        $merchant_key      = LaterPay_Controller_Admin::get_merchant_id_for_ga();
+        $data_for_localize = [
+            'categories_count'    => absint( LaterPay_Model_CategoryPriceWP::get_instance()->get_categories_with_defined_price_count() ),
+            'time_passes_count'   => absint( LaterPay_Helper_TimePass::get_time_passes_count( true ) ),
+            'subscriptions_count' => absint( LaterPay_Helper_Subscription::get_subscriptions_count( true ) ),
+            'lp_current_version'  => esc_html( get_option( 'laterpay_plugin_version' ) ),
+            'lp_plugin_status'    => LaterPay_Helper_View::is_plugin_in_live_mode() ? 'LIVE' : 'TEST',
+            'site_url'            => get_site_url(),
+        ];
 
-        $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
-        $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
-        $merchant_key        = LaterPay_Controller_Admin::get_merchant_id_for_ga();
-
-        $time_passes_count   = LaterPay_Helper_TimePass::get_time_passes_count( true );
-        $subscriptions_count = LaterPay_Helper_Subscription::get_subscriptions_count( true );
-        $current_version     = get_option( 'laterpay_plugin_version' );
-
-        wp_localize_script(
-            'laterpay-common',
-            'lpCommonVar',
-            array(
-                'current_page'        => esc_js( 'pricing' ),
-                'categories_count'    => LaterPay_Model_CategoryPriceWP::get_instance()->get_categories_with_defined_price_count(),
-                'time_passes_count'   => $time_passes_count,
-                'subscriptions_count' => $subscriptions_count,
-                'lp_current_version'  => $current_version,
-                'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
-                'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
-                'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
-            )
-        );
+        LaterPay_Controller_Admin::register_common_scripts( 'pricing', $data_for_localize );
 
         // load page-specific JS
         wp_register_script(
@@ -158,7 +146,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                                             lpVars.sub_vouchers_list = JSON.parse(lpVars.sub_vouchers_list);
                                             lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
                 'gaData'                => array(
-                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
                 ),
             )
         );

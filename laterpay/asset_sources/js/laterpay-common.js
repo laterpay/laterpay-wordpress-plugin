@@ -128,7 +128,7 @@
 
         sendSummaryEvents = function () {
 
-            var categoryLabel, timepassLabel, subsLabel, versionLabel = '';
+            var categoryLabel, timepassLabel, subsLabel, versionLabel, statusLabel = '';
 
             var commonLabel = lpCommonVar.sandbox_merchant_id + ' | ';
 
@@ -136,6 +136,8 @@
             timepassLabel = commonLabel + 'Count Time Passes';
             subsLabel     = commonLabel + 'Count Subscriptions';
             versionLabel  = commonLabel + lpCommonVar.lp_current_version;
+            statusLabel   = commonLabel + lpCommonVar.lp_plugin_status + ' | ' + lpCommonVar.site_url;
+
 
             var eveCategory = 'LP WP Pricing';
 
@@ -144,6 +146,7 @@
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, timepassLabel, lpCommonVar.time_passes_count );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, subsLabel, lpCommonVar.subscriptions_count );
             lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, versionLabel );
+            lpGlobal.sendLPGAEvent( 'Account Status Summary', eveCategory, statusLabel );
 
             setDataInStorage( 'lpSummarySentDate', Date.now() );
 

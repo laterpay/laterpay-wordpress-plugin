@@ -776,9 +776,10 @@
             var validatedPrice = validatePrice($o.globalDefaultPriceForm);
             $o.globalDefaultPriceInput.val(validatedPrice);
 
-            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ',
-                finalLabel,finalGAValue = '';
-            var eveCategory = 'LP WP Pricing', eveAction = 'Save Global Default Price';
+            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+            var finalLabel,finalGAValue = '';
+            var eveCategory = 'LP WP Pricing';
+            var eveAction = 'Save Global Default Price';
 
             $.post(
                 ajaxurl,
@@ -950,12 +951,13 @@
                 function(r) {
                     if (r.success) {
 
-                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ',
-                            finalLabel,finalGAValue = '';
+                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+                        var finalLabel,finalGAValue = '';
 
-                        var eveCategory = 'LP WP Pricing', eveAction = 'Edit Category Default';
-                        finalLabel      = commonLabel + r.category + ' | ' + r.revenue_model_label;
-                        finalGAValue    = Math.ceil( r.price * 100 );
+                        var eveCategory = 'LP WP Pricing';
+                        var eveAction = 'Edit Category Default';
+                        finalLabel = commonLabel + r.category + ' | ' + r.revenue_model_label;
+                        finalGAValue = Math.ceil( r.price * 100 );
 
                         if ( '' === $($o.categoryId, $form).val() ) {
                             eveAction = 'Create Category Default';
@@ -1377,11 +1379,12 @@
                         var gaPeriod = [ 'Hour', 'Day', 'Week', 'Month', 'Year' ];
 
                         // Initialize variables.
-                        var currentId = $wrapper.find($entity.preview.wrapper).data($entity.data.id),
-                            entityType = 'Time Pass', revenueType = 'Pay Later';
+                        var currentId = $wrapper.find($entity.preview.wrapper).data($entity.data.id);
+                        var entityType = 'Time Pass';
+                        var revenueType = 'Pay Later';
 
-                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ',
-                            finalLabel,finalGAValue, gaDuration, gaCategory, gaVoucherCount = '';
+                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+                        var finalLabel,finalGAValue, gaDuration, gaCategory, gaVoucherCount = '';
 
                         // Change Revenue Label.
                         if ( 'sis' === r.revenueModel ) {
@@ -1395,7 +1398,8 @@
                         }
 
                         // Finalize Event Action.
-                        var eveCategory = 'LP WP Pricing', eveAction = 'Create ' + entityType;
+                        var eveCategory = 'LP WP Pricing';
+                        var eveAction = 'Create ' + entityType;
 
                         // Update Event Action if entity is being edited.
                         if ( 0 !== currentId ) {
@@ -1730,7 +1734,8 @@
 
         saveEnabledPostTypes = function() {
 
-            var lp_post_types = $('ul.post_types :checkbox:checked'), contentLabel = [];
+            var lp_post_types = $('ul.post_types :checkbox:checked');
+            var contentLabel = [];
 
             // Loop through selected categories and store in an array.
             $.each( lp_post_types, function( i ) {

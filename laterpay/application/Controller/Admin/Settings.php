@@ -35,22 +35,10 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     {
         parent::load_assets();
 
-        LaterPay_Controller_Admin::register_common_scripts();
+        // Get data for GA.
+        $merchant_key = LaterPay_Controller_Admin::get_merchant_id_for_ga();
 
-        $lp_config_id        = LaterPay_Controller_Admin::get_tracking_id();
-        $lp_user_tracking_id = LaterPay_Controller_Admin::get_tracking_id( 'user' );
-        $merchant_key        = LaterPay_Controller_Admin::get_merchant_id_for_ga();
-
-        wp_localize_script(
-            'laterpay-common',
-            'lpCommonVar',
-            array(
-                'current_page'        => esc_js( 'settings' ),
-                'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
-                'lp_tracking_id'      => ( ! empty( $lp_config_id ) ) ? esc_html( $lp_config_id ) : '',
-                'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
-            )
-        );
+        LaterPay_Controller_Admin::register_common_scripts( 'settings' );
 
         // register and enqueue stylesheet
         wp_register_style(
@@ -90,8 +78,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                     'invalidCode'    => esc_html__( 'Please enter valid UA-ID code!', 'laterpay' ),
                 ),
                 'gaData' => array(
-                    'custom_roles'        => $custom_role_names,
-                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
+                    'custom_roles'        => array_map( 'esc_js', $custom_role_names ),
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
                 ),
             )
         );

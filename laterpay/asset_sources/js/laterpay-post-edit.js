@@ -610,10 +610,12 @@
                 // Get Data to be sent to GA.
                 var selectedType = jQuery('#lp_js_priceTypeButtonGroup li.lp_is-selected').text().trim();
                 var lpPrice = validatePrice($o.priceInput.val()) * 100;
-                var eventAction = 'Pricing for Post', eventCategory = 'LP WP Post',
-                    commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + lpVars.postId + ' | ';
+                var eventAction = 'Pricing for Post';
+                var eventCategory = 'LP WP Post';
+                var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + lpVars.postId + ' | ';
 
-                var selectedCategories = $('#categorychecklist :checkbox:checked'), categoryLabel = [];
+                var selectedCategories = $('#categorychecklist :checkbox:checked');
+                var categoryLabel = [];
 
                 // Loop through selected categories and store in an array.
                 $.each( selectedCategories, function( i ) {
