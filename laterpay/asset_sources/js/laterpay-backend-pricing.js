@@ -822,7 +822,7 @@
                           $o.categoryPanelWarning.hide();
                         } else if ( 1 === r.post_price_behaviour ) {
 
-                          finalLabel   = commonLabel + 'Cannot Purchase Individually | null';
+                          finalLabel   = commonLabel + 'Cannot Purchase Individually |';
                           finalGAValue = 0;
 
                           // Send GA event for change.
@@ -853,7 +853,7 @@
                           }
                         } else if ( 0 === r.post_price_behaviour ) {
 
-                         finalLabel   = commonLabel + 'Free | null';
+                         finalLabel   = commonLabel + 'Free |';
                          finalGAValue = 0;
 
                          // Send GA event for change.

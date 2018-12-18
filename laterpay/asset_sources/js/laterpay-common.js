@@ -230,8 +230,8 @@
                                 eventLabel, eventCategory, eventValue );
                         }
                     } else {
-                        sendParentEvent( true, eventLabel, eventAction, eventCategory );
-                        sendUserEvent( true, eventLabel, eventAction, eventCategory );
+                        sendParentEvent( true, eventLabel, eventAction, eventCategory, eventValue );
+                        sendUserEvent( true, eventLabel, eventAction, eventCategory, eventValue );
                     }
                 } else if( userUAID.length > 0 && lpUAID.length === 0 ) {
                     if (typeof __gaTracker === 'function') {

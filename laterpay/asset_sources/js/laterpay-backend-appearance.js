@@ -157,16 +157,17 @@
                 $($o.buttonGroupButtons, $form).removeClass($o.selected);
                 $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
 
+                var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | Purchase Button';
+
                 switch($('input:checked', $form).val())
                 {
                     case '0':
                         $form.find($o.buttonGroupHint).fadeOut();
+                        lpGlobal.sendLPGAEvent( 'Standard Position', 'LP WP Appearance', commonLabel );
                         break;
                     case '1':
                         $form.find($o.buttonGroupHint).fadeIn();
-                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
-                        lpGlobal.sendLPGAEvent( 'Custom Position', 'LP WP Appearance', commonLabel +
-                            'Purchase Button' );
+                        lpGlobal.sendLPGAEvent( 'Custom Position', 'LP WP Appearance', commonLabel );
                         break;
                     default:
                         break;
@@ -182,16 +183,17 @@
                 $($o.buttonGroupButtons, $form).removeClass($o.selected);
                 $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
 
+                var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | Subscriptions & Time Passes';
+
                 switch($('input:checked', $form).val())
                 {
                     case '0':
                         $form.find($o.buttonGroupHint).fadeOut();
+                        lpGlobal.sendLPGAEvent( 'Standard Position', 'LP WP Appearance', commonLabel );
                         break;
                     case '1':
                         $form.find($o.buttonGroupHint).fadeIn();
-                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
-                        lpGlobal.sendLPGAEvent( 'Custom Position', 'LP WP Appearance', commonLabel +
-                            'Subscriptions & Time Passes' );
+                        lpGlobal.sendLPGAEvent( 'Custom Position', 'LP WP Appearance', commonLabel );
                         break;
                     default:
                         break;
