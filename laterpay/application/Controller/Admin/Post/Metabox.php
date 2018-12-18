@@ -136,6 +136,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'i18nTeaserError'           => __( 'Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay' ),
                 'i18nAddDynamicPricing'     => __( 'Add dynamic pricing', 'laterpay' ),
                 'i18nRemoveDynamicPricing'  => __( 'Remove dynamic pricing', 'laterpay' ),
+                'i18nGlobalDisabled'        => esc_html__( 'Global Default Pricing is not available to Posts which have a Category Default Price.', 'laterpay' ),
                 'l10n_print_after'          => 'jQuery.extend(lpVars, laterpay_post_edit)',
                 'postPriceBehaviour'        => LaterPay_Helper_Pricing::get_post_price_behaviour(),
             )

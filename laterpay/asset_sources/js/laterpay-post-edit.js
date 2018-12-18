@@ -449,12 +449,13 @@
                                 // update cached selector
                                 $o.categories = $('#lp_js_priceTypeDetailsCategoryDefaultPrice li');
                                 switchPricingType($o.categoryPriceSelector);
-                                $o.globalPriceButton.addClass($o.disabled);
+                                $o.globalPriceButton.addClass($o.disabled).addClass( 'lp_tooltip' )
+                                    .attr( 'data-tooltip', lpVars.i18nGlobalDisabled );
                             } else {
                                 // disable the 'use category default price' button,
                                 // if no categories with an attached default price are applied to the current post
                                 $o.categoryPriceButton.addClass($o.disabled).addClass( 'lp_tooltip' );
-                                $o.globalPriceButton.removeClass($o.disabled);
+                                $o.globalPriceButton.removeClass($o.disabled).removeClass( 'lp_tooltip' );
 
                                 // hide details sections
                                 $o.detailsSections.velocity('fadeOut', { duration: 250 });
