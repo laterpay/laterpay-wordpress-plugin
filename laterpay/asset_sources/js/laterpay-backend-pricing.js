@@ -1057,9 +1057,9 @@
 
                 $($entity.fields.scopeCategory, $form).val(preSelectedCategoryData);
 
-                $(selector).on('change', function(e) { $($entity.fields.categoryId, $form).val( e.val ); });
+                $(selector,$form).on('change', function(e) { $($entity.fields.categoryId, $form).val( e.val ); });
             } else {
-                preSelectedCategoryData = $(selector).val();
+                preSelectedCategoryData = $(selector, $form).val();
             }
 
             $(selector, $form).select2({

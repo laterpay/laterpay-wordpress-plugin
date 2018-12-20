@@ -107,6 +107,12 @@ class LaterPay_Model_CategoryPriceWP
             $category->revenue_model  = get_term_meta( $term->term_id, '_lp_revenue_model', true );
             $category->identifier     = get_term_meta( $term->term_id, '_lp_identifier', true );
 
+            // If identifier is empty add identifier to term meta for backward compatibility.
+            if ( empty( $category->identifier ) ) {
+                update_term_meta( $term->term_id, '_lp_identifier', $term->term_id );
+                $category->identifier = $term->term_id;
+            }
+
             $result[$key]             = $category;
         }
 
