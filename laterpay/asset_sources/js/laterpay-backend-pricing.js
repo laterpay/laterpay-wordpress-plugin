@@ -44,6 +44,7 @@
             selectCategory                          : '.lp_js_selectCategory',
             categoryDefaultPriceInput               : '.lp_js_categoryDefaultPriceInput',
             categoryId                              : '.lp_js_categoryDefaultPriceCategoryId',
+            categoryName                            : '.lp_js_categoryDefaultPriceCategorName',
 
             // global enabled post types.
             globalEnabledPostTypesForm              : $('#lp_js_globalEnabledPostTypesForm'),
@@ -909,7 +910,8 @@
                 $form,
                 $o.selectCategory,
                 'laterpay_get_categories_with_price',
-                formatSelect2Selection
+                formatSelect2Selection,
+                'category'
             );
         },
 
@@ -931,6 +933,7 @@
                         $($o.categoryDefaultPriceInput, $form).val(r.price);
                         $($o.categoryTitle, $form).text(r.category);
                         $($o.categoryId, $form).val(r.category_id);
+                        $($o.categoryName, $form).val(r.category);
 
                         // mark the form as saved
                         $form.removeClass($o.unsaved);
@@ -1040,7 +1043,25 @@
             return data.text;
         },
 
-        renderCategorySelect = function($form, selector, form, format_func) {
+        renderCategorySelect = function($form, selector, form, format_func, type) {
+
+            var preSelectedCategoryData = '';
+            if ( 'timepass' === type || 'subscription' === type ) {
+                var $entity = $o.timepass;
+
+                if ('subscription' === type ) {
+                    $entity = $o.subscription;
+                }
+
+                preSelectedCategoryData = $($entity.fields.categoryId, $form).val();
+
+                $($entity.fields.scopeCategory, $form).val(preSelectedCategoryData);
+
+                $(selector).on('change', function(e) { $($entity.fields.categoryId, $form).val( e.val ); });
+            } else {
+                preSelectedCategoryData = $(selector).val();
+            }
+
             $(selector, $form).select2({
                 allowClear      : true,
                 ajax            : {
@@ -1069,29 +1090,36 @@
                                     type: 'POST'
                                 },
                 initSelection   : function(element, callback) {
-                                    var id = $(element).val();
-                                    if (id !== '') {
-                                        var data = {text: id};
-                                        callback(data);
-                                    } else {
-                                        $.post(
-                                            ajaxurl,
-                                            {
-                                                form    : form,
-                                                term    : '',
-                                                action  : 'laterpay_pricing'
-                                            },
-                                            function(data) {
-                                                if (data && data[0] !== undefined) {
-                                                    var term = data[0];
-                                                    callback({id: term.term_id, text: term.name});
-                                                }
-                                            }
-                                        );
-                                    }
+                        if ( '0' !== preSelectedCategoryData ) {
+                            $.post(
+                                ajaxurl,
+                                {
+                                    form    : form,
+                                    terms   : preSelectedCategoryData,
+                                    term    : '',
+                                    action  : 'laterpay_pricing'
                                 },
+                                function(data) {
+                                    if (data !== undefined) {
+
+                                        var selectedCategories = [];
+
+                                        $.each(data.categories, function(index) {
+                                            var term = data.categories[ index ];
+                                            selectedCategories.push({
+                                                id     : term.term_id,
+                                                text   : term.name
+                                            });
+                                        });
+                                        callback(selectedCategories);
+                                    }
+                                }
+                            );
+                        }
+                    },
                 formatResult    : function(data) {return data.text;},
                 formatSelection : format_func,
+                multiple        : true,
                 escapeMarkup    : function(m) {return m;}
             });
         },
@@ -1215,7 +1243,8 @@
                 $wrapper,
                 $entity.fields.scopeCategory,
                 'laterpay_get_categories',
-                formatSelect2ForEntity
+                formatSelect2ForEntity,
+                type
             );
 
             // show category select, if required

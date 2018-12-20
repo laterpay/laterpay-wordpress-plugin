@@ -257,6 +257,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <input type="hidden" name="form"        value="price_category_form">
                             <input type="hidden" name="action"      value="laterpay_pricing">
                             <input type="hidden" name="category_id" class="lp_js_categoryDefaultPriceCategoryId" value="<?php echo esc_attr( $category->category_id ); ?>">
+                            <input type="hidden" name="category_name" class="lp_js_categoryDefaultPriceCategorName" value="<?php echo esc_attr( $category->category_name ); ?>">
                             <input type="hidden" name="revenue_model" class="lp_js_categoryRevenueModel" value="<?php echo esc_attr( $category_revenue_model ); ?>" disabled>
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
@@ -296,7 +297,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 <?php esc_html_e( 'Category', 'laterpay' ); ?>
                                             </th>
                                             <td>
-                                                <input type="hidden" name="category" value="<?php echo esc_attr( $category->category_name ); ?>" class="lp_js_selectCategory">
+                                                <input type="hidden" name="category" value="<?php echo esc_attr( $category->category_id ); ?>" class="lp_js_selectCategory">
                                             </td>
                                         </tr>
                                         <tr>
@@ -376,6 +377,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <input type="hidden" name="form"        value="price_category_form">
                     <input type="hidden" name="action"      value="laterpay_pricing">
                     <input type="hidden" name="category_id" value="" class="lp_js_categoryDefaultPriceCategoryId">
+                    <input type="hidden" name="category_name" value="" class="lp_js_categoryDefaultPriceCategorName">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                     <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-" style="display:none;">

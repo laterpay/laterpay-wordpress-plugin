@@ -164,15 +164,15 @@ class LaterPay_Model_TimePassWP {
                 $row['access_to']       = $post_meta['_lp_access_to_all'][0];
                 $row['access_category'] = 0;
 
-            } elseif ( isset( $post_meta['_lp_access_to_include'][0] ) ) {
+            } elseif ( isset( $post_meta['_lp_access_to_include'] ) ) {
 
                 $row['access_to']       = 2;
-                $row['access_category'] = $post_meta['_lp_access_to_include'][0];
+                $row['access_category'] = $post_meta['_lp_access_to_include'];
 
-            } elseif ( isset( $post_meta['_lp_access_to_except'][0] ) ) {
+            } elseif ( isset( $post_meta['_lp_access_to_except'] ) ) {
 
                 $row['access_to']       = 1;
-                $row['access_category'] = $post_meta['_lp_access_to_except'][0];
+                $row['access_category'] = $post_meta['_lp_access_to_except'];
 
             }
 
@@ -267,6 +267,7 @@ class LaterPay_Model_TimePassWP {
         if ( ! empty( $data['tp_id'] ) ) {
 
             $access_data = intval( $data['access_to'] );
+            $categories  = explode( ',', $data['access_category'] );
 
             if ( 0 === $access_data ) {
 
@@ -278,13 +279,25 @@ class LaterPay_Model_TimePassWP {
 
                 delete_post_meta( $data['tp_id'], '_lp_access_to_all' );
                 delete_post_meta( $data['tp_id'], '_lp_access_to_include' );
-                update_post_meta( $data['tp_id'], '_lp_access_to_except', $data['access_category'] );
+                delete_post_meta( $data['tp_id'], '_lp_access_to_except' );
+
+                foreach ( $categories as $category_id ) {
+                    if ( 0 !== absint( $category_id ) ) {
+                        update_post_meta( $data['tp_id'], '_lp_access_to_except', $category_id );
+                    }
+                }
 
             } else {
 
                 delete_post_meta( $data['tp_id'], '_lp_access_to_except' );
                 delete_post_meta( $data['tp_id'], '_lp_access_to_all' );
-                update_post_meta( $data['tp_id'], '_lp_access_to_include', $data['access_category'] );
+                delete_post_meta( $data['tp_id'], '_lp_access_to_include' );
+
+                foreach ( $categories as $category_id ) {
+                    if ( 0 !== absint( $category_id ) ) {
+                        update_post_meta( $data['tp_id'], '_lp_access_to_include', $category_id );
+                    }
+                }
 
             }
 

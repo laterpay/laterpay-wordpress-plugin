@@ -127,19 +127,9 @@ class LaterPay_Model_SubscriptionWP {
         unset( $data['id'] );
 
         $access_data = intval( $data['access_to'] );
+        $categories  = explode( ',', $data['access_category'] );
 
         if ( empty( $id ) ) {
-
-            $access_key   = '_lp_access_to_all';
-            $access_value = $data['access_to'];
-
-            if ( 1 === $access_data ) {
-                $access_key   = '_lp_access_to_except';
-                $access_value = $data['access_category'];
-            } elseif ( 2 === $access_data ) {
-                $access_key   = '_lp_access_to_include';
-                $access_value = $data['access_category'];
-            }
 
             if ( isset( $counter_id ) ) {
                 $subscription_counter = $counter_id;
@@ -149,7 +139,7 @@ class LaterPay_Model_SubscriptionWP {
                 update_option( 'lp_sub_count', $subscription_counter );
             }
 
-            wp_insert_post( [
+            $subscription_post_id = wp_insert_post( [
                 'post_content' => $data['description'],
                 'post_title'   => $data['title'],
                 'post_status'  => 'publish',   // is_deleted
@@ -157,13 +147,30 @@ class LaterPay_Model_SubscriptionWP {
                 'meta_input'   => [
                     '_lp_duration'  => $data['duration'],
                     '_lp_period'    => $data['period'],
-                    $access_key     => $access_value,
                     '_lp_price'     => $data['price'],
                     '_lp_id'        => $subscription_counter,
                 ],
             ] );
 
-            $data['id']    = $subscription_counter;
+            if ( 0 === $access_data ) {
+                $access_key   = '_lp_access_to_all';
+                $access_value = $data['access_to'];
+                update_post_meta( $subscription_post_id, $access_key, $access_value );
+            } elseif ( 1 === $access_data ) {
+                foreach ( $categories as $category_id ) {
+                    if ( 0 !== absint( $category_id ) ) {
+                        update_post_meta( $subscription_post_id, '_lp_access_to_except', $category_id );
+                    }
+                }
+            } else {
+                foreach ( $categories as $category_id ) {
+                    if ( 0 !== absint( $category_id ) ) {
+                        update_post_meta( $subscription_post_id, '_lp_access_to_include', $category_id );
+                    }
+                }
+            }
+
+            $data['id'] = $subscription_counter;
 
         } else {
 
@@ -204,13 +211,26 @@ class LaterPay_Model_SubscriptionWP {
 
                     delete_post_meta( $id, '_lp_access_to_all' );
                     delete_post_meta( $id, '_lp_access_to_include' );
-                    update_post_meta( $id, '_lp_access_to_except', $data['access_category'] );
+                    delete_post_meta( $id, '_lp_access_to_except' );
+
+                    foreach ( $categories as $category_id ) {
+                        if ( 0 !== absint( $category_id ) ) {
+                            update_post_meta( $id, '_lp_access_to_except', $category_id );
+                        }
+                    }
+
 
                 } else {
 
                     delete_post_meta( $id, '_lp_access_to_except' );
                     delete_post_meta( $id, '_lp_access_to_all' );
-                    update_post_meta( $id, '_lp_access_to_include', $data['access_category'] );
+                    delete_post_meta( $id, '_lp_access_to_include' );
+
+                    foreach ( $categories as $category_id ) {
+                        if ( 0 !== absint( $category_id ) ) {
+                            update_post_meta( $id, '_lp_access_to_include', $category_id );
+                        }
+                    }
 
                 }
 
@@ -455,15 +475,15 @@ class LaterPay_Model_SubscriptionWP {
         $post_meta_new['access_to']       = 0;
         $post_meta_new['access_category'] = 0;
 
-        if ( ! empty( $post_meta['_lp_access_to_include'][0] ) ) {
+        if ( ! empty( $post_meta['_lp_access_to_include'] ) ) {
 
             $post_meta_new['access_to']       = 2;
-            $post_meta_new['access_category'] = $post_meta['_lp_access_to_include'][0];
+            $post_meta_new['access_category'] = $post_meta['_lp_access_to_include'];
 
-        } elseif ( ! empty( $post_meta['_lp_access_to_except'][0] ) ) {
+        } elseif ( ! empty( $post_meta['_lp_access_to_except'] ) ) {
 
             $post_meta_new['access_to']       = 1;
-            $post_meta_new['access_category'] = $post_meta['_lp_access_to_except'][0];
+            $post_meta_new['access_category'] = $post_meta['_lp_access_to_except'];
 
         }
 
