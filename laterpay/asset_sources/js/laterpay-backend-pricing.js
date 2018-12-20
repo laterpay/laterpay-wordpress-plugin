@@ -1030,8 +1030,21 @@
         },
 
         deleteCategoryDefaultPrice = function($form) {
-            validatePrice($form, false, $('input[name=price]', $form));
+            var categoryPrice = validatePrice($form, false, $('input[name=price]', $form));
             $('input[name=form]', $form).val('price_category_form_delete');
+
+            var categoryName    = $('input[name=category]', $form).val();
+            var categoryRevenue = $form.find( 'span.lp_js_revenueModelLabelDisplay' ).text().trim();
+
+            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+            var finalLabel,finalGAValue = '';
+
+            var eveCategory = 'LP WP Pricing';
+            finalLabel = commonLabel + categoryName + ' | ' + categoryRevenue;
+            finalGAValue = Math.ceil( categoryPrice * 100 );
+
+            // Send GA event for category delete.
+            lpGlobal.sendLPGAEvent( 'Delete Category Default', eveCategory, finalLabel, finalGAValue );
 
             $.post(
                 ajaxurl,
@@ -1479,6 +1492,55 @@
 
         deleteEntity = function(type, $wrapper) {
             var $entity = $o[type];
+
+            var currentData = $entity.data.list[$wrapper.data($entity.data.id)];
+
+            var gaPeriod = [ 'Hour', 'Day', 'Week', 'Month', 'Year' ];
+
+            // Initialize variables.
+            var entityType = 'Time Pass';
+            var revenueType = 'Pay Later';
+
+            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+            var finalLabel,finalGAValue, gaDuration, gaCategory, gaVoucherCount = '';
+
+            // Change Revenue Label.
+            if ( 'sis' === currentData.revenueModel ) {
+                revenueType = 'Pay Now';
+            }
+
+            // Change Revenue Label and entity type for subscription.
+            if ( 'subscription' === type ) {
+                entityType  = 'Subscription';
+                revenueType = 'Pay Now';
+            }
+
+            // Finalize Event Action.
+            var eveCategory = 'LP WP Pricing';
+            var eveAction = 'Delete ' + entityType;
+
+
+            // Changes according to Entity Access to.
+            if ( 0 === parseInt( currentData.access_to ) ) {
+                gaCategory = 'All';
+            } else if ( 1 === parseInt( currentData.access_to ) ) {
+                gaCategory = 'Content except ' + currentData.category_name;
+            } else if ( 2 === parseInt( currentData.access_to ) ) {
+                gaCategory = 'Content in ' + currentData.category_name;
+            }
+
+            gaDuration = currentData.duration + ' ' + gaPeriod[currentData.period];
+
+            var voucherList = $entity.data.vouchers[$wrapper.data($entity.data.id)];
+
+            gaVoucherCount = ( typeof voucherList === 'undefined' ) ? 0 : Object.keys(voucherList).length;
+
+            finalGAValue = Math.ceil( currentData.price * 100 );
+            finalLabel   = commonLabel + gaDuration + ' | ' + revenueType +
+                ' | ' + gaCategory + ' | ' + gaVoucherCount;
+
+            // Send GA event for entity delete.
+            lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
 
             // require confirmation
             if (confirm($entity.data.deleteConfirm)) {
