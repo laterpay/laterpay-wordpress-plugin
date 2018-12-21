@@ -86,11 +86,18 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         }
 
         if ( ! laterpay_check_is_vip() && ! laterpay_is_migration_complete() ) {
-            $notices[] = sprintf(
-                '<p>%s %s %s</p>',
-                esc_html__( 'LaterPay has updated their plugin to remove dependencies on custom tables.', 'laterpay' ),
-                esc_html__( 'You must migrate your data before you can update to future versions of LaterPay.', 'laterpay' ),
-                esc_html__( 'This will not result in any visible changes to your site or your plugin set up.', 'laterpay' )
+
+            $notices[] = '';
+
+            printf(
+                '<div class="notice notice-error is-dismissible"> <p>%s</p> <p>%s</p> <p>%s</p> <p>%s <a href="%s" target="_blank">%s</a> %s</p></div>',
+                esc_html__( 'WARNING! Your LaterPay plugin has been disabled.', 'laterpay' ),
+                esc_html__( 'LaterPay has updated their plugin to remove dependencies on custom tables. You must migrate your data before you can re-activate your plugin.', 'laterpay' ),
+                esc_html__( 'To complete this process, please Rollback your plugin to v.2.3.0 and click the header to migrate your data. Once this is complete you will be free to successfully update and re-activate your plugin.', 'laterpay' ),
+                esc_html__( 'If you do not have a preferred Rollback method, we recommend', 'laterpay' ),
+                'https://wordpress.org/plugins/wp-rollback/',
+                'WP Rollback',
+                esc_html__( 'Please contact support@laterpay.net if you have any questions or concerns.', 'laterpay' )
             );
         }
 
