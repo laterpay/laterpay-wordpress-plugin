@@ -136,7 +136,8 @@
             timepassLabel = commonLabel + 'Count Time Passes';
             subsLabel     = commonLabel + 'Count Subscriptions';
             versionLabel  = commonLabel + lpCommonVar.lp_current_version;
-            statusLabel   = commonLabel + lpCommonVar.lp_plugin_status + ' | ' + lpCommonVar.site_url;
+            statusLabel   = lpCommonVar.sb_merchant_id + ' | ' + lpCommonVar.live_merchant_id + ' | ' +
+                lpCommonVar.site_url + ' | ' + lpCommonVar.lp_plugin_status;
 
 
             var eveCategory = 'LP WP Pricing';

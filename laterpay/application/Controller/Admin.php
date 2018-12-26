@@ -731,6 +731,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             'lp_user_tracking_id' => ( ! empty( $lp_user_tracking_id ) ) ? esc_html( $lp_user_tracking_id ) : '',
         ];
 
+        if ( 'pricing' === $page ) {
+            $ga_data['live_merchant_id'] = get_option( 'laterpay_live_merchant_id' );
+            $ga_data['sb_merchant_id']   = get_option( 'laterpay_sandbox_merchant_id' );
+        }
+
         $final_data = array_merge( $ga_data,$data_for_localize );
 
         wp_localize_script(
