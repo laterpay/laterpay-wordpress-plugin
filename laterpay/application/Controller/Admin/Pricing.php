@@ -229,9 +229,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
                 $categories   = array_map( 'absint', $category_ids );
 
+                $category_price_model = LaterPay_Model_CategoryPriceWP::get_instance();
+
                 $event->set_result( array(
-                    'success' => true,
-                    'prices'  => $this->get_category_prices( $categories ),
+                    'success'               => true,
+                    'prices'                => $this->get_category_prices( $categories ),
+                    'no_category_price_set' => ( empty( $category_price_model->get_categories_with_defined_price() ) ) ? true : false,
                 ));
                 break;
 

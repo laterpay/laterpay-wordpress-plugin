@@ -137,6 +137,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'i18nAddDynamicPricing'     => __( 'Add dynamic pricing', 'laterpay' ),
                 'i18nRemoveDynamicPricing'  => __( 'Remove dynamic pricing', 'laterpay' ),
                 'i18nGlobalDisabled'        => esc_html__( 'Global Default Pricing is not available to Posts which have a Category Default Price.', 'laterpay' ),
+                'i18nCategoryPriceNotSetup' => esc_html__( 'It looks like you have not set up a Category Default Price. Go to the LaterPay > Pricing page to set up Category Default Prices.', 'laterpay' ),
+                'i18nCategoryPriceSelect'   => esc_html__( 'Please select a category from the "Categories" panel below to enable Category Default Pricing.', 'laterpay' ),
                 'l10n_print_after'          => 'jQuery.extend(lpVars, laterpay_post_edit)',
                 'postPriceBehaviour'        => LaterPay_Helper_Pricing::get_post_price_behaviour(),
             )

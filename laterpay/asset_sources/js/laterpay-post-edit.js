@@ -454,7 +454,13 @@
                             } else {
                                 // disable the 'use category default price' button,
                                 // if no categories with an attached default price are applied to the current post
-                                $o.categoryPriceButton.addClass($o.disabled).addClass( 'lp_tooltip' );
+                                $o.categoryPriceButton.addClass($o.disabled).addClass( 'lp_tooltip' )
+                                    .attr( 'data-tooltip', lpVars.i18nCategoryPriceSelect );
+
+                                if ( data.no_category_price_set === true ) {
+                                    $o.categoryPriceButton.attr( 'data-tooltip', lpVars.i18nCategoryPriceNotSetup );
+                                }
+
                                 $o.globalPriceButton.removeClass($o.disabled).removeClass( 'lp_tooltip' );
 
                                 // hide details sections
