@@ -159,13 +159,13 @@ class LaterPay_Model_SubscriptionWP {
             } elseif ( 1 === $access_data ) {
                 foreach ( $categories as $category_id ) {
                     if ( 0 !== absint( $category_id ) ) {
-                        update_post_meta( $subscription_post_id, '_lp_access_to_except', $category_id );
+                        add_post_meta( $subscription_post_id, '_lp_access_to_except', $category_id );
                     }
                 }
             } else {
                 foreach ( $categories as $category_id ) {
                     if ( 0 !== absint( $category_id ) ) {
-                        update_post_meta( $subscription_post_id, '_lp_access_to_include', $category_id );
+                        add_post_meta( $subscription_post_id, '_lp_access_to_include', $category_id );
                     }
                 }
             }
@@ -215,7 +215,7 @@ class LaterPay_Model_SubscriptionWP {
 
                     foreach ( $categories as $category_id ) {
                         if ( 0 !== absint( $category_id ) ) {
-                            update_post_meta( $id, '_lp_access_to_except', $category_id );
+                            add_post_meta( $id, '_lp_access_to_except', $category_id );
                         }
                     }
 
@@ -228,7 +228,7 @@ class LaterPay_Model_SubscriptionWP {
 
                     foreach ( $categories as $category_id ) {
                         if ( 0 !== absint( $category_id ) ) {
-                            update_post_meta( $id, '_lp_access_to_include', $category_id );
+                            add_post_meta( $id, '_lp_access_to_include', $category_id );
                         }
                     }
 

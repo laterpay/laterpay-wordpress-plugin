@@ -283,7 +283,7 @@ class LaterPay_Model_TimePassWP {
 
                 foreach ( $categories as $category_id ) {
                     if ( 0 !== absint( $category_id ) ) {
-                        update_post_meta( $data['tp_id'], '_lp_access_to_except', $category_id );
+                        add_post_meta( $data['tp_id'], '_lp_access_to_except', $category_id );
                     }
                 }
 
@@ -295,7 +295,7 @@ class LaterPay_Model_TimePassWP {
 
                 foreach ( $categories as $category_id ) {
                     if ( 0 !== absint( $category_id ) ) {
-                        update_post_meta( $data['tp_id'], '_lp_access_to_include', $category_id );
+                        add_post_meta( $data['tp_id'], '_lp_access_to_include', $category_id );
                     }
                 }
 
