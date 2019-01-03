@@ -251,7 +251,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     $category_ids = array();
                 }
 
-                $categories   = array_map( 'absint', $category_ids );
+                $categories = array_map( 'absint', $category_ids );
 
                 $event->set_result( array(
                     'success' => true,
@@ -292,7 +292,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                     );
 
                     if ( null !== $post_terms && ! empty( $post_terms ) ) {
-                        $args['include'] = explode( ',', $post_terms );
+                        $search_categories    = explode( ',', $post_terms );
+                        $sanitized_categories = array_map( 'absint', $search_categories );
+                        $args['include']      = $sanitized_categories;
                     }
 
                     $categories = new WP_Term_Query( $args );
@@ -335,7 +337,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 $post_term = filter_input( INPUT_POST, 'terms', FILTER_SANITIZE_STRING );
 
                 if ( null !== $post_term && ! empty( $post_term ) ) {
-                    $args['include'] = explode( ',', $post_term );
+                    $search_categories    = explode( ',', $post_term );
+                    $sanitized_categories = array_map( 'absint', $search_categories );
+                    $args['include']      = $sanitized_categories;
                 }
 
                 $categories = new WP_Term_Query( $args );
@@ -444,7 +448,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         );
 
         if ( null !== $category && ! empty( $category ) ) {
-            $args['include'] = explode( ',', $category );
+            $search_categories    = explode( ',', $category );
+            $sanitized_categories = array_map( 'absint', $search_categories );
+            $args['include']      = $sanitized_categories;
         }
 
         $categories_data = new WP_Term_Query( $args );
@@ -463,13 +469,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             return;
         }
 
-        $cat_ids = array_column( $categories, 'term_id' );
+        $cat_ids   = array_column( $categories, 'term_id' );
         $cat_names = array_column( $categories, 'name' );
 
-        asort($cat_ids);
-
         $identifier_string = implode( ',', $cat_ids );
-        $category_names = implode( ',', $cat_names );
+        $category_names    = implode( ',', $cat_names );
 
         // If the category price is being edited remove existing data.
         if ( ! empty( $post_category_id ) ) {
