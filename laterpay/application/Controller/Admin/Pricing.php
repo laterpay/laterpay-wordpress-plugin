@@ -60,6 +60,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     public function load_assets() {
         parent::load_assets();
 
+        // Get data for GA.
+        $merchant_key      = LaterPay_Controller_Admin::get_merchant_id_for_ga();
+        $data_for_localize = [
+            'categories_count'    => absint( LaterPay_Model_CategoryPriceWP::get_instance()->get_categories_with_defined_price_count() ),
+            'time_passes_count'   => absint( LaterPay_Helper_TimePass::get_time_passes_count( true ) ),
+            'subscriptions_count' => absint( LaterPay_Helper_Subscription::get_subscriptions_count( true ) ),
+            'lp_current_version'  => esc_html( get_option( 'laterpay_plugin_version' ) ),
+            'lp_plugin_status'    => LaterPay_Helper_View::is_plugin_in_live_mode() ? 'LIVE' : 'TEST',
+            'site_url'            => get_site_url(),
+        ];
+
+        LaterPay_Controller_Admin::register_common_scripts( 'pricing', $data_for_localize );
+
         // load page-specific JS
         wp_register_script(
             'laterpay-select2',
@@ -71,7 +84,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         wp_register_script(
             'laterpay-backend-pricing',
             $this->config->get( 'js_url' ) . 'laterpay-backend-pricing.js',
-            array( 'jquery', 'laterpay-select2' ),
+            array( 'jquery', 'laterpay-select2', 'laterpay-common' ),
             $this->config->get( 'version' ),
             true
         );
@@ -132,6 +145,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                                             lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);
                                             lpVars.sub_vouchers_list = JSON.parse(lpVars.sub_vouchers_list);
                                             lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
+                'gaData'                => array(
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
+                ),
             )
         );
     }

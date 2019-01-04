@@ -92,6 +92,12 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
      * @return void
      */
     public function load_scripts() {
+
+        // Get data for GA.
+        $merchant_key = LaterPay_Controller_Admin::get_merchant_id_for_ga();
+
+        LaterPay_Controller_Admin::register_common_scripts( 'post_edit' );
+
         wp_register_script(
             'laterpay-d3',
             $this->config->get( 'js_url' ) . '/vendor/d3.min.js',
@@ -116,7 +122,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
         wp_register_script(
             'laterpay-post-edit',
             $this->config->get( 'js_url' ) . '/laterpay-post-edit.js',
-            array( 'laterpay-d3', 'laterpay-d3-dynamic-pricing-widget', 'laterpay-velocity', 'jquery' ),
+            array( 'laterpay-d3', 'laterpay-d3-dynamic-pricing-widget', 'laterpay-velocity', 'jquery', 'laterpay-common' ),
             $this->config->get( 'version' ),
             true
         );
@@ -141,6 +147,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'i18nCategoryPriceSelect'   => esc_html__( 'Please select a category from the "Categories" panel below to enable Category Default Pricing.', 'laterpay' ),
                 'l10n_print_after'          => 'jQuery.extend(lpVars, laterpay_post_edit)',
                 'postPriceBehaviour'        => LaterPay_Helper_Pricing::get_post_price_behaviour(),
+                'gaData'                    => array(
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
+                ),
             )
         );
         wp_localize_script(
