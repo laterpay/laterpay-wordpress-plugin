@@ -15,6 +15,15 @@ class LaterPay_Model_SubscriptionWP {
     private static $_instance;
 
     /**
+     * Store hash of query and data for duplicate queries.
+     *
+     * @var array Internal Cache for Duplicate Queries.
+     *
+     * @access private
+     */
+    private static $term_data_store = [];
+
+    /**
      * Constructor for class LaterPay_Model_SubscriptionWP,
      * Kept private as class is singleton.
      */
@@ -333,13 +342,31 @@ class LaterPay_Model_SubscriptionWP {
         // Case 3: Subscriptions include specified category
         $query_args['meta_query'] = $meta_query; // phpcs:ignore
 
-        $get_subscriptions_in_category_query = new WP_Query( $query_args );
+        // Create a hash from the query args.
+        $args_hash = md5( wp_json_encode( $query_args ) );
 
-        $posts         = $get_subscriptions_in_category_query->get_posts();
-        $subscriptions = [];
+        // Check if data already exists for requested query args.
+        if ( isset( self::$term_data_store[$args_hash] ) ) {
 
-        foreach ( $posts as $key => $post ) {
-            $subscriptions[ $key ] = $this->transform_post_to_subscription( $post );
+            // Get data from internal cache for already requested query.
+            $subscriptions = self::$term_data_store[$args_hash];
+
+        } else {
+
+            // Initialize WP_Query without args.
+            $get_subscriptions_in_category_query = new WP_Query();
+
+            // Get posts for requested args.
+            $posts         = $get_subscriptions_in_category_query->query( $query_args );
+            $subscriptions = [];
+
+            foreach ( $posts as $key => $post ) {
+                $subscriptions[ $key ] = $this->transform_post_to_subscription( $post );
+            }
+
+            // Store formatted data, in case same query is fired again.
+            self::$term_data_store[$args_hash] = $subscriptions;
+
         }
 
         LaterPay_Hooks::get_instance()->add_wp_query_hooks();
