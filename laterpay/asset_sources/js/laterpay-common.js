@@ -40,29 +40,31 @@
         },
 
         // Send event to LaterPay GA.
-        sendParentEvent = function( injectNow, eventlabel, eventAction, eventCategory, eventValue ) {
+        sendParentEvent = function( injectNow, eventlabel, eventAction, eventCategory, eventValue, eventInteraction ) {
             var lpga = injectGAScript( injectNow );
             if (typeof lpga === 'function') {
                 lpga( 'create', lpCommonVar.lp_tracking_id, 'auto', 'lpParentTracker' );
                 lpga('lpParentTracker.send', 'event', {
-                    eventCategory : eventCategory,
-                    eventAction   : eventAction,
-                    eventLabel    : eventlabel,
-                    eventValue    : eventValue,
+                    eventCategory  : eventCategory,
+                    eventAction    : eventAction,
+                    eventLabel     : eventlabel,
+                    eventValue     : eventValue,
+                    nonInteraction : eventInteraction,
                 });
             }
         },
 
         // Send event to User GA.
-        sendUserEvent = function( injectNow, eventlabel, eventAction, eventCategory, eventValue ) {
+        sendUserEvent = function( injectNow, eventlabel, eventAction, eventCategory, eventValue, eventInteraction ) {
             var lpga = injectGAScript( injectNow );
             if (typeof lpga === 'function') {
                 lpga( 'create', lpCommonVar.lp_user_tracking_id, 'auto', 'lpUserTracker' );
                 lpga( 'lpUserTracker.send', 'event', {
-                    eventCategory : eventCategory,
-                    eventAction   : eventAction,
-                    eventLabel    : eventlabel,
-                    eventValue    : eventValue,
+                    eventCategory  : eventCategory,
+                    eventAction    : eventAction,
+                    eventLabel     : eventlabel,
+                    eventValue     : eventValue,
+                    nonInteraction : eventInteraction,
                 });
             }
         },
@@ -86,13 +88,14 @@
 
         // Create a tracker and send event to GA.
         createTrackerAndSendEvent = function ( gaTracker, trackingId, trackerName, eventAction, eventLabel,
-                                               eventCategory, eventValue ) {
+                                               eventCategory, eventValue, eventInteraction ) {
             gaTracker( 'create', trackingId, 'auto', trackerName );
             gaTracker( trackerName + '.send', 'event', {
-                eventCategory : eventCategory,
-                eventAction   : eventAction,
-                eventLabel    : eventLabel,
-                eventValue    : eventValue,
+                eventCategory  : eventCategory,
+                eventAction    : eventAction,
+                eventLabel     : eventLabel,
+                eventValue     : eventValue,
+                nonInteraction : eventInteraction,
             });
         },
 
@@ -141,13 +144,14 @@
 
 
             var eveCategory = 'LP WP Pricing';
+            var eveAction   = 'Pricing Summary';
 
             // Send Summary GA Events.
-            lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, categoryLabel, lpCommonVar.categories_count );
-            lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, timepassLabel, lpCommonVar.time_passes_count );
-            lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, subsLabel, lpCommonVar.subscriptions_count );
-            lpGlobal.sendLPGAEvent( 'Pricing Summary', eveCategory, versionLabel );
-            lpGlobal.sendLPGAEvent( 'Account Status Summary', eveCategory, statusLabel );
+            lpGlobal.sendLPGAEvent( eveAction, eveCategory, categoryLabel, lpCommonVar.categories_count, true );
+            lpGlobal.sendLPGAEvent( eveAction, eveCategory, timepassLabel, lpCommonVar.time_passes_count, true );
+            lpGlobal.sendLPGAEvent( eveAction, eveCategory, subsLabel, lpCommonVar.subscriptions_count, true );
+            lpGlobal.sendLPGAEvent( eveAction, eveCategory, versionLabel, 0, true );
+            lpGlobal.sendLPGAEvent( 'Account Status Summary', eveCategory, statusLabel, 0, true );
 
             setDataInStorage( 'lpSummarySentDate', Date.now() );
 
@@ -189,14 +193,19 @@
             if ( $($o.lp_ga_element).length >= 1 ) {
                 var eventlabel = lpCommonVar.postTitle + ',' + lpCommonVar.blogName + ',' +
                     lpCommonVar.postPermalink;
-                lpGlobal.sendLPGAEvent( 'Paid Content Replacement Show', 'LaterPay WordPress Plugin', eventlabel );
+                var eventCategory = 'LaterPay WordPress Plugin';
+                lpGlobal.sendLPGAEvent( 'Paid Content Replacement Show', eventCategory, eventlabel, 0, true );
             }
         };
 
         window.lpGlobal = {
 
             // Send GA Event conditionally.
-            sendLPGAEvent: function ( eventAction, eventCategory, eventLabel, eventValue ) {
+            sendLPGAEvent: function ( eventAction, eventCategory, eventLabel, eventValue, eventInteraction ) {
+
+                if ( 'undefined' === typeof eventInteraction ) {
+                    eventInteraction = false;
+                }
 
                 var sentUserEvent = false;
                 var __gaTracker   = detectMonsterInsightsGA();
@@ -213,26 +222,27 @@
                                 sentUserEvent = true;
                                 var trackerName = tracker.get('name');
                                 __gaTracker( trackerName + '.send', 'event', {
-                                    eventCategory : eventCategory,
-                                    eventAction   : eventAction,
-                                    eventLabel    : eventLabel,
-                                    eventValue    : eventValue,
+                                    eventCategory  : eventCategory,
+                                    eventAction    : eventAction,
+                                    eventLabel     : eventLabel,
+                                    eventValue     : eventValue,
+                                    nonInteraction : eventInteraction,
                                 });
                             }
                         });
 
                         if ( true === sentUserEvent ) {
                             createTrackerAndSendEvent( lpUAID, 'lpParentTracker', eventAction, eventLabel,
-                                eventCategory, eventValue );
+                                eventCategory, eventValue, eventInteraction );
                         } else {
                             createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction,
-                                eventLabel, eventCategory, eventValue );
+                                eventLabel, eventCategory, eventValue, eventInteraction );
                             createTrackerAndSendEvent( __gaTracker, userUAID, 'lpUserTracker', eventAction,
-                                eventLabel, eventCategory, eventValue );
+                                eventLabel, eventCategory, eventValue, eventInteraction );
                         }
                     } else {
-                        sendParentEvent( true, eventLabel, eventAction, eventCategory, eventValue );
-                        sendUserEvent( true, eventLabel, eventAction, eventCategory, eventValue );
+                        sendParentEvent( true, eventLabel, eventAction, eventCategory, eventValue, eventInteraction );
+                        sendUserEvent( true, eventLabel, eventAction, eventCategory, eventValue, eventInteraction );
                     }
                 } else if( userUAID.length > 0 && lpUAID.length === 0 ) {
                     if (typeof __gaTracker === 'function') {
@@ -242,26 +252,27 @@
                                 sentUserEvent = true;
                                 var trackerName = tracker.get('name');
                                 __gaTracker(trackerName + '.send', 'event', {
-                                    eventCategory: eventCategory,
-                                    eventAction  : eventAction,
-                                    eventLabel   : eventLabel,
-                                    eventValue   : eventValue,
+                                    eventCategory  : eventCategory,
+                                    eventAction    : eventAction,
+                                    eventLabel     : eventLabel,
+                                    eventValue     : eventValue,
+                                    nonInteraction : eventInteraction,
                                 });
                             }
                         });
 
                         if (true !== sentUserEvent) {
-                            sendUserEvent(true, eventLabel, eventAction, eventCategory, eventValue);
+                            sendUserEvent(true, eventLabel, eventAction, eventCategory, eventValue,eventInteraction);
                         }
                     } else {
-                        sendUserEvent(true, eventLabel, eventAction, eventCategory, eventValue);
+                        sendUserEvent(true, eventLabel, eventAction, eventCategory, eventValue,eventInteraction);
                     }
                 } else if( userUAID.length === 0 && lpUAID.length > 0 ) {
                     if (typeof __gaTracker === 'function' ) {
                         createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction, eventLabel,
-                            eventCategory, eventValue );
+                            eventCategory, eventValue, eventInteraction );
                     } else{
-                        sendParentEvent( true, eventLabel, eventAction, eventCategory, eventValue );
+                        sendParentEvent( true, eventLabel, eventAction, eventCategory, eventValue, eventInteraction );
                     }
                 }
             }
