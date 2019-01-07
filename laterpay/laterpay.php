@@ -10,8 +10,10 @@
  * Domain Path: /languages
  */
 
-// Kick-off
-add_action( 'plugins_loaded', 'laterpay_init' );
+// Kick-off. Initialize plugin.
+// The priority is set to '1' so that it executes before,
+// CPT registration for ( time pass and subscription ) which is on same hook.
+add_action( 'init', 'laterpay_init', 1 );
 
 
 if ( ! laterpay_check_is_vip() ) {
