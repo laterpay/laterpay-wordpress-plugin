@@ -35,6 +35,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     {
         parent::load_assets();
 
+        // Get data for GA.
+        $merchant_key = LaterPay_Controller_Admin::get_merchant_id_for_ga();
+
+        LaterPay_Controller_Admin::register_common_scripts( 'settings' );
+
         // register and enqueue stylesheet
         wp_register_style(
             'laterpay-options',
@@ -51,25 +56,31 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         wp_register_script(
             'laterpay-backend-options',
             $this->config->js_url . '/laterpay-backend-options.js',
-            array( 'jquery' ),
+            array( 'jquery', 'laterpay-common' ),
             $this->config->version,
             true
         );
         wp_enqueue_script( 'laterpay-backend-options' );
+
+        $custom_role_names = array_keys( get_option( 'laterpay_unlimited_access', [] ) );
 
         // Localize string to be used in script.
         wp_localize_script(
             'laterpay-backend-options',
             'lpVars',
             array(
-                'modal' => array(
+                'modal'  => array(
                     'id'    => 'lp_ga_modal_id',
                     'title' => esc_html__( 'Disable Tracking', 'laterpay' )
                 ),
-                'i18n'  => array(
+                'i18n'   => array(
                     'alertEmptyCode' => esc_html__( 'Please enter UA-ID to enable Personal Analytics!', 'laterpay' ),
                     'invalidCode'    => esc_html__( 'Please enter valid UA-ID code!', 'laterpay' ),
-                )
+                ),
+                'gaData' => array(
+                    'custom_roles'        => array_map( 'esc_js', $custom_role_names ),
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
+                ),
             )
         );
     }

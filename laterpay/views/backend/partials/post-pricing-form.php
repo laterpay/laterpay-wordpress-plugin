@@ -43,7 +43,7 @@ if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAU
 }
 
 if ( ! empty( $laterpay['category_prices'] ) ) {
-    $global_disabled_class = ' lp_is-disabled';
+    $global_disabled_class = ' lp_is-disabled lp_tooltip';
 }
 
 $is_in_live_mode        = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
@@ -80,12 +80,18 @@ $is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' 
         <?php
         if ( 0 === $post_price_behaviour ) {
             ?>
-            <p class="lp_postEditTypeZero"><?php esc_html_e( 'FREE', 'laterpay' ); ?></p>
-            <span class="lp_postEditTypeZero">
-                <?php
+            <div id="lp_postEditTypeZero"
+                <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) : ?>
+                    <?php echo ' style="display:none;"'; ?>
+                <?php endif; ?>
+            >
+                <p class="lp_postEditTypeZero"><?php esc_html_e( 'FREE', 'laterpay' ); ?></p>
+                <span class="lp_postEditTypeZero">
+                    <?php
                     esc_html_e( 'All articles are free by default; Time Passes & Subscriptions will only be displayed if an Individual Article Price greater than 0.00 is manually set by selecting “Individual Price” below.', 'laterpay' );
-                ?>
-            </span>
+                    ?>
+                </span>
+            </div>
             <?php
         } elseif ( 1 === $post_price_behaviour ) {
             ?>
@@ -166,7 +172,7 @@ $is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' 
                 id="lp_js_useCategoryDefaultPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Category Default Price', 'laterpay' ); ?></a>
         </li>
-        <li class="lp_price-type__item <?php echo esc_attr( $global_selected_class . ' ' . $global_disabled_class ); ?>">
+        <li class="lp_price-type__item lp_price-type__global <?php echo esc_attr( $global_selected_class . ' ' . $global_disabled_class ); ?>" <?php if ( ! empty( $global_disabled_class ) ) { printf( '%1$s="%2$s"', 'data-tooltip',  esc_html__( 'Global Default Pricing is not available to Posts which have a Category Default Price.', 'laterpay' ) ); } ?>>
             <a href="#"
                 id="lp_js_useGlobalDefaultPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"
