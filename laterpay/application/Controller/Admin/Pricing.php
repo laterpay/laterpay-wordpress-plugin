@@ -173,10 +173,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         // Loop through grouped data and create data for display.
         foreach ( $grouped_data as $key => $category_group ) {
+
+            // Get data from array of objects using array_map as array_column introduced use of objects in PHP7.
+            $cat_ids      = self::get_category_group_data( 'id', $category_group );
+            $cat_titles   = self::get_category_group_data( 'category_name', $category_group );
+            $category_ids = self::get_category_group_data( 'category_id', $category_group );
+
             $category                 = new stdClass();
-            $category->id             = implode( ',', array_column( $category_group, 'id' ) );
-            $category->category_name  = implode( ',', array_column( $category_group, 'category_name' ) );
-            $category->category_id    = implode( ',', array_column( $category_group, 'category_id' ) );
+            $category->id             = implode( ',', $cat_ids );
+            $category->category_name  = implode( ',', $cat_titles );
+            $category->category_id    = implode( ',', $category_ids );
             $category->category_price = ( ! empty( $category_group[0]->category_price ) ) ? $category_group[0]->category_price : '' ;
             $category->revenue_model  = ( ! empty( $category_group[0]->revenue_model ) ) ? $category_group[0]->revenue_model : '';
             $category->identifier     = ( ! empty( $category_group[0]->identifier ) ) ? $category_group[0]->identifier : '';
@@ -1066,5 +1072,21 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         }
 
         return $success;
+    }
+
+    /**
+     * Get array of field passed from Category Data.
+     *
+     * @param $field         string Field to be returned from category.
+     * @param $category_data array  Category Data.
+     *
+     * @return array
+     */
+    private static function get_category_group_data( $field, $category_data ) {
+
+        return array_map( function( $cat ) use ( $field ) {
+            return $cat->$field;
+        }, $category_data );
+
     }
 }
