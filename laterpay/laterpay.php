@@ -10,7 +10,8 @@
  * Domain Path: /languages
  */
 
-// Kick-off. Initialize plugin.
+// Kick-off.
+// Initialize plugin on `init` hook instead of `plugins_loaded`, so that it works when plugin is loaded via theme.
 // The priority is set to '1' so that it executes before,
 // CPT registration for ( time pass and subscription ) which is on same hook.
 add_action( 'init', 'laterpay_init', 1 );
