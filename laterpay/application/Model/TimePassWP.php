@@ -23,6 +23,15 @@ class LaterPay_Model_TimePassWP {
     public static $timepass_post_type = 'lp_passes';
 
     /**
+     * Store hash of query and data for duplicate queries.
+     *
+     * @var array Internal Cache for Duplicate Queries.
+     *
+     * @access private
+     */
+    private static $term_data_store = [];
+
+    /**
      * Blank constructor to avoid creation of new instances.
      *
      * LaterPay_Model_TimePassWP constructor.
@@ -436,9 +445,28 @@ class LaterPay_Model_TimePassWP {
         // Case 3: Passes include specified category
         $query_args['meta_query'] = $meta_query; // phpcs:ignore
 
-        $query = new WP_Query( $query_args );
+        // Create a hash from the query args.
+        $args_hash = md5( wp_json_encode( $query_args ) );
 
-        $timepasses = $this->get_formatted_results( $query->get_posts() );
+        // Check if data already exists for requested query args.
+        if ( isset( self::$term_data_store[$args_hash] ) ) {
+
+            // Get data from internal cache for already requested query.
+            $timepasses = self::$term_data_store[$args_hash];
+
+        } else {
+
+            // Initialize WP_Query without args.
+            $query = new WP_Query();
+
+            // Get posts for requested args.
+            $posts = $query->query( $query_args );
+
+            // Get formatted data and store it, in case same query is fired again.
+            $timepasses                        = $this->get_formatted_results( $posts );
+            self::$term_data_store[$args_hash] = $timepasses;
+
+        }
 
         // Add removed hooks.
         LaterPay_Hooks::get_instance()->add_wp_query_hooks();
