@@ -384,6 +384,17 @@ class LaterPay_Model_SubscriptionWP {
                 $subscriptions[ $key ] = $this->transform_post_to_subscription( $post );
             }
 
+            // Unset subscription data if it contains excluded categories.
+            foreach ( $subscriptions as $key => $subscription ) {
+                if ( 1 === $subscription['access_to'] ) {
+                    $found_categories = array_intersect( $term_ids, $subscription['access_category'] );
+
+                    if ( ! empty( $found_categories ) ) {
+                        unset( $subscriptions[$key] );
+                    }
+                }
+            }
+
             // Store formatted data, in case same query is fired again.
             self::$term_data_store[$args_hash] = $subscriptions;
 
