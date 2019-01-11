@@ -146,7 +146,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                                             lpVars.sub_vouchers_list = JSON.parse(lpVars.sub_vouchers_list);
                                             lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
                 'gaData'                => array(
-                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
             )
         );
@@ -1016,7 +1016,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         }
 
         // Update option for enabled post types.
-        $is_updated = LaterPay_Helper_Option::update_laterpay_option( 'laterpay_enabled_post_types', $enabled_post_types );
+        $is_updated = update_option( 'laterpay_enabled_post_types', $enabled_post_types );
 
         if ( ! $is_updated ) {
 
