@@ -148,7 +148,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'l10n_print_after'          => 'jQuery.extend(lpVars, laterpay_post_edit)',
                 'postPriceBehaviour'        => LaterPay_Helper_Pricing::get_post_price_behaviour(),
                 'gaData'                    => array(
-                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
             )
         );
