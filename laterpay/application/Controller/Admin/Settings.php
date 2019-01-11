@@ -78,8 +78,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                     'invalidCode'    => esc_html__( 'Please enter valid UA-ID code!', 'laterpay' ),
                 ),
                 'gaData' => array(
-                    'custom_roles'        => array_map( 'esc_js', $custom_role_names ),
-                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
+                    'custom_roles'        => $custom_role_names,
+                    'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
             )
         );

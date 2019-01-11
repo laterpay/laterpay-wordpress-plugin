@@ -643,13 +643,26 @@
                 var eventCategory = 'LP WP Post';
                 var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + lpVars.postId + ' | ';
 
-                var selectedCategories = $('#categorychecklist :checkbox:checked');
                 var categoryLabel = [];
 
-                // Loop through selected categories and store in an array.
-                $.each( selectedCategories, function( i ) {
-                    categoryLabel.push($('#'+selectedCategories[i].id).parent().text().trim());
-                } );
+                // Check editor type to get selected categories in post.
+                if ( ! wp.data ) {
+                    var selectedCategories = $('#categorychecklist :checkbox:checked');
+
+                    // Loop through selected categories and store in an array.
+                    $.each( selectedCategories, function( i ) {
+                        categoryLabel.push($('#'+selectedCategories[i].id).parent().text().trim());
+                    } );
+                } else {
+                    var selectedCategoriesGB =
+                        $('div.editor-post-taxonomies__hierarchical-terms-list :checkbox:checked');
+
+                    // Loop through checked categories and store label text in an array.
+                    $.each( selectedCategoriesGB, function( i ) {
+                        categoryLabel.push($(selectedCategoriesGB[i]).next( 'label' ).text().trim());
+                    } );
+
+                }
 
                 // Send GA event with category details.
                 lpGlobal.sendLPGAEvent( 'Post Published', eventCategory, commonLabel + categoryLabel.join(',') );
