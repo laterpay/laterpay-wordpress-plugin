@@ -1016,7 +1016,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         }
 
         // Update option for enabled post types.
-        $is_updated = LaterPay_Helper_Option::update_laterpay_option( 'laterpay_enabled_post_types', $enabled_post_types );
+        $is_updated = update_option( 'laterpay_enabled_post_types', $enabled_post_types );
 
         if ( ! $is_updated ) {
 
