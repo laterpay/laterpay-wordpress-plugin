@@ -637,11 +637,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <input type="hidden" class="lp_js_voucherPriceInput" name="voucher_default_price" value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>" />
                                 <input type="hidden" name="voucher_temp_code" value="" />
                                 <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'time pass price.', 'laterpay' )  ); ?></span>
+
+                                <div class="lp_js_voucherPlaceholder"></div>
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
-
-                                <div class="lp_js_voucherPlaceholder"></div>
                             </div>
 
                         </form>
@@ -824,11 +824,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <input type="hidden" class="lp_js_voucherPriceInput" name="voucher_default_price" value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_Subscription::get_default_options( 'price' ) ) ); ?>" />
                                 <input type="hidden" name="voucher_temp_code" value="" />
                                 <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'subscription price.', 'laterpay' )  ); ?></span>
+
+                                <div class="lp_js_voucherPlaceholder"></div>
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
-
-                                <div class="lp_js_voucherPlaceholder"></div>
                             </div>
 
                         </form>
