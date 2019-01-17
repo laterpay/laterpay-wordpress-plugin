@@ -589,7 +589,6 @@
             }
 
             if ( isSubscription ) {
-                console.log( $entity.find($o.voucherPriceInputSingle).val());
               if ( $entity.find($o.voucherPriceInputSingle).val() >
                 $entity.find( $o.subscription.fields.price ).val() ) {
                 $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMaximumPrice );
