@@ -468,7 +468,9 @@ class LaterPay_Model_TimePassWP {
             // Unset time pass data if it contains excluded categories.
             foreach ( $timepasses as $key => $timepass ) {
                 if ( 1 === $timepass['access_to'] ) {
-                    $found_categories = array_intersect( $term_ids, $timepass['access_category'] );
+                    if ( ! empty( $term_ids ) ) {
+                        $found_categories = array_intersect( $term_ids, $timepass['access_category'] );
+                    }
 
                     if ( ! empty( $found_categories ) ) {
                         unset( $timepasses[$key] );
