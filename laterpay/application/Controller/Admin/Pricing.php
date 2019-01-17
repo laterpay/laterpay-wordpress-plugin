@@ -129,25 +129,26 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'laterpay-backend-pricing',
             'lpVars',
             array(
-                'locale'                => get_locale(),
-                'i18n'                  => $i18n,
-                'currency'              => wp_json_encode( LaterPay_Helper_Config::get_currency_config() ),
-                'globalDefaultPrice'    => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
-                'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
-                'time_passes_list'      => $this->get_time_passes_json( $time_passes_list ),
-                'subscriptions_list'    => $this->get_subscriptions_json( $subscriptions_list ),
-                'vouchers_list'         => wp_json_encode( $vouchers_list ),
-                'sub_vouchers_list'     => wp_json_encode( $sub_vouchers_list ),
-                'vouchers_statistic'    => wp_json_encode( $vouchers_statistic ),
-                'l10n_print_after'      => 'lpVars.currency = JSON.parse(lpVars.currency);
+                'locale'                 => get_locale(),
+                'i18n'                   => $i18n,
+                'currency'               => wp_json_encode( LaterPay_Helper_Config::get_currency_config() ),
+                'globalDefaultPrice'     => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
+                'inCategoryLabel'        => __( 'All posts in category', 'laterpay' ),
+                'time_passes_list'       => $this->get_time_passes_json( $time_passes_list ),
+                'subscriptions_list'     => $this->get_subscriptions_json( $subscriptions_list ),
+                'vouchers_list'          => wp_json_encode( $vouchers_list ),
+                'sub_vouchers_list'      => wp_json_encode( $sub_vouchers_list ),
+                'vouchers_statistic'     => wp_json_encode( $vouchers_statistic ),
+                'l10n_print_after'       => 'lpVars.currency = JSON.parse(lpVars.currency);
                                             lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
                                             lpVars.subscriptions_list = JSON.parse(lpVars.subscriptions_list);
                                             lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);
                                             lpVars.sub_vouchers_list = JSON.parse(lpVars.sub_vouchers_list);
                                             lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
-                'gaData'                => array(
+                'gaData'                 => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
+                'voucherDescriptionText' => esc_html__( 'Description', 'laterpay' ),
             )
         );
     }

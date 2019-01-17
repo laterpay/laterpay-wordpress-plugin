@@ -186,6 +186,7 @@
 
             // vouchers
             voucherPriceInput                       : '.lp_js_voucherPriceInput',
+            voucherPriceInputSingle                 : '.lp_js_voucherPriceInputSingle',
             generateVoucherCode                     : '.lp_js_generateVoucherCode',
             voucherDeleteLink                       : '.lp_js_deleteVoucher',
             voucherEditor                           : '.lp_js_voucherEditor',
@@ -394,15 +395,16 @@
 
             // set voucher price
             $o.timepass.editor
-            .on('keyup', $o.voucherPriceInput, debounce(function() {
-                    validatePrice($(this).parents('form'), true, $(this));
+            .on('keyup', $o.voucherPriceInputSingle, debounce(function() {
+                var price = validatePrice($(this).parents('form'), true, $(this));
+                $(this).parent().find('input.lp_voucher_form_data').val(price);
                 }, 1500)
             );
 
             // generate voucher code
             $o.timepass.editor
             .on('mousedown', $o.generateVoucherCode, function() {
-                generateVoucherCode( 'timepass', $(this).parents($o.timepass.wrapper));
+                generateVoucherCode($(this).parents($o.timepass.wrapper));
             })
             .on('click', $o.generateVoucherCode, function(e) {
                 e.preventDefault();
@@ -417,7 +419,7 @@
 
             // validate voucher price on input.
             $o.timepass.editor
-            .on( 'keyup', $o.voucherPriceInput, function (e) {
+            .on( 'keyup', $o.voucherPriceInputSingle, function (e) {
                validateVoucherPrice( 'timepass', $(this).parents($o.timepass.wrapper) );
                e.preventDefault();
             } );
@@ -512,15 +514,16 @@
 
             // Set voucher price.
             $o.subscription.editor
-                .on('keyup', $o.voucherPriceInput, debounce(function() {
-                        validatePrice($(this).parents('form'), true, $(this), true);
+                .on('keyup', $o.voucherPriceInputSingle, debounce(function() {
+                    var price = validatePrice($(this).parents('form'), true, $(this), true);
+                    $(this).parent().find('input.lp_voucher_form_data').val(price);
                     }, 1500)
                 );
 
             // Generate voucher code.
             $o.subscription.editor
                 .on('mousedown', $o.generateVoucherCode, function() {
-                    generateVoucherCode( 'subscription', $(this).parents($o.subscription.wrapper));
+                    generateVoucherCode($(this).parents($o.subscription.wrapper));
                 })
                 .on('click', $o.generateVoucherCode, function(e) {
                     e.preventDefault();
@@ -535,7 +538,7 @@
 
             // validate voucher price on input.
             $o.subscription.editor
-            .on( 'keyup', $o.voucherPriceInput, function (e) {
+            .on( 'keyup', $o.voucherPriceInputSingle, function (e) {
               validateVoucherPrice( 'subscription', $(this).parents($o.subscription.wrapper) );
               e.preventDefault();
             } );
@@ -586,12 +589,14 @@
             }
 
             if ( isSubscription ) {
-              if ( $entity.find($o.voucherPriceInput).val() >
+              if ( $entity.find($o.voucherPriceInputSingle).val() >
                 $entity.find( $o.subscription.fields.price ).val() ) {
                 $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMaximumPrice );
+                $( $o.subscription.actions.save ).attr( 'disabled', 'disabled' );
+                $( $o.subscription.actions.save ).removeAttr( 'href' );
                 $entity.find('.lp_js_voucher_msg').css( 'display','block' );
                 return;
-              } else if ( $entity.find($o.voucherPriceInput).val() < lpVars.currency.sis_min) {
+              } else if ( $entity.find($o.voucherPriceInputSingle).val() < lpVars.currency.sis_min) {
                 $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMinimum );
                 $entity.find('.lp_js_voucher_msg').css( 'display','block' );
                 return;
@@ -599,8 +604,10 @@
               $( $o.subscription.actions.save ).removeAttr( 'disabled' );
               $( $o.subscription.actions.save ).attr( 'href', '#' );
             } else {
-              if ( $entity.find($o.voucherPriceInput).val() > $entity.find( $o.timepass.fields.price ).val() ) {
-                $entity.find('.lp_js_voucher_msg').css( 'display','block' );
+              if ( $entity.find($o.voucherPriceInputSingle).val() > $entity.find( $o.timepass.fields.price ).val() ) {
+                  $( $o.timepass.actions.save ).attr( 'disabled', 'disabled' );
+                  $( $o.timepass.actions.save ).removeAttr( 'href' );
+                  $entity.find('.lp_js_voucher_msg').css( 'display','block' );
                 return;
               }
               $( $o.timepass.actions.save ).removeAttr( 'disabled' );
@@ -1274,7 +1281,7 @@
                 clearVouchersList($wrapper);
                 if (vouchers instanceof Object) {
                     $.each(vouchers, function(code, voucherData) {
-                        addVoucher(code, voucherData, $wrapper);
+                        addVoucher(code, voucherData, $wrapper, true);
                     });
                 }
             } else if (type === 'subscription') {
@@ -1288,7 +1295,7 @@
                 clearVouchersList($wrapper);
                 if (sub_vouchers instanceof Object) {
                     $.each(sub_vouchers, function(code, voucherData) {
-                        addVoucher(code, voucherData, $wrapper);
+                        addVoucher(code, voucherData, $wrapper, true);
                     });
                 }
             }
@@ -1667,40 +1674,7 @@
             }
         },
 
-        generateVoucherCode = function( type, $timePass) {
-
-            var isSubscription = false;
-
-            if ( 'subscription' === type ) {
-                isSubscription = true;
-            }
-
-            // Validate voucher price before generation.
-            validatePrice( $timePass, true, $('.lp_js_voucherPriceInput', $timePass), isSubscription );
-
-            // Check if voucher price exceeds time pass / subscription price.
-            if ( isSubscription ) {
-                if ( $timePass.find($o.voucherPriceInput).val() >
-                    $timePass.find( $o.subscription.fields.price ).val() ) {
-                    $( $o.subscription.actions.save ).attr( 'disabled', 'disabled' );
-                    $( $o.subscription.actions.save ).removeAttr( 'href' );
-                    $timePass.find('.lp_js_voucher_msg').css( 'display','block' );
-                    return;
-                }
-                $( $o.subscription.actions.save ).removeAttr( 'disabled' );
-                $( $o.subscription.actions.save ).attr( 'href', '#' );
-            } else {
-                if ( $timePass.find($o.voucherPriceInput).val() > $timePass.find( $o.timepass.fields.price ).val() ) {
-                    $( $o.timepass.actions.save ).attr( 'disabled', 'disabled' );
-                    $( $o.timepass.actions.save ).removeAttr( 'href' );
-                    $timePass.find( '.lp_js_voucher_msg' ).css( 'display','block' );
-                    return;
-                }
-                $( $o.timepass.actions.save ).removeAttr( 'disabled' );
-                $( $o.timepass.actions.save ).attr( 'href', '#' );
-            }
-
-            $timePass.find('.lp_js_voucher_msg').hide();
+        generateVoucherCode = function($timePass) {
 
             $.post(
                 ajaxurl,
@@ -1720,10 +1694,11 @@
             );
         },
 
-        addVoucher = function(code, voucherData, $timePass) {
+        addVoucher = function(code, voucherData, $timePass, existingVoucher) {
             var priceValue = voucherData.price ? voucherData.price : voucherData,
-                price      = priceValue + ' ' + lpVars.currency.code,
                 title      = voucherData.title ? voucherData.title : '';
+
+            var voucherPriceInput = '';
 
             var voucher = $('<div/>', {
                 'class': 'lp_js_voucher lp_voucher',
@@ -1741,6 +1716,7 @@
             var voucherPrice = $('<input/>', {
                 type: 'hidden',
                 name: 'voucher_price[]',
+                class: 'lp_voucher_form_data',
                 value: priceValue
             });
 
@@ -1750,25 +1726,48 @@
 
             var spanVoucherInfo = $('<span/>', {
                 class: 'lp_voucher__code-infos',
-            }).text(lpVars.i18n.voucherText + ' ' + price);
+            }).text(lpVars.i18n.voucherText);
+
+            if ( true === existingVoucher ) {
+                voucherPriceInput = $('<span/>', {
+                }).text(priceValue);
+
+            } else {
+                voucherPriceInput = $('<input/>', {
+                    type : 'text',
+                    class: 'lp_js_voucherPriceInputSingle lp_input lp_number-input',
+                    value: priceValue
+                });
+            }
+
+            var spanCurrencyCode = $('<span/>', {
+                class: 'lp_voucher__code-infos',
+            }).text(lpVars.currency.code);
+
+            var inputLabel = $('<label/>',{
+                class: 'lp_voucher__code_description'
+            }).text(lpVars.voucherDescriptionText);
 
             var inputTitle = $('<input/>', {
                 class: 'lp_input__title',
                 type: 'text',
                 name: 'voucher_title[]',
                 value: title,
-            });
+            }).css('width', '65%');
 
             var deleteLink = $('<a/>', {
                 'class': 'lp_js_deleteVoucher lp_edit-link--bold',
                 'data-icon': 'g'
-            });
+            }).css({'margin-left': '15px', 'position': 'absolute', 'padding': 0});
 
             voucher.empty().append(voucherCode)
                 .append(voucherPrice)
                 .append(spanVoucherCode)
                 .append(spanVoucherInfo)
+                .append(voucherPriceInput)
+                .append(spanCurrencyCode)
                 .append(inputTitle)
+                .append(inputLabel)
                 .append(deleteLink);
 
             $timePass
