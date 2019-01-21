@@ -210,6 +210,15 @@
 
                 // case: individual price
                 if (priceType === 'lp_js_useIndividualPrice') {
+
+                    // Display price edit box.
+                    $o.priceEditSection.show();
+
+                    // Hide FREE message when individual price type is selected while Global default type is FREE.
+                    if ( '0' === lpVars.postPriceBehaviour ) {
+                        $o.postEditTypeZero.hide();
+                    }
+
                     $o.priceSection.addClass($o.expanded);
                     $o.dynamicPricingToggle.velocity('fadeIn', { duration: 250, display: 'block' });
                     $o.priceTypeInput.val('individual price');
@@ -243,6 +252,13 @@
                 }
                 // case: global default price
                 else if (priceType === 'lp_js_useGlobalDefaultPrice') {
+
+                    // Hide price edit section and display the FREE post message for Global FREE behaviour.
+                    if ( '0' === lpVars.postPriceBehaviour ) {
+                        $o.priceEditSection.hide();
+                        $o.postEditTypeZero.show();
+                    }
+
                     price           = $this.attr('data-price');
                     revenueModel    = $this.attr('data-revenue-model');
 

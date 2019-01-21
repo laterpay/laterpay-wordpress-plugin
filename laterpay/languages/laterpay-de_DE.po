@@ -522,19 +522,29 @@ msgstr "Darstellung"
 msgid "Account"
 msgstr "Konto"
 
-#: application/Controller/Admin/Account.php:52
+#: application/Controller/Admin/Account.php:62
 msgid "The API key you entered is not a valid LaterPay API key!"
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay API Key!"
 
-#: application/Controller/Admin/Account.php:53
+#: application/Controller/Admin/Account.php:63
 msgid "The Merchant ID you entered is not a valid LaterPay Merchant ID!"
 msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Merchant ID!"
 
-#: application/Controller/Admin/Account.php:54
+#: application/Controller/Admin/Account.php:64
 msgid "LaterPay does not work properly with invalid API credentials."
 msgstr "LaterPay funktioniert nicht ohne gültige API Zugangsdaten."
 
-#: application/Controller/Admin/Account.php:100
+#: application/Controller/Admin/Account.php:72 views/backend/account.php:311
+#: views/backend/account.php:351
+msgid "Delete Plugin Data"
+msgstr ""
+
+#: application/Controller/Admin/Account.php:72 views/backend/account.php:311
+#: views/backend/account.php:351
+msgid "Deactivate Plugin & Delete Data"
+msgstr "Plugin & Daten deaktivieren"
+
+#: application/Controller/Admin/Account.php:116
 #: application/Controller/Admin/Appearance.php:113
 #: application/Controller/Admin/Pricing.php:245
 #: application/Controller/Admin/Pricing.php:492
@@ -546,39 +556,39 @@ msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
 "erneut."
 
-#: application/Controller/Admin/Account.php:174
-#: application/Controller/Admin/Account.php:232
+#: application/Controller/Admin/Account.php:190
+#: application/Controller/Admin/Account.php:248
 #, php-format
 msgid "The Merchant ID you entered is not a valid LaterPay %s Merchant ID!"
 msgstr "Die eingegebene Merchant ID ist keine kültige LaterPay %s Merchant ID!"
 
-#: application/Controller/Admin/Account.php:188
+#: application/Controller/Admin/Account.php:204
 #, php-format
 msgid "The %s Merchant ID has been removed."
 msgstr "Die %s Merchant ID wurde entfernt."
 
-#: application/Controller/Admin/Account.php:201
+#: application/Controller/Admin/Account.php:217
 #, php-format
 msgid "%s Merchant ID verified and saved."
 msgstr "%s Merchant ID überprüft und gespeichert."
 
-#: application/Controller/Admin/Account.php:246
+#: application/Controller/Admin/Account.php:262
 #, php-format
 msgid "The %s API key has been removed."
 msgstr "Der %s API Key wurde entfernt."
 
-#: application/Controller/Admin/Account.php:259
+#: application/Controller/Admin/Account.php:275
 #, php-format
 msgid "Your %s API key is valid. You can now make %s transactions."
 msgstr ""
 "Ihr %s API-Key ist gültig. Sie können nun %s Transaktionen durchführen."
 
-#: application/Controller/Admin/Account.php:280
-#: application/Controller/Admin/Account.php:335
+#: application/Controller/Admin/Account.php:296
+#: application/Controller/Admin/Account.php:351
 msgid "Error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten. Falsche Daten wurden übergeben."
 
-#: application/Controller/Admin/Account.php:294
+#: application/Controller/Admin/Account.php:310
 msgid ""
 "The LaterPay plugin is in LIVE mode now. All payments are actually booked "
 "and credited to your account."
@@ -586,7 +596,7 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im LIVE-Modus. Alle Zahlungen werden "
 "tatsächlich gebucht und Ihrem Händlerkonto gutgeschrieben."
 
-#: application/Controller/Admin/Account.php:303
+#: application/Controller/Admin/Account.php:319
 msgid ""
 "The LaterPay plugin is in visible TEST mode now. Payments are only simulated "
 "and not actually booked."
@@ -594,7 +604,7 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im TEST-Modus und für Besucher sichtbar. "
 "Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
 
-#: application/Controller/Admin/Account.php:313
+#: application/Controller/Admin/Account.php:329
 msgid ""
 "The LaterPay plugin is in invisible TEST mode now. Payments are only "
 "simulated and not actually booked."
@@ -602,17 +612,17 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im TEST-Modus und für Besucher nicht sichtbar. "
 "Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
 
-#: application/Controller/Admin/Account.php:323
-#: application/Controller/Admin/Account.php:409
+#: application/Controller/Admin/Account.php:339
+#: application/Controller/Admin/Account.php:425
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 
-#: application/Controller/Admin/Account.php:348
+#: application/Controller/Admin/Account.php:364
 msgid "Failed to change region settings."
 msgstr ""
 "Die Einstellungen für Ländergruppe und Währung konnten nicht geändert werden."
 
-#: application/Controller/Admin/Account.php:373
+#: application/Controller/Admin/Account.php:389
 msgid "The LaterPay region was changed successfully."
 msgstr ""
 "Die Ländergruppe und Währung des LaterPay Plugins wurden erfolgreich "
@@ -624,23 +634,37 @@ msgstr ""
 msgid "An error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
 
-#: application/Controller/Admin/Account.php:418
-#: application/Controller/Admin/Account.php:420
+#: application/Controller/Admin/Account.php:434
+#: application/Controller/Admin/Account.php:436
 msgid "The plugin is in"
 msgstr ""
 
-#: application/Controller/Admin/Account.php:418
+#: application/Controller/Admin/Account.php:434
 msgid "visible"
 msgstr ""
 
-#: application/Controller/Admin/Account.php:418
-#: application/Controller/Admin/Account.php:420
+#: application/Controller/Admin/Account.php:434
+#: application/Controller/Admin/Account.php:436
 msgid "test mode now."
 msgstr ""
 
-#: application/Controller/Admin/Account.php:420
+#: application/Controller/Admin/Account.php:436
 msgid "invisible"
 msgstr ""
+
+#: application/Controller/Admin/Account.php:469
+msgid ""
+"LaterPay has been successfully uninstalled. It can be re-activated from the "
+"plugins page."
+msgstr ""
+
+#: application/Controller/Admin/Account.php:477
+#, fuzzy
+#| msgid "The LaterPay region was changed successfully."
+msgid "LaterPay data has been erased successfully."
+msgstr ""
+"Die Ländergruppe und Währung des LaterPay Plugins wurden erfolgreich "
+"geändert."
 
 #: application/Controller/Admin/Appearance.php:142
 msgid ""
@@ -1820,49 +1844,49 @@ msgstr ""
 msgid "rotateZ"
 msgstr ""
 
-#: views/backend/account.php:21 views/backend/appearance.php:19
+#: views/backend/account.php:24 views/backend/appearance.php:19
 #: views/backend/partials/post-pricing-form.php:58 views/backend/pricing.php:19
 msgid "Test mode"
 msgstr "Test-Modus"
 
-#: views/backend/account.php:22 views/backend/appearance.php:20
+#: views/backend/account.php:25 views/backend/appearance.php:20
 #: views/backend/partials/post-pricing-form.php:62 views/backend/pricing.php:23
 msgid "Earn money in"
 msgstr "Geld verdienen im"
 
-#: views/backend/account.php:22 views/backend/appearance.php:20
+#: views/backend/account.php:25 views/backend/appearance.php:20
 #: views/backend/partials/post-pricing-form.php:62 views/backend/pricing.php:23
 msgid "live mode"
 msgstr "Live-Modus"
 
-#: views/backend/account.php:35
+#: views/backend/account.php:38
 msgid "The LaterPay plugin is in"
 msgstr "Das LaterPay Plugin ist im"
 
-#: views/backend/account.php:51
+#: views/backend/account.php:54
 msgid "mode."
 msgstr "Modus."
 
-#: views/backend/account.php:55
+#: views/backend/account.php:58
 msgid "It is invisible"
 msgstr "Es ist für Besucher nicht sichtbar"
 
-#: views/backend/account.php:72
+#: views/backend/account.php:75
 msgid "visible to visitors."
 msgstr "sichtbar."
 
-#: views/backend/account.php:78
+#: views/backend/account.php:81
 #, fuzzy
 msgid "Who is LaterPay?"
 msgstr "Willkommen bei LaterPay"
 
-#: views/backend/account.php:80
+#: views/backend/account.php:83
 msgid ""
 "Meet the online payment system that cares about the user experience as much "
 "as you do"
 msgstr ""
 
-#: views/backend/account.php:83
+#: views/backend/account.php:86
 msgid ""
 "With LaterPay, your users can purchase digital content and services, or make "
 "contributions and\n"
@@ -1870,144 +1894,144 @@ msgid ""
 "that turns traffic into transactions."
 msgstr ""
 
-#: views/backend/account.php:87
+#: views/backend/account.php:90
 msgid ""
 "Requiring upfront registration and payment results in customer abandon rates "
 "of up to 98%."
 msgstr ""
 
-#: views/backend/account.php:89
+#: views/backend/account.php:92
 msgid ""
 "LaterPay's patented Pay Later revenue model instead defers the registration "
 "process until a customer’s purchases reach a $5 threshold."
 msgstr ""
 
-#: views/backend/account.php:91
+#: views/backend/account.php:94
 msgid ""
 "Only then, once your content’s value is firmly established, is the customer "
 "asked to register and pay."
 msgstr ""
 
-#: views/backend/account.php:93
+#: views/backend/account.php:96
 msgid "This results in shopping cart conversion rates of over 80%."
 msgstr ""
 
-#: views/backend/account.php:95
+#: views/backend/account.php:98
 msgid ""
 "LaterPay’s frictionless customer onboarding helps you turn traffic into "
 "transactions."
 msgstr ""
 
-#: views/backend/account.php:104
+#: views/backend/account.php:107
 msgid "Sandbox Environment"
 msgstr "Sandbox"
 
-#: views/backend/account.php:107
+#: views/backend/account.php:110
 msgid "for testing with simulated payments"
 msgstr "zu Testzwecken mit simulierten Zahlungen"
 
-#: views/backend/account.php:126
+#: views/backend/account.php:129
 msgid "Paste Sandbox Merchant ID here"
 msgstr "Sandbox Merchant ID hier einfügen"
 
-#: views/backend/account.php:127 views/backend/account.php:183
+#: views/backend/account.php:130 views/backend/account.php:186
 msgid "Merchant ID"
 msgstr "Merchant ID"
 
-#: views/backend/account.php:146
+#: views/backend/account.php:149
 msgid "Paste Sandbox API Key here"
 msgstr "Sandbox API Key hier einfügen"
 
-#: views/backend/account.php:147 views/backend/account.php:203
+#: views/backend/account.php:150 views/backend/account.php:206
 msgid "API Key"
 msgstr "API Key"
 
-#: views/backend/account.php:160
+#: views/backend/account.php:163
 msgid "Live Environment"
 msgstr "Live"
 
-#: views/backend/account.php:163
+#: views/backend/account.php:166
 msgid "for processing real financial transactions"
 msgstr "Produktivumgebung für echte Käufe und Zahlungen"
 
-#: views/backend/account.php:182
+#: views/backend/account.php:185
 msgid "Paste Live Merchant ID here"
 msgstr "Live Merchant ID hier einfügen"
 
-#: views/backend/account.php:202
+#: views/backend/account.php:205
 msgid "Paste Live API Key here"
 msgstr "Live API Key hier einfügen"
 
-#: views/backend/account.php:215
+#: views/backend/account.php:218
 msgid "Request Live API Credentials"
 msgstr "Live API Zugangsdaten anfordern"
 
-#: views/backend/account.php:225
+#: views/backend/account.php:228
 msgid "Region and Currency"
 msgstr "Ländergruppe und Währung"
 
-#: views/backend/account.php:227
+#: views/backend/account.php:230
 msgid "Select the region for your LaterPay merchant account"
 msgstr "Wählen Sie die Ländergruppe Ihres LaterPay Händlerkontos aus"
 
-#: views/backend/account.php:231
+#: views/backend/account.php:234
 msgid ""
 "Is the selling company or person based in Europe or in the United States?"
 msgstr ""
 
-#: views/backend/account.php:233
+#: views/backend/account.php:236
 msgid ""
 "If you select 'Europe', all prices will be displayed and charged in Euro "
 "(EUR), and the plugin will connect to the LaterPay Europe platform."
 msgstr ""
 
-#: views/backend/account.php:235
+#: views/backend/account.php:238
 msgid ""
 "If you select 'United States', all prices will be displayed and charged in U."
 "S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform."
 msgstr ""
 
-#: views/backend/account.php:244
+#: views/backend/account.php:247
 msgid "Europe (EUR)"
 msgstr "Europa (EUR)"
 
-#: views/backend/account.php:245
+#: views/backend/account.php:248
 msgid "United States (USD)"
 msgstr "USA (USD)"
 
-#: views/backend/account.php:252
+#: views/backend/account.php:255
 msgid "Important:"
 msgstr ""
 
-#: views/backend/account.php:254
+#: views/backend/account.php:257
 msgid " The minimum value for \"Pay Now\" prices in the U.S. region is"
 msgstr ""
 
-#: views/backend/account.php:256
+#: views/backend/account.php:259
 msgid "$1.99"
 msgstr ""
 
-#: views/backend/account.php:259
+#: views/backend/account.php:262
 msgid ""
 "If you have already set \"Pay Now\" prices lower than 1.99, make sure to "
 "change them before you switch to the U.S. region."
 msgstr ""
 
-#: views/backend/account.php:261
+#: views/backend/account.php:264
 msgid ""
 "If you haven't done any configuration yet, you can safely switch the region "
 "without further adjustments. "
 msgstr ""
 
-#: views/backend/account.php:269
+#: views/backend/account.php:272
 msgid "General FAQs"
 msgstr "Allgemeine FAQs"
 
-#: views/backend/account.php:272
+#: views/backend/account.php:275
 msgid "Having Trouble with Page Cache?"
 msgstr "Probleme mit dem Seiten-Cache?"
 
-#: views/backend/account.php:276
+#: views/backend/account.php:279
 msgid ""
 "You need to whitelist the following cookies from caching in order for page-"
 "cache to work properly with laterpay."
@@ -2015,18 +2039,18 @@ msgstr ""
 "Sie müssen die folgenden Cookies in Ihrem Cache auf die White-List setzen, "
 "damit das Seiten-Cache ordnungsgemäß mit LaterPay funktioniert."
 
-#: views/backend/account.php:282
+#: views/backend/account.php:285
 msgid ""
 "We have already taken care of this if you're on a WordPress VIP Environment."
 msgstr ""
 "Wir haben uns bereits darum gekümmert, wenn Sie in einer WordPress VIP-"
 "Umgebung sind."
 
-#: views/backend/account.php:291
+#: views/backend/account.php:294
 msgid "Having Trouble on WPEngine?"
 msgstr "Probleme mit WPEngine?"
 
-#: views/backend/account.php:295
+#: views/backend/account.php:298
 msgid ""
 "If you're facing the issue on WPEngine even after whitelisting requested "
 "cookies, please check if any of your active plugin/theme is using"
@@ -2035,25 +2059,80 @@ msgstr ""
 "Cookies auf der White-List auftritt, überprüfen Sie, ob eines Ihrer aktiven "
 "Plugins / Themes verwendet wird"
 
-#: views/backend/account.php:295
+#: views/backend/account.php:298
 msgid "session*"
 msgstr "Session*"
 
-#: views/backend/account.php:295
+#: views/backend/account.php:298
 msgid "functions."
 msgstr "Funktionen."
 
-#: views/backend/account.php:296
+#: views/backend/account.php:299
 msgid "Please Check"
 msgstr "Bitte klicken Sie"
 
-#: views/backend/account.php:296
+#: views/backend/account.php:299
 msgid "this"
 msgstr "hier"
 
-#: views/backend/account.php:296
+#: views/backend/account.php:299
 msgid "for more information regarding session usage on WPEngine."
 msgstr "für weitere Informationen zu Session-Verwendung in WPEngine."
+
+#: views/backend/account.php:317
+#, php-format
+msgid "%sWarning!%s This operation deletes ALL LaterPay plugin data."
+msgstr ""
+
+#: views/backend/account.php:323
+#, php-format
+msgid ""
+"%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL "
+"its data."
+msgstr ""
+"%sAchtung!%s Diese Operation deaktivieren das LaterPay Plugin und löscht "
+"alle Daten unwiderruflich."
+
+#: views/backend/account.php:330
+msgid ""
+"You will lose all appearance settings and pricing configurations. This "
+"cannot be undone."
+msgstr ""
+"Sie verlieren hierbei alle Layout- und Preiskonfigurationen. Diese Aktion "
+"kann nicht rückgängig gemacht werden."
+
+#: views/backend/account.php:335
+#, php-format
+msgid ""
+"%sClick here%s or email %ssupport@laterpay.net%s to provide feedback or to "
+"reach our customer service team."
+msgstr ""
+"%sKlicken Sie hier%s oder schreiben Sie eine Email an %support@laterpay.net"
+"%s, um Feedback zu geben oder mit unserem Kundensupport Kontakt aufzunehmen."
+
+#: views/backend/account.php:344
+msgid ""
+"Are you sure you want to delete ALL LaterPay Plugin data? You will loose all "
+"pricing configurations. This cannot be undone."
+msgstr ""
+
+#: views/backend/account.php:346
+msgid ""
+"Are you sure you want to deactivate LaterPay plugin and delete ALL its data? "
+"You will loose all pricing configurations. This cannot be undone."
+msgstr ""
+
+#: views/backend/account.php:348
+#, fuzzy
+#| msgid "LaterPay Plugin Settings"
+msgid "Delete LaterPay Plugin Data"
+msgstr "LaterPay-Plugin-Einstellungen"
+
+#: views/backend/account.php:348
+#, fuzzy
+#| msgid "The LaterPay plugin is in"
+msgid "Deactivate LaterPay Plugin"
+msgstr "Das LaterPay Plugin ist im"
 
 #: views/backend/appearance.php:33
 msgid "Content Preview for Paid Posts"

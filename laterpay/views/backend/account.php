@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
+<?php
+$is_vip = laterpay_check_is_vip();
+?>
 <div class="lp_page wp-core-ui">
 
     <div id="lp_js_flashMessage" class="lp_flash-message" style="display:none;">
@@ -300,6 +303,52 @@ if ( ! defined( 'ABSPATH' ) ) {
                 }
                 ?>
 
+            </fieldset>
+        </div>
+
+        <div class="lp_clearfix">
+            <fieldset class="lp_fieldset">
+                <legend class="lp_legend"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ) ); ?></legend>
+
+                <p>
+                    <?php
+                    if ( true === $is_vip ) {
+                        printf(
+                            esc_html__( '%sWarning!%s This operation deletes ALL LaterPay plugin data.', 'laterpay' ),
+                            "<b>",
+                            "</b>"
+                        );
+                    } else {
+                        printf(
+                            esc_html__( '%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL its data.', 'laterpay' ),
+                            "<b>",
+                            "</b>"
+                        );
+                    }
+                    ?>
+                    <br/>
+                    <?php esc_html_e( 'You will lose all appearance settings and pricing configurations. This cannot be undone.', 'laterpay' ); ?>
+                </p>
+
+                <p>
+                    <?php printf(
+                        esc_html__( '%sClick here%s or email %ssupport@laterpay.net%s to provide feedback or to reach our customer service team.', 'laterpay' ),
+                        "<a href='https://www.laterpay.net/contact-support' target='_blank'>",
+                        "</a>",
+                        "<a href='mailto:support@laterpay.net'>",
+                        "</a>"
+                    ); ?>
+                </p>
+                <div id="lp_plugin_disable_modal_id" style="display:none;">
+                    <?php if ( $is_vip ) { ?>
+                    <p><?php esc_html_e( 'Are you sure you want to delete ALL LaterPay Plugin data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
+                    <?php } else { ?>
+                        <p><?php esc_html_e( 'Are you sure you want to deactivate LaterPay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
+                    <?php } ?>
+                    <button class="lp_js_disablePluginConfirm button button-primary lp_mt- lp_mb-"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete LaterPay Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate LaterPay Plugin', 'laterpay' ) ); ?></button>
+                    <button type="button" class="button button-secondary lp_mt- lp_mb- lp_js_ga_cancel"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></button>
+                </div>
+                <button class="lp_js_disablePlugin button button-primary lp_mt- lp_mb-"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ) ); ?></button>
             </fieldset>
         </div>
 
