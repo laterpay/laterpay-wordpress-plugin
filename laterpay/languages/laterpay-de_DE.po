@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-01-18 18:06+0530\n"
-"PO-Revision-Date: 2019-01-18 18:07+0530\n"
+"POT-Creation-Date: 2019-01-21 17:13+0530\n"
+"PO-Revision-Date: 2019-01-21 17:29+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: application/Controller/Admin.php:313 views/backend/pricing.php:90
 msgid "Global Default Price"
-msgstr "Allgemeiner Standardpreis"
+msgstr "Globaler Standardpreis"
 
 #: application/Controller/Admin.php:314
 msgid ""
@@ -176,7 +176,7 @@ msgid ""
 "            </p>"
 msgstr ""
 
-#: application/Controller/Admin.php:326 views/backend/pricing.php:231
+#: application/Controller/Admin.php:326 views/backend/pricing.php:233
 msgid "Category Default Prices"
 msgstr "Kategoriespezifische Standardpreise"
 
@@ -220,7 +220,7 @@ msgid ""
 "            </p>"
 msgstr ""
 
-#: application/Controller/Admin.php:356 views/backend/pricing.php:470
+#: application/Controller/Admin.php:356 views/backend/pricing.php:474
 msgid "Time Passes"
 msgstr "Zeitpässe"
 
@@ -628,29 +628,21 @@ msgstr ""
 "Die Ländergruppe und Währung des LaterPay Plugins wurden erfolgreich "
 "geändert."
 
-#: application/Controller/Admin/Account.php:393
+#: application/Controller/Admin/Account.php:409
 #: application/Controller/Admin/Pricing.php:407
 #: application/Controller/Admin/Pricing.php:462
 msgid "An error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
 
 #: application/Controller/Admin/Account.php:434
-#: application/Controller/Admin/Account.php:436
-msgid "The plugin is in"
-msgstr ""
-
-#: application/Controller/Admin/Account.php:434
-msgid "visible"
-msgstr ""
-
-#: application/Controller/Admin/Account.php:434
-#: application/Controller/Admin/Account.php:436
-msgid "test mode now."
-msgstr ""
+#, php-format
+msgid "The plugin is in %svisible%s test mode now."
+msgstr "Das Plugin ist im %ssichtbaren%s Test-Modus."
 
 #: application/Controller/Admin/Account.php:436
-msgid "invisible"
-msgstr ""
+#, php-format
+msgid "The plugin is in %sinvisible%s test mode now."
+msgstr "Das Plugin ist im %sunsichtbaren%s Test-Modus."
 
 #: application/Controller/Admin/Account.php:469
 msgid ""
@@ -739,8 +731,8 @@ msgstr ""
 
 #: application/Controller/Admin/Post/Column.php:42
 #: views/backend/partials/subscription.php:62
-#: views/backend/partials/time-pass.php:70 views/backend/pricing.php:173
-#: views/backend/pricing.php:305 views/backend/pricing.php:421
+#: views/backend/partials/time-pass.php:70 views/backend/pricing.php:175
+#: views/backend/pricing.php:307 views/backend/pricing.php:425
 msgid "Price"
 msgstr "Preis"
 
@@ -752,21 +744,21 @@ msgstr "Preistyp"
 #: application/Controller/Admin/Post/Column.php:102
 #: views/backend/partials/post-pricing-form.php:88
 msgid "FREE"
-msgstr ""
+msgstr "KOSTENLOS"
 
 #: application/Controller/Admin/Post/Column.php:122
 #: application/Helper/Pricing.php:900
 #: views/backend/partials/post-pricing-form.php:140
-#: views/backend/pricing.php:199 views/backend/pricing.php:330
-#: views/backend/pricing.php:446 views/backend/pricing.php:605
+#: views/backend/pricing.php:201 views/backend/pricing.php:332
+#: views/backend/pricing.php:450 views/backend/pricing.php:609
 msgid "Pay Now"
 msgstr "Sofort zahlen"
 
 #: application/Controller/Admin/Post/Column.php:123
 #: application/Helper/Pricing.php:903 application/Module/Purchase.php:321
 #: views/backend/partials/post-pricing-form.php:127
-#: views/backend/pricing.php:194 views/backend/pricing.php:325
-#: views/backend/pricing.php:441 views/backend/pricing.php:600
+#: views/backend/pricing.php:196 views/backend/pricing.php:327
+#: views/backend/pricing.php:445 views/backend/pricing.php:604
 msgid "Pay Later"
 msgstr "Später zahlen"
 
@@ -853,7 +845,7 @@ msgstr "Preis des Beitrags"
 msgid ""
 "Visitors will see the teaser content %s instead of the full content %s "
 "before purchase."
-msgstr ""
+msgstr "Besucher werden den Teaser %s anstatt des gesamten Artikels sehen. %s"
 
 #: application/Controller/Admin/Post/Metabox.php:250
 msgid ""
@@ -871,7 +863,7 @@ msgstr ""
 "Wir empfehlen jedoch, für jeden Beitrag einen separaten Teaser zu erstellen, "
 "um die Attraktivität des Beitrags zu steigern."
 
-#: application/Controller/Admin/Pricing.php:51 views/backend/pricing.php:673
+#: application/Controller/Admin/Pricing.php:51 views/backend/pricing.php:677
 msgid "Subscriptions"
 msgstr "Abos"
 
@@ -933,14 +925,14 @@ msgstr ""
 "Abos haben. Neue Nutzer werden das Abo nicht mehr kaufen können. Möchten Sie "
 "dieses Abo wirklich löschen?"
 
-#: application/Controller/Admin/Pricing.php:109 views/backend/pricing.php:503
-#: views/backend/pricing.php:706
+#: application/Controller/Admin/Pricing.php:109 views/backend/pricing.php:507
+#: views/backend/pricing.php:710
 msgid "reduces the price to"
 msgstr "reduziert den Preis auf"
 
 #: application/Controller/Admin/Pricing.php:110
 #: views/backend/partials/post-pricing-form.php:123
-#: views/backend/pricing.php:193
+#: views/backend/pricing.php:195
 msgid ""
 "Pay Later allows users to gain access now by committing to pay once their "
 "invoice reaches $5 or 5€; it is available for posts with pricing between "
@@ -949,7 +941,7 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:111
 #: views/backend/partials/post-pricing-form.php:136
-#: views/backend/pricing.php:198
+#: views/backend/pricing.php:200
 msgid ""
 "Pay Now requires users pay for purchased content immediately; available for "
 "posts with pricing above $1.99 or 1.49€"
@@ -969,8 +961,8 @@ msgstr ""
 msgid "All posts in category"
 msgstr "aller Beiträge in Kategorie"
 
-#: application/Controller/Admin/Pricing.php:151 views/backend/pricing.php:623
-#: views/backend/pricing.php:810
+#: application/Controller/Admin/Pricing.php:151 views/backend/pricing.php:627
+#: views/backend/pricing.php:814
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -984,10 +976,10 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:426
 #: views/backend/partials/post-pricing-form.php:103
-#: views/backend/pricing.php:244
+#: views/backend/pricing.php:160 views/backend/pricing.php:246
 msgid ""
 "Only Time Passes & Subscriptions will be displayed in the purchase dialog."
-msgstr ""
+msgstr "Nur Zeitpässe und Abos werden im Kaufdialog angezeigt."
 
 #: application/Controller/Admin/Pricing.php:429
 #, php-format
@@ -1053,8 +1045,8 @@ msgstr "Ungültiger Gutschein-Preis."
 msgid "Passes"
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:965 views/backend/pricing.php:479
-#: views/backend/pricing.php:518
+#: application/Controller/Admin/Pricing.php:965 views/backend/pricing.php:483
+#: views/backend/pricing.php:522
 msgid "Pass"
 msgstr "Pass"
 
@@ -1419,12 +1411,12 @@ msgstr ""
 msgid "Yes, Disable Tracking"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:1078
+#: application/Controller/Admin/Settings.php:1078 views/backend/account.php:349
 #: views/backend/appearance.php:189 views/backend/pricing.php:80
-#: views/backend/pricing.php:221 views/backend/pricing.php:341
-#: views/backend/pricing.php:457 views/backend/pricing.php:489
-#: views/backend/pricing.php:651 views/backend/pricing.php:692
-#: views/backend/pricing.php:838
+#: views/backend/pricing.php:223 views/backend/pricing.php:343
+#: views/backend/pricing.php:461 views/backend/pricing.php:493
+#: views/backend/pricing.php:655 views/backend/pricing.php:696
+#: views/backend/pricing.php:842
 #: views/frontend/partials/widget/purchase-overlay.php:142
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -1633,7 +1625,7 @@ msgid "1 month access to all content on this website (cancellable anytime)"
 msgstr "1 Monat Zugriff auf alle Inhalte dieser Website (jederzeit kündbar)"
 
 #: application/Helper/Subscription.php:68 application/Helper/TimePass.php:174
-#: views/backend/pricing.php:561 views/backend/pricing.php:753
+#: views/backend/pricing.php:565 views/backend/pricing.php:757
 msgid "access to"
 msgstr "Zugriff auf"
 
@@ -1876,152 +1868,144 @@ msgid "visible to visitors."
 msgstr "sichtbar."
 
 #: views/backend/account.php:81
-#, fuzzy
 msgid "Who is LaterPay?"
-msgstr "Willkommen bei LaterPay"
+msgstr "Wer ist LaterPay?"
 
-#: views/backend/account.php:83
+#: views/backend/account.php:85
+#, php-format
 msgid ""
-"Meet the online payment system that cares about the user experience as much "
-"as you do"
+"%1$sMeet the online payment system that cares about the user experience as "
+"much as you do%2$s %3$s %3$s\n"
+"                        With LaterPay, your users can purchase digital "
+"content and services, or make contributions and donations, with a single "
+"click—a frictionless experience that turns traffic into transactions.%3$s "
+"%3$s\n"
+"                        Requiring upfront registration and payment results "
+"in customer abandon rates of up to 98%%. %3$s\n"
+"                        LaterPay's patented Pay Later revenue model instead "
+"defers the registration process until a customer’s purchases reach a $5 "
+"threshold. %3$s\n"
+"                        Only then, once your content’s value is firmly "
+"established, is the customer asked to register and pay. %3$s\n"
+"                        This results in shopping cart conversion rates of "
+"over 80%%. %3$s\n"
+"                        LaterPay’s frictionless customer onboarding helps "
+"you turn traffic into transactions."
 msgstr ""
+"%1$sLaterPay ist das nutzer-zentrische Bezahlsystem im Netz.%2$s\n"
+"%3$s %3$s\n"
+"Mit LaterPay können Ihre Nutzer digitale Inhalte und Dienste erwerben, oder "
+"Unterstützung und Spenden mit einem einfachen Klick ausführen. Eine "
+"reibungslose Benutzererfahrung, die Traffic in Transaktionen umwandelt.%3$s\n"
+"%3$s\n"
+"Erzwungene Vorab-Registrierung und unmittelbare Zahlung, wie in klassischen "
+"Modellen üblich, können Absprungraten von bis zu 98%% bedeuten.%3$s\n"
+"LaterPay’s patentiertes “Pay Later” Modell verschiebt den Registrierungs- "
+"und Zahlungsprozess, Kunden werden erst nach dem Überschreiten der 5,00€-"
+"Grenze zur Kasse und Registrierung gebeten.%3$s\n"
+"Erst wenn Kunden von der Qualität Ihrer Inhalte überzeugt sind, führen wir "
+"diese zur Registrierung und Zahlung.%3$s\n"
+"Das resultiert in einer Warenkorb-Konversionsrate von über 80%%. %3$s\n"
+"LaterPay’s reibungsloses Onboarding hilft Ihnen dabei, Umsätze aus Ihrem "
+"Traffic zu machen."
 
-#: views/backend/account.php:86
-msgid ""
-"With LaterPay, your users can purchase digital content and services, or make "
-"contributions and\n"
-"                    donations, with a single click—a frictionless experience "
-"that turns traffic into transactions."
-msgstr ""
-
-#: views/backend/account.php:90
-msgid ""
-"Requiring upfront registration and payment results in customer abandon rates "
-"of up to 98%."
-msgstr ""
-
-#: views/backend/account.php:92
-msgid ""
-"LaterPay's patented Pay Later revenue model instead defers the registration "
-"process until a customer’s purchases reach a $5 threshold."
-msgstr ""
-
-#: views/backend/account.php:94
-msgid ""
-"Only then, once your content’s value is firmly established, is the customer "
-"asked to register and pay."
-msgstr ""
-
-#: views/backend/account.php:96
-msgid "This results in shopping cart conversion rates of over 80%."
-msgstr ""
-
-#: views/backend/account.php:98
-msgid ""
-"LaterPay’s frictionless customer onboarding helps you turn traffic into "
-"transactions."
-msgstr ""
-
-#: views/backend/account.php:107
+#: views/backend/account.php:105
 msgid "Sandbox Environment"
 msgstr "Sandbox"
 
-#: views/backend/account.php:110
+#: views/backend/account.php:108
 msgid "for testing with simulated payments"
 msgstr "zu Testzwecken mit simulierten Zahlungen"
 
-#: views/backend/account.php:129
+#: views/backend/account.php:127
 msgid "Paste Sandbox Merchant ID here"
 msgstr "Sandbox Merchant ID hier einfügen"
 
-#: views/backend/account.php:130 views/backend/account.php:186
+#: views/backend/account.php:128 views/backend/account.php:184
 msgid "Merchant ID"
-msgstr "Merchant ID"
+msgstr "Händler ID (Merchant ID)"
 
-#: views/backend/account.php:149
+#: views/backend/account.php:147
 msgid "Paste Sandbox API Key here"
 msgstr "Sandbox API Key hier einfügen"
 
-#: views/backend/account.php:150 views/backend/account.php:206
+#: views/backend/account.php:148 views/backend/account.php:204
 msgid "API Key"
-msgstr "API Key"
+msgstr "API Key (Secret)"
 
-#: views/backend/account.php:163
+#: views/backend/account.php:161
 msgid "Live Environment"
 msgstr "Live"
 
-#: views/backend/account.php:166
+#: views/backend/account.php:164
 msgid "for processing real financial transactions"
 msgstr "Produktivumgebung für echte Käufe und Zahlungen"
 
-#: views/backend/account.php:185
+#: views/backend/account.php:183
 msgid "Paste Live Merchant ID here"
 msgstr "Live Merchant ID hier einfügen"
 
-#: views/backend/account.php:205
+#: views/backend/account.php:203
 msgid "Paste Live API Key here"
 msgstr "Live API Key hier einfügen"
 
-#: views/backend/account.php:218
+#: views/backend/account.php:216
 msgid "Request Live API Credentials"
 msgstr "Live API Zugangsdaten anfordern"
 
-#: views/backend/account.php:228
+#: views/backend/account.php:226
 msgid "Region and Currency"
 msgstr "Ländergruppe und Währung"
 
-#: views/backend/account.php:230
+#: views/backend/account.php:228
 msgid "Select the region for your LaterPay merchant account"
 msgstr "Wählen Sie die Ländergruppe Ihres LaterPay Händlerkontos aus"
 
 #: views/backend/account.php:234
+#, php-format
 msgid ""
-"Is the selling company or person based in Europe or in the United States?"
+"Is the selling company or person based in Europe or in the United States? "
+"%1$s\n"
+"                            If you select 'Europe', all prices will be "
+"displayed and charged in Euro (EUR), and the plugin will connect to the "
+"LaterPay Europe platform. %1$s\n"
+"                            If you select 'United States', all prices will "
+"be displayed and charged in U.S. Dollar (USD), and the plugin will connect "
+"to the LaterPay U.S. platform."
 msgstr ""
+"Ist die verkaufende Firma oder Person in Europa, oder den Vereinigten "
+"Staaten ansässig?%1$s\n"
+"Wählen Sie “”Europa”” werden alle Preise in Euro (EUR) dargestellt und "
+"berechnet.%1$s\n"
+"Währen Sie “”Vereinigte Staaten””, werden alle Preise in U.S. Dollar (USD) "
+"dargestellt und berechnet.\n"
+"Das Plugin verbindet sich mit der regional entsprechenden Plattform."
 
-#: views/backend/account.php:236
-msgid ""
-"If you select 'Europe', all prices will be displayed and charged in Euro "
-"(EUR), and the plugin will connect to the LaterPay Europe platform."
-msgstr ""
-
-#: views/backend/account.php:238
-msgid ""
-"If you select 'United States', all prices will be displayed and charged in U."
-"S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform."
-msgstr ""
-
-#: views/backend/account.php:247
+#: views/backend/account.php:248
 msgid "Europe (EUR)"
 msgstr "Europa (EUR)"
 
-#: views/backend/account.php:248
+#: views/backend/account.php:249
 msgid "United States (USD)"
 msgstr "USA (USD)"
 
-#: views/backend/account.php:255
-msgid "Important:"
-msgstr ""
-
 #: views/backend/account.php:257
-msgid " The minimum value for \"Pay Now\" prices in the U.S. region is"
-msgstr ""
-
-#: views/backend/account.php:259
-msgid "$1.99"
-msgstr ""
-
-#: views/backend/account.php:262
+#, php-format
 msgid ""
-"If you have already set \"Pay Now\" prices lower than 1.99, make sure to "
-"change them before you switch to the U.S. region."
+"%1$sImportant:%2$s The minimum value for \"Pay Now\" prices in the U.S. "
+"region is %1$s$1.99%1$s %3$s\n"
+"                            If you have already set \"Pay Now\" prices lower "
+"than 1.99, make sure to change them before you switch to the U.S. region. "
+"%3$s\n"
+"                            If you haven't done any configuration yet, you "
+"can safely switch the region without further adjustments."
 msgstr ""
-
-#: views/backend/account.php:264
-msgid ""
-"If you haven't done any configuration yet, you can safely switch the region "
-"without further adjustments. "
-msgstr ""
+"%1$sWichtig:%2$s Der Mindestwert für “Pay Now” (Sofort Zahlen) Preise "
+"beträgt %1$s$1.99%2$s in der US-Region.%3$s\n"
+"Wenn Sie bereits Preise unter dieser Schwelle festgelegt haben, ändern Sie "
+"diese bitte vor der Regionsumstellung.%3$s\n"
+"Falls Sie noch keine Preise definiert haben, können Sie diese Einstellung "
+"(Region) bedenkenlos ändern."
 
 #: views/backend/account.php:272
 msgid "General FAQs"
@@ -2211,10 +2195,10 @@ msgid "Preview"
 msgstr "Vorschau"
 
 #: views/backend/appearance.php:188 views/backend/pricing.php:79
-#: views/backend/pricing.php:220 views/backend/pricing.php:340
-#: views/backend/pricing.php:456 views/backend/pricing.php:488
-#: views/backend/pricing.php:650 views/backend/pricing.php:691
-#: views/backend/pricing.php:837
+#: views/backend/pricing.php:222 views/backend/pricing.php:342
+#: views/backend/pricing.php:460 views/backend/pricing.php:492
+#: views/backend/pricing.php:654 views/backend/pricing.php:695
+#: views/backend/pricing.php:841
 msgid "Save"
 msgstr "Speichern"
 
@@ -2243,9 +2227,8 @@ msgstr ""
 "LaterPay Button an einer Position Ihrer Wahl anzuzeigen."
 
 #: views/backend/appearance.php:237
-#, fuzzy
 msgid "Display of LaterPay Subscriptions & Time Passes"
-msgstr "Position der LaterPay Zeitpässe"
+msgstr "Anzeige LaterPay Abos und Zeitpässe"
 
 #: views/backend/appearance.php:265
 msgid ""
@@ -2328,21 +2311,22 @@ msgid ""
 "displayed if an Individual Article Price greater than 0.00 is manually set "
 "by selecting “Individual Price” below."
 msgstr ""
+"Alle Artikel sind standardmäßig kostenlos; Zeitpässe und Abos werden nur "
+"angezeigt, wenn ein Einzelpreis größer 0.00 manuell über “Individueller "
+"Preis” eingestellt wurde."
 
 #: views/backend/partials/post-pricing-form.php:98
-#: views/backend/pricing.php:156
+#: views/backend/pricing.php:158
 msgid "Posts cannot be purchased individually"
-msgstr ""
+msgstr "Beiträge können nicht einzeln gekauft werden"
 
 #: views/backend/partials/post-pricing-form.php:104
 msgid "If you would like to allow articles to be purchased individually,"
-msgstr ""
+msgstr "Wenn Sie Artikel auch einzeln verkaufen möchten,"
 
 #: views/backend/partials/post-pricing-form.php:106
-#, fuzzy
-#| msgid "Edit Global Default Price"
 msgid "click here to adjust your Global Default Price."
-msgstr "Allgemeinen Standardpreis bearbeiten"
+msgstr "klicken Sie hier um Ihren globalen Standardpreis anzupassen."
 
 #: views/backend/partials/post-pricing-form.php:149
 msgid "0.00"
@@ -2402,7 +2386,7 @@ msgstr "Diesen Artikel"
 
 #: views/backend/partials/purchase-overlay.php:26
 msgid "An Amazing Article"
-msgstr ""
+msgstr "Ein herausragender Artikel"
 
 #: views/backend/partials/purchase-overlay.php:41
 msgid "Week Pass"
@@ -2495,14 +2479,12 @@ msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
 #: views/backend/pricing.php:44
-#, fuzzy
-#| msgid "Teaser Content"
 msgid "LaterPay Content"
-msgstr "Teaser für den Beitrag"
+msgstr "LaterPay Inhalt"
 
 #: views/backend/pricing.php:46
 msgid "Which content would you like to sell with LaterPay?"
-msgstr ""
+msgstr "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
 
 #: views/backend/pricing.php:101
 msgid "Every post costs"
@@ -2517,191 +2499,200 @@ msgid "only Time Passes & Subscriptions will be displayed."
 msgstr ""
 
 #: views/backend/pricing.php:124
-msgid "Every post is FREE"
+#, php-format
+msgid ""
+"%1$sEvery post is FREE%2$s unless they match a Category Default Price %3$s\n"
+"                                or have an Individual Article Price set on "
+"the Post page."
 msgstr ""
+"%1$sJeder Beitrag ist KOSTENLOS%2$s, es sei denn ein Kategoriestandardpreis "
+"trifft zu, %3$s\n"
+"oder ein individueller Artikelpreis wurde im Beitragseditor vergeben."
 
-#: views/backend/pricing.php:125
-msgid "unless they match a Category Default Price"
-msgstr ""
-
-#: views/backend/pricing.php:126
-msgid "or have an Individual Article Price set on the Post page."
-msgstr ""
-
-#: views/backend/pricing.php:141
+#: views/backend/pricing.php:143
 msgid "Edit Global Default Price"
 msgstr "Allgemeinen Standardpreis bearbeiten"
 
-#: views/backend/pricing.php:148
+#: views/backend/pricing.php:150
 msgid "FREE unless price is set on post page or by category"
 msgstr ""
+"KOSTENLOS, es sei denn der Preis wurde im Beitragseditor oder per Kategorie "
+"vergeben"
 
-#: views/backend/pricing.php:164
-msgid "Set individual article default price"
+#: views/backend/pricing.php:152
+msgid ""
+"All articles will be free by default; Time Passes & Subscriptions will only "
+"be displayed if the article matches a Category Default Price or has an "
+"Individual Article Price set on the Post page."
 msgstr ""
+"Alle Artikel werden standardmäßig kostenlos angeboten; Zeitpässe und Abos "
+"werden nur angezeigt, wenn der Artikel einem Kategoriestandardpreis "
+"zugewiesen wurde, oder einen individuellen Artikelpreis erhielt."
 
-#: views/backend/pricing.php:187 views/backend/pricing.php:318
-#: views/backend/pricing.php:434
+#: views/backend/pricing.php:166
+msgid "Set individual article default price"
+msgstr "Individuellen Artikel-Standardpreis definieren"
+
+#: views/backend/pricing.php:189 views/backend/pricing.php:320
+#: views/backend/pricing.php:438
 msgid "Revenue Model"
 msgstr "Erlösmodell"
 
-#: views/backend/pricing.php:208
-msgid "TIP:"
-msgstr ""
-
 #: views/backend/pricing.php:209
+#, php-format
 msgid ""
-" \"Pay Later\" is LaterPay's patented revenue model which allows your "
-"customers to purchase content with a single click, dramatically reducing "
-"their barriers to entry. Once they have purchased $5 or 5€ worth of content, "
-"they will be asked to settle their invoice."
+"%sTIP:%s \"Pay Later\" is LaterPay's patented revenue model which allows "
+"your customers to purchase content with a single click, dramatically "
+"reducing their barriers to entry. Once they have purchased $5 or 5€ worth of "
+"content, they will be asked to settle their invoice. %sClick here to learn "
+"more.%s"
 msgstr ""
+"%sEmpfehlung:%s “Später zahlen” ist LaterPay’s patentiertes Erlösmodell, "
+"welches Ihren Kunden erlaubt Inhalte mit einem einzelnen Klick zu erwerben, "
+"was die Einstiegsbarriere erheblich senkt. Sobald Kunden die Schwelle von $5 "
+"oder 5€ an Inhalten erreicht haben, werden sie zur Registrierung und Zahlung "
+"aufgefordert. %sKlicken Sie hier, um mehr zu erfahren.%s"
 
-#: views/backend/pricing.php:211
-msgid " Click here to learn more."
-msgstr ""
-
-#: views/backend/pricing.php:232 views/backend/pricing.php:245
+#: views/backend/pricing.php:234 views/backend/pricing.php:247
 msgid ""
 "To allow articles to be purchased individually, adjust your Global Default "
 "Price."
 msgstr ""
 
-#: views/backend/pricing.php:234 views/backend/pricing.php:472
-#: views/backend/pricing.php:675
+#: views/backend/pricing.php:236 views/backend/pricing.php:476
+#: views/backend/pricing.php:679
 msgid "Create"
 msgstr "Erstellen"
 
-#: views/backend/pricing.php:265 views/backend/pricing.php:384
+#: views/backend/pricing.php:267 views/backend/pricing.php:388
 msgid "Every post in"
 msgstr "Jeder Beitrag in"
 
-#: views/backend/pricing.php:269 views/backend/pricing.php:387
+#: views/backend/pricing.php:271 views/backend/pricing.php:391
 msgid "costs"
 msgstr "kostet"
 
-#: views/backend/pricing.php:290
+#: views/backend/pricing.php:292
 msgid "Edit Category Default Price"
 msgstr "Kategoriespezifischen Standardpreis bearbeiten"
 
-#: views/backend/pricing.php:297 views/backend/pricing.php:413
+#: views/backend/pricing.php:299 views/backend/pricing.php:417
 msgid "Category"
 msgstr "Kategorie"
 
-#: views/backend/pricing.php:352
+#: views/backend/pricing.php:354
 msgid "Set prices by category"
 msgstr "Kategoriespezifische Standardpreise setzen"
 
-#: views/backend/pricing.php:358
-msgid "Not familiar with WordPress categories?"
+#: views/backend/pricing.php:359
+#, php-format
+msgid ""
+"Not familiar with WordPress categories? %s\n"
+"                                %sClick here to learn more.%s"
 msgstr ""
+"Nicht mit WordPress-Kategorien vertraut?%s\n"
+"%sKlicken Sie hier, um mehr zu erfahren.%s"
 
-#: views/backend/pricing.php:360
-msgid "Click here to learn more."
-msgstr ""
-
-#: views/backend/pricing.php:367
+#: views/backend/pricing.php:370
+#, php-format
 msgid ""
 "Category default prices are convenient for selling different categories of "
-"content at different standard prices."
+"content at different standard prices. %s\n"
+"                                Individual prices can be set when editing a "
+"post."
 msgstr ""
+"Kategoriestandardpreise sind praktisch, um viele Inhalte in mehreren "
+"Kategorien zu verschiedenen Standardpreisen zu verkaufen. %s\n"
+"Einzelne Preise können auf Beitragsebene nach Wunsch überschrieben werden."
 
-#: views/backend/pricing.php:367
-msgid "Individual prices can be set when editing a post."
-msgstr ""
-
-#: views/backend/pricing.php:371
+#: views/backend/pricing.php:375
 msgid "Click the \"Create\" button to set a default price for a category."
 msgstr ""
 "Klicken Sie auf den \"Erstellen\" Button, um einen Standardpreis für eine "
 "Kategorie zu setzen."
 
-#: views/backend/pricing.php:406
+#: views/backend/pricing.php:410
 msgid "Add a Category Default Price"
 msgstr "Kategoriespezifischen Standardpreis hinzufügen"
 
-#: views/backend/pricing.php:536
+#: views/backend/pricing.php:540
 msgid "The pass is valid for "
 msgstr "Dieser Pass gilt für "
 
-#: views/backend/pricing.php:556
+#: views/backend/pricing.php:560
 msgid "and grants"
 msgstr "und gibt"
 
-#: views/backend/pricing.php:583
+#: views/backend/pricing.php:587
 msgid "This pass costs"
 msgstr "Dieser Pass kostet"
 
-#: views/backend/pricing.php:591
+#: views/backend/pricing.php:595
 msgid "and the user has to"
 msgstr "und Nutzer müssen"
 
-#: views/backend/pricing.php:612 views/backend/pricing.php:799
+#: views/backend/pricing.php:616 views/backend/pricing.php:803
 msgid "Title"
 msgstr "Titel"
 
-#: views/backend/pricing.php:639 views/backend/pricing.php:826
+#: views/backend/pricing.php:643 views/backend/pricing.php:830
 msgid "The voucher price must be less than or equal to the "
 msgstr ""
 
-#: views/backend/pricing.php:639
+#: views/backend/pricing.php:643
 msgid "time pass price."
 msgstr ""
 
-#: views/backend/pricing.php:643 views/backend/pricing.php:830
+#: views/backend/pricing.php:647 views/backend/pricing.php:834
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
-#: views/backend/pricing.php:661
-#, fuzzy
-#| msgid "Unlimited Access to Paid Content"
+#: views/backend/pricing.php:665
 msgid "Sell time-limited access to content"
-msgstr "Unbegrenzter Zugriff auf Bezahlinhalte"
+msgstr "Zeitbasierten Zugriff auf Inhalte verkaufen"
 
-#: views/backend/pricing.php:664
-#, fuzzy
-#| msgid ""
-#| "With Time Passes you can sell time-limited access to a category or your "
-#| "entire site. Time Passes do not renew automatically."
+#: views/backend/pricing.php:668
 msgid ""
 "With Time Passes you can sell time-limited access to a category or your "
 "entire site. Time Passes do not renew automatically and are a great option "
 "for readers who are not quite ready to commit to a subscription."
 msgstr ""
-"Mit Zeitpässen können Sie einen zeitlich begrenzten Zugang zu Kategorien "
-"oder der gesamten Seite verkaufen. Zeitpässe verlängern sich nicht "
-"automatisch."
+"Zeitbasierten Zugriff auf Inhalte verkaufen\n"
+"Mit Zeitpässen können Sie zeitbasierten Zugriff auf gesamte Kategorien Ihrer "
+"Website verkaufen. Zeitpässe verlängern sich nicht automatisch und sind eine "
+"großartige Option für Leser, die noch nicht bereit sind ein Abo "
+"abzuschließen."
 
-#: views/backend/pricing.php:667
+#: views/backend/pricing.php:671
 msgid "Click the \"Create\" button to add a Time Pass."
 msgstr ""
 "Klicken Sie auf den \"Erstellen\" Button, um einen Zeitpass hinzuzufügen."
 
-#: views/backend/pricing.php:682 views/backend/pricing.php:721
+#: views/backend/pricing.php:686 views/backend/pricing.php:725
 msgid "Sub"
 msgstr "Abo"
 
-#: views/backend/pricing.php:739
+#: views/backend/pricing.php:743
 msgid "The subscription costs"
 msgstr "Das Abo kostet"
 
-#: views/backend/pricing.php:748
+#: views/backend/pricing.php:752
 msgid ", grants "
 msgstr ", gibt"
 
-#: views/backend/pricing.php:776
+#: views/backend/pricing.php:780
 msgid "and renews every"
 msgstr "und verlängert sich nach"
 
-#: views/backend/pricing.php:826
+#: views/backend/pricing.php:830
 msgid "subscription price."
 msgstr ""
 
-#: views/backend/pricing.php:848
+#: views/backend/pricing.php:852
 msgid "Sell subscriptions"
 msgstr "Abos verkaufen"
 
-#: views/backend/pricing.php:851
+#: views/backend/pricing.php:855
 msgid ""
 "Subscriptions work exactly like time passes, with a simple difference: They "
 "renew automatically."
@@ -2709,7 +2700,7 @@ msgstr ""
 "Abos funktionieren genau wie Zeitpässe, mit einem einfachen Unterschied: Sie "
 "verlängern sich automatisch."
 
-#: views/backend/pricing.php:854
+#: views/backend/pricing.php:858
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr "Klicken Sie auf den \"Erstellen\" Button, um ein Abo hinzuzufügen."
 
@@ -2895,50 +2886,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
 #~ msgid "Earn money in <i>live mode</i>"
 #~ msgstr "Verdienen Sie Geld im <i>Live-Modus</i>"
-
-#~ msgid ""
-#~ "Is the selling company or person based in Europe or in the United States?"
-#~ "<br>\n"
-#~ "                        If you select 'Europe', all prices will be "
-#~ "displayed and charged in Euro (EUR), and the plugin will connect to the "
-#~ "LaterPay Europe platform.<br>\n"
-#~ "                        If you select 'United States', all prices will be "
-#~ "displayed and charged in U.S. Dollar (USD), and the plugin will connect "
-#~ "to the LaterPay U.S. platform. \n"
-#~ "                        "
-#~ msgstr ""
-#~ "Hat das verkaufende Unternehmen seinen Sitz in Europa oder in den USA?"
-#~ "<br>\n"
-#~ "Wenn Sie \"Europa\" auswählen, werden alle Preise in Euro (EUR) angezeigt "
-#~ "und das Plugin verwendet die LaterPay-Europa-Plattform.\n"
-#~ "Wenn Sie \"USA\" auswählen, werden alle Preise in Dollar (USD) angezeigt "
-#~ "und das Plugin verwendet die LaterPay-USA-Plattform."
-
-#~ msgid ""
-#~ "<b>Important:</b> The minimum value for \"Pay Now\" prices in the U.S. "
-#~ "region is <b>$1.99</b>.<br>\n"
-#~ "                        If you have already set \"Pay Now\" prices lower "
-#~ "than 1.99, make sure to change them before you switch to the U.S. region."
-#~ "<br>\n"
-#~ "                        If you haven't done any configuration yet, you "
-#~ "can safely switch the region without further adjustments. \n"
-#~ "                        "
-#~ msgstr ""
-#~ "<b>Wichtig:</b> Der Mindestpreis für \"Sofort Zahlen\"-Käufe für die USA "
-#~ "beträgt <b>$1,99</b>.<br>\n"
-#~ "Wenn Sie bereits \"Sofort Zahlen\"-Preise kleiner als 1,99 gesetzt haben, "
-#~ "ändern Sie diese bitte, bevor Sie zur Region USA wechseln.<br>\n"
-#~ "Wenn Sie noch keine Konfiguration vorgenommen haben, können Sie ohne "
-#~ "weitere Schritte die Region wechseln."
-
-#~ msgid ""
-#~ "Category default prices are convenient for selling different categories "
-#~ "of content at different standard prices.<br>Individual prices can be set "
-#~ "when editing a post."
-#~ msgstr ""
-#~ "Mit kategoriespezifischen Standardpreisen können Sie einen Preis für alle "
-#~ "Artikel einer Kategorie vergeben. Individuelle Preise können Sie "
-#~ "vergeben, wenn Sie einen Beitrag bearbeiten oder erstellen."
 
 #~ msgid "Forward users to this URL after they have redeemed a gift card:"
 #~ msgstr ""
@@ -3218,16 +3165,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
 #~ msgid "Thank you very much for rating!"
 #~ msgstr "Vielen Dank für Ihre Bewertung!"
-
-#~ msgid "The plugin is in <strong>visible</strong> test mode now."
-#~ msgstr ""
-#~ "Das Plugin ist jetzt im Test-Modus und für Besucher <strong>sichtbar</"
-#~ "strong>."
-
-#~ msgid "The plugin is in <strong>invisible</strong> test mode now."
-#~ msgstr ""
-#~ "Das Plugin ist jetzt im Test-Modus und für Besucher <strong>nicht "
-#~ "sichtbar</strong>."
 
 #~ msgid "Visitors can now rate the posts they have purchased."
 #~ msgstr "Besucher können nun gekaufte Beiträge bewerten."
