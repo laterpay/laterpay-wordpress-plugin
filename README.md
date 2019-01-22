@@ -16,10 +16,21 @@ The plugin is available on http://wordpress.org/plugins/laterpay
 ## Contributing
 
 1. Fork it ( https://github.com/laterpay/laterpay-wordpress-plugin/fork )
-2. Create your feature branch (`git checkout -b feature/my_new_feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin feature/my_new_feature`)
-5. Create a new Pull Request to develop.
+2. Run `composer install` to install all the dependencies.
+3. Create your feature branch (`git checkout -b feature/my_new_feature`)
+4. Add your changes, verify coding standards and language compatibility ( [Check #development-notes](#development-notes) )
+5. Run `gulp build` for `js` and / or `css` changes. Please check [gulpfile](gulpfile.js) for more tasks.
+6. Commit your changes (`git commit -am 'Added some feature'`)
+7. Push to the branch (`git push origin feature/my_new_feature`)
+8. Create a new Pull Request to develop.
+
+## Development Notes
+
+##### Please run following commands from the root directory.
+
+1. Please verfiy your code is in compliance to the Coding Standards used in this Project.
+2. Run `composer phpcs filename` or `composer phpcs laterpay` to check for PHPCS errors/warnings.
+3. Run `composer phpcompat` to check if the code is compatible for PHP 5.6 and above
 
 This project uses Gulp to build its assets.
 Gulp is a node.js module. If you have node.js running, you can install gulp with ```sudo npm install -g gulp```.
