@@ -222,18 +222,15 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function get_caching_section_description() {
         echo '<p>';
-        esc_html_e( 'You MUST enable caching compatiblity mode, if you are using a caching solution
-           that caches entire HTML pages.', 'laterpay' );
-        echo  '<br/>';
-        esc_html_e( 'In caching compatibility mode the plugin works
-           like this:', 'laterpay' );
-        echo  '<br/>';
-        esc_html_e( 'It renders paid posts only with the teaser content. This allows to cache
-           them as static files without risking to leak the paid content.', 'laterpay' );
-        echo  '<br/>';
-        esc_html_e( 'When someone visits
+        printf(
+            esc_html__( 'You MUST enable caching compatiblity mode, if you are using a caching solution
+           that caches entire HTML pages. %1$s In caching compatibility mode the plugin works
+           like this: %1$s It renders paid posts only with the teaser content. This allows to cache
+           them as static files without risking to leak the paid content. %1$s When someone visits
            the page, it makes an Ajax request to determine, if the visitor has already bought the post
-           and replaces the teaser with the full content, if required.', 'laterpay' );
+           and replaces the teaser with the full content, if required.', 'laterpay' ),
+            '<br/>'
+        );
         echo '</p>';
     }
 
@@ -391,14 +388,13 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function get_teaser_content_section_description() {
         echo '<p>';
-        esc_html_e( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
-            without teaser content.', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'While technically possible, setting this parameter to zero is
-            HIGHLY DISCOURAGED.', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'If you really, really want to have NO teaser content for a post,
-            enter one space into the teaser content editor for that post.', 'laterpay' );
+        printf(
+            esc_html__( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
+            without teaser content. %1$s While technically possible, setting this parameter to zero is
+            HIGHLY DISCOURAGED. %1$s If you really, really want to have NO teaser content for a post,
+            enter one space into the teaser content editor for that post.', 'laterpay' ),
+            '<br/>'
+        );
         echo '</p>';
     }
 
@@ -469,12 +465,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function get_preview_excerpt_section_description() {
         echo '<p>';
-        esc_html_e( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
-            an excerpt of the full content, covered by a semi-transparent overlay.', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'The following three parameters give you fine-grained control over the length of this excerpt.', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'These settings do not affect the teaser content in any way.', 'laterpay' );
+        printf(
+            esc_html__( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
+            an excerpt of the full content, covered by a semi-transparent overlay. %1$s The following three parameters give you fine-grained control over the length of this excerpt. %1$s These settings do not affect the teaser content in any way.', 'laterpay' ),
+            '<br/>'
+        );
         echo '</p>';
     }
 
@@ -496,8 +491,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
 
         $categories    = array(
-            'none' => 'none',
-            'all'  => 'all',
+            'none' => esc_html__( 'none', 'laterpay' ),
+            'all'  => esc_html__( 'all', 'laterpay' ),
         );
 
         $args          = array(
@@ -552,11 +547,12 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function get_unlimited_access_section_description() {
         echo '<p>';
-        esc_html_e( 'You can give logged-in users unlimited access to specific categories depending on their user role.', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'This feature can be useful e.g. for giving free access to existing subscribers.', 'laterpay' );
-        echo '<br/>';
-        esc_html_e( 'We recommend the plugin \'User Role Editor\' for adding custom roles to WordPress.', 'laterpay' );
+        printf(
+            esc_html__( 'You can give logged-in users unlimited access to specific categories depending on their user role. %1$s
+            This feature can be useful e.g. for giving free access to existing subscribers. %1$s
+            We recommend the plugin \'User Role Editor\' for adding custom roles to WordPress.', 'laterpay' ),
+            '<br/>'
+        );
         echo '</p>';
 
         if ( $this->has_custom_roles ) {
@@ -1103,14 +1099,13 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function get_ga_tracking_section_description() {
         echo '<p>';
-        printf( '%1$s <br/> %2$s <a href="%3$s" target="_blank">%4$s</a> %5$s',
-            esc_html__( 'LaterPay is not in the business of selling data. This tracking information is for your benefit
-            so that you can determine the effectiveness of ','laterpay' ),
-            esc_html__( 'your pricing strategy. To view your analytics, log in to your LaterPay account at', 'laterpay'),
-            esc_url( 'https://www.laterpay.net/' ),
-            'laterpay.net',
-            esc_html__( 'to view your Merchant Analytics dashboard.', 'laterpay' )
-        );
+        printf(
+            esc_html__( 'LaterPay is not in the business of selling data. This tracking information is for your benefit so that you can determine the effectiveness of your pricing strategy. %s
+            To view your analytics, log in to your LaterPay account at %slaterpay.net%s to view your Merchant Analytics dashboard.', 'laterpay' ),
+            "<br/>",
+            "<a href='https://www.laterpay.net/' target='_blank'/>",
+            "</a>"
+            );
         echo '</p>';
 
         echo '<table class="form-table"><tr><th></th> <td>';
