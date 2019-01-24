@@ -160,7 +160,7 @@
                 var editPost, editor, categories;
 
                 // Bail out early if gutenberg is not enabled.
-                if ( ! wp.data ) {
+                if ( ! lpVars.is_block_editor ) {
                     return;
                 }
 
@@ -423,7 +423,7 @@
                     categoriesList      = [],
                     i, categoryId;
 
-                if ( ! wp.data ) {
+                if ( ! lpVars.is_block_editor ) {
                     categoryIds = [];
 
                     for (i = 0; i < l; i++) {
@@ -662,7 +662,7 @@
                 var categoryLabel = [];
 
                 // Check editor type to get selected categories in post.
-                if ( ! wp.data ) {
+                if ( ! lpVars.is_block_editor ) {
                     var selectedCategories = $('#categorychecklist :checkbox:checked');
 
                     // Loop through selected categories and store in an array.

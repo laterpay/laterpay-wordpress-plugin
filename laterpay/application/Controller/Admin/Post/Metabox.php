@@ -150,6 +150,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'gaData'                    => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
+                'is_block_editor'           => self::lp_check_is_block_editor(),
             )
         );
         wp_localize_script(
@@ -665,5 +666,24 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             )
         );
         return;
+    }
+
+    /**
+     * Verify editor type for editor specific functionality.
+     */
+    private static function lp_check_is_block_editor() {
+
+        // Check if Guteberg plugin available.
+        if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+            return true;
+        }
+
+        $current_screen = get_current_screen();
+
+        if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+            return true;
+        }
+
+        return false;
     }
 }
