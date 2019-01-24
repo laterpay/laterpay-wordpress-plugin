@@ -1859,11 +1859,7 @@ msgid "Global Default Pricing is not available to Posts which have a Category De
 msgstr ""
 
 #: laterpay/views/backend/partials/post-pricing-form.php:180
-msgid "Global"
-msgstr ""
-
-#: laterpay/views/backend/partials/post-pricing-form.php:180
-msgid "Default Price"
+msgid "Global %sDefault Price"
 msgstr ""
 
 #: laterpay/views/backend/partials/post-pricing-form.php:218
@@ -2002,35 +1998,35 @@ msgstr ""
 msgid "Paid posts require some teaser content. Please fill in the Teaser Content field."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Post/Metabox.php:160
+#: laterpay/application/Controller/Admin/Post/Metabox.php:161
 msgid "default price"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Post/Metabox.php:161
+#: laterpay/application/Controller/Admin/Post/Metabox.php:162
 msgid "days"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Post/Metabox.php:162
+#: laterpay/application/Controller/Admin/Post/Metabox.php:163
 msgid "Today"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Post/Metabox.php:182
+#: laterpay/application/Controller/Admin/Post/Metabox.php:183
 msgid "LaterPay Teaser Content"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Post/Metabox.php:205
+#: laterpay/application/Controller/Admin/Post/Metabox.php:206
 msgid "Pricing for this Post"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Post/Metabox.php:247
+#: laterpay/application/Controller/Admin/Post/Metabox.php:248
 msgid "Visitors will see the teaser content %s instead of the full content %s before purchase."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Post/Metabox.php:250
+#: laterpay/application/Controller/Admin/Post/Metabox.php:251
 msgid "If you do not enter any teaser content, the plugin will use an excerpt of the full content as teaser content."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Post/Metabox.php:252
+#: laterpay/application/Controller/Admin/Post/Metabox.php:253
 msgid "We do recommend to write dedicated teaser content to increase your sales though."
 msgstr ""
 

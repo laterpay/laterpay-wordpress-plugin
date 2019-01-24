@@ -112,10 +112,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <span id="lp_js_globalPriceOptionOne" style="display:<?php echo ( 1 === $selected_option ) ? 'block' : 'none'; ?>">
                             <?php
-                            printf( '%1$s <br/> %2$s',
-                                esc_html__( 'Posts cannot be purchased individually;', 'laterpay' ),
-                                esc_html__( 'only Time Passes & Subscriptions will be displayed.', 'laterpay' )
-                            );
+                            printf( esc_html__( 'Posts cannot be purchased individually;%s only Time Passes & Subscriptions will be displayed.', 'laterpay' ),'<br/>' );
                             ?>
                         </span>
                         <span id="lp_js_globalPriceOptionZero" style="display:<?php echo ( 0 === $selected_option ) ? 'block' : 'none'; ?>">
