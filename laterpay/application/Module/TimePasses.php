@@ -183,7 +183,36 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $html = $event->get_result();
         $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/widget/time-passes' ) );
 
-        $event->set_result( $html );
+        // Check if time pass and subscriptions are positioned manually.
+        $is_tp_sub_list_position_custom = (bool) get_option( 'laterpay_time_passes_positioned_manually' );
+
+        // Check if content is purchasable.
+        $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post_id );
+
+        // If content is purchasable and time pass and subscription position is custom echo the code.
+        if ( $is_purchasable && $is_tp_sub_list_position_custom && ! wp_doing_ajax() && 'laterpay_time_passes' === current_action() ) {
+            $allowed_tags = wp_kses_allowed_html( 'post' );
+
+            $allowed_tags['a'][] = [
+                'data-icon'                    => true,
+                'data-laterpay'                => true,
+                'data-post-id'                 => true,
+                'data-preview-post-as-visitor' => true,
+                'data-preview-as-visitor'      => true
+            ];
+
+            $allowed_tags['div'][] = [ 'data-pass-id' => true, 'data-sub-id' => true ];
+            $allowed_tags['input'] = [
+                'type'      => 'text',
+                'name'      => 'time_pass_voucher_code',
+                'class'     => true,
+                'maxlength' => true
+            ];
+
+            echo wp_kses( $html, $allowed_tags );
+        } else {
+            $event->set_result( $html );
+        }
     }
 
     /**
