@@ -132,7 +132,7 @@ msgid ""
 "            </p>"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:326, laterpay/views/backend/pricing.php:233
+#: laterpay/application/Controller/Admin.php:326, laterpay/views/backend/pricing.php:230
 msgid "Category Default Prices"
 msgstr ""
 
@@ -168,7 +168,7 @@ msgid ""
 "            </p>"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:356, laterpay/views/backend/pricing.php:476
+#: laterpay/application/Controller/Admin.php:356, laterpay/views/backend/pricing.php:473
 msgid "Time Passes"
 msgstr ""
 
@@ -425,11 +425,11 @@ msgstr ""
 msgid "Read now, pay later"
 msgstr ""
 
-#: laterpay/application/Helper/Pricing.php:900, laterpay/views/backend/pricing.php:201, laterpay/views/backend/pricing.php:332, laterpay/views/backend/pricing.php:452, laterpay/views/backend/pricing.php:611, laterpay/views/backend/partials/post-pricing-form.php:140, laterpay/application/Controller/Admin/Post/Column.php:122
+#: laterpay/application/Helper/Pricing.php:900, laterpay/views/backend/pricing.php:198, laterpay/views/backend/pricing.php:329, laterpay/views/backend/pricing.php:449, laterpay/views/backend/pricing.php:608, laterpay/views/backend/partials/post-pricing-form.php:140, laterpay/application/Controller/Admin/Post/Column.php:122
 msgid "Pay Now"
 msgstr ""
 
-#: laterpay/application/Helper/Pricing.php:903, laterpay/application/Module/Purchase.php:321, laterpay/views/backend/pricing.php:196, laterpay/views/backend/pricing.php:327, laterpay/views/backend/pricing.php:447, laterpay/views/backend/pricing.php:606, laterpay/views/backend/partials/post-pricing-form.php:127, laterpay/application/Controller/Admin/Post/Column.php:123
+#: laterpay/application/Helper/Pricing.php:903, laterpay/application/Module/Purchase.php:321, laterpay/views/backend/pricing.php:193, laterpay/views/backend/pricing.php:324, laterpay/views/backend/pricing.php:444, laterpay/views/backend/pricing.php:603, laterpay/views/backend/partials/post-pricing-form.php:127, laterpay/application/Controller/Admin/Post/Column.php:123
 msgid "Pay Later"
 msgstr ""
 
@@ -441,7 +441,7 @@ msgstr ""
 msgid "1 month access to all content on this website (cancellable anytime)"
 msgstr ""
 
-#: laterpay/application/Helper/Subscription.php:68, laterpay/application/Helper/TimePass.php:174, laterpay/views/backend/pricing.php:567, laterpay/views/backend/pricing.php:759
+#: laterpay/application/Helper/Subscription.php:68, laterpay/application/Helper/TimePass.php:174, laterpay/views/backend/pricing.php:564, laterpay/views/backend/pricing.php:756
 msgid "access to"
 msgstr ""
 
@@ -545,7 +545,7 @@ msgstr ""
 msgid "Buy Now, Pay Later"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:287, laterpay/application/Module/TimePasses.php:417, laterpay/application/Module/TimePasses.php:440, laterpay/application/Module/TimePasses.php:458
+#: laterpay/application/Module/Purchase.php:287, laterpay/application/Module/TimePasses.php:446, laterpay/application/Module/TimePasses.php:469, laterpay/application/Module/TimePasses.php:487
 msgid "Read Now"
 msgstr ""
 
@@ -557,7 +557,7 @@ msgstr ""
 msgid "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:303, laterpay/application/Module/Purchase.php:316, laterpay/application/Module/TimePasses.php:425
+#: laterpay/application/Module/Purchase.php:303, laterpay/application/Module/Purchase.php:316, laterpay/application/Module/TimePasses.php:454
 msgid "Read Immediately"
 msgstr ""
 
@@ -577,35 +577,35 @@ msgstr ""
 msgid "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:361
+#: laterpay/application/Module/TimePasses.php:390
 msgid "Wrong time pass id or no time passes specified."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:420
+#: laterpay/application/Module/TimePasses.php:449
 msgid "Buy Time Pass"
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:421
+#: laterpay/application/Module/TimePasses.php:450
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:426
+#: laterpay/application/Module/TimePasses.php:455
 msgid "Immediately access your content. <br>A time pass is not a subscription, it expires automatically."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:443
+#: laterpay/application/Module/TimePasses.php:472
 msgid "Buy Subscription"
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:444
+#: laterpay/application/Module/TimePasses.php:473
 msgid "Buy a subscription and pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:461
+#: laterpay/application/Module/TimePasses.php:490
 msgid "Buy a Time Pass or Subscription"
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:462
+#: laterpay/application/Module/TimePasses.php:491
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 
@@ -812,7 +812,7 @@ msgstr ""
 msgid "Deactivate LaterPay Plugin"
 msgstr ""
 
-#: laterpay/views/backend/account.php:349, laterpay/views/backend/appearance.php:189, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:223, laterpay/views/backend/pricing.php:343, laterpay/views/backend/pricing.php:463, laterpay/views/backend/pricing.php:495, laterpay/views/backend/pricing.php:657, laterpay/views/backend/pricing.php:698, laterpay/views/backend/pricing.php:844, laterpay/application/Controller/Admin/Settings.php:1078, laterpay/views/frontend/partials/widget/purchase-overlay.php:142
+#: laterpay/views/backend/account.php:349, laterpay/views/backend/appearance.php:189, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:695, laterpay/views/backend/pricing.php:841, laterpay/application/Controller/Admin/Settings.php:1078, laterpay/views/frontend/partials/widget/purchase-overlay.php:142
 msgid "Cancel"
 msgstr ""
 
@@ -892,7 +892,7 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:188, laterpay/views/backend/pricing.php:79, laterpay/views/backend/pricing.php:222, laterpay/views/backend/pricing.php:342, laterpay/views/backend/pricing.php:462, laterpay/views/backend/pricing.php:494, laterpay/views/backend/pricing.php:656, laterpay/views/backend/pricing.php:697, laterpay/views/backend/pricing.php:843
+#: laterpay/views/backend/appearance.php:188, laterpay/views/backend/pricing.php:79, laterpay/views/backend/pricing.php:219, laterpay/views/backend/pricing.php:339, laterpay/views/backend/pricing.php:459, laterpay/views/backend/pricing.php:491, laterpay/views/backend/pricing.php:653, laterpay/views/backend/pricing.php:694, laterpay/views/backend/pricing.php:840
 msgid "Save"
 msgstr ""
 
@@ -940,201 +940,197 @@ msgstr ""
 msgid "Every post costs"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:116
-msgid "Posts cannot be purchased individually;"
+#: laterpay/views/backend/pricing.php:115
+msgid "Posts cannot be purchased individually;%s only Time Passes & Subscriptions will be displayed."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:117
-msgid "only Time Passes & Subscriptions will be displayed."
-msgstr ""
-
-#: laterpay/views/backend/pricing.php:124
+#: laterpay/views/backend/pricing.php:121
 msgid ""
 "%1$sEvery post is FREE%2$s unless they match a Category Default Price %3$s\n"
 "                                or have an Individual Article Price set on the Post page."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:143
+#: laterpay/views/backend/pricing.php:140
 msgid "Edit Global Default Price"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:150
+#: laterpay/views/backend/pricing.php:147
 msgid "FREE unless price is set on post page or by category"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:152
+#: laterpay/views/backend/pricing.php:149
 msgid "All articles will be free by default; Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post page."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:158, laterpay/views/backend/partials/post-pricing-form.php:98
+#: laterpay/views/backend/pricing.php:155, laterpay/views/backend/partials/post-pricing-form.php:98
 msgid "Posts cannot be purchased individually"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:160, laterpay/views/backend/pricing.php:246, laterpay/application/Controller/Admin/Pricing.php:426, laterpay/views/backend/partials/post-pricing-form.php:103
+#: laterpay/views/backend/pricing.php:157, laterpay/views/backend/pricing.php:243, laterpay/application/Controller/Admin/Pricing.php:426, laterpay/views/backend/partials/post-pricing-form.php:103
 msgid "Only Time Passes & Subscriptions will be displayed in the purchase dialog."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:166
+#: laterpay/views/backend/pricing.php:163
 msgid "Set individual article default price"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:175, laterpay/views/backend/pricing.php:307, laterpay/views/backend/pricing.php:427, laterpay/views/backend/partials/subscription.php:62, laterpay/views/backend/partials/time-pass.php:70, laterpay/application/Controller/Admin/Post/Column.php:42
+#: laterpay/views/backend/pricing.php:172, laterpay/views/backend/pricing.php:304, laterpay/views/backend/pricing.php:424, laterpay/views/backend/partials/subscription.php:62, laterpay/views/backend/partials/time-pass.php:70, laterpay/application/Controller/Admin/Post/Column.php:42
 msgid "Price"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:189, laterpay/views/backend/pricing.php:320, laterpay/views/backend/pricing.php:440
+#: laterpay/views/backend/pricing.php:186, laterpay/views/backend/pricing.php:317, laterpay/views/backend/pricing.php:437
 msgid "Revenue Model"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:195, laterpay/application/Controller/Admin/Pricing.php:110, laterpay/views/backend/partials/post-pricing-form.php:123
+#: laterpay/views/backend/pricing.php:192, laterpay/application/Controller/Admin/Pricing.php:110, laterpay/views/backend/partials/post-pricing-form.php:123
 msgid "Pay Later allows users to gain access now by committing to pay once their invoice reaches $5 or 5€; it is available for posts with pricing between 0.05 and 5.00"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:200, laterpay/application/Controller/Admin/Pricing.php:111, laterpay/views/backend/partials/post-pricing-form.php:136
+#: laterpay/views/backend/pricing.php:197, laterpay/application/Controller/Admin/Pricing.php:111, laterpay/views/backend/partials/post-pricing-form.php:136
 msgid "Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.49€"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:209
+#: laterpay/views/backend/pricing.php:206
 msgid "%sTIP:%s \"Pay Later\" is LaterPay's patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice. %sClick here to learn more.%s"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:234, laterpay/views/backend/pricing.php:247
+#: laterpay/views/backend/pricing.php:231, laterpay/views/backend/pricing.php:244
 msgid "To allow articles to be purchased individually, adjust your Global Default Price."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:236, laterpay/views/backend/pricing.php:478, laterpay/views/backend/pricing.php:681
+#: laterpay/views/backend/pricing.php:233, laterpay/views/backend/pricing.php:475, laterpay/views/backend/pricing.php:678
 msgid "Create"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:267, laterpay/views/backend/pricing.php:390
+#: laterpay/views/backend/pricing.php:264, laterpay/views/backend/pricing.php:387
 msgid "Every post in"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:271, laterpay/views/backend/pricing.php:393
+#: laterpay/views/backend/pricing.php:268, laterpay/views/backend/pricing.php:390
 msgid "costs"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:292
+#: laterpay/views/backend/pricing.php:289
 msgid "Edit Category Default Price"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:299, laterpay/views/backend/pricing.php:419
+#: laterpay/views/backend/pricing.php:296, laterpay/views/backend/pricing.php:416
 msgid "Category"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:354
+#: laterpay/views/backend/pricing.php:351
 msgid "Set prices by category"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:359
+#: laterpay/views/backend/pricing.php:356
 msgid ""
 "Not familiar with WordPress categories? %s\n"
 "                                %sClick here to learn more.%s"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:370
+#: laterpay/views/backend/pricing.php:367
 msgid ""
 "Category default prices are convenient for selling different categories of content at different standard prices. %s\n"
 "                                Individual prices can be set when editing a post."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:377
+#: laterpay/views/backend/pricing.php:374
 msgid "Click the \"Create\" button to set a default price for a category."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:412
+#: laterpay/views/backend/pricing.php:409
 msgid "Add a Category Default Price"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:485, laterpay/views/backend/pricing.php:524, laterpay/application/Controller/Admin/Pricing.php:965
+#: laterpay/views/backend/pricing.php:482, laterpay/views/backend/pricing.php:521, laterpay/application/Controller/Admin/Pricing.php:965
 msgid "Pass"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:509, laterpay/views/backend/pricing.php:712, laterpay/application/Controller/Admin/Pricing.php:109
+#: laterpay/views/backend/pricing.php:506, laterpay/views/backend/pricing.php:709, laterpay/application/Controller/Admin/Pricing.php:109
 msgid "reduces the price to"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:542
+#: laterpay/views/backend/pricing.php:539
 msgid "The pass is valid for "
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:562
+#: laterpay/views/backend/pricing.php:559
 msgid "and grants"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:589
+#: laterpay/views/backend/pricing.php:586
 msgid "This pass costs"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:597
+#: laterpay/views/backend/pricing.php:594
 msgid "and the user has to"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:618, laterpay/views/backend/pricing.php:805
+#: laterpay/views/backend/pricing.php:615, laterpay/views/backend/pricing.php:802
 msgid "Title"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:629, laterpay/views/backend/pricing.php:816, laterpay/application/Controller/Admin/Pricing.php:151
+#: laterpay/views/backend/pricing.php:626, laterpay/views/backend/pricing.php:813, laterpay/application/Controller/Admin/Pricing.php:151
 msgid "Description"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:645, laterpay/views/backend/pricing.php:832
+#: laterpay/views/backend/pricing.php:642, laterpay/views/backend/pricing.php:829
 msgid "The voucher price must be less than or equal to the "
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:645
+#: laterpay/views/backend/pricing.php:642
 msgid "time pass price."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:649, laterpay/views/backend/pricing.php:836
+#: laterpay/views/backend/pricing.php:646, laterpay/views/backend/pricing.php:833
 msgid "Generate voucher code"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:667
+#: laterpay/views/backend/pricing.php:664
 msgid "Sell time-limited access to content"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:670
+#: laterpay/views/backend/pricing.php:667
 msgid "With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically and are a great option for readers who are not quite ready to commit to a subscription."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:673
+#: laterpay/views/backend/pricing.php:670
 msgid "Click the \"Create\" button to add a Time Pass."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:679, laterpay/application/Controller/Admin/Pricing.php:51
+#: laterpay/views/backend/pricing.php:676, laterpay/application/Controller/Admin/Pricing.php:51
 msgid "Subscriptions"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:688, laterpay/views/backend/pricing.php:727
+#: laterpay/views/backend/pricing.php:685, laterpay/views/backend/pricing.php:724
 msgid "Sub"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:745
+#: laterpay/views/backend/pricing.php:742
 msgid "The subscription costs"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:754
+#: laterpay/views/backend/pricing.php:751
 msgid ", grants "
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:782
+#: laterpay/views/backend/pricing.php:779
 msgid "and renews every"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:832
+#: laterpay/views/backend/pricing.php:829
 msgid "subscription price."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:854
+#: laterpay/views/backend/pricing.php:851
 msgid "Sell subscriptions"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:857
+#: laterpay/views/backend/pricing.php:854
 msgid "Subscriptions work exactly like time passes, with a simple difference: They renew automatically."
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:860
+#: laterpay/views/backend/pricing.php:857
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr ""
 
