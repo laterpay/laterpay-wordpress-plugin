@@ -26,6 +26,14 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_redeem_gift_code' ),
             ),
+            'laterpay_shortcode_time_pass_purchase' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'render_time_pass_subscription_purchase', 200 ),
+            ),
+            'laterpay_shortcode_subsription_purchase' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'render_time_pass_subscription_purchase', 200 ),
+            ),
             'wp_ajax_laterpay_get_premium_shortcode_link' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_get_premium_shortcode_link' ),
@@ -454,5 +462,74 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         }
 
         return $time_passes;
+    }
+
+    public function render_time_pass_subscription_purchase( LaterPay_Core_Event $event ) {
+
+        // Check whether the shortcode was asked for Time Pass or Subscription.
+        $is_subscription = $event->get_name() === 'laterpay_shortcode_subsription_purchase' ? true : false;
+
+        // Get all the attributes.
+        list( $attributes ) = $event->get_arguments() + array( array() );
+
+        // Provide default values for empty shortcode attributes.
+        $shortcode_atts = shortcode_atts( array(
+            'id'                      => '',
+            'button_text'             => '',
+            'button_background_color' => get_option( 'laterpay_main_color', '#01a99d' ),
+            'button_text_color'       => '#ffffff',
+            'custom_image_path'       => '',
+        ), $attributes );
+
+        // ID of Time Pass / Subscription.
+        $entity_id = $shortcode_atts['id'];
+
+        // Get Time Pass / Subscription data according to ID.
+        if ( ! empty( $entity_id ) ) {
+            $entity = $is_subscription ? LaterPay_Helper_Subscription::get_subscription_by_id( $entity_id, true ) : LaterPay_Helper_TimePass::get_time_pass_by_id( $entity_id, true );
+        }
+
+        // Template for error message.
+        $template = '<div class="lp_shortcode-error">%s</div>';
+
+        // ID was provided, but didn't work.
+        if ( empty( $entity ) ) {
+
+            $error_message = sprintf(
+                $template,
+                sprintf( esc_html__( 'We couldn\'t find a %s with id="%s" on this site.', 'laterpay' ), $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' ), $entity_id )
+            );
+
+            $event->set_result( $error_message );
+
+            return;
+        }
+
+        // Update purchase button text.
+        if ( empty( $shortcode_atts['button_text'] ) && ! $is_subscription ) {
+            if ( 'ppu' === $entity['revenue_model'] ) {
+                $shortcode_atts['button_text'] = esc_html__( 'Buy Now, Pay Later', 'laterpay' );
+            } else {
+                $shortcode_atts['button_text'] = esc_html__( 'Buy Now', 'laterpay' );
+            }
+        }
+
+        // Override purchase button text value if subscription.
+        if ( $is_subscription ) {
+            $shortcode_atts['button_text'] = esc_html__( 'Subscribe Now', 'laterpay' );
+        }
+
+        // Get the purchase URL.
+        $shortcode_atts['url'] = $is_subscription ? LaterPay_Helper_Subscription::get_subscription_purchase_link( $entity_id ) : LaterPay_Helper_TimePass::get_laterpay_purchase_link( $entity_id );
+
+        // Assign data for view.
+        $this->assign( 'laterpay', $shortcode_atts );
+
+        // Get markup with all data.
+        $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-button' );
+
+        // Set final result.
+        $event->set_result( $html_button );
+
     }
 }
