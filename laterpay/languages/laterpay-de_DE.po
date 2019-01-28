@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-01-11 14:42+0530\n"
-"PO-Revision-Date: 2019-01-11 14:43+0530\n"
+"POT-Creation-Date: 2019-01-25 11:35+0530\n"
+"PO-Revision-Date: 2019-01-25 11:35+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
 "__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: application/Controller/Admin.php:313 views/backend/pricing.php:90
 msgid "Global Default Price"
-msgstr "Allgemeiner Standardpreis"
+msgstr "Globaler Standardpreis"
 
 #: application/Controller/Admin.php:314
 msgid ""
@@ -176,7 +176,7 @@ msgid ""
 "            </p>"
 msgstr ""
 
-#: application/Controller/Admin.php:326 views/backend/pricing.php:231
+#: application/Controller/Admin.php:326 views/backend/pricing.php:230
 msgid "Category Default Prices"
 msgstr "Kategoriespezifische Standardpreise"
 
@@ -220,7 +220,7 @@ msgid ""
 "            </p>"
 msgstr ""
 
-#: application/Controller/Admin.php:356 views/backend/pricing.php:470
+#: application/Controller/Admin.php:356 views/backend/pricing.php:473
 msgid "Time Passes"
 msgstr "Zeitpässe"
 
@@ -522,63 +522,73 @@ msgstr "Darstellung"
 msgid "Account"
 msgstr "Konto"
 
-#: application/Controller/Admin/Account.php:52
+#: application/Controller/Admin/Account.php:62
 msgid "The API key you entered is not a valid LaterPay API key!"
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay API Key!"
 
-#: application/Controller/Admin/Account.php:53
+#: application/Controller/Admin/Account.php:63
 msgid "The Merchant ID you entered is not a valid LaterPay Merchant ID!"
 msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Merchant ID!"
 
-#: application/Controller/Admin/Account.php:54
+#: application/Controller/Admin/Account.php:64
 msgid "LaterPay does not work properly with invalid API credentials."
 msgstr "LaterPay funktioniert nicht ohne gültige API Zugangsdaten."
 
-#: application/Controller/Admin/Account.php:100
+#: application/Controller/Admin/Account.php:72 views/backend/account.php:311
+#: views/backend/account.php:351
+msgid "Delete Plugin Data"
+msgstr "Plugin Daten löschen"
+
+#: application/Controller/Admin/Account.php:72 views/backend/account.php:311
+#: views/backend/account.php:351
+msgid "Deactivate Plugin & Delete Data"
+msgstr "Plugin & Daten deaktivieren"
+
+#: application/Controller/Admin/Account.php:116
 #: application/Controller/Admin/Appearance.php:113
-#: application/Controller/Admin/Pricing.php:244
-#: application/Controller/Admin/Pricing.php:491
-#: application/Controller/Admin/Pricing.php:573
-#: application/Controller/Admin/Pricing.php:995
+#: application/Controller/Admin/Pricing.php:245
+#: application/Controller/Admin/Pricing.php:492
+#: application/Controller/Admin/Pricing.php:574
+#: application/Controller/Admin/Pricing.php:996
 #: application/Controller/Frontend/PreviewMode.php:115
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
 "erneut."
 
-#: application/Controller/Admin/Account.php:174
-#: application/Controller/Admin/Account.php:232
+#: application/Controller/Admin/Account.php:190
+#: application/Controller/Admin/Account.php:248
 #, php-format
 msgid "The Merchant ID you entered is not a valid LaterPay %s Merchant ID!"
 msgstr "Die eingegebene Merchant ID ist keine kültige LaterPay %s Merchant ID!"
 
-#: application/Controller/Admin/Account.php:188
+#: application/Controller/Admin/Account.php:204
 #, php-format
 msgid "The %s Merchant ID has been removed."
 msgstr "Die %s Merchant ID wurde entfernt."
 
-#: application/Controller/Admin/Account.php:201
+#: application/Controller/Admin/Account.php:217
 #, php-format
 msgid "%s Merchant ID verified and saved."
 msgstr "%s Merchant ID überprüft und gespeichert."
 
-#: application/Controller/Admin/Account.php:246
+#: application/Controller/Admin/Account.php:262
 #, php-format
 msgid "The %s API key has been removed."
 msgstr "Der %s API Key wurde entfernt."
 
-#: application/Controller/Admin/Account.php:259
+#: application/Controller/Admin/Account.php:275
 #, php-format
 msgid "Your %s API key is valid. You can now make %s transactions."
 msgstr ""
 "Ihr %s API-Key ist gültig. Sie können nun %s Transaktionen durchführen."
 
-#: application/Controller/Admin/Account.php:280
-#: application/Controller/Admin/Account.php:335
+#: application/Controller/Admin/Account.php:296
+#: application/Controller/Admin/Account.php:351
 msgid "Error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten. Falsche Daten wurden übergeben."
 
-#: application/Controller/Admin/Account.php:294
+#: application/Controller/Admin/Account.php:310
 msgid ""
 "The LaterPay plugin is in LIVE mode now. All payments are actually booked "
 "and credited to your account."
@@ -586,7 +596,7 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im LIVE-Modus. Alle Zahlungen werden "
 "tatsächlich gebucht und Ihrem Händlerkonto gutgeschrieben."
 
-#: application/Controller/Admin/Account.php:303
+#: application/Controller/Admin/Account.php:319
 msgid ""
 "The LaterPay plugin is in visible TEST mode now. Payments are only simulated "
 "and not actually booked."
@@ -594,7 +604,7 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im TEST-Modus und für Besucher sichtbar. "
 "Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
 
-#: application/Controller/Admin/Account.php:313
+#: application/Controller/Admin/Account.php:329
 msgid ""
 "The LaterPay plugin is in invisible TEST mode now. Payments are only "
 "simulated and not actually booked."
@@ -602,45 +612,47 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im TEST-Modus und für Besucher nicht sichtbar. "
 "Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
 
-#: application/Controller/Admin/Account.php:323
-#: application/Controller/Admin/Account.php:409
+#: application/Controller/Admin/Account.php:339
+#: application/Controller/Admin/Account.php:425
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 
-#: application/Controller/Admin/Account.php:348
+#: application/Controller/Admin/Account.php:364
 msgid "Failed to change region settings."
 msgstr ""
 "Die Einstellungen für Ländergruppe und Währung konnten nicht geändert werden."
 
-#: application/Controller/Admin/Account.php:373
+#: application/Controller/Admin/Account.php:389
 msgid "The LaterPay region was changed successfully."
 msgstr ""
 "Die Ländergruppe und Währung des LaterPay Plugins wurden erfolgreich "
 "geändert."
 
-#: application/Controller/Admin/Account.php:393
-#: application/Controller/Admin/Pricing.php:406
-#: application/Controller/Admin/Pricing.php:461
+#: application/Controller/Admin/Account.php:409
+#: application/Controller/Admin/Pricing.php:407
+#: application/Controller/Admin/Pricing.php:462
 msgid "An error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
 
-#: application/Controller/Admin/Account.php:418
-#: application/Controller/Admin/Account.php:420
-msgid "The plugin is in"
+#: application/Controller/Admin/Account.php:434
+#, php-format
+msgid "The plugin is in %svisible%s test mode now."
+msgstr "Das Plugin ist im %ssichtbaren%s Test-Modus."
+
+#: application/Controller/Admin/Account.php:436
+#, php-format
+msgid "The plugin is in %sinvisible%s test mode now."
+msgstr "Das Plugin ist im %sunsichtbaren%s Test-Modus."
+
+#: application/Controller/Admin/Account.php:469
+msgid ""
+"LaterPay has been successfully uninstalled. It can be re-activated from the "
+"plugins page."
 msgstr ""
 
-#: application/Controller/Admin/Account.php:418
-msgid "visible"
-msgstr ""
-
-#: application/Controller/Admin/Account.php:418
-#: application/Controller/Admin/Account.php:420
-msgid "test mode now."
-msgstr ""
-
-#: application/Controller/Admin/Account.php:420
-msgid "invisible"
-msgstr ""
+#: application/Controller/Admin/Account.php:477
+msgid "LaterPay data has been erased successfully."
+msgstr "Alle LaterPay Daten wurden erfolgreich gelöscht."
 
 #: application/Controller/Admin/Appearance.php:142
 msgid ""
@@ -715,8 +727,8 @@ msgstr ""
 
 #: application/Controller/Admin/Post/Column.php:42
 #: views/backend/partials/subscription.php:62
-#: views/backend/partials/time-pass.php:70 views/backend/pricing.php:173
-#: views/backend/pricing.php:305 views/backend/pricing.php:421
+#: views/backend/partials/time-pass.php:70 views/backend/pricing.php:172
+#: views/backend/pricing.php:304 views/backend/pricing.php:424
 msgid "Price"
 msgstr "Preis"
 
@@ -728,21 +740,21 @@ msgstr "Preistyp"
 #: application/Controller/Admin/Post/Column.php:102
 #: views/backend/partials/post-pricing-form.php:88
 msgid "FREE"
-msgstr ""
+msgstr "KOSTENLOS"
 
 #: application/Controller/Admin/Post/Column.php:122
 #: application/Helper/Pricing.php:900
 #: views/backend/partials/post-pricing-form.php:140
-#: views/backend/pricing.php:199 views/backend/pricing.php:330
-#: views/backend/pricing.php:446 views/backend/pricing.php:605
+#: views/backend/pricing.php:198 views/backend/pricing.php:329
+#: views/backend/pricing.php:449 views/backend/pricing.php:608
 msgid "Pay Now"
 msgstr "Sofort zahlen"
 
 #: application/Controller/Admin/Post/Column.php:123
 #: application/Helper/Pricing.php:903 application/Module/Purchase.php:321
 #: views/backend/partials/post-pricing-form.php:127
-#: views/backend/pricing.php:194 views/backend/pricing.php:325
-#: views/backend/pricing.php:441 views/backend/pricing.php:600
+#: views/backend/pricing.php:193 views/backend/pricing.php:324
+#: views/backend/pricing.php:444 views/backend/pricing.php:603
 msgid "Pay Later"
 msgstr "Später zahlen"
 
@@ -802,36 +814,36 @@ msgid ""
 "Category Default Pricing."
 msgstr ""
 
-#: application/Controller/Admin/Post/Metabox.php:160
+#: application/Controller/Admin/Post/Metabox.php:161
 msgid "default price"
 msgstr "Standardpreis"
 
-#: application/Controller/Admin/Post/Metabox.php:161
+#: application/Controller/Admin/Post/Metabox.php:162
 msgid "days"
 msgstr "Tage"
 
-#: application/Controller/Admin/Post/Metabox.php:162
+#: application/Controller/Admin/Post/Metabox.php:163
 msgid "Today"
 msgstr "Heute"
 
-#: application/Controller/Admin/Post/Metabox.php:182
+#: application/Controller/Admin/Post/Metabox.php:183
 #, fuzzy
 #| msgid "Teaser Content"
 msgid "LaterPay Teaser Content"
 msgstr "Teaser für den Beitrag"
 
-#: application/Controller/Admin/Post/Metabox.php:205
+#: application/Controller/Admin/Post/Metabox.php:206
 msgid "Pricing for this Post"
 msgstr "Preis des Beitrags"
 
-#: application/Controller/Admin/Post/Metabox.php:247
+#: application/Controller/Admin/Post/Metabox.php:248
 #, php-format
 msgid ""
 "Visitors will see the teaser content %s instead of the full content %s "
 "before purchase."
-msgstr ""
+msgstr "Besucher werden den Teaser %s anstatt des gesamten Artikels sehen. %s"
 
-#: application/Controller/Admin/Post/Metabox.php:250
+#: application/Controller/Admin/Post/Metabox.php:251
 msgid ""
 "If you do not enter any teaser content, the plugin will use an excerpt of "
 "the full content as teaser content."
@@ -839,7 +851,7 @@ msgstr ""
 "Wenn Sie keinen Teaser angeben, verwendet das Plugin automatisch einen "
 "Auszug aus dem Volltext als Teaser."
 
-#: application/Controller/Admin/Post/Metabox.php:252
+#: application/Controller/Admin/Post/Metabox.php:253
 msgid ""
 "We do recommend to write dedicated teaser content to increase your sales "
 "though."
@@ -847,7 +859,7 @@ msgstr ""
 "Wir empfehlen jedoch, für jeden Beitrag einen separaten Teaser zu erstellen, "
 "um die Attraktivität des Beitrags zu steigern."
 
-#: application/Controller/Admin/Pricing.php:51 views/backend/pricing.php:677
+#: application/Controller/Admin/Pricing.php:51 views/backend/pricing.php:676
 msgid "Subscriptions"
 msgstr "Abos"
 
@@ -909,14 +921,14 @@ msgstr ""
 "Abos haben. Neue Nutzer werden das Abo nicht mehr kaufen können. Möchten Sie "
 "dieses Abo wirklich löschen?"
 
-#: application/Controller/Admin/Pricing.php:109 views/backend/pricing.php:503
-#: views/backend/pricing.php:710
+#: application/Controller/Admin/Pricing.php:109 views/backend/pricing.php:506
+#: views/backend/pricing.php:709
 msgid "reduces the price to"
 msgstr "reduziert den Preis auf"
 
 #: application/Controller/Admin/Pricing.php:110
 #: views/backend/partials/post-pricing-form.php:123
-#: views/backend/pricing.php:193
+#: views/backend/pricing.php:192
 msgid ""
 "Pay Later allows users to gain access now by committing to pay once their "
 "invoice reaches $5 or 5€; it is available for posts with pricing between "
@@ -925,7 +937,7 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:111
 #: views/backend/partials/post-pricing-form.php:136
-#: views/backend/pricing.php:198
+#: views/backend/pricing.php:197
 msgid ""
 "Pay Now requires users pay for purchased content immediately; available for "
 "posts with pricing above $1.99 or 1.49€"
@@ -945,7 +957,12 @@ msgstr ""
 msgid "All posts in category"
 msgstr "aller Beiträge in Kategorie"
 
-#: application/Controller/Admin/Pricing.php:422
+#: application/Controller/Admin/Pricing.php:151 views/backend/pricing.php:626
+#: views/backend/pricing.php:813
+msgid "Description"
+msgstr "Beschreibung"
+
+#: application/Controller/Admin/Pricing.php:423
 msgid ""
 "All articles will be free by default; Time Passes & Subscriptions will only "
 "be\n"
@@ -953,93 +970,93 @@ msgid ""
 "manually set on the Post page."
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:425
+#: application/Controller/Admin/Pricing.php:426
 #: views/backend/partials/post-pricing-form.php:103
-#: views/backend/pricing.php:244
+#: views/backend/pricing.php:157 views/backend/pricing.php:243
 msgid ""
 "Only Time Passes & Subscriptions will be displayed in the purchase dialog."
-msgstr ""
+msgstr "Nur Zeitpässe und Abos werden im Kaufdialog angezeigt."
 
-#: application/Controller/Admin/Pricing.php:428
+#: application/Controller/Admin/Pricing.php:429
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der allgemeine Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: application/Controller/Admin/Pricing.php:519
+#: application/Controller/Admin/Pricing.php:520
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: application/Controller/Admin/Pricing.php:550
+#: application/Controller/Admin/Pricing.php:551
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: application/Controller/Admin/Pricing.php:595
+#: application/Controller/Admin/Pricing.php:596
 #, php-format
 msgid "The default price for category %s was deleted."
 msgstr "Der Standardpreis für die Kategorie %s wurde entfernt."
 
-#: application/Controller/Admin/Pricing.php:653
+#: application/Controller/Admin/Pricing.php:654
 msgid "An error occurred when trying to save the time pass. Please try again."
 msgstr ""
 "Beim Speichern des Zeitpasses ist ein Fehler aufgetreten. Bitte versuchen "
 "Sie es noch einmal."
 
-#: application/Controller/Admin/Pricing.php:714
+#: application/Controller/Admin/Pricing.php:715
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: application/Controller/Admin/Pricing.php:739
+#: application/Controller/Admin/Pricing.php:740
 msgid "Time pass deleted."
 msgstr "Zeitpass gelöscht."
 
-#: application/Controller/Admin/Pricing.php:746
+#: application/Controller/Admin/Pricing.php:747
 msgid "The selected pass was deleted already."
 msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 
-#: application/Controller/Admin/Pricing.php:789
+#: application/Controller/Admin/Pricing.php:790
 msgid ""
 "An error occurred when trying to save the subscription. Please try again."
 msgstr ""
 "Während des Speicherns des Abos ist ein Fehler aufgetreten. Bitte versuchen "
 "Sie es erneut."
 
-#: application/Controller/Admin/Pricing.php:842
+#: application/Controller/Admin/Pricing.php:843
 msgid "Subscription saved."
 msgstr "Abo gespeichert."
 
-#: application/Controller/Admin/Pricing.php:867
+#: application/Controller/Admin/Pricing.php:868
 msgid "Subscription deleted."
 msgstr "Abo gelöscht."
 
-#: application/Controller/Admin/Pricing.php:874
+#: application/Controller/Admin/Pricing.php:875
 msgid "The selected subscription was deleted already."
 msgstr "Dieses Abo wurde bereits gelöscht."
 
-#: application/Controller/Admin/Pricing.php:929
+#: application/Controller/Admin/Pricing.php:930
 msgid "Incorrect voucher price."
 msgstr "Ungültiger Gutschein-Preis."
 
-#: application/Controller/Admin/Pricing.php:963
+#: application/Controller/Admin/Pricing.php:964
 msgid "Passes"
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:964 views/backend/pricing.php:479
-#: views/backend/pricing.php:518
+#: application/Controller/Admin/Pricing.php:965 views/backend/pricing.php:482
+#: views/backend/pricing.php:521
 msgid "Pass"
 msgstr "Pass"
 
-#: application/Controller/Admin/Pricing.php:974
+#: application/Controller/Admin/Pricing.php:975
 msgid "Laterpay Passes Post type Registration issue."
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:1027
+#: application/Controller/Admin/Pricing.php:1028
 #, fuzzy
 #| msgid "LaterPay-enabled Post Types"
 msgid "Unable to update LaterPay Enabled Post Type(s)."
 msgstr "LaterPay Post-Types"
 
-#: application/Controller/Admin/Pricing.php:1039
+#: application/Controller/Admin/Pricing.php:1040
 #, fuzzy
 #| msgid "LaterPay-enabled Post Types"
 msgid "Successfully Updated LaterPay Enabled Post Type(s)."
@@ -1074,15 +1091,15 @@ msgstr "Hauptfarbe"
 
 #: application/Controller/Admin/Settings.php:154
 msgid "Main color for clickable elements. (Default: #01a99d)"
-msgstr ""
+msgstr "Hauptfarbe für klickbare Elemente. (Standard: #01a99d)"
 
 #: application/Controller/Admin/Settings.php:163
 msgid "Hover Color"
-msgstr "Hover Farbe"
+msgstr "Hoverfarbe"
 
 #: application/Controller/Admin/Settings.php:168
 msgid "Hover color for clickable elements. (Default: #01766e)"
-msgstr ""
+msgstr "Hoverfarbe für klickbare Elemente. (Standard: #01a99d)"
 
 #: application/Controller/Admin/Settings.php:183
 msgid "You can customize the colors of clickable LaterPay elements."
@@ -1100,34 +1117,33 @@ msgstr "Caching-Kompatibilität"
 msgid "I am using a caching plugin (e.g. WP Super Cache or Cachify)"
 msgstr "Ich verwende ein Caching-Plugin (z. B. WP Super Cache oder Cachify)"
 
-#: application/Controller/Admin/Settings.php:225
+#: application/Controller/Admin/Settings.php:226
+#, php-format
 msgid ""
 "You MUST enable caching compatiblity mode, if you are using a caching "
 "solution\n"
-"           that caches entire HTML pages."
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:228
-msgid ""
-"In caching compatibility mode the plugin works\n"
-"           like this:"
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:231
-msgid ""
-"It renders paid posts only with the teaser content. This allows to cache\n"
-"           them as static files without risking to leak the paid content."
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:234
-msgid ""
-"When someone visits\n"
+"           that caches entire HTML pages. %1$s In caching compatibility mode "
+"the plugin works\n"
+"           like this: %1$s It renders paid posts only with the teaser "
+"content. This allows to cache\n"
+"           them as static files without risking to leak the paid content. "
+"%1$s When someone visits\n"
 "           the page, it makes an Ajax request to determine, if the visitor "
 "has already bought the post\n"
 "           and replaces the teaser with the full content, if required."
 msgstr ""
+"Bitte AKTIVIEREN Sie den Caching-Kompatibilitätsmodus, wenn Sie eine Caching-"
+"Lösung einsetzen, die ganze HTML-Seiten im Cache speichert (typischerweise "
+"ist dies der Fall).%1$s\n"
+"Im Caching-Kompatibilitätsmodus funktioniert das Plugin wie folgt:%1$s\n"
+"Beiträge und Seiten die zahlungspflichtig sind, werden nur als Teaser "
+"dargestellt. Das erlaubt das Caching von Inhalten ohne Risiko dass diese "
+"Inhalte kostenlos über das Cache erreichbar sind.%1$s\n"
+"Wenn Besucher einen Beitrag aufrufen, wird über ein AJAX-Requet ermittelt, "
+"ob ein Besucher bereits den Beitrag gekauft hat. Falls das der Fall ist, "
+"wird der volle Inhalt nachgeladen."
 
-#: application/Controller/Admin/Settings.php:247
+#: application/Controller/Admin/Settings.php:244
 msgid ""
 "Please choose, if you want to show the time passes widget on free posts, or "
 "only on paid posts."
@@ -1135,33 +1151,33 @@ msgstr ""
 "Bitte geben Sie an, ob Sie Zeitpässe nur bei kostenpflichtigen oder auch bei "
 "kostenlosen Beiträgen anzeigen möchten."
 
-#: application/Controller/Admin/Settings.php:258
-#: application/Controller/Admin/Settings.php:265
+#: application/Controller/Admin/Settings.php:255
+#: application/Controller/Admin/Settings.php:262
 msgid "Require login"
 msgstr "Login erforderlich"
 
-#: application/Controller/Admin/Settings.php:273
+#: application/Controller/Admin/Settings.php:270
 msgid "Require the user to log in to LaterPay before a \"Pay Later\" purchase."
 msgstr ""
 "Fordern Sie Ihre Nutzer vor einem Kauf dazu auf, sich bei LaterPay "
 "einzuloggen."
 
-#: application/Controller/Admin/Settings.php:287
+#: application/Controller/Admin/Settings.php:284
 msgid ""
 "Please choose if you want to require a login for \"Pay Later\" purchases."
 msgstr ""
 "Bitte wählen Sie, ob ein Login vor \"Später zahlen\"-Käufen erforderlich "
 "sein soll."
 
-#: application/Controller/Admin/Settings.php:299
+#: application/Controller/Admin/Settings.php:296
 msgid "Gift Codes Limit"
 msgstr "Einschränkungen für Geschenkgutscheine"
 
-#: application/Controller/Admin/Settings.php:306
+#: application/Controller/Admin/Settings.php:303
 msgid "Times Redeemable"
 msgstr "Maximal einlösbar"
 
-#: application/Controller/Admin/Settings.php:326
+#: application/Controller/Admin/Settings.php:323
 msgid ""
 "Specify, how many times a gift code can be redeemed for the associated time "
 "pass."
@@ -1169,46 +1185,45 @@ msgstr ""
 "Geben Sie an, wie oft ein Geschenkgutschein für einen bestimmten Zeitpass "
 "eingelöst werden kann."
 
-#: application/Controller/Admin/Settings.php:366
+#: application/Controller/Admin/Settings.php:363
 msgid "Automatically Generated Teaser Content"
 msgstr "Automatisch erzeugter Teaser"
 
-#: application/Controller/Admin/Settings.php:373
+#: application/Controller/Admin/Settings.php:370
 msgid "Teaser Content Word Count"
 msgstr "Teaser-Länge"
 
-#: application/Controller/Admin/Settings.php:380
+#: application/Controller/Admin/Settings.php:377
 msgid "Number of words extracted from paid posts as teaser content."
 msgstr "Anzahl der Wörter aus dem Volltext, die als Teaser verwendet werden."
 
-#: application/Controller/Admin/Settings.php:394
+#: application/Controller/Admin/Settings.php:392
+#, php-format
 msgid ""
 "The LaterPay WordPress plugin automatically generates teaser content for "
 "every paid post\n"
-"            without teaser content."
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:397
-msgid ""
-"While technically possible, setting this parameter to zero is\n"
-"            HIGHLY DISCOURAGED."
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:400
-msgid ""
-"If you really, really want to have NO teaser content for a post,\n"
+"            without teaser content. %1$s While technically possible, setting "
+"this parameter to zero is\n"
+"            HIGHLY DISCOURAGED. %1$s If you really, really want to have NO "
+"teaser content for a post,\n"
 "            enter one space into the teaser content editor for that post."
 msgstr ""
+"Das LaterPay Plugin erzeugt automatisch einen “Teaser” für Ihre Beiträge, "
+"falls dieser nicht von Ihnen spezifiziert wird.%1$s\n"
+"Wir raten DRINGEND davon ab, diesen Wert nicht auf Null zu setzen.%1$s\n"
+"Falls Sie dennoch darauf beharren, keinen Teaser für Ihre Inhalte anzugeben, "
+"ist es erforderlich mindestens ein Leerzeichen im “Teaser” Feld des "
+"Beitragseditors der jeweiligen Beiträgen einzufügen."
 
-#: application/Controller/Admin/Settings.php:413
+#: application/Controller/Admin/Settings.php:409
 msgid "Content Preview under Overlay"
 msgstr "Beitragsvorschau unter Overlay"
 
-#: application/Controller/Admin/Settings.php:420
+#: application/Controller/Admin/Settings.php:416
 msgid "Percentage of Post Content"
 msgstr "Anteil des Volltextes"
 
-#: application/Controller/Admin/Settings.php:427
+#: application/Controller/Admin/Settings.php:423
 #, php-format
 msgid ""
 "Percentage of content to be extracted;\n"
@@ -1218,11 +1233,11 @@ msgstr ""
 "Prozentsatz des Volltextes, der angezeigt werden soll; 20 bedeutet \"zeige "
 "die ersten 20% des Volltextes unter dem Overlay an.\""
 
-#: application/Controller/Admin/Settings.php:434
+#: application/Controller/Admin/Settings.php:430
 msgid "Minimum Number of Words"
 msgstr "Mindestanzahl Wörter"
 
-#: application/Controller/Admin/Settings.php:441
+#: application/Controller/Admin/Settings.php:437
 msgid ""
 "Applied if number of words as percentage of the total number of words is "
 "less\n"
@@ -1231,11 +1246,11 @@ msgstr ""
 "Wird verwendet, wenn der oben angegebene Prozentsatz weniger Wörter ergibt "
 "als dieser Wert."
 
-#: application/Controller/Admin/Settings.php:448
+#: application/Controller/Admin/Settings.php:444
 msgid "Maximum Number of Words"
 msgstr "Höchstanzahl Wörter"
 
-#: application/Controller/Admin/Settings.php:455
+#: application/Controller/Admin/Settings.php:451
 msgid ""
 "Applied if number of words as percentage of the total number of words "
 "exceeds\n"
@@ -1244,75 +1259,82 @@ msgstr ""
 "Wird verwendet, wenn der oben angegebene Prozentsatz mehr Wörter ergibt als "
 "dieser Wert."
 
-#: application/Controller/Admin/Settings.php:472
+#: application/Controller/Admin/Settings.php:469
+#, php-format
 msgid ""
 "In the appearance tab, you can choose to preview your paid posts with the "
 "teaser content plus\n"
 "            an excerpt of the full content, covered by a semi-transparent "
-"overlay."
+"overlay. %1$s The following three parameters give you fine-grained control "
+"over the length of this excerpt. %1$s These settings do not affect the "
+"teaser content in any way."
 msgstr ""
+"Im Tab “Darstellung” können Sie Ihre monetarisierten Inhalte in einer "
+"Vorschau betrachten, die den Teaser und einen Auszug enthält, bedeckt durch "
+"ein semi-transparentes Overlay.%1$s\n"
+"Die folgenden drei Parameter geben Ihnen Kontrolle über die Länge dieses "
+"Auszugs.%1$s \n"
+"Diese Einstellungen beziehen sich nicht auf den Teaser, sondern auf den "
+"besagten vom Overlay bedeckten Auszug."
 
-#: application/Controller/Admin/Settings.php:475
-msgid ""
-"The following three parameters give you fine-grained control over the length "
-"of this excerpt."
-msgstr ""
+#: application/Controller/Admin/Settings.php:494
+msgid "none"
+msgstr "keine"
 
-#: application/Controller/Admin/Settings.php:477
-msgid "These settings do not affect the teaser content in any way."
-msgstr ""
+#: application/Controller/Admin/Settings.php:495
+msgid "all"
+msgstr "alle"
 
-#: application/Controller/Admin/Settings.php:524
+#: application/Controller/Admin/Settings.php:519
 msgid "Unlimited Access to Paid Content"
 msgstr "Unbegrenzter Zugriff auf Bezahlinhalte"
 
-#: application/Controller/Admin/Settings.php:555
+#: application/Controller/Admin/Settings.php:551
+#, php-format
 msgid ""
 "You can give logged-in users unlimited access to specific categories "
-"depending on their user role."
+"depending on their user role. %1$s\n"
+"            This feature can be useful e.g. for giving free access to "
+"existing subscribers. %1$s\n"
+"            We recommend the plugin 'User Role Editor' for adding custom "
+"roles to WordPress."
 msgstr ""
+"Sie können eingeloggten Nutzern mit speziellen “Nutzerrollen” unbeschränkten "
+"Zugriff auf bestimmte Kategorien einräumen.%1$s\n"
+"Dieses Feature ist insbesondere hilfreich, wenn Sie bspw. bestehenden "
+"Abonnenten kostenlosen Zugriff erteilen möchten.%1$s\n"
+"Wir empfehlen das Plugin “User Role Editor” für die Verwaltung von "
+"benutzerdefinierten Nutzerrollen."
 
-#: application/Controller/Admin/Settings.php:557
-msgid ""
-"This feature can be useful e.g. for giving free access to existing "
-"subscribers."
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:559
-msgid ""
-"We recommend the plugin 'User Role Editor' for adding custom roles to "
-"WordPress."
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:565
+#: application/Controller/Admin/Settings.php:561
 msgid "User Role"
 msgstr "Nutzerrolle"
 
-#: application/Controller/Admin/Settings.php:567
+#: application/Controller/Admin/Settings.php:563
 msgid "Unlimited Access to Categories"
 msgstr "Unbeschränkter Zugriff auf die Kategorien"
 
-#: application/Controller/Admin/Settings.php:572
+#: application/Controller/Admin/Settings.php:568
 msgid "Please add a custom role first."
 msgstr "Bitte erstellen Sie erst eine eigene Nutzerrolle."
 
-#: application/Controller/Admin/Settings.php:830
+#: application/Controller/Admin/Settings.php:826
 msgid "LaterPay API Settings"
 msgstr "LaterPay API-Einstellungen"
 
-#: application/Controller/Admin/Settings.php:839
+#: application/Controller/Admin/Settings.php:835
 msgid "Fallback Behavior"
 msgstr "Fallback-Verhalten"
 
-#: application/Controller/Admin/Settings.php:856
+#: application/Controller/Admin/Settings.php:852
 msgid "Enabled on home page"
 msgstr "LaterPay auf Startseite aktivieren"
 
-#: application/Controller/Admin/Settings.php:864
+#: application/Controller/Admin/Settings.php:860
 msgid "I want to enable requests to LaterPay API on home page"
 msgstr "Ich möchte LaterPay API Aufrufe auf der Startseite erlauben"
 
-#: application/Controller/Admin/Settings.php:878
+#: application/Controller/Admin/Settings.php:874
 msgid ""
 "Define fallback behavior in case LaterPay API is not responding and option "
 "to disallow plugin to contact LaterPay API on homepage"
@@ -1321,22 +1343,22 @@ msgstr ""
 "antwortet und legen Sie fest, ob LaterPay auf Ihrer Startseite aktiv sein "
 "soll."
 
-#: application/Controller/Admin/Settings.php:891
+#: application/Controller/Admin/Settings.php:887
 msgid "Do nothing"
 msgstr "Nichts tun"
 
-#: application/Controller/Admin/Settings.php:892
+#: application/Controller/Admin/Settings.php:888
 msgid ""
 "No user can access premium content while the LaterPay API is not responding."
 msgstr ""
 "Kein Nutzer hat Zugriff auf Premium-Inhalte, während die LaterPay API nicht "
 "erreichbar ist."
 
-#: application/Controller/Admin/Settings.php:896
+#: application/Controller/Admin/Settings.php:892
 msgid "Give full access"
 msgstr "Vollzugriff gewähren"
 
-#: application/Controller/Admin/Settings.php:897
+#: application/Controller/Admin/Settings.php:893
 msgid ""
 "All users have full access to premium content in order to not disappoint "
 "paying users."
@@ -1344,31 +1366,31 @@ msgstr ""
 "Alle Nutzer haben vollen Zugriff auf Bezahlinhalte (z. B. Nützlich, um "
 "bisherige Käufer nicht zu verärgern)."
 
-#: application/Controller/Admin/Settings.php:901
+#: application/Controller/Admin/Settings.php:897
 msgid "Hide premium content"
 msgstr "Bezahlinhalte ausblenden"
 
-#: application/Controller/Admin/Settings.php:902
+#: application/Controller/Admin/Settings.php:898
 msgid "Premium content is hidden from users. Direct access would be blocked."
 msgstr "Bezahlinhalte werden ausgeblendet, der Direktzugriff wird verweigert."
 
-#: application/Controller/Admin/Settings.php:982
+#: application/Controller/Admin/Settings.php:978
 msgid "auto detected"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:1021
+#: application/Controller/Admin/Settings.php:1017
 msgid "Google Analytics Tracking"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:1038
+#: application/Controller/Admin/Settings.php:1034
 msgid "Your Personal Google Analytics:"
-msgstr ""
+msgstr "Ihr Google Analytics Konto:"
 
-#: application/Controller/Admin/Settings.php:1064
+#: application/Controller/Admin/Settings.php:1060
 msgid "LaterPay Google Analytics:"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:1077
+#: application/Controller/Admin/Settings.php:1073
 msgid ""
 "LaterPay collects this information to improve our products and\n"
 "                                        services and also so that you can "
@@ -1377,46 +1399,43 @@ msgid ""
 "Analytics dashboard."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:1080
+#: application/Controller/Admin/Settings.php:1076
 msgid "Are you sure you would like to disable this feature?"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:1081
+#: application/Controller/Admin/Settings.php:1077
 msgid "Yes, Disable Tracking"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:1082
+#: application/Controller/Admin/Settings.php:1078 views/backend/account.php:349
 #: views/backend/appearance.php:189 views/backend/pricing.php:80
-#: views/backend/pricing.php:221 views/backend/pricing.php:341
-#: views/backend/pricing.php:457 views/backend/pricing.php:489
-#: views/backend/pricing.php:655 views/backend/pricing.php:696
-#: views/backend/pricing.php:846
+#: views/backend/pricing.php:220 views/backend/pricing.php:340
+#: views/backend/pricing.php:460 views/backend/pricing.php:492
+#: views/backend/pricing.php:654 views/backend/pricing.php:695
+#: views/backend/pricing.php:841
 #: views/frontend/partials/widget/purchase-overlay.php:142
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: application/Controller/Admin/Settings.php:1107
+#: application/Controller/Admin/Settings.php:1103
+#, php-format
 msgid ""
 "LaterPay is not in the business of selling data. This tracking information "
-"is for your benefit\n"
-"            so that you can determine the effectiveness of "
+"is for your benefit so that you can determine the effectiveness of your "
+"pricing strategy. %s\n"
+"            To view your analytics, log in to your LaterPay account at "
+"%slaterpay.net%s to view your Merchant Analytics dashboard."
 msgstr ""
-
-#: application/Controller/Admin/Settings.php:1109
-msgid ""
-"your pricing strategy. To view your analytics, log in to your LaterPay "
-"account at"
-msgstr ""
+"LaterPay verkauft keine Daten an Dritte. Diese Tracking-Daten werden für "
+"Ihren Vorteil erhoben und Dienen der Optimierung Ihrer Preisstrategie. %s \n"
+"Um Ihre Analytics auf dem Händler-Dashboard zu betrachten, loggen Sie sich "
+"bitte in Ihr LaterPay Händlerkonto auf %slaterpay.net%s ein."
 
 #: application/Controller/Admin/Settings.php:1112
-msgid "to view your Merchant Analytics dashboard."
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:1117
 msgid "Enabled"
-msgstr ""
+msgstr "Aktiviert"
 
-#: application/Controller/Admin/Settings.php:1119
+#: application/Controller/Admin/Settings.php:1114
 msgid "Google Analytics \"UA-ID\""
 msgstr ""
 
@@ -1602,7 +1621,7 @@ msgid "1 month access to all content on this website (cancellable anytime)"
 msgstr "1 Monat Zugriff auf alle Inhalte dieser Website (jederzeit kündbar)"
 
 #: application/Helper/Subscription.php:68 application/Helper/TimePass.php:174
-#: views/backend/pricing.php:561 views/backend/pricing.php:757
+#: views/backend/pricing.php:564 views/backend/pricing.php:756
 msgid "access to"
 msgstr "Zugriff auf"
 
@@ -1687,8 +1706,8 @@ msgstr "t"
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:287 application/Module/TimePasses.php:417
-#: application/Module/TimePasses.php:440 application/Module/TimePasses.php:458
+#: application/Module/Purchase.php:287 application/Module/TimePasses.php:446
+#: application/Module/TimePasses.php:469 application/Module/TimePasses.php:487
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
@@ -1704,7 +1723,7 @@ msgstr ""
 "Zahlungsmethode Ihres Vertrauens."
 
 #: application/Module/Purchase.php:303 application/Module/Purchase.php:316
-#: application/Module/TimePasses.php:425
+#: application/Module/TimePasses.php:454
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
@@ -1739,21 +1758,21 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie %s %s erreicht haben. Erst dann müssen Sie "
 "sich registrieren und bezahlen."
 
-#: application/Module/TimePasses.php:361
+#: application/Module/TimePasses.php:390
 msgid "Wrong time pass id or no time passes specified."
 msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
 
-#: application/Module/TimePasses.php:420
+#: application/Module/TimePasses.php:449
 msgid "Buy Time Pass"
 msgstr "Zeitpass kaufen"
 
-#: application/Module/TimePasses.php:421
+#: application/Module/TimePasses.php:450
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
 "Ihres Vertrauens."
 
-#: application/Module/TimePasses.php:426
+#: application/Module/TimePasses.php:455
 msgid ""
 "Immediately access your content. <br>A time pass is not a subscription, it "
 "expires automatically."
@@ -1761,21 +1780,21 @@ msgstr ""
 "Greifen Sie sofort auf Ihre Inhalte zu.<br>\n"
 "Ein Zeitpass ist kein Abo, denn er läuft automatisch aus."
 
-#: application/Module/TimePasses.php:443
+#: application/Module/TimePasses.php:472
 msgid "Buy Subscription"
 msgstr "Abo kaufen"
 
-#: application/Module/TimePasses.php:444
+#: application/Module/TimePasses.php:473
 msgid "Buy a subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie ein Abo und bezahlen Sie mit einer Zahlungsmethode,  der Sie "
 "vertrauen."
 
-#: application/Module/TimePasses.php:461
+#: application/Module/TimePasses.php:490
 msgid "Buy a Time Pass or Subscription"
 msgstr "Kaufen Sie einen Zeitpass oder ein Abo"
 
-#: application/Module/TimePasses.php:462
+#: application/Module/TimePasses.php:491
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer "
@@ -1813,194 +1832,186 @@ msgstr ""
 msgid "rotateZ"
 msgstr ""
 
-#: views/backend/account.php:21 views/backend/appearance.php:19
+#: views/backend/account.php:24 views/backend/appearance.php:19
 #: views/backend/partials/post-pricing-form.php:58 views/backend/pricing.php:19
 msgid "Test mode"
 msgstr "Test-Modus"
 
-#: views/backend/account.php:22 views/backend/appearance.php:20
+#: views/backend/account.php:25 views/backend/appearance.php:20
 #: views/backend/partials/post-pricing-form.php:62 views/backend/pricing.php:23
 msgid "Earn money in"
-msgstr ""
+msgstr "Geld verdienen im"
 
-#: views/backend/account.php:22 views/backend/appearance.php:20
+#: views/backend/account.php:25 views/backend/appearance.php:20
 #: views/backend/partials/post-pricing-form.php:62 views/backend/pricing.php:23
 msgid "live mode"
-msgstr ""
+msgstr "Live-Modus"
 
-#: views/backend/account.php:35
+#: views/backend/account.php:38
 msgid "The LaterPay plugin is in"
 msgstr "Das LaterPay Plugin ist im"
 
-#: views/backend/account.php:51
+#: views/backend/account.php:54
 msgid "mode."
 msgstr "Modus."
 
-#: views/backend/account.php:55
+#: views/backend/account.php:58
 msgid "It is invisible"
 msgstr "Es ist für Besucher nicht sichtbar"
 
-#: views/backend/account.php:72
+#: views/backend/account.php:75
 msgid "visible to visitors."
 msgstr "sichtbar."
 
-#: views/backend/account.php:78
-#, fuzzy
+#: views/backend/account.php:81
 msgid "Who is LaterPay?"
-msgstr "Willkommen bei LaterPay"
+msgstr "Wer ist LaterPay?"
 
-#: views/backend/account.php:80
+#: views/backend/account.php:85
+#, php-format
 msgid ""
-"Meet the online payment system that cares about the user experience as much "
-"as you do"
+"%1$sMeet the online payment system that cares about the user experience as "
+"much as you do%2$s %3$s %3$s\n"
+"                        With LaterPay, your users can purchase digital "
+"content and services, or make contributions and donations, with a single "
+"click—a frictionless experience that turns traffic into transactions.%3$s "
+"%3$s\n"
+"                        Requiring upfront registration and payment results "
+"in customer abandon rates of up to 98%%. %3$s\n"
+"                        LaterPay's patented Pay Later revenue model instead "
+"defers the registration process until a customer’s purchases reach a $5 "
+"threshold. %3$s\n"
+"                        Only then, once your content’s value is firmly "
+"established, is the customer asked to register and pay. %3$s\n"
+"                        This results in shopping cart conversion rates of "
+"over 80%%. %3$s\n"
+"                        LaterPay’s frictionless customer onboarding helps "
+"you turn traffic into transactions."
 msgstr ""
+"%1$sLaterPay ist das nutzer-zentrische Bezahlsystem im Netz.%2$s\n"
+"%3$s %3$s\n"
+"Mit LaterPay können Ihre Nutzer digitale Inhalte und Dienste erwerben, oder "
+"Unterstützung und Spenden mit einem einfachen Klick ausführen. Eine "
+"reibungslose Benutzererfahrung, die Traffic in Transaktionen umwandelt.%3$s\n"
+"%3$s\n"
+"Erzwungene Vorab-Registrierung und unmittelbare Zahlung, wie in klassischen "
+"Modellen üblich, können Absprungraten von bis zu 98%% bedeuten.%3$s\n"
+"LaterPay’s patentiertes “Pay Later” Modell verschiebt den Registrierungs- "
+"und Zahlungsprozess, Kunden werden erst nach dem Überschreiten der 5,00€-"
+"Grenze zur Kasse und Registrierung gebeten.%3$s\n"
+"Erst wenn Kunden von der Qualität Ihrer Inhalte überzeugt sind, führen wir "
+"diese zur Registrierung und Zahlung.%3$s\n"
+"Das resultiert in einer Warenkorb-Konversionsrate von über 80%%. %3$s\n"
+"LaterPay’s reibungsloses Onboarding hilft Ihnen dabei, Umsätze aus Ihrem "
+"Traffic zu machen."
 
-#: views/backend/account.php:83
-msgid ""
-"With LaterPay, your users can purchase digital content and services, or make "
-"contributions and\n"
-"                    donations, with a single click—a frictionless experience "
-"that turns traffic into transactions."
-msgstr ""
-
-#: views/backend/account.php:87
-msgid ""
-"Requiring upfront registration and payment results in customer abandon rates "
-"of up to 98%."
-msgstr ""
-
-#: views/backend/account.php:89
-msgid ""
-"LaterPay's patented Pay Later revenue model instead defers the registration "
-"process until a customer’s purchases reach a $5 threshold."
-msgstr ""
-
-#: views/backend/account.php:91
-msgid ""
-"Only then, once your content’s value is firmly established, is the customer "
-"asked to register and pay."
-msgstr ""
-
-#: views/backend/account.php:93
-msgid "This results in shopping cart conversion rates of over 80%."
-msgstr ""
-
-#: views/backend/account.php:95
-msgid ""
-"LaterPay’s frictionless customer onboarding helps you turn traffic into "
-"transactions."
-msgstr ""
-
-#: views/backend/account.php:104
+#: views/backend/account.php:105
 msgid "Sandbox Environment"
 msgstr "Sandbox"
 
-#: views/backend/account.php:107
+#: views/backend/account.php:108
 msgid "for testing with simulated payments"
 msgstr "zu Testzwecken mit simulierten Zahlungen"
 
-#: views/backend/account.php:126
+#: views/backend/account.php:127
 msgid "Paste Sandbox Merchant ID here"
 msgstr "Sandbox Merchant ID hier einfügen"
 
-#: views/backend/account.php:127 views/backend/account.php:183
+#: views/backend/account.php:128 views/backend/account.php:184
 msgid "Merchant ID"
-msgstr "Merchant ID"
+msgstr "Händler ID (Merchant ID)"
 
-#: views/backend/account.php:146
+#: views/backend/account.php:147
 msgid "Paste Sandbox API Key here"
 msgstr "Sandbox API Key hier einfügen"
 
-#: views/backend/account.php:147 views/backend/account.php:203
+#: views/backend/account.php:148 views/backend/account.php:204
 msgid "API Key"
-msgstr "API Key"
+msgstr "API Key (Secret)"
 
-#: views/backend/account.php:160
+#: views/backend/account.php:161
 msgid "Live Environment"
 msgstr "Live"
 
-#: views/backend/account.php:163
+#: views/backend/account.php:164
 msgid "for processing real financial transactions"
 msgstr "Produktivumgebung für echte Käufe und Zahlungen"
 
-#: views/backend/account.php:182
+#: views/backend/account.php:183
 msgid "Paste Live Merchant ID here"
 msgstr "Live Merchant ID hier einfügen"
 
-#: views/backend/account.php:202
+#: views/backend/account.php:203
 msgid "Paste Live API Key here"
 msgstr "Live API Key hier einfügen"
 
-#: views/backend/account.php:215
+#: views/backend/account.php:216
 msgid "Request Live API Credentials"
 msgstr "Live API Zugangsdaten anfordern"
 
-#: views/backend/account.php:225
+#: views/backend/account.php:226
 msgid "Region and Currency"
 msgstr "Ländergruppe und Währung"
 
-#: views/backend/account.php:227
+#: views/backend/account.php:228
 msgid "Select the region for your LaterPay merchant account"
 msgstr "Wählen Sie die Ländergruppe Ihres LaterPay Händlerkontos aus"
 
-#: views/backend/account.php:231
+#: views/backend/account.php:234
+#, php-format
 msgid ""
-"Is the selling company or person based in Europe or in the United States?"
+"Is the selling company or person based in Europe or in the United States? "
+"%1$s\n"
+"                            If you select 'Europe', all prices will be "
+"displayed and charged in Euro (EUR), and the plugin will connect to the "
+"LaterPay Europe platform. %1$s\n"
+"                            If you select 'United States', all prices will "
+"be displayed and charged in U.S. Dollar (USD), and the plugin will connect "
+"to the LaterPay U.S. platform."
 msgstr ""
+"Ist die verkaufende Firma oder Person in Europa, oder den Vereinigten "
+"Staaten ansässig?%1$s\n"
+"Wählen Sie “”Europa”” werden alle Preise in Euro (EUR) dargestellt und "
+"berechnet.%1$s\n"
+"Währen Sie “”Vereinigte Staaten””, werden alle Preise in U.S. Dollar (USD) "
+"dargestellt und berechnet.\n"
+"Das Plugin verbindet sich mit der regional entsprechenden Plattform."
 
-#: views/backend/account.php:233
-msgid ""
-"If you select 'Europe', all prices will be displayed and charged in Euro "
-"(EUR), and the plugin will connect to the LaterPay Europe platform."
-msgstr ""
-
-#: views/backend/account.php:235
-msgid ""
-"If you select 'United States', all prices will be displayed and charged in U."
-"S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform."
-msgstr ""
-
-#: views/backend/account.php:244
+#: views/backend/account.php:248
 msgid "Europe (EUR)"
 msgstr "Europa (EUR)"
 
-#: views/backend/account.php:245
+#: views/backend/account.php:249
 msgid "United States (USD)"
 msgstr "USA (USD)"
 
-#: views/backend/account.php:252
-msgid "Important:"
-msgstr ""
-
-#: views/backend/account.php:254
-msgid " The minimum value for \"Pay Now\" prices in the U.S. region is"
-msgstr ""
-
-#: views/backend/account.php:256
-msgid "$1.99"
-msgstr ""
-
-#: views/backend/account.php:259
+#: views/backend/account.php:257
+#, php-format
 msgid ""
-"If you have already set \"Pay Now\" prices lower than 1.99, make sure to "
-"change them before you switch to the U.S. region."
+"%1$sImportant:%2$s The minimum value for \"Pay Now\" prices in the U.S. "
+"region is %1$s$1.99%1$s %3$s\n"
+"                            If you have already set \"Pay Now\" prices lower "
+"than 1.99, make sure to change them before you switch to the U.S. region. "
+"%3$s\n"
+"                            If you haven't done any configuration yet, you "
+"can safely switch the region without further adjustments."
 msgstr ""
+"%1$sWichtig:%2$s Der Mindestwert für “Pay Now” (Sofort Zahlen) Preise "
+"beträgt %1$s$1.99%2$s in der US-Region.%3$s\n"
+"Wenn Sie bereits Preise unter dieser Schwelle festgelegt haben, ändern Sie "
+"diese bitte vor der Regionsumstellung.%3$s\n"
+"Falls Sie noch keine Preise definiert haben, können Sie diese Einstellung "
+"(Region) bedenkenlos ändern."
 
-#: views/backend/account.php:261
-msgid ""
-"If you haven't done any configuration yet, you can safely switch the region "
-"without further adjustments. "
-msgstr ""
-
-#: views/backend/account.php:269
+#: views/backend/account.php:272
 msgid "General FAQs"
 msgstr "Allgemeine FAQs"
 
-#: views/backend/account.php:272
+#: views/backend/account.php:275
 msgid "Having Trouble with Page Cache?"
 msgstr "Probleme mit dem Seiten-Cache?"
 
-#: views/backend/account.php:276
+#: views/backend/account.php:279
 msgid ""
 "You need to whitelist the following cookies from caching in order for page-"
 "cache to work properly with laterpay."
@@ -2008,18 +2019,18 @@ msgstr ""
 "Sie müssen die folgenden Cookies in Ihrem Cache auf die White-List setzen, "
 "damit das Seiten-Cache ordnungsgemäß mit LaterPay funktioniert."
 
-#: views/backend/account.php:282
+#: views/backend/account.php:285
 msgid ""
 "We have already taken care of this if you're on a WordPress VIP Environment."
 msgstr ""
 "Wir haben uns bereits darum gekümmert, wenn Sie in einer WordPress VIP-"
 "Umgebung sind."
 
-#: views/backend/account.php:291
+#: views/backend/account.php:294
 msgid "Having Trouble on WPEngine?"
 msgstr "Probleme mit WPEngine?"
 
-#: views/backend/account.php:295
+#: views/backend/account.php:298
 msgid ""
 "If you're facing the issue on WPEngine even after whitelisting requested "
 "cookies, please check if any of your active plugin/theme is using"
@@ -2028,25 +2039,82 @@ msgstr ""
 "Cookies auf der White-List auftritt, überprüfen Sie, ob eines Ihrer aktiven "
 "Plugins / Themes verwendet wird"
 
-#: views/backend/account.php:295
+#: views/backend/account.php:298
 msgid "session*"
 msgstr "Session*"
 
-#: views/backend/account.php:295
+#: views/backend/account.php:298
 msgid "functions."
 msgstr "Funktionen."
 
-#: views/backend/account.php:296
+#: views/backend/account.php:299
 msgid "Please Check"
 msgstr "Bitte klicken Sie"
 
-#: views/backend/account.php:296
+#: views/backend/account.php:299
 msgid "this"
 msgstr "hier"
 
-#: views/backend/account.php:296
+#: views/backend/account.php:299
 msgid "for more information regarding session usage on WPEngine."
 msgstr "für weitere Informationen zu Session-Verwendung in WPEngine."
+
+#: views/backend/account.php:317
+#, php-format
+msgid "%sWarning!%s This operation deletes ALL LaterPay plugin data."
+msgstr ""
+"%sAchtung!%s Diese Operation löscht alle LaterPay Plugin Daten "
+"unwiderruflich."
+
+#: views/backend/account.php:323
+#, php-format
+msgid ""
+"%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL "
+"its data."
+msgstr ""
+"%sAchtung!%s Diese Operation deaktivieren das LaterPay Plugin und löscht "
+"alle Daten unwiderruflich."
+
+#: views/backend/account.php:330
+msgid ""
+"You will lose all appearance settings and pricing configurations. This "
+"cannot be undone."
+msgstr ""
+"Sie verlieren hierbei alle Layout- und Preiskonfigurationen. Diese Aktion "
+"kann nicht rückgängig gemacht werden."
+
+#: views/backend/account.php:335
+#, php-format
+msgid ""
+"%sClick here%s or email %ssupport@laterpay.net%s to provide feedback or to "
+"reach our customer service team."
+msgstr ""
+"%sKlicken Sie hier%s oder schreiben Sie eine Email an %support@laterpay.net"
+"%s, um Feedback zu geben oder mit unserem Kundensupport Kontakt aufzunehmen."
+
+#: views/backend/account.php:344
+msgid ""
+"Are you sure you want to delete ALL LaterPay Plugin data? You will loose all "
+"pricing configurations. This cannot be undone."
+msgstr ""
+"Sind Sie sicher, dass Sie alle LaterPay Daten löschen möchten? Sie verlieren "
+"alle Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
+
+#: views/backend/account.php:346
+msgid ""
+"Are you sure you want to deactivate LaterPay plugin and delete ALL its data? "
+"You will loose all pricing configurations. This cannot be undone."
+msgstr ""
+
+#: views/backend/account.php:348
+msgid "Delete LaterPay Plugin Data"
+msgstr "Plugin Daten löschen"
+
+#: views/backend/account.php:348
+#, fuzzy
+#| msgid "The LaterPay plugin is in"
+msgid "Deactivate LaterPay Plugin"
+msgstr "Das LaterPay Plugin ist im"
 
 #: views/backend/appearance.php:33
 msgid "Content Preview for Paid Posts"
@@ -2125,10 +2193,10 @@ msgid "Preview"
 msgstr "Vorschau"
 
 #: views/backend/appearance.php:188 views/backend/pricing.php:79
-#: views/backend/pricing.php:220 views/backend/pricing.php:340
-#: views/backend/pricing.php:456 views/backend/pricing.php:488
-#: views/backend/pricing.php:654 views/backend/pricing.php:695
-#: views/backend/pricing.php:845
+#: views/backend/pricing.php:219 views/backend/pricing.php:339
+#: views/backend/pricing.php:459 views/backend/pricing.php:491
+#: views/backend/pricing.php:653 views/backend/pricing.php:694
+#: views/backend/pricing.php:840
 msgid "Save"
 msgstr "Speichern"
 
@@ -2157,9 +2225,8 @@ msgstr ""
 "LaterPay Button an einer Position Ihrer Wahl anzuzeigen."
 
 #: views/backend/appearance.php:237
-#, fuzzy
 msgid "Display of LaterPay Subscriptions & Time Passes"
-msgstr "Position der LaterPay Zeitpässe"
+msgstr "Anzeige LaterPay Abos und Zeitpässe"
 
 #: views/backend/appearance.php:265
 msgid ""
@@ -2242,21 +2309,22 @@ msgid ""
 "displayed if an Individual Article Price greater than 0.00 is manually set "
 "by selecting “Individual Price” below."
 msgstr ""
+"Alle Artikel sind standardmäßig kostenlos; Zeitpässe und Abos werden nur "
+"angezeigt, wenn ein Einzelpreis größer 0.00 manuell über “Individueller "
+"Preis” eingestellt wurde."
 
 #: views/backend/partials/post-pricing-form.php:98
-#: views/backend/pricing.php:156
+#: views/backend/pricing.php:155
 msgid "Posts cannot be purchased individually"
-msgstr ""
+msgstr "Beiträge können nicht einzeln gekauft werden"
 
 #: views/backend/partials/post-pricing-form.php:104
 msgid "If you would like to allow articles to be purchased individually,"
-msgstr ""
+msgstr "Wenn Sie Artikel auch einzeln verkaufen möchten,"
 
 #: views/backend/partials/post-pricing-form.php:106
-#, fuzzy
-#| msgid "Edit Global Default Price"
 msgid "click here to adjust your Global Default Price."
-msgstr "Allgemeinen Standardpreis bearbeiten"
+msgstr "klicken Sie hier um Ihren globalen Standardpreis anzupassen."
 
 #: views/backend/partials/post-pricing-form.php:149
 msgid "0.00"
@@ -2278,12 +2346,9 @@ msgid "Category Default Price"
 msgstr "Kategorie- preis"
 
 #: views/backend/partials/post-pricing-form.php:180
-msgid "Global"
-msgstr ""
-
-#: views/backend/partials/post-pricing-form.php:180
-msgid "Default Price"
-msgstr ""
+#, php-format
+msgid "Global %sDefault Price"
+msgstr "Globaler %sStandardpreis"
 
 #: views/backend/partials/post-pricing-form.php:218
 msgid "The dynamic pricing will"
@@ -2316,7 +2381,7 @@ msgstr "Diesen Artikel"
 
 #: views/backend/partials/purchase-overlay.php:26
 msgid "An Amazing Article"
-msgstr ""
+msgstr "Ein herausragender Artikel"
 
 #: views/backend/partials/purchase-overlay.php:41
 msgid "Week Pass"
@@ -2409,225 +2474,220 @@ msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
 #: views/backend/pricing.php:44
-#, fuzzy
-#| msgid "Teaser Content"
 msgid "LaterPay Content"
-msgstr "Teaser für den Beitrag"
+msgstr "LaterPay Inhalt"
 
 #: views/backend/pricing.php:46
 msgid "Which content would you like to sell with LaterPay?"
-msgstr ""
+msgstr "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
 
 #: views/backend/pricing.php:101
 msgid "Every post costs"
 msgstr "Jeder Artikel kostet"
 
-#: views/backend/pricing.php:116
-msgid "Posts cannot be purchased individually;"
+#: views/backend/pricing.php:115
+#, php-format
+msgid ""
+"Posts cannot be purchased individually;%s only Time Passes & Subscriptions "
+"will be displayed."
 msgstr ""
+"Beiträge können nicht einzeln gekauft werden; %s Nur Zeitpässe und Abos "
+"werden angezeigt."
 
-#: views/backend/pricing.php:117
-msgid "only Time Passes & Subscriptions will be displayed."
+#: views/backend/pricing.php:121
+#, php-format
+msgid ""
+"%1$sEvery post is FREE%2$s unless they match a Category Default Price %3$s\n"
+"                                or have an Individual Article Price set on "
+"the Post page."
 msgstr ""
+"%1$sJeder Beitrag ist KOSTENLOS%2$s, es sei denn ein Kategoriestandardpreis "
+"trifft zu, %3$s\n"
+"oder ein individueller Artikelpreis wurde im Beitragseditor vergeben."
 
-#: views/backend/pricing.php:124
-msgid "Every post is FREE"
-msgstr ""
-
-#: views/backend/pricing.php:125
-msgid "unless they match a Category Default Price"
-msgstr ""
-
-#: views/backend/pricing.php:126
-msgid "or have an Individual Article Price set on the Post page."
-msgstr ""
-
-#: views/backend/pricing.php:141
+#: views/backend/pricing.php:140
 msgid "Edit Global Default Price"
 msgstr "Allgemeinen Standardpreis bearbeiten"
 
-#: views/backend/pricing.php:148
+#: views/backend/pricing.php:147
 msgid "FREE unless price is set on post page or by category"
 msgstr ""
+"KOSTENLOS, es sei denn der Preis wurde im Beitragseditor oder per Kategorie "
+"vergeben"
 
-#: views/backend/pricing.php:164
-msgid "Set individual article default price"
+#: views/backend/pricing.php:149
+msgid ""
+"All articles will be free by default; Time Passes & Subscriptions will only "
+"be displayed if the article matches a Category Default Price or has an "
+"Individual Article Price set on the Post page."
 msgstr ""
+"Alle Artikel werden standardmäßig kostenlos angeboten; Zeitpässe und Abos "
+"werden nur angezeigt, wenn der Artikel einem Kategoriestandardpreis "
+"zugewiesen wurde, oder einen individuellen Artikelpreis erhielt."
 
-#: views/backend/pricing.php:187 views/backend/pricing.php:318
-#: views/backend/pricing.php:434
+#: views/backend/pricing.php:163
+msgid "Set individual article default price"
+msgstr "Individuellen Artikel-Standardpreis definieren"
+
+#: views/backend/pricing.php:186 views/backend/pricing.php:317
+#: views/backend/pricing.php:437
 msgid "Revenue Model"
 msgstr "Erlösmodell"
 
-#: views/backend/pricing.php:208
-msgid "TIP:"
-msgstr ""
-
-#: views/backend/pricing.php:209
+#: views/backend/pricing.php:206
+#, php-format
 msgid ""
-" \"Pay Later\" is LaterPay's patented revenue model which allows your "
-"customers to purchase content with a single click, dramatically reducing "
-"their barriers to entry. Once they have purchased $5 or 5€ worth of content, "
-"they will be asked to settle their invoice."
+"%sTIP:%s \"Pay Later\" is LaterPay's patented revenue model which allows "
+"your customers to purchase content with a single click, dramatically "
+"reducing their barriers to entry. Once they have purchased $5 or 5€ worth of "
+"content, they will be asked to settle their invoice. %sClick here to learn "
+"more.%s"
 msgstr ""
+"%sEmpfehlung:%s “Später zahlen” ist LaterPay’s patentiertes Erlösmodell, "
+"welches Ihren Kunden erlaubt Inhalte mit einem einzelnen Klick zu erwerben, "
+"was die Einstiegsbarriere erheblich senkt. Sobald Kunden die Schwelle von $5 "
+"oder 5€ an Inhalten erreicht haben, werden sie zur Registrierung und Zahlung "
+"aufgefordert. %sKlicken Sie hier, um mehr zu erfahren.%s"
 
-#: views/backend/pricing.php:211
-msgid " Click here to learn more."
-msgstr ""
-
-#: views/backend/pricing.php:232 views/backend/pricing.php:245
+#: views/backend/pricing.php:231 views/backend/pricing.php:244
 msgid ""
 "To allow articles to be purchased individually, adjust your Global Default "
 "Price."
 msgstr ""
 
-#: views/backend/pricing.php:234 views/backend/pricing.php:472
-#: views/backend/pricing.php:679
+#: views/backend/pricing.php:233 views/backend/pricing.php:475
+#: views/backend/pricing.php:678
 msgid "Create"
 msgstr "Erstellen"
 
-#: views/backend/pricing.php:265 views/backend/pricing.php:384
+#: views/backend/pricing.php:264 views/backend/pricing.php:387
 msgid "Every post in"
 msgstr "Jeder Beitrag in"
 
-#: views/backend/pricing.php:269 views/backend/pricing.php:387
+#: views/backend/pricing.php:268 views/backend/pricing.php:390
 msgid "costs"
 msgstr "kostet"
 
-#: views/backend/pricing.php:290
+#: views/backend/pricing.php:289
 msgid "Edit Category Default Price"
 msgstr "Kategoriespezifischen Standardpreis bearbeiten"
 
-#: views/backend/pricing.php:297 views/backend/pricing.php:413
+#: views/backend/pricing.php:296 views/backend/pricing.php:416
 msgid "Category"
 msgstr "Kategorie"
 
-#: views/backend/pricing.php:352
+#: views/backend/pricing.php:351
 msgid "Set prices by category"
 msgstr "Kategoriespezifische Standardpreise setzen"
 
-#: views/backend/pricing.php:358
-msgid "Not familiar with WordPress categories?"
+#: views/backend/pricing.php:356
+#, php-format
+msgid ""
+"Not familiar with WordPress categories? %s\n"
+"                                %sClick here to learn more.%s"
 msgstr ""
-
-#: views/backend/pricing.php:360
-msgid "Click here to learn more."
-msgstr ""
+"Nicht mit WordPress-Kategorien vertraut?%s\n"
+"%sKlicken Sie hier, um mehr zu erfahren.%s"
 
 #: views/backend/pricing.php:367
+#, php-format
 msgid ""
 "Category default prices are convenient for selling different categories of "
-"content at different standard prices."
+"content at different standard prices. %s\n"
+"                                Individual prices can be set when editing a "
+"post."
 msgstr ""
+"Kategoriestandardpreise sind praktisch, um viele Inhalte in mehreren "
+"Kategorien zu verschiedenen Standardpreisen zu verkaufen. %s\n"
+"Einzelne Preise können auf Beitragsebene nach Wunsch überschrieben werden."
 
-#: views/backend/pricing.php:367
-msgid "Individual prices can be set when editing a post."
-msgstr ""
-
-#: views/backend/pricing.php:371
+#: views/backend/pricing.php:374
 msgid "Click the \"Create\" button to set a default price for a category."
 msgstr ""
 "Klicken Sie auf den \"Erstellen\" Button, um einen Standardpreis für eine "
 "Kategorie zu setzen."
 
-#: views/backend/pricing.php:406
+#: views/backend/pricing.php:409
 msgid "Add a Category Default Price"
 msgstr "Kategoriespezifischen Standardpreis hinzufügen"
 
-#: views/backend/pricing.php:536
+#: views/backend/pricing.php:539
 msgid "The pass is valid for "
 msgstr "Dieser Pass gilt für "
 
-#: views/backend/pricing.php:556
+#: views/backend/pricing.php:559
 msgid "and grants"
 msgstr "und gibt"
 
-#: views/backend/pricing.php:583
+#: views/backend/pricing.php:586
 msgid "This pass costs"
 msgstr "Dieser Pass kostet"
 
-#: views/backend/pricing.php:591
+#: views/backend/pricing.php:594
 msgid "and the user has to"
 msgstr "und Nutzer müssen"
 
-#: views/backend/pricing.php:612 views/backend/pricing.php:803
+#: views/backend/pricing.php:615 views/backend/pricing.php:802
 msgid "Title"
 msgstr "Titel"
 
-#: views/backend/pricing.php:623 views/backend/pricing.php:814
-msgid "Description"
-msgstr "Beschreibung"
-
-#: views/backend/pricing.php:636
-msgid "Offer this time pass at a reduced price of"
-msgstr "Diesen Zeitpass zu einem reduzierten Preis anbieten:"
-
-#: views/backend/pricing.php:643 views/backend/pricing.php:834
+#: views/backend/pricing.php:642 views/backend/pricing.php:829
 msgid "The voucher price must be less than or equal to the "
 msgstr ""
 
-#: views/backend/pricing.php:643
+#: views/backend/pricing.php:642
 msgid "time pass price."
 msgstr ""
 
-#: views/backend/pricing.php:645 views/backend/pricing.php:836
+#: views/backend/pricing.php:646 views/backend/pricing.php:833
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
-#: views/backend/pricing.php:665
-#, fuzzy
-#| msgid "Unlimited Access to Paid Content"
+#: views/backend/pricing.php:664
 msgid "Sell time-limited access to content"
-msgstr "Unbegrenzter Zugriff auf Bezahlinhalte"
+msgstr "Zeitbasierten Zugriff auf Inhalte verkaufen"
 
-#: views/backend/pricing.php:668
-#, fuzzy
-#| msgid ""
-#| "With Time Passes you can sell time-limited access to a category or your "
-#| "entire site. Time Passes do not renew automatically."
+#: views/backend/pricing.php:667
 msgid ""
 "With Time Passes you can sell time-limited access to a category or your "
 "entire site. Time Passes do not renew automatically and are a great option "
 "for readers who are not quite ready to commit to a subscription."
 msgstr ""
-"Mit Zeitpässen können Sie einen zeitlich begrenzten Zugang zu Kategorien "
-"oder der gesamten Seite verkaufen. Zeitpässe verlängern sich nicht "
-"automatisch."
+"Mit Zeitpässen können Sie zeitbasierten Zugriff auf gesamte Kategorien Ihrer "
+"Website verkaufen. Zeitpässe verlängern sich nicht automatisch und sind eine "
+"großartige Option für Leser, die noch nicht bereit sind ein Abo "
+"abzuschließen."
 
-#: views/backend/pricing.php:671
+#: views/backend/pricing.php:670
 msgid "Click the \"Create\" button to add a Time Pass."
 msgstr ""
 "Klicken Sie auf den \"Erstellen\" Button, um einen Zeitpass hinzuzufügen."
 
-#: views/backend/pricing.php:686 views/backend/pricing.php:725
+#: views/backend/pricing.php:685 views/backend/pricing.php:724
 msgid "Sub"
 msgstr "Abo"
 
-#: views/backend/pricing.php:743
+#: views/backend/pricing.php:742
 msgid "The subscription costs"
 msgstr "Das Abo kostet"
 
-#: views/backend/pricing.php:752
+#: views/backend/pricing.php:751
 msgid ", grants "
 msgstr ", gibt"
 
-#: views/backend/pricing.php:780
+#: views/backend/pricing.php:779
 msgid "and renews every"
 msgstr "und verlängert sich nach"
 
-#: views/backend/pricing.php:827
-msgid "Offer this subscription at a reduced price of"
-msgstr ""
-
-#: views/backend/pricing.php:834
+#: views/backend/pricing.php:829
 msgid "subscription price."
 msgstr ""
 
-#: views/backend/pricing.php:856
+#: views/backend/pricing.php:851
 msgid "Sell subscriptions"
 msgstr "Abos verkaufen"
 
-#: views/backend/pricing.php:859
+#: views/backend/pricing.php:854
 msgid ""
 "Subscriptions work exactly like time passes, with a simple difference: They "
 "renew automatically."
@@ -2635,7 +2695,7 @@ msgstr ""
 "Abos funktionieren genau wie Zeitpässe, mit einem einfachen Unterschied: Sie "
 "verlängern sich automatisch."
 
-#: views/backend/pricing.php:862
+#: views/backend/pricing.php:857
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr "Klicken Sie auf den \"Erstellen\" Button, um ein Abo hinzuzufügen."
 
@@ -2732,6 +2792,9 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
+#~ msgid "Offer this time pass at a reduced price of"
+#~ msgstr "Diesen Zeitpass zu einem reduzierten Preis anbieten:"
+
 #~ msgid "Buy a time pass or subscription to read the full content."
 #~ msgstr ""
 #~ "Kaufen Sie einen Zeitpass oder ein Abo, um den gesamten Inhalt zu lesen"
@@ -2818,50 +2881,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
 #~ msgid "Earn money in <i>live mode</i>"
 #~ msgstr "Verdienen Sie Geld im <i>Live-Modus</i>"
-
-#~ msgid ""
-#~ "Is the selling company or person based in Europe or in the United States?"
-#~ "<br>\n"
-#~ "                        If you select 'Europe', all prices will be "
-#~ "displayed and charged in Euro (EUR), and the plugin will connect to the "
-#~ "LaterPay Europe platform.<br>\n"
-#~ "                        If you select 'United States', all prices will be "
-#~ "displayed and charged in U.S. Dollar (USD), and the plugin will connect "
-#~ "to the LaterPay U.S. platform. \n"
-#~ "                        "
-#~ msgstr ""
-#~ "Hat das verkaufende Unternehmen seinen Sitz in Europa oder in den USA?"
-#~ "<br>\n"
-#~ "Wenn Sie \"Europa\" auswählen, werden alle Preise in Euro (EUR) angezeigt "
-#~ "und das Plugin verwendet die LaterPay-Europa-Plattform.\n"
-#~ "Wenn Sie \"USA\" auswählen, werden alle Preise in Dollar (USD) angezeigt "
-#~ "und das Plugin verwendet die LaterPay-USA-Plattform."
-
-#~ msgid ""
-#~ "<b>Important:</b> The minimum value for \"Pay Now\" prices in the U.S. "
-#~ "region is <b>$1.99</b>.<br>\n"
-#~ "                        If you have already set \"Pay Now\" prices lower "
-#~ "than 1.99, make sure to change them before you switch to the U.S. region."
-#~ "<br>\n"
-#~ "                        If you haven't done any configuration yet, you "
-#~ "can safely switch the region without further adjustments. \n"
-#~ "                        "
-#~ msgstr ""
-#~ "<b>Wichtig:</b> Der Mindestpreis für \"Sofort Zahlen\"-Käufe für die USA "
-#~ "beträgt <b>$1,99</b>.<br>\n"
-#~ "Wenn Sie bereits \"Sofort Zahlen\"-Preise kleiner als 1,99 gesetzt haben, "
-#~ "ändern Sie diese bitte, bevor Sie zur Region USA wechseln.<br>\n"
-#~ "Wenn Sie noch keine Konfiguration vorgenommen haben, können Sie ohne "
-#~ "weitere Schritte die Region wechseln."
-
-#~ msgid ""
-#~ "Category default prices are convenient for selling different categories "
-#~ "of content at different standard prices.<br>Individual prices can be set "
-#~ "when editing a post."
-#~ msgstr ""
-#~ "Mit kategoriespezifischen Standardpreisen können Sie einen Preis für alle "
-#~ "Artikel einer Kategorie vergeben. Individuelle Preise können Sie "
-#~ "vergeben, wenn Sie einen Beitrag bearbeiten oder erstellen."
 
 #~ msgid "Forward users to this URL after they have redeemed a gift card:"
 #~ msgstr ""
@@ -3142,16 +3161,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #~ msgid "Thank you very much for rating!"
 #~ msgstr "Vielen Dank für Ihre Bewertung!"
 
-#~ msgid "The plugin is in <strong>visible</strong> test mode now."
-#~ msgstr ""
-#~ "Das Plugin ist jetzt im Test-Modus und für Besucher <strong>sichtbar</"
-#~ "strong>."
-
-#~ msgid "The plugin is in <strong>invisible</strong> test mode now."
-#~ msgstr ""
-#~ "Das Plugin ist jetzt im Test-Modus und für Besucher <strong>nicht "
-#~ "sichtbar</strong>."
-
 #~ msgid "Visitors can now rate the posts they have purchased."
 #~ msgstr "Besucher können nun gekaufte Beiträge bewerten."
 
@@ -3241,30 +3250,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #~ "Sie wird für alle Nutzer mit den angegebenen IP-Adressen angezeigt.<br>\n"
 #~ "Auf einer Produktivumgebung sollten Sie sie deaktivieren."
 
-#~ msgid ""
-#~ "You MUST enable caching compatiblity mode, if you are using a caching "
-#~ "solution that caches\n"
-#~ "                entire HTML pages.<br>\n"
-#~ "                In caching compatibility mode the plugin works like this:"
-#~ "<br>\n"
-#~ "                It renders paid posts only with the teaser content. This "
-#~ "allows to cache them as static files without\n"
-#~ "                risking to leak the paid content.<br>\n"
-#~ "                When someone visits the page, it makes an Ajax request to "
-#~ "determine, if the visitor has already bought\n"
-#~ "                the post and replaces the teaser with the full content, "
-#~ "if required."
-#~ msgstr ""
-#~ "Sie MÜSSEN den Caching-Kompatibilitätsmodus aktivieren, wenn Sie eine "
-#~ "Caching-Lösung verwenden, die vollständige HTML-Seiten cached.<br>\n"
-#~ "Im Caching-Kompatibilitätsmodus arbeitet das Plugin wie folgt:<br>\n"
-#~ "Kostenpflichtige Beiträge werden zunächst nur mit dem Teaser "
-#~ "ausgeliefert. So können sie als statische Dateien gecached werden, ohne "
-#~ "die kostenpflichtigen Inhalte mitauszuliefern.<br>\n"
-#~ "Wenn ein Nutzer einen kostenpflichtigen Beitrag besucht, prüft das Plugin "
-#~ "über einen Ajax-Request, ob der Nutzer diesen Artikel bereits gekauft "
-#~ "hat. Falls ja, wird der Teaser durch den Volltext ersetzt."
-
 #~ msgid "Offering Time Passes on Free Posts"
 #~ msgstr "Anzeigen von Zeitpässen bei kostenlosen Beiträgen"
 
@@ -3275,56 +3260,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #~ msgstr ""
 #~ "Ich möchte Zeitpässe sowohl bei kostenpflichtigen als auch bei "
 #~ "kostenlosen Beiträgen anzeigen"
-
-#~ msgid ""
-#~ "The LaterPay WordPress plugin automatically generates teaser content for "
-#~ "every paid post\n"
-#~ "                without teaser content.<br>\n"
-#~ "                While technically possible, setting this parameter to "
-#~ "zero is HIGHLY DISCOURAGED.<br>\n"
-#~ "                If you really, really want to have NO teaser content for "
-#~ "a post, enter one space\n"
-#~ "                into the teaser content editor for that post."
-#~ msgstr ""
-#~ "Das LaterPay WordPress Plugin erstellt automatisch einen Teaserinhalt für "
-#~ "jeden Bezahlinhalt, für den kein Teaser vorhanden ist.<br> Sie können "
-#~ "diesen Wert auf 0 setzen, wir raten jedoch dringend davon ab.<br> Wenn "
-#~ "Sie wirklich keinen Teaser setzen möchten, fügen Sie bitte ein "
-#~ "Leerzeichen in das Teaserfeld des betreffenden Beitrags ein."
-
-#~ msgid ""
-#~ "In the appearance tab, you can choose to preview your paid posts with the "
-#~ "teaser content plus\n"
-#~ "                an excerpt of the full content, covered by a semi-"
-#~ "transparent overlay.<br>\n"
-#~ "                The following three parameters give you fine-grained "
-#~ "control over the length of this excerpt.<br>\n"
-#~ "                These settings do not affect the teaser content in any "
-#~ "way."
-#~ msgstr ""
-#~ "Im Tab \"Darstellung\" können Sie wählen, welche Vorschau Ihre Besucher "
-#~ "für Bezahlinhalte sehen: Entweder nur einen Teaser-Text plus Kauflink "
-#~ "oder einen Teaser-Text plus einen Auszug unter einem halbtransparenten "
-#~ "Overlay.<br>\n"
-#~ "Mit den folgenden drei Parametern haben Sie die Möglichkeit, die Länge "
-#~ "dieses Auszuges anzupassen.<br>\n"
-#~ "Diese Einstellungen beeinflussen nicht die Länge des Teaser-Textes."
-
-#~ msgid ""
-#~ "You can give logged-in users unlimited access to specific categories "
-#~ "depending on their user\n"
-#~ "                role.<br>\n"
-#~ "                This feature can be useful e.g. for giving free access to "
-#~ "existing subscribers.<br>\n"
-#~ "                We recommend the plugin 'User Role Editor' for adding "
-#~ "custom roles to WordPress."
-#~ msgstr ""
-#~ "Sie können eingeloggten Nutzern mit einer bestimmten Rolle unbegrenzten "
-#~ "Zugang zu einzelnen Kategorien geben.<br>\n"
-#~ "Diese Funktionalität kann z. B. nützlich sein, wenn Sie bestehenden "
-#~ "Abonnenten Zugriff auf LaterPay-Inhalte geben möchten.<br>\n"
-#~ "Wir empfehlen das Plugin \"User Role Editor\", um Nutzerrollen zu "
-#~ "WordPress hinzuzufügen."
 
 #~ msgid "%s<small class=\"lp_purchase-link__currency\">%s</small>"
 #~ msgstr "%s<small class=\"lp_purchase-link__currency\">%s</small>"
@@ -3372,9 +3307,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
 #~ msgid "no"
 #~ msgstr "nein"
-
-#~ msgid "none"
-#~ msgstr "keine"
 
 #~ msgid "Details"
 #~ msgstr "Details"

@@ -24,6 +24,15 @@ class LaterPay_Model_SubscriptionWP {
     private static $term_data_store = [];
 
     /**
+     * Store hash of query and data for duplicate queries for subscriptions.
+     *
+     * @var array Internal Cache for Duplicate Queries.
+     *
+     * @access private
+     */
+    private static $subscription_data_store = [];
+
+    /**
      * Constructor for class LaterPay_Model_SubscriptionWP,
      * Kept private as class is singleton.
      */
@@ -287,13 +296,31 @@ class LaterPay_Model_SubscriptionWP {
             $query_args['post_status'] = 'publish';
         }
 
-        $get_subscription_query = new WP_Query( $query_args );
+        // Create a hash from the query args.
+        $args_hash = md5( wp_json_encode( $query_args ) );
 
-        $posts         = $get_subscription_query->get_posts();
-        $subscriptions = [];
+        // Check if data already exists for requested query args.
+        if ( isset( self::$subscription_data_store[ $args_hash ] ) ) {
 
-        foreach ( $posts as $key => $post ) {
-            $subscriptions[ $key ] = $this->transform_post_to_subscription( $post );
+            // Get data from internal cache for already requested query.
+            $subscriptions = self::$subscription_data_store[ $args_hash ];
+
+        } else {
+
+            // Initialize WP_Query without args.
+            $get_subscriptions_in_category_query = new WP_Query();
+
+            // Get posts for requested args.
+            $posts         = $get_subscriptions_in_category_query->query( $query_args );
+            $subscriptions = [];
+
+            foreach ( $posts as $key => $post ) {
+                $subscriptions[ $key ] = $this->transform_post_to_subscription( $post );
+            }
+
+            // Store formatted data, in case same query is fired again.
+            self::$subscription_data_store[ $args_hash ] = $subscriptions;
+
         }
 
         LaterPay_Hooks::get_instance()->add_wp_query_hooks();
@@ -387,7 +414,9 @@ class LaterPay_Model_SubscriptionWP {
             // Unset subscription data if it contains excluded categories.
             foreach ( $subscriptions as $key => $subscription ) {
                 if ( 1 === $subscription['access_to'] ) {
-                    $found_categories = array_intersect( $term_ids, $subscription['access_category'] );
+                    if ( ! empty( $term_ids ) ) {
+                        $found_categories = array_intersect( $term_ids, $subscription['access_category'] );
+                    }
 
                     if ( ! empty( $found_categories ) ) {
                         unset( $subscriptions[$key] );

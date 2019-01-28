@@ -150,6 +150,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'gaData'                    => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
+                'is_block_editor'           => self::lp_check_is_block_editor(),
             )
         );
         wp_localize_script(
@@ -637,12 +638,21 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
 
         $post_id = absint( $_POST['post_id'] ); // phpcs:ignore
         $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
-        unset( $post_price['price_range_type'] );
-        unset( $post_price['start_price'] );
-        unset( $post_price['end_price'] );
-        unset( $post_price['reach_end_price_after_days'] );
-        unset( $post_price['change_start_price_after_days'] );
-        unset( $post_price['transitional_period_end_after_days'] );
+
+        $keys_to_unset = [
+            'price_range_type',
+            'start_price',
+            'end_price',
+            'reach_end_price_after_days',
+            'change_start_price_after_days',
+            'transitional_period_end_after_days',
+        ];
+
+        foreach ( $keys_to_unset as $key ) {
+            if ( isset( $post_price[ $key ] ) ) {
+                unset( $post_price[ $key ] );
+            }
+        }
 
         $this->set_post_meta(
             'laterpay_post_prices',
@@ -656,5 +666,24 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             )
         );
         return;
+    }
+
+    /**
+     * Verify editor type for editor specific functionality.
+     */
+    private static function lp_check_is_block_editor() {
+
+        // Check if Guteberg plugin available.
+        if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+            return true;
+        }
+
+        $current_screen = get_current_screen();
+
+        if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+            return true;
+        }
+
+        return false;
     }
 }

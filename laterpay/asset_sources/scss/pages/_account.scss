@@ -34,3 +34,29 @@ details.lp-faq {
 	}
 
 }
+
+button.lp_js_disablePlugin {
+	background: $purchase-description-text !important;
+	border-color: $purchase-description-text !important;
+	box-shadow: 0 1px 0 $purchase-description-text !important;
+	text-shadow: 0 -1px 1px $purchase-description-text,
+				1px 0 1px $purchase-description-text,
+				0 1px 1px $purchase-description-text,
+				-1px 0 1px $purchase-description-text !important;
+}
+
+button.lp_js_ga_cancel {
+	margin-left: $fs !important;
+	text-decoration: underline;
+	color: #0073aa;
+}
+
+button.lp_js_disablePluginConfirm {
+	background: #ff1744 !important;
+	border-color: #ff1744 !important;
+	box-shadow: 0 1px 0 #ff1744 !important;
+	text-shadow: 0 -1px 1px #ff1744,
+	1px 0 1px #ff1744,
+	0 1px 1px #ff1744,
+	-1px 0 1px #ff1744 !important;
+}

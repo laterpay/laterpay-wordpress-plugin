@@ -635,13 +635,37 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      */
     public function purchase_button_position( LaterPay_Core_Event $event ) {
         $html = $event->get_result();
+
+        $echo_button = false;
+
         // add the purchase button as very first element of the content, if it is not positioned manually
         $get_putchase_button_position = (bool) get_option( 'laterpay_purchase_button_positioned_manually' );
         if ( $get_putchase_button_position === false ) {
             $html = '<div class="lp_purchase-button-wrapper">' . $html . '</div>';
+        } else {
+            $echo_button = true;
         }
 
-        $event->set_result( $html );
+        // Echo the purchase button if button is positioned manually and is non ajax action 'laterpay_purchase_button'.
+        if ( $echo_button && ! wp_doing_ajax() && 'laterpay_purchase_button' === current_action() ) {
+            echo wp_kses( $html, [
+                'small' => [
+                    'class' => true,
+                ],
+                'div'   => true,
+                'a'     => [
+                    'href'                         => true,
+                    'class'                        => true,
+                    'title'                        => true,
+                    'data-icon'                    => true,
+                    'data-laterpay'                => true,
+                    'data-post-id'                 => true,
+                    'data-preview-post-as-visitor' => true,
+                ]
+            ] );
+        } else {
+            $event->set_result( $html );
+        }
     }
 
     /**

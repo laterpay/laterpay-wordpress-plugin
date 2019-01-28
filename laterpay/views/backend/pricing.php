@@ -112,18 +112,17 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <span id="lp_js_globalPriceOptionOne" style="display:<?php echo ( 1 === $selected_option ) ? 'block' : 'none'; ?>">
                             <?php
-                            printf( '%1$s <br/> %2$s',
-                                esc_html__( 'Posts cannot be purchased individually;', 'laterpay' ),
-                                esc_html__( 'only Time Passes & Subscriptions will be displayed.', 'laterpay' )
-                            );
+                            printf( esc_html__( 'Posts cannot be purchased individually;%s only Time Passes & Subscriptions will be displayed.', 'laterpay' ),'<br/>' );
                             ?>
                         </span>
                         <span id="lp_js_globalPriceOptionZero" style="display:<?php echo ( 0 === $selected_option ) ? 'block' : 'none'; ?>">
                             <?php
-                            printf( '<b>%1$s</b> %2$s <br/> %3$s',
-                                esc_html__( 'Every post is FREE', 'laterpay' ),
-                                esc_html__( 'unless they match a Category Default Price', 'laterpay' ),
-                                esc_html__( 'or have an Individual Article Price set on the Post page.', 'laterpay' )
+                            printf(
+                                esc_html__( '%1$sEvery post is FREE%2$s unless they match a Category Default Price %3$s
+                                or have an Individual Article Price set on the Post page.', 'laterpay' ),
+                                '<b>',
+                                '</b>',
+                                '<br/>'
                             );
                             ?>
                         </span>
@@ -147,7 +146,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <input type="radio" class="lp_js_postPriceDisplayOption" value="0" <?php checked( $selected_option, 0 ); ?> name="lp_post_price_behaviour" id="lp_make_post_free">
                                             <?php esc_html_e( 'FREE unless price is set on post page or by category', 'laterpay' ); ?>
                                         </label>
-                                        <p class="lp_tooltip lp_tooltip_p" data-tooltip="<?php echo esc_attr( 'All articles will be free by default; Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post page.', true ) ?>">
+                                        <p class="lp_tooltip lp_tooltip_p" data-tooltip="<?php esc_attr_e( 'All articles will be free by default; Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post page.', 'laterpay' ); ?>">
                                             <span data-icon="m" class="lp_js_postPriceSpan"></span>
                                         </p>
                                         <br/>
@@ -155,7 +154,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <input type="radio" class="lp_js_postPriceDisplayOption" value="1" <?php checked( $selected_option, 1 ); ?> name="lp_post_price_behaviour" id="lp_disable_individual_purchase">
                                             <?php esc_html_e( 'Posts cannot be purchased individually', 'laterpay' ); ?>
                                         </label>
-                                        <p class="lp_tooltip lp_tooltip_p" data-tooltip="<?php echo esc_attr( 'Only Time Passes & Subscriptions will be displayed in the purchase dialog.', true ) ?>">
+                                        <p class="lp_tooltip lp_tooltip_p" data-tooltip="<?php esc_attr_e( 'Only Time Passes & Subscriptions will be displayed in the purchase dialog.', 'laterpay' ); ?>">
                                             <span data-icon="m" class="lp_js_postPriceSpan"></span>
                                         </p>
                                         <br/>
@@ -204,11 +203,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <div class="lp_show_revenue_info">
                                             <?php
                                             printf(
-                                                '<b>%1$s</b>%2$s <a href="%3$s">%4$s</a>',
-                                                esc_html__( 'TIP:', 'laterpay' ),
-                                                esc_html__( ' "Pay Later" is LaterPay\'s patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice.', 'laterpay' ),
-                                                esc_url( 'https://support.laterpay.net/hc/en-us/articles/201251457-What-is-LaterPay-' ),
-                                                esc_html__( ' Click here to learn more.', 'laterpay' )
+                                                esc_html__( '%sTIP:%s "Pay Later" is LaterPay\'s patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice. %sClick here to learn more.%s', 'laterpay' ),
+                                                "<b>",
+                                                "</b>",
+                                                "<a href='https://support.laterpay.net/hc/en-us/articles/201251457-What-is-LaterPay-' target='_blank'>",
+                                                "</a>"
                                             );
                                             ?>
                                         </div>
@@ -353,18 +352,22 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </h2>
                         <p>
                             <?php
-                            /* translators: %1$s info text, %2$s link to wordpress categories codex page, %3$s link text*/
-                            printf( '%1$s<br/><a href="%2$s" target="_blank">%3$s</a>',
-                                esc_html__( 'Not familiar with WordPress categories?', 'laterpay' ),
-                                esc_url( 'https://codex.wordpress.org/Posts_Categories_Screen' ),
-                                esc_html__( 'Click here to learn more.', 'laterpay' )
+                            printf(
+                                esc_html__( 'Not familiar with WordPress categories? %s
+                                %sClick here to learn more.%s', 'laterpay' ),
+                                '<br>',
+                                '<a href="https://codex.wordpress.org/Posts_Categories_Screen" target="_blank">',
+                                '</a>'
                             );
                             ?>
                         </p>
                         <p>
                             <?php
-                            /* translators: %1$s info text1, %2$s info text2*/
-                            printf( '%1$s<br>%2$s', esc_html__( 'Category default prices are convenient for selling different categories of content at different standard prices.', 'laterpay' ), esc_html__( 'Individual prices can be set when editing a post.', 'laterpay' ) );
+                            printf(
+                                esc_html__( 'Category default prices are convenient for selling different categories of content at different standard prices. %s
+                                Individual prices can be set when editing a post.', 'laterpay' ),
+                                '<br/>'
+                            );
                             ?>
                         </p>
                         <p>
@@ -633,19 +636,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </table>
 
                             <div class="lp_js_voucherEditor lp_mt-">
-                                <?php esc_html_e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?>
-                                <input type="text"
-                                       name="voucher_price_temp"
-                                       class="lp_js_voucherPriceInput lp_input lp_number-input"
-                                       value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>"
-                                       maxlength="6">
-                                <span><?php echo esc_html( $laterpay['currency']['code'] ); ?></span>
+                                <input type="hidden" name="voucher_currency_code" value="<?php echo esc_attr( $laterpay['currency']['code'] ); ?>" />
+                                <input type="hidden" class="lp_js_voucherPriceInput" name="voucher_default_price" value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ); ?>" />
+                                <input type="hidden" name="voucher_temp_code" value="" />
                                 <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'time pass price.', 'laterpay' )  ); ?></span>
+
+                                <div class="lp_js_voucherPlaceholder"></div>
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
-
-                                <div class="lp_js_voucherPlaceholder"></div>
                             </div>
 
                         </form>
@@ -824,19 +823,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </table>
 
                             <div class="lp_js_voucherEditor lp_mt-">
-                                <?php esc_html_e( 'Offer this subscription at a reduced price of', 'laterpay' ); ?>
-                                <input type="text"
-                                       name="voucher_price_temp"
-                                       class="lp_js_voucherPriceInput lp_input lp_number-input"
-                                       value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_Subscription::get_default_options( 'price' ) ) ); ?>"
-                                       maxlength="6">
-                                <span><?php echo esc_html( $laterpay['currency']['code'] ); ?></span>
+                                <input type="hidden" name="voucher_currency_code" value="<?php echo esc_attr( $laterpay['currency']['code'] ); ?>" />
+                                <input type="hidden" class="lp_js_voucherPriceInput" name="voucher_default_price" value="<?php echo esc_attr( LaterPay_Helper_View::format_number( LaterPay_Helper_Subscription::get_default_options( 'price' ) ) ); ?>" />
+                                <input type="hidden" name="voucher_temp_code" value="" />
                                 <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'subscription price.', 'laterpay' )  ); ?></span>
+
+                                <div class="lp_js_voucherPlaceholder"></div>
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
-
-                                <div class="lp_js_voucherPlaceholder"></div>
                             </div>
 
                         </form>

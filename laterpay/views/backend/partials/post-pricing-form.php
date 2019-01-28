@@ -177,7 +177,7 @@ $is_visible_to_visitors = (bool) get_option( 'laterpay_is_in_visible_test_mode' 
                 id="lp_js_useGlobalDefaultPrice"
                 class="lp_js_priceTypeButton lp_price-type__link"
                 data-price="<?php echo esc_attr( LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ) ); ?>"
-                data-revenue-model="<?php echo esc_attr( $laterpay['global_default_price_revenue_model'] ); ?>"><?php printf( "%s <br> %s", esc_html__( 'Global', 'laterpay' ), esc_html__('Default Price', 'laterpay' ) ); ?></a>
+                data-revenue-model="<?php echo esc_attr( $laterpay['global_default_price_revenue_model'] ); ?>"><?php printf( esc_html__( 'Global %sDefault Price', 'laterpay' ), "<br/>" ); ?></a>
         </li>
     </ul>
 

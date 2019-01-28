@@ -18,6 +18,11 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 array( 'process_ajax_requests' ),
                 array( 'laterpay_on_ajax_user_can_activate_plugins', 200 ),
             ),
+            'wp_ajax_laterpay_disable_plugin' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'laterpay_on_ajax_send_json', 300 ),
+                array( 'disable_plugin', 400 ),
+            ),
         );
     }
 
@@ -33,6 +38,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
         LaterPay_Controller_Admin::register_common_scripts( 'account' );
 
+        // Add thickbox to display modal.
+        add_thickbox();
+
         // load page-specific JS
         wp_register_script(
             'laterpay-backend-account',
@@ -41,6 +49,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             $this->config->version,
             true
         );
+
+        $nonce = wp_create_nonce( 'plugin_disable_nonce' ) ;
 
         wp_enqueue_script( 'laterpay-backend-account' );
 
@@ -56,6 +66,12 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
                     'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ): '',
                 ),
+                'plugin_disable_nonce' => $nonce,
+                'modal'                => array(
+                    'id'    => 'lp_plugin_disable_modal_id',
+                    'title' => ( laterpay_check_is_vip() ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ),
+                ),
+                'pluginsUrl' => admin_url( 'plugins.php' ),
             )
         );
     }
@@ -415,9 +431,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
 
         if ( $is_in_visible_test_mode ) {
-            $message = sprintf( '%1$s <strong>%2$s</strong> %3$s', __( 'The plugin is in', 'laterpay' ), __( 'visible', 'laterpay' ), __( 'test mode now.', 'laterpay' ) );
+            $message = sprintf( esc_html__( 'The plugin is in %svisible%s test mode now.', 'laterpay' ), "<strong>", "</strong>" );
         } else {
-            $message = sprintf( '%1$s <strong>%2$s</strong> %3$s', __( 'The plugin is in', 'laterpay' ), __( 'invisible', 'laterpay' ), __( 'test mode now.', 'laterpay' ) );
+            $message = sprintf( esc_html__( 'The plugin is in %sinvisible%s test mode now.', 'laterpay' ), "<strong>", "</strong>" );
         }
 
         $event->set_result(
@@ -427,5 +443,40 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 'message'   => $message,
             )
         );
+    }
+
+    /**
+     * Erase data and disable plugin.
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function disable_plugin( LaterPay_Core_Event $event ) {
+        check_ajax_referer('plugin_disable_nonce', 'security' );
+
+        LaterPay_Helper_Config::erase_plugin_data();
+
+        if ( ! laterpay_check_is_vip() ) {
+            $plugin_name = laterpay_get_plugin_config()->get( 'plugin_base_name' );
+            deactivate_plugins( $plugin_name );
+            update_option( 'recently_activated', array( $plugin_name => time() ) + (array) get_option( 'recently_activated' ) );
+
+            $event->set_result(
+                array(
+                    'success' => true,
+                    'is_vip'  => false,
+                    'message' => esc_html__( 'LaterPay has been successfully uninstalled. It can be re-activated from the plugins page.', 'laterpay' ),
+                )
+            );
+        } else {
+            $event->set_result(
+                array(
+                    'success' => true,
+                    'is_vip'  => true,
+                    'message' => esc_html__( 'LaterPay data has been erased successfully.', 'laterpay' ),
+                )
+            );
+        }
     }
 }

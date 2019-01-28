@@ -4,8 +4,8 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay, Payments, Content Monetization, Paywall, Paid Content, Publisher, Blogger
 Requires at least: 4.6
-Tested up to: 5.0.2
-Stable tag: 2.4.1
+Tested up to: 5.0.3
+Stable tag: 2.4.2
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -185,6 +185,15 @@ Please see the "Test and Live Mode" section.
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.4.2 ( January 28, 2019 ) =
+* Update voucher layout for TimePass and Subscription in Pricing Tab.
+* Update plugin uninstall behaviour - Provide option to remove plugin data in Account Tab.
+* Fix issue with post edit page price type change.
+* Fix issue with custom position for Position of the Purchase Button.
+* Fix issue with custom position for Display of Subscriptions & Time Passes.
+* Fix JS error in classic editor due to invalid editor check.
+* Add / Update German Translations for All German language options.
+
 = 2.4.1 ( January 11, 2019 ) =
 * Fix issue with multiple categories in exclude feature for TimePass and Subscription.
 * Fix issue with missing categories data in Post Publish GA event.
@@ -691,8 +700,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.4.1 ( January 11, 2019 ) =
-Updated plugin initialization hook, Added support for multiple categories, Added GA events to capture Merchant usage data, Fixed Duplicate query issues and minor updates with LaterPay functionality.
+= 2.4.2 ( January 28, 2019 ) =
+Updated voucher layout, Update uninstall behaviour, Fix custom position for Purchase Button and TimePass and Subscription and minor bug fixes with LaterPay functionality.
 
 == Arbitrary section ==
 

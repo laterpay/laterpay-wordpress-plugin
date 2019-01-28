@@ -281,6 +281,12 @@
 /* price and number of times redeemed */
 .lp_voucher__code-infos {
     display: inline-block;
+    margin: 0 5px;
+}
+
+.lp_voucher__code_description {
+    float: left;
+    padding: 5px;
 }
 
 

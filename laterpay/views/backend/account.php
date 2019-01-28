@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
+<?php
+$is_vip = laterpay_check_is_vip();
+?>
 <div class="lp_page wp-core-ui">
 
     <div id="lp_js_flashMessage" class="lp_flash-message" style="display:none;">
@@ -77,23 +80,21 @@ if ( ! defined( 'ABSPATH' ) ) {
             <fieldset class="lp_fieldset">
                 <legend class="lp_legend"><?php esc_html_e( 'Who is LaterPay?', 'laterpay' ); ?></legend>
 
-                <p class="lp_bold"><?php esc_html_e( 'Meet the online payment system that cares about the user experience as much as you do', 'laterpay' ); ?></p>
-
                 <p>
-                    <?php esc_html_e( 'With LaterPay, your users can purchase digital content and services, or make contributions and
-                    donations, with a single click—a frictionless experience that turns traffic into transactions.', 'laterpay' ); ?>
-                    <br/><br/>
-
-                    <?php esc_html_e( 'Requiring upfront registration and payment results in customer abandon rates of up to 98%.', 'laterpay' ); ?>
-                    <br/>
-                    <?php esc_html_e( 'LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold.', 'laterpay' ); ?>
-                    <br/>
-                    <?php esc_html_e( 'Only then, once your content’s value is firmly established, is the customer asked to register and pay.', 'laterpay' ); ?>
-                    <br/>
-                    <?php esc_html_e( 'This results in shopping cart conversion rates of over 80%.', 'laterpay' ); ?>
-                    <br/>
-                    <?php esc_html_e( 'LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ); ?>
+                    <?php printf(
+                        esc_html__( '%1$sMeet the online payment system that cares about the user experience as much as you do%2$s %3$s %3$s
+                        With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%3$s %3$s
+                        Requiring upfront registration and payment results in customer abandon rates of up to 98%%. %3$s
+                        LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. %3$s
+                        Only then, once your content’s value is firmly established, is the customer asked to register and pay. %3$s
+                        This results in shopping cart conversion rates of over 80%%. %3$s
+                        LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
+                        "<b>",
+                        "</b>",
+                        "<br/>"
+                    ); ?>
                 </p>
+
             </fieldset>
         </div>
 
@@ -228,11 +229,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <p>
                     <dfn>
-                        <?php esc_html_e( "Is the selling company or person based in Europe or in the United States?", "laterpay" ); ?>
-                        <br>
-                        <?php esc_html_e( "If you select 'Europe', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform.", "laterpay" ); ?>
-                        <br>
-                        <?php esc_html_e( "If you select 'United States', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform.", "laterpay" ); ?>
+                        <?php
+                        printf(
+                            esc_html__( 'Is the selling company or person based in Europe or in the United States? %1$s
+                            If you select \'Europe\', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform. %1$s
+                            If you select \'United States\', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform.', 'laterpay' ),
+                            "<br/>"
+                        );
+                        ?>
                     </dfn>
                 </p>
 
@@ -248,17 +252,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <p id="lp_js_regionNotice" <?php if ( $laterpay['region'] === 'us' ) : ?>class="hidden"<?php endif; ?>>
                     <dfn class="lp_region_notice" data-icon="n">
-                        <b>
-                            <?php esc_html_e( "Important:", 'laterpay' ); ?>
-                        </b>
-                        <?php esc_html_e( " The minimum value for \"Pay Now\" prices in the U.S. region is", "laterpay" ); ?>
-                        <b>
-                            <?php esc_html_e( "$1.99", "laterpay" ); ?>
-                        </b>
-                        <br>
-                        <?php esc_html_e( "If you have already set \"Pay Now\" prices lower than 1.99, make sure to change them before you switch to the U.S. region.", "laterpay" ); ?>
-                        <br>
-                        <?php esc_html_e( "If you haven't done any configuration yet, you can safely switch the region without further adjustments. ", "laterpay" ); ?>
+                        <?php
+                        printf(
+                            esc_html__( '%1$sImportant:%2$s The minimum value for "Pay Now" prices in the U.S. region is %1$s$1.99%1$s %3$s
+                            If you have already set "Pay Now" prices lower than 1.99, make sure to change them before you switch to the U.S. region. %3$s
+                            If you haven\'t done any configuration yet, you can safely switch the region without further adjustments.', 'laterpay' ),
+                            "<b>",
+                            "</b>",
+                            "<br/>"
+                        );
+                        ?>
                     </dfn>
                 </p>
             </fieldset>
@@ -300,6 +303,52 @@ if ( ! defined( 'ABSPATH' ) ) {
                 }
                 ?>
 
+            </fieldset>
+        </div>
+
+        <div class="lp_clearfix">
+            <fieldset class="lp_fieldset">
+                <legend class="lp_legend"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ) ); ?></legend>
+
+                <p>
+                    <?php
+                    if ( true === $is_vip ) {
+                        printf(
+                            esc_html__( '%sWarning!%s This operation deletes ALL LaterPay plugin data.', 'laterpay' ),
+                            "<b>",
+                            "</b>"
+                        );
+                    } else {
+                        printf(
+                            esc_html__( '%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL its data.', 'laterpay' ),
+                            "<b>",
+                            "</b>"
+                        );
+                    }
+                    ?>
+                    <br/>
+                    <?php esc_html_e( 'You will lose all appearance settings and pricing configurations. This cannot be undone.', 'laterpay' ); ?>
+                </p>
+
+                <p>
+                    <?php printf(
+                        esc_html__( '%sClick here%s or email %ssupport@laterpay.net%s to provide feedback or to reach our customer service team.', 'laterpay' ),
+                        "<a href='https://www.laterpay.net/contact-support' target='_blank'>",
+                        "</a>",
+                        "<a href='mailto:support@laterpay.net'>",
+                        "</a>"
+                    ); ?>
+                </p>
+                <div id="lp_plugin_disable_modal_id" style="display:none;">
+                    <?php if ( $is_vip ) { ?>
+                    <p><?php esc_html_e( 'Are you sure you want to delete ALL LaterPay Plugin data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
+                    <?php } else { ?>
+                        <p><?php esc_html_e( 'Are you sure you want to deactivate LaterPay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
+                    <?php } ?>
+                    <button class="lp_js_disablePluginConfirm button button-primary lp_mt- lp_mb-"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete LaterPay Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate LaterPay Plugin', 'laterpay' ) ); ?></button>
+                    <button type="button" class="button button-secondary lp_mt- lp_mb- lp_js_ga_cancel"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></button>
+                </div>
+                <button class="lp_js_disablePlugin button button-primary lp_mt- lp_mb-"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ) ); ?></button>
             </fieldset>
         </div>
 
