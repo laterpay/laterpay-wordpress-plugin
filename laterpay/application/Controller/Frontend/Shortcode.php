@@ -481,6 +481,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             'custom_image_path'       => '',
         ), $attributes );
 
+        $error_message = '';
+
         // ID of Time Pass / Subscription.
         $entity_id = $shortcode_atts['id'];
 
@@ -495,10 +497,12 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // ID was provided, but didn't work.
         if ( empty( $entity ) ) {
 
-            $error_message = sprintf(
-                $template,
-                sprintf( esc_html__( 'We couldn\'t find a %s with id="%s" on this site.', 'laterpay' ), $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' ), $entity_id )
-            );
+            if ( is_user_logged_in() && is_preview() ) {
+                $error_message = sprintf(
+                    $template,
+                    sprintf( esc_html__( 'We couldn\'t find a %s with id="%s" on this site.', 'laterpay' ), $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' ), $entity_id )
+                );
+            }
 
             $event->set_result( $error_message );
 
