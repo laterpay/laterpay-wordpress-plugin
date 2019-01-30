@@ -121,6 +121,8 @@ class LaterPay_Core_Bootstrap
         LaterPay_Hooks::add_wp_shortcode( 'laterpay', 'laterpay_shortcode_laterpay' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_time_passes', 'laterpay_shortcode_time_passes' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_redeem_voucher', 'laterpay_shortcode_redeem_voucher' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_time_pass_purchase', 'laterpay_shortcode_time_pass_purchase' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_subscription_purchase', 'laterpay_shortcode_subsription_purchase' );
 
         laterpay_event_dispatcher()->add_subscriber( $shortcode_controller );
     }

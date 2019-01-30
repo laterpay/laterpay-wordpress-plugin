@@ -521,7 +521,7 @@ msgstr ""
 msgid "k"
 msgstr ""
 
-#: laterpay/application/Helper/View.php:250, laterpay/application/Controller/Frontend/Shortcode.php:126, laterpay/application/Controller/Frontend/Shortcode.php:140
+#: laterpay/application/Helper/View.php:250, laterpay/application/Controller/Frontend/Shortcode.php:134, laterpay/application/Controller/Frontend/Shortcode.php:148
 msgid "Problem with inserted shortcode:"
 msgstr ""
 
@@ -533,15 +533,15 @@ msgstr ""
 msgid "I already bought this"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:196, laterpay/application/Module/Purchase.php:298, laterpay/application/Module/Purchase.php:311, laterpay/application/Controller/Frontend/Post.php:644
+#: laterpay/application/Module/Purchase.php:196, laterpay/application/Module/Purchase.php:298, laterpay/application/Module/Purchase.php:311, laterpay/application/Controller/Frontend/Post.php:644, laterpay/application/Controller/Frontend/Shortcode.php:513
 msgid "Buy Now"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:199, laterpay/application/Controller/Frontend/Post.php:645
+#: laterpay/application/Module/Purchase.php:199, laterpay/application/Controller/Frontend/Post.php:645, laterpay/application/Controller/Frontend/Shortcode.php:519
 msgid "Subscribe Now"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:203, laterpay/application/Controller/Frontend/Post.php:643
+#: laterpay/application/Module/Purchase.php:203, laterpay/application/Controller/Frontend/Post.php:643, laterpay/application/Controller/Frontend/Shortcode.php:511
 msgid "Buy Now, Pay Later"
 msgstr ""
 
@@ -1278,7 +1278,7 @@ msgstr ""
 msgid "Error saving data"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:52
+#: laterpay/application/Controller/Admin/Pricing.php:52, laterpay/application/Controller/Frontend/Shortcode.php:500
 msgid "Subscription"
 msgstr ""
 
@@ -1706,40 +1706,48 @@ msgstr ""
 msgid "Updated."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:86
+#: laterpay/application/Controller/Frontend/Shortcode.php:94
 msgid "Additional Premium Content"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:107
+#: laterpay/application/Controller/Frontend/Shortcode.php:115
 msgid "We couldn't find a page for target_post_id=\"%s\" on this site."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:119
+#: laterpay/application/Controller/Frontend/Shortcode.php:127
 msgid "We couldn't find a page for target_post_title=\"%s\" on this site."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:138
+#: laterpay/application/Controller/Frontend/Shortcode.php:146
 msgid "LaterPay has been disabled for the post type of the target page."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:284
+#: laterpay/application/Controller/Frontend/Shortcode.php:292
 msgid "Download now"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:289
+#: laterpay/application/Controller/Frontend/Shortcode.php:297
 msgid "Watch now"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:294
+#: laterpay/application/Controller/Frontend/Shortcode.php:302
 msgid "Listen now"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:298
+#: laterpay/application/Controller/Frontend/Shortcode.php:306
 msgid "Read now"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:378
+#: laterpay/application/Controller/Frontend/Shortcode.php:386
 msgid "Wrong time pass id."
+msgstr ""
+
+#: laterpay/application/Controller/Frontend/Shortcode.php:500
+msgid "We couldn't find a %s with id=\"%s\" on this site."
+msgstr ""
+
+#: laterpay/application/Controller/Frontend/Shortcode.php:500
+msgid "Time Pass"
 msgstr ""
 
 #: laterpay/application/Core/Exception/FormValidation.php:18
