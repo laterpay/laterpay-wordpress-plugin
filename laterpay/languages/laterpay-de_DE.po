@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-01-25 11:35+0530\n"
-"PO-Revision-Date: 2019-01-25 11:35+0530\n"
+"POT-Creation-Date: 2019-01-30 11:23+0530\n"
+"PO-Revision-Date: 2019-01-30 11:26+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -864,8 +864,9 @@ msgid "Subscriptions"
 msgstr "Abos"
 
 #: application/Controller/Admin/Pricing.php:52
+#: application/Controller/Frontend/Shortcode.php:500
 msgid "Subscription"
-msgstr ""
+msgstr "Abo"
 
 #: application/Controller/Admin/Pricing.php:97
 msgid "After"
@@ -1461,17 +1462,20 @@ msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
 #: application/Controller/Frontend/Post.php:643
+#: application/Controller/Frontend/Shortcode.php:511
 #: application/Module/Purchase.php:203
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
 #: application/Controller/Frontend/Post.php:644
+#: application/Controller/Frontend/Shortcode.php:513
 #: application/Module/Purchase.php:196 application/Module/Purchase.php:298
 #: application/Module/Purchase.php:311
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
 #: application/Controller/Frontend/Post.php:645
+#: application/Controller/Frontend/Shortcode.php:519
 #: application/Module/Purchase.php:199
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
@@ -1494,52 +1498,61 @@ msgstr "Aktualisiert."
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
-#: application/Controller/Frontend/Shortcode.php:86
+#: application/Controller/Frontend/Shortcode.php:94
 msgid "Additional Premium Content"
 msgstr "Zusätzlicher Premium-Inhalt"
 
-#: application/Controller/Frontend/Shortcode.php:107
+#: application/Controller/Frontend/Shortcode.php:115
 #, php-format
 msgid "We couldn't find a page for target_post_id=\"%s\" on this site."
 msgstr ""
 "Wir konnten keine Seite für target_post_id=\"%s\" auf dieser Webseite finden."
 
-#: application/Controller/Frontend/Shortcode.php:119
+#: application/Controller/Frontend/Shortcode.php:127
 #, php-format
 msgid "We couldn't find a page for target_post_title=\"%s\" on this site."
 msgstr ""
 "Wir konnten keine Seite für target_post_title=\"%s\" auf dieser Webseite "
 "finden."
 
-#: application/Controller/Frontend/Shortcode.php:126
-#: application/Controller/Frontend/Shortcode.php:140
+#: application/Controller/Frontend/Shortcode.php:134
+#: application/Controller/Frontend/Shortcode.php:148
 #: application/Helper/View.php:250
 msgid "Problem with inserted shortcode:"
 msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
 
-#: application/Controller/Frontend/Shortcode.php:138
+#: application/Controller/Frontend/Shortcode.php:146
 msgid "LaterPay has been disabled for the post type of the target page."
 msgstr "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
 
-#: application/Controller/Frontend/Shortcode.php:284
+#: application/Controller/Frontend/Shortcode.php:292
 msgid "Download now"
 msgstr "Jetzt herunterladen"
 
-#: application/Controller/Frontend/Shortcode.php:289
+#: application/Controller/Frontend/Shortcode.php:297
 msgid "Watch now"
 msgstr "Jetzt ansehen"
 
-#: application/Controller/Frontend/Shortcode.php:294
+#: application/Controller/Frontend/Shortcode.php:302
 msgid "Listen now"
 msgstr "Jetzt anhören"
 
-#: application/Controller/Frontend/Shortcode.php:298
+#: application/Controller/Frontend/Shortcode.php:306
 msgid "Read now"
 msgstr "Jetzt lesen"
 
-#: application/Controller/Frontend/Shortcode.php:378
+#: application/Controller/Frontend/Shortcode.php:386
 msgid "Wrong time pass id."
 msgstr "Ungültige Zeitpass-ID."
+
+#: application/Controller/Frontend/Shortcode.php:500
+#, php-format
+msgid "We couldn't find a %s with id=\"%s\" on this site."
+msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
+
+#: application/Controller/Frontend/Shortcode.php:500
+msgid "Time Pass"
+msgstr "Zeitpass"
 
 #: application/Controller/Install.php:76
 #, php-format
