@@ -519,7 +519,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         }
 
         // Override purchase button text value if subscription.
-        if ( $is_subscription ) {
+        if ( empty( $shortcode_atts['button_text'] ) && $is_subscription ) {
             $shortcode_atts['button_text'] = esc_html__( 'Subscribe Now', 'laterpay' );
         }
 
