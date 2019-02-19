@@ -497,7 +497,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // ID was provided, but didn't work.
         if ( empty( $entity ) ) {
 
-            if ( is_user_logged_in() && is_preview() ) {
+            if ( is_user_logged_in() ) {
                 $error_message = sprintf(
                     $template,
                     sprintf( esc_html__( 'We couldn\'t find a %s with id="%s" on this site.', 'laterpay' ), $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' ), $entity_id )
