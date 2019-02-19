@@ -19,7 +19,6 @@
       var lp_excerpt_word_count_max = jQuery('input[name="laterpay_preview_excerpt_word_count_max"]').val();
       var lp_caching_enabled = jQuery('input[name="laterpay_caching_compatibility"]').prop('checked') ? 1 : 0;
       var lp_require_login = jQuery('input[name="laterpay_require_login"]').prop('checked') ? 1 :  0;
-      var lp_api_enabled_homepage = jQuery('input[name="laterpay_api_enabled_on_homepage"]').prop('checked') ? 1 : 0;
       var lp_ga_enabled  = laterpay_tracking_status.prop('checked') ? 1 : 0;
       var user_ga_enabled = user_tracking_status.prop('checked') ? 1 : 0;
       var lp_fallback_behaviour = jQuery('#lp_js_laterpayApiFallbackSelect :selected').text();
@@ -32,6 +31,23 @@
       var messageSpan = jQuery('<span/>', {
         id    : 'lp_ga_msg_span',
         class : 'lp_ga_span',
+      });
+
+      var infoSpan  = jQuery('span.lp_option_icon');
+      var infoClose = jQuery( 'button.lp_js_info_close' );
+
+      // Display Modal for Settings Page.
+      infoSpan.on('click', function( ) {
+          var id    = $(this).attr('id');
+          var title = $(this).attr('title');
+
+          if ( typeof tb_show === 'function' ) {
+              tb_show( title, '#TB_inline?inlineId=lp_' + id + '&height=245&width=375');
+          }
+      });
+
+      infoClose.click(function(){
+        jQuery('#TB_closeWindowButton').click();
       });
 
       // Validation For Personal Google Analytics Setting.
@@ -141,8 +157,7 @@
             lp_preview_excerpt_word_count_min );
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'Maximum Number of Words',
             lp_excerpt_word_count_max );
-        lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'LaterPay API | ' + lp_fallback_behaviour,
-            lp_api_enabled_homepage );
+        lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'LaterPay API | ' + lp_fallback_behaviour );
 
       });
 
