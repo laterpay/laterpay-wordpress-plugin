@@ -26,7 +26,7 @@ class LaterPay_Helper_Config {
                 'code'                    => 'EUR',
                 'dynamic_start'           => 13,
                 'dynamic_end'             => 18,
-                'default_price'           => 0.29,
+                'default_price'           => 0.30,
                 'limits' => array(
                     'default' => array(
                         'ppu_min'         => 0.05,
@@ -66,7 +66,7 @@ class LaterPay_Helper_Config {
                 'code'                    => 'USD',
                 'dynamic_start'           => 13,
                 'dynamic_end'             => 18,
-                'default_price'           => 0.29,
+                'default_price'           => 0.30,
                 'limits' => array(
                     'default' => array(
                         'ppu_min'         => 0.05,
