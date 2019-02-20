@@ -7,8 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
-{
+class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     private $has_custom_roles = false;
 
     /**
@@ -31,8 +30,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     /**
      * @see LaterPay_Core_View::load_assets
      */
-    public function load_assets()
-    {
+    public function load_assets() {
         parent::load_assets();
 
         // Get data for GA.
@@ -47,7 +45,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             array(),
             $this->config->version
         );
-        wp_enqueue_style('laterpay-options');
+        wp_enqueue_style( 'laterpay-options' );
 
         // Add thickbox to display modal.
         add_thickbox();
@@ -125,102 +123,361 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function init_laterpay_advanced_settings() {
         // add sections with fields
-        $this->add_colors_settings();
-        $this->add_ga_tracking_settings();
-        $this->add_caching_settings();
-        $this->add_revenue_settings();
-        $this->add_gift_codes_settings();
-        $this->add_teaser_content_settings();
-        $this->add_preview_excerpt_settings();
+        $this->add_access_settings();
         $this->add_unlimited_access_settings();
-        $this->add_laterpay_api_settings();
+        $this->add_analytics_settings();
+        $this->add_appearance_settings();
+        $this->add_technical_settings();
+        $this->add_contact_section();
     }
 
-    public function add_colors_settings() {
+    /**
+     * Add LaterPay Access settings section and fields.
+     *
+     * @return void
+     */
+    public function add_access_settings() {
         add_settings_section(
-            'laterpay_colors',
-            __( 'LaterPay Colors', 'laterpay' ),
-            array( $this, 'get_colors_section_description' ),
+            'laterpay_access',
+            sprintf( esc_html__( '%s Access %s', 'laterpay' ), '<a href="#lpaccess" class="lp_options_a"><div id="lpaccess">', '</div></a>' ),
+            array( $this, 'get_access_section_description' ),
             'laterpay'
         );
 
+        // Require Login Setting.
         add_settings_field(
-            'laterpay_main_color',
-            __( 'Main Color', 'laterpay' ),
+            'laterpay_require_login',
+            esc_html__( 'Require User Login before Purchase', 'laterpay' ),
             array( $this, 'get_input_field_markup' ),
             'laterpay',
-            'laterpay_colors',
+            'laterpay_access',
             array(
-                'label' => __( 'Main color for clickable elements. (Default: #01a99d)' ),
-                'name'  => 'laterpay_main_color',
+                'name'    => 'laterpay_require_login',
+                'value'   => 1,
+                'type'    => 'checkbox',
+                'tooltip' => true,
+                'title'   => esc_html__( 'Require Login Information', 'laterpay' ),
+                'modal'   => array(
+                    'id'      => 'login_id',
+                    'message' => esc_html__( 'Please choose if you want to require a login for "Pay Later" purchases.', 'laterpay' ),
+                ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_require_login' );
+    }
+
+    /**
+     * Get access section description
+     *
+     * @return void
+     */
+    public function get_access_section_description() {
+        echo '<p>';
+        esc_html_e( 'While most content access is controlled by LaterPay, in this section you can adjust the number of times a Voucher can be redeemed, require users to log in prior to purchase, or allow unlimited access to specific user roles.', 'laterpay' );
+        echo '</p>';
+    }
+
+    /**
+     * Add LaterPay Analytics settings section and fields.
+     *
+     * @return void
+     */
+    public function add_analytics_settings() {
+        add_settings_section(
+            'laterpay_analytics',
+            sprintf( esc_html__( '%s Analytics %s', 'laterpay' ), '<a href="#lpanalytics" class="lp_options_a"><div id="lpanalytics">', '</div></a>' ),
+            array( $this, 'get_analytics_section_description' ),
+            'laterpay'
+        );
+
+        $user_tracking = $this->get_ga_tracking_value();
+
+        // Get Value of Auto Detected Text if set.
+        if ( ! empty( $user_tracking['auto_detected'] ) && 1 === (int) $user_tracking['auto_detected'] ) {
+            $show_notice = 1;
+        } else {
+            $show_notice = 0;
+        }
+
+        // Add Personal GA Section.
+        add_settings_field(
+            'laterpay_user_tracking_data',
+            esc_html__( 'Your Personal Google Analytics:', 'laterpay' ),
+            array( $this, 'get_ga_field_markup' ),
+            'laterpay',
+            'laterpay_analytics',
+            array(
+                array(
+                    'name'        => 'laterpay_ga_personal_enabled_status',
+                    'value'       => 1,
+                    'type'        => 'checkbox',
+                    'parent_name' => 'laterpay_user_tracking_data',
+                ),
+                array(
+                    'name'        => 'laterpay_ga_personal_ua_id',
+                    'type'        => 'text',
+                    'classes'     => [ 'lp_ga-input' ],
+                    'parent_name' => 'laterpay_user_tracking_data',
+                    'show_notice' => $show_notice,
+                )
+            )
+        );
+
+        // Add LaterPay GA Section.
+        add_settings_field(
+            'laterpay_tracking_data',
+            __( 'LaterPay Google Analytics:', 'laterpay' ),
+            array( $this, 'get_ga_field_markup' ),
+            'laterpay',
+            'laterpay_analytics',
+            array(
+                array(
+                    'name'        => 'laterpay_ga_enabled_status',
+                    'value'       => 1,
+                    'type'        => 'checkbox',
+                    'parent_name' => 'laterpay_tracking_data',
+                    'modal'       => array(
+                        'id'         => 'lp_ga_modal_id',
+                        'message'    => sprintf( '%1$s <br/><br/> %2$s',
+                            esc_html__( 'LaterPay collects this information to improve our products and
+                                        services and also so that you can determine the effectiveness of your pricing
+                                        strategy using our Merchant Analytics dashboard.', 'laterpay' ),
+                            esc_html__( 'Are you sure you would like to disable this feature?', 'laterpay' ) ),
+                        'saveText'   => esc_html__( 'Yes, Disable Tracking', 'laterpay' ),
+                        'cancelText' => esc_html__( 'Cancel', 'laterpay' ),
+                    ),
+                ),
+                array(
+                    'name'        => 'laterpay_ga_ua_id',
+                    'type'        => 'text',
+                    'classes'     => [ 'lp_ga-input' ],
+                    'readonly'    => true,
+                    'parent_name' => 'laterpay_tracking_data',
+                )
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_user_tracking_data' );
+        register_setting( 'laterpay', 'laterpay_tracking_data' );
+
+    }
+
+    /**
+     * Get Google Analytics Track Section Description.
+     *
+     * @return void
+     */
+    public function get_analytics_section_description() {
+        echo '<p>';
+        printf(
+            esc_html__( 'LaterPay is not in the business of selling data. This tracking information is for your benefit so that you can determine the effectiveness of your pricing strategy. %s
+            To view your analytics, log in to your LaterPay account at %slaterpay.net%s to view your Merchant Analytics dashboard.', 'laterpay' ),
+            "<br/>",
+            "<a href='https://www.laterpay.net/' target='_blank'/>",
+            "</a>"
+        );
+        echo '</p>';
+
+        echo '<table class="form-table"><tr><th></th> <td>';
+        esc_html_e( 'Enabled', 'laterpay' );
+        echo '</td><td width="79%">';
+        esc_html_e( 'Google Analytics "UA-ID"', 'laterpay' );
+        echo '</td></tr></table>';
+    }
+
+    /**
+     * Add LaterPay Appearance settings section and fields.
+     *
+     * @return void
+     */
+    public function add_appearance_settings() {
+        add_settings_section(
+            'laterpay_appearance',
+            sprintf( esc_html__( '%s Appearance %s', 'laterpay' ), '<a href="#lpappearance" class="lp_options_a"><div id="lpappearance">', '</div></a>' ),
+            array( $this, 'get_appearance_section_description' ),
+            'laterpay'
+        );
+
+        // Main color Setting.
+        add_settings_field(
+            'laterpay_main_color',
+            esc_html__( 'Button & Link Color', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_appearance',
+            array(
+                'name' => 'laterpay_main_color',
+            )
+        );
+
+        // Hover color Setting.
+        add_settings_field(
+            'laterpay_hover_color',
+            esc_html__( 'Button & Link Hover Color', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_appearance',
+            array(
+                'name' => 'laterpay_hover_color',
+            )
+        );
+
+        // Teaser content word count Settings.
+        add_settings_field(
+            'laterpay_teaser_content_word_count',
+            esc_html__( 'Default Teaser Content Word Count', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_appearance',
+            array(
+                'name'    => 'laterpay_teaser_content_word_count',
+                'class'   => 'lp_number-input',
+                'tooltip' => true,
+                'title'   => esc_html__( 'Teaser Content Word Count', 'laterpay' ),
+                'modal'   => array(
+                    'id'      => 'teaser_word_count_id',
+                    'message' => sprintf( esc_html__( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post without teaser content. %1$s %1$s While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED. %1$s %1$s If you really, really want to have NO teaser content for a post, enter one space into the teaser content editor for that post.', 'laterpay' ), '<br/>' ),
+                    'style'   => 'font-size:24px',
+                ),
+            )
+
+        );
+
+        // Percentage of post content Settings.
+        add_settings_field(
+            'laterpay_preview_excerpt_percentage_of_content',
+            esc_html__( 'Percentage of Post Blurred behind Overlay', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_appearance',
+            array(
+                'name'    => 'laterpay_preview_excerpt_percentage_of_content',
+                'class'   => 'lp_number-input',
+                'tooltip' => true,
+                'title'   => esc_html__( 'Percentage of Post Content', 'laterpay' ),
+                'modal'   => array(
+                    'id'      => 'percentage_count_id',
+                    'message' => esc_html__( 'Percentage of content to be extracted; 20 means "extract 20% of the total number of words of the post".', 'laterpay' ),
+                    'style'   => 'font-size:24px',
+                ),
+            )
+        );
+
+        // Minimum Count Settings.
+        add_settings_field(
+            'laterpay_preview_excerpt_word_count_min',
+            esc_html__( 'Minimum Number of Words Blurred behind Overlay', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_appearance',
+            array(
+                'name'    => 'laterpay_preview_excerpt_word_count_min',
+                'class'   => 'lp_number-input',
+                'tooltip' => true,
+                'title'   => esc_html__( 'Minimum Number of Words', 'laterpay' ),
+                'modal'   => array(
+                    'id'      => 'minimum_word_count_id',
+                    'message' => esc_html__( 'Applied if number of words as percentage of the total number of words is less than this value.', 'laterpay' ),
+                    'style'   => 'font-size:24px',
+                ),
+            )
+        );
+
+        // Maximum Count Settings.
+        add_settings_field(
+            'laterpay_preview_excerpt_word_count_max',
+            esc_html__( 'Maximum Number of Words Blurred behind Overlay', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_appearance',
+            array(
+                'name'    => 'laterpay_preview_excerpt_word_count_max',
+                'class'   => 'lp_number-input',
+                'tooltip' => true,
+                'title'   => esc_html__( 'Maximum Number of Words', 'laterpay' ),
+                'modal'   => array(
+                    'id'      => 'minimum_word_count_id',
+                    'message' => esc_html__( 'Applied if number of words as percentage of the total number of words exceeds this value.', 'laterpay' ),
+                    'style'   => 'font-size:24px',
+                ),
             )
         );
 
         register_setting( 'laterpay', 'laterpay_main_color' );
-
-        add_settings_field(
-            'laterpay_hover_color',
-            __( 'Hover Color', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_colors',
-            array(
-                'label' => __( 'Hover color for clickable elements. (Default: #01766e)' ),
-                'name'  => 'laterpay_hover_color',
-            )
-        );
-
         register_setting( 'laterpay', 'laterpay_hover_color' );
+        register_setting( 'laterpay', 'laterpay_teaser_content_word_count', 'absint' );
+        register_setting( 'laterpay', 'laterpay_preview_excerpt_percentage_of_content', 'absint' );
+        register_setting( 'laterpay', 'laterpay_preview_excerpt_word_count_min', 'absint' );
+        register_setting( 'laterpay', 'laterpay_preview_excerpt_word_count_max', 'absint' );
+
     }
 
     /**
-     * Get colors section description
+     * Get appearance section description
      *
      * @return void
      */
-    public function get_colors_section_description() {
+    public function get_appearance_section_description() {
         echo '<p>';
-        esc_html_e( 'You can customize the colors of clickable LaterPay elements.', 'laterpay' );
+        esc_html_e( 'Our most common configuration options are found under the LaterPay plugin’s Appearance tab. Here you can adjust the default colors, the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall.', 'laterpay' );
         echo '</p>';
     }
 
-
     /**
-     * Add caching section and fields.
+     * Add LaterPay Technical settings section and fields.
      *
      * @return void
      */
-    public function add_caching_settings() {
+    public function add_technical_settings() {
         add_settings_section(
-            'laterpay_caching',
-            __( 'Caching Compatibility Mode', 'laterpay' ),
-            array( $this, 'get_caching_section_description' ),
+            'laterpay_technical',
+            sprintf( esc_html__( '%s Technical %s', 'laterpay' ), '<a href="#lptechnical" class="lp_options_a"><div id="lptechnical">', '</div></a>' ),
+            array( $this, 'get_technical_section_description' ),
             'laterpay'
         );
 
         add_settings_field(
             'laterpay_caching_compatibility',
-            __( 'Caching Compatibility', 'laterpay' ),
+            __( 'I am using a caching plugin (e.g. WP Super Cache or Cachify)', 'laterpay' ),
             array( $this, 'get_input_field_markup' ),
             'laterpay',
-            'laterpay_caching',
+            'laterpay_technical',
             array(
                 'name'  => 'laterpay_caching_compatibility',
                 'value' => 1,
-                'type' => 'checkbox',
-                'label' => __( 'I am using a caching plugin (e.g. WP Super Cache or Cachify)', 'laterpay' ),
+                'type'  => 'checkbox',
+            )
+        );
+
+        $value   = absint( get_option( 'laterpay_api_fallback_behavior' ) );
+        $options = self::get_laterpay_api_options();
+
+        add_settings_field(
+            'laterpay_api_fallback_behavior',
+            __( 'In the case that the LaterPay API becomes unresponsive:', 'laterpay' ),
+            array( $this, 'get_select_field_markup' ),
+            'laterpay',
+            'laterpay_technical',
+            array(
+                'name'          => 'laterpay_api_fallback_behavior',
+                'value'         => $value,
+                'options'       => $options,
+                'id'            => 'lp_js_laterpayApiFallbackSelect',
+                'appended_text' => isset( $options[ $value ] ) ? $options[ $value ]['description'] : '',
             )
         );
 
         register_setting( 'laterpay', 'laterpay_caching_compatibility' );
+        register_setting( 'laterpay', 'laterpay_api_fallback_behavior' );
     }
 
     /**
-     * Render the hint text for the caching section.
+     * Get technical section description.
      *
      * @return void
      */
-    public function get_caching_section_description() {
+    public function get_technical_section_description() {
         echo '<p>';
         printf(
             esc_html__( 'You MUST enable caching compatiblity mode, if you are using a caching solution
@@ -235,242 +492,26 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     }
 
     /**
-     * Render the hint text for the enabled post types section.
+     * Add LaterPay Contact settings section.
      *
      * @return void
      */
-    public function get_time_passes_section_description() {
-        echo '<p>';
-        esc_html_e( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.',
-            'laterpay' );
-        echo '</p>';
-    }
-
-    /**
-     *  Add revenue settings section
-     */
-    public function add_revenue_settings() {
+    public function add_contact_section() {
         add_settings_section(
-            'laterpay_revenue_section',
-            __( 'Require login', 'laterpay' ),
-            array( $this, 'get_revenue_section_description' ),
+            'laterpay_contact',
+            sprintf( esc_html__( '%s Contact LaterPay Support %s', 'laterpay' ), '<a href="#lpcontact" class="lp_options_a"><div id="lpcontact">', '</div></a>' ),
+            array( $this, 'get_contact_section_description' ),
             'laterpay'
         );
-
-        add_settings_field(
-            'laterpay_require_login',
-            __( 'Require login', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_revenue_section',
-            array(
-                'name'  => 'laterpay_require_login',
-                'value' => 1,
-                'type'  => 'checkbox',
-                'label' => __( 'Require the user to log in to LaterPay before a "Pay Later" purchase.', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_require_login' );
     }
 
     /**
-     * Render the hint text for the enabled post types section.
+     * Get contact section description.
      *
      * @return void
      */
-    public function get_revenue_section_description() {
-        echo '<p>';
-        esc_html_e( 'Please choose if you want to require a login for "Pay Later" purchases.','laterpay' );
-        echo '</p>';
-    }
-
-    /**
-     * Add gift codes section and fields.
-     *
-     * @return void
-     */
-    public function add_gift_codes_settings() {
-        add_settings_section(
-            'laterpay_gift_codes',
-            __( 'Gift Codes Limit', 'laterpay' ),
-            array( $this, 'get_gift_codes_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_maximum_redemptions_per_gift_code',
-            __( 'Times Redeemable', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_gift_codes',
-            array(
-                'name'  => 'laterpay_maximum_redemptions_per_gift_code',
-                'class' => 'lp_number-input',
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_maximum_redemptions_per_gift_code', array( $this, 'sanitize_maximum_redemptions_per_gift_code_input' ) );
-    }
-
-    /**
-     * Render the hint text for the gift codes section.
-     *
-     * @return void
-     */
-    public function get_gift_codes_section_description() {
-        echo '<p>';
-        esc_html_e( 'Specify, how many times a gift code can be redeemed for the associated time pass.','laterpay' );
-        echo '</p>';
-    }
-
-    /**
-     * Sanitize maximum redemptions per gift code.
-     *
-     * @param $input
-     *
-     * @return int
-     */
-    public function sanitize_maximum_redemptions_per_gift_code_input( $input ) {
-        $error = '';
-        $input = absint( $input );
-
-        if ( $input < 1 ) {
-            $input = 1;
-            $error = 'Please enter a valid limit ( 1 or greater )';
-        }
-
-        if ( ! empty( $error ) ) {
-            add_settings_error(
-                'laterpay',
-                'gift_code_redeem_error',
-                $error,
-                'error'
-            );
-        }
-
-        return $input;
-    }
-
-    /**
-     * Add teaser content section and fields.
-     *
-     * @return void
-     */
-    public function add_teaser_content_settings() {
-        add_settings_section(
-            'laterpay_teaser_content',
-            __( 'Automatically Generated Teaser Content', 'laterpay' ),
-            array( $this, 'get_teaser_content_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_teaser_content_word_count',
-            __( 'Teaser Content Word Count', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_teaser_content',
-            array(
-                'name'          => 'laterpay_teaser_content_word_count',
-                'class'         => 'lp_number-input',
-                'appended_text' => __( 'Number of words extracted from paid posts as teaser content.', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_teaser_content_word_count', 'absint' );
-    }
-
-    /**
-     * Render the hint text for the teaser content section.
-     *
-     * @return void
-     */
-    public function get_teaser_content_section_description() {
-        echo '<p>';
-        printf(
-            esc_html__( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
-            without teaser content. %1$s While technically possible, setting this parameter to zero is
-            HIGHLY DISCOURAGED. %1$s If you really, really want to have NO teaser content for a post,
-            enter one space into the teaser content editor for that post.', 'laterpay' ),
-            '<br/>'
-        );
-        echo '</p>';
-    }
-
-    /**
-     * Add preview excerpt section and fields.
-     *
-     * @return void
-     */
-    public function add_preview_excerpt_settings() {
-        add_settings_section(
-            'laterpay_preview_excerpt',
-            __( 'Content Preview under Overlay', 'laterpay' ),
-            array( $this, 'get_preview_excerpt_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_preview_excerpt_percentage_of_content',
-            __( 'Percentage of Post Content', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_preview_excerpt',
-            array(
-                'name'          => 'laterpay_preview_excerpt_percentage_of_content',
-                'class'         => 'lp_number-input',
-                'appended_text' => __( 'Percentage of content to be extracted;
-                                      20 means "extract 20% of the total number of words of the post".', 'laterpay' ),
-            )
-        );
-
-        add_settings_field(
-            'laterpay_preview_excerpt_word_count_min',
-            __( 'Minimum Number of Words', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_preview_excerpt',
-            array(
-                'name'          => 'laterpay_preview_excerpt_word_count_min',
-                'class'         => 'lp_number-input',
-                'appended_text' => __( 'Applied if number of words as percentage of the total number of words is less
-                                      than this value.', 'laterpay' ),
-            )
-        );
-
-        add_settings_field(
-            'laterpay_preview_excerpt_word_count_max',
-            __( 'Maximum Number of Words', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_preview_excerpt',
-            array(
-                'name'          => 'laterpay_preview_excerpt_word_count_max',
-                'class'         => 'lp_number-input',
-                'appended_text' => __( 'Applied if number of words as percentage of the total number of words exceeds
-                                      this value.', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_preview_excerpt_percentage_of_content', 'absint' );
-        register_setting( 'laterpay', 'laterpay_preview_excerpt_word_count_min', 'absint' );
-        register_setting( 'laterpay', 'laterpay_preview_excerpt_word_count_max', 'absint' );
-    }
-
-    /**
-     * Render the hint text for the preview excerpt section.
-     *
-     * @return void
-     */
-    public function get_preview_excerpt_section_description() {
-        echo '<p>';
-        printf(
-            esc_html__( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
-            an excerpt of the full content, covered by a semi-transparent overlay. %1$s The following three parameters give you fine-grained control over the length of this excerpt. %1$s These settings do not affect the teaser content in any way.', 'laterpay' ),
-            '<br/>'
-        );
-        echo '</p>';
+    public function get_contact_section_description() {
+        printf( esc_html__( 'Have questions or feature requests? %1$sClick here to contact LaterPay support%2$s', 'laterpay' ), '<a href="https://www.laterpay.net/contact-support">', '</a>' );
     }
 
     /**
@@ -480,7 +521,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function add_unlimited_access_settings() {
         global $wp_roles;
-        $custom_roles  = array();
+        $custom_roles = array();
 
         $default_roles = array(
             'administrator',
@@ -490,12 +531,12 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'subscriber',
         );
 
-        $categories    = array(
+        $categories = array(
             'none' => esc_html__( 'none', 'laterpay' ),
             'all'  => esc_html__( 'all', 'laterpay' ),
         );
 
-        $args          = array(
+        $args = array(
             'hide_empty' => false,
             'taxonomy'   => 'category',
         );
@@ -504,7 +545,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         foreach ( $wp_roles->roles as $role => $role_data ) {
             if ( ! in_array( $role, $default_roles, true ) ) {
                 $this->has_custom_roles = true;
-                $custom_roles[ $role ] = $role_data['name'];
+                $custom_roles[ $role ]  = $role_data['name'];
             }
         }
 
@@ -516,7 +557,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
         add_settings_section(
             'laterpay_unlimited_access',
-            __( 'Unlimited Access to Paid Content', 'laterpay' ),
+            esc_html__( 'Unlimited Access to Paid Content', 'laterpay' ),
             array( $this, 'get_unlimited_access_section_description' ),
             'laterpay'
         );
@@ -527,7 +568,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         foreach ( $custom_roles as $role => $name ) {
             add_settings_field(
                 $role,
-                $name,
+                sprintf( esc_html( '%s' . $name . '%s' ), '<span class="lp_font">', '</span>' ),
                 array( $this, 'get_unlimited_access_markup' ),
                 'laterpay',
                 'laterpay_unlimited_access',
@@ -557,11 +598,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
         if ( $this->has_custom_roles ) {
             // show header
-            echo '<table class="form-table"><tr><th>';
+            echo '<table class="form-table"><tr><th class="lp_font">';
             esc_html_e( 'User Role', 'laterpay' );
             echo '</th><td>';
             esc_html_e( 'Unlimited Access to Categories', 'laterpay' );
-            echo'</td></tr></table>';
+            echo '</td></tr></table>';
         } else {
             // tell the user that he needs to have at least one custom role defined
             echo '<h4>';
@@ -587,7 +628,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
             // clean 'class' data
             if ( ! is_array( $classes ) ) {
-                $classes = array($classes);
+                $classes = array( $classes );
             }
             $classes = array_unique( $classes );
 
@@ -603,7 +644,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
             // add id, if set
             if ( isset( $field['id'] ) ) {
-                echo ' id="' . esc_attr( $field['id'] ). '"';
+                echo ' id="' . esc_attr( $field['id'] ) . '"';
             }
 
             if ( isset( $field['label'] ) ) {
@@ -639,6 +680,17 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 echo esc_html( $field['label'] );
                 echo '</label>';
             }
+
+            // Add Modal of input if data was provided.
+            if ( isset( $field['tooltip'] ) && isset( $field['modal'] ) && isset( $field['title'] ) ) {
+                $span_style = ( ! empty( $field['modal']['style'] ) ) ? safecss_filter_attr( $field['modal']['style'] ) : '';
+
+                echo '<span data-icon="m" class="lp_option_icon" id="' . esc_attr( $field['modal']['id'] ) . '" title="' . esc_attr( $field['title'] ) . '" style="' . esc_attr( $span_style ) . '"></span>';
+                echo '<div id="lp_' . esc_attr( $field['modal']['id'] ) . '" style="display:none;">';
+                echo '<p>' . wp_kses( $field['modal']['message'], [ 'br' => [] ] ) . '</p>';
+                echo '<button type="button" class="button button-primary lp_mt- lp_mb- lp_js_info_close">' . esc_html__( 'Close' ) . '</button>';
+                echo '</div>';
+            }
         }
     }
 
@@ -652,11 +704,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function get_select_field_markup( $field = null ) {
 
         if ( $field && isset( $field['name'] ) ) {
-            $field_value  = isset( $field['value'] ) ? $field['value'] : get_option( $field['name'] );
-            $options      = isset( $field['options'] ) ? (array) $field['options'] : array();
-            $classes      = isset( $field['class'] ) ? $field['class'] : array();
+            $field_value = isset( $field['value'] ) ? $field['value'] : get_option( $field['name'] );
+            $options     = isset( $field['options'] ) ? (array) $field['options'] : array();
+            $classes     = isset( $field['class'] ) ? $field['class'] : array();
             if ( ! is_array( $classes ) ) {
-                $classes = array($classes);
+                $classes = array( $classes );
             }
 
             if ( isset( $field['label'] ) ) {
@@ -685,14 +737,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 if ( ! is_array( $option ) ) {
                     $option_value = $option_text = $option;
                 } else {
-                    $option_value   = isset( $option['value'] ) ? $option['value'] : '';
-                    $option_text    = isset( $option['text'] ) ? $option['text'] : '';
+                    $option_value = isset( $option['value'] ) ? $option['value'] : '';
+                    $option_text  = isset( $option['text'] ) ? $option['text'] : '';
                 }
                 $selected = '';
                 if ( absint( $field_value ) === absint( $option_value ) ) {
                     $selected = 'selected';
                 }
-                echo '<option value="' . esc_attr( $option_value ) .  '" ' . esc_attr( $selected ) . '>' . esc_html( $option_text ) . '</option>';
+                echo '<option value="' . esc_attr( $option_value ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $option_text ) . '</option>';
             }
 
             echo '</select>';
@@ -733,7 +785,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 echo 'name="laterpay_unlimited_access[' . esc_attr( $role ) . '][]"';
                 echo 'value="' . esc_attr( $id ) . '" ';
 
-                if( $is_selected || ( $need_default && $id === 'none' ) ) {
+                if ( $is_selected || ( $need_default && $id === 'none' ) ) {
                     echo 'checked';
                 }
 
@@ -757,8 +809,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return array $valid array of valid values
      */
     public function validate_unlimited_access( $input ) {
-        $valid      = array();
-        $args       = array(
+        $valid = array();
+        $args  = array(
             'hide_empty' => false,
             'taxonomy'   => 'category',
             'parent'     => 0,
@@ -816,86 +868,26 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     }
 
     /**
-     * Add LaterPay API settings section and fields.
-     *
-     * @return void
-     */
-    public function add_laterpay_api_settings() {
-        add_settings_section(
-            'laterpay_api_settings',
-            __( 'LaterPay API Settings', 'laterpay' ),
-            array( $this, 'get_laterpay_api_description' ),
-            'laterpay'
-        );
-
-        $value      = absint( get_option( 'laterpay_api_fallback_behavior' ) );
-        $options    = self::get_laterpay_api_options();
-        add_settings_field(
-            'laterpay_api_fallback_behavior',
-            __( 'Fallback Behavior', 'laterpay' ),
-            array( $this, 'get_select_field_markup' ),
-            'laterpay',
-            'laterpay_api_settings',
-            array(
-                'name'          => 'laterpay_api_fallback_behavior',
-                'value'         => $value,
-                'options'       => $options,
-                'id'            => 'lp_js_laterpayApiFallbackSelect',
-                'appended_text' => isset( $options[ $value ] ) ? $options[ $value ]['description'] : '',
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_api_fallback_behavior' );
-
-        add_settings_field(
-            'laterpay_api_enabled_on_homepage',
-            __( 'Enabled on home page', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_api_settings',
-            array(
-                'name'  => 'laterpay_api_enabled_on_homepage',
-                'value' => 1,
-                'type'  => 'checkbox',
-                'label' => __( 'I want to enable requests to LaterPay API on home page', 'laterpay' ),
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_api_enabled_on_homepage' );
-    }
-
-    /**
-     * Render the hint text for the LaterPay API section.
-     *
-     * @return void
-     */
-    public function get_laterpay_api_description() {
-        echo '<p>';
-        esc_html_e( 'Define fallback behavior in case LaterPay API is not responding and option to disallow plugin to contact LaterPay API on homepage', 'laterpay' );
-        echo '</p>';
-    }
-
-    /**
      * Get LaterPay API options array.
      *
-     * @return string description
+     * @return array
      */
     public static function get_laterpay_api_options() {
         return array(
             array(
-                'value'         => '0',
-                'text'          => __( 'Do nothing', 'laterpay' ),
-                'description'   => __( 'No user can access premium content while the LaterPay API is not responding.', 'laterpay' ),
+                'value'       => '0',
+                'text'        => esc_html__( 'Do nothing', 'laterpay' ),
+                'description' => esc_html__( 'No user can access premium content while the LaterPay API is not responding.', 'laterpay' ),
             ),
             array(
-                'value'         => '1',
-                'text'          => __( 'Give full access', 'laterpay' ),
-                'description'   => __( 'All users have full access to premium content in order to not disappoint paying users.', 'laterpay' ),
+                'value'       => '1',
+                'text'        => esc_html__( 'Give full access', 'laterpay' ),
+                'description' => esc_html__( 'All users have full access to premium content in order to not disappoint paying users.', 'laterpay' ),
             ),
             array(
-                'value'         => '2',
-                'text'          => __( 'Hide premium content', 'laterpay' ),
-                'description'   => __( 'Premium content is hidden from users. Direct access would be blocked.', 'laterpay' ),
+                'value'       => '2',
+                'text'        => esc_html__( 'Hide premium content', 'laterpay' ),
+                'description' => esc_html__( 'Premium content is hidden from users. Direct access would be blocked.', 'laterpay' ),
             ),
         );
     }
@@ -913,13 +905,13 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             foreach ( $fields as $field ) {
                 if ( $field && isset( $field['parent_name'] ) ) {
                     $option_value = get_option( $field['parent_name'] );
-                    $field_value  = isset( $option_value[$field['name']] ) ? $option_value[$field['name']] : '';
+                    $field_value  = isset( $option_value[ $field['name'] ] ) ? $option_value[ $field['name'] ] : '';
                     $type         = isset( $field['type'] ) ? $field['type'] : 'text';
                     $classes      = isset( $field['classes'] ) ? $field['classes'] : array();
 
                     // clean 'class' data.
                     if ( ! is_array( $classes ) ) {
-                        $classes = array($classes);
+                        $classes = array( $classes );
                     }
                     $classes = array_unique( $classes );
 
@@ -937,7 +929,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
                     // add id, if set.
                     if ( isset( $field['id'] ) ) {
-                        echo ' id="' . esc_attr( $field['id'] ). '"';
+                        echo ' id="' . esc_attr( $field['id'] ) . '"';
                     }
 
                     if ( isset( $field['label'] ) ) {
@@ -1004,115 +996,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 }
             }
         }
-    }
-
-    /**
-     * Add Google Analytics Tracking Section.
-     *
-     * @return void
-     */
-    public function add_ga_tracking_settings() {
-        add_settings_section(
-            'laterpay_ga_tracking',
-            esc_html__( 'Google Analytics Tracking', 'laterpay' ),
-            array( $this, 'get_ga_tracking_section_description' ),
-            'laterpay'
-        );
-
-        $user_tracking = $this->get_ga_tracking_value();
-
-        // Get Value of Auto Detected Text if set.
-        if ( ! empty( $user_tracking['auto_detected'] ) && 1 === (int) $user_tracking['auto_detected'] ) {
-            $show_notice = 1;
-        } else {
-            $show_notice = 0;
-        }
-
-        // Add Personal GA Section.
-        add_settings_field(
-            'laterpay_user_tracking_data',
-            esc_html__( 'Your Personal Google Analytics:', 'laterpay' ),
-            array( $this, 'get_ga_field_markup' ),
-            'laterpay',
-            'laterpay_ga_tracking',
-            array(
-                array(
-                    'name'        => 'laterpay_ga_personal_enabled_status',
-                    'value'       => 1,
-                    'type'        => 'checkbox',
-                    'parent_name' => 'laterpay_user_tracking_data',
-                ),
-                array(
-                    'name'        => 'laterpay_ga_personal_ua_id',
-                    'type'        => 'text',
-                    'classes'     => ['lp_ga-input'],
-                    'parent_name' => 'laterpay_user_tracking_data',
-                    'show_notice' => $show_notice,
-                )
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_user_tracking_data' );
-
-        // Add LaterPay GA Section.
-        add_settings_field(
-            'laterpay_tracking_data',
-            __( 'LaterPay Google Analytics:', 'laterpay' ),
-            array( $this, 'get_ga_field_markup' ),
-            'laterpay',
-            'laterpay_ga_tracking',
-            array(
-                array(
-                    'name'        => 'laterpay_ga_enabled_status',
-                    'value'       => 1,
-                    'type'        => 'checkbox',
-                    'parent_name' => 'laterpay_tracking_data',
-                    'modal'       => array(
-                        'id'         => 'lp_ga_modal_id',
-                        'message'    => sprintf( '%1$s <br/><br/> %2$s',
-                            esc_html__( 'LaterPay collects this information to improve our products and
-                                        services and also so that you can determine the effectiveness of your pricing
-                                        strategy using our Merchant Analytics dashboard.', 'laterpay' ),
-                            esc_html__( 'Are you sure you would like to disable this feature?', 'laterpay' ) ),
-                        'saveText'   => esc_html__( 'Yes, Disable Tracking', 'laterpay' ),
-                        'cancelText' => esc_html__( 'Cancel', 'laterpay' ),
-                    ),
-                    ),
-                array(
-                    'name'        => 'laterpay_ga_ua_id',
-                    'type'        => 'text',
-                    'classes'     => ['lp_ga-input'],
-                    'readonly'    => true,
-                    'parent_name' => 'laterpay_tracking_data',
-                )
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_tracking_data' );
-
-    }
-
-    /**
-     * Get Google Analytics Track Section Description.
-     *
-     * @return void
-     */
-    public function get_ga_tracking_section_description() {
-        echo '<p>';
-        printf(
-            esc_html__( 'LaterPay is not in the business of selling data. This tracking information is for your benefit so that you can determine the effectiveness of your pricing strategy. %s
-            To view your analytics, log in to your LaterPay account at %slaterpay.net%s to view your Merchant Analytics dashboard.', 'laterpay' ),
-            "<br/>",
-            "<a href='https://www.laterpay.net/' target='_blank'/>",
-            "</a>"
-            );
-        echo '</p>';
-
-        echo '<table class="form-table"><tr><th></th> <td>';
-        esc_html_e( 'Enabled', 'laterpay' );
-        echo '</td><td width="79%">';
-        esc_html_e( 'Google Analytics "UA-ID"', 'laterpay' );
-        echo'</td></tr></table>';
     }
 
     /**

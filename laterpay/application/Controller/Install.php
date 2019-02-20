@@ -456,7 +456,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_require_login',                           '' );
         add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
         add_option( 'laterpay_api_fallback_behavior',                   0 );
-        add_option( 'laterpay_api_enabled_on_homepage',                 1 );
 
         // keep the plugin version up to date
         update_option( 'laterpay_plugin_version', $this->config->get( 'version' ) );
