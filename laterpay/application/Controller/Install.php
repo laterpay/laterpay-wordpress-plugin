@@ -451,7 +451,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_preview_excerpt_percentage_of_content',   '25' );
         add_option( 'laterpay_preview_excerpt_word_count_min',          '26' );
         add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
-        add_option( 'laterpay_enabled_post_types',                      get_post_types( array( 'public' => true ) ) );
+        add_option( 'laterpay_enabled_post_types', [ 'post' => 'post', 'attachment' => 'attachment' ] );
         add_option( 'laterpay_require_login',                           '' );
         add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
         add_option( 'laterpay_api_fallback_behavior',                   0 );
