@@ -443,7 +443,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_gift_codes_usages',                       '' );
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
-        add_option( 'laterpay_is_in_visible_test_mode',                 0 );
 
         // advanced settings
         add_option( 'laterpay_region',                                  'us' );
