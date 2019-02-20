@@ -6,6 +6,10 @@
 @import 'objects/_polyfills';
 @import 'objects/_spinner';
 
+h2 {
+    font-weight: 500;
+    font-size: $fs;
+}
 
 h3 {
     margin: (4 * $fs) 0 $fs;
@@ -24,6 +28,11 @@ h3 {
     padding-bottom: $fs--05;
     width: 40%;
 }
+
+.form-table th.lp_font, span.lp_font {
+    font-weight: normal;
+}
+
 .form-table td {
     padding-top: $fs--05;
     padding-bottom: 0;
@@ -89,4 +98,10 @@ button.lp_js_info_close {
 div#TB_ajaxContent {
     display: table-cell;
     vertical-align: middle;
+}
+
+a.lp_options_a {
+    color: black;
+    font-size: (2 * $fs);
+    text-decoration: none;
 }

@@ -139,7 +139,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     public function add_access_settings() {
         add_settings_section(
             'laterpay_access',
-            sprintf( esc_html__( '%s Access %s', 'laterpay' ), '<a href="#lpaccess"><div id="lpaccess">', '</div></a>' ),
+            sprintf( esc_html__( '%s Access %s', 'laterpay' ), '<a href="#lpaccess" class="lp_options_a"><div id="lpaccess">', '</div></a>' ),
             array( $this, 'get_access_section_description' ),
             'laterpay'
         );
@@ -186,7 +186,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     public function add_analytics_settings() {
         add_settings_section(
             'laterpay_analytics',
-            sprintf( esc_html__( '%s Analytics %s', 'laterpay' ), '<a href="#lpanalytics"><div id="lpanalytics">', '</div></a>' ),
+            sprintf( esc_html__( '%s Analytics %s', 'laterpay' ), '<a href="#lpanalytics" class="lp_options_a"><div id="lpanalytics">', '</div></a>' ),
             array( $this, 'get_analytics_section_description' ),
             'laterpay'
         );
@@ -294,7 +294,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     public function add_appearance_settings() {
         add_settings_section(
             'laterpay_appearance',
-            sprintf( esc_html__( '%s Appearance %s', 'laterpay' ), '<a href="#lpappearance"><div id="lpappearance">', '</div></a>' ),
+            sprintf( esc_html__( '%s Appearance %s', 'laterpay' ), '<a href="#lpappearance" class="lp_options_a"><div id="lpappearance">', '</div></a>' ),
             array( $this, 'get_appearance_section_description' ),
             'laterpay'
         );
@@ -432,7 +432,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     public function add_technical_settings() {
         add_settings_section(
             'laterpay_technical',
-            sprintf( esc_html__( '%s Technical %s', 'laterpay' ), '<a href="#lptechnical"><div id="lptechnical">', '</div></a>' ),
+            sprintf( esc_html__( '%s Technical %s', 'laterpay' ), '<a href="#lptechnical" class="lp_options_a"><div id="lptechnical">', '</div></a>' ),
             array( $this, 'get_technical_section_description' ),
             'laterpay'
         );
@@ -499,7 +499,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     public function add_contact_section() {
         add_settings_section(
             'laterpay_contact',
-            sprintf( esc_html__( '%s Contact LaterPay Support %s', 'laterpay' ), '<a href="#lpcontact"><div id="lpcontact">', '</div></a>' ),
+            sprintf( esc_html__( '%s Contact LaterPay Support %s', 'laterpay' ), '<a href="#lpcontact" class="lp_options_a"><div id="lpcontact">', '</div></a>' ),
             array( $this, 'get_contact_section_description' ),
             'laterpay'
         );
@@ -568,7 +568,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
         foreach ( $custom_roles as $role => $name ) {
             add_settings_field(
                 $role,
-                $name,
+                sprintf( esc_html( '%s' . $name . '%s' ), '<span class="lp_font">', '</span>' ),
                 array( $this, 'get_unlimited_access_markup' ),
                 'laterpay',
                 'laterpay_unlimited_access',
@@ -598,7 +598,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
 
         if ( $this->has_custom_roles ) {
             // show header
-            echo '<table class="form-table"><tr><th>';
+            echo '<table class="form-table"><tr><th class="lp_font">';
             esc_html_e( 'User Role', 'laterpay' );
             echo '</th><td>';
             esc_html_e( 'Unlimited Access to Categories', 'laterpay' );
@@ -683,9 +683,9 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
 
             // Add Modal of input if data was provided.
             if ( isset( $field['tooltip'] ) && isset( $field['modal'] ) && isset( $field['title'] ) ) {
-                $span_style = ( ! empty( $field['modal']['style'] ) ) ? esc_attr( $field['modal']['style'] ) : '';
+                $span_style = ( ! empty( $field['modal']['style'] ) ) ? safecss_filter_attr( $field['modal']['style'] ) : '';
 
-                echo '<span data-icon="m" class="lp_option_icon" id="' . esc_attr( $field['modal']['id'] ) . '" title="' . esc_attr( $field['title'] ) . '" style="' . $span_style . '"></span>';
+                echo '<span data-icon="m" class="lp_option_icon" id="' . esc_attr( $field['modal']['id'] ) . '" title="' . esc_attr( $field['title'] ) . '" style="' . esc_attr( $span_style ) . '"></span>';
                 echo '<div id="lp_' . esc_attr( $field['modal']['id'] ) . '" style="display:none;">';
                 echo '<p>' . wp_kses( $field['modal']['message'], [ 'br' => [] ] ) . '</p>';
                 echo '<button type="button" class="button button-primary lp_mt- lp_mb- lp_js_info_close">' . esc_html__( 'Close' ) . '</button>';
