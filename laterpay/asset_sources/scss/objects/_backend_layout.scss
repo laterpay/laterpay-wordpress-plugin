@@ -1,3 +1,7 @@
+body {
+    background: #FFFFFF;
+}
+
 // content area --------------------------------------------------------------------------------------------------------
 .lp_page {
     min-height: 100%;
@@ -9,13 +13,25 @@
     padding: $fs;
 }
 
+.lp_main_area {
+    width: 50%;
+    float: left;
+    background: #FFFFFF;
+}
+
+.lp_side_area {
+    background-color: #fafafa;
+    width: 40%;
+    position: absolute;
+    right: 20px;
+    height: 100%;
+    border-radius: 20px;
+}
 
 // tabs ----------------------------------------------------------------------------------------------------------------
 .lp_navigation {
     background-color: $background--lightest;
-    border-bottom: 1px solid $border--darker;
-    box-shadow: 0 1px 0 $background--lightest;
-    left: -20px;
+    left: -5px;
     padding-right: 20px;
     padding-top: $fs--15;
     position: relative;
@@ -35,7 +51,21 @@
     margin-left: $fs;
     position: relative;
     top: 2px;
+    text-transform: uppercase;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 
+    &:after{
+        right: -8px;
+        content: "\f140";
+        font: normal 20px/1 dashicons;
+        bottom: 10px;
+        position: absolute;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-decoration: none!important;
+        color: $laterpay-menu-background;
+        font-size: (2 * $fs);
+    }
     &:first-child {
         margin-left: 0;
     }
@@ -54,15 +84,19 @@
     }
 
     &.lp_is-current {
-        background-color: $background;
-        border-radius: 4px 4px 0 0;
-        border-top: 4px solid $laterpay-brand;
+        background-color: $laterpay-menu-background;
+        border: 4px solid $laterpay-menu-background;
+
+        &:after{
+            content: none;
+        }
 
         &:hover > .lp_navigation-tabs__link,
         > .lp_navigation-tabs__link {
-            color: $text;
-            cursor: default;
-            font-weight: bold;
+            color: $purchase-button-text;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
         }
     }
 }
@@ -88,7 +122,22 @@
     background: $background;
 }
 
+.lp_step_label {
+    text-transform: uppercase;
+    font-size: $fs;
+    font-weight: 800;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 
+    .lp_step_span {
+        border-bottom: 2px solid #4aa69d;
+        padding-bottom: 5px;
+        transition: width 2s;
+    }
+}
+
+.lp_info_div {
+    padding: 20px 0;
+}
 // plugin mode indicator -----------------------------------------------------------------------------------------------
 .lp_plugin-mode-indicator {
     position: absolute;
@@ -169,6 +218,11 @@
     p:last-child {
         margin: 0;
     }
+}
+
+a.lp_info_link {
+    color: #00aaa2;
+    text-decoration: underline;
 }
 
 
