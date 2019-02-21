@@ -41,9 +41,7 @@ $is_vip = laterpay_check_is_vip();
                     <form id="laterpay_plugin_mode" method="post">
                         <input type="hidden" name="form" value="laterpay_plugin_mode">
                         <input type="hidden" name="action" value="laterpay_account">
-                        <?php if ( function_exists( 'wp_nonce_field' ) ) {
-                            wp_nonce_field( 'laterpay_form' );
-                        } ?>
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
                         <label class="lp_toggle__label">
                             <input type="checkbox"
                                    id="lp_js_togglePluginMode"
@@ -84,9 +82,7 @@ $is_vip = laterpay_check_is_vip();
                     <form id="laterpay_region" method="post">
                         <input type="hidden" name="form" value="laterpay_region_change">
                         <input type="hidden" name="action" value="laterpay_account">
-                        <?php if ( function_exists( 'wp_nonce_field' ) ) {
-                            wp_nonce_field( 'laterpay_form' );
-                        } ?>
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
                         <select id="lp_js_apiRegionSection" name="laterpay_region" class="lp_input">
                             <option value="eu" <?php selected( $laterpay['region'], 'eu' ); ?>><?php esc_html_e( 'Europe (EUR)', 'laterpay' ); ?></option>
                             <option value="us" <?php selected( $laterpay['region'], 'us' ); ?>><?php esc_html_e( 'United States (USD)', 'laterpay' ); ?></option>
@@ -174,9 +170,7 @@ $is_vip = laterpay_check_is_vip();
                                 <form id="laterpay_live_merchant_id" method="post">
                                     <input type="hidden" name="form" value="laterpay_live_merchant_id">
                                     <input type="hidden" name="action" value="laterpay_account">
-                                    <?php if ( function_exists( 'wp_nonce_field' ) ) {
-                                        wp_nonce_field( 'laterpay_form' );
-                                    } ?>
+                                    <?php wp_nonce_field( 'laterpay_form' ); ?>
 
                                     <input type="text"
                                            id="lp_js_liveMerchantId"
@@ -196,9 +190,7 @@ $is_vip = laterpay_check_is_vip();
                                 <form id="laterpay_live_api_key" method="post">
                                     <input type="hidden" name="form" value="laterpay_live_api_key">
                                     <input type="hidden" name="action" value="laterpay_account">
-                                    <?php if ( function_exists( 'wp_nonce_field' ) ) {
-                                        wp_nonce_field( 'laterpay_form' );
-                                    } ?>
+                                    <?php wp_nonce_field( 'laterpay_form' ); ?>
 
                                     <input type="text"
                                            id="lp_js_liveApiKey"
