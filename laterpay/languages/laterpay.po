@@ -627,122 +627,122 @@ msgstr ""
 msgid "The LaterPay plugin is in"
 msgstr ""
 
-#: laterpay/views/backend/account.php:60
+#: laterpay/views/backend/account.php:58
 msgid "mode."
 msgstr ""
 
-#: laterpay/views/backend/account.php:65
+#: laterpay/views/backend/account.php:63
 msgid "In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 4 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments."
 msgstr ""
 
-#: laterpay/views/backend/account.php:68
+#: laterpay/views/backend/account.php:66
 msgid "Close"
 msgstr ""
 
-#: laterpay/views/backend/account.php:73
+#: laterpay/views/backend/account.php:71
 msgid "Step 1"
 msgstr ""
 
-#: laterpay/views/backend/account.php:73
+#: laterpay/views/backend/account.php:71
 msgid "Select Your Region"
 msgstr ""
 
-#: laterpay/views/backend/account.php:79
+#: laterpay/views/backend/account.php:77
 msgid "If you select 'Europe', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform. %1$s If you select 'United States', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform."
 msgstr ""
 
-#: laterpay/views/backend/account.php:91
+#: laterpay/views/backend/account.php:87
 msgid "Europe (EUR)"
 msgstr ""
 
-#: laterpay/views/backend/account.php:92
+#: laterpay/views/backend/account.php:88
 msgid "United States (USD)"
 msgstr ""
 
-#: laterpay/views/backend/account.php:99
+#: laterpay/views/backend/account.php:95
 msgid ""
 "%1$sImportant:%2$s The minimum value for \"Pay Now\" prices in the U.S. region is %1$s$1.99%2$s %3$s\n"
 "                            If you have already set \"Pay Now\" prices lower than 1.99, make sure to change them before you switch to the U.S. region. %3$s\n"
 "                            If you haven't done any configuration yet, you can safely switch the region without further adjustments."
 msgstr ""
 
-#: laterpay/views/backend/account.php:114
+#: laterpay/views/backend/account.php:110
 msgid "Step 2"
 msgstr ""
 
-#: laterpay/views/backend/account.php:115
+#: laterpay/views/backend/account.php:111
 msgid "Create LaterPay Account"
 msgstr ""
 
-#: laterpay/views/backend/account.php:119
+#: laterpay/views/backend/account.php:115
 msgid "A LaterPay Account is required in order to process financial transactions. You may skip this step if you have already created a LaterPay account."
 msgstr ""
 
-#: laterpay/views/backend/account.php:129
+#: laterpay/views/backend/account.php:125
 msgid "Step 3"
 msgstr ""
 
-#: laterpay/views/backend/account.php:130
+#: laterpay/views/backend/account.php:126
 msgid "Getting Started"
 msgstr ""
 
-#: laterpay/views/backend/account.php:135
+#: laterpay/views/backend/account.php:131
 msgid "It may take up to 5 business days for our banking partners to verify your information. You may go ahead and get started setting up your plugin while it is in \"Test mode\" then, once we've emailed you to let you know your account is live, come back and complete step 4 below in order to begin accepting payments."
 msgstr ""
 
-#: laterpay/views/backend/account.php:141
+#: laterpay/views/backend/account.php:137
 msgid "%s Click here to read our Getting Started Guide%s or simply click through the remaining tabs and check out the LaterPay features available on your Edit Post pages to see all of the options available. To help you get started, all of the default values are automatically set to our experts' recommendations."
 msgstr ""
 
-#: laterpay/views/backend/account.php:152
+#: laterpay/views/backend/account.php:148
 msgid "Step 4"
 msgstr ""
 
-#: laterpay/views/backend/account.php:153
+#: laterpay/views/backend/account.php:149
 msgid "Accept Payments"
 msgstr ""
 
-#: laterpay/views/backend/account.php:158
+#: laterpay/views/backend/account.php:154
 msgid "It may take up to 5 business days for our banking partners to verify your information. Once we've emailed you to let you know your account is live, follow the steps below to begin accepting payments."
 msgstr ""
 
-#: laterpay/views/backend/account.php:162
+#: laterpay/views/backend/account.php:158
 msgid "%sClick here%s to log in to your LaterPay account"
 msgstr ""
 
-#: laterpay/views/backend/account.php:164
+#: laterpay/views/backend/account.php:160
 msgid "Navigate to the developer tab & copy and paste your Merchant ID & API Key into the corresponding boxes below"
 msgstr ""
 
-#: laterpay/views/backend/account.php:166
+#: laterpay/views/backend/account.php:162
 msgid "(?) Don't see a developer tab? Click here to contact our support team"
 msgstr ""
 
-#: laterpay/views/backend/account.php:168
+#: laterpay/views/backend/account.php:164
 msgid "Ensure that the toggle at the top of the page is switched to LIVE mode"
 msgstr ""
 
-#: laterpay/views/backend/account.php:189
+#: laterpay/views/backend/account.php:183
 msgid "Paste Live Merchant ID here"
 msgstr ""
 
-#: laterpay/views/backend/account.php:190
+#: laterpay/views/backend/account.php:184
 msgid "Merchant ID"
 msgstr ""
 
-#: laterpay/views/backend/account.php:211
+#: laterpay/views/backend/account.php:203
 msgid "Paste Live API Key here"
 msgstr ""
 
-#: laterpay/views/backend/account.php:212
+#: laterpay/views/backend/account.php:204
 msgid "API Key"
 msgstr ""
 
-#: laterpay/views/backend/account.php:224
+#: laterpay/views/backend/account.php:216
 msgid "Who is LaterPay?"
 msgstr ""
 
-#: laterpay/views/backend/account.php:227
+#: laterpay/views/backend/account.php:219
 msgid ""
 "Meet the online payment system that cares about the user experience as much as you do %1$s %1$s\n"
 "                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s\n"
@@ -753,55 +753,55 @@ msgid ""
 "                    LaterPay’s frictionless customer onboarding helps you turn traffic into transactions."
 msgstr ""
 
-#: laterpay/views/backend/account.php:239
+#: laterpay/views/backend/account.php:231
 msgid "FAQ's"
 msgstr ""
 
-#: laterpay/views/backend/account.php:240
+#: laterpay/views/backend/account.php:232
 msgid "Having Trouble with Page Cache?"
 msgstr ""
 
-#: laterpay/views/backend/account.php:243
+#: laterpay/views/backend/account.php:235
 msgid "You need to whitelist the following cookies from caching in order for page-cache to work properly with laterpay."
 msgstr ""
 
-#: laterpay/views/backend/account.php:249
+#: laterpay/views/backend/account.php:241
 msgid "We have already taken care of this if you're on a WordPress VIP Environment."
 msgstr ""
 
-#: laterpay/views/backend/account.php:256
+#: laterpay/views/backend/account.php:248
 msgid "Having Trouble on WPEngine?"
 msgstr ""
 
-#: laterpay/views/backend/account.php:259
+#: laterpay/views/backend/account.php:251
 msgid "If you're facing the issue on WPEngine even after whitelisting requested cookies, please check if any of your active plugin/theme is using"
 msgstr ""
 
-#: laterpay/views/backend/account.php:259
+#: laterpay/views/backend/account.php:251
 msgid "session*"
 msgstr ""
 
-#: laterpay/views/backend/account.php:259
+#: laterpay/views/backend/account.php:251
 msgid "functions."
 msgstr ""
 
-#: laterpay/views/backend/account.php:260
+#: laterpay/views/backend/account.php:252
 msgid "Please"
 msgstr ""
 
-#: laterpay/views/backend/account.php:260
+#: laterpay/views/backend/account.php:252
 msgid " Check this"
 msgstr ""
 
-#: laterpay/views/backend/account.php:260
+#: laterpay/views/backend/account.php:252
 msgid "for more information regarding session usage on WPEngine."
 msgstr ""
 
-#: laterpay/views/backend/account.php:267
+#: laterpay/views/backend/account.php:259
 msgid "Support"
 msgstr ""
 
-#: laterpay/views/backend/account.php:271
+#: laterpay/views/backend/account.php:263
 msgid "%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback or to reach our customer service team."
 msgstr ""
 
@@ -1438,7 +1438,7 @@ msgid "Please choose if you want to require a login for \"Pay Later\" purchases.
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Settings.php:177
-msgid "While most content access is controlled by LaterPay, in this section you can adjust the number of times a Voucher can be redeemed, require users to log in prior to purchase, or allow unlimited access to specific user roles."
+msgid "While most content access is controlled by LaterPay, in this section you can require users to log in prior to purchase or allow unlimited access to specific WordPress user roles (this feature can be useful for giving free access to existing subscribers or other stakeholders). We recommend the plugin 'User Role Editor' for adding custom roles to WordPress."
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Settings.php:189
@@ -1446,7 +1446,7 @@ msgid "%s Analytics %s"
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Settings.php:206
-msgid "Your Personal Google Analytics:"
+msgid "Your Google Analytics:"
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Settings.php:230
@@ -1560,8 +1560,8 @@ msgstr ""
 
 #: laterpay/application/Controller/Admin/Settings.php:483
 msgid ""
-"You MUST enable caching compatiblity mode, if you are using a caching solution\n"
-"           that caches entire HTML pages. %1$s In caching compatibility mode the plugin works\n"
+"You MUST enable caching compatibility mode, if you are using a caching solution\n"
+"           that caches entire HTML pages. %1$s In caching compatibility mode, the plugin works\n"
 "           like this: %1$s It renders paid posts only with the teaser content. This allows to cache\n"
 "           them as static files without risking to leak the paid content. %1$s When someone visits\n"
 "           the page, it makes an Ajax request to determine, if the visitor has already bought the post\n"
@@ -1584,58 +1584,47 @@ msgstr ""
 msgid "all"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:560
-msgid "Unlimited Access to Paid Content"
+#: laterpay/application/Controller/Admin/Settings.php:593
+msgid "WordPress User Role"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:592
-msgid ""
-"You can give logged-in users unlimited access to specific categories depending on their user role. %1$s\n"
-"            This feature can be useful e.g. for giving free access to existing subscribers. %1$s\n"
-"            We recommend the plugin 'User Role Editor' for adding custom roles to WordPress."
+#: laterpay/application/Controller/Admin/Settings.php:595
+msgid "Receives unlimited access to:"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:602
-msgid "User Role"
-msgstr ""
-
-#: laterpay/application/Controller/Admin/Settings.php:604
-msgid "Unlimited Access to Categories"
-msgstr ""
-
-#: laterpay/application/Controller/Admin/Settings.php:609
+#: laterpay/application/Controller/Admin/Settings.php:600
 msgid "Please add a custom role first."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:796
+#: laterpay/application/Controller/Admin/Settings.php:787
 msgid "$name"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:879
+#: laterpay/application/Controller/Admin/Settings.php:870
 msgid "Do nothing"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:880
+#: laterpay/application/Controller/Admin/Settings.php:871
 msgid "No user can access premium content while the LaterPay API is not responding."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:884
+#: laterpay/application/Controller/Admin/Settings.php:875
 msgid "Give full access"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:885
+#: laterpay/application/Controller/Admin/Settings.php:876
 msgid "All users have full access to premium content in order to not disappoint paying users."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:889
+#: laterpay/application/Controller/Admin/Settings.php:880
 msgid "Hide premium content"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:890
+#: laterpay/application/Controller/Admin/Settings.php:881
 msgid "Premium content is hidden from users. Direct access would be blocked."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:970
+#: laterpay/application/Controller/Admin/Settings.php:961
 msgid "auto detected"
 msgstr ""
 
