@@ -174,7 +174,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
      */
     public function get_access_section_description() {
         echo '<p>';
-        esc_html_e( 'While most content access is controlled by LaterPay, in this section you can adjust the number of times a Voucher can be redeemed, require users to log in prior to purchase, or allow unlimited access to specific user roles.', 'laterpay' );
+        esc_html_e( 'While most content access is controlled by LaterPay, in this section you can require users to log in prior to purchase or allow unlimited access to specific WordPress user roles (this feature can be useful for giving free access to existing subscribers or other stakeholders). We recommend the plugin \'User Role Editor\' for adding custom roles to WordPress.', 'laterpay' );
         echo '</p>';
     }
 
@@ -203,7 +203,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
         // Add Personal GA Section.
         add_settings_field(
             'laterpay_user_tracking_data',
-            esc_html__( 'Your Personal Google Analytics:', 'laterpay' ),
+            esc_html__( 'Your Google Analytics:', 'laterpay' ),
             array( $this, 'get_ga_field_markup' ),
             'laterpay',
             'laterpay_analytics',
@@ -480,8 +480,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     public function get_technical_section_description() {
         echo '<p>';
         printf(
-            esc_html__( 'You MUST enable caching compatiblity mode, if you are using a caching solution
-           that caches entire HTML pages. %1$s In caching compatibility mode the plugin works
+            esc_html__( 'You MUST enable caching compatibility mode, if you are using a caching solution
+           that caches entire HTML pages. %1$s In caching compatibility mode, the plugin works
            like this: %1$s It renders paid posts only with the teaser content. This allows to cache
            them as static files without risking to leak the paid content. %1$s When someone visits
            the page, it makes an Ajax request to determine, if the visitor has already bought the post
@@ -557,7 +557,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
 
         add_settings_section(
             'laterpay_unlimited_access',
-            esc_html__( 'Unlimited Access to Paid Content', 'laterpay' ),
+            '',
             array( $this, 'get_unlimited_access_section_description' ),
             'laterpay'
         );
@@ -568,7 +568,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
         foreach ( $custom_roles as $role => $name ) {
             add_settings_field(
                 $role,
-                sprintf( esc_html( '%s' . $name . '%s' ), '<span class="lp_font">', '</span>' ),
+                sprintf( esc_html( '%s' . $name . '%s' ), '<span>', '</span>' ),
                 array( $this, 'get_unlimited_access_markup' ),
                 'laterpay',
                 'laterpay_unlimited_access',
@@ -587,21 +587,12 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
      * @return void
      */
     public function get_unlimited_access_section_description() {
-        echo '<p>';
-        printf(
-            esc_html__( 'You can give logged-in users unlimited access to specific categories depending on their user role. %1$s
-            This feature can be useful e.g. for giving free access to existing subscribers. %1$s
-            We recommend the plugin \'User Role Editor\' for adding custom roles to WordPress.', 'laterpay' ),
-            '<br/>'
-        );
-        echo '</p>';
-
         if ( $this->has_custom_roles ) {
             // show header
             echo '<table class="form-table"><tr><th class="lp_font">';
-            esc_html_e( 'User Role', 'laterpay' );
+            esc_html_e( 'WordPress User Role', 'laterpay' );
             echo '</th><td>';
-            esc_html_e( 'Unlimited Access to Categories', 'laterpay' );
+            esc_html_e( 'Receives unlimited access to:', 'laterpay' );
             echo '</td></tr></table>';
         } else {
             // tell the user that he needs to have at least one custom role defined
