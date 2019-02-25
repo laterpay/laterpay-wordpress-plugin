@@ -189,6 +189,12 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // Check if content is purchasable.
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post_id );
 
+        // Only add identity link for 'Teaser + Purchase Link' layout.
+        if ( $is_purchasable && (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) && 0 === absint( get_option( 'laterpay_teaser_mode', 0 ) ) ) {
+            $this->assign( 'laterpay', LaterPay_Helper_Post::get_identity_purchase_url( $post->ID ) );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/widget/purchase-identity-url' ) );
+        }
+
         // If content is purchasable and time pass and subscription position is custom echo the code.
         if ( $is_purchasable && $is_tp_sub_list_position_custom && ! wp_doing_ajax() && 'laterpay_time_passes' === current_action() ) {
             $allowed_tags = wp_kses_allowed_html( 'post' );

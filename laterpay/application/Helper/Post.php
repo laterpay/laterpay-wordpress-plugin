@@ -402,4 +402,29 @@ class LaterPay_Helper_Post
         return add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $extra_params ), $back_url );
 
     }
+
+    /**
+     * Return array of view arg for identity anchor.
+     *
+     * @param int $post_id Post ID.
+     *
+     * @return array
+     */
+    public static function get_identity_purchase_url( $post_id ) {
+
+        // create account links URL with passed parameters
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client         = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        // Build an array containing identity URL for the provided post_id.
+        return [
+            'identify_url' => $client->get_identify_url( get_permalink( $post_id ), LaterPay_Helper_Post::get_content_ids( $post_id ) ),
+        ];
+    }
 }
