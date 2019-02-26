@@ -444,14 +444,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         $post_price_type_one = ( 1 === $post_price_behaviour );
 
+        // Getting list of timepass by post id.
+        $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post->ID, null, true );
+
+        // Getting list of subscription by post id.
+        $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post->ID, null, true );
+
         // Check if no individual post type is allowed.
         if ( $post_price_type_one || LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() ) {
-
-            // Getting list of timepass by post id.
-            $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post->ID, null, true );
-
-            // Getting list of subscription by post id.
-            $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post->ID, null, true );
 
             // Check if no timepass/subscription exists.
             if ( ( 0 === count( $time_passes_list ) ) && ( 0 === count( $subscriptions_list ) ) ) {
@@ -561,6 +561,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_link', $link_event );
                     $content = $teaser_content . $link_event->get_result();
                     break;
+            }
+
+            // Only add identity link for 'Teaser + Purchase Link' layout and Time Pass / Subscription are not available.
+            if ( 0 === absint( $teaser_mode ) ) {
+                if ( empty( $time_passes_list ) && empty( $subscriptions_list ) ) {
+                    $this->assign( 'laterpay', LaterPay_Helper_Post::get_identity_purchase_url( $post->ID ) );
+                    $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/widget/purchase-identity-url' ) );
+                }
             }
         } else {
             // encrypt files contained in premium posts
@@ -726,7 +734,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         $html = $event->get_result();
         $html .= str_replace( array( '{price}', '{currency}', '{teaser_content}' ), array( $price, $currency, $teaser_content ), $feed_hint );
-	    echo wp_kses_post( $html );
+        echo wp_kses_post( $html );
     }
 
     /**
