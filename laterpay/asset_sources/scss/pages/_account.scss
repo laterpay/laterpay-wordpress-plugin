@@ -97,3 +97,26 @@ button.lp_js_disablePluginConfirm {
 .lp_page {
 	overflow-x: hidden;
 }
+
+p.lp_tooltip_account_p {
+
+	line-height: 0;
+	z-index: 999;
+	position: absolute;
+	margin: -3px 10px;
+
+	&:after {
+		width: 300px;
+		margin-left: -60px;
+		position: absolute;
+	}
+
+	&:before {
+		margin-left: -10px;
+		position: absolute;
+	}
+
+	span {
+		font-size: 20px;
+	}
+}

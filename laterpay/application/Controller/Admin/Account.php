@@ -70,8 +70,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 'modal'                => array(
                     'id'         => 'lp_plugin_disable_modal_id',
                     'title'      => ( laterpay_check_is_vip() ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ),
-                    'info_id'    => 'lp_plugin_mode_info_modal',
-                    'info_title' => esc_html__( 'Plugin Mode Info', 'laterpay' ),
                 ),
                 'pluginsUrl' => admin_url( 'plugins.php' ),
             )

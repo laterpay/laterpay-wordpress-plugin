@@ -30,9 +30,7 @@
 
                 pluginDelete                    : $('.lp_js_disablePlugin'),
                 pluginDeleteConfirm             : $('.lp_js_disablePluginConfirm'),
-                modalClose                      : $('button.lp_js_ga_cancel'),
-
-                pluginModeInfo                  : $('#lp_plugin_mode_info')
+                modalClose                      : $('button.lp_js_ga_cancel')
             },
 
             regionVal = $o.region.val(),
@@ -97,14 +95,6 @@
                 $o.modalClose.click(function(){
                     $('#TB_closeWindowButton').click();
                 });
-
-                // Display modal for plugin mode info.
-                $o.pluginModeInfo.on('click', function() {
-                    if ( typeof tb_show === 'function' ) {
-                        tb_show( lpVars.modal.info_title,'#TB_inline?inlineId=' + lpVars.modal.info_id +
-                            '&height=185&width=375');
-                    }
-                } );
             },
 
             disablePluginEraseData = function() {

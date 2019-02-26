@@ -56,15 +56,9 @@ $is_vip = laterpay_check_is_vip();
                         </label>
                     </form>
                 </div><?php esc_html_e( 'mode.', 'laterpay' ); ?>
-                <span data-icon="m" class="lp_info_icon" id="lp_plugin_mode_info"></span>
-                <div id="lp_plugin_mode_info_modal" style="display:none;">
-                    <p>
-                        <?php
-                        echo esc_html__( 'In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 4 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments.', 'laterpay' );
-                        ?>
-                    </p>
-                    <button type="button" class="button button-secondary lp_mt- lp_mb- lp_js_ga_cancel lp_info_close"><?php esc_html_e( 'Close', 'laterpay' ); ?></button>
-                </div>
+                <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 4 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments.', 'laterpay' ); ?>">
+                    <span data-icon="m" class="lp_js_postPriceSpan"></span>
+                </p>
             </div>
 
             <div class="lp_clearfix">
