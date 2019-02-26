@@ -533,15 +533,15 @@ msgstr ""
 msgid "I already bought this"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:196, laterpay/application/Module/Purchase.php:298, laterpay/application/Module/Purchase.php:311, laterpay/application/Controller/Frontend/Post.php:644, laterpay/application/Controller/Frontend/Shortcode.php:517
+#: laterpay/application/Module/Purchase.php:196, laterpay/application/Module/Purchase.php:298, laterpay/application/Module/Purchase.php:311, laterpay/application/Controller/Frontend/Post.php:644, laterpay/application/Controller/Frontend/Shortcode.php:520
 msgid "Buy Now"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:199, laterpay/application/Controller/Frontend/Post.php:645, laterpay/application/Controller/Frontend/Shortcode.php:523
+#: laterpay/application/Module/Purchase.php:199, laterpay/application/Controller/Frontend/Post.php:645, laterpay/application/Controller/Frontend/Shortcode.php:526
 msgid "Subscribe Now"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:203, laterpay/application/Controller/Frontend/Post.php:643, laterpay/application/Controller/Frontend/Shortcode.php:515
+#: laterpay/application/Module/Purchase.php:203, laterpay/application/Controller/Frontend/Post.php:643, laterpay/application/Controller/Frontend/Shortcode.php:518
 msgid "Buy Now, Pay Later"
 msgstr ""
 
@@ -1267,7 +1267,7 @@ msgstr ""
 msgid "Error saving data"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:52, laterpay/application/Controller/Frontend/Shortcode.php:503
+#: laterpay/application/Controller/Admin/Pricing.php:52, laterpay/application/Controller/Frontend/Shortcode.php:506
 msgid "Subscription"
 msgstr ""
 
@@ -1676,27 +1676,31 @@ msgstr ""
 msgid "Download now"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:297
+#: laterpay/application/Controller/Frontend/Shortcode.php:296
 msgid "Watch now"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:302
+#: laterpay/application/Controller/Frontend/Shortcode.php:300
+msgid "View now"
+msgstr ""
+
+#: laterpay/application/Controller/Frontend/Shortcode.php:305
 msgid "Listen now"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:306
+#: laterpay/application/Controller/Frontend/Shortcode.php:309
 msgid "Read now"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:386
+#: laterpay/application/Controller/Frontend/Shortcode.php:389
 msgid "Wrong time pass id."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:503
+#: laterpay/application/Controller/Frontend/Shortcode.php:506
 msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Shortcode.php:503
+#: laterpay/application/Controller/Frontend/Shortcode.php:506
 msgid "Time Pass"
 msgstr ""
 

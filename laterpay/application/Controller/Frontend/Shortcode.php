@@ -166,7 +166,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $page_url = get_permalink( $page_id );
         }
 
-        $content_types = array( 'file', 'gallery', 'audio', 'video', 'text' );
+        $content_types = array( 'file', 'gallery', 'audio', 'video', 'text', 'music' );
 
         if ( empty( $a['content_type'] ) ) {
             // determine $content_type from MIME type of files attached to post
@@ -293,8 +293,11 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                         break;
 
                     case 'video':
+	                    $button_label = __( 'Watch now', 'laterpay' );
+	                    break;
+
                     case 'gallery':
-                        $button_label = __( 'Watch now', 'laterpay' );
+                        $button_label = __( 'View now', 'laterpay' );
                         break;
 
                     case 'music':
