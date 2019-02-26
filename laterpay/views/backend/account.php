@@ -159,7 +159,7 @@ $is_vip = laterpay_check_is_vip();
                         <li>
                             <?php esc_html_e( 'Navigate to the developer tab & copy and paste your Merchant ID & API Key into the corresponding boxes below', 'laterpay' ); ?>
                             <br />
-                            <?php printf( esc_html__( '(?) Don\'t see a developer tab? Click here to contact our support team', 'laterpay' ), "<a href='#' class='lp_info_link'>", '</a>' ); ?>
+                            <?php printf( esc_html__( 'Don\'t see a developer tab? %sClick here%s to contact our support team.', 'laterpay' ), "<a href='https://www.laterpay.net/contact-support' class='lp_info_link'>", '</a>' ); ?>
                         </li>
                         <li><?php esc_html_e( 'Ensure that the toggle at the top of the page is switched to LIVE mode', 'laterpay' ); ?></li>
                     </ol>
