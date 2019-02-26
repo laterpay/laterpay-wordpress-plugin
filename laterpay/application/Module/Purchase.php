@@ -646,8 +646,8 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $echo_button = true;
         }
 
-        // Echo the purchase button if button is positioned manually and is non ajax action 'laterpay_purchase_button'.
-        if ( $echo_button && ! wp_doing_ajax() && 'laterpay_purchase_button' === current_action() ) {
+        // Echo the purchase button if button is positioned manually and is non ajax action 'laterpay_purchase_button' and when user doesn't have access.
+        if ( $echo_button && ! wp_doing_ajax() && 'laterpay_purchase_button' === current_action() && ! LaterPay_Helper_Post::has_access_to_post( get_post( $event->get_argument( 'post_id' ) ) ) ) {
             echo wp_kses( $html, [
                 'small' => [
                     'class' => true,

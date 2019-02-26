@@ -336,14 +336,18 @@ class LaterPay_Helper_TimePass
                 // go through time passes with access and find covered and excluded categories
                 foreach ( $time_passes_with_access as $time_pass_with_access_id ) {
                     $time_pass_with_access_data = $model->get_pass_data( $time_pass_with_access_id );
-                    $access_category            = $time_pass_with_access_data['access_category'];
-                    $access_type                = $time_pass_with_access_data['access_to'];
-                    if ( $access_type === 2 ) {
-                        $covered_categories['included'][] = $access_category;
-                    } else if ( $access_type === 1 ) {
-                        $excluded_categories[] = $access_category;
+                    if ( ! empty( $time_pass_with_access_data ) ) {
+                        $access_category = $time_pass_with_access_data['access_category'];
+                        $access_type     = $time_pass_with_access_data['access_to'];
+                        if ( $access_type === 2 ) {
+                            $covered_categories['included'][] = $access_category;
+                        } elseif ( $access_type === 1 ) {
+                            $excluded_categories[] = $access_category;
+                        } else {
+                            return [];
+                        }
                     } else {
-                        return array();
+                        return [];
                     }
                 }
 
