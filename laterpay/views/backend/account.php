@@ -108,7 +108,7 @@ $is_vip = laterpay_check_is_vip();
                     <p>
                         <?php esc_html_e( 'A LaterPay Account is required in order to process financial transactions. You may skip this step if you have already created a LaterPay account.', 'laterpay' ); ?>
                     </p>
-                    <a class="lp_purchase-overlay__submit" href="#">
+                    <a class="lp_purchase-overlay__submit" href="https://www.laterpay.net/signup/merchant">
                         <span class="lp_purchase-overlay__submit-text lp_sign_up"><?php esc_html_e( 'Sign Up' ); ?></span>
                     </a>
                 </div>
@@ -129,7 +129,7 @@ $is_vip = laterpay_check_is_vip();
                         <?php
                         printf(
                             esc_html__( '%s Click here to read our Getting Started Guide%s or simply click through the remaining tabs and check out the LaterPay features available on your Edit Post pages to see all of the options available. To help you get started, all of the default values are automatically set to our experts\' recommendations.', 'laterpay' ),
-                            "<a href='#' class='lp_info_link'>",
+                            "<a href='https://www.laterpay.net/academy/getting-started-with-the-laterpay-wordpress-plugin' class='lp_info_link'>",
                             '</a>'
                         )
                         ?>
@@ -149,7 +149,7 @@ $is_vip = laterpay_check_is_vip();
                         ?>
                     </p>
                     <ol>
-                        <li><?php printf( esc_html__( '%sClick here%s to log in to your LaterPay account', 'laterpay' ), "<a id='lp_js_showMerchantContracts' href='#' target='_blank' data-href-eu=" . esc_url( $laterpay['credentials_url_eu'] ) . " data-href-us=" . esc_url( $laterpay['credentials_url_us'] ) . " class='lp_info_link'>", '</a>' ); ?></li>
+                        <li><?php printf( esc_html__( '%sClick here%s to log in to your LaterPay account', 'laterpay' ), "<a id='lp_js_showMerchantContracts' href='#' target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login' class='lp_info_link'>", '</a>' ); ?></li>
                         <li>
                             <?php esc_html_e( 'Navigate to the developer tab & copy and paste your Merchant ID & API Key into the corresponding boxes below', 'laterpay' ); ?>
                             <br />
