@@ -467,6 +467,30 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         return $time_passes;
     }
 
+    /**
+     * Render a purchase button for selling Time Pass / Subscription using the shortcode [laterpay_time_pass_purchase] or [laterpay_subscription_purchase].
+     *
+     * The shortcode [laterpay_time_pass_purchase] / [laterpay_subscription_purchase] accepts various parameters:
+     * - id: The ID of Time Pass / Subscription.
+     * - button_text: Text to be displayed on purchase button, defaults to revenue type value.
+     * - button_background_color: Background color of the button.
+     * - button_text_color: Text color of the Button.
+     * - custom_image_path: Image to be displayed in place of button text. Overrides button text and color values.
+     *
+     * Basic example:
+     * [laterpay_time_pass_purchase id="3" ]
+     * or:
+     * [laterpay_subscription_purchase id="4" ]
+     *
+     * Advanced example:
+     * [laterpay_subscription_purchase id="5" button_background_color="blue" button_text_color="black" button_text="Purchase Now!"]
+     * or:
+     * [laterpay_subscription_purchase id="6" custom_image_path="http://example.com/images/Subscribe.png"]
+     *
+     * @param  LaterPay_Core_Event $event
+     *
+     * @throws LaterPay_Core_Exception
+     */
     public function render_time_pass_subscription_purchase( LaterPay_Core_Event $event ) {
 
         // Check whether the shortcode was asked for Time Pass or Subscription.
