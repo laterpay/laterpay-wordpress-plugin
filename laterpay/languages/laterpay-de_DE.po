@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-02-28 20:30+0530\n"
-"PO-Revision-Date: 2019-02-28 20:38+0530\n"
+"POT-Creation-Date: 2019-02-28 21:56+0530\n"
+"PO-Revision-Date: 2019-02-28 21:56+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -837,7 +837,7 @@ msgid "Subscriptions"
 msgstr "Abos"
 
 #: application/Controller/Admin/Pricing.php:52
-#: application/Controller/Frontend/Shortcode.php:506
+#: application/Controller/Frontend/Shortcode.php:530
 msgid "Subscription"
 msgstr "Abo"
 
@@ -1424,20 +1424,20 @@ msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
 #: application/Controller/Frontend/Post.php:651
-#: application/Controller/Frontend/Shortcode.php:518
+#: application/Controller/Frontend/Shortcode.php:542
 #: application/Module/Purchase.php:203
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
 #: application/Controller/Frontend/Post.php:652
-#: application/Controller/Frontend/Shortcode.php:520
+#: application/Controller/Frontend/Shortcode.php:544
 #: application/Module/Purchase.php:196 application/Module/Purchase.php:298
 #: application/Module/Purchase.php:311
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
 #: application/Controller/Frontend/Post.php:653
-#: application/Controller/Frontend/Shortcode.php:526
+#: application/Controller/Frontend/Shortcode.php:550
 #: application/Module/Purchase.php:199
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
@@ -1511,12 +1511,12 @@ msgstr "Jetzt lesen"
 msgid "Wrong time pass id."
 msgstr "Ungültige Zeitpass-ID."
 
-#: application/Controller/Frontend/Shortcode.php:506
+#: application/Controller/Frontend/Shortcode.php:530
 #, php-format
 msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
 
-#: application/Controller/Frontend/Shortcode.php:506
+#: application/Controller/Frontend/Shortcode.php:530
 msgid "Time Pass"
 msgstr "Zeitpass"
 
