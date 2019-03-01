@@ -74,7 +74,7 @@ class LaterPay_Model_SubscriptionWP {
         $query_args = array(
             // Meta query is required for post id.
             'meta_key'       => '_lp_id', // phpcs:ignore
-            'meta_value'     => $id, // phpcs:ignore
+            'meta_value'     => absint( $id ), // phpcs:ignore
             'meta_compare'   => '=',
             'posts_per_page' => 1,
             'post_type'      => 'lp_subscription',
@@ -82,9 +82,25 @@ class LaterPay_Model_SubscriptionWP {
             'fields'         => 'ids',
         );
 
-        $query = new WP_Query( $query_args );
+        // Create a hash from the query args.
+        $args_hash = md5( wp_json_encode( $query_args ) );
 
-        $current_posts = $query->posts;
+        // Check if data already exists for requested query args.
+        if ( isset( self::$subscription_data_store[ $args_hash ] ) ) {
+
+            // Get data from internal cache for already requested query.
+            $current_posts = self::$subscription_data_store[ $args_hash ];
+
+        } else {
+
+            $query = new WP_Query( $query_args );
+
+            // Get posts for requested args.
+            $current_posts = $query->posts;
+
+            self::$subscription_data_store[ $args_hash ] = $current_posts;
+
+        }
 
         $id = ( isset( $current_posts[0] ) ) ? $current_posts[0] : '';
 

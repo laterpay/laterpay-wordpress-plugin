@@ -188,18 +188,6 @@ class LaterPay_Helper_Request {
     }
 
     /**
-     * Checks whether we are on home page and requests to API are enabled.
-     *
-     * @return bool
-     */
-    protected static function laterpay_api_disabled_on_homepage() {
-        $enabled_on_homepage        = get_option( 'laterpay_api_enabled_on_homepage' );
-        $is_homepage                = is_front_page() && is_home();
-
-        return $is_homepage && ! $enabled_on_homepage;
-    }
-
-    /**
      * URL encode parameters.
      *
      * @param array $params Parameters to be added to URL.

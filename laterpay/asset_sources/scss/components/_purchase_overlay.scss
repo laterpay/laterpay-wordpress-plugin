@@ -206,6 +206,30 @@ html body .lp_purchase-overlay {
     }
   }
 
+  &__purchase {
+    background: $purchase-button-background;
+    border-radius: $border-radius !important;
+    box-shadow: none !important;
+    color: $purchase-button-text;
+    display: inline-block !important;
+    font-size: 24px !important;
+    line-height: 2 !important;
+    padding: 0 $fs !important;
+
+    &:hover {
+      text-decoration: none !important;
+      color: $purchase-button-text;
+    }
+
+    & span:before {
+      font-size: 40px !important;
+      line-height: 0 !important;
+      position: relative !important;
+      top: 9px !important;
+      padding: 0 !important;
+    }
+  }
+
   &__notification {
     color: $laterpay-brand;
     font-size: $fs--07 !important;

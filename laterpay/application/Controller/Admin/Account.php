@@ -68,8 +68,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 ),
                 'plugin_disable_nonce' => $nonce,
                 'modal'                => array(
-                    'id'    => 'lp_plugin_disable_modal_id',
-                    'title' => ( laterpay_check_is_vip() ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ),
+                    'id'         => 'lp_plugin_disable_modal_id',
+                    'title'      => ( laterpay_check_is_vip() ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ),
                 ),
                 'pluginsUrl' => admin_url( 'plugins.php' ),
             )
@@ -91,7 +91,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             'credentials_url_eu'                => 'https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/add#/signup',
             'credentials_url_us'                => 'https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/add#/signup',
             'plugin_is_in_live_mode'            => $this->config->get( 'is_in_live_mode' ),
-            'plugin_is_in_visible_test_mode'    => get_option( 'laterpay_is_in_visible_test_mode' ),
             'account_obj'                       => $this,
             'admin_menu'                        => LaterPay_Helper_View::get_admin_menu(),
         );
@@ -150,10 +149,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
             case 'laterpay_plugin_mode':
                 self::update_plugin_mode( $event );
-                break;
-
-            case 'laterpay_test_mode':
-                self::update_plugin_visibility_in_test_mode( $event );
                 break;
 
             case 'laterpay_region_change':
@@ -311,15 +306,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                     )
                 );
                 return;
-            } elseif ( get_option( 'plugin_is_in_visible_test_mode' ) ) {
-                $event->set_result(
-                    array(
-                        'success'   => true,
-                        'mode'      => 'test',
-                        'message'   => __( 'The LaterPay plugin is in visible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
-                    )
-                );
-                return;
             }
 
             $event->set_result(
@@ -387,60 +373,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 'success' => true,
                 'creds'   => LaterPay_Helper_Config::prepare_sandbox_creds(),
                 'message' => __( 'The LaterPay region was changed successfully.', 'laterpay' ),
-            )
-        );
-    }
-
-    /**
-     * Toggle LaterPay plugin test mode between INVISIBLE and VISIBLE.
-     *
-     * @throws LaterPay_Core_Exception_FormValidation
-     *
-     * @return void
-     */
-    public static function update_plugin_visibility_in_test_mode( LaterPay_Core_Event $event ) {
-        $plugin_test_mode_form = new LaterPay_Form_TestMode();
-
-        if ( ! $plugin_test_mode_form->is_valid( $_POST ) ) { // phpcs:ignore
-            $event->set_result(
-                array(
-                    'success'   => false,
-                    'mode'      => 'test',
-                    'message'   => __( 'An error occurred. Incorrect data provided.', 'laterpay' ),
-                )
-            );
-            throw new LaterPay_Core_Exception_FormValidation( get_class( $plugin_test_mode_form ), $plugin_test_mode_form->get_errors() );
-        }
-
-        $is_in_visible_test_mode = $plugin_test_mode_form->get_field_value( 'plugin_is_in_visible_test_mode' );
-        $has_invalid_credentials = $plugin_test_mode_form->get_field_value( 'invalid_credentials' );
-
-        if ( $has_invalid_credentials ) {
-            update_option( 'laterpay_is_in_visible_test_mode', 0 );
-
-            $event->set_result(
-                array(
-                    'success'   => false,
-                    'mode'      => 'test',
-                    'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
-                )
-            );
-            return;
-        }
-
-        update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
-
-        if ( $is_in_visible_test_mode ) {
-            $message = sprintf( esc_html__( 'The plugin is in %svisible%s test mode now.', 'laterpay' ), "<strong>", "</strong>" );
-        } else {
-            $message = sprintf( esc_html__( 'The plugin is in %sinvisible%s test mode now.', 'laterpay' ), "<strong>", "</strong>" );
-        }
-
-        $event->set_result(
-            array(
-                'success'   => true,
-                'mode'      => 'test',
-                'message'   => $message,
             )
         );
     }

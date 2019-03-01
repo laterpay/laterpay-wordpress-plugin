@@ -16,12 +16,12 @@ $is_vip = laterpay_check_is_vip();
 
 
     <div class="lp_navigation">
-        <a  href="<?php echo esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => $laterpay['admin_menu']['account']['url'] ) ), admin_url( 'admin.php' ) ) ); ?>"
-            id="lp_js_pluginModeIndicator"
-            class="lp_plugin-mode-indicator"
+        <a href="<?php echo esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => $laterpay['admin_menu']['account']['url'] ) ), admin_url( 'admin.php' ) ) ); ?>"
+           id="lp_js_pluginModeIndicator"
+           class="lp_plugin-mode-indicator"
             <?php if ( $laterpay['plugin_is_in_live_mode'] ) : ?>style="display:none;"<?php endif; ?>
-            data-icon="h">
-            <h2 class="lp_plugin-mode-indicator__title"><?php esc_html_e(  'Test mode', 'laterpay' ); ?></h2>
+           data-icon="h">
+            <h2 class="lp_plugin-mode-indicator__title"><?php esc_html_e( 'Test mode', 'laterpay' ); ?></h2>
             <span class="lp_plugin-mode-indicator__text"><?php printf( '%1$s <i> %2$s </i>', esc_html__( 'Earn money in', 'laterpay' ), esc_html__( 'live mode', 'laterpay' ) ); ?></span>
         </a>
 
@@ -34,324 +34,235 @@ $is_vip = laterpay_check_is_vip();
 
     <div class="lp_pagewrap">
 
-        <div class="lp_greybox lp_mt lp_mr lp_mb">
-            <?php esc_html_e( 'The LaterPay plugin is in', 'laterpay' ); ?><div class="lp_toggle">
-                <form id="laterpay_plugin_mode" method="post">
-                    <input type="hidden" name="form"    value="laterpay_plugin_mode">
-                    <input type="hidden" name="action"  value="laterpay_account">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                    <label class="lp_toggle__label">
-                        <input type="checkbox"
-                                id="lp_js_togglePluginMode"
-                                class="lp_toggle__input"
-                                name="plugin_is_in_live_mode"
-                                value="1"
-                                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo 'checked'; } ?>>
-                        <span class="lp_toggle__text" data-on="LIVE" data-off="TEST"></span>
-                        <span class="lp_toggle__handle"></span>
-                    </label>
-                </form>
-            </div><?php esc_html_e( 'mode.', 'laterpay' ); ?>
-            <div id="lp_js_pluginVisibilitySetting"
-                class="lp_inline-block"
-                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
-                <?php esc_html_e( 'It is invisible', 'laterpay' ); ?><div class="lp_toggle">
-                    <form id="laterpay_test_mode" method="post">
-                        <input type="hidden" name="form"    value="laterpay_test_mode">
-                        <input type="hidden" name="action"  value="laterpay_account">
-                        <input type="hidden" id="lp_js_hasInvalidSandboxCredentials" name="invalid_credentials" value="0">
-                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                        <label class="lp_toggle__label lp_toggle__label-pass">
+        <div class="lp_main_area">
+            <div class="lp_greybox lp_mt lp_mr lp_mb">
+                <?php esc_html_e( 'The LaterPay plugin is in', 'laterpay' ); ?>
+                <div class="lp_toggle">
+                    <form id="laterpay_plugin_mode" method="post">
+                        <input type="hidden" name="form" value="laterpay_plugin_mode">
+                        <input type="hidden" name="action" value="laterpay_account">
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
+                        <label class="lp_toggle__label">
                             <input type="checkbox"
-                                   id="lp_js_toggleVisibilityInTestMode"
+                                   id="lp_js_togglePluginMode"
                                    class="lp_toggle__input"
-                                   name="plugin_is_in_visible_test_mode"
+                                   name="plugin_is_in_live_mode"
                                    value="1"
-                                <?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
-                            <span class="lp_toggle__text" data-on="" data-off=""></span>
+                                <?php if ( $laterpay['plugin_is_in_live_mode'] ) {
+                                    echo 'checked';
+                                } ?>>
+                            <span class="lp_toggle__text" data-on="LIVE" data-off="TEST"></span>
                             <span class="lp_toggle__handle"></span>
                         </label>
                     </form>
-                </div><?php esc_html_e(  'visible to visitors.', 'laterpay' ); ?>
-            </div>
-        </div>
-
-        <div class="lp_clearfix">
-            <fieldset class="lp_fieldset">
-                <legend class="lp_legend"><?php esc_html_e( 'Who is LaterPay?', 'laterpay' ); ?></legend>
-
-                <p>
-                    <?php printf(
-                        esc_html__( '%1$sMeet the online payment system that cares about the user experience as much as you do%2$s %3$s %3$s
-                        With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%3$s %3$s
-                        Requiring upfront registration and payment results in customer abandon rates of up to 98%%. %3$s
-                        LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. %3$s
-                        Only then, once your content’s value is firmly established, is the customer asked to register and pay. %3$s
-                        This results in shopping cart conversion rates of over 80%%. %3$s
-                        LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
-                        "<b>",
-                        "</b>",
-                        "<br/>"
-                    ); ?>
+                </div><?php esc_html_e( 'mode.', 'laterpay' ); ?>
+                <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 4 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments.', 'laterpay' ); ?>">
+                    <span data-icon="m" class="lp_js_postPriceSpan"></span>
                 </p>
-
-            </fieldset>
-        </div>
-
-        <div id="lp_js_apiCredentialsSection" class="lp_clearfix">
-
-            <div class="lp_api-credentials lp_api-credentials--sandbox" data-icon="h">
-                <fieldset class="lp_api-credentials__fieldset">
-                    <legend class="lp_api-credentials__legend"><?php esc_html_e(  'Sandbox Environment', 'laterpay' ); ?></legend>
-
-                    <dfn class="lp_api-credentials__hint">
-                        <?php esc_html_e( 'for testing with simulated payments', 'laterpay' ); ?>
-                    </dfn>
-
-                    <ul class="lp_api-credentials__list">
-                        <li class="lp_api-credentials__list-item">
-                            <span class="lp_iconized-input" data-icon="i"></span>
-                            <form id="laterpay_sandbox_merchant_id" method="post">
-                                <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
-                                <input type="hidden" name="action" value="laterpay_account">
-                                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-
-                                <input type="text"
-                                    id="lp_js_sandboxMerchantId"
-                                    class="lp_js_validateMerchantId lp_api-credentials__input"
-                                    name="laterpay_sandbox_merchant_id"
-                                    value="<?php echo esc_attr( $laterpay['sandbox_merchant_id'] ); ?>"
-                                    maxlength="22"
-                                    required>
-                                <label for="laterpay_sandbox_merchant_id"
-                                       alt="<?php esc_attr_e( 'Paste Sandbox Merchant ID here', 'laterpay' ); ?>"
-                                       placeholder="<?php esc_attr_e( 'Merchant ID', 'laterpay' ); ?>">
-                                </label>
-                            </form>
-                        </li>
-                        <li class="lp_api-credentials__list-item">
-                            <span class="lp_iconized-input" data-icon="j"></span>
-                            <form id="laterpay_sandbox_api_key" method="post">
-                                <input type="hidden" name="form"   value="laterpay_sandbox_api_key">
-                                <input type="hidden" name="action" value="laterpay_account">
-                                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-
-                                <input type="text"
-                                    id="lp_js_sandboxApiKey"
-                                    class="lp_js_validateApiKey lp_api-credentials__input"
-                                    name="laterpay_sandbox_api_key"
-                                    value="<?php echo esc_attr( $laterpay['sandbox_api_key'] ); ?>"
-                                    maxlength="32"
-                                    required>
-                                <label for="laterpay_sandbox_api_key"
-                                       alt="<?php esc_attr_e( 'Paste Sandbox API Key here', 'laterpay' ); ?>"
-                                       placeholder="<?php esc_attr_e( 'API Key', 'laterpay' ); ?>">
-                                </label>
-                            </form>
-                        </li>
-                    </ul>
-
-                </fieldset>
             </div>
 
-            <div id="lp_js_liveCredentials"
-                class="lp_api-credentials lp_api-credentials--live<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' lp_is-live'; } ?>"
-                data-icon="k">
-                <fieldset class="lp_api-credentials__fieldset">
-                    <legend class="lp_api-credentials__legend"><?php esc_html_e( 'Live Environment', 'laterpay' ); ?></legend>
-
-                    <dfn class="lp_api-credentials__hint">
-                        <?php esc_html_e( 'for processing real financial transactions', 'laterpay' ); ?>
-                    </dfn>
-
-                    <ul class="lp_api-credentials__list">
-                        <li class="lp_api-credentials__list-item">
-                            <span class="lp_iconized-input" data-icon="i"></span>
-                            <form id="laterpay_live_merchant_id" method="post">
-                                <input type="hidden" name="form"   value="laterpay_live_merchant_id">
-                                <input type="hidden" name="action" value="laterpay_account">
-                                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-
-                                <input type="text"
-                                    id="lp_js_liveMerchantId"
-                                    class="lp_js_validateMerchantId lp_api-credentials__input"
-                                    name="laterpay_live_merchant_id"
-                                    value="<?php echo esc_attr( $laterpay['live_merchant_id'] ); ?>"
-                                    maxlength="22"
-                                    required>
-                                <label for="laterpay_live_merchant_id"
-                                    alt="<?php esc_attr_e( 'Paste Live Merchant ID here', 'laterpay' ); ?>"
-                                    placeholder="<?php esc_attr_e( 'Merchant ID', 'laterpay' ); ?>">
-                                </label>
-                            </form>
-                        </li>
-                        <li class="lp_api-credentials__list-item">
-                            <span class="lp_iconized-input" data-icon="j"></span>
-                            <form id="laterpay_live_api_key" method="post">
-                                <input type="hidden" name="form"    value="laterpay_live_api_key">
-                                <input type="hidden" name="action"  value="laterpay_account">
-                                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-
-                                <input type="text"
-                                    id="lp_js_liveApiKey"
-                                    class="lp_js_validateApiKey lp_api-credentials__input"
-                                    name="laterpay_live_api_key"
-                                    value="<?php echo esc_attr( $laterpay['live_api_key'] ); ?>"
-                                    maxlength="32"
-                                    required>
-                                <label for="laterpay_sandbox_api_key"
-                                    alt="<?php esc_attr_e( 'Paste Live API Key here', 'laterpay' ); ?>"
-                                    placeholder="<?php esc_attr_e( 'API Key', 'laterpay' ); ?>">
-                                </label>
-                            </form>
-                        </li>
-                        <li class="lp_api-credentials__list-item">
-                            <a href="#"
-                               data-href-eu="<?php echo esc_url($laterpay['credentials_url_eu']);?>"
-                               data-href-us="<?php echo esc_url($laterpay['credentials_url_us']);?>"
-                                id="lp_js_showMerchantContracts"
-                                class="button button-primary"
-                                target="_blank"
-                                <?php if ( ! empty( $laterpay['live_merchant_id'] ) && ! empty( $laterpay['live_api_key'] ) ) { echo 'style="display:none";'; } ?>>
-                                <?php esc_html_e( 'Request Live API Credentials', 'laterpay' ); ?>
-                            </a>
-                        </li>
-                    </ul>
-                </fieldset>
-            </div>
-        </div>
-
-        <div class="lp_clearfix">
-            <fieldset class="lp_fieldset">
-                <legend class="lp_legend"><?php esc_html_e( 'Region and Currency', 'laterpay' ); ?></legend>
-
-                <p class="lp_bold"><?php esc_html_e( 'Select the region for your LaterPay merchant account', 'laterpay' ); ?></p>
-
-                <p>
-                    <dfn>
+            <div class="lp_clearfix">
+                <label class="lp_step_label"><span class="lp_step_span"><?php esc_html_e( 'Step 1', 'laterpay' ); ?>:</span> <?php esc_html_e( 'Select Your Region', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <p>
                         <?php
                         printf(
-                            esc_html__( 'Is the selling company or person based in Europe or in the United States? %1$s
-                            If you select \'Europe\', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform. %1$s
-                            If you select \'United States\', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform.', 'laterpay' ),
+                            esc_html__( 'If you select \'Europe\', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform. %1$s If you select \'United States\', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform.', 'laterpay' ),
                             "<br/>"
                         );
                         ?>
-                    </dfn>
-                </p>
-
-                <form id="laterpay_region" method="post">
-                    <input type="hidden" name="form"    value="laterpay_region_change">
-                    <input type="hidden" name="action"  value="laterpay_account">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                    <select id="lp_js_apiRegionSection" name="laterpay_region" class="lp_input">
-                        <option value="eu" <?php selected( $laterpay['region'], 'eu' ); ?>><?php esc_html_e( 'Europe (EUR)', 'laterpay' ); ?></option>
-                        <option value="us" <?php selected( $laterpay['region'], 'us' ); ?>><?php esc_html_e( 'United States (USD)', 'laterpay' ); ?></option>
-                    </select>
-                </form>
-
-                <p id="lp_js_regionNotice" <?php if ( $laterpay['region'] === 'us' ) : ?>class="hidden"<?php endif; ?>>
-                    <dfn class="lp_region_notice" data-icon="n">
-                        <?php
-                        printf(
-                            esc_html__( '%1$sImportant:%2$s The minimum value for "Pay Now" prices in the U.S. region is %1$s$1.99%1$s %3$s
+                    </p>
+                    <form id="laterpay_region" method="post">
+                        <input type="hidden" name="form" value="laterpay_region_change">
+                        <input type="hidden" name="action" value="laterpay_account">
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
+                        <select id="lp_js_apiRegionSection" name="laterpay_region" class="lp_input">
+                            <option value="eu" <?php selected( $laterpay['region'], 'eu' ); ?>><?php esc_html_e( 'Europe (EUR)', 'laterpay' ); ?></option>
+                            <option value="us" <?php selected( $laterpay['region'], 'us' ); ?>><?php esc_html_e( 'United States (USD)', 'laterpay' ); ?></option>
+                        </select>
+                    </form>
+                    <p id="lp_js_regionNotice" <?php if ( $laterpay['region'] === 'us' ) : ?>class="hidden"<?php endif; ?>>
+                        <dfn class="lp_region_notice" data-icon="n">
+                            <?php
+                            printf(
+                                esc_html__( '%1$sImportant:%2$s The minimum value for "Pay Now" prices in the U.S. region is %1$s$1.99%2$s %3$s
                             If you have already set "Pay Now" prices lower than 1.99, make sure to change them before you switch to the U.S. region. %3$s
                             If you haven\'t done any configuration yet, you can safely switch the region without further adjustments.', 'laterpay' ),
-                            "<b>",
-                            "</b>",
-                            "<br/>"
-                        );
+                                "<b>",
+                                "</b>",
+                                "<br/>"
+                            );
+                            ?>
+                        </dfn>
+                    </p>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 2', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Create LaterPay Account', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <p>
+                        <?php esc_html_e( 'A LaterPay Account is required in order to process financial transactions. You may skip this step if you have already created a LaterPay account.', 'laterpay' ); ?>
+                    </p>
+                    <a class="lp_purchase-overlay__submit" href="https://www.laterpay.net/signup/merchant">
+                        <span class="lp_purchase-overlay__submit-text lp_sign_up"><?php esc_html_e( 'Sign Up' ); ?></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 3', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Getting Started', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <p>
+                        <?php
+                        esc_html_e( 'It may take up to 5 business days for our banking partners to verify your information. You may go ahead and get started setting up your plugin while it is in "Test mode" then, once we\'ve emailed you to let you know your account is live, come back and complete step 4 below in order to begin accepting payments.', 'laterpay' );
                         ?>
-                    </dfn>
-                </p>
-            </fieldset>
+                    </p>
+                    <p>
+                        <?php
+                        printf(
+                            esc_html__( '%s Click here to read our Getting Started Guide%s or simply click through the remaining tabs and check out the LaterPay features available on your Edit Post pages to see all of the options available. To help you get started, all of the default values are automatically set to our experts\' recommendations.', 'laterpay' ),
+                            "<a href='https://www.laterpay.net/academy/getting-started-with-the-laterpay-wordpress-plugin' class='lp_info_link'>",
+                            '</a>'
+                        )
+                        ?>
+                    </p>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 4', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Accept Payments', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <p>
+                        <?php
+                        esc_html_e( 'It may take up to 5 business days for our banking partners to verify your information. Once we\'ve emailed you to let you know your account is live, follow the steps below to begin accepting payments.', 'laterpay' );
+                        ?>
+                    </p>
+                    <ol>
+                        <li><?php printf( esc_html__( '%sClick here%s to log in to your LaterPay account', 'laterpay' ), "<a id='lp_js_showMerchantContracts' href='#' target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login' class='lp_info_link'>", '</a>' ); ?></li>
+                        <li>
+                            <?php esc_html_e( 'Navigate to the developer tab & copy and paste your Merchant ID & API Key into the corresponding boxes below', 'laterpay' ); ?>
+                            <br />
+                            <?php printf( esc_html__( 'Don\'t see a developer tab? %sClick here%s to contact our support team.', 'laterpay' ), "<a href='https://www.laterpay.net/contact-support' class='lp_info_link'>", '</a>' ); ?>
+                        </li>
+                        <li><?php esc_html_e( 'Ensure that the toggle at the top of the page is switched to LIVE mode', 'laterpay' ); ?></li>
+                    </ol>
+                    <div id="lp_js_liveCredentials" class="lp_api-credentials">
+                        <ul class="lp_api-credentials__list">
+                            <li class="lp_api-credentials__list-item">
+                                <span class="lp_iconized-input" data-icon="i"></span>
+                                <form id="laterpay_live_merchant_id" method="post">
+                                    <input type="hidden" name="form" value="laterpay_live_merchant_id">
+                                    <input type="hidden" name="action" value="laterpay_account">
+                                    <?php wp_nonce_field( 'laterpay_form' ); ?>
+
+                                    <input type="text"
+                                           id="lp_js_liveMerchantId"
+                                           class="lp_js_validateMerchantId lp_api-credentials__input"
+                                           name="laterpay_live_merchant_id"
+                                           value="<?php echo esc_attr( $laterpay['live_merchant_id'] ); ?>"
+                                           maxlength="22"
+                                           required>
+                                    <label for="laterpay_live_merchant_id"
+                                           alt="<?php esc_attr_e( 'Paste Live Merchant ID here', 'laterpay' ); ?>"
+                                           placeholder="<?php esc_attr_e( 'Merchant ID', 'laterpay' ); ?>">
+                                    </label>
+                                </form>
+                            </li>
+                            <li class="lp_api-credentials__list-item">
+                                <span class="lp_iconized-input" data-icon="j"></span>
+                                <form id="laterpay_live_api_key" method="post">
+                                    <input type="hidden" name="form" value="laterpay_live_api_key">
+                                    <input type="hidden" name="action" value="laterpay_account">
+                                    <?php wp_nonce_field( 'laterpay_form' ); ?>
+
+                                    <input type="text"
+                                           id="lp_js_liveApiKey"
+                                           class="lp_js_validateApiKey lp_api-credentials__input"
+                                           name="laterpay_live_api_key"
+                                           value="<?php echo esc_attr( $laterpay['live_api_key'] ); ?>"
+                                           maxlength="32"
+                                           required>
+                                    <label for="laterpay_sandbox_api_key"
+                                           alt="<?php esc_attr_e( 'Paste Live API Key here', 'laterpay' ); ?>"
+                                           placeholder="<?php esc_attr_e( 'API Key', 'laterpay' ); ?>">
+                                    </label>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="lp_side_area">
+            <div class="lp_clearfix lp_info">
+                <div class="lp_side_info">
+                    <h2><?php esc_html_e( 'Who is LaterPay?', 'laterpay' ); ?></h2>
+                    <p>
+                        <?php printf(
+                            esc_html__( 'Meet the online payment system that cares about the user experience as much as you do %1$s %1$s
+                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s
+                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. %1$s
+                    LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. %1$s
+                    Only then, once your content’s value is firmly established, is the customer asked to register and pay. %1$s
+                    This results in shopping cart conversion rates of over 80%%. %1$s
+                    LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
+                            "<br/>"
+                        ); ?>
+                    </p>
+                </div>
+                <div class="lp_side_info">
+                    <h2><?php esc_html_e( 'FAQ\'s', 'laterpay' ); ?></h2>
+                    <h3><?php esc_html_e( 'Having Trouble with Page Cache?', 'laterpay' ); ?></h3>
 
-        <div class="lp_clearfix">
-            <fieldset class="lp_fieldset">
-                <legend class="lp_legend"><?php esc_html_e( 'General FAQs', 'laterpay' ); ?></legend>
-
-                <details class="lp-faq">
-                    <summary><?php esc_html_e( 'Having Trouble with Page Cache?', 'laterpay' ); ?></summary>
-
-                    <br/>
-                    <div class="lp-details-summary">
+                    <div>
                         <p><?php esc_html_e( 'You need to whitelist the following cookies from caching in order for page-cache to work properly with laterpay.', 'laterpay' ); ?></p>
-                        <ol class="lp-list">
+                        <ol>
                             <li>laterpay_token</li>
                             <li>laterpay_purchased_gift_card</li>
                             <li>laterpay_tracking_code</li>
                         </ol>
-                        <p class="lp-text"><?php esc_html_e( 'We have already taken care of this if you\'re on a WordPress VIP Environment.', 'laterpay' ); ?></p>
+                        <p><?php esc_html_e( 'We have already taken care of this if you\'re on a WordPress VIP Environment.', 'laterpay' ); ?></p>
                     </div>
-                </details>
 
-                <?php
-                // Only show info if on WPEngine environment.
-                if ( function_exists( 'is_wpe' ) && is_wpe() ) {
-                    ?>
-                <details class="lp-faq">
-                    <summary><?php esc_html_e( 'Having Trouble on WPEngine?', 'laterpay' ); ?></summary>
-
-                    <br/>
-                    <div class="lp-details-summary">
-                        <p><?php printf( '%1$s  <code>%2$s</code> %3$s', esc_html__( 'If you\'re facing the issue on WPEngine even after whitelisting requested cookies, please check if any of your active plugin/theme is using', 'laterpay' ), esc_html__( 'session*', 'laterpay' ), esc_html__( 'functions.', 'laterpay' ) ); ?></p>
-                        <p class="lp-text"><?php printf('%1$s <a href=%2$s target="_blank">%3$s</a> %4$s', esc_html__( 'Please Check', 'laterpay' ), esc_url( 'https://wpengine.com/support/cookies-and-php-sessions/' ), esc_html__( 'this', 'laterpay' ), esc_html__( 'for more information regarding session usage on WPEngine.',  'laterpay' ) ); ?></p>
-                    </div>
-                </details>
                     <?php
-                }
-                ?>
+                    // Only show info if on WPEngine environment.
+                    if ( function_exists( 'is_wpe' ) && is_wpe() ) {
+                        ?>
+                        <h3><?php esc_html_e( 'Having Trouble on WPEngine?', 'laterpay' ); ?></h3>
 
-            </fieldset>
-        </div>
-
-        <div class="lp_clearfix">
-            <fieldset class="lp_fieldset">
-                <legend class="lp_legend"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ) ); ?></legend>
-
-                <p>
-                    <?php
-                    if ( true === $is_vip ) {
-                        printf(
-                            esc_html__( '%sWarning!%s This operation deletes ALL LaterPay plugin data.', 'laterpay' ),
-                            "<b>",
-                            "</b>"
-                        );
-                    } else {
-                        printf(
-                            esc_html__( '%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL its data.', 'laterpay' ),
-                            "<b>",
-                            "</b>"
-                        );
+                        <div>
+                            <p><?php printf( '%1$s  <code>%2$s</code> %3$s', esc_html__( 'If you\'re facing the issue on WPEngine even after whitelisting requested cookies, please check if any of your active plugin/theme is using', 'laterpay' ), esc_html__( 'session*', 'laterpay' ), esc_html__( 'functions.', 'laterpay' ) ); ?></p>
+                            <p><?php printf( '%1$s <a href=%2$s target="_blank" class="lp_info_link">%3$s</a> %4$s', esc_html__( 'Please', 'laterpay' ), esc_url( 'https://wpengine.com/support/cookies-and-php-sessions/' ), esc_html__( ' Check this', 'laterpay' ), esc_html__( 'for more information regarding session usage on WPEngine.', 'laterpay' ) ); ?></p>
+                        </div>
+                        <?php
                     }
                     ?>
-                    <br/>
-                    <?php esc_html_e( 'You will lose all appearance settings and pricing configurations. This cannot be undone.', 'laterpay' ); ?>
-                </p>
-
-                <p>
-                    <?php printf(
-                        esc_html__( '%sClick here%s or email %ssupport@laterpay.net%s to provide feedback or to reach our customer service team.', 'laterpay' ),
-                        "<a href='https://www.laterpay.net/contact-support' target='_blank'>",
-                        "</a>",
-                        "<a href='mailto:support@laterpay.net'>",
-                        "</a>"
-                    ); ?>
-                </p>
-                <div id="lp_plugin_disable_modal_id" style="display:none;">
-                    <?php if ( $is_vip ) { ?>
-                    <p><?php esc_html_e( 'Are you sure you want to delete ALL LaterPay Plugin data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
-                    <?php } else { ?>
-                        <p><?php esc_html_e( 'Are you sure you want to deactivate LaterPay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
-                    <?php } ?>
-                    <button class="lp_js_disablePluginConfirm button button-primary lp_mt- lp_mb-"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete LaterPay Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate LaterPay Plugin', 'laterpay' ) ); ?></button>
-                    <button type="button" class="button button-secondary lp_mt- lp_mb- lp_js_ga_cancel"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></button>
                 </div>
-                <button class="lp_js_disablePlugin button button-primary lp_mt- lp_mb-"><?php echo ( ( $is_vip ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ) ); ?></button>
-            </fieldset>
+                <div class="lp_side_info">
+                    <h2><?php esc_html_e( 'Support', 'laterpay' ); ?></h2>
+                    <p>
+                        <?php
+                        printf(
+                            esc_html__( '%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback or to reach our customer service team.', 'laterpay' ),
+                            "<a href='https://www.laterpay.net/contact-support' target='_blank'>",
+                            "<a href='mailto:support@laterpay.net'>",
+                            '</a>'
+                        );
+                        ?>
+                    </p>
+                </div>
+            </div>
         </div>
-
     </div>
-
 </div>

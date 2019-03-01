@@ -17,24 +17,6 @@ details.lp-faq {
 
 }
 
-
-.lp-details-summary {
-
-	p.lp-text {
-		font-size: 13px;
-		font-weight: bold;
-	}
-
-	ol.lp-list {
-
-		li {
-			font-weight: bold;
-			font-size: 13px;
-		}
-	}
-
-}
-
 button.lp_js_disablePlugin {
 	background: $purchase-description-text !important;
 	border-color: $purchase-description-text !important;
@@ -59,4 +41,82 @@ button.lp_js_disablePluginConfirm {
 	1px 0 1px #ff1744,
 	0 1px 1px #ff1744,
 	-1px 0 1px #ff1744 !important;
+}
+
+.lp_main_area {
+
+	.lp_info_icon {
+		cursor: pointer;
+		font-size: 22px;
+		position: absolute;
+		margin-top: -4px;
+	}
+	.lp_greybox {
+		width: 55%;
+	}
+
+	span.lp_sign_up {
+		text-transform: uppercase;
+		font-size: 16px;
+	}
+
+	button.lp_info_close {
+		position: absolute;
+		left: 10px;
+		bottom: 25px;
+	}
+
+	a.lp_purchase-overlay__submit {
+		padding: 0 47px!important;
+	}
+}
+
+.lp_side_area {
+
+	color: #B0B0B0;
+
+	div.lp_info {
+		padding: 30px 70px 0 70px;
+	}
+
+	h2 {
+		text-transform: uppercase;
+		color: #737373 !important;
+	}
+
+	h3 {
+		font-weight: bold;
+		color: #737373;
+	}
+
+	.lp_side_info {
+		padding-bottom: 5px;
+	}
+}
+
+.lp_page {
+	overflow-x: hidden;
+}
+
+p.lp_tooltip_account_p {
+
+	line-height: 0;
+	z-index: 999;
+	position: absolute;
+	margin: -3px 10px;
+
+	&:after {
+		width: 300px;
+		margin-left: -60px;
+		position: absolute;
+	}
+
+	&:before {
+		margin-left: -10px;
+		position: absolute;
+	}
+
+	span {
+		font-size: 20px;
+	}
 }

@@ -6,6 +6,10 @@
 @import 'objects/_polyfills';
 @import 'objects/_spinner';
 
+h2 {
+    font-weight: 500;
+    font-size: $fs;
+}
 
 h3 {
     margin: (4 * $fs) 0 $fs;
@@ -19,10 +23,16 @@ h3 {
     margin-top: 0;
 }
 .form-table th {
-    font-weight: normal;
+    font-weight: 500;
     padding-top: $fs;
     padding-bottom: $fs--05;
+    width: 40%;
 }
+
+.form-table th.lp_font, span.lp_font {
+    font-weight: normal;
+}
+
 .form-table td {
     padding-top: $fs--05;
     padding-bottom: 0;
@@ -70,4 +80,28 @@ button.lp_js_ga_cancel {
     margin-left: $fs !important;
     text-decoration: underline;
     color: #0073aa;
+}
+
+span.lp_option_icon {
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    margin-top: -4px;
+}
+
+button.lp_js_info_close {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+div#TB_ajaxContent {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+a.lp_options_a {
+    color: black;
+    font-size: (2 * $fs);
+    text-decoration: none;
 }

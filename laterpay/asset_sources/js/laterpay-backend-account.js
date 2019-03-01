@@ -17,7 +17,6 @@
                 pluginModeIndicator             : $('#lp_js_pluginModeIndicator'),
                 pluginModeToggle                : $('#lp_js_togglePluginMode'),
                 pluginVisibilitySetting         : $('#lp_js_pluginVisibilitySetting'),
-                pluginVisibilityToggle          : $('#lp_js_toggleVisibilityInTestMode'),
                 hasInvalidSandboxCredentials    : $('#lp_js_hasInvalidSandboxCredentials'),
                 isLive                          : 'lp_is-live',
                 navigation                      : $('.lp_navigation'),
@@ -65,12 +64,6 @@
                 $o.pluginModeToggle
                 .change(function() {
                     togglePluginMode();
-                });
-
-                // switch plugin visibility in TEST mode
-                $o.pluginVisibilityToggle
-                .change(function() {
-                    toggleVisibilityInTestMode();
                 });
 
                 $o.showMerchantContractsButton.bind('click', function() {
@@ -163,17 +156,13 @@
                     $o.hasInvalidSandboxCredentials.val(0);
                 }
 
-                // save visibility in test mode
-                makeAjaxRequest('laterpay_test_mode');
             },
 
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
                     $('#lp_js_pluginModeIndicator').velocity('fadeOut', { duration: 250 });
-                    $('#lp_js_liveCredentials').addClass($o.isLive);
                 } else {
                     $('#lp_js_pluginModeIndicator').velocity('fadeIn', { duration: 250 });
-                    $('#lp_js_liveCredentials').removeClass($o.isLive);
                 }
             },
 
