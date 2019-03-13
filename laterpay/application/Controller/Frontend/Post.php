@@ -22,6 +22,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'prefetch_post_access', 10 ),
             ),
+            'laterpay_post_email' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'jetpack_post_email' ),
+            ),
+            'laterpay_post_publicize' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'jetpack_post_publicize' ),
+            ),
             'laterpay_attachment_image_attributes' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'encrypt_image_source' ),
@@ -757,5 +765,45 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public function ajax_load_files( LaterPay_Core_Event $event ) {
         $file_helper = new LaterPay_Helper_File();
         $file_helper->load_file( $event );
+    }
+
+    /**
+     * Disable email for LaterPay enabled purchasable post type.
+     *
+     * @wp-hook jetpack_published_post_flags
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function jetpack_post_email( LaterPay_Core_Event $event ) {
+        list( $flags, $post ) = $event->get_arguments() + array( '', '' );
+
+        $is_supported_type = ( in_array( get_post_type( $post->ID ), (array) get_option( 'laterpay_enabled_post_types' ), true ) );
+
+        if ( $is_supported_type && true === LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
+            $flags['send_subscription'] = false;
+        }
+
+        $event->set_result( $flags );
+    }
+
+    /**
+     * Prevent the post data from being sent to the WordPress.com for LaterPay enabled purchasable post type.
+     *
+     * @wp-hook jetpack_sync_prevent_sending_post_data
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function jetpack_post_publicize( LaterPay_Core_Event $event ) {
+        list( $bool, $post ) = $event->get_arguments() + array( '', '' );
+
+        $is_supported_type = ( in_array( get_post_type( $post->ID ), (array) get_option( 'laterpay_enabled_post_types' ), true ) );
+
+        if ( $is_supported_type && true === LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
+            $bool = true;
+        }
+
+        $event->set_result( $bool );
     }
 }
