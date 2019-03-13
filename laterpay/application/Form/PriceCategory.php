@@ -94,7 +94,7 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                                 'cmp' => array(
                                     array(
                                         'lte' => $currency['sis_max'],
-                                        'gte' => $currency['sis_min'],
+                                        'gte' => $currency['sis_min_limit'],
                                     ),
                                 ),
                             ),
