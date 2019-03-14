@@ -564,7 +564,7 @@ class LaterPay_Helper_Pricing
             return 'sis';
         }
 
-        if ($price >= $currency['sis_min'] && $price <= $currency['sis_max']) {
+        if ($price >= $currency['sis_min_limit'] && $price <= $currency['sis_max']) {
             return 'sis';
         }
 

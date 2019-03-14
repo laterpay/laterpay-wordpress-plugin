@@ -696,7 +696,7 @@
                     .parent('label').addClass($o.disabled);
             }
 
-            if (price >= lpVars.currency.sis_min) {
+            if (price >= lpVars.currency.sis_min_limit) {
                 // enable Single Sale for prices
                 // (prices > 149.99 Euro are fixed by validatePrice already)
                 $singleSale.removeProp('disabled')
@@ -716,7 +716,7 @@
             if (price > lpVars.currency.ppu_max && currentRevenueModel === $o.payPerUse) {
                 // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                 $singleSale.prop('checked', 'checked');
-            } else if (price < lpVars.currency.sis_min && currentRevenueModel === $o.singleSale) {
+            } else if (price < lpVars.currency.sis_min_limit && currentRevenueModel === $o.singleSale) {
                 // Single Sale purchases are not allowed for prices < 1.49 Euro
                 $payPerUse.prop('checked', 'checked');
             }
