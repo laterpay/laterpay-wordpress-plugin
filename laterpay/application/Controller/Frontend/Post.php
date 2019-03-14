@@ -778,9 +778,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public function jetpack_post_email( LaterPay_Core_Event $event ) {
         list( $flags, $post ) = $event->get_arguments() + array( '', '' );
 
-        $is_supported_type = ( in_array( get_post_type( $post->ID ), (array) get_option( 'laterpay_enabled_post_types' ), true ) );
-
-        if ( $is_supported_type && true === LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
+        if ( LaterPay_Helper_Post::is_content_purchasable( $post->ID ) ) {
             $flags['send_subscription'] = false;
         }
 
@@ -798,9 +796,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     public function jetpack_post_publicize( LaterPay_Core_Event $event ) {
         list( $bool, $post ) = $event->get_arguments() + array( '', '' );
 
-        $is_supported_type = ( in_array( get_post_type( $post->ID ), (array) get_option( 'laterpay_enabled_post_types' ), true ) );
-
-        if ( $is_supported_type && true === LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
+        if ( LaterPay_Helper_Post::is_content_purchasable( $post->ID ) ) {
             $bool = true;
         }
 
