@@ -427,4 +427,19 @@ class LaterPay_Helper_Post
             'identify_url' => $client->get_identify_url( get_permalink( $post_id ), LaterPay_Helper_Post::get_content_ids( $post_id ) ),
         ];
     }
+
+    /**
+     * Check if the content is purchasable.
+     *
+     * @param int $post_id Post ID.
+     *
+     * @return bool
+     */
+    public static function is_content_purchasable( $post_id ) {
+        $enabled_types = (array) get_option( 'laterpay_enabled_post_types' );
+
+        if ( ! empty( $enabled_types ) && in_array( get_post_type( $post_id ), $enabled_types, true ) && true === LaterPay_Helper_Pricing::is_purchasable( $post_id ) ) {
+            return true;
+        }
+    }
 }

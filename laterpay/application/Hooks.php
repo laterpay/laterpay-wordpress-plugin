@@ -71,6 +71,10 @@ class LaterPay_Hooks {
         add_filter( 'wp_get_attachment_url',            array( $this, self::$wp_filter_prefix . 'laterpay_attachment_get_url' ), 10, 2 );
         add_filter( 'prepend_attachment',               array( $this, self::$wp_filter_prefix . 'laterpay_attachment_prepend' ) );
 
+        // Disable JetPack Email notification and prevent the post data from being sent to the WordPress.com for LaterPay enabled purchasable post type.
+        add_filter( 'jetpack_published_post_flags',           array( $this, self::$wp_filter_prefix . 'laterpay_post_email' ), 11, 2 );
+        add_filter( 'jetpack_sync_prevent_sending_post_data', array( $this, self::$wp_filter_prefix . 'laterpay_post_publicize' ), 10, 2 );
+
         foreach ( laterpay_get_plugin_config()->get( 'content.enabled_post_types' ) as $post_type ) {
             add_filter( 'manage_' . $post_type . '_posts_columns',         array( $this, self::$wp_filter_prefix . 'laterpay_post_custom_column' ) );
             add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $this, self::$wp_action_prefix . 'laterpay_post_custom_column_data' ), 10, 2 );
