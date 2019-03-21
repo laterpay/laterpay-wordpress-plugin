@@ -1,5 +1,9 @@
 body {
     background: #FFFFFF;
+
+    #wpcontent {
+        padding-left: 0px;
+    }
 }
 
 // content area --------------------------------------------------------------------------------------------------------
@@ -31,19 +35,17 @@ body {
 // tabs ----------------------------------------------------------------------------------------------------------------
 .lp_navigation {
     background-color: $background--lightest;
-    left: -5px;
     padding-top: $fs;
     position: relative;
     width: 100%;
+    box-shadow: 0 3px 1px rgba(0,0,0,.2);
+    z-index: 9;
 }
 
 .lp_navigation-tabs {
     @extend %default-list;
 
     margin-left: $fs--15; // FIXME: this important is required, because of the prefixing with .lp_page in _tags.scss
-    box-shadow: 0 3px 4px rgba(0,0,0,0.2);
-    z-index: 999;
-    position: relative;
 }
 
 .lp_navigation-tabs__item {
@@ -52,7 +54,6 @@ body {
     display: inline-block;
     margin-left: $fs;
     position: relative;
-    top: 2px;
     text-transform: uppercase;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 
@@ -143,7 +144,7 @@ body {
 // plugin mode indicator -----------------------------------------------------------------------------------------------
 .lp_plugin-mode-indicator {
     position: absolute;
-    right: 4px; // leave sufficient space for contextual help link
+    right: 6%; // leave sufficient space for contextual help link
     top: 10px;
 
     // LaterPay logo (rendered in pseudo element from icon font)
@@ -243,5 +244,17 @@ a.lp_info_link {
 @media (max-width:1279px) {
     .lp_pagewrap {
         padding: 0;
+        padding-left: 10px;
+    }
+    .lp_plugin-mode-indicator {
+        right: 9%;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    body{
+        #wpcontent {
+            padding-left: 0px !important;
+        }
     }
 }

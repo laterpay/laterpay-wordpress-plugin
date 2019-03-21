@@ -1660,51 +1660,19 @@ msgstr ""
 msgid "Having Trouble with Page Cache? %sClick here.%s"
 msgstr ""
 
-#: laterpay/views/backend/partials/faq-support.php:13
-msgid "You need to whitelist the following cookies from caching in order for page-cache to work properly with laterpay."
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:19
-msgid "We have already taken care of this if you're on a WordPress VIP Environment."
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:26
+#: laterpay/views/backend/partials/faq-support.php:16
 msgid "Having Trouble on WPEngine? %sClick here.%s"
 msgstr ""
 
-#: laterpay/views/backend/partials/faq-support.php:29
-msgid "If you're facing the issue on WPEngine even after whitelisting requested cookies, please check if any of your active plugin/theme is using"
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:29
-msgid "session*"
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:29
-msgid "functions."
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:30
-msgid "Please"
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:30
-msgid " Check this"
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:30
-msgid "for more information regarding session usage on WPEngine."
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:36
+#: laterpay/views/backend/partials/faq-support.php:21
 msgid "The new version of the plugin is not compatible with my site. How can I rollback? %sClick here.%s"
 msgstr ""
 
-#: laterpay/views/backend/partials/faq-support.php:40
+#: laterpay/views/backend/partials/faq-support.php:25
 msgid "Support"
 msgstr ""
 
-#: laterpay/views/backend/partials/faq-support.php:44
+#: laterpay/views/backend/partials/faq-support.php:29
 msgid "%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback or to reach our customer service team."
 msgstr ""
 

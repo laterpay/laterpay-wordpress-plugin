@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-03-21 17:33+0530\n"
-"PO-Revision-Date: 2019-03-21 17:35+0530\n"
+"POT-Creation-Date: 2019-03-21 23:51+0530\n"
+"PO-Revision-Date: 2019-03-21 23:51+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -2197,58 +2197,12 @@ msgstr ""
 msgid "Having Trouble with Page Cache? %sClick here.%s"
 msgstr "Probleme mit dem Page Cache? %sKlicken Sie hier.%s"
 
-#: views/backend/partials/faq-support.php:13
-msgid ""
-"You need to whitelist the following cookies from caching in order for page-"
-"cache to work properly with laterpay."
-msgstr ""
-"Sie müssen die folgenden Cookies in Ihrem Cache auf die White-List setzen, "
-"damit das Seiten-Cache ordnungsgemäß mit LaterPay funktioniert."
-
-#: views/backend/partials/faq-support.php:19
-msgid ""
-"We have already taken care of this if you're on a WordPress VIP Environment."
-msgstr ""
-"Wir haben uns bereits darum gekümmert, wenn Sie in einer WordPress VIP-"
-"Umgebung sind."
-
-#: views/backend/partials/faq-support.php:26
+#: views/backend/partials/faq-support.php:16
 #, php-format
 msgid "Having Trouble on WPEngine? %sClick here.%s"
 msgstr "Probleme mit dem Seiten-Cache? %sKlicken Sie hier.%s"
 
-#: views/backend/partials/faq-support.php:29
-msgid ""
-"If you're facing the issue on WPEngine even after whitelisting requested "
-"cookies, please check if any of your active plugin/theme is using"
-msgstr ""
-"Wenn das Problem auf WPEngine auch nach dem Aufrufen der angeforderten "
-"Cookies auf der White-List auftritt, überprüfen Sie, ob eines Ihrer aktiven "
-"Plugins / Themes verwendet wird"
-
-#: views/backend/partials/faq-support.php:29
-msgid "session*"
-msgstr "Session*"
-
-#: views/backend/partials/faq-support.php:29
-msgid "functions."
-msgstr "Funktionen."
-
-#: views/backend/partials/faq-support.php:30
-#, fuzzy
-#| msgid "Please Check"
-msgid "Please"
-msgstr "Bitte klicken Sie"
-
-#: views/backend/partials/faq-support.php:30
-msgid " Check this"
-msgstr ""
-
-#: views/backend/partials/faq-support.php:30
-msgid "for more information regarding session usage on WPEngine."
-msgstr "für weitere Informationen zu Session-Verwendung in WPEngine."
-
-#: views/backend/partials/faq-support.php:36
+#: views/backend/partials/faq-support.php:21
 #, php-format
 msgid ""
 "The new version of the plugin is not compatible with my site. How can I "
@@ -2257,11 +2211,11 @@ msgstr ""
 "Die neue Version des Plugins ist nicht kompatibel mit meiner Website. Wie "
 "kann ich einen Rollback durchführen? %sKlicken Sie hier.%s"
 
-#: views/backend/partials/faq-support.php:40
+#: views/backend/partials/faq-support.php:25
 msgid "Support"
 msgstr ""
 
-#: views/backend/partials/faq-support.php:44
+#: views/backend/partials/faq-support.php:29
 #, php-format
 msgid ""
 "%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback "
@@ -2819,6 +2773,42 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#~ msgid ""
+#~ "You need to whitelist the following cookies from caching in order for "
+#~ "page-cache to work properly with laterpay."
+#~ msgstr ""
+#~ "Sie müssen die folgenden Cookies in Ihrem Cache auf die White-List "
+#~ "setzen, damit das Seiten-Cache ordnungsgemäß mit LaterPay funktioniert."
+
+#~ msgid ""
+#~ "We have already taken care of this if you're on a WordPress VIP "
+#~ "Environment."
+#~ msgstr ""
+#~ "Wir haben uns bereits darum gekümmert, wenn Sie in einer WordPress VIP-"
+#~ "Umgebung sind."
+
+#~ msgid ""
+#~ "If you're facing the issue on WPEngine even after whitelisting requested "
+#~ "cookies, please check if any of your active plugin/theme is using"
+#~ msgstr ""
+#~ "Wenn das Problem auf WPEngine auch nach dem Aufrufen der angeforderten "
+#~ "Cookies auf der White-List auftritt, überprüfen Sie, ob eines Ihrer "
+#~ "aktiven Plugins / Themes verwendet wird"
+
+#~ msgid "session*"
+#~ msgstr "Session*"
+
+#~ msgid "functions."
+#~ msgstr "Funktionen."
+
+#, fuzzy
+#~| msgid "Please Check"
+#~ msgid "Please"
+#~ msgstr "Bitte klicken Sie"
+
+#~ msgid "for more information regarding session usage on WPEngine."
+#~ msgstr "für weitere Informationen zu Session-Verwendung in WPEngine."
 
 #, fuzzy
 #~| msgid "Plugin Mode"
