@@ -42,6 +42,8 @@ body {
 
     margin-left: $fs--15; // FIXME: this important is required, because of the prefixing with .lp_page in _tags.scss
     box-shadow: 0 3px 4px rgba(0,0,0,0.2);
+    z-index: 999;
+    position: relative;
 }
 
 .lp_navigation-tabs__item {

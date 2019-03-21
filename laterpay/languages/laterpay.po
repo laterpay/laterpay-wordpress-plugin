@@ -742,11 +742,7 @@ msgstr ""
 msgid ""
 "Meet the online payment system that cares about the user experience as much as you do %1$s %1$s\n"
 "                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s\n"
-"                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. %1$s\n"
-"                    LaterPay's patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. %1$s\n"
-"                    Only then, once your content’s value is firmly established, is the customer asked to register and pay. %1$s\n"
-"                    This results in shopping cart conversion rates of over 80%%. %1$s\n"
-"                    LaterPay’s frictionless customer onboarding helps you turn traffic into transactions."
+"                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. LaterPay's patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. Only then, once your content’s value is firmly established, is the customer asked to register and pay. This results in shopping cart conversion rates of over 80%%. LaterPay’s frictionless customer onboarding helps you turn traffic into transactions."
 msgstr ""
 
 #: laterpay/views/backend/appearance.php:33

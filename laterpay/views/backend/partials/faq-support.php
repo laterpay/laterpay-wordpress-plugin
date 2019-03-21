@@ -42,8 +42,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php
         printf(
             esc_html__( '%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback or to reach our customer service team.', 'laterpay' ),
-            "<a href='https://www.laterpay.net/contact-support' target='_blank'>",
-            "<a href='mailto:support@laterpay.net'>",
+            "<a href='https://www.laterpay.net/contact-support' target='_blank' class='lp_info_link'>",
+            "<a href='mailto:support@laterpay.net' class='lp_info_link'>",
             '</a>'
         );
         ?>

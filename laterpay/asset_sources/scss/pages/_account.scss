@@ -120,3 +120,12 @@ p.lp_tooltip_account_p {
 		font-size: 20px;
 	}
 }
+
+// Responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1279px) {
+	.lp_main_area {
+		.lp_greybox {
+			width: auto;
+		}
+	}
+}
