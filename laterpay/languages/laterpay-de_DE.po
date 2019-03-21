@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-02-28 21:56+0530\n"
-"PO-Revision-Date: 2019-02-28 21:56+0530\n"
+"POT-Creation-Date: 2019-03-21 13:10+0530\n"
+"PO-Revision-Date: 2019-03-21 13:10+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1402,47 +1402,47 @@ msgstr "Bezahlinhalte werden ausgeblendet, der Direktzugriff wird verweigert."
 msgid "auto detected"
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:645
+#: application/Controller/Frontend/Post.php:653
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr ""
 "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: application/Controller/Frontend/Post.php:646
+#: application/Controller/Frontend/Post.php:654
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: application/Controller/Frontend/Post.php:647
+#: application/Controller/Frontend/Post.php:655
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: application/Controller/Frontend/Post.php:648
+#: application/Controller/Frontend/Post.php:656
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
-#: application/Controller/Frontend/Post.php:649
+#: application/Controller/Frontend/Post.php:657
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:651
+#: application/Controller/Frontend/Post.php:659
 #: application/Controller/Frontend/Shortcode.php:542
 #: application/Module/Purchase.php:203
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
-#: application/Controller/Frontend/Post.php:652
+#: application/Controller/Frontend/Post.php:660
 #: application/Controller/Frontend/Shortcode.php:544
 #: application/Module/Purchase.php:196 application/Module/Purchase.php:298
 #: application/Module/Purchase.php:311
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
-#: application/Controller/Frontend/Post.php:653
+#: application/Controller/Frontend/Post.php:661
 #: application/Controller/Frontend/Shortcode.php:550
 #: application/Module/Purchase.php:199
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
-#: application/Controller/Frontend/Post.php:728
+#: application/Controller/Frontend/Post.php:736
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
 "&mdash; {teaser_content}"

@@ -4,8 +4,8 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay, Payments, Content Monetization, Paywall, Paid Content, Publisher, Blogger
 Requires at least: 4.6
-Tested up to: 5.1
-Stable tag: 2.5.0
+Tested up to: 5.1.1
+Stable tag: 2.5.1
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -185,6 +185,10 @@ Please see the "Test and Live Mode" section.
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.5.1 ( March 21, 2019 ) =
+* Fix pay now revenue validation.
+* Fix paid content issue with JetPack.
+
 = 2.5.0 ( March 1, 2019 ) =
 * Add ShortCode for Payment Button - [Documentation.](https://www.laterpay.net/academy/how-to-create-a-subscription-button-in-the-laterpay-wordpress-plugin)
 * Update Default Prices for Global Default Price, Category Default Price and Subscription.
@@ -709,8 +713,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.5.0 ( March 1, 2019 ) =
-Improve LaterPay Account Tab and Settings Page, Add Shortcode for payment button, Add "I already bought this" link to content area, minor bug fixes and improvements with LaterPay functionality.
+= 2.5.1 ( March 21, 2019 ) =
+Fix minor bug with revenue validation and improvements with LaterPay functionality.
 
 == Arbitrary section ==
 

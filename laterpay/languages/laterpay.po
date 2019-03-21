@@ -533,15 +533,15 @@ msgstr ""
 msgid "I already bought this"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:196, laterpay/application/Module/Purchase.php:298, laterpay/application/Module/Purchase.php:311, laterpay/application/Controller/Frontend/Post.php:652, laterpay/application/Controller/Frontend/Shortcode.php:544
+#: laterpay/application/Module/Purchase.php:196, laterpay/application/Module/Purchase.php:298, laterpay/application/Module/Purchase.php:311, laterpay/application/Controller/Frontend/Post.php:660, laterpay/application/Controller/Frontend/Shortcode.php:544
 msgid "Buy Now"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:199, laterpay/application/Controller/Frontend/Post.php:653, laterpay/application/Controller/Frontend/Shortcode.php:550
+#: laterpay/application/Module/Purchase.php:199, laterpay/application/Controller/Frontend/Post.php:661, laterpay/application/Controller/Frontend/Shortcode.php:550
 msgid "Subscribe Now"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:203, laterpay/application/Controller/Frontend/Post.php:651, laterpay/application/Controller/Frontend/Shortcode.php:542
+#: laterpay/application/Module/Purchase.php:203, laterpay/application/Controller/Frontend/Post.php:659, laterpay/application/Controller/Frontend/Shortcode.php:542
 msgid "Buy Now, Pay Later"
 msgstr ""
 
@@ -1620,27 +1620,27 @@ msgstr ""
 msgid "auto detected"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Post.php:645
+#: laterpay/application/Controller/Frontend/Post.php:653
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Post.php:646
+#: laterpay/application/Controller/Frontend/Post.php:654
 msgid "Voucher code accepted."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Post.php:647
+#: laterpay/application/Controller/Frontend/Post.php:655
 msgid " is not a valid voucher code!"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Post.php:648
+#: laterpay/application/Controller/Frontend/Post.php:656
 msgid "Please enter a six-digit voucher code."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Post.php:649
+#: laterpay/application/Controller/Frontend/Post.php:657
 msgid "An error occurred. Please try again."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Post.php:728
+#: laterpay/application/Controller/Frontend/Post.php:736
 msgid "&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}"
 msgstr ""
 
