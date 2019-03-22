@@ -108,7 +108,7 @@ $is_vip = laterpay_check_is_vip();
                     <p>
                         <?php esc_html_e( 'A LaterPay Account is required in order to process financial transactions. You may skip this step if you have already created a LaterPay account.', 'laterpay' ); ?>
                     </p>
-                    <a class="lp_purchase-overlay__submit" href="https://www.laterpay.net/signup/merchant">
+                    <a class="lp_purchase-overlay__submit" href="https://www.laterpay.net/signup/merchant" target="_blank">
                         <span class="lp_purchase-overlay__submit-text lp_sign_up"><?php esc_html_e( 'Sign Up' ); ?></span>
                     </a>
                 </div>
@@ -129,7 +129,7 @@ $is_vip = laterpay_check_is_vip();
                         <?php
                         printf(
                             esc_html__( '%s Click here to read our Getting Started Guide%s or simply click through the remaining tabs and check out the LaterPay features available on your Edit Post pages to see all of the options available. To help you get started, all of the default values are automatically set to our experts\' recommendations.', 'laterpay' ),
-                            "<a href='https://www.laterpay.net/academy/getting-started-with-the-laterpay-wordpress-plugin' class='lp_info_link'>",
+                            "<a href='https://www.laterpay.net/academy/getting-started-with-the-laterpay-wordpress-plugin' class='lp_info_link' target='_blank'>",
                             '</a>'
                         )
                         ?>
@@ -153,7 +153,7 @@ $is_vip = laterpay_check_is_vip();
                         <li>
                             <?php esc_html_e( 'Navigate to the developer tab & copy and paste your Merchant ID & API Key into the corresponding boxes below', 'laterpay' ); ?>
                             <br />
-                            <?php printf( esc_html__( 'Don\'t see a developer tab? %sClick here%s to contact our support team.', 'laterpay' ), "<a href='https://www.laterpay.net/contact-support' class='lp_info_link'>", '</a>' ); ?>
+                            <?php printf( esc_html__( 'Don\'t see a developer tab? %sClick here%s to contact our support team.', 'laterpay' ), "<a href='https://www.laterpay.net/contact-support' class='lp_info_link' target='_blank'>", '</a>' ); ?>
                         </li>
                         <li><?php esc_html_e( 'Ensure that the toggle at the top of the page is switched to LIVE mode', 'laterpay' ); ?></li>
                     </ol>
@@ -212,56 +212,12 @@ $is_vip = laterpay_check_is_vip();
                         <?php printf(
                             esc_html__( 'Meet the online payment system that cares about the user experience as much as you do %1$s %1$s
                     With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s
-                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. %1$s
-                    LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. %1$s
-                    Only then, once your content’s value is firmly established, is the customer asked to register and pay. %1$s
-                    This results in shopping cart conversion rates of over 80%%. %1$s
-                    LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
+                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. Only then, once your content’s value is firmly established, is the customer asked to register and pay. This results in shopping cart conversion rates of over 80%%. LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
                             "<br/>"
                         ); ?>
                     </p>
                 </div>
-                <div class="lp_side_info">
-                    <h2><?php esc_html_e( 'FAQ\'s', 'laterpay' ); ?></h2>
-                    <h3><?php esc_html_e( 'Having Trouble with Page Cache?', 'laterpay' ); ?></h3>
-
-                    <div>
-                        <p><?php esc_html_e( 'You need to whitelist the following cookies from caching in order for page-cache to work properly with laterpay.', 'laterpay' ); ?></p>
-                        <ol>
-                            <li>laterpay_token</li>
-                            <li>laterpay_purchased_gift_card</li>
-                            <li>laterpay_tracking_code</li>
-                        </ol>
-                        <p><?php esc_html_e( 'We have already taken care of this if you\'re on a WordPress VIP Environment.', 'laterpay' ); ?></p>
-                    </div>
-
-                    <?php
-                    // Only show info if on WPEngine environment.
-                    if ( function_exists( 'is_wpe' ) && is_wpe() ) {
-                        ?>
-                        <h3><?php esc_html_e( 'Having Trouble on WPEngine?', 'laterpay' ); ?></h3>
-
-                        <div>
-                            <p><?php printf( '%1$s  <code>%2$s</code> %3$s', esc_html__( 'If you\'re facing the issue on WPEngine even after whitelisting requested cookies, please check if any of your active plugin/theme is using', 'laterpay' ), esc_html__( 'session*', 'laterpay' ), esc_html__( 'functions.', 'laterpay' ) ); ?></p>
-                            <p><?php printf( '%1$s <a href=%2$s target="_blank" class="lp_info_link">%3$s</a> %4$s', esc_html__( 'Please', 'laterpay' ), esc_url( 'https://wpengine.com/support/cookies-and-php-sessions/' ), esc_html__( ' Check this', 'laterpay' ), esc_html__( 'for more information regarding session usage on WPEngine.', 'laterpay' ) ); ?></p>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-                <div class="lp_side_info">
-                    <h2><?php esc_html_e( 'Support', 'laterpay' ); ?></h2>
-                    <p>
-                        <?php
-                        printf(
-                            esc_html__( '%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback or to reach our customer service team.', 'laterpay' ),
-                            "<a href='https://www.laterpay.net/contact-support' target='_blank'>",
-                            "<a href='mailto:support@laterpay.net'>",
-                            '</a>'
-                        );
-                        ?>
-                    </p>
-                </div>
+                <?php $this->render_faq_support(); ?>
             </div>
         </div>
     </div>

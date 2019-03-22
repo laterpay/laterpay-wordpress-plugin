@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-03-21 13:10+0530\n"
-"PO-Revision-Date: 2019-03-21 13:10+0530\n"
+"POT-Creation-Date: 2019-03-21 23:51+0530\n"
+"PO-Revision-Date: 2019-03-21 23:51+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -2039,16 +2039,12 @@ msgid ""
 "and services, or make contributions and donations, with a single click—a "
 "frictionless experience that turns traffic into transactions.%1$s %1$s\n"
 "                    Requiring upfront registration and payment results in "
-"customer abandon rates of up to 98%%. %1$s\n"
-"                    LaterPay's patented Pay Later revenue model instead "
-"defers the registration process until a customer’s purchases reach a $5 "
-"threshold. %1$s\n"
-"                    Only then, once your content’s value is firmly "
-"established, is the customer asked to register and pay. %1$s\n"
-"                    This results in shopping cart conversion rates of over "
-"80%%. %1$s\n"
-"                    LaterPay’s frictionless customer onboarding helps you "
-"turn traffic into transactions."
+"customer abandon rates of up to 98%%. LaterPay's patented Pay Later revenue "
+"model instead defers the registration process until a customer’s purchases "
+"reach a $5 threshold. Only then, once your content’s value is firmly "
+"established, is the customer asked to register and pay. This results in "
+"shopping cart conversion rates of over 80%%. LaterPay’s frictionless "
+"customer onboarding helps you turn traffic into transactions."
 msgstr ""
 "LaterPay ist das nutzer-zentrische Bezahlsystem im Netz. %1$s %1$s \n"
 "Mit LaterPay können Ihre Nutzer digitale Inhalte und Dienste erwerben, oder "
@@ -2056,88 +2052,14 @@ msgstr ""
 "reibungslose Benutzererfahrung, die Traffic in Transaktionen umwandelt.%1$s "
 "%1$s\n"
 "Erzwungene Vorab-Registrierung und unmittelbare Zahlung, wie in klassischen "
-"Modellen üblich, können Absprungraten von bis zu 98%% bedeuten.\n"
-"%1$s\n"
-"LaterPay’s patentiertes “”Pay Later”” Modell verschiebt den Registrierungs- "
-"und Zahlungsprozess, Kunden werden erst nach dem Überschreiten der 5,00€-"
-"Grenze zur Kasse und Registrierung gebeten.%1$s\n"
-"Erst wenn Kunden von der Qualität Ihrer Inhalte überzeugt sind, führen wir "
-"diese zur Registrierung und Zahlung.\n"
-"Das resultiert in einer Warenkorb-Konversionsrate von über 80%%. %1$s\n"
-"LaterPay’s reibungsloses Onboarding hilft Ihnen dabei, Umsätze aus Ihrem "
-"Traffic zu machen."
-
-#: views/backend/account.php:225
-msgid "FAQ's"
-msgstr ""
-
-#: views/backend/account.php:226
-msgid "Having Trouble with Page Cache?"
-msgstr "Probleme mit dem Seiten-Cache?"
-
-#: views/backend/account.php:229
-msgid ""
-"You need to whitelist the following cookies from caching in order for page-"
-"cache to work properly with laterpay."
-msgstr ""
-"Sie müssen die folgenden Cookies in Ihrem Cache auf die White-List setzen, "
-"damit das Seiten-Cache ordnungsgemäß mit LaterPay funktioniert."
-
-#: views/backend/account.php:235
-msgid ""
-"We have already taken care of this if you're on a WordPress VIP Environment."
-msgstr ""
-"Wir haben uns bereits darum gekümmert, wenn Sie in einer WordPress VIP-"
-"Umgebung sind."
-
-#: views/backend/account.php:242
-msgid "Having Trouble on WPEngine?"
-msgstr "Probleme mit WPEngine?"
-
-#: views/backend/account.php:245
-msgid ""
-"If you're facing the issue on WPEngine even after whitelisting requested "
-"cookies, please check if any of your active plugin/theme is using"
-msgstr ""
-"Wenn das Problem auf WPEngine auch nach dem Aufrufen der angeforderten "
-"Cookies auf der White-List auftritt, überprüfen Sie, ob eines Ihrer aktiven "
-"Plugins / Themes verwendet wird"
-
-#: views/backend/account.php:245
-msgid "session*"
-msgstr "Session*"
-
-#: views/backend/account.php:245
-msgid "functions."
-msgstr "Funktionen."
-
-#: views/backend/account.php:246
-#, fuzzy
-#| msgid "Please Check"
-msgid "Please"
-msgstr "Bitte klicken Sie"
-
-#: views/backend/account.php:246
-msgid " Check this"
-msgstr ""
-
-#: views/backend/account.php:246
-msgid "for more information regarding session usage on WPEngine."
-msgstr "für weitere Informationen zu Session-Verwendung in WPEngine."
-
-#: views/backend/account.php:253
-msgid "Support"
-msgstr ""
-
-#: views/backend/account.php:257
-#, php-format
-msgid ""
-"%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback "
-"or to reach our customer service team."
-msgstr ""
-"%1$sKlicken Sie hier%3$s oder schreiben Sie eine Email an "
-"%2$ssupport@laterpay.net%3$s, um Feedback zu geben oder mit unserem "
-"Kundensupport Kontakt aufzunehmen."
+"Modellen üblich, können Absprungraten von bis zu 98%% bedeuten. LaterPay’s "
+"patentiertes “”Pay Later”” Modell verschiebt den Registrierungs- und "
+"Zahlungsprozess, Kunden werden erst nach dem Überschreiten der 5,00€-Grenze "
+"zur Kasse und Registrierung gebeten. Erst wenn Kunden von der Qualität Ihrer "
+"Inhalte überzeugt sind, führen wir diese zur Registrierung und Zahlung. Das "
+"resultiert in einer Warenkorb-Konversionsrate von über 80%%. LaterPay’s "
+"reibungsloses Onboarding hilft Ihnen dabei, Umsätze aus Ihrem Traffic zu "
+"machen."
 
 #: views/backend/appearance.php:33
 msgid "Content Preview for Paid Posts"
@@ -2265,6 +2187,43 @@ msgid "You don't have sufficient permissions to manage options for this site."
 msgstr ""
 "Sie haben nicht die notwendigen Berechtigungen, um die Einstellungen für "
 "diese Seite zu verwalten."
+
+#: views/backend/partials/faq-support.php:9
+msgid "FAQ's"
+msgstr ""
+
+#: views/backend/partials/faq-support.php:10
+#, php-format
+msgid "Having Trouble with Page Cache? %sClick here.%s"
+msgstr "Probleme mit dem Page Cache? %sKlicken Sie hier.%s"
+
+#: views/backend/partials/faq-support.php:16
+#, php-format
+msgid "Having Trouble on WPEngine? %sClick here.%s"
+msgstr "Probleme mit dem Seiten-Cache? %sKlicken Sie hier.%s"
+
+#: views/backend/partials/faq-support.php:21
+#, php-format
+msgid ""
+"The new version of the plugin is not compatible with my site. How can I "
+"rollback? %sClick here.%s"
+msgstr ""
+"Die neue Version des Plugins ist nicht kompatibel mit meiner Website. Wie "
+"kann ich einen Rollback durchführen? %sKlicken Sie hier.%s"
+
+#: views/backend/partials/faq-support.php:25
+msgid "Support"
+msgstr ""
+
+#: views/backend/partials/faq-support.php:29
+#, php-format
+msgid ""
+"%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback "
+"or to reach our customer service team."
+msgstr ""
+"%1$sKlicken Sie hier%3$s oder schreiben Sie eine Email an "
+"%2$ssupport@laterpay.net%3$s, um Feedback zu geben oder mit unserem "
+"Kundensupport Kontakt aufzunehmen."
 
 #: views/backend/partials/pointer-scripts.php:12
 msgid "Welcome to LaterPay"
@@ -2814,6 +2773,42 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#~ msgid ""
+#~ "You need to whitelist the following cookies from caching in order for "
+#~ "page-cache to work properly with laterpay."
+#~ msgstr ""
+#~ "Sie müssen die folgenden Cookies in Ihrem Cache auf die White-List "
+#~ "setzen, damit das Seiten-Cache ordnungsgemäß mit LaterPay funktioniert."
+
+#~ msgid ""
+#~ "We have already taken care of this if you're on a WordPress VIP "
+#~ "Environment."
+#~ msgstr ""
+#~ "Wir haben uns bereits darum gekümmert, wenn Sie in einer WordPress VIP-"
+#~ "Umgebung sind."
+
+#~ msgid ""
+#~ "If you're facing the issue on WPEngine even after whitelisting requested "
+#~ "cookies, please check if any of your active plugin/theme is using"
+#~ msgstr ""
+#~ "Wenn das Problem auf WPEngine auch nach dem Aufrufen der angeforderten "
+#~ "Cookies auf der White-List auftritt, überprüfen Sie, ob eines Ihrer "
+#~ "aktiven Plugins / Themes verwendet wird"
+
+#~ msgid "session*"
+#~ msgstr "Session*"
+
+#~ msgid "functions."
+#~ msgstr "Funktionen."
+
+#, fuzzy
+#~| msgid "Please Check"
+#~ msgid "Please"
+#~ msgstr "Bitte klicken Sie"
+
+#~ msgid "for more information regarding session usage on WPEngine."
+#~ msgstr "für weitere Informationen zu Session-Verwendung in WPEngine."
 
 #, fuzzy
 #~| msgid "Plugin Mode"
