@@ -94,3 +94,25 @@
 .lp_purchase-form-label {
     font-size: $fs--07;
 }
+
+// Responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1279px) {
+    .lp_button-group--large .lp_button-group__button {
+        width: 130px;
+        font-size: 9px;
+    }
+    .lp_button-group--large .lp_button-group__button-image {
+        height: 100px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .lp_button-group--large .lp_button-group__button {
+        width: 120px;
+        font-size: 8px;
+    }
+    .lp_button-group--large .lp_button-group__button-image {
+        height: 85px;
+    }
+}
