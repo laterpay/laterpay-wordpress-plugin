@@ -38,9 +38,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
         LaterPay_Controller_Admin::register_common_scripts( 'account' );
 
-        // Add thickbox to display modal.
-        add_thickbox();
-
         // load page-specific JS
         wp_register_script(
             'laterpay-backend-account',
@@ -49,8 +46,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             $this->config->version,
             true
         );
-
-        $nonce = wp_create_nonce( 'plugin_disable_nonce' ) ;
 
         wp_enqueue_script( 'laterpay-backend-account' );
 
@@ -66,12 +61,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
                     'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ): '',
                 ),
-                'plugin_disable_nonce' => $nonce,
-                'modal'                => array(
-                    'id'         => 'lp_plugin_disable_modal_id',
-                    'title'      => ( laterpay_check_is_vip() ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ),
-                ),
-                'pluginsUrl' => admin_url( 'plugins.php' ),
             )
         );
     }

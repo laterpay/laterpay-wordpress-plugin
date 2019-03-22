@@ -17,6 +17,9 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
 
         LaterPay_Controller_Admin::register_common_scripts( 'advanced' );
 
+        // Add thickbox to display modal.
+        add_thickbox();
+
         // load page-specific JS
         wp_register_script(
             'laterpay-backend-advanced',
@@ -28,13 +31,21 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
 
         wp_enqueue_script( 'laterpay-backend-advanced' );
 
+        $nonce = wp_create_nonce( 'plugin_disable_nonce' );
+
         // pass localized strings and variables to script
         wp_localize_script(
             'laterpay-backend-advanced',
             'lpVars',
             array(
-                'region'           => get_option( 'laterpay_region', 'us' ),
-                'liveKeyAvailable' => empty( get_option( 'laterpay_live_merchant_id', '' ) ) ? 'false' : 'true',
+                'region'               => get_option( 'laterpay_region', 'us' ),
+                'liveKeyAvailable'     => empty( get_option( 'laterpay_live_merchant_id', '' ) ) ? 'false' : 'true',
+                'plugin_disable_nonce' => $nonce,
+                'modal'                => array(
+                    'id'    => 'lp_plugin_disable_modal_id',
+                    'title' => ( laterpay_check_is_vip() ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ),
+                ),
+                'pluginsUrl'           => admin_url( 'plugins.php' ),
             )
         );
     }

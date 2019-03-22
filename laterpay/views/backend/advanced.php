@@ -3,6 +3,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     // prevent direct access to this file
     exit;
 }
+
+// Values are used more than once in the view, so create variables for reues.
+$is_vip         = laterpay_check_is_vip();
+$access_url     = admin_url( 'options-general.php?page=laterpay#lpaccess' );
+$appearance_url = admin_url( 'options-general.php?page=laterpay#lpappearance' );
+$technical_url  = admin_url( 'options-general.php?page=laterpay#lptechnical' );
+$settings_url   = admin_url( 'options-general.php?page=laterpay' );
 ?>
 
 <div class="lp_page wp-core-ui">
@@ -132,19 +139,165 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
 
+            <h2><?php esc_html_e( 'Advanced Settings', 'laterpay' ); ?></h2>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Access', 'laterpay' ); ?>:</span>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            printf(
+                                "<a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
+                                esc_url( $access_url ),
+                                esc_html__( 'Click here to adjust your LaterPay user access settings.', 'laterpay' ),
+                                esc_html__( 'Within these setting you can:', 'laterpay' )
+                            );
+                            ?>
+                        </p>
+                        <ul>
+                            <li><?php esc_html_e( 'Require end-users to login prior to purchase', 'laterpay' ); ?></li>
+                            <li><?php esc_html_e( 'Give unrestricted access to specific user roles', 'laterpay' ); ?></li>
+                        </ul>
+                    </div>
+                    <a href="<?php echo esc_url( $access_url ); ?>">
+                        <i class="target_link"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Appearance', 'laterpay' ); ?>:</span>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            printf(
+                                "<a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
+                                esc_url( $appearance_url ),
+                                esc_html__( 'Click here to access additional appearance configurations,', 'laterpay' ),
+                                esc_html__( 'including:', 'laterpay' )
+                            );
+                            ?>
+                        </p>
+                        <ul>
+                            <li><?php esc_html_e( 'Button & link colors', 'laterpay' ); ?></li>
+                            <li><?php esc_html_e( 'Length of default teaser content', 'laterpay' ); ?></li>
+                            <li><?php esc_html_e( 'Length of blurred content displayed behind paywall', 'laterpay' ); ?></li>
+                        </ul>
+                    </div>
+                    <a href="<?php echo esc_url( $appearance_url ); ?>">
+                        <i class="target_link"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Delete Account', 'laterpay' ); ?>:</span>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            if ( true === $is_vip ) {
+                                printf(
+                                    esc_html__( '%sWarning!%s This operation deletes ALL LaterPay plugin data.', 'laterpay' ),
+                                    "<b>",
+                                    "</b>"
+                                );
+                            } else {
+                                printf(
+                                    esc_html__( '%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL its data.', 'laterpay' ),
+                                    "<b>",
+                                    "</b>"
+                                );
+                            }
+                            ?>
+                            <br />
+                            <?php esc_html_e( 'You will lose all appearance settings and pricing configurations. This cannot be undone.', 'laterpay' ); ?>
+                        </p>
+
+                        <div id="lp_plugin_disable_modal_id" style="display:none;">
+                            <?php if ( $is_vip ) { ?>
+                                <p><?php esc_html_e( 'Are you sure you want to delete ALL LaterPay Plugin data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
+                            <?php } else { ?>
+                                <p><?php esc_html_e( 'Are you sure you want to deactivate LaterPay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
+                            <?php } ?>
+                            <button class="lp_js_disablePluginConfirm button button-primary lp_mt- lp_mb-"><?php echo( ( $is_vip ) ? esc_html__( 'Delete LaterPay Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate LaterPay Plugin', 'laterpay' ) ); ?></button>
+                            <button type="button" class="button button-secondary lp_mt- lp_mb- lp_js_ga_cancel"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></button>
+                        </div>
+                        <button class="lp_js_disablePlugin button button-primary lp_mt- lp_mb-"><?php echo( ( $is_vip ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ) ); ?></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Technical', 'laterpay' ); ?>:</span>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            printf(
+                                "<a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
+                                esc_url( $technical_url ),
+                                esc_html__( 'Click here for more technical configuration options,', 'laterpay' ),
+                                esc_html__( 'including:', 'laterpay' )
+                            );
+                            ?>
+                        </p>
+                        <ul>
+                            <li><?php esc_html_e( 'Enable caching compatibility mode', 'laterpay' ); ?></li>
+                            <li><?php esc_html_e( 'Define fallback behavior in case LaterPay API is not responding', 'laterpay' ); ?></li>
+                        </ul>
+                    </div>
+                    <a href="<?php echo esc_url( $technical_url ); ?>">
+                        <i class="target_link"></i>
+                    </a>
+                </div>
+            </div>
+
         </div>
         <div class="lp_side_area">
             <div class="lp_clearfix lp_info">
                 <div class="lp_side_info">
-                    <h2><?php esc_html_e( 'Who is LaterPay?', 'laterpay' ); ?></h2>
-                    <p>
-                        <?php printf(
-                            esc_html__( 'Meet the online payment system that cares about the user experience as much as you do %1$s %1$s
-                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s
-                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. Only then, once your content’s value is firmly established, is the customer asked to register and pay. This results in shopping cart conversion rates of over 80%%. LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
-                            "<br/>"
-                        ); ?>
-                    </p>
+                    <h2><?php esc_html_e( 'TIPS & TRICKS', 'laterpay' ); ?></h2>
+                    <ul>
+                        <li>
+                            <?php
+                            printf(
+                                esc_html__( '%sHELP!%s The new version of the plugin is not compatible with my site. How can I rollback? %sClick here for step by step instructions.%s', 'laterpay' ),
+                                '<b>',
+                                '</b>',
+                                '<a href="https://support.laterpay.net/rollback-wordpress-plugin" target="_blank" class="lp_info_link">',
+                                "</a>"
+                            ); ?>
+                        </li>
+                        <li>
+                            <?php
+                            printf(
+                                "%s <a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
+                                esc_html__( 'Have you found all of our Advanced Settings?', 'laterpay' ),
+                                esc_url( $settings_url ),
+                                esc_html__( 'Click here to see even more LaterPay configurations.', 'laterpay' ),
+                                esc_html__( 'including:', 'laterpay' )
+                            );
+                            ?>
+                        </li>
+                        <li>
+                            <?php printf(
+                                esc_html__( 'Pay Later can be counter-intuitive at first. %sClick here to learn more and see our recommendations on when to use Pay Now versus Pay Later.%s', 'laterpay' ),
+                                '<a href="https://support.laterpay.net/rollback-wordpress-plugin" target="_blank" class="lp_info_link">',
+                                "</a>"
+                            ); ?>
+                        </li>
+                    </ul>
                 </div>
                 <?php $this->render_faq_support(); ?>
             </div>
