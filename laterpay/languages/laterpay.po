@@ -745,116 +745,128 @@ msgid ""
 "                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. LaterPay's patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. Only then, once your content’s value is firmly established, is the customer asked to register and pay. This results in shopping cart conversion rates of over 80%%. LaterPay’s frictionless customer onboarding helps you turn traffic into transactions."
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:33
+#: laterpay/views/backend/appearance.php:34
 msgid "Content Preview for Paid Posts"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:47
+#: laterpay/views/backend/appearance.php:48
 msgid "Teaser + Purchase Link"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:56
+#: laterpay/views/backend/appearance.php:57
 msgid "Teaser + Explanatory Overlay"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:65
+#: laterpay/views/backend/appearance.php:66
 msgid "Teaser + Purchase Overlay"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:77
+#: laterpay/views/backend/appearance.php:78
 msgid "Header"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:82
+#: laterpay/views/backend/appearance.php:83
 msgid "Header background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:90
+#: laterpay/views/backend/appearance.php:91
 msgid "Header title"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:98
+#: laterpay/views/backend/appearance.php:99
 msgid "Purchase Options"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:103
+#: laterpay/views/backend/appearance.php:104
 msgid "Background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:111
+#: laterpay/views/backend/appearance.php:112
 msgid "Main text color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:119
+#: laterpay/views/backend/appearance.php:120
 msgid "Description color text"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:127
+#: laterpay/views/backend/appearance.php:128
 msgid "Purchase button background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:135
+#: laterpay/views/backend/appearance.php:136
 msgid "Purchase button text color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:143
+#: laterpay/views/backend/appearance.php:144
 msgid "Link main color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:151
+#: laterpay/views/backend/appearance.php:152
 msgid "Link hover color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:159
+#: laterpay/views/backend/appearance.php:160
 msgid "Footer"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:164
+#: laterpay/views/backend/appearance.php:165
 msgid "Show footer"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:172
+#: laterpay/views/backend/appearance.php:173
 msgid "Footer background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:182
+#: laterpay/views/backend/appearance.php:183
 msgid "Preview"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:188, laterpay/views/backend/pricing.php:79, laterpay/views/backend/pricing.php:219, laterpay/views/backend/pricing.php:339, laterpay/views/backend/pricing.php:459, laterpay/views/backend/pricing.php:491, laterpay/views/backend/pricing.php:653, laterpay/views/backend/pricing.php:694, laterpay/views/backend/pricing.php:840
+#: laterpay/views/backend/appearance.php:189, laterpay/views/backend/pricing.php:79, laterpay/views/backend/pricing.php:219, laterpay/views/backend/pricing.php:339, laterpay/views/backend/pricing.php:459, laterpay/views/backend/pricing.php:491, laterpay/views/backend/pricing.php:653, laterpay/views/backend/pricing.php:694, laterpay/views/backend/pricing.php:840
 msgid "Save"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:189, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:695, laterpay/views/backend/pricing.php:841, laterpay/application/Controller/Admin/Settings.php:248, laterpay/views/frontend/partials/widget/purchase-overlay.php:142
+#: laterpay/views/backend/appearance.php:190, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:695, laterpay/views/backend/pricing.php:841, laterpay/application/Controller/Admin/Settings.php:248, laterpay/views/frontend/partials/widget/purchase-overlay.php:142
 msgid "Cancel"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:192
+#: laterpay/views/backend/appearance.php:193
 msgid "Restore Default Values"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:200
+#: laterpay/views/backend/appearance.php:201
 msgid "Position of the LaterPay Purchase Button"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:214, laterpay/views/backend/appearance.php:251
+#: laterpay/views/backend/appearance.php:215, laterpay/views/backend/appearance.php:252
 msgid "Standard position"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:223, laterpay/views/backend/appearance.php:260
+#: laterpay/views/backend/appearance.php:224, laterpay/views/backend/appearance.php:261
 msgid "Custom position"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:228
+#: laterpay/views/backend/appearance.php:229
 msgid "Call action 'laterpay_purchase_button' in your theme to render the LaterPay purchase button at that position."
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:237
+#: laterpay/views/backend/appearance.php:238
 msgid "Display of LaterPay Subscriptions & Time Passes"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:265
+#: laterpay/views/backend/appearance.php:266
 msgid "Call action 'laterpay_time_passes' in your theme or use the shortcode '[laterpay_time_passes]' to show your users the available time passes."
+msgstr ""
+
+#: laterpay/views/backend/appearance.php:296
+msgid "Advanced Settings"
+msgstr ""
+
+#: laterpay/views/backend/appearance.php:303
+msgid "Click here"
+msgstr ""
+
+#: laterpay/views/backend/appearance.php:304
+msgid "to adjust the default colors, the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall."
 msgstr ""
 
 #: laterpay/views/backend/options.php:10
