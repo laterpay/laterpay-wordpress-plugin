@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <form method="post" class="lp_mb++ lp_inline-block lp_purchase-form">
                         <input type="hidden" name="form"    value="paid_content_preview">
                         <input type="hidden" name="action"  value="laterpay_appearance">
-                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
 
                         <div class="lp_button-group--large">
                             <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['teaser_mode'] === '0' ) { echo ' lp_is-selected'; } ?>">
@@ -202,7 +202,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <form method="post" class="lp_js_showHintOnTrue lp_mb++">
                         <input type="hidden" name="form"    value="purchase_button_position">
                         <input type="hidden" name="action"  value="laterpay_appearance">
-                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
 
                         <div class="lp_button-group--large">
                             <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
@@ -239,7 +239,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <form method="post" class="lp_js_showHintOnTrue lp_mb++">
                         <input type="hidden" name="form"    value="time_passes_position">
                         <input type="hidden" name="action"  value="laterpay_appearance">
-                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
 
                         <div class="lp_button-group--large">
                             <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
