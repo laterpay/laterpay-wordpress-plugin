@@ -1,0 +1,153 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
+?>
+
+<div class="lp_page wp-core-ui">
+
+    <div id="lp_js_flashMessage" class="lp_flash-message" style="display:none;">
+        <p></p>
+    </div>
+
+
+    <div class="lp_navigation">
+        <a href="<?php echo esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => $laterpay['admin_menu']['account']['url'] ) ), admin_url( 'admin.php' ) ) ); ?>"
+           id="lp_js_pluginModeIndicator"
+           class="lp_plugin-mode-indicator"
+            <?php if ( $laterpay['plugin_is_in_live_mode'] ) : ?>style="display:none;"<?php endif; ?>
+           data-icon="h">
+            <h2 class="lp_plugin-mode-indicator__title"><?php esc_html_e( 'Test mode', 'laterpay' ); ?></h2>
+            <span class="lp_plugin-mode-indicator__text"><?php printf( '%1$s <i> %2$s </i>', esc_html__( 'Earn money in', 'laterpay' ), esc_html__( 'live mode', 'laterpay' ) ); ?></span>
+        </a>
+
+        <?php
+        // laterpay[advanced_obj] is instance of LaterPay_Controller_Admin_Advanced
+        $laterpay['advanced_obj']->get_menu(); ?>
+
+    </div>
+
+
+    <div class="lp_pagewrap">
+
+        <div class="lp_main_area">
+            <h2><?php esc_html_e( 'Advanced Features', 'laterpay' ); ?></h2>
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 1', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Analytics', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            esc_html_e( 'LaterPay\'s Analytics Dashboard helps track your sales over time so that you can easily see how your content is performing and which posts are driving the highest revenues.', 'laterpay' );
+                            ?>
+                        </p>
+                        <a id='lp_js_showMerchantDashboard' href="#" target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login' class='lp_info_link'><?php esc_html_e( 'Click here to view your dashboard.', 'laterpay' ); ?></a>
+                    </div>
+                    <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-analytics.png' ); ?>">
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 2', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Ask For Contributions', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            esc_html_e( 'Using the LaterPay Button Generator, in just a couple of minutes you can create a custom contributions button that can be used on your website, in email, or social media posts.', 'laterpay' );
+                            ?>
+                        </p>
+                        <a id="lp_js_showButtonGenerator" href="#" target='_blank' data-href-eu='https://web.laterpay.net/merchant/admin/laterpaycontributions/button-generator/' data-href-us='https://web.uselaterpay.com/merchant/admin/<?php echo esc_attr( $laterpay['live_key'] ); ?>/button-generator/' data-href-default="https://www.laterpay.net/signup/merchant" class='lp_info_link'><?php esc_html_e( 'Click here to go to our Button Generator.', 'laterpay' ); ?></a>
+                    </div>
+                    <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-contributions.png' ); ?>">
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 3', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Charge For Downloadable Content', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            printf(
+                                esc_html__(
+                                    'Using a custom %sshortcode%s, you can easily charge for downloadable content (such as PDFs). This short code allows you to customize the content, heading, description, and background image.', 'laterpay' ),
+                                '<a href="https://en.support.wordpress.com/shortcodes/" target="_blank" class="lp_info_link_black">',
+                                '</a>'
+                            );
+                            ?>
+                        </p>
+                        <a href="https://www.laterpay.net/academy/how-to-charge-for-downloadable-content-in-the-laterpay-wordpress-plugin" target='_blank' class='lp_info_link'><?php esc_html_e( 'Click here for detailed instructions.', 'laterpay' ); ?></a>
+                    </div>
+                    <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-downloadable-content.png' ); ?>">
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 4', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Create Subscription Button', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            printf(
+                                esc_html__(
+                                    'With this %sshortcode%s, you can create a button to promote a subscription or time pass anywhere on your site. The button background color, font color, and text can be easily customized or you can upload an image to use for the button.', 'laterpay' ),
+                                '<a href="https://en.support.wordpress.com/shortcodes/" target="_blank" class="lp_info_link_black">',
+                                '</a>'
+                            );
+                            ?>
+                        </p>
+                        <a href="https://www.laterpay.net/academy/how-to-create-a-subscription-button-in-the-laterpay-wordpress-plugin" target='_blank' class='lp_info_link'><?php esc_html_e( 'Click here for detailed instructions.', 'laterpay' ); ?></a>
+                    </div>
+                    <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-subscription-button.png' ); ?>">
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 4', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Dynamic Pricing', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php
+                            esc_html_e( 'Dynamic pricing is a feature available on the Edit Post page. Once there, simply choose “Individual Price” in the Pricing for this Post section then click “+ Add dynamic pricing” at the bottom. Once you’ve completed this, you can drag and drop the points on the graph to adjust pricing based on the days since the article was originally published.', 'laterpay' );
+                            ?>
+                        </p>
+                    </div>
+                    <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-dynamic-pricing.png' ); ?>">
+                </div>
+            </div>
+
+        </div>
+        <div class="lp_side_area">
+            <div class="lp_clearfix lp_info">
+                <div class="lp_side_info">
+                    <h2><?php esc_html_e( 'Who is LaterPay?', 'laterpay' ); ?></h2>
+                    <p>
+                        <?php printf(
+                            esc_html__( 'Meet the online payment system that cares about the user experience as much as you do %1$s %1$s
+                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s
+                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. Only then, once your content’s value is firmly established, is the customer asked to register and pay. This results in shopping cart conversion rates of over 80%%. LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
+                            "<br/>"
+                        ); ?>
+                    </p>
+                </div>
+                <?php $this->render_faq_support(); ?>
+            </div>
+        </div>
+    </div>
+</div>
