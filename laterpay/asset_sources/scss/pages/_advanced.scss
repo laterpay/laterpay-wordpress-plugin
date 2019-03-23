@@ -16,6 +16,7 @@
     img.lp_advanced_info_img_wide {
         width: 200px;
         height: 45px;
+        margin-top: 25px;
     }
 
     img.lp_advanced_info_img_normal {
@@ -29,16 +30,6 @@
     ul {
         padding-left: 15px;
         list-style: disc;
-    }
-    i.target_link {
-        &:after {
-            content: "→";
-            font: 20px/1 dashicons;
-            -webkit-font-smoothing: antialiased;
-            color: #4aa69d;
-            font-size: 80px;
-            margin-left: 50px;
-        }
     }
 }
 

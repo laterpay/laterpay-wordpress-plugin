@@ -162,7 +162,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </ul>
                     </div>
                     <a href="<?php echo esc_url( $access_url ); ?>">
-                        <i class="target_link"></i>
+                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
                     </a>
                 </div>
             </div>
@@ -190,7 +190,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </ul>
                     </div>
                     <a href="<?php echo esc_url( $appearance_url ); ?>">
-                        <i class="target_link"></i>
+                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
                     </a>
                 </div>
             </div>
@@ -258,7 +258,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </ul>
                     </div>
                     <a href="<?php echo esc_url( $technical_url ); ?>">
-                        <i class="target_link"></i>
+                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
                     </a>
                 </div>
             </div>
