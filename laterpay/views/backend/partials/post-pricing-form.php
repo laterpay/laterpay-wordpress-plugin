@@ -64,17 +64,6 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
             </a>
     </div>
     <?php endif; ?>
-    <?php if( ! $is_in_live_mode ): ?>
-    <p class="account_setup_warning" data-icon="n">
-        <?php
-        printf( '%1s <a href="%2$s">%3$s</a> %4$s',
-            esc_html__( 'Your LaterPay Plugin is currently invisible to viewers. Click', 'laterpay' ),
-            esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => 'laterpay-account-tab' ) ), admin_url( 'admin.php' ) ) ),
-            esc_html__( 'here', 'laterpay' ),
-            esc_html__( 'to toggle visibility.', 'laterpay' ) );
-        ?>
-    </p>
-    <?php endif; ?>
     <div class="lp_js_postEditGlobalBehaviour">
         <?php
         if ( 0 === $post_price_behaviour ) {
