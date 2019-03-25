@@ -300,7 +300,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </li>
                         <li>
                             <?php printf(
-                                esc_html__( 'Pay Later can be counter-intuitive at first. %sClick here to learn more and see our recommendations on when to use Pay Now versus Pay Later.%s', 'laterpay' ),
+                                esc_html__( 'Pay Later can be counter-intuitive at first. %sClick here%s to learn more and see our recommendations on when to use Pay Now versus Pay Later.', 'laterpay' ),
                                 '<a href="https://support.laterpay.net/rollback-wordpress-plugin" target="_blank" class="lp_info_link">',
                                 "</a>"
                             ); ?>
