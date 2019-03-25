@@ -61,8 +61,13 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
             <div class="lp_clearfix">
                 <label class="lp_step_label">
-                    <span class="lp_step_span"><?php esc_html_e( 'Ask', 'laterpay' ); ?></span>
-                    <?php esc_html_e( 'For Contributions', 'laterpay' ); ?>
+                    <?php
+                    printf(
+                        esc_html__( '%sAsk%s For Contributions', 'laterpay' ),
+                        '<span class="lp_step_span">',
+                        '</span>'
+                    );
+                    ?>
                 </label>
                 <div class="lp_info_div">
                     <div class="lp_advanced_info">
@@ -81,8 +86,13 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
             <div class="lp_clearfix">
                 <label class="lp_step_label">
-                    <span class="lp_step_span"><?php esc_html_e( 'Charge', 'laterpay' ); ?></span>
-                    <?php esc_html_e( 'For Downloadable Content', 'laterpay' ); ?>
+                    <?php
+                    printf(
+                        esc_html__( '%sCharge%s For Downloadable Content', 'laterpay' ),
+                        '<span class="lp_step_span">',
+                        '</span>'
+                    );
+                    ?>
                 </label>
                 <div class="lp_info_div">
                     <div class="lp_advanced_info">
@@ -106,8 +116,13 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
             <div class="lp_clearfix">
                 <label class="lp_step_label">
-                    <span class="lp_step_span"><?php esc_html_e( 'Create', 'laterpay' ); ?></span>
-                    <?php esc_html_e( 'Subscription Button', 'laterpay' ); ?>
+                    <?php
+                    printf(
+                        esc_html__( '%sCreate%s Subscription Button', 'laterpay' ),
+                        '<span class="lp_step_span">',
+                        '</span>'
+                    );
+                    ?>
                 </label>
                 <div class="lp_info_div">
                     <div class="lp_advanced_info">
@@ -131,8 +146,13 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
             <div class="lp_clearfix">
                 <label class="lp_step_label">
-                    <span class="lp_step_span"><?php esc_html_e( 'Dynamic', 'laterpay' ); ?></span>
-                    <?php esc_html_e( 'Pricing', 'laterpay' ); ?>
+                    <?php
+                    printf(
+                        esc_html__( '%sDynamic%s Pricing', 'laterpay' ),
+                        '<span class="lp_step_span">',
+                        '</span>'
+                    );
+                    ?>
                 </label>
                 <div class="lp_info_div">
                     <div class="lp_advanced_info">
@@ -205,8 +225,13 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
             <div class="lp_clearfix">
                 <label class="lp_step_label">
-                    <span class="lp_step_span"><?php esc_html_e( 'Delete', 'laterpay' ); ?></span>
-                    <?php esc_html_e( 'Account', 'laterpay' ); ?>
+                    <?php
+                    printf(
+                        esc_html__( '%sDelete%s Account', 'laterpay' ),
+                        '<span class="lp_step_span">',
+                        '</span>'
+                    );
+                    ?>
                 </label>
                 <div class="lp_info_div">
                     <div class="lp_advanced_info">
