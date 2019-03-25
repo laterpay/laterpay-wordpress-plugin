@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <h2><?php esc_html_e( 'FAQ\'s', 'laterpay' ); ?></h2>
     <h3><?php printf( esc_html__( 'Having Trouble with Page Cache? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/wordpress-cache" target="_blank" class="lp_info_link">', '</a>' ); ?></h3>
 
-	<?php
+    <?php
     // Only show info if on WPEngine environment.
     if ( function_exists( 'is_wpe' ) && is_wpe() ) {
         ?>
