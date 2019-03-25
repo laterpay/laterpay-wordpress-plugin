@@ -482,6 +482,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             }
         }
 
+        // get current plugin mode.
+        $is_in_live_mode = get_option( 'laterpay_plugin_is_in_live_mode' );
+
         // set necessary arguments
         $event->set_arguments(
             array(
@@ -489,7 +492,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 'access'     => $access,
                 'is_cached'  => $caching_is_active,
                 'is_ajax'    => $is_ajax,
-                'is_preview' => $preview_post_as_visitor,
+                'is_preview' => $is_in_live_mode, // Set preview mode if LIVE.
             )
         );
 
