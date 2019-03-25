@@ -65,3 +65,22 @@ button.lp_js_disablePluginConfirm {
     0 1px 1px #ff1744,
     -1px 0 1px #ff1744 !important;
 }
+
+
+// Responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1279px) {
+    .lp_main_area {
+
+        .lp_advanced_info {
+            width: 50%;
+        }
+
+        img.lp_advanced_info_img_normal {
+            margin-left: 30px;
+        }
+
+        img.lp_advanced_info_img_wide {
+            margin-left: 15px;
+        }
+    }
+}

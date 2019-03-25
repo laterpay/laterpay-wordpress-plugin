@@ -6,12 +6,12 @@
         function laterPayBackendAdvanced() {
             var $o = {
                     // Elements on the current page.
-                    showMerchantDashboard: $('#lp_js_showMerchantDashboard'),
-                    showButtonGenerator  : $('#lp_js_showButtonGenerator'),
-                    navigation           : $('.lp_navigation'),
-                    pluginDelete         : $('.lp_js_disablePlugin'),
-                    pluginDeleteConfirm  : $('.lp_js_disablePluginConfirm'),
-                    modalClose           : $('button.lp_js_ga_cancel')
+                    showMerchantDashboard     : $('#lp_js_showMerchantDashboard, #lp_js_showMerchantDashboardImage'),
+                    showButtonGenerator       : $('#lp_js_showButtonGenerator, #lp_js_showButtonGeneratorImage'),
+                    navigation                : $('.lp_navigation'),
+                    pluginDelete              : $('.lp_js_disablePlugin'),
+                    pluginDeleteConfirm       : $('.lp_js_disablePluginConfirm'),
+                    modalClose                : $('button.lp_js_ga_cancel')
                 },
 
 

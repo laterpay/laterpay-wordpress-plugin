@@ -53,7 +53,9 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </p>
                         <a id='lp_js_showMerchantDashboard' href="#" target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login' class='lp_info_link'><?php esc_html_e( 'Click here to view your dashboard.', 'laterpay' ); ?></a>
                     </div>
-                    <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-analytics.png' ); ?>">
+                    <a id='lp_js_showMerchantDashboardImage' href="#" target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login'>
+                        <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-analytics.png' ); ?>">
+                    </a>
                 </div>
             </div>
 
@@ -71,7 +73,9 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </p>
                         <a id="lp_js_showButtonGenerator" href="#" target='_blank' data-href-eu='https://web.laterpay.net/merchant/admin/laterpaycontributions/button-generator/' data-href-us='https://web.uselaterpay.com/merchant/admin/<?php echo esc_attr( $laterpay['live_key'] ); ?>/button-generator/' data-href-default="https://www.laterpay.net/signup/merchant" class='lp_info_link'><?php esc_html_e( 'Click here to go to our Button Generator.', 'laterpay' ); ?></a>
                     </div>
-                    <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-contributions.png' ); ?>">
+                    <a id='lp_js_showButtonGeneratorImage' href="#" target='_blank' data-href-eu='https://web.laterpay.net/merchant/admin/laterpaycontributions/button-generator/' data-href-us='https://web.uselaterpay.com/merchant/admin/<?php echo esc_attr( $laterpay['live_key'] ); ?>/button-generator/' data-href-default="https://www.laterpay.net/signup/merchant">
+                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-contributions.png' ); ?>">
+                    </a>
                 </div>
             </div>
 
@@ -94,7 +98,9 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </p>
                         <a href="https://www.laterpay.net/academy/how-to-charge-for-downloadable-content-in-the-laterpay-wordpress-plugin" target='_blank' class='lp_info_link'><?php esc_html_e( 'Click here for detailed instructions.', 'laterpay' ); ?></a>
                     </div>
-                    <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-downloadable-content.png' ); ?>">
+                    <a href="https://www.laterpay.net/academy/how-to-charge-for-downloadable-content-in-the-laterpay-wordpress-plugin" target='_blank'>
+                        <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-downloadable-content.png' ); ?>">
+                    </a>
                 </div>
             </div>
 
@@ -117,7 +123,9 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </p>
                         <a href="https://www.laterpay.net/academy/how-to-create-a-subscription-button-in-the-laterpay-wordpress-plugin" target='_blank' class='lp_info_link'><?php esc_html_e( 'Click here for detailed instructions.', 'laterpay' ); ?></a>
                     </div>
-                    <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-subscription-button.png' ); ?>">
+                    <a href="https://www.laterpay.net/academy/how-to-create-a-subscription-button-in-the-laterpay-wordpress-plugin" target='_blank' >
+                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-subscription-button.png' ); ?>">
+                    </a>
                 </div>
             </div>
 
@@ -161,7 +169,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <li><?php esc_html_e( 'Give unrestricted access to specific user roles', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $access_url ); ?>">
+                    <a href="<?php echo esc_url( $access_url ); ?>" target="_blank">
                         <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
                     </a>
                 </div>
@@ -189,7 +197,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <li><?php esc_html_e( 'Length of blurred content displayed behind paywall', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $appearance_url ); ?>">
+                    <a href="<?php echo esc_url( $appearance_url ); ?>" target="_blank">
                         <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
                     </a>
                 </div>
@@ -257,7 +265,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <li><?php esc_html_e( 'Define fallback behavior in case LaterPay API is not responding', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $technical_url ); ?>">
+                    <a href="<?php echo esc_url( $technical_url ); ?>" target="_blank">
                         <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
                     </a>
                 </div>
