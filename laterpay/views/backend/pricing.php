@@ -206,7 +206,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 esc_html__( '%sTIP:%s "Pay Later" is LaterPay\'s patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice. %sClick here to learn more.%s', 'laterpay' ),
                                                 "<b>",
                                                 "</b>",
-                                                "<a href='https://support.laterpay.net/hc/en-us/articles/201251457-What-is-LaterPay-' target='_blank'>",
+                                                "<a href='https://www.laterpay.net/academy/getting-started-with-laterpay-the-difference-between-pay-now-pay-later' target='_blank'>",
                                                 "</a>"
                                             );
                                             ?>
