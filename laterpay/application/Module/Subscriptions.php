@@ -85,7 +85,7 @@ class LaterPay_Module_Subscriptions extends LaterPay_Core_View implements LaterP
             $args['url'] = LaterPay_Helper_Subscription::get_subscription_purchase_link( $args['id'] );
         }
 
-        $args['preview_post_as_visitor'] = LaterPay_Helper_User::preview_post_as_visitor( get_post() );
+        $args['preview_post_as_visitor'] = LaterPay_Helper_View::check_is_preview_mode( LaterPay_Helper_User::preview_post_as_visitor( get_post() ) );
 
         $this->assign( 'laterpay_subscription', $args );
         $this->assign( 'laterpay',      array(

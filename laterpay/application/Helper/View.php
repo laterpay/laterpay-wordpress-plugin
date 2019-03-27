@@ -310,4 +310,24 @@ class LaterPay_Helper_View
     public static function is_plugin_in_live_mode() {
         return (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
     }
+
+    /**
+     * Check if user is in preview mode.
+     *
+     * @param bool $preview_post_as_visitor Check admin user is viewing as visitor.
+     *
+     * @return int
+     */
+    public static function check_is_preview_mode( $preview_post_as_visitor ) {
+        // Use LIVE mode status to update preview behaviour.
+        $is_in_live_mode = get_option( 'laterpay_plugin_is_in_live_mode' );
+
+        if ( $is_in_live_mode && $preview_post_as_visitor ) {
+            $is_preview = 1;
+        } else {
+            $is_preview = 0;
+        }
+
+        return $is_preview;
+    }
 }
