@@ -73,7 +73,7 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
             $event->stop_propagation();
         }
-        $event->add_argument( 'attributes', array( 'data-preview-post-as-visitor' => $preview_post_as_visitor ) );
+        $event->add_argument( 'attributes', array( 'data-preview-post-as-visitor' => LaterPay_Helper_View::check_is_preview_mode( $preview_post_as_visitor ) ) );
         $event->set_argument( 'preview_post_as_visitor', $preview_post_as_visitor );
     }
 

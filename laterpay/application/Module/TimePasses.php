@@ -25,6 +25,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
                 array( 'modify_post_content', 5 ),
             ),
             'laterpay_time_passes' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'on_timepass_render', 20 ),
                 array( 'the_time_passes_widget', 10 ),
             ),
@@ -290,7 +291,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $laterpay_pass['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $laterpay_pass['pass_id'] );
         }
 
-        $laterpay_pass['preview_post_as_visitor'] = LaterPay_Helper_User::preview_post_as_visitor( get_post() );
+        $laterpay_pass['preview_post_as_visitor'] = LaterPay_Helper_View::check_is_preview_mode( LaterPay_Helper_User::preview_post_as_visitor( get_post() ) );
 
         $args = array(
             'standard_currency' => $this->config->get( 'currency.code' ),
