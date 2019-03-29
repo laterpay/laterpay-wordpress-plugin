@@ -829,9 +829,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'subscription price.', 'laterpay' )  ); ?></span>
 
                                 <div class="lp_js_voucherPlaceholder"></div>
-                                <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
+                                <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link lp_sub_voucher_button" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
+                                <span data-icon="n" class="lp_sub_voucher_disclaimer"><?php esc_html_e( 'This will reduce the price for the entirety of the subscription.', 'laterpay' ); ?></span>
                             </div>
 
                         </form>
