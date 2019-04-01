@@ -5,7 +5,7 @@ Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay, Payments, Content Monetization, Paywall, Paid Content, Publisher, Blogger
 Requires at least: 4.6
 Tested up to: 5.1.1
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -16,15 +16,15 @@ Monetize your blog and content with LaterPay. We offer a frictionless transactio
 == Description ==
 
 = Overview =
-The LaterPay WordPress plugin is a content monetization solution for your WordPress page. We enable you to collect voluntary financial contributions from your audience, sell individual pieces of content, timed access to your website or individual sections, recurring subscriptions, or ad-free access to your site. 
+The LaterPay WordPress plugin is a content monetization solution for your WordPress page. We enable you to collect voluntary financial contributions from your audience, sell individual pieces of content, timed access to your website or individual sections, recurring subscriptions, or ad-free access to your site.
 
-Our unique ‘pay later’ model takes the upfront friction out of the transaction and allows your users to access content instantly by agreeing to pay for it later. 
+Our unique ‘pay later’ model takes the upfront friction out of the transaction and allows your users to access content instantly by agreeing to pay for it later.
 
-You can offer content priced as low as $0.05 or 0.05€ and audiences can purchase that content with just a click or two - without having to register or provide payment until they reach a $5 or 5€ threshold on their LaterPay tab. At this point we ask them to register and pay and we have found that about 85% of users will do so. Once they become registered LaterPay users, the transactions become even more effortless - in fact, repeat purchases are 2-2.5X higher with the ‘pay later’ model over ‘pay now.’ 
+You can offer content priced as low as $0.05 or 0.05€ and audiences can purchase that content with just a click or two - without having to register or provide payment until they reach a $5 or 5€ threshold on their LaterPay tab. At this point we ask them to register and pay and we have found that about 85% of users will do so. Once they become registered LaterPay users, the transactions become even more effortless - in fact, repeat purchases are 2-2.5X higher with the ‘pay later’ model over ‘pay now.’
 
 Although we recommend using the ‘pay later’ model because of the results mentioned above, you are of course free to choose the ‘pay now’ model if it better suits your needs. [Read more about the difference between ‘pay later’ and ‘pay now’.](https://www.laterpay.net/academy/getting-started-with-laterpay-the-difference-between-pay-now-pay-later)
 
-The LaterPay WordPress plugin is easy to implement and offers a user interface that gives you complete control over pricing, look and feel, as well as the features you choose to use. 
+The LaterPay WordPress plugin is easy to implement and offers a user interface that gives you complete control over pricing, look and feel, as well as the features you choose to use.
 
 = Our core features include: =
 * Single post sales
@@ -84,6 +84,12 @@ Yes!
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.5.2 ( April 2, 2019 ) =
+* Add Advanced Tab, to inform about all advanced feature.
+* Add disclaimer for Subscription voucher.
+* Update plugin mode toggle behaviour.
+* Update Sidebar FAQs section.
+
 = 2.5.1 ( March 21, 2019 ) =
 * Fix pay now revenue validation.
 * Fix paid content issue with JetPack.
@@ -612,8 +618,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.5.1 ( March 21, 2019 ) =
-Fix minor bug with revenue validation and improvements with LaterPay functionality.
+= 2.5.2 ( April 2, 2019 ) =
+A new "Advanced" Tab containing information of advanced feature, updated plugin mode toggle behaviour and improvements with LaterPay functionality.
 
 == Arbitrary section ==
 
