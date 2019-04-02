@@ -28,50 +28,51 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 
     <div class="lp_pagewrap">
-        <div class="lp_layout">
-            <div class="lp_layout__item lp_1" id="lp_js_paidContentPreview">
-                <h2><?php esc_html_e( 'Content Preview for Paid Posts', 'laterpay' ); ?></h2>
-                <form method="post" class="lp_mb++ lp_inline-block lp_purchase-form">
-                    <input type="hidden" name="form"    value="paid_content_preview">
-                    <input type="hidden" name="action"  value="laterpay_appearance">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+        <div class="lp_main_area">
+            <div class="lp_layout">
+                <div class="lp_layout__item lp_1" id="lp_js_paidContentPreview">
+                    <h2><?php esc_html_e( 'Content Preview for Paid Posts', 'laterpay' ); ?></h2>
+                    <form method="post" class="lp_mb++ lp_inline-block lp_purchase-form">
+                        <input type="hidden" name="form"    value="paid_content_preview">
+                        <input type="hidden" name="action"  value="laterpay_appearance">
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
 
-                    <div class="lp_button-group--large">
-                        <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['teaser_mode'] === '0' ) { echo ' lp_is-selected'; } ?>">
-                            <input type="radio"
-                                    name="paid_content_preview"
-                                    value="0"
-                                    class="lp_js_switchButtonGroup"
-                                    <?php if ( $laterpay['teaser_mode'] === '0' ) : ?>checked<?php endif; ?>/>
-                            <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-1"></div>
-                            <?php esc_html_e( 'Teaser + Purchase Link', 'laterpay' ); ?>
-                        </label><!-- comment required to prevent spaces, because layout uses display:inline-block
+                        <div class="lp_button-group--large">
+                            <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['teaser_mode'] === '0' ) { echo ' lp_is-selected'; } ?>">
+                                <input type="radio"
+                                       name="paid_content_preview"
+                                       value="0"
+                                       class="lp_js_switchButtonGroup"
+                                        <?php if ( $laterpay['teaser_mode'] === '0' ) : ?>checked<?php endif; ?>/>
+                                <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-1"></div>
+                                <?php esc_html_e( 'Teaser + Purchase Link', 'laterpay' ); ?>
+                            </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                      --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['teaser_mode'] === '1' ) { echo ' lp_is-selected'; } ?>">
-                            <input type="radio"
-                                    name="paid_content_preview"
-                                    value="1"
-                                    class="lp_js_switchButtonGroup"
-                                    <?php if ( $laterpay['teaser_mode'] === '1' ) : ?>checked<?php endif; ?>/>
-                            <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-2"></div>
-                            <?php esc_html_e( 'Teaser + Explanatory Overlay', 'laterpay' ); ?>
-                        </label><!-- comment required to prevent spaces, because layout uses display:inline-block
+                                <input type="radio"
+                                       name="paid_content_preview"
+                                       value="1"
+                                       class="lp_js_switchButtonGroup"
+                                        <?php if ( $laterpay['teaser_mode'] === '1' ) : ?>checked<?php endif; ?>/>
+                                <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-2"></div>
+                                <?php esc_html_e( 'Teaser + Explanatory Overlay', 'laterpay' ); ?>
+                            </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                      --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['teaser_mode'] === '2' ) { echo ' lp_is-selected'; } ?>">
-                            <input type="radio"
-                                   name="paid_content_preview"
-                                   value="2"
-                                   class="lp_js_switchButtonGroup"
-                                    <?php if ( $laterpay['teaser_mode'] === '2' ) : ?>checked<?php endif; ?>/>
-                            <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-3"></div>
-                            <?php esc_html_e( 'Teaser + Purchase Overlay', 'laterpay' ); ?>
-                        </label>
-                    </div>
-                    <div class="lp_js_purchaseForm" id="lp_js_purchaseForm" <?php if ( $laterpay['teaser_mode'] !== '2' ) echo 'style="display:none;"'; ?>>
-                        <div class="lp_purchase-form__panel lp_relative lp_1">
-                            <div class="lp_purchase-form__triangle"></div>
-                            <div class="lp_purchase-form__inner lp_relative lp_clearfix">
-                                <div class="lp_left lp_9/20">
-                                    <table class="lp_purchase-form__table lp_table--form">
-                                        <tbody>
+                                <input type="radio"
+                                       name="paid_content_preview"
+                                       value="2"
+                                       class="lp_js_switchButtonGroup"
+                                        <?php if ( $laterpay['teaser_mode'] === '2' ) : ?>checked<?php endif; ?>/>
+                                <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-3"></div>
+                                <?php esc_html_e( 'Teaser + Purchase Overlay', 'laterpay' ); ?>
+                            </label>
+                        </div>
+                        <div class="lp_js_purchaseForm" id="lp_js_purchaseForm" <?php if ( $laterpay['teaser_mode'] !== '2' ) echo 'style="display:none;"'; ?>>
+                            <div class="lp_purchase-form__panel lp_relative lp_1">
+                                <div class="lp_purchase-form__triangle"></div>
+                                <div class="lp_purchase-form__inner lp_relative lp_clearfix">
+                                    <div class="lp_left lp_9/20">
+                                        <table class="lp_purchase-form__table lp_table--form">
+                                            <tbody>
                                             <tr>
                                                 <td colspan="2">
                                                     <h3><strong><?php esc_html_e( 'Header', 'laterpay' ); ?></strong></h3>
@@ -175,117 +176,137 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                     <input type="color" class="lp_js_overlayOptions lp_js_purchaseFooterBackgroundColor lp_input" name="footer_background_color" value="<?php echo esc_attr( $laterpay['overlay']['footer_bg_color'] ); ?>">
                                                 </td>
                                             </tr>
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="lp_right lp_11/20">
+                                        <div class="lp_purchase-form-label lp_text-align--center lp_mt-"><?php esc_html_e( 'Preview', 'laterpay' ); ?></div>
+                                        <?php $this->render_overlay(); ?>
+                                    </div>
                                 </div>
-                                <div class="lp_right lp_11/20">
-                                    <div class="lp_purchase-form-label lp_text-align--center lp_mt-"><?php esc_html_e( 'Preview', 'laterpay' ); ?></div>
-                                    <?php $this->render_overlay(); ?>
-                                </div>
-                            </div>
-                            <div class="lp_purchase-form__buttons lp_1">
-                                <div class="lp_1/2 lp_inline-block">
-                                    <a href="#" class="lp_js_savePurchaseForm lp_button--default lp_mt- lp_mb-"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
-                                    <a href="#" class="lp_js_cancelEditingPurchaseForm lp_button--link lp_pd-"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
-                                </div><!--
+                                <div class="lp_purchase-form__buttons lp_1">
+                                    <div class="lp_1/2 lp_inline-block">
+                                        <a href="#" class="lp_js_savePurchaseForm lp_button--default lp_mt- lp_mb-"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                                        <a href="#" class="lp_js_cancelEditingPurchaseForm lp_button--link lp_pd-"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                                    </div><!--
                              --><div class="lp_1/2 lp_inline-block lp_text-align--right">
-                                    <a href="#" class="lp_js_restoreDefaultPurchaseForm lp_button--link lp_mr+ lp_pd-"><?php esc_html_e( 'Restore Default Values', 'laterpay' ); ?></a>
+                                        <a href="#" class="lp_js_restoreDefaultPurchaseForm lp_button--link lp_mr+ lp_pd-"><?php esc_html_e( 'Restore Default Values', 'laterpay' ); ?></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div><!-- comment required to prevent spaces, because layout uses display:inline-block
+                    </form>
+                </div><!-- comment required to prevent spaces, because layout uses display:inline-block
          --><div class="lp_layout__item lp_1" id="lp_js_purchaseButton" <?php if ( $laterpay['teaser_mode'] === '2' ) echo 'style="display:none;"'; ?>>
-                <h2><?php esc_html_e( 'Position of the LaterPay Purchase Button', 'laterpay' ); ?></h2>
-                <form method="post" class="lp_js_showHintOnTrue lp_mb++">
-                    <input type="hidden" name="form"    value="purchase_button_position">
-                    <input type="hidden" name="action"  value="laterpay_appearance">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                    <h2><?php esc_html_e( 'Position of the LaterPay Purchase Button', 'laterpay' ); ?></h2>
+                    <form method="post" class="lp_js_showHintOnTrue lp_mb++">
+                        <input type="hidden" name="form"    value="purchase_button_position">
+                        <input type="hidden" name="action"  value="laterpay_appearance">
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
 
-                    <div class="lp_button-group--large">
-                        <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
-                            <input type="radio"
-                                    name="purchase_button_positioned_manually"
-                                    value="0"
-                                    class="lp_js_switchButtonGroup"
-                                    <?php if ( ! $laterpay['purchase_button_positioned_manually'] ) : ?>checked<?php endif; ?>/>
-                            <div class="lp_button-group__button-image lp_button-group__button-image--button-position-1"></div>
-                            <?php esc_html_e( 'Standard position', 'laterpay' ); ?>
-                        </label><!-- comment required to prevent spaces, because layout uses display:inline-block
+                        <div class="lp_button-group--large">
+                            <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
+                                <input type="radio"
+                                       name="purchase_button_positioned_manually"
+                                       value="0"
+                                       class="lp_js_switchButtonGroup"
+                                        <?php if ( ! $laterpay['purchase_button_positioned_manually'] ) : ?>checked<?php endif; ?>/>
+                                <div class="lp_button-group__button-image lp_button-group__button-image--button-position-1"></div>
+                                <?php esc_html_e( 'Standard position', 'laterpay' ); ?>
+                            </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                      --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
-                            <input type="radio"
-                                    name="purchase_button_positioned_manually"
-                                    value="1"
-                                    class="lp_js_switchButtonGroup"
-                                    <?php if ( $laterpay['purchase_button_positioned_manually'] ) : ?>checked<?php endif; ?>/>
-                            <div class="lp_button-group__button-image lp_button-group__button-image--button-position-2"></div>
-                            <?php esc_html_e( 'Custom position', 'laterpay' ); ?>
-                        </label>
-                    </div>
-                    <div class="lp_js_buttonGroupHint lp_button-group__hint"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) : ?> style="display:none;"<?php endif; ?>>
-                        <p>
-                            <?php esc_html_e( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button at that position.', 'laterpay' ); ?>
-                        </p>
-                        <code>
-                            <?php echo esc_html( "<?php do_action( 'laterpay_purchase_button' ); ?>" ); ?>
-                        </code>
-                    </div>
-                </form>
-            </div>
-            <div class="lp_layout__item lp_1" id="lp_js_timePasses" <?php if ( $laterpay['teaser_mode'] === '2' ) echo 'style="display:none;"'; ?>>
-                <h2><?php esc_html_e( 'Display of LaterPay Subscriptions & Time Passes', 'laterpay' ); ?></h2>
-                <form method="post" class="lp_js_showHintOnTrue lp_mb++">
-                    <input type="hidden" name="form"    value="time_passes_position">
-                    <input type="hidden" name="action"  value="laterpay_appearance">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                                <input type="radio"
+                                       name="purchase_button_positioned_manually"
+                                       value="1"
+                                       class="lp_js_switchButtonGroup"
+                                        <?php if ( $laterpay['purchase_button_positioned_manually'] ) : ?>checked<?php endif; ?>/>
+                                <div class="lp_button-group__button-image lp_button-group__button-image--button-position-2"></div>
+                                <?php esc_html_e( 'Custom position', 'laterpay' ); ?>
+                            </label>
+                        </div>
+                        <div class="lp_js_buttonGroupHint lp_button-group__hint"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) : ?> style="display:none;"<?php endif; ?>>
+                            <p>
+                                <?php esc_html_e( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button at that position.', 'laterpay' ); ?>
+                            </p>
+                            <code>
+                                <?php echo esc_html( "<?php do_action( 'laterpay_purchase_button' ); ?>" ); ?>
+                            </code>
+                        </div>
+                    </form>
+                </div>
+                <div class="lp_layout__item lp_1" id="lp_js_timePasses" <?php if ( $laterpay['teaser_mode'] === '2' ) echo 'style="display:none;"'; ?>>
+                    <h2><?php esc_html_e( 'Display of LaterPay Subscriptions & Time Passes', 'laterpay' ); ?></h2>
+                    <form method="post" class="lp_js_showHintOnTrue lp_mb++">
+                        <input type="hidden" name="form"    value="time_passes_position">
+                        <input type="hidden" name="action"  value="laterpay_appearance">
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
 
-                    <div class="lp_button-group--large">
-                        <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
-                            <input type="radio"
-                                   name="time_passes_positioned_manually"
-                                   value="0"
-                                   class="lp_js_switchButtonGroup"
-                                    <?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>/>
-                            <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-1"></div>
-                            <?php esc_html_e( 'Standard position', 'laterpay' ); ?>
-                        </label><!-- comment required to prevent spaces, because layout uses display:inline-block
+                        <div class="lp_button-group--large">
+                            <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
+                                <input type="radio"
+                                       name="time_passes_positioned_manually"
+                                       value="0"
+                                       class="lp_js_switchButtonGroup"
+                                        <?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>/>
+                                <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-1"></div>
+                                <?php esc_html_e( 'Standard position', 'laterpay' ); ?>
+                            </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                  --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
-                            <input type="radio"
-                                   name="time_passes_positioned_manually"
-                                   value="1"
-                                   class="lp_js_switchButtonGroup"
-                                    <?php if ( $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>/>
-                            <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-2"></div>
-                            <?php esc_html_e( 'Custom position', 'laterpay' ); ?>
-                        </label>
-                    </div>
-                    <div class="lp_js_buttonGroupHint lp_button-group__hint"<?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?> style="display:none;"<?php endif; ?>>
-                        <p>
-                            <?php esc_html_e( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ); ?><br>
-                        </p>
-                        <table>
-                            <tbody>
-                            <tr>
-                                <th>
-                                    Shortcode
-                                </th>
-                                <td>
-                                    <code>[laterpay_time_passes]</code>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    Action
-                                </th>
-                                <td>
-                                    <code><?php echo esc_html( "<?php do_action( 'laterpay_time_passes' ); ?>" ); ?></code>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                                <input type="radio"
+                                       name="time_passes_positioned_manually"
+                                       value="1"
+                                       class="lp_js_switchButtonGroup"
+                                        <?php if ( $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>/>
+                                <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-2"></div>
+                                <?php esc_html_e( 'Custom position', 'laterpay' ); ?>
+                            </label>
+                        </div>
+                        <div class="lp_js_buttonGroupHint lp_button-group__hint"<?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?> style="display:none;"<?php endif; ?>>
+                            <p>
+                                <?php esc_html_e( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ); ?><br>
+                            </p>
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <th>
+                                        Shortcode
+                                    </th>
+                                    <td>
+                                        <code>[laterpay_time_passes]</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Action
+                                    </th>
+                                    <td>
+                                        <code><?php echo esc_html( "<?php do_action( 'laterpay_time_passes' ); ?>" ); ?></code>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="lp_side_area">
+            <div class="lp_clearfix lp_info">
+                <div class="lp_side_info">
+                    <h2><?php esc_html_e( 'Advanced Settings', 'laterpay' ); ?></h2>
+                    <p>
+
+                        <?php
+                        printf(
+                            "<a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
+                            esc_url( admin_url( 'options-general.php?page=laterpay#lpappearance' ) ),
+                            esc_html__( 'Click here', 'laterpay' ),
+                            esc_html__( 'to adjust the default colors, the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall.', 'laterpay' )
+                        );
+                        ?>
+                    </p>
+                </div>
+                <?php $this->render_faq_support(); ?>
             </div>
         </div>
     </div>

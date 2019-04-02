@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16a06c58ebcf7f3530821baacca494c3",
+    "content-hash": "f7ebc8b3af366240a7c6fd7bb42f1b9a",
     "packages": [
         {
             "name": "laterpay/laterpay-client-php",

@@ -1,0 +1,98 @@
+// LaterPay Advanced Page Styling.
+
+.lp_main_area {
+    width: 60%;
+
+    div.lp_clearfix:last-child {
+        margin-bottom: 0px;
+
+        .lp_info_div {
+            padding-bottom: 0px;
+        }
+    }
+
+    .lp_info_div {
+        min-height: 130px;
+    }
+
+    h2 {
+        font-size: 20px;
+        color: #737373!important;
+    }
+
+    .lp_advanced_info {
+        width: 70%;
+        float: left;
+    }
+
+    img.lp_advanced_info_img_wide {
+        width: 200px;
+        height: 45px;
+        margin-top: 25px;
+    }
+
+    img.lp_advanced_info_img_normal {
+        width: 150px;
+        height: 130px;
+    }
+
+    .lp_clearfix {
+        margin-bottom: 20px;
+    }
+    ul {
+        padding-left: 15px;
+        list-style: disc;
+    }
+}
+
+.lp_side_area {
+    ul {
+        list-style: disc;
+        color: #737373;
+    }
+}
+
+button.lp_js_disablePlugin {
+    background: $purchase-description-text !important;
+    border-color: $purchase-description-text !important;
+    box-shadow: 0 1px 0 $purchase-description-text !important;
+    text-shadow: 0 -1px 1px $purchase-description-text,
+    1px 0 1px $purchase-description-text,
+    0 1px 1px $purchase-description-text,
+    -1px 0 1px $purchase-description-text !important;
+}
+
+button.lp_js_ga_cancel {
+    margin-left: $fs !important;
+    text-decoration: underline;
+    color: #0073aa;
+}
+
+button.lp_js_disablePluginConfirm {
+    background: #ff1744 !important;
+    border-color: #ff1744 !important;
+    box-shadow: 0 1px 0 #ff1744 !important;
+    text-shadow: 0 -1px 1px #ff1744,
+    1px 0 1px #ff1744,
+    0 1px 1px #ff1744,
+    -1px 0 1px #ff1744 !important;
+}
+
+
+// Responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1279px) {
+    .lp_main_area {
+
+        .lp_advanced_info {
+            width: 50%;
+        }
+
+        img.lp_advanced_info_img_normal {
+            margin-left: 30px;
+        }
+
+        img.lp_advanced_info_img_wide {
+            margin-left: 15px;
+        }
+    }
+}

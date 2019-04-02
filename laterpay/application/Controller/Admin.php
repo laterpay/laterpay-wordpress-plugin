@@ -184,7 +184,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay', $view_args );
 
-	    $this->render( 'backend/partials/html5shiv' );
+        $this->render( 'backend/partials/html5shiv' );
     }
 
     /**
@@ -217,6 +217,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             case 'account':
                 $account_controller = new LaterPay_Controller_Admin_Account( $this->config );
                 $account_controller->render_page();
+                break;
+            // render advanced tab
+            case 'advanced':
+                $advanced_controller = new LaterPay_Controller_Admin_Advanced( $this->config );
+                $advanced_controller->render_page();
                 break;
         }
     }
@@ -696,6 +701,13 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         if ( ! get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $menu = array_reverse( $menu );
         }
+
+        // Adding advanced tab to the end of menu, so that it isn't affected by plugin mode.
+        $menu['advanced'] = array(
+            'url'   => 'laterpay-advanced-tab',
+            'title' => esc_html__( 'Advanced', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
 
         $event->set_result( $menu );
     }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>arrow-right</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M17.5857864,11 L12.2218254,5.63603897 C11.8313011,5.24551468 11.8313011,4.6123497 12.2218254,4.22182541 C12.6123497,3.83130112 13.2455147,3.83130112 13.636039,4.22182541 L20.7071068,11.2928932 C20.8880712,11.4738576 21,11.7238576 21,12 C21,12.2761424 20.8880712,12.5261424 20.7071068,12.7071068 L13.636039,19.7781746 C13.2455147,20.1686989 12.6123497,20.1686989 12.2218254,19.7781746 C11.8313011,19.3876503 11.8313011,18.7544853 12.2218254,18.363961 L17.5857864,13 L4,13 C3.44771525,13 3,12.5522847 3,12 C3,11.4477153 3.44771525,11 4,11 L17.5857864,11 Z" id="path-1"></path>
+    </defs>
+    <g id="arrow-right" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="Path"></g>
+        <g id="color/lp" mask="url(#mask-2)" fill="#4aa69d">
+            <rect id="Change-Fill-Color" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

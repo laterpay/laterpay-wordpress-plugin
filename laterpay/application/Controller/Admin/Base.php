@@ -39,4 +39,13 @@ class LaterPay_Controller_Admin_Base extends LaterPay_Controller_Base
         $this->assign( 'laterpay', $view_args );
         $this->render( $file, $view_dir );
     }
+
+    /**
+     * Render FAQ and Support section.
+     *
+     * @return void
+     */
+    public function render_faq_support() {
+        $this->render( 'backend/partials/faq-support' );
+    }
 }

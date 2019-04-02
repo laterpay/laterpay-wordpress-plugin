@@ -581,3 +581,13 @@
     text-decoration: none !important;
     visibility: visible !important; /* 1 */
 }
+
+a.lp_sub_voucher_button {
+    width: 50%;
+    float: left;
+}
+span.lp_sub_voucher_disclaimer{
+    color: #f00;
+    font-style: italic;
+    font-size: 12px;
+}

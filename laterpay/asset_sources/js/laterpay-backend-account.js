@@ -1,4 +1,4 @@
-/* global lpGlobal, tb_show*/
+/* global lpGlobal */
 (function($) {$(function() {
 
     // encapsulate all LaterPay Javascript in function laterPayBackendAccount
@@ -26,11 +26,7 @@
 
                 showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
                 apiCredentials                  : $('#lp_js_apiCredentialsSection'),
-                requestSent                     : false,
-
-                pluginDelete                    : $('.lp_js_disablePlugin'),
-                pluginDeleteConfirm             : $('.lp_js_disablePluginConfirm'),
-                modalClose                      : $('button.lp_js_ga_cancel')
+                requestSent                     : false
             },
 
             regionVal = $o.region.val(),
@@ -75,53 +71,6 @@
                 window.onbeforeunload = function() {
                     preventLeavingWithoutValidCredentials();
                 };
-
-                // Display modal for plugin disable.
-                $o.pluginDelete.on('click', function() {
-                    if ( typeof tb_show === 'function' ) {
-                        tb_show( lpVars.modal.title,'#TB_inline?inlineId=' + lpVars.modal.id + '&height=185&width=375');
-                        $('div#TB_ajaxContent').css('padding','30px');
-
-                    }
-                } );
-
-                // Close the modal and disable plugin.
-                $o.pluginDeleteConfirm.click(function(){
-                    $('#TB_closeWindowButton').click();
-                    disablePluginEraseData();
-                });
-
-                // Close the plugin disable modal.
-                $o.modalClose.click(function(){
-                    $('#TB_closeWindowButton').click();
-                });
-            },
-
-            disablePluginEraseData = function() {
-                var data = {
-                    action: 'laterpay_disable_plugin',
-                    security: lpVars.plugin_disable_nonce,
-                };
-
-                // Disable plugin and redirect to plugins page.
-                $.post( ajaxurl, data, function ( response ) {
-
-                    if ( $.type( response ) === 'string' ) {
-                        response = JSON.parse( response );
-                    }
-
-                    $o.navigation.showMessage(response);
-
-                        if ( false === response.is_vip ) {
-                            setTimeout(function() {
-                                window.location.replace(lpVars.pluginsUrl);
-                            }, 2000);
-                        } else  {
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 2000);
-                        }
-                });
             },
 
             autofocusEmptyInput = function() {
