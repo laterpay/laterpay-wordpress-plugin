@@ -17,18 +17,22 @@ The plugin is available on http://wordpress.org/plugins/laterpay
 
 1. Fork it ( https://github.com/laterpay/laterpay-wordpress-plugin/fork )
 2. Run `composer install` to install all the dependencies.
-3. Create your feature branch (`git checkout -b feature/my_new_feature`)
+3. Create your feature branch (`git checkout -b feature/my_new_feature develop`)
 4. Add your changes, verify coding standards and language compatibility ( [Check #development-notes](#development-notes) )
 5. Run `gulp build` for `js` and / or `css` changes. Please check [gulpfile](gulpfile.js) for more tasks.
 6. Commit your changes (`git commit -am 'Added some feature'`)
 7. Push to the branch (`git push origin feature/my_new_feature`)
 8. Create a new Pull Request to develop.
 
+Note: Source code of the plugin resides in [laterpay](./laterpay) directory, you should copy / rsync files from this directory to your test site, in order to see the changes done.
+
+⚠️ Warning: Code from this repo is only to be used for development purposes. Always use the latest version available at http://wordpress.org/plugins/laterpay for production sites.
+
 ## Development Notes
 
 ##### Please run following commands from the root directory.
 
-1. Please verfiy your code is in compliance to the Coding Standards used in this Project.
+1. Please verify your code is in compliance to the Coding Standards used in this Project.
 2. Run `composer phpcs filename` or `composer phpcs laterpay` to check for PHPCS errors/warnings.
 3. Run `composer phpcompat` to check if the code is compatible for PHP 5.6 and above
 
@@ -54,4 +58,4 @@ The LaterPay WordPress plugin uses [Semantic Versioning 2.0.0](http://semver.org
 
 ## Copyright
 
-Copyright 2018 LaterPay GmbH – Released under MIT License
+Copyright 2019 LaterPay GmbH – Released under MIT License

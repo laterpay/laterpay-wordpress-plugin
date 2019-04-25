@@ -45,7 +45,9 @@ The LaterPay WordPress plugin is easy to implement and offers a user interface t
 * Data sharing
 
 = What it costs you: =
+
 LaterPay is performance-based and works on a revenue sharing basis - for a limited time we’re charging a rate of 15% of actual revenue generated with LaterPay, ALL-INCLUSIVE.
+
 * No payment processing fees
 * No chargeback fees
 * No payout fees
@@ -68,7 +70,9 @@ when you need it. Contextual help for the current page is available via the ‘H
 You can find further information about LaterPay and the LaterPay WordPress plugin in the [LaterPay Knowledge Base](https://www.laterpay.net/academy).
 
 = Is this plugin crawler friendly? =
+
 Yes!
+
 * *Social media:* The plugin supports Facebook, Twitter, and Google+ crawlers, so it won’t hurt your social media reach.
 * *Google and Google News:* The plugin also supports Google and Google News crawlers.
 * Crawlers will never have access to the full content but only to your teaser content.
