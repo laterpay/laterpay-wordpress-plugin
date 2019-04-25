@@ -442,4 +442,21 @@ class LaterPay_Helper_Post
             return true;
         }
     }
+
+    /**
+     * Check if post_type is salable.
+     *
+     * @param int $post_id Post ID.
+     *
+     * @return bool
+     */
+    public static function is_enabled_type( $post_id ) {
+        $enabled_types = (array) get_option( 'laterpay_enabled_post_types' );
+
+        if ( ! empty( $enabled_types ) && in_array( get_post_type( $post_id ), $enabled_types, true ) ) {
+            return true;
+        }
+
+        return false;
+    }
 }

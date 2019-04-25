@@ -24,6 +24,15 @@ class LaterPay_Helper_Pricing
     const META_KEY                      = 'laterpay_post_prices';
 
     /**
+     * Internal cache for storing posts with their prices.
+     *
+     * @var array Internal cache of posts with their prices.
+     *
+     * @access private
+     */
+    private static $purchasable_posts = [];
+
+    /**
      * Check, if the current post or a given post is purchasable.
      *
      * @param null|int $post_id
@@ -38,8 +47,14 @@ class LaterPay_Helper_Pricing
             }
         }
 
-        // check, if the current post price is not 0
-        $price = LaterPay_Helper_Pricing::get_post_price( $post_id, true );
+        // Check if price already exists.
+        if ( isset( self::$purchasable_posts[ $post_id ] ) ) {
+            $price = self::$purchasable_posts[ $post_id ];
+        } else {
+            // check, if the current post price is not 0
+            $price = LaterPay_Helper_Pricing::get_post_price( $post_id, true );
+            self::$purchasable_posts[ $post_id ] = $price;
+        }
 
         // Get current post price behaviour.
         $post_price_behaviour = self::get_post_price_behaviour();
@@ -204,6 +219,11 @@ class LaterPay_Helper_Pricing
      * @return float $price
      */
     public static function get_post_price( $post_id, $recalculate = false ) {
+
+        if ( ! LaterPay_Helper_Post::is_enabled_type( $post_id ) ) {
+            return (float) 0;
+        }
+
         $global_default_price = get_option( 'laterpay_global_price' );
 
         $cache_key = 'laterpay_post_price_' . $post_id;
