@@ -33,47 +33,6 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
     }
 
     /**
-     * Check requirements for logging and rendering the post statistic pane via Ajax callback.
-     *
-     * @param WP_Post $post
-     *
-     * @return bool
-     */
-    protected function check_requirements( $post = null ) {
-
-        if ( empty( $post ) ) {
-            // check, if we're on a singular page
-            if ( ! is_singular() ) {
-                return false;
-            }
-
-            // check, if we have a post
-            $post = get_post();
-            if ( $post === null ) {
-                return false;
-            }
-        }
-
-        // don't collect statistics data, if the current post is not published
-        if ( $post->post_status !== LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
-            return false;
-        }
-
-        // don't collect statistics data, if the current post_type is not an allowed post_type
-        $allowed_post_types = $this->config->get( 'content.enabled_post_types' );
-        if ( ! in_array( $post->post_type, $allowed_post_types, true ) ) {
-            return false;
-        }
-
-        // don't collect statistics data, if the current post is not purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Callback to add the statistics placeholder to the footer.
      *
      * @wp-hook wp_footer
@@ -82,9 +41,6 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
      * @return void
      */
     public function modify_footer( LaterPay_Core_Event $event ) {
-        if ( ! $this->check_requirements() ) {
-            return;
-        }
 
         // don't add the preview pane placeholder to the footer, if the user is not logged in
         if ( ! LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', get_the_ID() ) ) {
