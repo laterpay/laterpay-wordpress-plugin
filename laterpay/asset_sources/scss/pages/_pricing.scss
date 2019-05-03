@@ -102,6 +102,14 @@ div.lp_js_categoryPanelWarning {
 	}
 }
 
+div.lp_js_subscriptionPanelWarning {
+    margin: 0 auto $fs;
+    width: 500px;
+    p {
+        color: #ff1744;
+    }
+}
+
 // category default prices ---------------------------------------------------------------------------------------------
 .lp_category-price-form {
 

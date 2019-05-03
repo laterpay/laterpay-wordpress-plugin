@@ -678,7 +678,19 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php esc_html_e( 'Create', 'laterpay' ); ?>
                     </a>
                 </h2>
-
+                <?php
+                if ( 'us' === get_option( 'laterpay_region', 'us' ) && count( $laterpay['subscriptions_list'] ) ) {
+                    $subscription_prices = array_map( 'floatval', array_column( $laterpay['subscriptions_list'], 'price' ) );
+                    if ( min( $subscription_prices ) < 1.99 ) {
+                        ?>
+                        <div class="lp_js_subscriptionPanelWarning" style="">
+                            <p data-icon="n">
+                                <?php esc_html_e( 'Important: The minimum value for "Pay Now" prices in the US is $1.99. Please be sure to update your subscriptions so that your users to not receive an error when they try to purchase.', 'laterpay' ); ?>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
                 <?php foreach ( $laterpay['subscriptions_list'] as $subscription ) : ?>
                     <div class="lp_js_subscriptionWrapper lp_subscriptions__item lp_clearfix" data-sub-id="<?php echo esc_attr( $subscription['id'] ); ?>">
                         <div class="lp_subscription__id-wrapper">
