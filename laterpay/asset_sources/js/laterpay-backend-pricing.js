@@ -1187,6 +1187,28 @@
             });
         },
 
+        clearSubscriptionRegionWarning = function ( type, $entity, region, action, id ) {
+            // Hide subscription region price warning if all prices are ok.
+            if ( 'subscription' === type && Object.keys($entity.data.list).length ) {
+                var showSubscriptionRegionWarning = false;
+                if ( 'delete' === action ) {
+                    delete $entity.data.list[id];
+                }
+
+                $.each( $entity.data.list, function( i ) {
+                    var current_sub = $entity.data.list[i];
+                    if ( current_sub.hasOwnProperty( 'price' ) &&
+                        parseFloat(current_sub.price) < 1.99 && 'us' === region ) {
+                        showSubscriptionRegionWarning = true;
+                    }
+                } );
+
+                if ( false === showSubscriptionRegionWarning ) {
+                    $('div.lp_js_subscriptionPanelWarning').hide();
+                }
+            }
+        },
+
         addEntity = function(type) {
             var $entity = $o[type];
 
@@ -1521,6 +1543,7 @@
                     }
 
                     $o.navigation.showMessage(r);
+                    clearSubscriptionRegionWarning( type, $entity, r.region, 'edit' );
                 },
                 'json'
             );
@@ -1601,6 +1624,8 @@
                                     if ($($entity.wrapper + ':visible').length === 0) {
                                         $($o.emptyState, $entity.editor).velocity('fadeIn', { duration: 400 });
                                     }
+                                    clearSubscriptionRegionWarning( type, $entity, r.region,
+                                        'delete', $wrapper.data($entity.data.id) );
                                 } else {
                                     $(this).stop().show();
                                 }
