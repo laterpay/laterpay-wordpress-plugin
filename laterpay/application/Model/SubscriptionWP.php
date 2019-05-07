@@ -567,19 +567,13 @@ class LaterPay_Model_SubscriptionWP {
         // Create a hash from the query args.
         $args_hash = md5( wp_json_encode( $query_args ) );
 
-        // Check if data already exists for requested query args.
-        if ( isset( self::$subscription_data_store[ $args_hash ] ) ) {
-
-            // Get data from internal cache for already requested query.
-            self::$subscription_data_store[ $args_hash ];
-
-        } else {
+        // Check if data exists for requested query args, if not, add it to internal cache.
+        if ( ! isset( self::$subscription_data_store[ $args_hash ] ) ) {
 
             $query = new WP_Query( $query_args );
 
             // Get posts for requested args.
-            self::$subscription_data_store[ $args_hash ] = $query->posts;;
-
+            self::$subscription_data_store[ $args_hash ] = $query->posts;
         }
 
         return self::$subscription_data_store[ $args_hash ];
