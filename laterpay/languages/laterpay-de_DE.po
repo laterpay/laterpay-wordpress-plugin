@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-04-01 15:58+0530\n"
-"PO-Revision-Date: 2019-04-01 15:58+0530\n"
+"POT-Creation-Date: 2019-05-07 12:38+0530\n"
+"PO-Revision-Date: 2019-05-07 12:38+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -545,8 +545,8 @@ msgstr "LaterPay funktioniert nicht ohne gültige API Zugangsdaten."
 #: application/Controller/Admin/Pricing.php:245
 #: application/Controller/Admin/Pricing.php:492
 #: application/Controller/Admin/Pricing.php:574
-#: application/Controller/Admin/Pricing.php:996
-#: application/Controller/Frontend/PreviewMode.php:115
+#: application/Controller/Admin/Pricing.php:998
+#: application/Controller/Frontend/PreviewMode.php:71
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
@@ -722,7 +722,7 @@ msgid "FREE"
 msgstr "KOSTENLOS"
 
 #: application/Controller/Admin/Post/Column.php:122
-#: application/Helper/Pricing.php:900
+#: application/Helper/Pricing.php:920
 #: views/backend/partials/post-pricing-form.php:139
 #: views/backend/pricing.php:198 views/backend/pricing.php:329
 #: views/backend/pricing.php:449 views/backend/pricing.php:608
@@ -730,7 +730,7 @@ msgid "Pay Now"
 msgstr "Sofort zahlen"
 
 #: application/Controller/Admin/Post/Column.php:123
-#: application/Helper/Pricing.php:903 application/Module/Purchase.php:322
+#: application/Helper/Pricing.php:923 application/Module/Purchase.php:322
 #: views/backend/partials/post-pricing-form.php:126
 #: views/backend/pricing.php:193 views/backend/pricing.php:324
 #: views/backend/pricing.php:444 views/backend/pricing.php:603
@@ -902,7 +902,7 @@ msgstr ""
 "dieses Abo wirklich löschen?"
 
 #: application/Controller/Admin/Pricing.php:109 views/backend/pricing.php:506
-#: views/backend/pricing.php:709
+#: views/backend/pricing.php:721
 msgid "reduces the price to"
 msgstr "reduziert den Preis auf"
 
@@ -938,7 +938,7 @@ msgid "All posts in category"
 msgstr "aller Beiträge in Kategorie"
 
 #: application/Controller/Admin/Pricing.php:151 views/backend/pricing.php:626
-#: views/backend/pricing.php:813
+#: views/backend/pricing.php:825
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -1006,42 +1006,42 @@ msgstr ""
 "Während des Speicherns des Abos ist ein Fehler aufgetreten. Bitte versuchen "
 "Sie es erneut."
 
-#: application/Controller/Admin/Pricing.php:843
+#: application/Controller/Admin/Pricing.php:844
 msgid "Subscription saved."
 msgstr "Abo gespeichert."
 
-#: application/Controller/Admin/Pricing.php:868
+#: application/Controller/Admin/Pricing.php:869
 msgid "Subscription deleted."
 msgstr "Abo gelöscht."
 
-#: application/Controller/Admin/Pricing.php:875
+#: application/Controller/Admin/Pricing.php:877
 msgid "The selected subscription was deleted already."
 msgstr "Dieses Abo wurde bereits gelöscht."
 
-#: application/Controller/Admin/Pricing.php:930
+#: application/Controller/Admin/Pricing.php:932
 msgid "Incorrect voucher price."
 msgstr "Ungültiger Gutschein-Preis."
 
-#: application/Controller/Admin/Pricing.php:964
+#: application/Controller/Admin/Pricing.php:966
 msgid "Passes"
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:965 views/backend/pricing.php:482
+#: application/Controller/Admin/Pricing.php:967 views/backend/pricing.php:482
 #: views/backend/pricing.php:521
 msgid "Pass"
 msgstr "Pass"
 
-#: application/Controller/Admin/Pricing.php:975
+#: application/Controller/Admin/Pricing.php:977
 msgid "Laterpay Passes Post type Registration issue."
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:1028
+#: application/Controller/Admin/Pricing.php:1030
 #, fuzzy
 #| msgid "LaterPay-enabled Post Types"
 msgid "Unable to update LaterPay Enabled Post Type(s)."
 msgstr "LaterPay Post-Types"
 
-#: application/Controller/Admin/Pricing.php:1040
+#: application/Controller/Admin/Pricing.php:1042
 #, fuzzy
 #| msgid "LaterPay-enabled Post Types"
 msgid "Successfully Updated LaterPay Enabled Post Type(s)."
@@ -1140,8 +1140,8 @@ msgstr ""
 #: views/backend/appearance.php:190 views/backend/pricing.php:80
 #: views/backend/pricing.php:220 views/backend/pricing.php:340
 #: views/backend/pricing.php:460 views/backend/pricing.php:492
-#: views/backend/pricing.php:654 views/backend/pricing.php:695
-#: views/backend/pricing.php:842
+#: views/backend/pricing.php:654 views/backend/pricing.php:707
+#: views/backend/pricing.php:854
 #: views/frontend/partials/widget/purchase-overlay.php:142
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -1408,7 +1408,7 @@ msgstr "Bezahlinhalte werden ausgeblendet, der Direktzugriff wird verweigert."
 msgid "auto detected"
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:653
+#: application/Controller/Frontend/Post.php:657
 msgid ""
 "Your site is in LIVE mode, your visitors would now see the LaterPay purchase "
 "dialog. \n"
@@ -1419,42 +1419,42 @@ msgid ""
 "Note: You will be charged for purchases made while in LIVE mode."
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:654
+#: application/Controller/Frontend/Post.php:658
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: application/Controller/Frontend/Post.php:655
+#: application/Controller/Frontend/Post.php:659
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: application/Controller/Frontend/Post.php:656
+#: application/Controller/Frontend/Post.php:660
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
-#: application/Controller/Frontend/Post.php:657
+#: application/Controller/Frontend/Post.php:661
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:659
+#: application/Controller/Frontend/Post.php:663
 #: application/Controller/Frontend/Shortcode.php:542
 #: application/Module/Purchase.php:204
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
-#: application/Controller/Frontend/Post.php:660
+#: application/Controller/Frontend/Post.php:664
 #: application/Controller/Frontend/Shortcode.php:544
 #: application/Module/Purchase.php:197 application/Module/Purchase.php:299
 #: application/Module/Purchase.php:312
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
-#: application/Controller/Frontend/Post.php:661
+#: application/Controller/Frontend/Post.php:665
 #: application/Controller/Frontend/Shortcode.php:550
 #: application/Module/Purchase.php:200
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
-#: application/Controller/Frontend/Post.php:736
+#: application/Controller/Frontend/Post.php:740
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
 "&mdash; {teaser_content}"
@@ -1462,12 +1462,12 @@ msgstr ""
 "&mdash; Kaufen Sie den vollständigen Inhalt für {price} {currency} &mdash; "
 "{teaser_content}"
 
-#: application/Controller/Frontend/PreviewMode.php:156
-#: application/Controller/Frontend/PreviewMode.php:241
+#: application/Controller/Frontend/PreviewMode.php:112
+#: application/Controller/Frontend/PreviewMode.php:197
 msgid "Updated."
 msgstr "Aktualisiert."
 
-#: application/Controller/Frontend/PreviewMode.php:215
+#: application/Controller/Frontend/PreviewMode.php:171
 #: application/Module/Appearance.php:213
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
@@ -1612,7 +1612,7 @@ msgid "1 month access to all content on this website (cancellable anytime)"
 msgstr "1 Monat Zugriff auf alle Inhalte dieser Website (jederzeit kündbar)"
 
 #: application/Helper/Subscription.php:68 application/Helper/TimePass.php:174
-#: views/backend/pricing.php:564 views/backend/pricing.php:756
+#: views/backend/pricing.php:564 views/backend/pricing.php:768
 msgid "access to"
 msgstr "Zugriff auf"
 
@@ -2411,8 +2411,8 @@ msgstr "Vorschau"
 #: views/backend/appearance.php:189 views/backend/pricing.php:79
 #: views/backend/pricing.php:219 views/backend/pricing.php:339
 #: views/backend/pricing.php:459 views/backend/pricing.php:491
-#: views/backend/pricing.php:653 views/backend/pricing.php:694
-#: views/backend/pricing.php:841
+#: views/backend/pricing.php:653 views/backend/pricing.php:706
+#: views/backend/pricing.php:853
 msgid "Save"
 msgstr "Speichern"
 
@@ -2894,11 +2894,11 @@ msgstr "Dieser Pass kostet"
 msgid "and the user has to"
 msgstr "und Nutzer müssen"
 
-#: views/backend/pricing.php:615 views/backend/pricing.php:802
+#: views/backend/pricing.php:615 views/backend/pricing.php:814
 msgid "Title"
 msgstr "Titel"
 
-#: views/backend/pricing.php:642 views/backend/pricing.php:829
+#: views/backend/pricing.php:642 views/backend/pricing.php:841
 msgid "The voucher price must be less than or equal to the "
 msgstr ""
 
@@ -2906,7 +2906,7 @@ msgstr ""
 msgid "time pass price."
 msgstr ""
 
-#: views/backend/pricing.php:646 views/backend/pricing.php:833
+#: views/backend/pricing.php:646 views/backend/pricing.php:845
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
@@ -2930,35 +2930,42 @@ msgid "Click the \"Create\" button to add a Time Pass."
 msgstr ""
 "Klicken Sie auf den \"Erstellen\" Button, um einen Zeitpass hinzuzufügen."
 
-#: views/backend/pricing.php:685 views/backend/pricing.php:724
+#: views/backend/pricing.php:688
+msgid ""
+"Important: The minimum value for \"Pay Now\" prices in the US is $1.99. "
+"Please be sure to update your subscriptions so that your users to not "
+"receive an error when they try to purchase."
+msgstr ""
+
+#: views/backend/pricing.php:697 views/backend/pricing.php:736
 msgid "Sub"
 msgstr "Abo"
 
-#: views/backend/pricing.php:742
+#: views/backend/pricing.php:754
 msgid "The subscription costs"
 msgstr "Das Abo kostet"
 
-#: views/backend/pricing.php:751
+#: views/backend/pricing.php:763
 msgid ", grants "
 msgstr ", gibt"
 
-#: views/backend/pricing.php:779
+#: views/backend/pricing.php:791
 msgid "and renews every"
 msgstr "und verlängert sich nach"
 
-#: views/backend/pricing.php:829
+#: views/backend/pricing.php:841
 msgid "subscription price."
 msgstr ""
 
-#: views/backend/pricing.php:835
+#: views/backend/pricing.php:847
 msgid "This will reduce the price for the entirety of the subscription."
 msgstr "Der Gutschein bezieht sich auf die gesamte Laufzeit des Abos."
 
-#: views/backend/pricing.php:852
+#: views/backend/pricing.php:864
 msgid "Sell subscriptions"
 msgstr "Abos verkaufen"
 
-#: views/backend/pricing.php:855
+#: views/backend/pricing.php:867
 msgid ""
 "Subscriptions work exactly like time passes, with a simple difference: They "
 "renew automatically."
@@ -2966,7 +2973,7 @@ msgstr ""
 "Abos funktionieren genau wie Zeitpässe, mit einem einfachen Unterschied: Sie "
 "verlängern sich automatisch."
 
-#: views/backend/pricing.php:858
+#: views/backend/pricing.php:870
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr "Klicken Sie auf den \"Erstellen\" Button, um ein Abo hinzuzufügen."
 
