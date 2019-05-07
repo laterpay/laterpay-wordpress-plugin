@@ -837,6 +837,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $event->set_result(
             array(
                 'success'  => true,
+                'region'   => get_option( 'laterpay_region', 'us' ),
                 'data'     => $data,
                 'vouchers' => $vouchers,
                 'html'     => $this->render_subscription( $hmtl_data ),
@@ -864,8 +865,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
             $event->set_result(
                 array(
-                    'success'             => true,
-                    'message'             => esc_html__( 'Subscription deleted.', 'laterpay' ),
+                    'success' => true,
+                    'message' => esc_html__( 'Subscription deleted.', 'laterpay' ),
+                    'region'  => get_option( 'laterpay_region', 'us' ),
                 )
             );
         } else {

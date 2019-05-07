@@ -234,6 +234,10 @@ class LaterPay_Helper_String
         foreach ( $words as $key => $value ) {
             $tag = ( ! empty( $tags[ $key ] ) ) ? $tags[ $key ] : '';
 
+            if ( ! empty( $tag[1] ) && 'a' === $tag[1] ) {
+                $tag = preg_replace( '/<a(.*)href="([^"]*)"(.*)>/', '<a$1href="#"$3>', $tag );
+            }
+
             if ( ! in_array( trim( $tag, '<>/' ), $allowed_tags, true ) ) {
                 // Scramble the string before appending to final content.
                 $final_content .= self::scramble_text( $value ) . $tag;
