@@ -44,7 +44,33 @@
                 purchaseButtonSwitch: $('#lp_js_purchaseButton').find('.lp_js_switchButtonGroup'),
 
                 timePassesForm      : $('#lp_js_timePasses'),
-                timePassesSwitch    : $('#lp_js_timePasses').find('.lp_js_switchButtonGroup')
+                timePassesSwitch    : $('#lp_js_timePasses').find('.lp_js_switchButtonGroup'),
+
+                appearance_loading      : $('#lp_appearance_loading'),
+                appearance_preview      : $('#lp_appearance_preview'),
+                show_purchase_button    : $('#lp_show_purchase_button_above_article'),
+                purchase_button_custom  : $('#lp_purchase_button_custom_positioned'),
+                purchase_button_hint    : $('#lp_purchase_button_hint'),
+                backend_purchase_button : $('#lp_backend_purchase_button'),
+                show_purchase_overlay   : $('#lp_show_purchase_overlay'),
+                purchase_overlay        : $('#lp_purchase_overlay'),
+                overlay_body            : $('#lp_overlay_body'),
+                purchase_link           : $('#lp_purchase_link'),
+                explanatory_button      : $('#lp_explanatory_button'),
+                timePassWidget          : $('#lp_js_timePassWidget'),
+                timepass_widget_hint    : $('#lp_timepass_widget_hint'),
+                section_header_text     : $('#lp_header_text'),
+                purchase_header         : $('#lp_purchase_header'),
+                show_introduction       : $('#lp_show_introduction'),
+                benefits_section        : $('#lp_benefits'),
+                benefits_list           : $('#lp_benefits_list'),
+                show_tp_sub_below_modal : $('#lp_show_tp_sub_below_modal'),
+                tp_sub_custom_positioned: $('#lp_is_tp_sub_custom_positioned'),
+                show_body_text          : $('#lp_show_body_text'),
+                body_text_content       : $('#lp_body_text_content'),
+                body_text_content_holder: $('#lp_body_text_content_holder'),
+                show_footer             : $('#lp_show_footer'),
+                overlay_footer          : $('#lp_overlay_footer'),
             },
 
             bindEvents = function() {
@@ -85,7 +111,7 @@
                     var $form = $(this).parents('form');
 
                     // set correct form name
-                    $('input[name=form]', $form).val('overlay_settings');
+                    $('input[name=form]', $form).val('appearance_config');
 
                     saveData($form);
                 });
@@ -103,6 +129,181 @@
                     e.preventDefault();
                     resetOverlaySettings(lpVars.overlaySettings.default);
                 });
+
+                $o.show_purchase_button
+                    .change(function () {
+                        if ( $(this).prop('checked') ) {
+                            $(this).val(1);
+                            $o.purchase_button_custom.parent().show();
+                            $o.backend_purchase_button.show();
+                        } else {
+                            $(this).val(0);
+                            $o.purchase_button_custom.parent().hide();
+                            $o.backend_purchase_button.hide();
+                        }
+
+                        if ( $(this).prop('checked') && $o.purchase_button_custom.prop('checked') ) {
+                            $o.purchase_button_hint.show();
+                        } else {
+                            $o.purchase_button_hint.hide();
+                        }
+                    });
+
+                $o.purchase_button_custom
+                    .change(function () {
+                        if ( $(this).prop('checked') ) {
+                            $(this).val(1);
+                            $o.purchase_button_hint.show();
+                        } else {
+                            $(this).val(0);
+                            $o.purchase_button_hint.hide();
+                        }
+                    });
+
+                $o.show_purchase_overlay
+                    .change(function () {
+                        if ( ! $(this).prop('checked')  ) {
+                            $(this).val(0);
+                            $o.show_purchase_button.attr({
+                                checked: true,
+                                disabled: true,
+                            });
+                            $o.backend_purchase_button.show();
+                            $o.purchase_button_custom.parent().show();
+                            $o.purchase_button_custom.prop('checked', false);
+                            $o.purchase_button_hint.hide();
+
+                            $o.purchase_overlay.hide();
+                            $o.timePassWidget.show();
+                            $o.purchase_link.show();
+
+                            $o.show_tp_sub_below_modal.attr({
+                                checked: true,
+                                disabled: true,
+                            });
+
+                            $o.tp_sub_custom_positioned.parent().show();
+
+                            $o.purchase_header.parent().css('visibility', 'hidden');
+                            $o.show_introduction.parent().css('visibility', 'hidden');
+                            $o.show_body_text.parent().css('visibility', 'hidden');
+                            $o.show_footer.parent().css('visibility', 'hidden');
+                        } else {
+                            $(this).val(1);
+                            $o.show_purchase_button.prop('disabled', false);
+                            $o.purchase_overlay.show();
+
+                            if ( ! $o.show_tp_sub_below_modal.prop('checked') ) {
+                                $o.timePassWidget.hide();
+                            } else {
+                                $o.timePassWidget.show();
+                            }
+
+                            if ( ! $o.show_introduction.prop('checked') &&
+                                $o.show_tp_sub_below_modal.prop('checked') ) {
+                                $o.benefits_list.hide();
+                            }
+
+                            $o.purchase_link.hide();
+
+                            $o.purchase_header.parent().css('visibility', 'visible');
+                            $o.show_introduction.parent().css('visibility', 'visible');
+                            $o.show_body_text.parent().css('visibility', 'visible');
+                            $o.show_footer.parent().css('visibility', 'visible');
+                        }
+                    });
+
+                $o.purchase_header.on('change paste keyup', function() {
+                    $o.section_header_text.text($(this).val());
+                });
+
+                $o.show_introduction
+                    .change(function () {
+                        if ( ! $(this).prop('checked') && 'hidden' !== $(this).parent().css('visibility') ) {
+                            $(this).val(0);
+                            $o.benefits_section.hide();
+                            $o.show_tp_sub_below_modal.prop('disabled', true);
+                        } else {
+                            $(this).val(1);
+                            $o.benefits_section.show();
+                            $o.benefits_list.show();
+                            $o.show_tp_sub_below_modal.prop('disabled', false);
+                        }
+                    });
+
+                $o.show_tp_sub_below_modal
+                    .change(function () {
+                        if ( ! $(this).prop('checked') ) {
+                            $(this).val(0);
+                            $o.overlay_body.show();
+                            $o.timePassWidget.hide();
+                            $o.explanatory_button.hide();
+                            $o.tp_sub_custom_positioned.parent().hide();
+                            $o.timepass_widget_hint.hide();
+                            $o.show_introduction.prop('disabled', false);
+                        } else {
+                            $(this).val(1);
+                            $o.overlay_body.hide();
+                            $o.timePassWidget.show();
+                            $o.explanatory_button.show();
+                            $o.tp_sub_custom_positioned.parent().show();
+                            $o.tp_sub_custom_positioned.trigger('change');
+                            $o.show_introduction.prop('disabled', true);
+                        }
+                    });
+
+                $o.show_body_text
+                    .change(function () {
+                        if ( ! $(this).prop('checked')  ) {
+                            $(this).val(0);
+                            $o.body_text_content.hide();
+                            $o.body_text_content_holder.hide();
+                        } else {
+                            $(this).val(1);
+                            $o.body_text_content_holder.empty().append($o.body_text_content.val());
+                            $o.body_text_content.show();
+                            $o.body_text_content_holder.show();
+                        }
+                    });
+
+                $o.body_text_content.on('change paste keyup', function() {
+                    $o.body_text_content_holder.empty().append($(this).val());
+                });
+
+                $o.show_footer
+                    .change(function () {
+                        if ( ! $(this).prop('checked')  ) {
+                            $(this).val(0);
+                            $o.overlay_footer.hide();
+                        } else {
+                            $(this).val(1);
+                            $o.overlay_footer.show();
+                        }
+                    });
+
+                $o.tp_sub_custom_positioned
+                    .change(function () {
+                        if ( $(this).prop('checked') ) {
+                            $(this).val(1);
+                            $o.timepass_widget_hint.show();
+                        } else {
+                            $(this).val(0);
+                            $o.timepass_widget_hint.hide();
+                        }
+                    });
+            },
+
+            updateAppearancePreview = function() {
+                $o.show_purchase_button.trigger('change');
+                $o.purchase_button_custom.trigger('change');
+                $o.show_purchase_overlay.trigger('change');
+                $o.purchase_header.trigger('change');
+                $o.show_introduction.trigger('change');
+                $o.show_tp_sub_below_modal.trigger('change');
+                $o.show_body_text.trigger('change');
+                $o.body_text_content_holder.trigger('change');
+                $o.show_footer.trigger('change');
+                $o.tp_sub_custom_positioned.trigger('change');
             },
 
             previewSwitch = function($trigger) {
@@ -324,6 +525,9 @@
 
             initializePage = function() {
                 bindEvents();
+                updateAppearancePreview ();
+                $o.appearance_loading.fadeOut(500);
+                $o.appearance_preview.delay(500).fadeIn(800);
             };
 
         initializePage();

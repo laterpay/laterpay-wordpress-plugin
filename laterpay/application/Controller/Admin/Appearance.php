@@ -159,6 +159,71 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 }
                 break;
 
+            case 'appearance_config':
+                // Update Appearance tab config.
+                $appearance_config_options = [
+                    'lp_show_purchase_overlay'              => 'show_purchase_overlay',
+                    'lp_show_purchase_button_above_article' => 'show_purchase_button_above_article',
+                    'lp_show_tp_sub_below_modal'            => 'show_tp_sub_below_modal',
+                    'lp_show_introduction'                  => 'show_introduction',
+                ];
+
+                // Create an array of keys to iterate over.
+                $appearance_config_keys = array_keys( $appearance_config_options );
+                foreach ( $appearance_config_keys as $key ) {
+                    $config_option_value = filter_input( INPUT_POST, $appearance_config_options[ $key ], FILTER_SANITIZE_STRING );
+
+                    // check if value is set and set option value accordingly.
+                    $appearance_config_options[ $key ] = null === $config_option_value ? 0 : absint( $config_option_value );
+                }
+
+                update_option( 'lp_appearance_config', $appearance_config_options );
+
+                $lp_body_text    = [];
+                $body_text_value = filter_input( INPUT_POST, 'show_body_text', FILTER_SANITIZE_STRING );
+                if ( null !== $body_text_value ) {
+                    $lp_body_text['enabled'] = absint( $body_text_value );
+                } else {
+                    $lp_body_text['enabled'] = 0;
+                }
+
+                if ( 1 === $lp_body_text['enabled'] ) {
+                    $body_text_content_value = filter_input( INPUT_POST, 'body_text_content', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+                    $lp_body_text['content'] = null !== $body_text_content_value ? $body_text_content_value : '<p>Enter custom HTML here</p>';
+                    update_option( 'lp_body_text', $lp_body_text );
+                } else {
+                    $lp_body_text['content'] = '<p>Enter custom HTML here</p>';
+                    update_option( 'lp_body_text', $lp_body_text );
+                }
+
+                // Update purchase header.
+                $purchase_header = filter_input( INPUT_POST, 'purchase_header', FILTER_SANITIZE_STRING );
+                update_option( 'laterpay_overlay_header_title', ! empty( $purchase_header ) ? $purchase_header : __( 'Read now, pay later', 'laterpay' ) );
+
+                // Update existing options.
+                $existing_options = [
+                    'laterpay_purchase_button_positioned_manually' => 'is_purchase_button_custom_positioned',
+                    'laterpay_time_passes_positioned_manually'     => 'is_tp_sub_custom_positioned',
+                    'laterpay_overlay_show_footer'                 => 'show_footer',
+                ];
+
+                // Create an array of keys to iterate over.
+                $existing_options_keys = array_keys( $existing_options );
+
+                // check if value is set and set option value accordingly.
+                foreach ( $existing_options_keys as $key ) {
+                    $existing_option_value = filter_input( INPUT_POST, $existing_options[ $key ], FILTER_SANITIZE_STRING );
+                    update_option( $key, null === $existing_option_value ? 0 : absint( $existing_option_value ) );
+                }
+
+                $event->set_result(
+                    array(
+                        'success' => true,
+                        'message' => __( 'Appearance settings saved successfully.', 'laterpay' )
+                    )
+                );
+
+                break;
             case 'overlay_settings':
 
                 // handle additional settings save if present in request
