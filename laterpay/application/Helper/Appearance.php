@@ -7,8 +7,11 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Helper_Appearance
-{
+class LaterPay_Helper_Appearance {
+
+    // Appearance config data.
+    private static $appearance_config = [];
+
     /**
      * Get default appearance options.
      *
@@ -142,5 +145,27 @@ class LaterPay_Helper_Appearance
 
         return false;
 
+    }
+
+    /**
+     * Get appearance config value for given key or all keys if none is given.
+     *
+     * @param string $key Appearance config key.
+     *
+     * @return mixed
+     */
+    public static function get_current_config( $key = null ) {
+
+        // Check internal config for value, if empty fill it.
+        if ( empty( self::$appearance_config ) ) {
+            self::$appearance_config                 = get_option( 'lp_appearance_config' );
+            self::$appearance_config['lp_body_text'] = get_option( 'lp_body_text' );
+        }
+
+        if ( null !== $key && null !== self::$appearance_config[ $key ] ) {
+            return self::$appearance_config[ $key ];
+        }
+
+        return self::$appearance_config;
     }
 }

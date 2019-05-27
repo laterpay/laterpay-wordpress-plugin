@@ -111,8 +111,8 @@
     .lp_benefits {
         width: 100%;
         display: inline-block;
-        background: darken($background, 5%) !important;
-        background: radial-gradient(ellipse at center, $text--inverse 34%, $background--darker 89%) !important;
+        border-bottom: 1px solid #e3e3e3;
+        margin-top: 10px;
 
         .lp_benefits__list {
             list-style: none !important;

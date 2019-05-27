@@ -3,9 +3,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     // prevent direct access to this file
     exit;
 }
+
+// Used to conditionally add some margin based on layout.
+$add_top_margin_time_pass_widget = false;
+if ( isset( $laterpay_widget['is_overlay_enabled'] ) && 0 === $laterpay_widget['is_overlay_enabled'] ) {
+    $add_top_margin_time_pass_widget = true;
+}
 ?>
 
-<div id="lp_js_timePassWidget" class="lp_time-pass-widget">
+<div id="lp_js_timePassWidget" class="lp_time-pass-widget" style="<?php echo ( true === $add_top_margin_time_pass_widget ) ? esc_attr( 'margin-top: 35px;' ) : ''; ?>">
     <?php if ( $laterpay_widget['time_pass_introductory_text'] ) : ?>
         <p class="lp_time-pass__introductory-text"><?php echo esc_html( $laterpay_widget['time_pass_introductory_text'] ); ?></p>
     <?php endif; ?>

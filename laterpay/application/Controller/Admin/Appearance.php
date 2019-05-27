@@ -187,12 +187,14 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                     $lp_body_text['enabled'] = 0;
                 }
 
+                $custom_html_text = esc_html__( 'Enter custom HTML here', 'laterpay' );
                 if ( 1 === $lp_body_text['enabled'] ) {
                     $body_text_content_value = filter_input( INPUT_POST, 'body_text_content', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-                    $lp_body_text['content'] = null !== $body_text_content_value ? $body_text_content_value : '<p>Enter custom HTML here</p>';
+                    $lp_body_text['content'] = ! empty( $body_text_content_value ) ? $body_text_content_value : "<p>$custom_html_text</p>";
                     update_option( 'lp_body_text', $lp_body_text );
                 } else {
-                    $lp_body_text['content'] = '<p>Enter custom HTML here</p>';
+                    $laterpay_body_text      = get_option( 'lp_body_text' );
+                    $lp_body_text['content'] = ! empty( $laterpay_body_text['content'] ) ? $laterpay_body_text['content'] : "<p>$custom_html_text</p>";
                     update_option( 'lp_body_text', $lp_body_text );
                 }
 

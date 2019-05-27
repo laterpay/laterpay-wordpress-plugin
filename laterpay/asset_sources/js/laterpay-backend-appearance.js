@@ -113,7 +113,26 @@
                     // set correct form name
                     $('input[name=form]', $form).val('appearance_config');
 
+                    // Get all disabled inputs so that if they are checked, that value be sent for saving.
+                    var disabledInputs = [];
+                    $('input[type="checkbox"]').each(function () {
+                        if ($(this).prop('disabled')) {
+                            disabledInputs.push( $(this).attr('id') );
+                            $(this).prop('disabled',false);
+                        }
+                    });
+
                     saveData($form);
+
+                    // After data is saved disable the inputs again.
+                    if ( disabledInputs.length ) {
+                        disabledInputs.forEach( function ( currentInput ) {
+                            var checkBoxElement = $( '#' + currentInput);
+                            if ( checkBoxElement.length ) {
+                                checkBoxElement.prop('disabled', true);
+                            }
+                        });
+                    }
                 });
 
                 // restore original data
@@ -167,7 +186,7 @@
                             $o.show_purchase_button.attr({
                                 checked: true,
                                 disabled: true,
-                            });
+                            }).val(1);
                             $o.backend_purchase_button.show();
                             $o.purchase_button_custom.parent().show();
                             $o.purchase_button_custom.prop('checked', false);
@@ -181,6 +200,8 @@
                                 checked: true,
                                 disabled: true,
                             });
+
+                            $o.show_tp_sub_below_modal.val(1);
 
                             $o.tp_sub_custom_positioned.parent().show();
 

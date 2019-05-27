@@ -178,6 +178,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             'has_vouchers'                   => $has_vouchers,
             'time_pass_introductory_text'    => $introductory_text,
             'time_pass_call_to_action_text'  => $call_to_action_text,
+            'is_overlay_enabled'             => LaterPay_Helper_Appearance::get_current_config( 'lp_show_purchase_overlay' ), // This is for adding some margin based on layout.
         );
 
         $this->assign( 'laterpay_widget', $view_args );
@@ -242,12 +243,6 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             return;
         }
 
-        // disable in purchase mode
-        if ( get_option( 'laterpay_teaser_mode' ) === '2' ) {
-            $event->stop_propagation();
-            return;
-        }
-
         $is_homepage                     = is_front_page() && is_home();
         $time_passes_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
 
@@ -264,6 +259,13 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
 
         // don't display widget on a search or multiposts page, if it is positioned automatically
         if ( ! is_singular() && ! $time_passes_positioned_manually ) {
+            $event->stop_propagation();
+            return;
+        }
+
+        $appearance_config = LaterPay_Helper_Appearance::get_current_config();
+        // don't display widget on a search or multiposts page, if it is positioned automatically
+        if ( 1 !== $appearance_config['lp_show_tp_sub_below_modal'] ) {
             $event->stop_propagation();
             return;
         }
