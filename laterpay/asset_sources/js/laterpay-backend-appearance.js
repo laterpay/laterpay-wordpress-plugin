@@ -113,9 +113,29 @@
                     // set correct form name
                     $('input[name=form]', $form).val('appearance_config');
 
+                    // Event Action for each input.
+                    var elementActionsData = {
+                        'lp_show_purchase_button_above_article': 'Purchase Button',
+                        'lp_purchase_button_custom_positioned' : 'Purchase Button Custom Position',
+                        'lp_show_purchase_overlay'             : 'Purchase Overlay',
+                        'lp_show_introduction'                 : 'LP Intro',
+                        'lp_show_tp_sub_below_modal'           : 'TP & Sub Outside Overlay',
+                        'lp_is_tp_sub_custom_positioned'       : 'TP & Sub Custom Position',
+                        'lp_show_body_text'                    : 'Custom HTML',
+                        'lp_show_footer'                       : 'Footer'
+                    };
+
                     // Get all disabled inputs so that if they are checked, that value be sent for saving.
                     var disabledInputs = [];
                     $('input[type="checkbox"]').each(function () {
+                        // Send GA events for appearance config.
+                        var eventActionLabel = elementActionsData[$(this).attr('id')];
+                        if ( typeof( eventActionLabel ) !== 'undefined' ) {
+                            var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + eventActionLabel ;
+                            var eventValue  = $(this).prop('checked') ? 1 : 0;
+                            lpGlobal.sendLPGAEvent( 'Update Appearance', 'LP WP Appearance', commonLabel, eventValue );
+                        }
+
                         if ($(this).prop('disabled')) {
                             disabledInputs.push( $(this).attr('id') );
                             $(this).prop('disabled',false);
@@ -364,11 +384,6 @@
                         break;
                 }
 
-                var appearanceLayouts = [ 'Purchase Link', 'Explanatory Overlay', 'Purchase Overlay'];
-                var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
-                lpGlobal.sendLPGAEvent( 'Overall Appearance', 'LP WP Appearance', commonLabel +
-                    appearanceLayouts[parseInt(selectedLayout)] );
-
                 saveData($form);
             },
 
@@ -379,17 +394,13 @@
                 $($o.buttonGroupButtons, $form).removeClass($o.selected);
                 $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
 
-                var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | Purchase Button';
-
                 switch($('input:checked', $form).val())
                 {
                     case '0':
                         $form.find($o.buttonGroupHint).fadeOut();
-                        lpGlobal.sendLPGAEvent( 'Standard Position', 'LP WP Appearance', commonLabel );
                         break;
                     case '1':
                         $form.find($o.buttonGroupHint).fadeIn();
-                        lpGlobal.sendLPGAEvent( 'Custom Position', 'LP WP Appearance', commonLabel );
                         break;
                     default:
                         break;
@@ -405,17 +416,13 @@
                 $($o.buttonGroupButtons, $form).removeClass($o.selected);
                 $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
 
-                var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | Subscriptions & Time Passes';
-
                 switch($('input:checked', $form).val())
                 {
                     case '0':
                         $form.find($o.buttonGroupHint).fadeOut();
-                        lpGlobal.sendLPGAEvent( 'Standard Position', 'LP WP Appearance', commonLabel );
                         break;
                     case '1':
                         $form.find($o.buttonGroupHint).fadeIn();
-                        lpGlobal.sendLPGAEvent( 'Custom Position', 'LP WP Appearance', commonLabel );
                         break;
                     default:
                         break;
