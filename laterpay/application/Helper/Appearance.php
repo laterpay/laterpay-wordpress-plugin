@@ -7,8 +7,11 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Helper_Appearance
-{
+class LaterPay_Helper_Appearance {
+
+    // Appearance config data.
+    private static $appearance_config = [];
+
     /**
      * Get default appearance options.
      *
@@ -19,17 +22,18 @@ class LaterPay_Helper_Appearance
     public static function get_default_options( $key = null ) {
 
         $defaults = array(
-            'header_title'      => __( 'Read now, pay later', 'laterpay' ),
-            'header_bg_color'   => '#585759',
-            'main_bg_color'     => '#F4F3F4',
-            'main_text_color'   => '#252221',
-            'description_color' => '#69676A',
-            'button_bg_color'   => '#00AAA2',
-            'button_text_color' => '#FFFFFF',
-            'link_main_color'   => '#01A99D',
-            'link_hover_color'  => '#01766D',
-            'show_footer'       => true,
-            'footer_bg_color'   => '#EEEFEF',
+            'header_title'       => __( 'Read now, pay later', 'laterpay' ),
+            'header_bg_color'    => '#585759',
+            'main_bg_color'      => '#F4F3F4',
+            'main_text_color'    => '#252221',
+            'description_color'  => '#69676A',
+            'button_bg_color'    => '#00AAA2',
+            'button_hover_color' => '#01766E',
+            'button_text_color'  => '#FFFFFF',
+            'link_main_color'    => '#01A99D',
+            'link_hover_color'   => '#01766D',
+            'show_footer'        => true,
+            'footer_bg_color'    => '#EEEFEF',
         );
 
         if ( null !== $key && null !== $defaults[ $key ] ) {
@@ -49,17 +53,18 @@ class LaterPay_Helper_Appearance
     public static function get_current_options( $key = null ) {
 
         $options = array(
-            'header_title'      => get_option( 'laterpay_overlay_header_title', __('Read now, pay later', 'laterpay') ),
-            'header_bg_color'   => get_option( 'laterpay_overlay_header_bg_color', '#585759' ),
-            'main_bg_color'     => get_option( 'laterpay_overlay_main_bg_color', '#F4F3F4' ),
-            'main_text_color'   => get_option( 'laterpay_overlay_main_text_color', '#252221' ),
-            'description_color' => get_option( 'laterpay_overlay_description_color', '#69676A' ),
-            'button_bg_color'   => get_option( 'laterpay_overlay_button_bg_color', '#00AAA2' ),
-            'button_text_color' => get_option( 'laterpay_overlay_button_text_color', '#FFFFFF' ),
-            'link_main_color'   => get_option( 'laterpay_overlay_link_main_color', '#01A99D' ),
-            'link_hover_color'  => get_option( 'laterpay_overlay_link_hover_color', '#01766D' ),
+            'header_title'       => get_option( 'laterpay_overlay_header_title', __( 'Read now, pay later', 'laterpay' ) ),
+            'header_bg_color'    => get_option( 'laterpay_overlay_header_bg_color', '#585759' ),
+            'main_bg_color'      => get_option( 'laterpay_overlay_main_bg_color', '#F4F3F4' ),
+            'main_text_color'    => get_option( 'laterpay_overlay_main_text_color', '#252221' ),
+            'description_color'  => get_option( 'laterpay_overlay_description_color', '#69676A' ),
+            'button_bg_color'    => get_option( 'laterpay_main_color', '#00AAA2' ),
+            'button_hover_color' => get_option( 'laterpay_hover_color', '#01766E' ),
+            'button_text_color'  => get_option( 'laterpay_overlay_button_text_color', '#FFFFFF' ),
+            'link_main_color'    => get_option( 'laterpay_overlay_link_main_color', '#01A99D' ),
+            'link_hover_color'   => get_option( 'laterpay_overlay_link_hover_color', '#01766D' ),
             'show_footer'       => get_option( 'laterpay_overlay_show_footer', '1' ),
-            'footer_bg_color'   => get_option( 'laterpay_overlay_footer_bg_color', '#EEEFEF' ),
+            'footer_bg_color'    => get_option( 'laterpay_overlay_footer_bg_color', '#EEEFEF' ),
         );
 
         if ( null !== $key && null !== $options[ $key ] ) {
@@ -94,16 +99,16 @@ class LaterPay_Helper_Appearance
             .lp_purchase-overlay-option__description {
                 color: " . esc_html( $options['description_color'] ) . " !important;
             }
-            .lp_purchase-overlay__notification {
+            .lp_purchase-overlay__notification, a.lp_bought_notification {
                 color: " . esc_html( $options['link_main_color'] ) . " !important;
             }
             .lp_purchase-overlay__notification a {
                 color: " . esc_html( $options['link_main_color'] ) . " !important;
             }
-            .lp_purchase-overlay__notification a:hover {
+            .lp_purchase-overlay__notification a:hover, a.lp_bought_notification:hover {
                 color: " . esc_html( $options['link_hover_color'] ) . " !important;
             }
-            .lp_purchase-overlay__submit {
+            .lp_purchase-overlay__submit, .lp_purchase_button {
                 background-color: " . esc_html( $options['button_bg_color'] ) . " !important;
                 color: " . esc_html( $options['button_text_color'] ) . " !important;
             }
@@ -142,5 +147,27 @@ class LaterPay_Helper_Appearance
 
         return false;
 
+    }
+
+    /**
+     * Get appearance config value for given key or all keys if none is given.
+     *
+     * @param string $key Appearance config key.
+     *
+     * @return mixed
+     */
+    public static function get_current_config( $key = null ) {
+
+        // Check internal config for value, if empty fill it.
+        if ( empty( self::$appearance_config ) ) {
+            self::$appearance_config                 = get_option( 'lp_appearance_config' );
+            self::$appearance_config['lp_body_text'] = get_option( 'lp_body_text' );
+        }
+
+        if ( null !== $key && null !== self::$appearance_config[ $key ] ) {
+            return self::$appearance_config[ $key ];
+        }
+
+        return self::$appearance_config;
     }
 }

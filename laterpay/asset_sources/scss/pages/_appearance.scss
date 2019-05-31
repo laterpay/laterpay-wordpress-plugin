@@ -1,5 +1,211 @@
 // 'Appearance' tab in plugin backend
 
+.lp_pagewrap {
+    overflow-x: unset;
+}
+.lp_main_area {
+
+    .lp_layout {
+        max-height: 500px;
+    }
+
+    #lp_appearance_loading {
+        margin-top: 150px;
+        font-size: 28px;
+    }
+
+    width: 65% !important;
+
+    div.lp_clearfix:first-child {
+        padding: 40px 0 0 30px;
+        width: 50%;
+        float: left;
+    }
+
+    div.lp_clearfix:last-child {
+        padding-top: 40px;
+        display: table;
+    }
+
+    div.lp_appearance_options {
+        margin-top: 15px;
+
+        div.appearance_option_single {
+            margin-top: 30px;
+
+            label {
+                display: inline-block;
+                width: 210px;
+            }
+
+            textarea {
+                vertical-align: middle;
+            }
+        }
+
+        div.appearance_option_single_child {
+            margin-top: 10px;
+
+            label {
+                display: inline-block;
+                margin-left: 40px;
+                width: 160px;
+            }
+        }
+    }
+
+    div.lp_appearance_preview {
+        h3 {
+            margin-top: 30px;
+            color: #000000;
+            font-size: 16px;
+        }
+    }
+
+    div.appearance_actions {
+        margin-top: 30px;
+    }
+
+    div.lp_backend_purchase_button {
+        margin: 14px !important;
+
+        a.lp_purchase-button {
+            font-size: 15px !important;
+
+            &:before {
+                font-size: 30px !important;
+                left: 10px;
+                top: 6px;
+            }
+        }
+
+        a.lp_bought_notification {
+            font-size: 10px;
+        }
+    }
+
+    .appearance_options_disabled {
+        color: #d0d0d0;
+    }
+
+    .lp_full-content {
+        color: transparent!important;
+        padding: 4px!important;
+        text-shadow: 0 0 4px #000!important;
+        filter: blur(3px)!important;
+    }
+
+    .lp_purchase-overlay {
+        bottom: 14px !important;
+        min-height: 500px !important;
+        position: relative !important;
+        top: 0px !important;
+        display: block;
+    }
+
+    .lp_purchase-overlay__wrapper {
+        left: 50%!important;
+        margin-top: 49px!important;
+        position: absolute!important;
+        top: 0!important;
+        transform: translateX(-50%)!important;
+        width: 100%!important;
+    }
+
+    .lp_benefits {
+        width: 100%;
+        display: inline-block;
+        border-bottom: 1px solid #e3e3e3;
+        margin-top: 10px;
+
+        .lp_benefits__list {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .lp_benefits__list-item {
+            background: url('../img/laterpay-icon-buy.svg') 6px 0 / 50px no-repeat !important;
+            list-style: none !important;
+            margin: 0 !important;
+            padding: 0 0 0 80px !important;
+
+            &.lp_benefit--buy-now {
+                background-image: url('../img/laterpay-icon-buy.svg') !important;
+            }
+
+            &.lp_benefit--use-immediately {
+                background-image: url('../img/laterpay-icon-read.svg') !important;
+            }
+
+            &.lp_benefit--pay-later {
+                background-image: url('../img/laterpay-icon-pay.svg') !important;
+            }
+        }
+
+        .lp_benefit__title {
+            color: lighten($text, 5%);
+            font-size: $fs !important;
+            margin: 3px 0 0.1em !important;
+        }
+
+        .lp_benefit__text {
+            color: lighten($text, 20%);
+            line-height: 1.3 !important;
+            margin: 0 !important;
+            padding-bottom: 5px;
+        }
+
+        .lp_benefits__action {
+            text-align: center !important;
+            .lp_button {
+                font-size: $fs--15 !important;
+            }
+        }
+
+        .lp_purchase-button,
+        .lp_button {
+            display: inline-block !important;
+            float: none !important;
+            margin-bottom: 5px !important;
+            font-size: $fs !important;
+            &:before {
+                font-size: 30px !important;
+                top: 6px;
+            }
+        }
+
+        .lp_button {
+            padding: 0.25em 0.5em !important;
+        }
+
+        .lp_bought_notification {
+            display: inline-block;
+            float: none !important;
+            font-size: 11px;
+        }
+    }
+
+    .lp_customize_colors {
+        padding: 0 0 0 30px;
+        width: 50%;
+
+        table {
+            border-spacing: 5px 15px;
+
+            .lp_input {
+                padding: 0;
+                border: 0;
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+.lp_side_area {
+    width: 35% !important;
+}
+
 // preview mode images
 .lp_button-group__button-image--preview-mode-1 {
     background-image: url('../img/preview-mode-1.png');

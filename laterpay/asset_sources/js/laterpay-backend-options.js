@@ -11,8 +11,6 @@
       var laterpay_ua_id           = jQuery('input[name="laterpay_tracking_data[laterpay_ga_ua_id]"]');
 
       // Store value of each setting to be sent to GA.
-      var lp_main_color  = jQuery('input[name="laterpay_main_color"]').val();
-      var lp_hover_color = jQuery('input[name="laterpay_hover_color"]').val();
       var lp_teaser_content_word_count = jQuery('input[name="laterpay_teaser_content_word_count"]').val();
       var lp_percentage_of_content = jQuery('input[name="laterpay_preview_excerpt_percentage_of_content"]').val();
       var lp_preview_excerpt_word_count_min = jQuery('input[name="laterpay_preview_excerpt_word_count_min"]').val();
@@ -141,8 +139,6 @@
         var eveAction = 'Modify LaterPay Settings';
 
         // Send GA Events for Settings.
-        lpGlobal.sendLPGAEvent( 'Main color', eveCategory, commonLabel + lp_main_color );
-        lpGlobal.sendLPGAEvent( 'Hover color', eveCategory, commonLabel + lp_hover_color );
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'Merchant GA Enabled', user_ga_enabled );
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'LaterPay GA Enabled', lp_ga_enabled );
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'Unlimited Access', getEnabledRoles() );

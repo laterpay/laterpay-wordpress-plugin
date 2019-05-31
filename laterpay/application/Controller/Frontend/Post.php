@@ -55,9 +55,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'generate_feed_content' ),
             ),
-            'laterpay_teaser_content_mode' => array(
-                array( 'get_teaser_mode' ),
-            ),
             'wp_ajax_laterpay_redeem_voucher_code' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_redeem_voucher_code' ),
@@ -521,13 +518,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $event->set_argument( 'teaser', $teaser_content );
         $event->set_argument( 'content', $content );
 
-        // get values for output states
-        $teaser_mode_event = new LaterPay_Core_Event();
-        $teaser_mode_event->set_echo( false );
-        $teaser_mode_event->set_argument( 'post_id', $post->ID );
-        laterpay_event_dispatcher()->dispatch( 'laterpay_teaser_content_mode', $teaser_mode_event );
-        $teaser_mode = $teaser_mode_event->get_result();
-
         // return the teaser content on non-singular pages (archive, feed, tax, author, search, ...)
         if ( ! is_singular() && ! $is_ajax ) {
             // prepend hint to feed items that reading the full content requires purchasing the post
@@ -549,39 +539,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         if ( ! $access ) {
             // show proper teaser
-            switch ($teaser_mode) {
-                case '1':
-                    // add excerpt of full content, covered by an overlay with a purchase button
-                    $overlay_event = new LaterPay_Core_Event();
-                    $overlay_event->set_echo( false );
-                    $overlay_event->set_arguments( $event->get_arguments() );
-                    laterpay_event_dispatcher()->dispatch( 'laterpay_explanatory_overlay', $overlay_event );
-                    $content = $teaser_content . $overlay_event->get_result();
-                    break;
-                case '2':
-                    // add excerpt of full content, covered by an overlay with a purchase button
-                    $overlay_event = new LaterPay_Core_Event();
-                    $overlay_event->set_echo( false );
-                    $overlay_event->set_arguments( $event->get_arguments() );
-                    laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_overlay', $overlay_event );
-                    $content = $teaser_content . $overlay_event->get_result();
-                    break;
-                default:
-                    // add teaser content plus a purchase link after the teaser content
-                    $link_event = new LaterPay_Core_Event();
-                    $link_event->set_echo( false );
-                    laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_link', $link_event );
-                    $content = $teaser_content . $link_event->get_result();
-                    break;
-            }
-
-            // Only add identity link for 'Teaser + Purchase Link' layout and Time Pass / Subscription are not available.
-            if ( 0 === absint( $teaser_mode ) ) {
-                if ( empty( $time_passes_list ) && empty( $subscriptions_list ) ) {
-                    $this->assign( 'laterpay', LaterPay_Helper_Post::get_identity_purchase_url( $post->ID ) );
-                    $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/widget/purchase-identity-url' ) );
-                }
-            }
+            $purchase_layout_event = new LaterPay_Core_Event();
+            $purchase_layout_event->set_echo( false );
+            $purchase_layout_event->set_arguments( $event->get_arguments() );
+            laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_layout', $purchase_layout_event );
+            $content = $teaser_content . $purchase_layout_event->get_result();
         } else {
             // encrypt files contained in premium posts
             $content = LaterPay_Helper_File::get_encrypted_content( $post->ID, $content, $access );
@@ -747,15 +709,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $html = $event->get_result();
         $html .= str_replace( array( '{price}', '{currency}', '{teaser_content}' ), array( $price, $currency, $teaser_content ), $feed_hint );
         echo wp_kses_post( $html );
-    }
-
-    /**
-     * Setup default teaser content preview mode
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function get_teaser_mode( LaterPay_Core_Event $event ) {
-        $event->set_result( get_option( 'laterpay_teaser_mode' ) );
     }
 
     /**
