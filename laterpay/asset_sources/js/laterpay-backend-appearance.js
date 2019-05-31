@@ -37,7 +37,6 @@
                 overlayFooter       : '.lp_purchase-overlay__footer',
 
                 // forms
-                paidContentPreview  : $('#lp_js_paidContentPreview'),
                 previewSwitch       : $('#lp_js_paidContentPreview').find('.lp_js_switchButtonGroup'),
                 purchaseForm        : $('#lp_js_purchaseForm'),
 
@@ -79,12 +78,6 @@
             },
 
             bindEvents = function() {
-                //Content Preview for Paid Posts
-                $o.previewSwitch
-                .click(function() {
-                    previewSwitch($(this));
-                });
-
                 //Position of the LaterPay Purchase Button
                 $o.purchaseButtonSwitch
                     .click(function() {
@@ -362,46 +355,6 @@
                 $o.body_text_content_holder.trigger('change');
                 $o.show_footer.trigger('change');
                 $o.tp_sub_custom_positioned.trigger('change');
-            },
-
-            previewSwitch = function($trigger) {
-                var $form = $trigger.parents('form');
-
-                // mark clicked button as selected
-                $($o.buttonGroupButtons, $form).removeClass($o.selected);
-                $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
-
-                $('input[name=form]', $form).val('paid_content_preview');
-
-                var selectedLayout = $('input:checked', $form).val();
-
-                switch(selectedLayout)
-                {
-                    case '0':
-                    case '1':
-                        $o.purchaseButtonForm.fadeIn();
-                        $o.timePassesForm.fadeIn();
-                        $o.purchaseForm.hide();
-
-                        $(':input', $o.purchaseForm).attr('disabled', true);
-
-                        break;
-                    case '2':
-                        $o.purchaseForm.fadeIn();
-                        $o.purchaseButtonForm.hide();
-                        $o.timePassesForm.hide();
-
-                        $(':input', $o.purchaseForm).attr('disabled', false);
-
-                        break;
-                    default:
-                        $o.purchaseForm.hide();
-                        $o.purchaseButtonForm.hide();
-                        $o.timePassesForm.hide();
-                        break;
-                }
-
-                saveData($form);
             },
 
             purchaseButtonSwitch = function($trigger) {

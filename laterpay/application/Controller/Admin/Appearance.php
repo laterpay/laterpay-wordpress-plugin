@@ -125,39 +125,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
         }
 
         switch ( $submitted_form_value ) {
-            // update presentation mode for paid content
-            case 'paid_content_preview':
-                $paid_content_preview_form = new LaterPay_Form_PaidContentPreview();
-
-                if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {  // phpcs:ignore
-                    throw new LaterPay_Core_Exception_FormValidation( get_class( $paid_content_preview_form ), $paid_content_preview_form->get_errors() );
-                }
-
-                $result = update_option( 'laterpay_teaser_mode', $paid_content_preview_form->get_field_value( 'paid_content_preview' ) );
-
-                if ( $result ) {
-                    switch ( get_option( 'laterpay_teaser_mode' ) ) {
-                        case '1':
-                            $message = __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.', 'laterpay' );
-                            break;
-                        case '2':
-                            $message = __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay with all purchase options.', 'laterpay' );
-                            break;
-                        default:
-                            $message = __( 'Visitors will now see only the teaser content of paid posts.', 'laterpay' );
-                            break;
-                    }
-
-                    $event->set_result(
-                        array(
-                            'success' => true,
-                            'message' => $message
-                        )
-                    );
-                    return;
-                }
-                break;
-
             case 'appearance_config':
                 // Update Appearance tab config.
                 $appearance_config_options = [

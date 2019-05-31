@@ -55,9 +55,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'generate_feed_content' ),
             ),
-            'laterpay_teaser_content_mode' => array(
-                array( 'get_teaser_mode' ),
-            ),
             'wp_ajax_laterpay_redeem_voucher_code' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_redeem_voucher_code' ),
@@ -521,12 +518,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $event->set_argument( 'teaser', $teaser_content );
         $event->set_argument( 'content', $content );
 
-        // get values for output states
-        $teaser_mode_event = new LaterPay_Core_Event();
-        $teaser_mode_event->set_echo( false );
-        $teaser_mode_event->set_argument( 'post_id', $post->ID );
-        laterpay_event_dispatcher()->dispatch( 'laterpay_teaser_content_mode', $teaser_mode_event );
-
         // return the teaser content on non-singular pages (archive, feed, tax, author, search, ...)
         if ( ! is_singular() && ! $is_ajax ) {
             // prepend hint to feed items that reading the full content requires purchasing the post
@@ -718,15 +709,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $html = $event->get_result();
         $html .= str_replace( array( '{price}', '{currency}', '{teaser_content}' ), array( $price, $currency, $teaser_content ), $feed_hint );
         echo wp_kses_post( $html );
-    }
-
-    /**
-     * Setup default teaser content preview mode
-     *
-     * @param LaterPay_Core_Event $event
-     */
-    public function get_teaser_mode( LaterPay_Core_Event $event ) {
-        $event->set_result( get_option( 'laterpay_teaser_mode' ) );
     }
 
     /**

@@ -192,7 +192,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post_id );
 
         // Only add identity link for 'Teaser + Purchase Link' layout.
-        if ( $is_purchasable && (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) && 0 === absint( get_option( 'laterpay_teaser_mode', 0 ) ) ) {
+        if ( $is_purchasable && (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) && 0 === absint( LaterPay_Helper_Appearance::get_current_config( 'lp_show_purchase_overlay' ) ) ) {
             $this->assign( 'laterpay', LaterPay_Helper_Post::get_identity_purchase_url( $post->ID ) );
             $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/widget/purchase-identity-url' ) );
         }
