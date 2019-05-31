@@ -20,6 +20,7 @@
                 purchaseMainText    : 'lp_js_purchaseMainTextColor',
                 purchaseDescription : 'lp_js_purchaseDescriptionTextColor',
                 buttonBgColor       : 'lp_js_purchaseButtonBackgroundColor',
+                buttonHoverColor    : 'lp_js_purchaseButtonHoverColor',
                 buttonTextColor     : 'lp_js_purchaseButtonTextColor',
                 linkMainColor       : 'lp_js_purchaseLinkMainColor',
                 linkHoverColor      : 'lp_js_purchaseLinkHoverColor',
@@ -71,6 +72,10 @@
                 body_text_content_holder: $('#lp_body_text_content_holder'),
                 show_footer             : $('#lp_show_footer'),
                 overlay_footer          : $('#lp_overlay_footer'),
+                savePurchaseFormColors  : $('.lp_js_savePurchaseFormColors'),
+                overlayLinkNotification : $('.lp_bought_notification'),
+                lp_purchase_button      : $('.lp_purchase_button'),
+                lp_purchase_button_tp   : $('.lp_purchase-button'),
             },
 
             bindEvents = function() {
@@ -154,6 +159,18 @@
                         });
                     }
                 });
+
+                // save customize colors settings
+                $o.savePurchaseFormColors
+                    .click(function(e){
+                        e.preventDefault();
+                        var $form = $(this).parents('form');
+
+                        // set correct form name
+                        $('input[name=form]', $form).val('overlay_settings');
+
+                        saveData($form);
+                    });
 
                 // restore original data
                 $o.cancelFormEdit
@@ -466,12 +483,53 @@
                 if ($trigger.hasClass($o.buttonBgColor)) {
                     style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
                     setStyle($($o.overlayButton), style);
+                    setStyle($($o.lp_purchase_button), style);
+                    setStyle($($o.lp_purchase_button_tp), style);
                 }
 
                 // change button text color
                 if ($trigger.hasClass($o.buttonTextColor)) {
                     style = 'color: ' + $('.' + $o.buttonTextColor).val() + ' !important;';
                     setStyle($($o.overlayButton), style);
+                    setStyle($($o.lp_purchase_button), style);
+                    setStyle($($o.lp_purchase_button_tp), style);
+                }
+
+                // change link hover color
+                if ($trigger.hasClass($o.buttonHoverColor)) {
+
+                    $($o.overlayButton).hover(
+                        function() {
+                            style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
+                            setStyle($($o.overlayButton), style);
+                        },
+                        function() {
+                            style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
+                            setStyle($($o.overlayButton), style);
+                        }
+                    );
+
+                    $($o.lp_purchase_button).hover(
+                        function() {
+                            style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
+                            setStyle($($o.lp_purchase_button), style);
+                        },
+                        function() {
+                            style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
+                            setStyle($($o.lp_purchase_button), style);
+                        }
+                    );
+
+                    $($o.lp_purchase_button_tp).hover(
+                        function() {
+                            style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
+                            setStyle($($o.lp_purchase_button_tp), style);
+                        },
+                        function() {
+                            style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
+                            setStyle($($o.lp_purchase_button_tp), style);
+                        }
+                    );
                 }
 
                 // change link main color
@@ -479,6 +537,10 @@
                     style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
                     setStyle($($o.overlayLink + ' a'), style);
                     setStyle($($o.overlayLink), style);
+
+                    if ( ($($o.overlayLinkNotification).length ) ) {
+                        setStyle($($o.overlayLinkNotification), style);
+                    }
                 }
 
                 // change link hover color
@@ -491,6 +553,17 @@
                         function() {
                             style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
                             setStyle($($o.overlayLink + ' a'), style);
+                        }
+                    );
+
+                    $($o.overlayLinkNotification).hover(
+                        function() {
+                            style = 'color: ' + $('.' + $o.linkHoverColor).val() + ' !important;';
+                            setStyle($($o.overlayLinkNotification), style);
+                        },
+                        function() {
+                            style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
+                            setStyle($($o.overlayLinkNotification), style);
                         }
                     );
                 }
@@ -537,6 +610,7 @@
                 $('.' + $o.purchaseMainText).val(settings.main_text_color).change();
                 $('.' + $o.purchaseDescription).val(settings.description_color).change();
                 $('.' + $o.buttonBgColor).val(settings.button_bg_color).change();
+                $('.' + $o.buttonHoverColor).val(settings.button_hover_color).change();
                 $('.' + $o.buttonTextColor).val(settings.button_text_color).change();
                 $('.' + $o.linkMainColor).val(settings.link_main_color).change();
                 $('.' + $o.linkHoverColor).val(settings.link_hover_color).change();

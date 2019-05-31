@@ -175,6 +175,116 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                     </div>
                 </div>
             </div>
+            <div class="lp_customize_colors">
+                <label class="lp_step_label">
+                    <?php
+                    printf(
+                        esc_html__( '%sCustomize%s Colors', 'laterpay' ),
+                        '<span class="lp_step_span">',
+                        '</span>'
+                    );
+                    ?>
+                </label>
+                <form method="post" class="lp_mb++ lp_inline-block lp_purchase-form">
+                    <input type="hidden" name="form" value="overlay_settings">
+                    <input type="hidden" name="action" value="laterpay_appearance">
+                    <?php wp_nonce_field( 'laterpay_form' ); ?>
+                    <table class="lp_purchase-form__table lp_table--form">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Header background color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseHeaderBackgroundColor lp_input" name="header_background_color" value="<?php echo esc_attr( $laterpay['overlay']['header_bg_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Purchase option background color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseBackgroundColor lp_input" name="background_color" value="<?php echo esc_attr( $laterpay['overlay']['main_bg_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Main text color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseMainTextColor lp_input" name="main_text_color" value="<?php echo esc_attr( $laterpay['overlay']['main_text_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Description text color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseDescriptionTextColor lp_input" name="description_text_color" value="<?php echo esc_attr( $laterpay['overlay']['description_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Purchase button background color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseButtonBackgroundColor lp_input" name="button_background_color" value="<?php echo esc_attr( $laterpay['overlay']['button_bg_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Purchase button hover color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseButtonHoverColor lp_input" name="button_hover_color" value="<?php echo esc_attr( $laterpay['overlay']['button_hover_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Purchase button text color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseButtonTextColor lp_input" name="button_text_color" value="<?php echo esc_attr( $laterpay['overlay']['button_text_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Link main color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseLinkMainColor lp_input" name="link_main_color" value="<?php echo esc_attr( $laterpay['overlay']['link_main_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Link hover color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseLinkHoverColor lp_input" name="link_hover_color" value="<?php echo esc_attr( $laterpay['overlay']['link_hover_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php esc_html_e( 'Footer background color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseFooterBackgroundColor lp_input" name="footer_background_color" value="<?php echo esc_attr( $laterpay['overlay']['footer_bg_color'] ); ?>">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="lp_purchase-form__buttons lp_1">
+                        <div class="lp_1/2 lp_inline-block">
+                            <a href="#" class="lp_js_savePurchaseFormColors button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_js_cancelEditingPurchaseForm lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                        </div><!--
+                             -->
+                        <div class="lp_1/2 lp_inline-block lp_text-align--right">
+                            <a href="#" class="lp_js_restoreDefaultPurchaseForm lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Restore Default Values', 'laterpay' ); ?></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="lp_side_area">
             <div class="lp_clearfix lp_info">

@@ -26,10 +26,10 @@ $input_id     = 1;
                         <ul class="lp_benefits__list">
                             <?php foreach ( $overlay['benefits'] as $benefit ) : ?>
                                 <li class="lp_benefits__list-item <?php echo esc_attr( $benefit['class'] ); ?>">
-                                    <h3 class="lp_benefit__title">
+                                    <h3 class="lp_benefit__title lp_purchase-overlay-option__title">
                                         <?php echo esc_html( $benefit['title'] ); ?>
                                     </h3>
-                                    <p class="lp_benefit__text">
+                                    <p class="lp_benefit__text lp_purchase-overlay-option__description">
                                         <?php echo wp_kses( $benefit['text'], [ 'br' => [] ] ); ?>
                                     </p>
                                 </li>

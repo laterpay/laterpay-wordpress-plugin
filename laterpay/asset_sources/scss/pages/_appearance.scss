@@ -5,6 +5,10 @@
 }
 .lp_main_area {
 
+    .lp_layout {
+        max-height: 500px;
+    }
+
     #lp_appearance_loading {
         margin-top: 150px;
         font-size: 28px;
@@ -53,7 +57,7 @@
     div.lp_appearance_preview {
         h3 {
             margin-top: 30px;
-            color: #000000 !important;
+            color: #000000;
             font-size: 16px;
         }
     }
@@ -140,13 +144,13 @@
         }
 
         .lp_benefit__title {
-            color: lighten($text, 5%) !important;
+            color: lighten($text, 5%);
             font-size: $fs !important;
             margin: 3px 0 0.1em !important;
         }
 
         .lp_benefit__text {
-            color: lighten($text, 20%) !important;
+            color: lighten($text, 20%);
             line-height: 1.3 !important;
             margin: 0 !important;
             padding-bottom: 5px;
@@ -179,6 +183,21 @@
             display: inline-block;
             float: none !important;
             font-size: 11px;
+        }
+    }
+
+    .lp_customize_colors {
+        padding: 0 0 0 30px;
+        width: 50%;
+
+        table {
+            border-spacing: 5px 15px;
+
+            .lp_input {
+                padding: 0;
+                border: 0;
+                box-shadow: none;
+            }
         }
     }
 }

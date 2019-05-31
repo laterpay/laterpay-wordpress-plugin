@@ -84,7 +84,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
 
         $view_args = array(
             'plugin_is_in_live_mode'              => $this->config->get( 'is_in_live_mode' ),
-            'teaser_mode'                         => get_option( 'laterpay_teaser_mode', '2' ),
             'appearance_obj'                      => $this,
             'admin_menu'                          => add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => $menu['account']['url'] ) ), admin_url( 'admin.php' ) ),
             'purchase_button_positioned_manually' => get_option( 'laterpay_purchase_button_positioned_manually' ),
@@ -229,36 +228,32 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             case 'overlay_settings':
 
                 // handle additional settings save if present in request
-                $header_title            = filter_input( INPUT_POST, 'header_title', FILTER_SANITIZE_STRING );
                 $header_background_color = filter_input( INPUT_POST, 'header_background_color', FILTER_SANITIZE_STRING );
                 $background_color        = filter_input( INPUT_POST, 'background_color', FILTER_SANITIZE_STRING );
                 $main_text_color         = filter_input( INPUT_POST, 'main_text_color', FILTER_SANITIZE_STRING );
                 $description_text_color  = filter_input( INPUT_POST, 'description_text_color', FILTER_SANITIZE_STRING );
                 $button_background_color = filter_input( INPUT_POST, 'button_background_color', FILTER_SANITIZE_STRING );
+                $button_hover_color      = filter_input( INPUT_POST, 'button_hover_color', FILTER_SANITIZE_STRING );
                 $button_text_color       = filter_input( INPUT_POST, 'button_text_color', FILTER_SANITIZE_STRING );
                 $link_main_color         = filter_input( INPUT_POST, 'link_main_color', FILTER_SANITIZE_STRING );
                 $link_hover_color        = filter_input( INPUT_POST, 'link_hover_color', FILTER_SANITIZE_STRING );
-                $show_footer             = isset( $_POST['show_footer'] ) ? sanitize_text_field( $_POST['show_footer'] ) : ''; // WPCS:input var ok.
                 $footer_background_color = filter_input( INPUT_POST, 'footer_background_color', FILTER_SANITIZE_STRING );
 
-                update_option( 'laterpay_overlay_header_title',      $header_title );
                 update_option( 'laterpay_overlay_header_bg_color',   $header_background_color );
                 update_option( 'laterpay_overlay_main_bg_color',     $background_color );
                 update_option( 'laterpay_overlay_main_text_color',   $main_text_color );
                 update_option( 'laterpay_overlay_description_color', $description_text_color );
-                update_option( 'laterpay_overlay_button_bg_color',   $button_background_color );
+                update_option( 'laterpay_main_color',                $button_background_color );
+                update_option( 'laterpay_hover_color',               $button_hover_color );
                 update_option( 'laterpay_overlay_button_text_color', $button_text_color );
                 update_option( 'laterpay_overlay_link_main_color',   $link_main_color );
                 update_option( 'laterpay_overlay_link_hover_color',  $link_hover_color );
-                if ( null !== $show_footer ) {
-                    update_option( 'laterpay_overlay_show_footer', (int) $show_footer );
-                }
                 update_option( 'laterpay_overlay_footer_bg_color',   $footer_background_color );
 
                 $event->set_result(
                     array(
                         'success' => true,
-                        'message' => __( 'Purchase overlay settings saved successfully.', 'laterpay' )
+                        'message' => __( 'Color scheme saved successfully.', 'laterpay' )
                     )
                 );
 

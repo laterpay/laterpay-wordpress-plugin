@@ -577,6 +577,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
             $explanatory_button = '';
             $overlay_benefits   = [];
+            $overlay_title      = '';
             if ( 1 === $appearance_config['lp_show_introduction'] ) {
 
                 // determine overlay title to show
@@ -630,7 +631,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 }
             }
 
-            $view_args['title']               = ( ! empty( $overlay_title ) ) ? $overlay_title : LaterPay_Helper_Appearance::get_current_options( 'header_title' );
+            $view_args['title']               = ! empty( $overlay_title ) ? $overlay_title : LaterPay_Helper_Appearance::get_current_options( 'header_title' );
             $view_args['benefits']            = $overlay_benefits;
             $view_args['action_html_escaped'] = $explanatory_button;
             $view_args['tp_sub_below_modal']  = $appearance_config['lp_show_tp_sub_below_modal'];

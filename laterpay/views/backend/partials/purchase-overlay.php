@@ -29,22 +29,22 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
             <div class="lp_benefits" id="lp_benefits" style="<?php echo 1 === $lp_show_introduction ? '' : 'display:none;' ?>">
                 <ul class="lp_benefits__list" id="lp_benefits_list">
                     <li class="lp_benefits__list-item lp_benefit--buy-now">
-                        <h3 class="lp_benefit__title">
+                        <h3 class="lp_benefit__title lp_purchase-overlay-option__title">
                             Buy Now </h3>
-                        <p class="lp_benefit__text">
+                        <p class="lp_benefit__text lp_purchase-overlay-option__description">
                             Just agree to pay later.<br> No upfront registration and payment. </p>
                     </li>
                     <li class="lp_benefits__list-item lp_benefit--use-immediately">
-                        <h3 class="lp_benefit__title">
+                        <h3 class="lp_benefit__title lp_purchase-overlay-option__title">
                             Read Immediately </h3>
-                        <p class="lp_benefit__text">
+                        <p class="lp_benefit__text lp_purchase-overlay-option__description">
                             Access your purchase immediately.<br> You are only buying this article, not a subscription.
                         </p>
                     </li>
                     <li class="lp_benefits__list-item lp_benefit--pay-later">
-                        <h3 class="lp_benefit__title">
+                        <h3 class="lp_benefit__title lp_purchase-overlay-option__title">
                             Pay Later </h3>
-                        <p class="lp_benefit__text">
+                        <p class="lp_benefit__text lp_purchase-overlay-option__description">
                             Buy with LaterPay until you reach a total of 5 USD.<br> Only then do you have to register and pay.
                         </p>
                     </li>
@@ -52,7 +52,7 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
                 <div class="lp_benefits__action" id="lp_explanatory_button" style="<?php echo 1 === $lp_show_tp_sub_below_modal ? '' : 'display:none'; ?>">
                     <div class="lp_purchase-button-wrapper">
                         <div>
-                            <a href="#" class="lp_js_doPurchase lp_purchase-button" title="Buy now with LaterPay" data-icon="b">0.49
+                            <a href="#" class="lp_js_doPurchase lp_purchase-button lp_purchase_button" title="Buy now with LaterPay" data-icon="b">0.49
                                 <small class="lp_purchase-link__currency">USD</small>
                             </a></div>
                         <div><a class="lp_bought_notification">I already bought this</a></div>
