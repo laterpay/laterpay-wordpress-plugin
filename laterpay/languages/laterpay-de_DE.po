@@ -2,25 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-05-31 14:44+0530\n"
-"PO-Revision-Date: 2019-05-31 14:44+0530\n"
-"Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
-"Language-Team: German\n"
-"Language: de_DE\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Language: de_DE\n"
 "X-Generator: Poedit 2.2.3\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
-"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
-"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
-"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
-"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
-"X-Loco-Target-Locale: de_DE\n"
-"X-Poedit-SearchPath-0: .\n"
 
 #: application/Compatibility/Migrate.php:51
 msgid ""
@@ -528,6 +518,15 @@ msgstr "Konto"
 msgid "Advanced"
 msgstr "Erweitertes Beispiel"
 
+#: application/Controller/Admin.php:756
+#, php-format
+msgid "Version %s Highlights:"
+msgstr "Highlights der Version %s:"
+
+#: application/Controller/Admin.php:758
+msgid "Learn More"
+msgstr "Erfahren Sie mehr"
+
 #: application/Controller/Admin/Account.php:57
 msgid "The API key you entered is not a valid LaterPay API key!"
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay API Key!"
@@ -694,31 +693,31 @@ msgstr ""
 msgid "Time passes are now rendered at their default position."
 msgstr "Zeitpässe werden ab jetzt an ihrer Standard-Position angezeigt."
 
-#: application/Controller/Admin/Notice.php:39
+#: application/Controller/Admin/Notice.php:44
 msgid "Please contact WPEngine customer service to bypass the required cookies"
 msgstr ""
 
-#: application/Controller/Admin/Notice.php:40
+#: application/Controller/Admin/Notice.php:45
 msgid "laterpay_token, laterpay_purchased_gift_card and laterpay_tracking_code"
 msgstr ""
 
-#: application/Controller/Admin/Notice.php:41
+#: application/Controller/Admin/Notice.php:46
 msgid "in order for the plugin to work properly with page-cache."
 msgstr ""
 
-#: application/Controller/Admin/Notice.php:42
+#: application/Controller/Admin/Notice.php:47
 msgid "Done"
 msgstr ""
 
-#: application/Controller/Admin/Notice.php:63
+#: application/Controller/Admin/Notice.php:68
 msgid "Saving Settings "
 msgstr ""
 
-#: application/Controller/Admin/Notice.php:64
+#: application/Controller/Admin/Notice.php:69
 msgid "Settings Saved "
 msgstr ""
 
-#: application/Controller/Admin/Notice.php:65
+#: application/Controller/Admin/Notice.php:70
 msgid "Error saving data"
 msgstr ""
 
@@ -1591,6 +1590,14 @@ msgstr ""
 "Das LaterPay Plugin konnte nicht installiert werden. Bitte beheben Sie die "
 "genannten Probleme und versuchen Sie es erneut."
 
+#: application/Controller/Install.php:664
+msgid ""
+"You can now fully customize the appearance of your payment overlay. Visit "
+"the Appearance tab to check it out!"
+msgstr ""
+"Sie können nun das Erscheinungsbild Ihres Zahlungs-Overlays vollständig "
+"anpassen. Besuchen Sie die Registerkarte Aussehen, um es auszuprobieren!"
+
 #: application/Core/Bootstrap.php:56
 #, php-format
 msgid "%s: <code>%s</code> not found"
@@ -1803,10 +1810,6 @@ msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer "
 "Zahlungsmethode, der Sie vertrauen."
-
-#: built_assets/js/laterpay-common.js:1
-msgid "lp_ga_purchased"
-msgstr ""
 
 #: built_assets/js/vendor/velocity.min.js:3
 msgid "translateX"
