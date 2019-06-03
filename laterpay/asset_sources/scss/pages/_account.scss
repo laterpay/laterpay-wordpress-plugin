@@ -91,6 +91,27 @@ p.lp_tooltip_account_p {
 	}
 }
 
+p.live-success-msg {
+	margin-bottom: 0;
+	color: #008000;
+}
+
+p.live-cache-warning {
+	margin-top: 5px;
+	font-weight: 500;
+	color: #FF0000;
+
+	a {
+		color: #FF0000;
+		text-decoration: underline;
+	}
+
+	a.hide-msg {
+		color: #808080;
+		cursor: pointer;
+	}
+}
+
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px) {
 	.lp_main_area {

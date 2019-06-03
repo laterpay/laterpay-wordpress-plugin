@@ -54,13 +54,15 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             'laterpay-backend-account',
             'lpVars',
             array(
+                'ajaxUrl'               => admin_url( 'admin-ajax.php' ),
                 'i18nApiKeyInvalid'     => __( 'The API key you entered is not a valid LaterPay API key!', 'laterpay' ),
                 'i18nMerchantIdInvalid' => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay' ),
                 'i18nPreventUnload'     => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
                 'gaData'                => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
-                    'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ): '',
+                    'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ) : '',
                 ),
+                'reset_cache_nonce'     => wp_create_nonce( 'reset_cache_nonce' ),
             )
         );
     }
@@ -83,6 +85,10 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             'account_obj'                       => $this,
             'admin_menu'                        => LaterPay_Helper_View::get_admin_menu(),
         );
+
+        if ( false === get_option( 'laterpay_show_cache_msg' ) ) {
+            update_option( 'laterpay_show_cache_msg', 0 );
+        }
 
         $this->assign( 'laterpay', $view_args );
 
@@ -287,6 +293,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
         if ( $result ) {
             if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
+                update_option( 'laterpay_show_cache_msg', 1 );
                 $event->set_result(
                     array(
                         'success'   => true,

@@ -26,7 +26,10 @@
 
                 showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
                 apiCredentials                  : $('#lp_js_apiCredentialsSection'),
-                requestSent                     : false
+                requestSent                     : false,
+
+                hide_cache_warning              : $('#hide_cache_warning'),
+                lp_cache_warning                : $('#lp_cache_warning')
             },
 
             regionVal = $o.region.val(),
@@ -71,6 +74,21 @@
                 window.onbeforeunload = function() {
                     preventLeavingWithoutValidCredentials();
                 };
+
+                $o.hide_cache_warning.on( 'click', function () {
+                    $.post(
+                        lpVars.ajaxUrl, {
+                            action   : 'laterpay_reset_notice_data',
+                            security : lpVars.reset_cache_nonce,
+                        },
+                        function(data) {
+                            if (data.success) {
+                                $o.lp_cache_warning.hide();
+                            }
+                        },
+                        'json'
+                    );
+                } );
             },
 
             autofocusEmptyInput = function() {
@@ -194,6 +212,10 @@
                             var pluginStatus   = $o.pluginModeToggle.prop('checked') ? 'Live' : 'Test';
                             var sbMerchantId   = $('#lp_js_sandboxMerchantId').val();
                             var liveMerchantId = $('#lp_js_liveMerchantId').val();
+
+                            if ( $o.pluginModeToggle.prop('checked') ) {
+                                $o.lp_cache_warning.show();
+                            }
 
                             var commonLabel = sbMerchantId + ' | ' + liveMerchantId + ' | ' +
                                 lpVars.gaData.site_url + ' | ';
