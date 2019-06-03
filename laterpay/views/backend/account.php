@@ -61,6 +61,20 @@ $is_vip = laterpay_check_is_vip();
                 </p>
             </div>
 
+            <div class="lp_clearfix" id="lp_cache_warning" style="<?php echo 1 === absint( get_option( 'laterpay_show_cache_msg' ) ) ? '' : 'display:none;' ?>">
+                <p class="live-success-msg"><?php esc_html_e( 'Congratulations, you are now accepting payments through LaterPay!', 'laterpay' ); ?></p>
+                <p data-icon="n" class="live-cache-warning">
+                    <?php
+                    printf(
+                        esc_html__( 'We recommend %sclearing your cache%s in order to ensure that the paywall is visible everyone.', 'laterpay' ),
+                        '<a href="https://www.wpbeginner.com/beginners-guide/how-to-clear-your-cache-in-wordpress" target="_blank">',
+                        '</a>'
+                    );
+                    ?>
+                    <a class="hide-msg" id="hide_cache_warning"><?php esc_html_e( 'Hide message.', 'laterpay' ); ?></a>
+                </p>
+            </div>
+
             <div class="lp_clearfix">
                 <label class="lp_step_label"><span class="lp_step_span"><?php esc_html_e( 'Step 1', 'laterpay' ); ?>:</span> <?php esc_html_e( 'Select Your Region', 'laterpay' ); ?>
                 </label>

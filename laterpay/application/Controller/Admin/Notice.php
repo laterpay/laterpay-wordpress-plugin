@@ -21,6 +21,11 @@ class LaterPay_Controller_Admin_Notice extends LaterPay_Controller_Base
                array( 'laterpay_on_ajax_send_json', 300 ),
                array( 'ajax_reset_highlights_data', 400 ),
            ),
+           'wp_ajax_laterpay_reset_notice_data' => array(
+               array( 'laterpay_on_admin_view', 200 ),
+               array( 'laterpay_on_ajax_send_json', 300 ),
+               array( 'ajax_reset_notice_data', 400 ),
+           ),
         );
     }
 
@@ -111,6 +116,30 @@ class LaterPay_Controller_Admin_Notice extends LaterPay_Controller_Base
         check_ajax_referer('update_highlights_nonce', 'security' );
 
         update_option( 'lp_update_highlights', [] );
+
+        $event->set_result(
+            array(
+                'success' => true,
+            )
+        );
+
+        return;
+    }
+
+    /**
+     * Update update_highlights_data option.
+     *
+     * @wp-hook wp_ajax_laterpay_reset_highlights_data
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    function ajax_reset_notice_data( LaterPay_Core_Event $event ) {
+
+        check_ajax_referer( 'reset_cache_nonce', 'security' );
+
+        update_option( 'laterpay_show_cache_msg', 0 );
 
         $event->set_result(
             array(
