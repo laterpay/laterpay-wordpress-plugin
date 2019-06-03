@@ -8,6 +8,30 @@
                 pricing       : {
                     setGlobalPrice : $('#lp_js_saveGlobalDefaultPrice'),
                 },
+                screen_meta_links   : $('#screen-meta-links'),
+                close_update_notice : $('#close_update_notice'),
+        },
+
+        bindEvents = function() {
+
+            // Reset update highlights data on click.
+            $o.screen_meta_links.on('click', $o.close_update_notice, function( e ) {
+                if ( 'close_update_notice' === e.target.id ) {
+                    $.post(
+                        lpCommonVar.ajaxUrl, {
+                            action   : 'laterpay_reset_highlights_data',
+                            security : lpCommonVar.update_highlights_nonce,
+                        },
+                        function(data) {
+                            if (data.success) {
+                                $o.screen_meta_links.find('div.lp_update_notification').remove();
+                                $o.screen_meta_links.css('margin-right', '20px');
+                            }
+                        },
+                        'json'
+                    );
+                }
+            });
         },
 
         lp_delete_cookie = function( name ) {
@@ -165,6 +189,48 @@
             }
         },
 
+        // Create markup for highlights notice dynamically if there is notice data.
+        addUpdateHighlights = function () {
+            if ( $o.screen_meta_links.length && Object.keys(lpCommonVar.update_highlights).length ) {
+
+                // Notice Div.
+                var updateWrapper = $('<div/>', {
+                    class: 'lp_update_notification',
+                });
+
+                // Version Text.
+                var version = $('<b/>', {
+                    text: lpCommonVar.update_highlights.version
+                });
+
+                // Version Description.
+                var versionDescritpion = $('<p/>', {
+                    text: lpCommonVar.update_highlights.notice
+                });
+
+                // Learn More CTA.
+                var updateDetailsCallToAction = $('<a/>', {
+                    class : 'lp_purchase-overlay__submit',
+                    href  : 'https://wordpress.org/plugins/laterpay/#developers',
+                    text  : lpCommonVar.learn_more,
+                    target: '_blank',
+                });
+
+                // Dismiss button.
+                var updateDetailsDismiss = $('<a/>', {
+                    class: 'close_notice',
+                    id   : 'close_update_notice'
+                }).attr('data-icon', 'e');
+
+                versionDescritpion.prepend(version);
+                updateWrapper.append(versionDescritpion);
+                updateWrapper.append(updateDetailsCallToAction);
+                updateWrapper.append(updateDetailsDismiss);
+                $o.screen_meta_links.prepend(updateWrapper);
+                $o.screen_meta_links.css('margin-right', '0'); // Adjust margin, will be reverted on notice dismiss.
+            }
+        },
+
         initializePage = function() {
 
             if ( typeof(lpCommonVar) !== 'undefined' ) {
@@ -196,6 +262,9 @@
                 var eventCategory = 'LaterPay WordPress Plugin';
                 lpGlobal.sendLPGAEvent( 'Paid Content Replacement Show', eventCategory, eventlabel, 0, true );
             }
+
+            addUpdateHighlights();
+            bindEvents();
         };
 
         window.lpGlobal = {

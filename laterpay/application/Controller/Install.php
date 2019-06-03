@@ -492,6 +492,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->init_ga_options();
         $this->remove_laterpay_pro_merchant_option();
         $this->remove_custom_table_support();
+        $this->add_update_highlights();
 
     }
 
@@ -640,6 +641,34 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             $wpdb->query( 'DROP TABLE IF EXISTS ' . $term_table . ';' );
 
         }
+
+    }
+
+    /**
+     * Add Update Highlights Notice.
+     */
+    public function add_update_highlights() {
+
+        $current_version = get_option( 'laterpay_plugin_version' );
+
+        $update_highlights = [];
+
+        if ( ! empty( $current_version ) ) {
+
+            if ( version_compare( $current_version, '2.5.3', '<' ) ) {
+                return;
+            }
+
+            $update_highlights = [
+                'version' => '2.6.0',
+                'notice'  => __( 'You can now fully customize the appearance of your payment overlay. Visit the Appearance tab to check it out!', 'laterpay' ),
+            ];
+
+            update_option( 'lp_update_highlights', $update_highlights );
+            return;
+        }
+
+        update_option( 'lp_update_highlights', $update_highlights );
 
     }
 }

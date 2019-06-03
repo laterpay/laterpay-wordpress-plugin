@@ -748,6 +748,17 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $ga_data['sb_merchant_id']   = get_option( 'laterpay_sandbox_merchant_id' );
         }
 
+        // Following vars are not for GA but for update notice.
+        $ga_data['update_highlights'] = get_option( 'lp_update_highlights', [] );
+
+        if ( ! empty( $ga_data['update_highlights']['version'] ) ) {
+            $version_update_number                   = $ga_data['update_highlights']['version'];
+            $ga_data['update_highlights']['version'] = sprintf( __( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
+            $ga_data['update_highlights_nonce']      = wp_create_nonce( 'update_highlights_nonce' );
+            $ga_data['learn_more']                   = __( 'Learn More', 'laterpay' );
+            $ga_data['ajaxUrl']                      = admin_url( 'admin-ajax.php' );
+        }
+
         $final_data = array_merge( $ga_data,$data_for_localize );
 
         wp_localize_script(

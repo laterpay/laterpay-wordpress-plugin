@@ -393,6 +393,14 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
+#: laterpay/application/Controller/Admin.php:756
+msgid "Version %s Highlights:"
+msgstr ""
+
+#: laterpay/application/Controller/Admin.php:758
+msgid "Learn More"
+msgstr ""
+
 #: laterpay/application/Controller/Install.php:76
 msgid "<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>"
 msgstr ""
@@ -419,6 +427,10 @@ msgstr ""
 
 #: laterpay/application/Controller/Install.php:109
 msgid "The LaterPay plugin could not be installed. Please fix the reported issues and try again."
+msgstr ""
+
+#: laterpay/application/Controller/Install.php:664
+msgid "You can now fully customize the appearance of your payment overlay. Visit the Appearance tab to check it out!"
 msgstr ""
 
 #: laterpay/application/Core/Bootstrap.php:56
@@ -529,7 +541,7 @@ msgstr ""
 msgid "Problem with inserted shortcode:"
 msgstr ""
 
-#: laterpay/application/Module/Appearance.php:213, laterpay/application/Controller/Frontend/PreviewMode.php:171
+#: laterpay/application/Module/Appearance.php:213, laterpay/application/Controller/Frontend/PreviewMode.php:176
 msgid "You don't have sufficient user capabilities to do this."
 msgstr ""
 
@@ -1275,7 +1287,7 @@ msgstr ""
 msgid "LaterPay does not work properly with invalid API credentials."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:104, laterpay/application/Controller/Admin/Appearance.php:113, laterpay/application/Controller/Admin/Pricing.php:245, laterpay/application/Controller/Admin/Pricing.php:492, laterpay/application/Controller/Admin/Pricing.php:574, laterpay/application/Controller/Admin/Pricing.php:998, laterpay/application/Controller/Frontend/PreviewMode.php:71
+#: laterpay/application/Controller/Admin/Account.php:104, laterpay/application/Controller/Admin/Appearance.php:113, laterpay/application/Controller/Admin/Pricing.php:245, laterpay/application/Controller/Admin/Pricing.php:492, laterpay/application/Controller/Admin/Pricing.php:574, laterpay/application/Controller/Admin/Pricing.php:998, laterpay/application/Controller/Frontend/PreviewMode.php:76
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 
@@ -1363,31 +1375,31 @@ msgstr ""
 msgid "Time passes are now rendered at their default position."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:39
+#: laterpay/application/Controller/Admin/Notice.php:44
 msgid "Please contact WPEngine customer service to bypass the required cookies"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:40
+#: laterpay/application/Controller/Admin/Notice.php:45
 msgid "laterpay_token, laterpay_purchased_gift_card and laterpay_tracking_code"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:41
+#: laterpay/application/Controller/Admin/Notice.php:46
 msgid "in order for the plugin to work properly with page-cache."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:42
+#: laterpay/application/Controller/Admin/Notice.php:47
 msgid "Done"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:63
+#: laterpay/application/Controller/Admin/Notice.php:68
 msgid "Saving Settings "
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:64
+#: laterpay/application/Controller/Admin/Notice.php:69
 msgid "Settings Saved "
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:65
+#: laterpay/application/Controller/Admin/Notice.php:70
 msgid "Error saving data"
 msgstr ""
 
@@ -1781,7 +1793,7 @@ msgstr ""
 msgid "&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/PreviewMode.php:112, laterpay/application/Controller/Frontend/PreviewMode.php:197
+#: laterpay/application/Controller/Frontend/PreviewMode.php:117, laterpay/application/Controller/Frontend/PreviewMode.php:202
 msgid "Updated."
 msgstr ""
 
