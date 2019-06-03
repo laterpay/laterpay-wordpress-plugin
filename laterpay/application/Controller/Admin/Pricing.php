@@ -184,7 +184,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $category->id             = implode( ',', $cat_ids );
             $category->category_name  = implode( ',', $cat_titles );
             $category->category_id    = implode( ',', $category_ids );
-            $category->category_price = ( ! empty( $category_group[0]->category_price ) ) ? $category_group[0]->category_price : '' ;
+            $category->category_price = ( ! empty( $category_group[0]->category_price ) ) ? $category_group[0]->category_price : floatval( 0.00 ) ;
             $category->revenue_model  = ( ! empty( $category_group[0]->revenue_model ) ) ? $category_group[0]->revenue_model : '';
             $category->identifier     = ( ! empty( $category_group[0]->identifier ) ) ? $category_group[0]->identifier : '';
 

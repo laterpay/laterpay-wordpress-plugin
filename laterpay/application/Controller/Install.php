@@ -492,6 +492,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->init_ga_options();
         $this->remove_laterpay_pro_merchant_option();
         $this->remove_custom_table_support();
+        $this->update_appearance_config();
         $this->add_update_highlights();
 
     }
@@ -641,6 +642,48 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             $wpdb->query( 'DROP TABLE IF EXISTS ' . $term_table . ';' );
 
         }
+
+    }
+
+    private function update_appearance_config() {
+        $current_version = get_option( 'laterpay_plugin_version' );
+
+        if ( version_compare( $current_version, '2.5.2', '<' ) ) {
+            return;
+        }
+
+        $current_appearance_layout = absint( get_option( 'laterpay_teaser_mode' ) );
+        if ( 0 === $current_appearance_layout ) {
+            $appearance_config = [
+                'lp_show_purchase_overlay'              => 0,
+                'lp_show_purchase_button_above_article' => 1,
+                'lp_show_tp_sub_below_modal'            => 1,
+                'lp_show_introduction'                  => 0,
+            ];
+            update_option( 'lp_appearance_config', $appearance_config );
+            update_option( 'laterpay_overlay_show_footer', 0 );
+        } elseif ( 1 === $current_appearance_layout ) {
+            $appearance_config = [
+                'lp_show_purchase_overlay'              => 1,
+                'lp_show_purchase_button_above_article' => 1,
+                'lp_show_tp_sub_below_modal'            => 1,
+                'lp_show_introduction'                  => 1,
+            ];
+            update_option( 'lp_appearance_config', $appearance_config );
+            update_option( 'laterpay_overlay_show_footer', 0 );
+        } elseif ( 2 === $current_appearance_layout ) {
+            $appearance_config = [
+                'lp_show_purchase_overlay'              => 1,
+                'lp_show_purchase_button_above_article' => 0,
+                'lp_show_tp_sub_below_modal'            => 0,
+                'lp_show_introduction'                  => 0,
+            ];
+            update_option( 'lp_appearance_config', $appearance_config );
+            update_option( 'laterpay_purchase_button_positioned_manually', 0 );
+            update_option( 'laterpay_time_passes_positioned_manually', 0 );
+        }
+
+        update_option( 'lp_body_text', [ 'enabled' => 0, 'content' => '' ] );
 
     }
 
