@@ -652,17 +652,19 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $event->set_result( LaterPay_Helper_View::remove_extra_spaces( $html ) );
         } else {
 
-            // When overlay is not enabled.
-            $link_event = new LaterPay_Core_Event();
-            $link_event->set_echo( false );
-            laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_link', $link_event );
-            $content = $link_event->get_result();
+            $content = '';
+            if ( 1 === $appearance_config['lp_show_tp_sub_below_modal'] ) {
+                // When overlay is not enabled.
+                $link_event = new LaterPay_Core_Event();
+                $link_event->set_echo( false );
+                laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_link', $link_event );
+                $content = $link_event->get_result();
 
-            if ( $positioned_manually ) {
-                $this->assign( 'laterpay', LaterPay_Helper_Post::get_identity_purchase_url( $post->ID ) );
-                $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/widget/purchase-identity-url' ) );
+                if ( $positioned_manually ) {
+                    $this->assign( 'laterpay', LaterPay_Helper_Post::get_identity_purchase_url( $post->ID ) );
+                    $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/widget/purchase-identity-url' ) );
+                }
             }
-
             $event->set_result( $content );
         }
     }

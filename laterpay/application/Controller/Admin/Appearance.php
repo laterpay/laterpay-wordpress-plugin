@@ -60,16 +60,17 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             'laterpay-backend-appearance',
             'lpVars',
             array(
-                'overlaySettings'  => wp_json_encode(
+                'overlaySettings'    => wp_json_encode(
                     array(
                         'default' => LaterPay_Helper_Appearance::get_default_options(),
                         'current' => LaterPay_Helper_Appearance::get_current_options()
                     )
                 ),
-                'l10n_print_after' => 'lpVars.overlaySettings = JSON.parse(lpVars.overlaySettings)',
-                'gaData'           => array(
+                'l10n_print_after'   => 'lpVars.overlaySettings = JSON.parse(lpVars.overlaySettings)',
+                'gaData'             => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
+                'invalidConfigError' => esc_html__( 'Invalid Appearance Configuration!', 'laterpay' ),
             )
         );
     }

@@ -380,7 +380,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $overlay_default_options = LaterPay_Helper_Appearance::get_default_options();
 
         foreach ($overlay_default_options as $key => $value) {
-            update_option('laterpay_overlay_' . $key, $value);
+            if ( false === get_option( 'laterpay_overlay_' . $key ) ) {
+                update_option('laterpay_overlay_' . $key, $value);
+            }
         }
     }
 

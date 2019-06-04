@@ -67,7 +67,7 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                         <div class="lp_appearance_options">
                             <div class="appearance_option_single" id="appearance_option_first">
                                 <label for="show_purchase_button_above_article"><?php esc_html_e( 'Show purchase button above article', 'laterpay' ); ?></label>
-                                <input type="checkbox" id="lp_show_purchase_button_above_article" name="show_purchase_button_above_article" value="<?php echo esc_attr( $laterpay_show_purchase_button_above_article ); ?>" <?php if ( 1 === $laterpay_show_purchase_button_above_article ) : echo 'checked'; endif; ?>>
+                                <input type="checkbox" id="lp_show_purchase_button_above_article" name="show_purchase_button_above_article" value="<?php echo esc_attr( $laterpay_show_purchase_button_above_article ); ?>" <?php if ( 1 === absint( $laterpay_show_purchase_button_above_article ) ) : echo 'checked'; endif; ?>>
                                 <div class="appearance_option_single_child" style="<?php echo esc_attr( $laterpay_show_purchase_button_custom_option ); ?>">
                                     <label><?php esc_html_e( 'Customize position of purchase button', 'laterpay' ); ?></label>
                                     <input type="checkbox" id="lp_purchase_button_custom_positioned" name="is_purchase_button_custom_positioned" value="<?php echo esc_attr( $laterpay_purchase_button_positioned_manually ); ?>" <?php if ( '1' === $laterpay_purchase_button_positioned_manually ) : echo 'checked'; endif; ?> />
