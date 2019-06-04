@@ -21,48 +21,49 @@ $input_id     = 1;
                 <section class="lp_purchase-overlay__header">
                     <?php echo esc_html( $overlay['title'] ); ?>
                 </section>
-                <?php if ( ! empty( $overlay['benefits'] ) ) : ?>
-                    <div class="lp_benefits">
+                <div class="lp_benefits">
+                    <?php if ( ! empty( $overlay['benefits'] ) ) : ?>
                         <ul class="lp_benefits__list">
                             <?php foreach ( $overlay['benefits'] as $benefit ) : ?>
                                 <li class="lp_benefits__list-item <?php echo esc_attr( $benefit['class'] ); ?>">
                                     <h3 class="lp_benefit__title lp_purchase-overlay-option__title">
                                         <?php echo esc_html( $benefit['title'] ); ?>
                                     </h3>
-                                    <p class="lp_benefit__text lp_purchase-overlay-option__description">
-                                        <?php echo wp_kses( $benefit['text'], [ 'br' => [] ] ); ?>
-                                    </p>
+                                        <p class="lp_benefit__text lp_purchase-overlay-option__description">
+                                            <?php echo wp_kses( $benefit['text'], [ 'br' => [] ] ); ?>
+                                        </p>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
-                        <?php if ( ! empty( $overlay['action_html_escaped'] ) ) : ?>
-                            <div class="lp_benefits__action">
-                                <?php
-                                // ignoring this because generated html is escaped in,
-                                // views/frontend/partials/widget/purchase-button.php
-                                echo wp_kses( $overlay['action_html_escaped'], [
-                                    'div'   => [
-                                        'class' => [],
-                                    ],
-                                    'a'     => [
-                                        'href'                         => [],
-                                        'class'                        => [],
-                                        'title'                        => [],
-                                        'data-icon'                    => [],
-                                        'data-laterpay'                => [],
-                                        'data-post-id'                 => [],
-                                        'data-preview-post-as-visitor' => [],
-                                    ],
-                                    'small' => [
-                                        'class' => [],
-                                    ],
-                                ] );
-                                ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                    <?php
-                endif;
+                        <?php
+                    endif;
+                    if ( ! empty( $overlay['action_html_escaped'] ) ) : ?>
+                        <div class="lp_benefits__action">
+                            <?php
+                            // ignoring this because generated html is escaped in,
+                            // views/frontend/partials/widget/purchase-button.php
+                            echo wp_kses( $overlay['action_html_escaped'], [
+                                'div'   => [
+                                    'class' => [],
+                                ],
+                                'a'     => [
+                                    'href'                         => [],
+                                    'class'                        => [],
+                                    'title'                        => [],
+                                    'data-icon'                    => [],
+                                    'data-laterpay'                => [],
+                                    'data-post-id'                 => [],
+                                    'data-preview-post-as-visitor' => [],
+                                ],
+                                'small' => [
+                                    'class' => [],
+                                ],
+                            ] );
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <?php
                 if ( 1 !== $overlay['tp_sub_below_modal'] ) :
                     ?>
                     <section class="lp_purchase-overlay__body">
@@ -188,12 +189,16 @@ $input_id     = 1;
                             </div>
                         </div>
                     </section>
-                    <?php
+                        <?php
                 endif;
                 $body_text_enabled = ! empty( $overlay['body_text_config']['enabled'] ) ? $overlay['body_text_config']['enabled'] : '';
                 ?>
-                <section id="lp_body_text_content_holder" style="<?php if ( 1 !== $body_text_enabled ) { echo 'display:none;';} ?>">
-                    <?php echo wp_kses_post( html_entity_decode( $overlay['body_text_config']['content'] ) ); ?>
+                <section id="lp_body_text_content_holder" style="<?php if ( 1 !== $body_text_enabled ) {
+                    echo 'display:none;';
+                                                                 } ?>">
+                    <?php
+                    echo wp_kses_post( html_entity_decode( $overlay['body_text_config']['content'] ) );
+                    ?>
                 </section>
                 <?php if ( $overlay['footer'] === '1' ) : ?>
                     <section class="lp_purchase-overlay__footer">

@@ -224,7 +224,7 @@
                     .change(function () {
                         if ( ! $(this).prop('checked') ) {
                             $(this).val(0);
-                            $o.benefits_section.hide();
+                            $o.benefits_list.hide();
                         } else {
                             $(this).val(1);
                             $o.benefits_section.show();

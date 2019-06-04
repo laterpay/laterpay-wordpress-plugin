@@ -622,13 +622,13 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                         ],
                     ];
                 }
+            }
 
-                if ( 1 === $appearance_config['lp_show_tp_sub_below_modal'] ) {
-                    $action_event = new LaterPay_Core_Event();
-                    $action_event->set_echo( false );
-                    laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $action_event );
-                    $explanatory_button = (string) $action_event->get_result();
-                }
+            if ( 1 === $appearance_config['lp_show_tp_sub_below_modal'] ) {
+                $action_event = new LaterPay_Core_Event();
+                $action_event->set_echo( false );
+                laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $action_event );
+                $explanatory_button = (string) $action_event->get_result();
             }
 
             $view_args['title']               = ! empty( $overlay_title ) ? $overlay_title : LaterPay_Helper_Appearance::get_current_options( 'header_title' );
