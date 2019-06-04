@@ -158,6 +158,11 @@ class LaterPay_Helper_Appearance {
      */
     public static function get_current_config( $key = null ) {
 
+        // Update config values to fix issue on first load.
+        if ( false === get_option( 'lp_appearance_config' ) && false === get_option( 'lp_body_text' ) ) {
+            self::update_appearance_configs();
+        }
+
         // Check internal config for value, if empty fill it.
         if ( empty( self::$appearance_config ) ) {
             self::$appearance_config                 = get_option( 'lp_appearance_config' );
@@ -169,5 +174,44 @@ class LaterPay_Helper_Appearance {
         }
 
         return self::$appearance_config;
+    }
+
+    /**
+     * Update appearance config based on current value to match new options.
+     */
+    public static function update_appearance_configs() {
+        $current_appearance_layout = absint( get_option( 'laterpay_teaser_mode' ) );
+
+        if ( 0 === $current_appearance_layout ) {
+            $appearance_config = [
+                'lp_show_purchase_overlay'              => 0,
+                'lp_show_purchase_button_above_article' => 1,
+                'lp_show_tp_sub_below_modal'            => 1,
+                'lp_show_introduction'                  => 0,
+            ];
+            update_option( 'lp_appearance_config', $appearance_config );
+            update_option( 'laterpay_overlay_show_footer', 0 );
+        } elseif ( 1 === $current_appearance_layout ) {
+            $appearance_config = [
+                'lp_show_purchase_overlay'              => 1,
+                'lp_show_purchase_button_above_article' => 1,
+                'lp_show_tp_sub_below_modal'            => 1,
+                'lp_show_introduction'                  => 1,
+            ];
+            update_option( 'lp_appearance_config', $appearance_config );
+            update_option( 'laterpay_overlay_show_footer', 0 );
+        } elseif ( 2 === $current_appearance_layout ) {
+            $appearance_config = [
+                'lp_show_purchase_overlay'              => 1,
+                'lp_show_purchase_button_above_article' => 0,
+                'lp_show_tp_sub_below_modal'            => 0,
+                'lp_show_introduction'                  => 0,
+            ];
+            update_option( 'lp_appearance_config', $appearance_config );
+            update_option( 'laterpay_purchase_button_positioned_manually', 0 );
+            update_option( 'laterpay_time_passes_positioned_manually', 0 );
+        }
+
+        update_option( 'lp_body_text', [ 'enabled' => 0, 'content' => '' ] );
     }
 }

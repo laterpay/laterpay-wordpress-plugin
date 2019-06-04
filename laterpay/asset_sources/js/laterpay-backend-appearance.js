@@ -75,6 +75,7 @@
                 overlayLinkNotification : $('.lp_bought_notification'),
                 lp_purchase_button      : $('.lp_purchase_button'),
                 lp_purchase_button_tp   : $('.lp_purchase-button'),
+                navigation              : $('.lp_navigation'),
             },
 
             bindEvents = function() {
@@ -124,7 +125,6 @@
                     };
 
                     // Get all disabled inputs so that if they are checked, that value be sent for saving.
-                    var disabledInputs = [];
                     $('input[type="checkbox"]').each(function () {
                         // Send GA events for appearance config.
                         var eventActionLabel = elementActionsData[$(this).attr('id')];
@@ -133,24 +133,9 @@
                             var eventValue  = $(this).prop('checked') ? 1 : 0;
                             lpGlobal.sendLPGAEvent( 'Update Appearance', 'LP WP Appearance', commonLabel, eventValue );
                         }
-
-                        if ($(this).prop('disabled')) {
-                            disabledInputs.push( $(this).attr('id') );
-                            $(this).prop('disabled',false);
-                        }
                     });
 
                     saveData($form);
-
-                    // After data is saved disable the inputs again.
-                    if ( disabledInputs.length ) {
-                        disabledInputs.forEach( function ( currentInput ) {
-                            var checkBoxElement = $( '#' + currentInput);
-                            if ( checkBoxElement.length ) {
-                                checkBoxElement.prop('disabled', true);
-                            }
-                        });
-                    }
                 });
 
                 // save customize colors settings
@@ -196,6 +181,8 @@
                         } else {
                             $o.purchase_button_hint.hide();
                         }
+
+                        verifyAppearanceOptions();
                     });
 
                 $o.purchase_button_custom
@@ -213,55 +200,20 @@
                     .change(function () {
                         if ( ! $(this).prop('checked')  ) {
                             $(this).val(0);
-                            $o.show_purchase_button.attr({
-                                checked: true,
-                                disabled: true,
-                            }).val(1);
-                            $o.backend_purchase_button.show();
-                            $o.purchase_button_custom.parent().show();
-                            $o.purchase_button_custom.prop('checked', false);
-                            $o.purchase_button_hint.hide();
-
                             $o.purchase_overlay.hide();
-                            $o.timePassWidget.show();
-                            $o.purchase_link.show();
-
-                            $o.show_tp_sub_below_modal.attr({
-                                checked: true,
-                                disabled: true,
-                            });
-
-                            $o.show_tp_sub_below_modal.val(1);
-
-                            $o.tp_sub_custom_positioned.parent().show();
-
                             $o.purchase_header.parent().css('visibility', 'hidden');
                             $o.show_introduction.parent().css('visibility', 'hidden');
                             $o.show_body_text.parent().css('visibility', 'hidden');
                             $o.show_footer.parent().css('visibility', 'hidden');
                         } else {
                             $(this).val(1);
-                            $o.show_purchase_button.prop('disabled', false);
                             $o.purchase_overlay.show();
-
-                            if ( ! $o.show_tp_sub_below_modal.prop('checked') ) {
-                                $o.timePassWidget.hide();
-                            } else {
-                                $o.timePassWidget.show();
-                            }
-
-                            if ( ! $o.show_introduction.prop('checked') &&
-                                $o.show_tp_sub_below_modal.prop('checked') ) {
-                                $o.benefits_list.hide();
-                            }
-
-                            $o.purchase_link.hide();
-
                             $o.purchase_header.parent().css('visibility', 'visible');
                             $o.show_introduction.parent().css('visibility', 'visible');
                             $o.show_body_text.parent().css('visibility', 'visible');
                             $o.show_footer.parent().css('visibility', 'visible');
                         }
+                        verifyAppearanceOptions();
                     });
 
                 $o.purchase_header.on('change paste keyup', function() {
@@ -270,15 +222,13 @@
 
                 $o.show_introduction
                     .change(function () {
-                        if ( ! $(this).prop('checked') && 'hidden' !== $(this).parent().css('visibility') ) {
+                        if ( ! $(this).prop('checked') ) {
                             $(this).val(0);
-                            $o.benefits_section.hide();
-                            $o.show_tp_sub_below_modal.prop('disabled', true);
+                            $o.benefits_list.hide();
                         } else {
                             $(this).val(1);
                             $o.benefits_section.show();
                             $o.benefits_list.show();
-                            $o.show_tp_sub_below_modal.prop('disabled', false);
                         }
                     });
 
@@ -288,19 +238,22 @@
                             $(this).val(0);
                             $o.overlay_body.show();
                             $o.timePassWidget.hide();
+                            $o.purchase_link.hide();
                             $o.explanatory_button.hide();
                             $o.tp_sub_custom_positioned.parent().hide();
                             $o.timepass_widget_hint.hide();
-                            $o.show_introduction.prop('disabled', false);
                         } else {
                             $(this).val(1);
                             $o.overlay_body.hide();
                             $o.timePassWidget.show();
+                            if ( ! $o.show_purchase_overlay.prop('checked') ) {
+                                $o.purchase_link.show();
+                            }
                             $o.explanatory_button.show();
                             $o.tp_sub_custom_positioned.parent().show();
                             $o.tp_sub_custom_positioned.trigger('change');
-                            $o.show_introduction.prop('disabled', true);
                         }
+                        verifyAppearanceOptions();
                     });
 
                 $o.show_body_text
@@ -355,6 +308,24 @@
                 $o.body_text_content_holder.trigger('change');
                 $o.show_footer.trigger('change');
                 $o.tp_sub_custom_positioned.trigger('change');
+            },
+
+            verifyAppearanceOptions = function() {
+                if ( ! $o.show_purchase_button.prop('checked') &&
+                    ! $o.show_purchase_overlay.prop('checked') &&
+                    ! $o.show_tp_sub_below_modal.prop('checked') ) {
+                    $o.navigation.showMessage( lpVars.invalidConfigError, false );
+                    $o.savePurchaseForm.attr('disabled', true);
+                    return;
+                } else if ( $o.show_purchase_button.prop('checked') &&
+                    ! $o.show_purchase_overlay.prop('checked') &&
+                    ! $o.show_tp_sub_below_modal.prop('checked') ) {
+                    $o.navigation.showMessage( 'Invalid Appearance Configuration!' );
+                    $o.savePurchaseForm.attr('disabled', true);
+                    return;
+                }
+
+                $o.savePurchaseForm.attr('disabled', false);
             },
 
             purchaseButtonSwitch = function($trigger) {

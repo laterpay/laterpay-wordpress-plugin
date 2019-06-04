@@ -141,7 +141,7 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
         </div>
     </div>
 </div>
-<div id="lp_purchase_link" style="<?php echo 1 === $lp_show_purchase_overlay ? 'display:none' : ''; ?>">
+<div id="lp_purchase_link" style="<?php echo  ( 1 === absint( $lp_show_purchase_overlay ) && 1 === absint( $lp_show_tp_sub_below_modal ) ) ? 'display:none' : ''; ?>">
     <a href="#" class="lp_purchase-link" title="Buy now with LaterPay" data-icon="b">Buy now for 0.49
         <small class="lp_purchase-link__currency">USD</small>
         and pay later</a>
