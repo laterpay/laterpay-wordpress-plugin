@@ -382,6 +382,8 @@ class LaterPay_Helper_Config {
         delete_option( 'laterpay_region' );
         delete_option( 'lp_body_text' );
         delete_option( 'lp_appearance_config' );
+        delete_option( 'lp_update_highlights' );
+        delete_option( 'laterpay_show_cache_msg' );
         delete_option( 'laterpay_plugin_version' );
 
         // Delete Post Price Display Behaviour Option.
