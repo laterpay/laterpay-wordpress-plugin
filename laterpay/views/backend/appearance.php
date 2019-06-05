@@ -162,7 +162,7 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                         <h3><?php esc_html_e( 'Sample Post Title' ) ?></h3>
 
                         <div class="lp_purchase-button-wrapper lp_backend_purchase_button" id="lp_backend_purchase_button" style="<?php echo esc_attr( $laterpay_show_purchase_button_custom_option ); ?>">
-                            <div><a href="#" class="lp_purchase-button" title="Buy now with LaterPay" data-icon="b">0.49
+                            <div><a href="#" class="lp_purchase-button lp_purchase_button" title="Buy now with LaterPay" data-icon="b">0.49
                                     <small class="lp_purchase-link__currency">USD</small>
                                 </a></div>
                             <div><a class="lp_bought_notification" href="#">I already bought this</a></div>
