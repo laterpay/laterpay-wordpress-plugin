@@ -26,8 +26,8 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
             <section class="lp_purchase-overlay__header" id="lp_header_text">
                 <?php echo esc_html( $overlay['header_title'] ); ?>
             </section>
-            <div class="lp_benefits" id="lp_benefits" style="<?php echo 1 === $lp_show_introduction ? '' : 'display:none;' ?>">
-                <ul class="lp_benefits__list" id="lp_benefits_list">
+            <div class="lp_benefits" id="lp_benefits">
+                <ul class="lp_benefits__list" id="lp_benefits_list" style="<?php echo 1 === $lp_show_introduction ? '' : 'display:none;' ?>">
                     <li class="lp_benefits__list-item lp_benefit--buy-now">
                         <h3 class="lp_benefit__title lp_purchase-overlay-option__title"><?php esc_html_e( 'Buy Now', 'laterpay' ); ?></h3>
                         <p class="lp_benefit__text lp_purchase-overlay-option__description">

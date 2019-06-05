@@ -76,9 +76,17 @@
                 lp_purchase_button      : $('.lp_purchase_button'),
                 lp_purchase_button_tp   : $('.lp_purchase-button'),
                 navigation              : $('.lp_navigation'),
+                flip                    : $('a.lp_js_flipTimePass, a.lp_js_flipSubscription'),
+                redeemCode              : $('.lp_redeem-code__hint'),
             },
 
             bindEvents = function() {
+
+                $o.flip.on( 'click', function(e) {
+                    e.preventDefault();
+                    flipEntity(this);
+                });
+
                 //Position of the LaterPay Purchase Button
                 $o.purchaseButtonSwitch
                     .click(function() {
@@ -224,9 +232,11 @@
                     .change(function () {
                         if ( ! $(this).prop('checked') ) {
                             $(this).val(0);
+                            $o.purchase_overlay.attr( 'style', 'min-height:330px !important');
                             $o.benefits_list.hide();
                         } else {
                             $(this).val(1);
+                            $o.purchase_overlay.attr( 'style', 'min-height:500px !important');
                             $o.benefits_section.show();
                             $o.benefits_list.show();
                         }
@@ -373,6 +383,7 @@
             },
             updateOverlayOptions = function($trigger) {
                 var style;
+                var textColorValue;
 
                 // change header bg
                 if ($trigger.hasClass($o.headerBgColor)) {
@@ -424,34 +435,39 @@
 
                     $($o.overlayButton).hover(
                         function() {
-                            style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
-                            setStyle($($o.overlayButton), style);
+                            textColorValue = 'color:' + $o.overlayButton.css('color') + ' !important;';
+                            setStyle($($o.overlayButton), style + textColorValue);
                         },
                         function() {
+                            textColorValue = 'color:' + $o.overlayButton.css('color') + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
-                            setStyle($($o.overlayButton), style);
+                            setStyle($($o.overlayButton), style + textColorValue);
                         }
                     );
 
                     $($o.lp_purchase_button).hover(
                         function() {
+                            textColorValue = 'color:' + $o.lp_purchase_button.css('color') + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
-                            setStyle($($o.lp_purchase_button), style);
+                            setStyle($($o.lp_purchase_button), style + textColorValue);
                         },
                         function() {
+                            textColorValue = 'color:' + $o.lp_purchase_button.css('color') + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
-                            setStyle($($o.lp_purchase_button), style);
+                            setStyle($($o.lp_purchase_button), style + textColorValue);
                         }
                     );
 
                     $($o.lp_purchase_button_tp).hover(
                         function() {
+                            textColorValue = 'color:' + $o.lp_purchase_button_tp.css('color') + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
-                            setStyle($($o.lp_purchase_button_tp), style);
+                            setStyle($($o.lp_purchase_button_tp), style + textColorValue);
                         },
                         function() {
+                            textColorValue = 'color:' + $o.lp_purchase_button_tp.css('color') + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
-                            setStyle($($o.lp_purchase_button_tp), style);
+                            setStyle($($o.lp_purchase_button_tp), style + textColorValue);
                         }
                     );
                 }
@@ -461,6 +477,7 @@
                     style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
                     setStyle($($o.overlayLink + ' a'), style);
                     setStyle($($o.overlayLink), style);
+                    setStyle($($o.redeemCode), style);
 
                     if ( ($($o.overlayLinkNotification).length ) ) {
                         setStyle($($o.overlayLinkNotification), style);
@@ -490,6 +507,17 @@
                             setStyle($($o.overlayLinkNotification), style);
                         }
                     );
+
+                    $($o.redeemCode).hover(
+                        function() {
+                            style = 'color: ' + $('.' + $o.linkHoverColor).val() + ' !important;';
+                            setStyle($($o.redeemCode), style);
+                        },
+                        function() {
+                            style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
+                            setStyle($($o.redeemCode), style);
+                        }
+                    );
                 }
 
                 // change footer bg color
@@ -503,6 +531,10 @@
 
                     setStyle($($o.overlayFooter), style);
                 }
+            },
+
+            flipEntity = function(trigger) {
+                $(trigger).parents('.lp_time-pass').toggleClass('lp_is-flipped');
             },
 
             processFooter = function($trigger) {

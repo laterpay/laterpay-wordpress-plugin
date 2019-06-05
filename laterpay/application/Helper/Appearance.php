@@ -102,13 +102,13 @@ class LaterPay_Helper_Appearance {
             .lp_purchase-overlay__notification, a.lp_bought_notification {
                 color: " . esc_html( $options['link_main_color'] ) . " !important;
             }
-            .lp_purchase-overlay__notification a {
+            .lp_purchase-overlay__notification a, .lp_redeem-code__hint {
                 color: " . esc_html( $options['link_main_color'] ) . " !important;
             }
-            .lp_purchase-overlay__notification a:hover, a.lp_bought_notification:hover {
+            .lp_purchase-overlay__notification a:hover, a.lp_bought_notification:hover, .lp_redeem-code__hint:hover {
                 color: " . esc_html( $options['link_hover_color'] ) . " !important;
             }
-            .lp_purchase-overlay__submit, .lp_purchase_button {
+            .lp_purchase-overlay__submit, .lp_purchase_button, .lp_purchase-button {
                 background-color: " . esc_html( $options['button_bg_color'] ) . " !important;
                 color: " . esc_html( $options['button_text_color'] ) . " !important;
             }

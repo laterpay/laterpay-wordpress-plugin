@@ -6,9 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $overlay_data = $overlay['data'];
 $input_id     = 1;
+
+$paid_content_height = '';
+if ( 1 !== $overlay['tp_sub_below_modal'] && ! empty( $overlay['benefits'] ) ) {
+    $paid_content_height = 'min-height:730px!important;';
+} elseif ( 1 === $overlay['tp_sub_below_modal'] && empty( $overlay['benefits'] ) ) {
+    $paid_content_height = 'min-height:380px !important;';
+}
 ?>
 
-<div class="lp_paid-content" style="<?php echo ( 1 !== $overlay['tp_sub_below_modal'] && ! empty( $overlay['benefits'] ) ) ? 'min-height:730px!important;' : ''; ?>">
+<div class="lp_paid-content" style="<?php echo esc_attr( $paid_content_height ); ?>">
     <div class="lp_full-content">
         <?php echo wp_kses_post( $overlay['overlay_content'] ); ?>
         <br>
