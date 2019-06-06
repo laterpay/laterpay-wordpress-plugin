@@ -278,6 +278,10 @@
     padding: $fs--05;
 }
 
+input.lp_voucher__code {
+    width: 95px;
+}
+
 /* price and number of times redeemed */
 .lp_voucher__code-infos {
     display: inline-block;
