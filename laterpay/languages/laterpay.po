@@ -394,10 +394,14 @@ msgid "Advanced"
 msgstr ""
 
 #: laterpay/application/Controller/Admin.php:756
-msgid "Version %s Highlights: "
+msgid "Version %s Highlights:"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:758
+#: laterpay/application/Controller/Admin.php:757
+msgid "You can now fully customize the appearance of your payment overlay. Visit the Appearance tab, to check it out!"
+msgstr ""
+
+#: laterpay/application/Controller/Admin.php:759
 msgid "Learn More"
 msgstr ""
 
@@ -829,7 +833,7 @@ msgstr ""
 msgid "Dynamic pricing is a feature available on the Edit Post page. Once there, simply choose “Individual Price” in the Pricing for this Post section then click “+ Add dynamic pricing” at the bottom. Once you’ve completed this, you can drag and drop the points on the graph to adjust pricing based on the days since the article was originally published."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:169, laterpay/views/backend/appearance.php:292
+#: laterpay/views/backend/advanced.php:169, laterpay/views/backend/appearance.php:293
 msgid "Advanced Settings"
 msgstr ""
 
@@ -857,99 +861,95 @@ msgstr ""
 msgid "Click here to access additional appearance configurations,"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:210, laterpay/views/backend/advanced.php:284, laterpay/views/backend/advanced.php:322
+#: laterpay/views/backend/advanced.php:210, laterpay/views/backend/advanced.php:283, laterpay/views/backend/advanced.php:321
 msgid "including:"
 msgstr ""
 
 #: laterpay/views/backend/advanced.php:215
-msgid "Button & link colors"
-msgstr ""
-
-#: laterpay/views/backend/advanced.php:216
 msgid "Length of default teaser content"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:217
+#: laterpay/views/backend/advanced.php:216
 msgid "Length of blurred content displayed behind paywall"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:230
+#: laterpay/views/backend/advanced.php:229
 msgid "%sDelete%s Account"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:242
+#: laterpay/views/backend/advanced.php:241
 msgid "%sWarning!%s This operation deletes ALL LaterPay plugin data."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:248
+#: laterpay/views/backend/advanced.php:247
 msgid "%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL its data."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:255
+#: laterpay/views/backend/advanced.php:254
 msgid "You will lose all appearance settings and pricing configurations. This cannot be undone."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:260
+#: laterpay/views/backend/advanced.php:259
 msgid "Are you sure you want to delete ALL LaterPay Plugin data? You will loose all pricing configurations. This cannot be undone."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:262
+#: laterpay/views/backend/advanced.php:261
 msgid "Are you sure you want to deactivate LaterPay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:264
+#: laterpay/views/backend/advanced.php:263
 msgid "Delete LaterPay Plugin Data"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:264
+#: laterpay/views/backend/advanced.php:263
 msgid "Deactivate LaterPay Plugin"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:265, laterpay/views/backend/appearance.php:147, laterpay/views/backend/appearance.php:279, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:707, laterpay/views/backend/pricing.php:854, laterpay/application/Controller/Admin/Settings.php:248, laterpay/views/frontend/partials/widget/purchase-overlay.php:194
+#: laterpay/views/backend/advanced.php:264, laterpay/views/backend/appearance.php:147, laterpay/views/backend/appearance.php:280, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:707, laterpay/views/backend/pricing.php:854, laterpay/application/Controller/Admin/Settings.php:248, laterpay/views/frontend/partials/widget/purchase-overlay.php:194
 msgid "Cancel"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:267, laterpay/application/Controller/Admin/Advanced.php:46
+#: laterpay/views/backend/advanced.php:266, laterpay/application/Controller/Admin/Advanced.php:46
 msgid "Delete Plugin Data"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:267, laterpay/application/Controller/Admin/Advanced.php:46
+#: laterpay/views/backend/advanced.php:266, laterpay/application/Controller/Admin/Advanced.php:46
 msgid "Deactivate Plugin & Delete Data"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:274
+#: laterpay/views/backend/advanced.php:273
 msgid "Technical"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:283
+#: laterpay/views/backend/advanced.php:282
 msgid "Click here for more technical configuration options,"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:289
+#: laterpay/views/backend/advanced.php:288
 msgid "Enable caching compatibility mode"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:290
+#: laterpay/views/backend/advanced.php:289
 msgid "Define fallback behavior in case LaterPay API is not responding"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:303
+#: laterpay/views/backend/advanced.php:302
 msgid "TIPS & TRICKS"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:308
+#: laterpay/views/backend/advanced.php:307
 msgid "%sHELP!%s The new version of the plugin is not compatible with my site. How can I rollback? %sClick here for step by step instructions.%s"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:319
+#: laterpay/views/backend/advanced.php:318
 msgid "Have you found all of our Advanced Settings?"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:321
+#: laterpay/views/backend/advanced.php:320
 msgid "Click here to see even more LaterPay configurations."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:328
+#: laterpay/views/backend/advanced.php:327
 msgid "Pay Later can be counter-intuitive at first. %sClick here%s to learn more and see our recommendations on when to use Pay Now versus Pay Later."
 msgstr ""
 
@@ -997,68 +997,72 @@ msgstr ""
 msgid "Show valid payment options"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:146, laterpay/views/backend/appearance.php:278, laterpay/views/backend/pricing.php:79, laterpay/views/backend/pricing.php:219, laterpay/views/backend/pricing.php:339, laterpay/views/backend/pricing.php:459, laterpay/views/backend/pricing.php:491, laterpay/views/backend/pricing.php:653, laterpay/views/backend/pricing.php:706, laterpay/views/backend/pricing.php:853
+#: laterpay/views/backend/appearance.php:146, laterpay/views/backend/appearance.php:279, laterpay/views/backend/pricing.php:79, laterpay/views/backend/pricing.php:219, laterpay/views/backend/pricing.php:339, laterpay/views/backend/pricing.php:459, laterpay/views/backend/pricing.php:491, laterpay/views/backend/pricing.php:653, laterpay/views/backend/pricing.php:706, laterpay/views/backend/pricing.php:853
 msgid "Save"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:158
+#: laterpay/views/backend/appearance.php:148, laterpay/application/Controller/Admin/Appearance.php:73
+msgid "Please select one of the recommended options above to ensure that your users can purchase all content types."
+msgstr ""
+
+#: laterpay/views/backend/appearance.php:159
 msgid "Loading..."
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:182
+#: laterpay/views/backend/appearance.php:183
 msgid "%sCustomize%s Colors"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:196
+#: laterpay/views/backend/appearance.php:197
 msgid "Header background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:204
+#: laterpay/views/backend/appearance.php:205
 msgid "Purchase option background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:212
+#: laterpay/views/backend/appearance.php:213
 msgid "Main text color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:220
+#: laterpay/views/backend/appearance.php:221
 msgid "Description text color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:228
+#: laterpay/views/backend/appearance.php:229
 msgid "Purchase button background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:236
+#: laterpay/views/backend/appearance.php:237
 msgid "Purchase button hover color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:244
+#: laterpay/views/backend/appearance.php:245
 msgid "Purchase button text color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:252
+#: laterpay/views/backend/appearance.php:253
 msgid "Link main color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:260
+#: laterpay/views/backend/appearance.php:261
 msgid "Link hover color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:268
+#: laterpay/views/backend/appearance.php:269
 msgid "Footer background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:283
+#: laterpay/views/backend/appearance.php:284
 msgid "Restore Default Values"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:299
+#: laterpay/views/backend/appearance.php:300
 msgid "Click here"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:300
-msgid "to adjust the default colors, the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall."
+#: laterpay/views/backend/appearance.php:301
+msgid "to adjust the number of characters automatically generated as your teaser content or the length of the content preview blurred behind our paywall."
 msgstr ""
 
 #: laterpay/views/backend/options.php:10
@@ -1345,10 +1349,6 @@ msgstr ""
 
 #: laterpay/application/Controller/Admin/Account.php:405
 msgid "LaterPay data has been erased successfully."
-msgstr ""
-
-#: laterpay/application/Controller/Admin/Appearance.php:73
-msgid "Invalid Appearance Configuration!"
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Appearance.php:157
