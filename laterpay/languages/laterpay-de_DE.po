@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-06-06 16:20+0530\n"
-"PO-Revision-Date: 2019-06-06 16:21+0530\n"
+"POT-Creation-Date: 2019-06-06 19:34+0530\n"
+"PO-Revision-Date: 2019-06-06 19:34+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1835,6 +1835,10 @@ msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer "
 "Zahlungsmethode, der Sie vertrauen."
+
+#: built_assets/js/laterpay-common.js:1
+msgid "lp_ga_purchased"
+msgstr ""
 
 #: built_assets/js/vendor/velocity.min.js:3
 msgid "translateX"
