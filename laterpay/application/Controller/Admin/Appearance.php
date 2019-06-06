@@ -70,7 +70,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 'gaData'             => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
-                'invalidConfigError' => esc_html__( 'Invalid Appearance Configuration!', 'laterpay' ),
+                'invalidConfigError' => esc_html__( 'Please select one of the recommended options above to ensure that your users can purchase all content types.', 'laterpay' ),
             )
         );
     }
