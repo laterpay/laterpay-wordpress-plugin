@@ -429,7 +429,7 @@ msgstr ""
 msgid "The LaterPay plugin could not be installed. Please fix the reported issues and try again."
 msgstr ""
 
-#: laterpay/application/Controller/Install.php:707
+#: laterpay/application/Controller/Install.php:683
 msgid "You can now fully customize the appearance of your payment overlay. Visit the Appearance tab to check it out!"
 msgstr ""
 
@@ -437,7 +437,7 @@ msgstr ""
 msgid "%s: <code>%s</code> not found"
 msgstr ""
 
-#: laterpay/application/Helper/Appearance.php:25, laterpay/application/Helper/Appearance.php:56, laterpay/views/backend/appearance.php:17, laterpay/views/backend/appearance.php:92, laterpay/application/Controller/Admin/Appearance.php:169
+#: laterpay/application/Helper/Appearance.php:25, laterpay/application/Helper/Appearance.php:56, laterpay/views/backend/appearance.php:17, laterpay/views/backend/appearance.php:92, laterpay/application/Controller/Admin/Appearance.php:170
 msgid "Read now, pay later"
 msgstr ""
 
@@ -905,7 +905,7 @@ msgstr ""
 msgid "Deactivate LaterPay Plugin"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:265, laterpay/views/backend/appearance.php:147, laterpay/views/backend/appearance.php:279, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:707, laterpay/views/backend/pricing.php:854, laterpay/application/Controller/Admin/Settings.php:248, laterpay/views/frontend/partials/widget/purchase-overlay.php:186
+#: laterpay/views/backend/advanced.php:265, laterpay/views/backend/appearance.php:147, laterpay/views/backend/appearance.php:279, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:707, laterpay/views/backend/pricing.php:854, laterpay/application/Controller/Admin/Settings.php:248, laterpay/views/frontend/partials/widget/purchase-overlay.php:194
 msgid "Cancel"
 msgstr ""
 
@@ -1103,7 +1103,7 @@ msgstr ""
 msgid "Posts cannot be purchased individually"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:157, laterpay/views/backend/pricing.php:243, laterpay/application/Controller/Admin/Pricing.php:426, laterpay/views/backend/partials/post-pricing-form.php:102
+#: laterpay/views/backend/pricing.php:157, laterpay/views/backend/pricing.php:243, laterpay/application/Controller/Admin/Pricing.php:429, laterpay/views/backend/partials/post-pricing-form.php:102
 msgid "Only Time Passes & Subscriptions will be displayed in the purchase dialog."
 msgstr ""
 
@@ -1179,7 +1179,7 @@ msgstr ""
 msgid "Add a Category Default Price"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:482, laterpay/views/backend/pricing.php:521, laterpay/application/Controller/Admin/Pricing.php:967
+#: laterpay/views/backend/pricing.php:482, laterpay/views/backend/pricing.php:521, laterpay/application/Controller/Admin/Pricing.php:970
 msgid "Pass"
 msgstr ""
 
@@ -1207,7 +1207,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:626, laterpay/views/backend/pricing.php:825, laterpay/application/Controller/Admin/Pricing.php:151
+#: laterpay/views/backend/pricing.php:626, laterpay/views/backend/pricing.php:825, laterpay/application/Controller/Admin/Pricing.php:154
 msgid "Description"
 msgstr ""
 
@@ -1291,7 +1291,7 @@ msgstr ""
 msgid "LaterPay does not work properly with invalid API credentials."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:110, laterpay/application/Controller/Admin/Appearance.php:112, laterpay/application/Controller/Admin/Pricing.php:245, laterpay/application/Controller/Admin/Pricing.php:492, laterpay/application/Controller/Admin/Pricing.php:574, laterpay/application/Controller/Admin/Pricing.php:998, laterpay/application/Controller/Frontend/PreviewMode.php:76
+#: laterpay/application/Controller/Admin/Account.php:110, laterpay/application/Controller/Admin/Appearance.php:113, laterpay/application/Controller/Admin/Pricing.php:248, laterpay/application/Controller/Admin/Pricing.php:495, laterpay/application/Controller/Admin/Pricing.php:577, laterpay/application/Controller/Admin/Pricing.php:1001, laterpay/application/Controller/Frontend/PreviewMode.php:76
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 
@@ -1347,31 +1347,35 @@ msgstr ""
 msgid "LaterPay data has been erased successfully."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Appearance.php:156
+#: laterpay/application/Controller/Admin/Appearance.php:73
+msgid "Invalid Appearance Configuration!"
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Appearance.php:157
 msgid "Enter custom HTML here"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Appearance.php:190
+#: laterpay/application/Controller/Admin/Appearance.php:191
 msgid "Appearance settings saved successfully."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Appearance.php:223
+#: laterpay/application/Controller/Admin/Appearance.php:224
 msgid "Color scheme saved successfully."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Appearance.php:243
+#: laterpay/application/Controller/Admin/Appearance.php:244
 msgid "Purchase buttons are now rendered at a custom position."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Appearance.php:252
+#: laterpay/application/Controller/Admin/Appearance.php:253
 msgid "Purchase buttons are now rendered at their default position."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Appearance.php:273
+#: laterpay/application/Controller/Admin/Appearance.php:274
 msgid "Time passes are now rendered at a custom position."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Appearance.php:282
+#: laterpay/application/Controller/Admin/Appearance.php:283
 msgid "Time passes are now rendered at their default position."
 msgstr ""
 
@@ -1459,85 +1463,97 @@ msgstr ""
 msgid "The voucher price must be less than or equal to the subscription price."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:136
+#: laterpay/application/Controller/Admin/Pricing.php:114
+msgid "The voucher price must be less than or equal to the time pass price."
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Pricing.php:115, laterpay/application/Controller/Frontend/Post.php:622
+msgid "Please enter a six-digit voucher code."
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Pricing.php:116
+msgid "This voucher code is already in use, please choose a different name."
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Pricing.php:139
 msgid "All posts in category"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:407, laterpay/application/Controller/Admin/Pricing.php:462
+#: laterpay/application/Controller/Admin/Pricing.php:410, laterpay/application/Controller/Admin/Pricing.php:465
 msgid "An error occurred. Incorrect data provided."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:423
+#: laterpay/application/Controller/Admin/Pricing.php:426
 msgid ""
 "All articles will be free by default; Time Passes & Subscriptions will only be\n"
 "            displayed if an Individual Article Price greater than 0.00 is manually set on the Post page."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:429
+#: laterpay/application/Controller/Admin/Pricing.php:432
 msgid "The global default price for all posts is %s %s now."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:520
+#: laterpay/application/Controller/Admin/Pricing.php:523
 msgid "There is no such category on this website."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:551
+#: laterpay/application/Controller/Admin/Pricing.php:554
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:596
+#: laterpay/application/Controller/Admin/Pricing.php:599
 msgid "The default price for category %s was deleted."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:654
+#: laterpay/application/Controller/Admin/Pricing.php:657
 msgid "An error occurred when trying to save the time pass. Please try again."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:715
+#: laterpay/application/Controller/Admin/Pricing.php:718
 msgid "Pass saved."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:740
+#: laterpay/application/Controller/Admin/Pricing.php:743
 msgid "Time pass deleted."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:747
+#: laterpay/application/Controller/Admin/Pricing.php:750
 msgid "The selected pass was deleted already."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:790
+#: laterpay/application/Controller/Admin/Pricing.php:793
 msgid "An error occurred when trying to save the subscription. Please try again."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:844
+#: laterpay/application/Controller/Admin/Pricing.php:847
 msgid "Subscription saved."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:869
+#: laterpay/application/Controller/Admin/Pricing.php:872
 msgid "Subscription deleted."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:877
+#: laterpay/application/Controller/Admin/Pricing.php:880
 msgid "The selected subscription was deleted already."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:932
+#: laterpay/application/Controller/Admin/Pricing.php:935
 msgid "Incorrect voucher price."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:966
+#: laterpay/application/Controller/Admin/Pricing.php:969
 msgid "Passes"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:977
+#: laterpay/application/Controller/Admin/Pricing.php:980
 msgid "Laterpay Passes Post type Registration issue."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:1030
+#: laterpay/application/Controller/Admin/Pricing.php:1033
 msgid "Unable to update LaterPay Enabled Post Type(s)."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Pricing.php:1042
+#: laterpay/application/Controller/Admin/Pricing.php:1045
 msgid "Successfully Updated LaterPay Enabled Post Type(s)."
 msgstr ""
 
@@ -1771,10 +1787,6 @@ msgstr ""
 
 #: laterpay/application/Controller/Frontend/Post.php:621
 msgid " is not a valid voucher code!"
-msgstr ""
-
-#: laterpay/application/Controller/Frontend/Post.php:622
-msgid "Please enter a six-digit voucher code."
 msgstr ""
 
 #: laterpay/application/Controller/Frontend/Post.php:623
@@ -2033,7 +2045,7 @@ msgstr ""
 msgid "Only then do you have to register and pay."
 msgstr ""
 
-#: laterpay/views/backend/partials/purchase-overlay.php:69, laterpay/views/frontend/partials/widget/purchase-overlay.php:81
+#: laterpay/views/backend/partials/purchase-overlay.php:69, laterpay/views/frontend/partials/widget/purchase-overlay.php:89
 msgid "This article"
 msgstr ""
 
@@ -2061,11 +2073,11 @@ msgstr ""
 msgid "Buy now, pay later"
 msgstr ""
 
-#: laterpay/views/backend/partials/purchase-overlay.php:122, laterpay/views/frontend/partials/widget/purchase-overlay.php:183
+#: laterpay/views/backend/partials/purchase-overlay.php:122, laterpay/views/frontend/partials/widget/purchase-overlay.php:191
 msgid "Redeem voucher"
 msgstr ""
 
-#: laterpay/views/backend/partials/purchase-overlay.php:139, laterpay/views/frontend/partials/widget/purchase-overlay.php:212
+#: laterpay/views/backend/partials/purchase-overlay.php:139, laterpay/views/frontend/partials/widget/purchase-overlay.php:224
 msgid "Powered by"
 msgstr ""
 
@@ -2199,15 +2211,15 @@ msgstr ""
 msgid "and pay later"
 msgstr ""
 
-#: laterpay/views/frontend/partials/widget/purchase-overlay.php:15
+#: laterpay/views/frontend/partials/widget/purchase-overlay.php:22
 msgid "Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?"
 msgstr ""
 
-#: laterpay/views/frontend/partials/widget/purchase-overlay.php:167
+#: laterpay/views/frontend/partials/widget/purchase-overlay.php:175
 msgid "Enter Voucher Code"
 msgstr ""
 
-#: laterpay/views/frontend/partials/widget/purchase-overlay.php:177
+#: laterpay/views/frontend/partials/widget/purchase-overlay.php:185
 msgid "Redeem Voucher Code"
 msgstr ""
 
