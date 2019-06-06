@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-05-07 12:38+0530\n"
-"PO-Revision-Date: 2019-05-07 12:38+0530\n"
+"POT-Creation-Date: 2019-06-06 12:48+0530\n"
+"PO-Revision-Date: 2019-06-06 12:48+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
 "__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
@@ -542,10 +542,10 @@ msgstr "LaterPay funktioniert nicht ohne gültige API Zugangsdaten."
 
 #: application/Controller/Admin/Account.php:104
 #: application/Controller/Admin/Appearance.php:113
-#: application/Controller/Admin/Pricing.php:245
-#: application/Controller/Admin/Pricing.php:492
-#: application/Controller/Admin/Pricing.php:574
-#: application/Controller/Admin/Pricing.php:998
+#: application/Controller/Admin/Pricing.php:248
+#: application/Controller/Admin/Pricing.php:495
+#: application/Controller/Admin/Pricing.php:577
+#: application/Controller/Admin/Pricing.php:1001
 #: application/Controller/Frontend/PreviewMode.php:71
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
@@ -933,21 +933,36 @@ msgstr ""
 msgid "The voucher price must be less than or equal to the subscription price."
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:136
+#: application/Controller/Admin/Pricing.php:114
+msgid "The voucher price must be less than or equal to the time pass price."
+msgstr ""
+
+#: application/Controller/Admin/Pricing.php:115
+#: application/Controller/Frontend/Post.php:660
+msgid "Please enter a six-digit voucher code."
+msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
+
+#: application/Controller/Admin/Pricing.php:116
+msgid "This voucher code is already in use, please choose a different name."
+msgstr ""
+"Dieser Gutscheincode wird bereits verwendet, bitte wählen Sie einen anderen "
+"Namen."
+
+#: application/Controller/Admin/Pricing.php:139
 msgid "All posts in category"
 msgstr "aller Beiträge in Kategorie"
 
-#: application/Controller/Admin/Pricing.php:151 views/backend/pricing.php:626
+#: application/Controller/Admin/Pricing.php:154 views/backend/pricing.php:626
 #: views/backend/pricing.php:825
 msgid "Description"
 msgstr "Beschreibung"
 
-#: application/Controller/Admin/Pricing.php:407
-#: application/Controller/Admin/Pricing.php:462
+#: application/Controller/Admin/Pricing.php:410
+#: application/Controller/Admin/Pricing.php:465
 msgid "An error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
 
-#: application/Controller/Admin/Pricing.php:423
+#: application/Controller/Admin/Pricing.php:426
 msgid ""
 "All articles will be free by default; Time Passes & Subscriptions will only "
 "be\n"
@@ -955,93 +970,93 @@ msgid ""
 "manually set on the Post page."
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:426
+#: application/Controller/Admin/Pricing.php:429
 #: views/backend/partials/post-pricing-form.php:102
 #: views/backend/pricing.php:157 views/backend/pricing.php:243
 msgid ""
 "Only Time Passes & Subscriptions will be displayed in the purchase dialog."
 msgstr "Nur Zeitpässe und Abos werden im Kaufdialog angezeigt."
 
-#: application/Controller/Admin/Pricing.php:429
+#: application/Controller/Admin/Pricing.php:432
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der allgemeine Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: application/Controller/Admin/Pricing.php:520
+#: application/Controller/Admin/Pricing.php:523
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: application/Controller/Admin/Pricing.php:551
+#: application/Controller/Admin/Pricing.php:554
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: application/Controller/Admin/Pricing.php:596
+#: application/Controller/Admin/Pricing.php:599
 #, php-format
 msgid "The default price for category %s was deleted."
 msgstr "Der Standardpreis für die Kategorie %s wurde entfernt."
 
-#: application/Controller/Admin/Pricing.php:654
+#: application/Controller/Admin/Pricing.php:657
 msgid "An error occurred when trying to save the time pass. Please try again."
 msgstr ""
 "Beim Speichern des Zeitpasses ist ein Fehler aufgetreten. Bitte versuchen "
 "Sie es noch einmal."
 
-#: application/Controller/Admin/Pricing.php:715
+#: application/Controller/Admin/Pricing.php:718
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: application/Controller/Admin/Pricing.php:740
+#: application/Controller/Admin/Pricing.php:743
 msgid "Time pass deleted."
 msgstr "Zeitpass gelöscht."
 
-#: application/Controller/Admin/Pricing.php:747
+#: application/Controller/Admin/Pricing.php:750
 msgid "The selected pass was deleted already."
 msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 
-#: application/Controller/Admin/Pricing.php:790
+#: application/Controller/Admin/Pricing.php:793
 msgid ""
 "An error occurred when trying to save the subscription. Please try again."
 msgstr ""
 "Während des Speicherns des Abos ist ein Fehler aufgetreten. Bitte versuchen "
 "Sie es erneut."
 
-#: application/Controller/Admin/Pricing.php:844
+#: application/Controller/Admin/Pricing.php:847
 msgid "Subscription saved."
 msgstr "Abo gespeichert."
 
-#: application/Controller/Admin/Pricing.php:869
+#: application/Controller/Admin/Pricing.php:872
 msgid "Subscription deleted."
 msgstr "Abo gelöscht."
 
-#: application/Controller/Admin/Pricing.php:877
+#: application/Controller/Admin/Pricing.php:880
 msgid "The selected subscription was deleted already."
 msgstr "Dieses Abo wurde bereits gelöscht."
 
-#: application/Controller/Admin/Pricing.php:932
+#: application/Controller/Admin/Pricing.php:935
 msgid "Incorrect voucher price."
 msgstr "Ungültiger Gutschein-Preis."
 
-#: application/Controller/Admin/Pricing.php:966
+#: application/Controller/Admin/Pricing.php:969
 msgid "Passes"
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:967 views/backend/pricing.php:482
+#: application/Controller/Admin/Pricing.php:970 views/backend/pricing.php:482
 #: views/backend/pricing.php:521
 msgid "Pass"
 msgstr "Pass"
 
-#: application/Controller/Admin/Pricing.php:977
+#: application/Controller/Admin/Pricing.php:980
 msgid "Laterpay Passes Post type Registration issue."
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:1030
+#: application/Controller/Admin/Pricing.php:1033
 #, fuzzy
 #| msgid "LaterPay-enabled Post Types"
 msgid "Unable to update LaterPay Enabled Post Type(s)."
 msgstr "LaterPay Post-Types"
 
-#: application/Controller/Admin/Pricing.php:1042
+#: application/Controller/Admin/Pricing.php:1045
 #, fuzzy
 #| msgid "LaterPay-enabled Post Types"
 msgid "Successfully Updated LaterPay Enabled Post Type(s)."
@@ -1426,10 +1441,6 @@ msgstr "Gutschein-Code akzeptiert."
 #: application/Controller/Frontend/Post.php:659
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
-
-#: application/Controller/Frontend/Post.php:660
-msgid "Please enter a six-digit voucher code."
-msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
 #: application/Controller/Frontend/Post.php:661
 msgid "An error occurred. Please try again."
