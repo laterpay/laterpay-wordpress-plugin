@@ -145,6 +145,7 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                             <div class="appearance_actions">
                                 <a href="#" class="lp_js_savePurchaseForm button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
                                 <a href="#" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                                <span data-icon="n" class="lp_disclaimer" id="lp_config_disclaimer" style="display: none"><?php esc_html_e( 'Please select one of the recommended options above to ensure that your users can purchase all content types.', 'laterpay' ); ?></span>
                             </div>
                         </div>
                     </form>

@@ -78,6 +78,7 @@
                 navigation              : $('.lp_navigation'),
                 flip                    : $('a.lp_js_flipTimePass, a.lp_js_flipSubscription'),
                 redeemCode              : $('.lp_redeem-code__hint'),
+                config_disclaimer       : $('#lp_config_disclaimer'),
             },
 
             bindEvents = function() {
@@ -321,21 +322,35 @@
             },
 
             verifyAppearanceOptions = function() {
+                var invalidConfig = false;
                 if ( ! $o.show_purchase_button.prop('checked') &&
                     ! $o.show_purchase_overlay.prop('checked') &&
                     ! $o.show_tp_sub_below_modal.prop('checked') ) {
-                    $o.navigation.showMessage( lpVars.invalidConfigError, false );
-                    $o.savePurchaseForm.attr('disabled', true);
-                    return;
+                    invalidConfig = true;
+                    $o.show_purchase_button.addClass('recommended_option');
+                    $o.show_purchase_overlay.addClass('recommended_option');
+                    $o.show_tp_sub_below_modal.addClass('recommended_option');
                 } else if ( $o.show_purchase_button.prop('checked') &&
                     ! $o.show_purchase_overlay.prop('checked') &&
                     ! $o.show_tp_sub_below_modal.prop('checked') ) {
-                    $o.navigation.showMessage( 'Invalid Appearance Configuration!' );
+                    invalidConfig = true;
+                    $o.show_purchase_button.removeClass('recommended_option');
+                    $o.show_purchase_overlay.addClass('recommended_option');
+                    $o.show_tp_sub_below_modal.addClass('recommended_option');
+                }
+
+                if ( invalidConfig ) {
+                    $o.navigation.showMessage( lpVars.invalidConfigError, false );
                     $o.savePurchaseForm.attr('disabled', true);
+                    $o.config_disclaimer.show();
                     return;
                 }
 
+                $o.show_purchase_button.removeClass('recommended_option');
+                $o.show_purchase_overlay.removeClass('recommended_option');
+                $o.show_tp_sub_below_modal.removeClass('recommended_option');
                 $o.savePurchaseForm.attr('disabled', false);
+                $o.config_disclaimer.hide();
             },
 
             purchaseButtonSwitch = function($trigger) {
