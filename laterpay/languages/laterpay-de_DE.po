@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-06-06 13:14+0530\n"
-"PO-Revision-Date: 2019-06-06 13:14+0530\n"
+"POT-Creation-Date: 2019-06-06 15:24+0530\n"
+"PO-Revision-Date: 2019-06-06 15:24+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -533,7 +533,15 @@ msgstr "Erweitertes Beispiel"
 msgid "Version %s Highlights:"
 msgstr "Highlights der Version %s:"
 
-#: application/Controller/Admin.php:758
+#: application/Controller/Admin.php:757
+msgid ""
+"You can now fully customize the appearance of your payment overlay. Visit "
+"the Appearance tab, to check it out!"
+msgstr ""
+"Sie können nun das Erscheinungsbild Ihres Zahlungs-Overlays vollständig "
+"anpassen. Besuchen Sie die Registerkarte Aussehen, um es auszuprobieren!"
+
+#: application/Controller/Admin.php:759
 msgid "Learn More"
 msgstr "Erfahren Sie mehr"
 
@@ -1597,6 +1605,10 @@ msgstr ""
 "genannten Probleme und versuchen Sie es erneut."
 
 #: application/Controller/Install.php:683
+#, fuzzy
+#| msgid ""
+#| "You can now fully customize the appearance of your payment overlay. Visit "
+#| "the Appearance tab, to check it out!"
 msgid ""
 "You can now fully customize the appearance of your payment overlay. Visit "
 "the Appearance tab to check it out!"
@@ -1818,10 +1830,6 @@ msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer "
 "Zahlungsmethode, der Sie vertrauen."
-
-#: built_assets/js/laterpay-common.js:1
-msgid "lpSummarySentDate"
-msgstr ""
 
 #: built_assets/js/vendor/velocity.min.js:3
 msgid "translateX"
@@ -3163,6 +3171,22 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#~ msgid "You can now fully customize the appearance of your payment overlay. "
+#~ msgstr ""
+#~ "Sie können nun das Erscheinungsbild Ihres Zahlungs-Overlays vollständig "
+#~ "anpassen. "
+
+#~ msgid "Visit the Appearance tab, to check it out!"
+#~ msgstr "Besuchen Sie die Registerkarte Aussehen, um es auszuprobieren!"
+
+#~ msgid ""
+#~ "You can now fully customize the appearance of your payment overlay. %s "
+#~ "Visit the Appearance tab, to check it out!"
+#~ msgstr ""
+#~ "Sie können nun das Erscheinungsbild Ihres Zahlungs-Overlays vollständig "
+#~ "anpassen. %s Besuchen Sie die Registerkarte Aussehen, um es "
+#~ "auszuprobieren!"
 
 #~ msgid ""
 #~ "Visitors will now see the teaser content of paid posts plus an excerpt of "

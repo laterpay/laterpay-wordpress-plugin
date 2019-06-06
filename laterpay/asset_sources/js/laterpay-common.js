@@ -9,13 +9,14 @@
                     setGlobalPrice : $('#lp_js_saveGlobalDefaultPrice'),
                 },
                 screen_meta_links   : $('#screen-meta-links'),
+                backendPage         : $('.lp_page'),
                 close_update_notice : $('#close_update_notice'),
         },
 
         bindEvents = function() {
 
             // Reset update highlights data on click.
-            $o.screen_meta_links.on('click', $o.close_update_notice, function( e ) {
+            $o.backendPage.add($o.screen_meta_links).on('click', $o.close_update_notice, function( e ) {
                 if ( 'close_update_notice' === e.target.id ) {
                     $.post(
                         lpCommonVar.ajaxUrl, {
@@ -24,8 +25,11 @@
                         },
                         function(data) {
                             if (data.success) {
-                                $o.screen_meta_links.find('div.lp_update_notification').remove();
-                                $o.screen_meta_links.css('margin-right', '20px');
+                                $o.backendPage.find('div.lp_update_notification').remove();
+                                if ( $o.screen_meta_links.length ) {
+                                    $o.screen_meta_links.find('div.lp_update_notification').remove();
+                                    $o.screen_meta_links.css('margin-right', '20px');
+                                }
                             }
                         },
                         'json'
@@ -191,7 +195,12 @@
 
         // Create markup for highlights notice dynamically if there is notice data.
         addUpdateHighlights = function () {
-            if ( $o.screen_meta_links.length && Object.keys(lpCommonVar.update_highlights).length ) {
+
+            if ( 'settings' === lpCommonVar.current_page ) {
+                return;
+            }
+
+            if ( Object.keys(lpCommonVar.update_highlights).length ) {
 
                 // Notice Div.
                 var updateWrapper = $('<div/>', {
@@ -220,14 +229,19 @@
                 var updateDetailsDismiss = $('<a/>', {
                     class: 'close_notice',
                     id   : 'close_update_notice'
-                }).attr('data-icon', 'e');
+                }).attr('data-icon', 'e').css('cursor', 'pointer');
 
                 versionDescritpion.prepend(version);
                 updateWrapper.append(versionDescritpion);
                 updateWrapper.append(updateDetailsCallToAction);
                 updateWrapper.append(updateDetailsDismiss);
-                $o.screen_meta_links.prepend(updateWrapper);
-                $o.screen_meta_links.css('margin-right', '0'); // Adjust margin, will be reverted on notice dismiss.
+
+                if ( 'advanced' !== lpCommonVar.current_page && $o.screen_meta_links.length ) {
+                    $o.screen_meta_links.prepend(updateWrapper);
+                    $o.screen_meta_links.css('margin-right', '0'); // Adjust margin, will be reverted on notice dismiss.
+                } else {
+                    $('#lp_js_flashMessage').after(updateWrapper);
+                }
             }
         },
 
