@@ -394,7 +394,7 @@ msgid "Advanced"
 msgstr ""
 
 #: laterpay/application/Controller/Admin.php:756
-msgid "Version %s Highlights:"
+msgid "Version %s Highlights: "
 msgstr ""
 
 #: laterpay/application/Controller/Admin.php:758
