@@ -1740,10 +1740,6 @@ msgstr ""
 msgid "Please add a custom role first."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Settings.php:763
-msgid "$name"
-msgstr ""
-
 #: laterpay/application/Controller/Admin/Settings.php:846
 msgid "Do nothing"
 msgstr ""
