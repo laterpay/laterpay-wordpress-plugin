@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-06-10 15:13+0530\n"
-"PO-Revision-Date: 2019-06-10 15:13+0530\n"
+"POT-Creation-Date: 2019-06-10 22:19+0530\n"
+"PO-Revision-Date: 2019-06-10 22:21+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1497,11 +1497,11 @@ msgstr ""
 "{teaser_content}"
 
 #: application/Controller/Frontend/PreviewMode.php:117
-#: application/Controller/Frontend/PreviewMode.php:202
+#: application/Controller/Frontend/PreviewMode.php:204
 msgid "Updated."
 msgstr "Aktualisiert."
 
-#: application/Controller/Frontend/PreviewMode.php:176
+#: application/Controller/Frontend/PreviewMode.php:178
 #: application/Module/Appearance.php:213
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
@@ -1871,18 +1871,21 @@ msgstr ""
 #: views/backend/account.php:24 views/backend/advanced.php:28
 #: views/backend/appearance.php:38
 #: views/backend/partials/post-pricing-form.php:57 views/backend/pricing.php:19
+#: views/frontend/partials/post/select-preview-mode-tab.php:23
 msgid "Test mode"
 msgstr "Test-Modus"
 
 #: views/backend/account.php:25 views/backend/advanced.php:29
 #: views/backend/appearance.php:39
 #: views/backend/partials/post-pricing-form.php:61 views/backend/pricing.php:23
+#: views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "Earn money in"
 msgstr "Geld verdienen im"
 
 #: views/backend/account.php:25 views/backend/advanced.php:29
 #: views/backend/appearance.php:39
 #: views/backend/partials/post-pricing-form.php:61 views/backend/pricing.php:23
+#: views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "live mode"
 msgstr "Live-Modus"
 
@@ -3102,15 +3105,27 @@ msgstr "Einlösen"
 msgid "Post Preview Mode"
 msgstr "Vorschau-Modus"
 
-#: views/frontend/partials/post/select-preview-mode-tab.php:18
+#: views/frontend/partials/post/select-preview-mode-tab.php:36
+msgid "Complete the steps on the"
+msgstr "Führen Sie die Schritte auf der"
+
+#: views/frontend/partials/post/select-preview-mode-tab.php:38
+msgid "account tab"
+msgstr "Registerkarte Konto"
+
+#: views/frontend/partials/post/select-preview-mode-tab.php:39
+msgid "to make this visible to visitors"
+msgstr "aus, um dies für Besucher sichtbar zu machen"
+
+#: views/frontend/partials/post/select-preview-mode-tab.php:46
 msgid "Preview post as"
 msgstr "Vorschau für"
 
-#: views/frontend/partials/post/select-preview-mode-tab.php:18
+#: views/frontend/partials/post/select-preview-mode-tab.php:46
 msgid "Admin"
 msgstr "Admin"
 
-#: views/frontend/partials/post/select-preview-mode-tab.php:38
+#: views/frontend/partials/post/select-preview-mode-tab.php:66
 msgid "Visitor"
 msgstr "Besucher"
 
@@ -3364,9 +3379,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
 #~ msgid "It is invisible"
 #~ msgstr "Es ist für Besucher nicht sichtbar"
-
-#~ msgid "visible to visitors."
-#~ msgstr "sichtbar."
 
 #~ msgid "LaterPay Colors"
 #~ msgstr "LaterPay Farben"

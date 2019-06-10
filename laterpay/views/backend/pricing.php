@@ -356,7 +356,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 esc_html__( 'Not familiar with WordPress categories? %s
                                 %sClick here to learn more.%s', 'laterpay' ),
                                 '<br>',
-                                '<a href="https://codex.wordpress.org/Posts_Categories_Screen" target="_blank">',
+                                '<a href="https://wordpress.org/support/article/posts-categories-screen/" target="_blank">',
                                 '</a>'
                             );
                             ?>

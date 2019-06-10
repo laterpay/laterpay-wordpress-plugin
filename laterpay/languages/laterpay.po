@@ -545,7 +545,7 @@ msgstr ""
 msgid "Problem with inserted shortcode:"
 msgstr ""
 
-#: laterpay/application/Module/Appearance.php:213, laterpay/application/Controller/Frontend/PreviewMode.php:176
+#: laterpay/application/Module/Appearance.php:213, laterpay/application/Controller/Frontend/PreviewMode.php:178
 msgid "You don't have sufficient user capabilities to do this."
 msgstr ""
 
@@ -629,17 +629,18 @@ msgstr ""
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/views/backend/account.php:24, laterpay/views/backend/advanced.php:28, laterpay/views/backend/appearance.php:38, laterpay/views/backend/pricing.php:19, laterpay/views/backend/partials/post-pricing-form.php:57
+#: laterpay/views/backend/account.php:24, laterpay/views/backend/advanced.php:28, laterpay/views/backend/appearance.php:38, laterpay/views/backend/pricing.php:19, laterpay/views/backend/partials/post-pricing-form.php:57, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:23
 msgid "Test mode"
 msgstr ""
 
 #. translators: %1$s info text1, %2$s info text2
 #. translators: %1$s info text1, %2$s info text2
-#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:39, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:61
+#. translators: %1$s info text1, %2$s info text2
+#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:39, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:61, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "Earn money in"
 msgstr ""
 
-#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:39, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:61
+#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:39, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:61, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "live mode"
 msgstr ""
 
@@ -1793,7 +1794,7 @@ msgstr ""
 msgid "&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/PreviewMode.php:117, laterpay/application/Controller/Frontend/PreviewMode.php:202
+#: laterpay/application/Controller/Frontend/PreviewMode.php:117, laterpay/application/Controller/Frontend/PreviewMode.php:204
 msgid "Updated."
 msgstr ""
 
@@ -2181,15 +2182,27 @@ msgstr ""
 msgid "Post Preview Mode"
 msgstr ""
 
-#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:18
-msgid "Preview post as"
-msgstr ""
-
-#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:18
-msgid "Admin"
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:36
+msgid "Complete the steps on the"
 msgstr ""
 
 #: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:38
+msgid "account tab"
+msgstr ""
+
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:39
+msgid "to make this visible to visitors"
+msgstr ""
+
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:46
+msgid "Preview post as"
+msgstr ""
+
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:46
+msgid "Admin"
+msgstr ""
+
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:66
 msgid "Visitor"
 msgstr ""
 
