@@ -144,6 +144,7 @@
                         }
                     });
 
+                    lpGlobal.sendLPGAEvent( 'Update Colors', 'LP WP Appearance', lpVars.gaData.sandbox_merchant_id );
                     saveData($form);
                 });
 
