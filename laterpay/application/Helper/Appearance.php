@@ -112,6 +112,9 @@ class LaterPay_Helper_Appearance {
                 background-color: " . esc_html( $options['button_bg_color'] ) . " !important;
                 color: " . esc_html( $options['button_text_color'] ) . " !important;
             }
+            .lp_purchase-overlay__submit:hover, .lp_purchase_button:hover, .lp_purchase-button:hover {
+                color: " . esc_html( $options['button_text_color'] ) . " !important;
+            }
             .lp_purchase-overlay__footer {
                 background-color: " . esc_html( $options['footer_bg_color'] ) . " !important;
             }
@@ -210,6 +213,22 @@ class LaterPay_Helper_Appearance {
             update_option( 'lp_appearance_config', $appearance_config );
             update_option( 'laterpay_purchase_button_positioned_manually', 0 );
             update_option( 'laterpay_time_passes_positioned_manually', 0 );
+
+            // BC for color scheme for overlay layout.
+            $overlay_bg_color = get_option( 'laterpay_overlay_button_bg_color' );
+
+            if ( $overlay_bg_color ) {
+                update_option( 'laterpay_main_color', $overlay_bg_color );
+                update_option( 'laterpay_hover_color', $overlay_bg_color );
+            }
+        }
+
+        // BC for color scheme for teaser + link and teaser + explanatory layout.
+        if ( 2 !== $current_appearance_layout ) {
+            $current_main_color  = get_option( 'laterpay_main_color' );
+            $current_hover_color = get_option( 'laterpay_hover_color' );
+            update_option( 'laterpay_overlay_link_main_color', $current_main_color );
+            update_option( 'laterpay_overlay_link_hover_color', $current_hover_color );
         }
 
         update_option( 'lp_body_text', [ 'enabled' => 0, 'content' => '' ] );
