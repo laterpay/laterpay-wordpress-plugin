@@ -298,7 +298,7 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                             "<a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
                             esc_url( admin_url( 'options-general.php?page=laterpay#lpappearance' ) ),
                             esc_html__( 'Click here', 'laterpay' ),
-                            esc_html__( 'to adjust the default colors, the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall.', 'laterpay' )
+                            esc_html__( 'to adjust the number of characters automatically generated as your teaser content or the length of the content preview blurred behind our paywall.', 'laterpay' )
                         );
                         ?>
                     </p>

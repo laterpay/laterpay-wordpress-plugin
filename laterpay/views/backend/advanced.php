@@ -212,7 +212,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             ?>
                         </p>
                         <ul>
-                            <li><?php esc_html_e( 'Button & link colors', 'laterpay' ); ?></li>
                             <li><?php esc_html_e( 'Length of default teaser content', 'laterpay' ); ?></li>
                             <li><?php esc_html_e( 'Length of blurred content displayed behind paywall', 'laterpay' ); ?></li>
                         </ul>

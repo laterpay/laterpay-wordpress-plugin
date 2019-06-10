@@ -861,99 +861,95 @@ msgstr ""
 msgid "Click here to access additional appearance configurations,"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:210, laterpay/views/backend/advanced.php:284, laterpay/views/backend/advanced.php:322
+#: laterpay/views/backend/advanced.php:210, laterpay/views/backend/advanced.php:283, laterpay/views/backend/advanced.php:321
 msgid "including:"
 msgstr ""
 
 #: laterpay/views/backend/advanced.php:215
-msgid "Button & link colors"
-msgstr ""
-
-#: laterpay/views/backend/advanced.php:216
 msgid "Length of default teaser content"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:217
+#: laterpay/views/backend/advanced.php:216
 msgid "Length of blurred content displayed behind paywall"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:230
+#: laterpay/views/backend/advanced.php:229
 msgid "%sDelete%s Account"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:242
+#: laterpay/views/backend/advanced.php:241
 msgid "%sWarning!%s This operation deletes ALL LaterPay plugin data."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:248
+#: laterpay/views/backend/advanced.php:247
 msgid "%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL its data."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:255
+#: laterpay/views/backend/advanced.php:254
 msgid "You will lose all appearance settings and pricing configurations. This cannot be undone."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:260
+#: laterpay/views/backend/advanced.php:259
 msgid "Are you sure you want to delete ALL LaterPay Plugin data? You will loose all pricing configurations. This cannot be undone."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:262
+#: laterpay/views/backend/advanced.php:261
 msgid "Are you sure you want to deactivate LaterPay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:264
+#: laterpay/views/backend/advanced.php:263
 msgid "Delete LaterPay Plugin Data"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:264
+#: laterpay/views/backend/advanced.php:263
 msgid "Deactivate LaterPay Plugin"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:265, laterpay/views/backend/appearance.php:147, laterpay/views/backend/appearance.php:280, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:707, laterpay/views/backend/pricing.php:854, laterpay/application/Controller/Admin/Settings.php:248, laterpay/views/frontend/partials/widget/purchase-overlay.php:194
+#: laterpay/views/backend/advanced.php:264, laterpay/views/backend/appearance.php:147, laterpay/views/backend/appearance.php:280, laterpay/views/backend/pricing.php:80, laterpay/views/backend/pricing.php:220, laterpay/views/backend/pricing.php:340, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:492, laterpay/views/backend/pricing.php:654, laterpay/views/backend/pricing.php:707, laterpay/views/backend/pricing.php:854, laterpay/application/Controller/Admin/Settings.php:248, laterpay/views/frontend/partials/widget/purchase-overlay.php:194
 msgid "Cancel"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:267, laterpay/application/Controller/Admin/Advanced.php:46
+#: laterpay/views/backend/advanced.php:266, laterpay/application/Controller/Admin/Advanced.php:46
 msgid "Delete Plugin Data"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:267, laterpay/application/Controller/Admin/Advanced.php:46
+#: laterpay/views/backend/advanced.php:266, laterpay/application/Controller/Admin/Advanced.php:46
 msgid "Deactivate Plugin & Delete Data"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:274
+#: laterpay/views/backend/advanced.php:273
 msgid "Technical"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:283
+#: laterpay/views/backend/advanced.php:282
 msgid "Click here for more technical configuration options,"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:289
+#: laterpay/views/backend/advanced.php:288
 msgid "Enable caching compatibility mode"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:290
+#: laterpay/views/backend/advanced.php:289
 msgid "Define fallback behavior in case LaterPay API is not responding"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:303
+#: laterpay/views/backend/advanced.php:302
 msgid "TIPS & TRICKS"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:308
+#: laterpay/views/backend/advanced.php:307
 msgid "%sHELP!%s The new version of the plugin is not compatible with my site. How can I rollback? %sClick here for step by step instructions.%s"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:319
+#: laterpay/views/backend/advanced.php:318
 msgid "Have you found all of our Advanced Settings?"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:321
+#: laterpay/views/backend/advanced.php:320
 msgid "Click here to see even more LaterPay configurations."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:328
+#: laterpay/views/backend/advanced.php:327
 msgid "Pay Later can be counter-intuitive at first. %sClick here%s to learn more and see our recommendations on when to use Pay Now versus Pay Later."
 msgstr ""
 
@@ -1066,7 +1062,7 @@ msgid "Click here"
 msgstr ""
 
 #: laterpay/views/backend/appearance.php:301
-msgid "to adjust the default colors, the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall."
+msgid "to adjust the number of characters automatically generated as your teaser content or the length of the content preview blurred behind our paywall."
 msgstr ""
 
 #: laterpay/views/backend/options.php:10
@@ -1742,10 +1738,6 @@ msgstr ""
 
 #: laterpay/application/Controller/Admin/Settings.php:576
 msgid "Please add a custom role first."
-msgstr ""
-
-#: laterpay/application/Controller/Admin/Settings.php:763
-msgid "$name"
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Settings.php:846
