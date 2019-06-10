@@ -77,7 +77,6 @@
                 lp_purchase_button_tp   : $('.lp_purchase-button'),
                 navigation              : $('.lp_navigation'),
                 flip                    : $('a.lp_js_flipTimePass, a.lp_js_flipSubscription'),
-                redeemCode              : $('.lp_redeem-code__hint'),
                 config_disclaimer       : $('#lp_config_disclaimer'),
             },
 
@@ -432,18 +431,26 @@
 
                 // change button bg color
                 if ($trigger.hasClass($o.buttonBgColor)) {
-                    style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
-                    setStyle($($o.overlayButton), style);
-                    setStyle($($o.lp_purchase_button), style);
-                    setStyle($($o.lp_purchase_button_tp), style);
+                    var currentTextColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
+                    var bgColorValue = $('.' + $o.buttonBgColor).val();
+                    style = 'background-color: ' + bgColorValue + ' !important;';
+                    setStyle($($o.overlayButton), style + currentTextColorValue);
+                    setStyle($($o.lp_purchase_button), style + currentTextColorValue);
+                    setStyle($($o.lp_purchase_button_tp), style + currentTextColorValue);
+
+                    if ( $o.flip.length ) {
+                        textColorValue = 'color:' + bgColorValue + ' !important;';
+                        setStyle($o.flip, textColorValue);
+                    }
                 }
 
                 // change button text color
                 if ($trigger.hasClass($o.buttonTextColor)) {
+                    var currentBgColorValue = 'background-color:' + $('.' + $o.buttonBgColor).val() + ' !important;';
                     style = 'color: ' + $('.' + $o.buttonTextColor).val() + ' !important;';
-                    setStyle($($o.overlayButton), style);
-                    setStyle($($o.lp_purchase_button), style);
-                    setStyle($($o.lp_purchase_button_tp), style);
+                    setStyle($($o.overlayButton), style + currentBgColorValue);
+                    setStyle($($o.lp_purchase_button), style + currentBgColorValue);
+                    setStyle($($o.lp_purchase_button_tp), style + currentBgColorValue);
                 }
 
                 // change link hover color
@@ -451,11 +458,12 @@
 
                     $($o.overlayButton).hover(
                         function() {
-                            textColorValue = 'color:' + $o.overlayButton.css('color') + ' !important;';
+                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
+                            style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
                             setStyle($($o.overlayButton), style + textColorValue);
                         },
                         function() {
-                            textColorValue = 'color:' + $o.overlayButton.css('color') + ' !important;';
+                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
                             setStyle($($o.overlayButton), style + textColorValue);
                         }
@@ -463,12 +471,12 @@
 
                     $($o.lp_purchase_button).hover(
                         function() {
-                            textColorValue = 'color:' + $o.lp_purchase_button.css('color') + ' !important;';
+                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
                             setStyle($($o.lp_purchase_button), style + textColorValue);
                         },
                         function() {
-                            textColorValue = 'color:' + $o.lp_purchase_button.css('color') + ' !important;';
+                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
                             setStyle($($o.lp_purchase_button), style + textColorValue);
                         }
@@ -476,12 +484,12 @@
 
                     $($o.lp_purchase_button_tp).hover(
                         function() {
-                            textColorValue = 'color:' + $o.lp_purchase_button_tp.css('color') + ' !important;';
+                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
                             setStyle($($o.lp_purchase_button_tp), style + textColorValue);
                         },
                         function() {
-                            textColorValue = 'color:' + $o.lp_purchase_button_tp.css('color') + ' !important;';
+                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
                             setStyle($($o.lp_purchase_button_tp), style + textColorValue);
                         }
@@ -493,7 +501,6 @@
                     style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
                     setStyle($($o.overlayLink + ' a'), style);
                     setStyle($($o.overlayLink), style);
-                    setStyle($($o.redeemCode), style);
 
                     if ( ($($o.overlayLinkNotification).length ) ) {
                         setStyle($($o.overlayLinkNotification), style);
@@ -521,17 +528,6 @@
                         function() {
                             style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
                             setStyle($($o.overlayLinkNotification), style);
-                        }
-                    );
-
-                    $($o.redeemCode).hover(
-                        function() {
-                            style = 'color: ' + $('.' + $o.linkHoverColor).val() + ' !important;';
-                            setStyle($($o.redeemCode), style);
-                        },
-                        function() {
-                            style = 'color: ' + $('.' + $o.linkMainColor).val() + ' !important;';
-                            setStyle($($o.redeemCode), style);
                         }
                     );
                 }

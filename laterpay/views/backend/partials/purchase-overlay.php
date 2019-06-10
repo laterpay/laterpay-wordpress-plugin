@@ -228,9 +228,4 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
             </table>
         </section>
     </div>
-    <div id="lp_js_voucherCodeWrapper" class="lp_redeem-code__wrapper lp_clearfix">
-        <input type="text" name="time_pass_voucher_code" class="lp_js_voucherCodeInput lp_redeem-code__value lp_is-hidden" maxlength="6">
-        <p class="lp_redeem-code__input-hint">Code</p>
-        <div class="lp_js_voucherRedeemButton lp_redeem-code__button lp_button">Redeem</div>
-        <p class="lp_redeem-code__hint">Redeem Voucher &gt;</p></div>
 </div>
