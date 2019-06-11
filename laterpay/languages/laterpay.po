@@ -1284,72 +1284,76 @@ msgstr ""
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:58
+#: laterpay/application/Controller/Admin/Account.php:63
 msgid "The API key you entered is not a valid LaterPay API key!"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:59
+#: laterpay/application/Controller/Admin/Account.php:64
 msgid "The Merchant ID you entered is not a valid LaterPay Merchant ID!"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:60
+#: laterpay/application/Controller/Admin/Account.php:65
 msgid "LaterPay does not work properly with invalid API credentials."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:110, laterpay/application/Controller/Admin/Appearance.php:113, laterpay/application/Controller/Admin/Pricing.php:248, laterpay/application/Controller/Admin/Pricing.php:495, laterpay/application/Controller/Admin/Pricing.php:577, laterpay/application/Controller/Admin/Pricing.php:1001, laterpay/application/Controller/Frontend/PreviewMode.php:76
+#: laterpay/application/Controller/Admin/Account.php:116, laterpay/application/Controller/Admin/Appearance.php:113, laterpay/application/Controller/Admin/Pricing.php:248, laterpay/application/Controller/Admin/Pricing.php:495, laterpay/application/Controller/Admin/Pricing.php:577, laterpay/application/Controller/Admin/Pricing.php:1001, laterpay/application/Controller/Frontend/PreviewMode.php:76
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:180, laterpay/application/Controller/Admin/Account.php:238
+#: laterpay/application/Controller/Admin/Account.php:186, laterpay/application/Controller/Admin/Account.php:244
 msgid "The Merchant ID you entered is not a valid LaterPay %s Merchant ID!"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:194
+#: laterpay/application/Controller/Admin/Account.php:200
 msgid "The %s Merchant ID has been removed."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:207
+#: laterpay/application/Controller/Admin/Account.php:213
 msgid "%s Merchant ID verified and saved."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:252
+#: laterpay/application/Controller/Admin/Account.php:258
 msgid "The %s API key has been removed."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:265
+#: laterpay/application/Controller/Admin/Account.php:271
 msgid "Your %s API key is valid. You can now make %s transactions."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:286, laterpay/application/Controller/Admin/Account.php:333
+#: laterpay/application/Controller/Admin/Account.php:292, laterpay/application/Controller/Admin/Account.php:339
 msgid "Error occurred. Incorrect data provided."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:301
+#: laterpay/application/Controller/Admin/Account.php:307
 msgid "The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:311
+#: laterpay/application/Controller/Admin/Account.php:317
 msgid "The LaterPay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:321
+#: laterpay/application/Controller/Admin/Account.php:327, laterpay/application/Controller/Admin/Account.php:468
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:346
+#: laterpay/application/Controller/Admin/Account.php:352
 msgid "Failed to change region settings."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:371
+#: laterpay/application/Controller/Admin/Account.php:377
 msgid "The LaterPay region was changed successfully."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:397
+#: laterpay/application/Controller/Admin/Account.php:403
 msgid "LaterPay has been successfully uninstalled. It can be re-activated from the plugins page."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:405
+#: laterpay/application/Controller/Admin/Account.php:411
 msgid "LaterPay data has been erased successfully."
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Account.php:460
+msgid "Your LaterPay account is restricted to sell content in %s. Please update your currency or contact sales@laterpay.net."
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Appearance.php:157

@@ -189,6 +189,12 @@
                     },
                     'json'
                 );
+
+                setTimeout(function() {
+                    if ( $o.pluginModeToggle.prop('checked') ) {
+                        validateCredByRegion();
+                    }
+                }, 2000);
             },
 
             makeAjaxRequest = function(form_id) {
@@ -222,6 +228,16 @@
                             var eveCategory = 'LP WP Account';
                             var eveAction = 'Account Status Change';
                             lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + pluginStatus );
+                        }
+
+                        if ( 'laterpay_plugin_mode' === form_id ||
+                            'laterpay_live_merchant_id' === form_id ||
+                            'laterpay_live_api_key' === form_id ) {
+                            setTimeout(function() {
+                                if ( $o.pluginModeToggle.prop('checked') ) {
+                                    validateCredByRegion();
+                                }
+                            }, 2000);
                         }
                     });
                 }
@@ -303,6 +319,22 @@
                 if (hasNoValidCredentials()) {
                     return lpVars.i18nPreventUnload;
                 }
+            },
+
+            validateCredByRegion = function() {
+                $.post(
+                    lpVars.ajaxUrl, {
+                        action   : 'laterpay_validate_cred_region',
+                        security : lpVars.validate_cred_nonce,
+                    },
+                    function(data) {
+                        if ( data.hasOwnProperty( 'mode' ) ) {
+                            $o.pluginModeToggle.prop('checked', false);
+                            $o.navigation.showMessage(data);
+                        }
+                    },
+                    'json'
+                );
             },
 
             initializePage = function() {
