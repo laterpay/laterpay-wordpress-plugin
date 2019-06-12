@@ -405,6 +405,18 @@ msgstr ""
 msgid "Learn More"
 msgstr ""
 
+#: laterpay/application/Controller/Admin.php:766
+msgid "%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed."
+msgstr ""
+
+#: laterpay/application/Controller/Admin.php:767
+msgid "%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page."
+msgstr ""
+
+#: laterpay/application/Controller/Admin.php:768
+msgid "%sOptional%s Here we highlight advanced features & settings like contributions, selling downloadable content, and promoting your subscriptions. Scroll through to learn more!"
+msgstr ""
+
 #: laterpay/application/Controller/Install.php:76
 msgid "<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>"
 msgstr ""
@@ -433,7 +445,7 @@ msgstr ""
 msgid "The LaterPay plugin could not be installed. Please fix the reported issues and try again."
 msgstr ""
 
-#: laterpay/application/Controller/Install.php:683
+#: laterpay/application/Controller/Install.php:684
 msgid "You can now fully customize the appearance of your payment overlay. Visit the Appearance tab to check it out!"
 msgstr ""
 
@@ -1384,31 +1396,31 @@ msgstr ""
 msgid "Time passes are now rendered at their default position."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:49
+#: laterpay/application/Controller/Admin/Notice.php:54
 msgid "Please contact WPEngine customer service to bypass the required cookies"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:50
+#: laterpay/application/Controller/Admin/Notice.php:55
 msgid "laterpay_token, laterpay_purchased_gift_card and laterpay_tracking_code"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:51
+#: laterpay/application/Controller/Admin/Notice.php:56
 msgid "in order for the plugin to work properly with page-cache."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:52
+#: laterpay/application/Controller/Admin/Notice.php:57
 msgid "Done"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:73
+#: laterpay/application/Controller/Admin/Notice.php:78
 msgid "Saving Settings "
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:74
+#: laterpay/application/Controller/Admin/Notice.php:79
 msgid "Settings Saved "
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:75
+#: laterpay/application/Controller/Admin/Notice.php:80
 msgid "Error saving data"
 msgstr ""
 

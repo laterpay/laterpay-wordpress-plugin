@@ -760,6 +760,26 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $ga_data['ajaxUrl']                      = admin_url( 'admin-ajax.php' );
         }
 
+        $data_for_localize['lp_instructional_info'] = [];
+
+        $tab_information = [
+            'appearance' => sprintf( __( '%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed.', 'laterpay' ), '<b>', '</b>' ),
+            'pricing'    => sprintf( __( '%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page.', 'laterpay' ), '<b>', '</b>' ),
+            'advanced'   => sprintf( __( '%sOptional%s Here we highlight advanced features & settings like contributions, selling downloadable content, and promoting your subscriptions. Scroll through to learn more!', 'laterpay' ), '<b>', '</b>' ),
+        ];
+
+        $tab_information_status = get_option( 'lp_tabular_info' );
+
+        foreach ( $tab_information as $key => $value ) {
+            if ( 1 === absint( $tab_information_status[ $key ] ) ) {
+                $data_for_localize['lp_instructional_info'][ $key ] = $value;
+            }
+        }
+
+        if ( ! empty( $data_for_localize['lp_instructional_info'] ) ) {
+            $data_for_localize['read_tabular_nonce'] = wp_create_nonce( 'read_tabular_info_nonce' );
+        }
+
         $final_data = array_merge( $ga_data,$data_for_localize );
 
         wp_localize_script(

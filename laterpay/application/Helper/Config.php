@@ -400,6 +400,7 @@ class LaterPay_Helper_Config {
         delete_option( 'lp_appearance_config' );
         delete_option( 'lp_update_highlights' );
         delete_option( 'laterpay_show_cache_msg' );
+        delete_option( 'lp_tabular_info' );
         delete_option( 'laterpay_plugin_version' );
 
         // Delete Post Price Display Behaviour Option.

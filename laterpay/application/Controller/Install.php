@@ -496,6 +496,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->remove_custom_table_support();
         $this->update_appearance_config();
         $this->add_update_highlights();
+        $this->add_tabular_info_option();
 
     }
 
@@ -689,5 +690,22 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         update_option( 'lp_update_highlights', $update_highlights );
 
+    }
+
+    /**
+     * Add option to manage tabular instructional notice.
+     */
+    public function add_tabular_info_option() {
+        // Add option to show instruction on given tabs.
+        if ( false === get_option( 'lp_tabular_info' ) ) {
+            // If `1` then show notice.
+            update_option( 'lp_tabular_info',
+                [
+                    'appearance' => 1,
+                    'pricing'    => 1,
+                    'advanced'   => 1,
+                ]
+            );
+        }
     }
 }
