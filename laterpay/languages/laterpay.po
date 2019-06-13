@@ -665,7 +665,7 @@ msgid "mode."
 msgstr ""
 
 #: laterpay/views/backend/account.php:59
-msgid "In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 4 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments."
+msgid "In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 3 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments."
 msgstr ""
 
 #: laterpay/views/backend/account.php:65
@@ -705,78 +705,106 @@ msgid "Step 2"
 msgstr ""
 
 #: laterpay/views/backend/account.php:109
-msgid "Create LaterPay Account"
+msgid "Get Started"
 msgstr ""
 
-#: laterpay/views/backend/account.php:113
-msgid "A LaterPay Account is required in order to process financial transactions. You may skip this step if you have already created a LaterPay account."
+#: laterpay/views/backend/account.php:115
+msgid "Click through the remaining tabs from left to right. We will provide tips and instructions at the top of each page or click here to read our %sGetting Started Guide%s for step by step instructions."
 msgstr ""
 
-#: laterpay/views/backend/account.php:123
+#: laterpay/views/backend/account.php:125
 msgid "Step 3"
 msgstr ""
 
-#: laterpay/views/backend/account.php:124
-msgid "Getting Started"
+#: laterpay/views/backend/account.php:126
+msgid "Link to LaterPay"
 msgstr ""
 
-#: laterpay/views/backend/account.php:129
-msgid "It may take up to 5 business days for our banking partners to verify your information. You may go ahead and get started setting up your plugin while it is in \"Test mode\" then, once we've emailed you to let you know your account is live, come back and complete step 4 below in order to begin accepting payments."
+#: laterpay/views/backend/account.php:131
+msgid "A LaterPay Account is required to process financial transaction (so that we can pay you)."
 msgstr ""
 
 #: laterpay/views/backend/account.php:135
-msgid "%s Click here to read our Getting Started Guide%s or simply click through the remaining tabs and check out the LaterPay features available on your Edit Post pages to see all of the options available. To help you get started, all of the default values are automatically set to our experts' recommendations."
+msgid "Login"
 msgstr ""
 
-#: laterpay/views/backend/account.php:146
-msgid "Step 4"
+#: laterpay/views/backend/account.php:137
+msgid "or"
 msgstr ""
 
-#: laterpay/views/backend/account.php:147
-msgid "Accept Payments"
+#: laterpay/views/backend/account.php:139
+msgid "Sign Up"
 msgstr ""
 
-#: laterpay/views/backend/account.php:152
-msgid "It may take up to 5 business days for our banking partners to verify your information. Once we've emailed you to let you know your account is live, follow the steps below to begin accepting payments."
+#: laterpay/views/backend/account.php:143
+msgid "Once you have created your account, you will be instructed to copy and paste your Merchant ID & API Key into the boxes below. This ensures that your plugin is linked to your account."
 msgstr ""
 
-#: laterpay/views/backend/account.php:156
-msgid "%sClick here%s to log in to your LaterPay account"
-msgstr ""
-
-#: laterpay/views/backend/account.php:158
-msgid "Navigate to the developer tab & copy and paste your Merchant ID & API Key into the corresponding boxes below"
-msgstr ""
-
-#: laterpay/views/backend/account.php:160
-msgid "Don't see a developer tab? %sClick here%s to contact our support team."
-msgstr ""
-
-#: laterpay/views/backend/account.php:162
-msgid "Ensure that the toggle at the top of the page is switched to LIVE mode"
-msgstr ""
-
-#: laterpay/views/backend/account.php:181
+#: laterpay/views/backend/account.php:163
 msgid "Paste Live Merchant ID here"
 msgstr ""
 
-#: laterpay/views/backend/account.php:182
+#: laterpay/views/backend/account.php:164
 msgid "Merchant ID"
 msgstr ""
 
-#: laterpay/views/backend/account.php:201
+#: laterpay/views/backend/account.php:166, laterpay/views/backend/account.php:189
+msgid "This is required in order to ensure that you receive payments. Log in to your LaterPay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes."
+msgstr ""
+
+#: laterpay/views/backend/account.php:186
 msgid "Paste Live API Key here"
 msgstr ""
 
-#: laterpay/views/backend/account.php:202
+#: laterpay/views/backend/account.php:187
 msgid "API Key"
 msgstr ""
 
-#: laterpay/views/backend/account.php:214
-msgid "Who is LaterPay?"
+#: laterpay/views/backend/account.php:201
+msgid "Step 4"
+msgstr ""
+
+#: laterpay/views/backend/account.php:202
+msgid "Go Live"
+msgstr ""
+
+#: laterpay/views/backend/account.php:207
+msgid "How can I be sure that I am ready to go live?"
+msgstr ""
+
+#: laterpay/views/backend/account.php:211
+msgid "Set up your Pricing"
+msgstr ""
+
+#: laterpay/views/backend/account.php:212
+msgid "Preview your site while logged into WordPress to ensure everything is displayed as expected"
+msgstr ""
+
+#: laterpay/views/backend/account.php:213
+msgid "Create and link to your LaterPay account so that all revenue can be sent to your bank account"
 msgstr ""
 
 #: laterpay/views/backend/account.php:217
+msgid "Optional Configurations:"
+msgstr ""
+
+#: laterpay/views/backend/account.php:221
+msgid "Adjust the Appearance to match your brand colors"
+msgstr ""
+
+#: laterpay/views/backend/account.php:222
+msgid "Explore the Advanced tab to learn about additional features available"
+msgstr ""
+
+#: laterpay/views/backend/account.php:225
+msgid "Click the toggle at the top of the page to switch to \"LIVE\" mode and start generating revenue!"
+msgstr ""
+
+#: laterpay/views/backend/account.php:232
+msgid "Who is LaterPay?"
+msgstr ""
+
+#: laterpay/views/backend/account.php:235
 msgid ""
 "Meet the online payment system that cares about the user experience as much as you do %1$s %1$s\n"
 "                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s\n"

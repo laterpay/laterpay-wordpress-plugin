@@ -29,7 +29,8 @@
                 requestSent                     : false,
 
                 hide_cache_warning              : $('#hide_cache_warning'),
-                lp_cache_warning                : $('#lp_cache_warning')
+                lp_cache_warning                : $('#lp_cache_warning'),
+                lp_account_login                : $('#lp_account_login')
             },
 
             regionVal = $o.region.val(),
@@ -66,6 +67,11 @@
                 });
 
                 $o.showMerchantContractsButton.bind('click', function() {
+                    $(this).attr('href', $(this).data('href-'+$o.region.val()));
+                    return true;
+                });
+
+                $o.lp_account_login.bind('click', function() {
                     $(this).attr('href', $(this).data('href-'+$o.region.val()));
                     return true;
                 });

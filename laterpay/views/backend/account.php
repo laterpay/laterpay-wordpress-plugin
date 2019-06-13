@@ -56,7 +56,7 @@ $is_vip = laterpay_check_is_vip();
                         </label>
                     </form>
                 </div><?php esc_html_e( 'mode.', 'laterpay' ); ?>
-                <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 4 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments.', 'laterpay' ); ?>">
+                <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 3 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments.', 'laterpay' ); ?>">
                     <span data-icon="m" class="lp_js_postPriceSpan"></span>
                 </p>
             </div>
@@ -106,61 +106,43 @@ $is_vip = laterpay_check_is_vip();
             <div class="lp_clearfix">
                 <label class="lp_step_label">
                     <span class="lp_step_span"><?php esc_html_e( 'Step 2', 'laterpay' ); ?>:</span>
-                    <?php esc_html_e( 'Create LaterPay Account', 'laterpay' ); ?>
+                    <?php esc_html_e( 'Get Started', 'laterpay' ); ?>
                 </label>
                 <div class="lp_info_div">
                     <p>
-                        <?php esc_html_e( 'A LaterPay Account is required in order to process financial transactions. You may skip this step if you have already created a LaterPay account.', 'laterpay' ); ?>
+                        <?php
+                        printf(
+                            esc_html__( 'Click through the remaining tabs from left to right. We will provide tips and instructions at the top of each page or click here to read our %sGetting Started Guide%s for step by step instructions.', 'laterpay' ),
+                            "<a href='https://www.laterpay.net/academy/getting-started-with-the-laterpay-wordpress-plugin' class='lp_info_link' target='_blank'>",
+                            '</a>'
+                        ); ?>
                     </p>
-                    <a class="lp_purchase-overlay__submit" href="https://www.laterpay.net/signup/merchant" target="_blank">
-                        <span class="lp_purchase-overlay__submit-text lp_sign_up"><?php esc_html_e( 'Sign Up' ); ?></span>
-                    </a>
                 </div>
             </div>
 
             <div class="lp_clearfix">
                 <label class="lp_step_label">
                     <span class="lp_step_span"><?php esc_html_e( 'Step 3', 'laterpay' ); ?>:</span>
-                    <?php esc_html_e( 'Getting Started', 'laterpay' ); ?>
+                    <?php esc_html_e( 'Link to LaterPay', 'laterpay' ); ?>
                 </label>
                 <div class="lp_info_div">
                     <p>
                         <?php
-                        esc_html_e( 'It may take up to 5 business days for our banking partners to verify your information. You may go ahead and get started setting up your plugin while it is in "Test mode" then, once we\'ve emailed you to let you know your account is live, come back and complete step 4 below in order to begin accepting payments.', 'laterpay' );
+                        esc_html_e( 'A LaterPay Account is required to process financial transaction (so that we can pay you).', 'laterpay' );
                         ?>
                     </p>
+                    <a class="lp_purchase-overlay__submit" id="lp_account_login" target=“_blank” href="#" data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login'>
+                        <span class="lp_purchase-overlay__submit-text lp_sign_up"><?php esc_html_e( 'Login', 'laterpay' ); ?></span>
+                    </a>
+                    <?php esc_html_e( 'or', 'laterpay' ); ?>
+                    <a class="lp_purchase-overlay__submit" href="https://www.laterpay.net/signup/merchant" target=“_blank”>
+                        <span class="lp_purchase-overlay__submit-text lp_sign_up"><?php esc_html_e( 'Sign Up', 'laterpay' ); ?></span>
+                    </a>
                     <p>
                         <?php
-                        printf(
-                            esc_html__( '%s Click here to read our Getting Started Guide%s or simply click through the remaining tabs and check out the LaterPay features available on your Edit Post pages to see all of the options available. To help you get started, all of the default values are automatically set to our experts\' recommendations.', 'laterpay' ),
-                            "<a href='https://www.laterpay.net/academy/getting-started-with-the-laterpay-wordpress-plugin' class='lp_info_link' target='_blank'>",
-                            '</a>'
-                        )
+                            esc_html_e( 'Once you have created your account, you will be instructed to copy and paste your Merchant ID & API Key into the boxes below. This ensures that your plugin is linked to your account.', 'laterpay' );
                         ?>
                     </p>
-                </div>
-            </div>
-
-            <div class="lp_clearfix">
-                <label class="lp_step_label">
-                    <span class="lp_step_span"><?php esc_html_e( 'Step 4', 'laterpay' ); ?>:</span>
-                    <?php esc_html_e( 'Accept Payments', 'laterpay' ); ?>
-                </label>
-                <div class="lp_info_div">
-                    <p>
-                        <?php
-                        esc_html_e( 'It may take up to 5 business days for our banking partners to verify your information. Once we\'ve emailed you to let you know your account is live, follow the steps below to begin accepting payments.', 'laterpay' );
-                        ?>
-                    </p>
-                    <ol>
-                        <li><?php printf( esc_html__( '%sClick here%s to log in to your LaterPay account', 'laterpay' ), "<a id='lp_js_showMerchantContracts' href='#' target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login' class='lp_info_link'>", '</a>' ); ?></li>
-                        <li>
-                            <?php esc_html_e( 'Navigate to the developer tab & copy and paste your Merchant ID & API Key into the corresponding boxes below', 'laterpay' ); ?>
-                            <br />
-                            <?php printf( esc_html__( 'Don\'t see a developer tab? %sClick here%s to contact our support team.', 'laterpay' ), "<a href='https://www.laterpay.net/contact-support' class='lp_info_link' target='_blank'>", '</a>' ); ?>
-                        </li>
-                        <li><?php esc_html_e( 'Ensure that the toggle at the top of the page is switched to LIVE mode', 'laterpay' ); ?></li>
-                    </ol>
                     <div id="lp_js_liveCredentials" class="lp_api-credentials">
                         <ul class="lp_api-credentials__list">
                             <li class="lp_api-credentials__list-item">
@@ -181,6 +163,9 @@ $is_vip = laterpay_check_is_vip();
                                            alt="<?php esc_attr_e( 'Paste Live Merchant ID here', 'laterpay' ); ?>"
                                            placeholder="<?php esc_attr_e( 'Merchant ID', 'laterpay' ); ?>">
                                     </label>
+                                    <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'This is required in order to ensure that you receive payments. Log in to your LaterPay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes.', 'laterpay' ); ?>">
+                                        <span data-icon="m" class="lp_js_postPriceSpan"></span>
+                                    </p>
                                 </form>
                             </li>
                             <li class="lp_api-credentials__list-item">
@@ -201,10 +186,43 @@ $is_vip = laterpay_check_is_vip();
                                            alt="<?php esc_attr_e( 'Paste Live API Key here', 'laterpay' ); ?>"
                                            placeholder="<?php esc_attr_e( 'API Key', 'laterpay' ); ?>">
                                     </label>
+                                    <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'This is required in order to ensure that you receive payments. Log in to your LaterPay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes.', 'laterpay' ); ?>">
+                                        <span data-icon="m" class="lp_js_postPriceSpan"></span>
+                                    </p>
                                 </form>
                             </li>
                         </ul>
                     </div>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Step 4', 'laterpay' ); ?>:</span>
+                    <?php esc_html_e( 'Go Live', 'laterpay' ); ?>
+                </label>
+                <div class="lp_info_div">
+                    <p>
+                        <?php
+                        esc_html_e( 'How can I be sure that I am ready to go live?', 'laterpay' );
+                        ?>
+                    </p>
+                    <ul class="lp_go_live">
+                        <li data-icon="f"><?php esc_html_e( 'Set up your Pricing', 'laterpay' ); ?></li>
+                        <li data-icon="f"><?php esc_html_e( 'Preview your site while logged into WordPress to ensure everything is displayed as expected', 'laterpay' ); ?></li>
+                        <li data-icon="f"><?php esc_html_e( 'Create and link to your LaterPay account so that all revenue can be sent to your bank account', 'laterpay' ); ?></li>
+                    </ul>
+                    <p>
+                        <?php
+                        esc_html_e( 'Optional Configurations:', 'laterpay' );
+                        ?>
+                    </p>
+                    <ul class="lp_go_live">
+                        <li data-icon="f"><?php esc_html_e( 'Adjust the Appearance to match your brand colors', 'laterpay' ); ?></li>
+                        <li data-icon="f"><?php esc_html_e( 'Explore the Advanced tab to learn about additional features available', 'laterpay' ); ?></li>
+                    </ul>
+                    <br />
+                    <b><?php esc_html_e( 'Click the toggle at the top of the page to switch to "LIVE" mode and start generating revenue!', 'laterpay' ); ?></b>
                 </div>
             </div>
         </div>

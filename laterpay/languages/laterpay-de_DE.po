@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-06-13 16:38+0530\n"
-"PO-Revision-Date: 2019-06-13 16:39+0530\n"
+"POT-Creation-Date: 2019-06-13 18:31+0530\n"
+"PO-Revision-Date: 2019-06-13 18:35+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1942,9 +1942,15 @@ msgid "mode."
 msgstr "Modus."
 
 #: views/backend/account.php:59
+#, fuzzy
+#| msgid ""
+#| "In Test mode, only WordPress administrators will be able to see the "
+#| "LaterPay paywall. You must complete step 4 below to enable Live mode. "
+#| "This will display the paywall to your followers and allow you to begin "
+#| "accepting payments."
 msgid ""
 "In Test mode, only WordPress administrators will be able to see the LaterPay "
-"paywall. You must complete step 4 below to enable Live mode. This will "
+"paywall. You must complete step 3 below to enable Live mode. This will "
 "display the paywall to your followers and allow you to begin accepting "
 "payments."
 msgstr ""
@@ -2003,126 +2009,143 @@ msgid "Step 2"
 msgstr "SCHRITT 2"
 
 #: views/backend/account.php:109
-msgid "Create LaterPay Account"
-msgstr "LATERPAY KONTO ERSTELLEN"
+msgid "Get Started"
+msgstr "ERSTE SCHRITTE"
 
-#: views/backend/account.php:113
+#: views/backend/account.php:115
+#, php-format
 msgid ""
-"A LaterPay Account is required in order to process financial transactions. "
-"You may skip this step if you have already created a LaterPay account."
+"Click through the remaining tabs from left to right. We will provide tips "
+"and instructions at the top of each page or click here to read our %sGetting "
+"Started Guide%s for step by step instructions."
 msgstr ""
-"Für die Abwicklung von Finanztransaktionen ist ein LaterPay-Konto "
-"erforderlich. Sie können diesen Schritt überspringen, wenn Sie bereits ein "
-"LaterPay-Konto angelegt haben."
+"Klicken Sie von links nach rechts durch die verbleibenden Registerkarten. "
+"Wir werden Ihnen oben auf jeder Seite Tipps und Anleitungen geben oder "
+"klicken Sie hier, um unseren %s”Getting Started Guide”%s für eine Schritt-"
+"für-Schritt-Anleitung zu lesen."
 
-#: views/backend/account.php:116
-msgid "Sign Up"
-msgstr "Sign Up"
-
-#: views/backend/account.php:123
+#: views/backend/account.php:125
 msgid "Step 3"
 msgstr "SCHRITT 3"
 
-#: views/backend/account.php:124
-msgid "Getting Started"
-msgstr "ANFANG"
+#: views/backend/account.php:126
+msgid "Link to LaterPay"
+msgstr "MIT LATERPAY VERKNÜPFEN"
 
-#: views/backend/account.php:129
+#: views/backend/account.php:131
 msgid ""
-"It may take up to 5 business days for our banking partners to verify your "
-"information. You may go ahead and get started setting up your plugin while "
-"it is in \"Test mode\" then, once we've emailed you to let you know your "
-"account is live, come back and complete step 4 below in order to begin "
-"accepting payments."
-msgstr ""
-"Es kann bis zu 5 Werktage dauern, bis unsere Bankpartner Ihre Daten "
-"überprüft haben. Sie können mit der Einrichtung Ihres Plugins beginnen, "
-"während es sich im \"Testmodus\" befindet. Sobald wir Ihnen eine E-Mail "
-"geschickt haben, um Ihnen mitzuteilen, dass Ihr Konto aktiv ist, führen Sie "
-"Schritt 4 aus, um mit der Annahme von Zahlungen zu beginnen."
+"A LaterPay Account is required to process financial transaction (so that we "
+"can pay you)."
+msgstr "Ein LaterPay Konto ist erforderlich um Auszahlungen zu erhalten."
 
 #: views/backend/account.php:135
-#, php-format
+msgid "Login"
+msgstr "Anmelden"
+
+#: views/backend/account.php:137
+msgid "or"
+msgstr "oder"
+
+#: views/backend/account.php:139
+msgid "Sign Up"
+msgstr "Registrieren"
+
+#: views/backend/account.php:143
 msgid ""
-"%s Click here to read our Getting Started Guide%s or simply click through "
-"the remaining tabs and check out the LaterPay features available on your "
-"Edit Post pages to see all of the options available. To help you get "
-"started, all of the default values are automatically set to our experts' "
-"recommendations."
+"Once you have created your account, you will be instructed to copy and paste "
+"your Merchant ID & API Key into the boxes below. This ensures that your "
+"plugin is linked to your account."
 msgstr ""
-"%s Klicken Sie hier, um unseren Getting Started Guide zu öffnen%s oder "
-"klicken Sie einfach durch die restlichen Registerkarten und schauen Sie sich "
-"die LaterPay-Funktionen auf Ihren Edit Post-Seiten an, um alle verfügbaren "
-"Optionen zu sehen. Um Ihnen den Einstieg zu erleichtern, werden alle "
-"Standardwerte automatisch auf die von unseren Experten empfohlene Werte "
-"eingestellt."
+"Sobald Sie Ihr Konto erstellt haben, werden Sie angewiesen, Ihren Merchant "
+"ID & API Key zu kopieren und in die untenstehenden Felder einzufügen. "
+"Dadurch wird sichergestellt, dass Ihr Plugin mit Ihrem Konto verknüpft ist."
 
-#: views/backend/account.php:146
-msgid "Step 4"
-msgstr "SCHRITT 4"
-
-#: views/backend/account.php:147
-msgid "Accept Payments"
-msgstr "ZAHLUNGEN AKZEPTIEREN"
-
-#: views/backend/account.php:152
-msgid ""
-"It may take up to 5 business days for our banking partners to verify your "
-"information. Once we've emailed you to let you know your account is live, "
-"follow the steps below to begin accepting payments."
-msgstr ""
-"Es kann bis zu 5 Werktage dauern, bis unsere Bankpartner Ihre Daten "
-"überprüft haben. Sobald wir Ihnen eine E-Mail geschickt haben, um Ihnen "
-"mitzuteilen, dass Ihr Konto aktiv ist, folgen Sie die unten beschriebenen "
-"Schritte, um mit der Annahme von Zahlungen zu beginnen."
-
-#: views/backend/account.php:156
-#, php-format
-msgid "%sClick here%s to log in to your LaterPay account"
-msgstr "%sHier klicken%s, um sich bei Ihrem LaterPay-Konto anzumelden"
-
-#: views/backend/account.php:158
-msgid ""
-"Navigate to the developer tab & copy and paste your Merchant ID & API Key "
-"into the corresponding boxes below"
-msgstr ""
-"Navigieren Sie zur Registerkarte für Entwickler und kopieren Sie Ihre "
-"Händler-ID und Ihren API-Schlüssel in die entsprechenden Felder unten"
-
-#: views/backend/account.php:160
-#, php-format
-msgid "Don't see a developer tab? %sClick here%s to contact our support team."
-msgstr ""
-"Sie sehen keine Registerkarte für Entwickler? %sKlicken Sie hier%s, um unser "
-"Support-Team zu kontaktieren."
-
-#: views/backend/account.php:162
-msgid "Ensure that the toggle at the top of the page is switched to LIVE mode"
-msgstr ""
-"Stellen Sie sicher, dass der Schalter oben auf der Seite in den LIVE-Modus "
-"geschaltet ist"
-
-#: views/backend/account.php:181
+#: views/backend/account.php:163
 msgid "Paste Live Merchant ID here"
 msgstr "Live Merchant ID hier einfügen"
 
-#: views/backend/account.php:182
+#: views/backend/account.php:164
 msgid "Merchant ID"
 msgstr "Händler ID (Merchant ID)"
 
-#: views/backend/account.php:201
+#: views/backend/account.php:166 views/backend/account.php:189
+msgid ""
+"This is required in order to ensure that you receive payments. Log in to "
+"your LaterPay account, navigate to the Developer tab & copy and paste the "
+"information into the corresponding boxes."
+msgstr ""
+"Dies ist erforderlich, um sicherzustellen, dass Sie Zahlungen erhalten. "
+"Melden Sie sich bei Ihrem LaterPay-Konto an, navigieren Sie zur "
+"Registerkarte Entwickler, kopieren Sie die Informationen und fügen Sie diese "
+"in die entsprechenden Felder ein."
+
+#: views/backend/account.php:186
 msgid "Paste Live API Key here"
 msgstr "Live API Key hier einfügen"
 
-#: views/backend/account.php:202
+#: views/backend/account.php:187
 msgid "API Key"
 msgstr "API Key (Secret)"
 
-#: views/backend/account.php:214
+#: views/backend/account.php:201
+msgid "Step 4"
+msgstr "SCHRITT 4"
+
+#: views/backend/account.php:202
+msgid "Go Live"
+msgstr "GO-LIVE"
+
+#: views/backend/account.php:207
+msgid "How can I be sure that I am ready to go live?"
+msgstr "Wie kann ich sicher sein, dass ich bereit bin, live zu gehen?"
+
+#: views/backend/account.php:211
+msgid "Set up your Pricing"
+msgstr "Legen Sie Ihre Preise fest"
+
+#: views/backend/account.php:212
+msgid ""
+"Preview your site while logged into WordPress to ensure everything is "
+"displayed as expected"
+msgstr ""
+"Überprüfen Sie ihre Webseite, während Sie bei WordPress angemeldet sind, um "
+"sicherzustellen, dass alles korrekt angezeigt wird"
+
+#: views/backend/account.php:213
+msgid ""
+"Create and link to your LaterPay account so that all revenue can be sent to "
+"your bank account"
+msgstr ""
+"Erstellen und verlinken Sie Ihr LaterPay-Konto, so dass alle Einnahmen auf "
+"Ihr Bankkonto überwiesen werden können"
+
+#: views/backend/account.php:217
+msgid "Optional Configurations:"
+msgstr "Optionale Konfigurationen:"
+
+#: views/backend/account.php:221
+msgid "Adjust the Appearance to match your brand colors"
+msgstr "Passen Sie das Erscheinungsbild an Ihre Unternehmensfarben an"
+
+#: views/backend/account.php:222
+msgid "Explore the Advanced tab to learn about additional features available"
+msgstr ""
+"Erkunden Sie die Registerkarte “Erweitert”, um mehr über weitere verfügbare "
+"Funktionen zu erfahren"
+
+#: views/backend/account.php:225
+msgid ""
+"Click the toggle at the top of the page to switch to \"LIVE\" mode and start "
+"generating revenue!"
+msgstr ""
+"Klicken Sie auf den Kippschalter oben auf der Seite, um in den “LIVE”-Modus "
+"zu wechseln. Beginnen Sie Umsätze zu generieren!"
+
+#: views/backend/account.php:232
 msgid "Who is LaterPay?"
 msgstr "Wer ist LaterPay?"
 
-#: views/backend/account.php:217
+#: views/backend/account.php:235
 #, php-format
 msgid ""
 "Meet the online payment system that cares about the user experience as much "
@@ -3204,6 +3227,65 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
+#~ msgid "Create LaterPay Account"
+#~ msgstr "LATERPAY KONTO ERSTELLEN"
+
+#~ msgid ""
+#~ "It may take up to 5 business days for our banking partners to verify your "
+#~ "information. You may go ahead and get started setting up your plugin "
+#~ "while it is in \"Test mode\" then, once we've emailed you to let you know "
+#~ "your account is live, come back and complete step 4 below in order to "
+#~ "begin accepting payments."
+#~ msgstr ""
+#~ "Es kann bis zu 5 Werktage dauern, bis unsere Bankpartner Ihre Daten "
+#~ "überprüft haben. Sie können mit der Einrichtung Ihres Plugins beginnen, "
+#~ "während es sich im \"Testmodus\" befindet. Sobald wir Ihnen eine E-Mail "
+#~ "geschickt haben, um Ihnen mitzuteilen, dass Ihr Konto aktiv ist, führen "
+#~ "Sie Schritt 4 aus, um mit der Annahme von Zahlungen zu beginnen."
+
+#~ msgid ""
+#~ "%s Click here to read our Getting Started Guide%s or simply click through "
+#~ "the remaining tabs and check out the LaterPay features available on your "
+#~ "Edit Post pages to see all of the options available. To help you get "
+#~ "started, all of the default values are automatically set to our experts' "
+#~ "recommendations."
+#~ msgstr ""
+#~ "%s Klicken Sie hier, um unseren Getting Started Guide zu öffnen%s oder "
+#~ "klicken Sie einfach durch die restlichen Registerkarten und schauen Sie "
+#~ "sich die LaterPay-Funktionen auf Ihren Edit Post-Seiten an, um alle "
+#~ "verfügbaren Optionen zu sehen. Um Ihnen den Einstieg zu erleichtern, "
+#~ "werden alle Standardwerte automatisch auf die von unseren Experten "
+#~ "empfohlene Werte eingestellt."
+
+#~ msgid "Accept Payments"
+#~ msgstr "ZAHLUNGEN AKZEPTIEREN"
+
+#~ msgid ""
+#~ "It may take up to 5 business days for our banking partners to verify your "
+#~ "information. Once we've emailed you to let you know your account is live, "
+#~ "follow the steps below to begin accepting payments."
+#~ msgstr ""
+#~ "Es kann bis zu 5 Werktage dauern, bis unsere Bankpartner Ihre Daten "
+#~ "überprüft haben. Sobald wir Ihnen eine E-Mail geschickt haben, um Ihnen "
+#~ "mitzuteilen, dass Ihr Konto aktiv ist, folgen Sie die unten beschriebenen "
+#~ "Schritte, um mit der Annahme von Zahlungen zu beginnen."
+
+#~ msgid "%sClick here%s to log in to your LaterPay account"
+#~ msgstr "%sHier klicken%s, um sich bei Ihrem LaterPay-Konto anzumelden"
+
+#~ msgid ""
+#~ "Navigate to the developer tab & copy and paste your Merchant ID & API Key "
+#~ "into the corresponding boxes below"
+#~ msgstr ""
+#~ "Navigieren Sie zur Registerkarte für Entwickler und kopieren Sie Ihre "
+#~ "Händler-ID und Ihren API-Schlüssel in die entsprechenden Felder unten"
+
+#~ msgid ""
+#~ "Don't see a developer tab? %sClick here%s to contact our support team."
+#~ msgstr ""
+#~ "Sie sehen keine Registerkarte für Entwickler? %sKlicken Sie hier%s, um "
+#~ "unser Support-Team zu kontaktieren."
+
 #~ msgid "Select Your Region"
 #~ msgstr "WÄHLEN SIE IHR REGION"
 
@@ -3700,9 +3782,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #~ "Sie finden die ID jedes Zeitpasses im \n"
 #~ "<a href=\"admin.php?page=laterpay-pricing-tab#lp_time-passes\">Tab "
 #~ "Preise</a> neben dem jeweiligen Zeitpass."
-
-#~ msgid "or"
-#~ msgstr "oder"
 
 #~ msgid "Step 2: Add Option to Redeem Vouchers"
 #~ msgstr "Schritt 2: Einlösen von Gutschein-Codes ermöglichen"
