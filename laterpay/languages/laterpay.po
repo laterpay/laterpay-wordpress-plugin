@@ -405,6 +405,18 @@ msgstr ""
 msgid "Learn More"
 msgstr ""
 
+#: laterpay/application/Controller/Admin.php:766
+msgid "%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed."
+msgstr ""
+
+#: laterpay/application/Controller/Admin.php:767
+msgid "%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page."
+msgstr ""
+
+#: laterpay/application/Controller/Admin.php:768
+msgid "%sOptional%s Here we highlight advanced features & settings like contributions, selling downloadable content, and promoting your subscriptions. Scroll through to learn more!"
+msgstr ""
+
 #: laterpay/application/Controller/Install.php:76
 msgid "<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>"
 msgstr ""
@@ -433,7 +445,7 @@ msgstr ""
 msgid "The LaterPay plugin could not be installed. Please fix the reported issues and try again."
 msgstr ""
 
-#: laterpay/application/Controller/Install.php:683
+#: laterpay/application/Controller/Install.php:684
 msgid "You can now fully customize the appearance of your payment overlay. Visit the Appearance tab to check it out!"
 msgstr ""
 
@@ -545,7 +557,7 @@ msgstr ""
 msgid "Problem with inserted shortcode:"
 msgstr ""
 
-#: laterpay/application/Module/Appearance.php:213, laterpay/application/Controller/Frontend/PreviewMode.php:176
+#: laterpay/application/Module/Appearance.php:213, laterpay/application/Controller/Frontend/PreviewMode.php:178
 msgid "You don't have sufficient user capabilities to do this."
 msgstr ""
 
@@ -629,17 +641,18 @@ msgstr ""
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/views/backend/account.php:24, laterpay/views/backend/advanced.php:28, laterpay/views/backend/appearance.php:38, laterpay/views/backend/pricing.php:19, laterpay/views/backend/partials/post-pricing-form.php:57
+#: laterpay/views/backend/account.php:24, laterpay/views/backend/advanced.php:28, laterpay/views/backend/appearance.php:38, laterpay/views/backend/pricing.php:19, laterpay/views/backend/partials/post-pricing-form.php:57, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:23
 msgid "Test mode"
 msgstr ""
 
 #. translators: %1$s info text1, %2$s info text2
 #. translators: %1$s info text1, %2$s info text2
-#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:39, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:61
+#. translators: %1$s info text1, %2$s info text2
+#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:39, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:61, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "Earn money in"
 msgstr ""
 
-#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:39, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:61
+#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:39, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:61, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "live mode"
 msgstr ""
 
@@ -652,7 +665,7 @@ msgid "mode."
 msgstr ""
 
 #: laterpay/views/backend/account.php:59
-msgid "In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 4 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments."
+msgid "In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 3 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments."
 msgstr ""
 
 #: laterpay/views/backend/account.php:65
@@ -672,105 +685,126 @@ msgid "Step 1"
 msgstr ""
 
 #: laterpay/views/backend/account.php:79
-msgid "Select Your Region"
+msgid "Select Currency"
 msgstr ""
 
-#: laterpay/views/backend/account.php:85
-msgid "If you select 'Europe', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform. %1$s If you select 'United States', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform."
+#: laterpay/views/backend/account.php:87
+msgid "EURO (€)"
+msgstr ""
+
+#: laterpay/views/backend/account.php:88
+msgid "USD ($)"
 msgstr ""
 
 #: laterpay/views/backend/account.php:95
-msgid "Europe (EUR)"
+msgid "%1$sImportant:%2$s The minimum value for \"Pay Now\" prices in the U.S. region is %1$s$1.99.%2$s %3$sIf you previously set \"Pay Now\" prices lower than 1.99, these will need to be adjusted accordingly. %3$s"
 msgstr ""
 
-#: laterpay/views/backend/account.php:96
-msgid "United States (USD)"
-msgstr ""
-
-#: laterpay/views/backend/account.php:103
-msgid ""
-"%1$sImportant:%2$s The minimum value for \"Pay Now\" prices in the U.S. region is %1$s$1.99%2$s %3$s\n"
-"                            If you have already set \"Pay Now\" prices lower than 1.99, make sure to change them before you switch to the U.S. region. %3$s\n"
-"                            If you haven't done any configuration yet, you can safely switch the region without further adjustments."
-msgstr ""
-
-#: laterpay/views/backend/account.php:118
+#: laterpay/views/backend/account.php:108
 msgid "Step 2"
 msgstr ""
 
-#: laterpay/views/backend/account.php:119
-msgid "Create LaterPay Account"
+#: laterpay/views/backend/account.php:109
+msgid "Get Started"
 msgstr ""
 
-#: laterpay/views/backend/account.php:123
-msgid "A LaterPay Account is required in order to process financial transactions. You may skip this step if you have already created a LaterPay account."
+#: laterpay/views/backend/account.php:115
+msgid "Click through the remaining tabs from left to right. We will provide tips and instructions at the top of each page or click here to read our %sGetting Started Guide%s for step by step instructions."
 msgstr ""
 
-#: laterpay/views/backend/account.php:133
+#: laterpay/views/backend/account.php:125
 msgid "Step 3"
 msgstr ""
 
-#: laterpay/views/backend/account.php:134
-msgid "Getting Started"
+#: laterpay/views/backend/account.php:126
+msgid "Link to LaterPay"
+msgstr ""
+
+#: laterpay/views/backend/account.php:131
+msgid "A LaterPay Account is required to process financial transaction (so that we can pay you)."
+msgstr ""
+
+#: laterpay/views/backend/account.php:135
+msgid "Login"
+msgstr ""
+
+#: laterpay/views/backend/account.php:137
+msgid "or"
 msgstr ""
 
 #: laterpay/views/backend/account.php:139
-msgid "It may take up to 5 business days for our banking partners to verify your information. You may go ahead and get started setting up your plugin while it is in \"Test mode\" then, once we've emailed you to let you know your account is live, come back and complete step 4 below in order to begin accepting payments."
+msgid "Sign Up"
 msgstr ""
 
-#: laterpay/views/backend/account.php:145
-msgid "%s Click here to read our Getting Started Guide%s or simply click through the remaining tabs and check out the LaterPay features available on your Edit Post pages to see all of the options available. To help you get started, all of the default values are automatically set to our experts' recommendations."
+#: laterpay/views/backend/account.php:143
+msgid "Once you have created your account, you will be instructed to copy and paste your Merchant ID & API Key into the boxes below. This ensures that your plugin is linked to your account."
 msgstr ""
 
-#: laterpay/views/backend/account.php:156
-msgid "Step 4"
-msgstr ""
-
-#: laterpay/views/backend/account.php:157
-msgid "Accept Payments"
-msgstr ""
-
-#: laterpay/views/backend/account.php:162
-msgid "It may take up to 5 business days for our banking partners to verify your information. Once we've emailed you to let you know your account is live, follow the steps below to begin accepting payments."
-msgstr ""
-
-#: laterpay/views/backend/account.php:166
-msgid "%sClick here%s to log in to your LaterPay account"
-msgstr ""
-
-#: laterpay/views/backend/account.php:168
-msgid "Navigate to the developer tab & copy and paste your Merchant ID & API Key into the corresponding boxes below"
-msgstr ""
-
-#: laterpay/views/backend/account.php:170
-msgid "Don't see a developer tab? %sClick here%s to contact our support team."
-msgstr ""
-
-#: laterpay/views/backend/account.php:172
-msgid "Ensure that the toggle at the top of the page is switched to LIVE mode"
-msgstr ""
-
-#: laterpay/views/backend/account.php:191
+#: laterpay/views/backend/account.php:163
 msgid "Paste Live Merchant ID here"
 msgstr ""
 
-#: laterpay/views/backend/account.php:192
+#: laterpay/views/backend/account.php:164
 msgid "Merchant ID"
 msgstr ""
 
-#: laterpay/views/backend/account.php:211
+#: laterpay/views/backend/account.php:166, laterpay/views/backend/account.php:189
+msgid "This is required in order to ensure that you receive payments. Log in to your LaterPay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes."
+msgstr ""
+
+#: laterpay/views/backend/account.php:186
 msgid "Paste Live API Key here"
 msgstr ""
 
-#: laterpay/views/backend/account.php:212
+#: laterpay/views/backend/account.php:187
 msgid "API Key"
 msgstr ""
 
-#: laterpay/views/backend/account.php:224
+#: laterpay/views/backend/account.php:201
+msgid "Step 4"
+msgstr ""
+
+#: laterpay/views/backend/account.php:202
+msgid "Go Live"
+msgstr ""
+
+#: laterpay/views/backend/account.php:207
+msgid "How can I be sure that I am ready to go live?"
+msgstr ""
+
+#: laterpay/views/backend/account.php:211
+msgid "Set up your Pricing"
+msgstr ""
+
+#: laterpay/views/backend/account.php:212
+msgid "Preview your site while logged into WordPress to ensure everything is displayed as expected"
+msgstr ""
+
+#: laterpay/views/backend/account.php:213
+msgid "Create and link to your LaterPay account so that all revenue can be sent to your bank account"
+msgstr ""
+
+#: laterpay/views/backend/account.php:217
+msgid "Optional Configurations:"
+msgstr ""
+
+#: laterpay/views/backend/account.php:221
+msgid "Adjust the Appearance to match your brand colors"
+msgstr ""
+
+#: laterpay/views/backend/account.php:222
+msgid "Explore the Advanced tab to learn about additional features available"
+msgstr ""
+
+#: laterpay/views/backend/account.php:225
+msgid "Click the toggle at the top of the page to switch to \"LIVE\" mode and start generating revenue!"
+msgstr ""
+
+#: laterpay/views/backend/account.php:232
 msgid "Who is LaterPay?"
 msgstr ""
 
-#: laterpay/views/backend/account.php:227
+#: laterpay/views/backend/account.php:235
 msgid ""
 "Meet the online payment system that cares about the user experience as much as you do %1$s %1$s\n"
 "                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s\n"
@@ -1283,72 +1317,76 @@ msgstr ""
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:58
+#: laterpay/application/Controller/Admin/Account.php:63
 msgid "The API key you entered is not a valid LaterPay API key!"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:59
+#: laterpay/application/Controller/Admin/Account.php:64
 msgid "The Merchant ID you entered is not a valid LaterPay Merchant ID!"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:60
+#: laterpay/application/Controller/Admin/Account.php:65
 msgid "LaterPay does not work properly with invalid API credentials."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:110, laterpay/application/Controller/Admin/Appearance.php:113, laterpay/application/Controller/Admin/Pricing.php:248, laterpay/application/Controller/Admin/Pricing.php:495, laterpay/application/Controller/Admin/Pricing.php:577, laterpay/application/Controller/Admin/Pricing.php:1001, laterpay/application/Controller/Frontend/PreviewMode.php:76
+#: laterpay/application/Controller/Admin/Account.php:116, laterpay/application/Controller/Admin/Appearance.php:113, laterpay/application/Controller/Admin/Pricing.php:248, laterpay/application/Controller/Admin/Pricing.php:495, laterpay/application/Controller/Admin/Pricing.php:577, laterpay/application/Controller/Admin/Pricing.php:1001, laterpay/application/Controller/Frontend/PreviewMode.php:76
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:180, laterpay/application/Controller/Admin/Account.php:238
+#: laterpay/application/Controller/Admin/Account.php:186, laterpay/application/Controller/Admin/Account.php:244
 msgid "The Merchant ID you entered is not a valid LaterPay %s Merchant ID!"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:194
+#: laterpay/application/Controller/Admin/Account.php:200
 msgid "The %s Merchant ID has been removed."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:207
+#: laterpay/application/Controller/Admin/Account.php:213
 msgid "%s Merchant ID verified and saved."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:252
+#: laterpay/application/Controller/Admin/Account.php:258
 msgid "The %s API key has been removed."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:265
+#: laterpay/application/Controller/Admin/Account.php:271
 msgid "Your %s API key is valid. You can now make %s transactions."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:286, laterpay/application/Controller/Admin/Account.php:333
+#: laterpay/application/Controller/Admin/Account.php:292, laterpay/application/Controller/Admin/Account.php:339
 msgid "Error occurred. Incorrect data provided."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:301
+#: laterpay/application/Controller/Admin/Account.php:307
 msgid "The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:311
+#: laterpay/application/Controller/Admin/Account.php:317
 msgid "The LaterPay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:321
+#: laterpay/application/Controller/Admin/Account.php:327, laterpay/application/Controller/Admin/Account.php:477
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:346
+#: laterpay/application/Controller/Admin/Account.php:352
 msgid "Failed to change region settings."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:371
+#: laterpay/application/Controller/Admin/Account.php:377
 msgid "The LaterPay region was changed successfully."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:397
+#: laterpay/application/Controller/Admin/Account.php:408
 msgid "LaterPay has been successfully uninstalled. It can be re-activated from the plugins page."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Account.php:405
+#: laterpay/application/Controller/Admin/Account.php:416
 msgid "LaterPay data has been erased successfully."
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Account.php:469
+msgid "Your LaterPay account is restricted to sell content in %s. Please update your currency or contact sales@laterpay.net."
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Appearance.php:157
@@ -1379,31 +1417,31 @@ msgstr ""
 msgid "Time passes are now rendered at their default position."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:49
+#: laterpay/application/Controller/Admin/Notice.php:54
 msgid "Please contact WPEngine customer service to bypass the required cookies"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:50
+#: laterpay/application/Controller/Admin/Notice.php:55
 msgid "laterpay_token, laterpay_purchased_gift_card and laterpay_tracking_code"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:51
+#: laterpay/application/Controller/Admin/Notice.php:56
 msgid "in order for the plugin to work properly with page-cache."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:52
+#: laterpay/application/Controller/Admin/Notice.php:57
 msgid "Done"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:73
+#: laterpay/application/Controller/Admin/Notice.php:78
 msgid "Saving Settings "
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:74
+#: laterpay/application/Controller/Admin/Notice.php:79
 msgid "Settings Saved "
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Notice.php:75
+#: laterpay/application/Controller/Admin/Notice.php:80
 msgid "Error saving data"
 msgstr ""
 
@@ -1793,7 +1831,7 @@ msgstr ""
 msgid "&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}"
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/PreviewMode.php:117, laterpay/application/Controller/Frontend/PreviewMode.php:202
+#: laterpay/application/Controller/Frontend/PreviewMode.php:117, laterpay/application/Controller/Frontend/PreviewMode.php:204
 msgid "Updated."
 msgstr ""
 
@@ -2181,15 +2219,27 @@ msgstr ""
 msgid "Post Preview Mode"
 msgstr ""
 
-#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:18
-msgid "Preview post as"
-msgstr ""
-
-#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:18
-msgid "Admin"
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:36
+msgid "Complete the steps on the"
 msgstr ""
 
 #: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:38
+msgid "account tab"
+msgstr ""
+
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:39
+msgid "to make this visible to visitors"
+msgstr ""
+
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:46
+msgid "Preview post as"
+msgstr ""
+
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:46
+msgid "Admin"
+msgstr ""
+
+#: laterpay/views/frontend/partials/post/select-preview-mode-tab.php:66
 msgid "Visitor"
 msgstr ""
 

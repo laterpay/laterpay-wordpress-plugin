@@ -19,6 +19,10 @@ details.lp-faq {
 
 .lp_main_area {
 
+	.lp_info_div {
+		min-height: unset !important; // too much white space in account tab so unset.
+	}
+
 	.lp_info_icon {
 		cursor: pointer;
 		font-size: 22px;
@@ -41,7 +45,29 @@ details.lp-faq {
 	}
 
 	a.lp_purchase-overlay__submit {
-		padding: 0 47px!important;
+		padding: 0 25px!important;
+		font-weight: 300;
+	}
+
+	input[type=text][required] + label[placeholder] {
+		position: absolute;
+	}
+
+	.lp_api-credentials__list-item {
+		p.lp_tooltip_account_p {
+			margin-top: 3px;
+		}
+	}
+
+	ul.lp_go_live {
+		list-style: none !important;
+
+		[data-icon] {
+			&:before {
+				color: #00AAA2;
+				font-size: 18px;
+			}
+		}
 	}
 }
 

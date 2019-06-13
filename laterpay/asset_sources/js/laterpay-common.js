@@ -11,6 +11,8 @@
                 screen_meta_links   : $('#screen-meta-links'),
                 backendPage         : $('.lp_page'),
                 close_update_notice : $('#close_update_notice'),
+                close_info_notice   : $('#close_info_notice'),
+                navigation          : $('.lp_navigation'),
         },
 
         bindEvents = function() {
@@ -30,6 +32,25 @@
                                     $o.screen_meta_links.find('div.lp_update_notification').remove();
                                     $o.screen_meta_links.css('margin-right', '20px');
                                 }
+                            }
+                        },
+                        'json'
+                    );
+                }
+            });
+
+            // Reset update highlights data on click.
+            $o.backendPage.on('click', $o.close_info_notice, function( e ) {
+                if ( 'close_info_notice' === e.target.id ) {
+                    $.post(
+                        lpCommonVar.ajaxUrl, {
+                            action   : 'laterpay_read_tabular_instructions',
+                            security : lpCommonVar.read_tabular_nonce,
+                            lppage   : lpCommonVar.current_page,
+                        },
+                        function(data) {
+                            if (data.success) {
+                                $o.backendPage.find('div.lp_info_notification').remove();
                             }
                         },
                         'json'
@@ -245,6 +266,49 @@
             }
         },
 
+        // Create markup for instructional notice dynamically if not dismissed already.
+        addInstructionalNotice = function () {
+
+            if ( 'settings' === lpCommonVar.current_page ) {
+                return;
+            }
+
+            if ( Object.keys(lpCommonVar.lp_instructional_info).length ) {
+
+                if ( typeof lpCommonVar.lp_instructional_info[lpCommonVar.current_page] === 'undefined' ) {
+                    return;
+                }
+
+                // Notice Div.
+                var infoWrapper = $('<div/>', {
+                    class: 'lp_info_notification',
+                });
+
+                // Info.
+                infoWrapper.append(lpCommonVar.lp_instructional_info[lpCommonVar.current_page]);
+
+                if ( 'pricing' === lpCommonVar.current_page ) {
+                    // Learn More CTA.
+                    var updateDetailsCallToAction = $('<a/>', {
+                        class : 'lp_purchase-overlay__submit',
+                        href  : 'https://wordpress.org/plugins/laterpay/#developers',
+                        text  : lpCommonVar.learn_more,
+                        target: '_blank',
+                    });
+                    infoWrapper.append(updateDetailsCallToAction);
+                }
+
+                // Dismiss button.
+                var updateDetailsDismiss = $('<a/>', {
+                    class: 'close_info',
+                    id   : 'close_info_notice'
+                }).attr('data-icon', 'e').css('cursor', 'pointer');
+                infoWrapper.append(updateDetailsDismiss);
+
+                $o.navigation.after(infoWrapper);
+            }
+        },
+
         initializePage = function() {
 
             if ( typeof(lpCommonVar) !== 'undefined' ) {
@@ -278,6 +342,7 @@
             }
 
             addUpdateHighlights();
+            addInstructionalNotice();
             bindEvents();
         };
 
