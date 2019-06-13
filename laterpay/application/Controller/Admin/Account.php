@@ -387,6 +387,11 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
      * @return void
      */
     public function disable_plugin( LaterPay_Core_Event $event ) {
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
         check_ajax_referer('plugin_disable_nonce', 'security' );
 
         LaterPay_Helper_Config::erase_plugin_data();
@@ -424,6 +429,10 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
      * @return void
      */
     public function ajax_validate_cred_region( LaterPay_Core_Event $event ) {
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
 
         check_ajax_referer( 'validate_cred_nonce', 'security' );
 
