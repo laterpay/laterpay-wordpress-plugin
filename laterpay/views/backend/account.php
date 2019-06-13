@@ -131,11 +131,11 @@ $is_vip = laterpay_check_is_vip();
                         esc_html_e( 'A LaterPay Account is required to process financial transaction (so that we can pay you).', 'laterpay' );
                         ?>
                     </p>
-                    <a class="lp_purchase-overlay__submit" id="lp_account_login" target=“_blank” href="#" data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login'>
+                    <a class="lp_purchase-overlay__submit" id="lp_account_login" target="_blank" href="#" data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login'>
                         <span class="lp_purchase-overlay__submit-text lp_sign_up"><?php esc_html_e( 'Login', 'laterpay' ); ?></span>
                     </a>
                     <?php esc_html_e( 'or', 'laterpay' ); ?>
-                    <a class="lp_purchase-overlay__submit" href="https://www.laterpay.net/signup/merchant" target=“_blank”>
+                    <a class="lp_purchase-overlay__submit" href="https://www.laterpay.net/signup/merchant" target="_blank">
                         <span class="lp_purchase-overlay__submit-text lp_sign_up"><?php esc_html_e( 'Sign Up', 'laterpay' ); ?></span>
                     </a>
                     <p>
