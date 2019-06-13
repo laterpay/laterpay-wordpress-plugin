@@ -76,33 +76,23 @@ $is_vip = laterpay_check_is_vip();
             </div>
 
             <div class="lp_clearfix">
-                <label class="lp_step_label"><span class="lp_step_span"><?php esc_html_e( 'Step 1', 'laterpay' ); ?>:</span> <?php esc_html_e( 'Select Your Region', 'laterpay' ); ?>
+                <label class="lp_step_label"><span class="lp_step_span"><?php esc_html_e( 'Step 1', 'laterpay' ); ?>:</span> <?php esc_html_e( 'Select Currency', 'laterpay' ); ?>
                 </label>
                 <div class="lp_info_div">
-                    <p>
-                        <?php
-                        printf(
-                            esc_html__( 'If you select \'Europe\', all prices will be displayed and charged in Euro (EUR), and the plugin will connect to the LaterPay Europe platform. %1$s If you select \'United States\', all prices will be displayed and charged in U.S. Dollar (USD), and the plugin will connect to the LaterPay U.S. platform.', 'laterpay' ),
-                            "<br/>"
-                        );
-                        ?>
-                    </p>
                     <form id="laterpay_region" method="post">
                         <input type="hidden" name="form" value="laterpay_region_change">
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php wp_nonce_field( 'laterpay_form' ); ?>
                         <select id="lp_js_apiRegionSection" name="laterpay_region" class="lp_input">
-                            <option value="eu" <?php selected( $laterpay['region'], 'eu' ); ?>><?php esc_html_e( 'Europe (EUR)', 'laterpay' ); ?></option>
-                            <option value="us" <?php selected( $laterpay['region'], 'us' ); ?>><?php esc_html_e( 'United States (USD)', 'laterpay' ); ?></option>
+                            <option value="eu" <?php selected( $laterpay['region'], 'eu' ); ?>><?php esc_html_e( 'EURO (€)', 'laterpay' ); ?></option>
+                            <option value="us" <?php selected( $laterpay['region'], 'us' ); ?>><?php esc_html_e( 'USD ($)', 'laterpay' ); ?></option>
                         </select>
                     </form>
-                    <p id="lp_js_regionNotice" <?php if ( $laterpay['region'] === 'us' ) : ?>class="hidden"<?php endif; ?>>
+                    <p id="lp_js_regionNotice" class="hidden">
                         <dfn class="lp_region_notice" data-icon="n">
                             <?php
                             printf(
-                                esc_html__( '%1$sImportant:%2$s The minimum value for "Pay Now" prices in the U.S. region is %1$s$1.99%2$s %3$s
-                            If you have already set "Pay Now" prices lower than 1.99, make sure to change them before you switch to the U.S. region. %3$s
-                            If you haven\'t done any configuration yet, you can safely switch the region without further adjustments.', 'laterpay' ),
+                                esc_html__( '%1$sImportant:%2$s The minimum value for "Pay Now" prices in the U.S. region is %1$s$1.99.%2$s %3$sIf you previously set "Pay Now" prices lower than 1.99, these will need to be adjusted accordingly. %3$s', 'laterpay' ),
                                 "<b>",
                                 "</b>",
                                 "<br/>"
