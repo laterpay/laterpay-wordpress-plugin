@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laterpay/laterpay-client-php.git",
-                "reference": "23812dedd98c708d20c7eee394d5e8f2808606de"
+                "reference": "786f40fdb91b53eb338cc25347227b2697608178"
             },
             "type": "library",
             "autoload": {
@@ -26,7 +26,7 @@
                 "MIT"
             ],
             "description": "LaterPay PHP Client",
-            "time": "2018-11-29T13:39:37+00:00"
+            "time": "2019-06-18T11:25:21+00:00"
         }
     ],
     "packages-dev": [
