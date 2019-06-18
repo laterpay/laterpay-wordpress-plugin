@@ -291,7 +291,7 @@
                     // Learn More CTA.
                     var updateDetailsCallToAction = $('<a/>', {
                         class : 'lp_purchase-overlay__submit',
-                        href  : 'https://wordpress.org/plugins/laterpay/#developers',
+                        href  : 'https://www.laterpay.net/academy/wordpress-pricing',
                         text  : lpCommonVar.learn_more,
                         target: '_blank',
                     });

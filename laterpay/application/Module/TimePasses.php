@@ -269,6 +269,14 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             $event->stop_propagation();
             return;
         }
+
+        // Don't show time pass in admin preview.
+        $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+        if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
+            $event->stop_propagation();
+            return;
+        }
     }
 
     /**

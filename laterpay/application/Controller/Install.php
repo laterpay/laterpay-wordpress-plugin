@@ -675,7 +675,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         if ( ! empty( $current_version ) ) {
 
-            if ( version_compare( $current_version, '2.5.3', '<' ) ) {
+            if ( version_compare( $current_version, '2.5.4', '<' ) ) {
                 return;
             }
 
