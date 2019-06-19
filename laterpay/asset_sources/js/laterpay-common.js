@@ -8,7 +8,7 @@
                 pricing       : {
                     setGlobalPrice : $('#lp_js_saveGlobalDefaultPrice'),
                 },
-                screen_meta_links   : $('#screen-meta-links'),
+                wp_body_content     : $('#wpbody-content'),
                 backendPage         : $('.lp_page'),
                 close_update_notice : $('#close_update_notice'),
                 close_info_notice   : $('#close_info_notice'),
@@ -18,7 +18,7 @@
         bindEvents = function() {
 
             // Reset update highlights data on click.
-            $o.backendPage.add($o.screen_meta_links).on('click', $o.close_update_notice, function( e ) {
+            $o.backendPage.add($o.wp_body_content).on('click', $o.close_update_notice, function( e ) {
                 if ( 'close_update_notice' === e.target.id ) {
                     $.post(
                         lpCommonVar.ajaxUrl, {
@@ -28,9 +28,8 @@
                         function(data) {
                             if (data.success) {
                                 $o.backendPage.find('div.lp_update_notification').remove();
-                                if ( $o.screen_meta_links.length ) {
-                                    $o.screen_meta_links.find('div.lp_update_notification').remove();
-                                    $o.screen_meta_links.css('margin-right', '20px');
+                                if ( $o.wp_body_content.length ) {
+                                    $o.wp_body_content.find('div.lp_update_notification').remove();
                                 }
                             }
                         },
@@ -257,9 +256,8 @@
                 updateWrapper.append(updateDetailsCallToAction);
                 updateWrapper.append(updateDetailsDismiss);
 
-                if ( 'advanced' !== lpCommonVar.current_page && $o.screen_meta_links.length ) {
-                    $o.screen_meta_links.prepend(updateWrapper);
-                    $o.screen_meta_links.css('margin-right', '0'); // Adjust margin, will be reverted on notice dismiss.
+                if ( 'advanced' !== lpCommonVar.current_page && $o.wp_body_content.length ) {
+                    $o.wp_body_content.prepend(updateWrapper);
                 } else {
                     $('#lp_js_flashMessage').after(updateWrapper);
                 }
