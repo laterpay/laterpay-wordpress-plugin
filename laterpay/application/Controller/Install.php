@@ -673,7 +673,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $update_highlights = [];
 
-        if ( ! empty( $current_version ) ) {
+        if ( ! empty( $current_version ) && false === get_option( 'lp_update_highlights' ) ) {
 
             if ( version_compare( $current_version, '2.5.4', '<' ) ) {
                 return;
