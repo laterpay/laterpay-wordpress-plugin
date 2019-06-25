@@ -274,3 +274,27 @@ function laterpay_whitelisted_attributes( $args, $whitelisted_keys ) {
         echo $key . '="' . esc_attr( $value ) . '" '; // phpcs:ignore
     }
 }
+
+/**
+ * This function allows you to track usage of your plugin
+ * Place in your main plugin file
+ * Refer to https://wisdomplugin.com/support for help
+ */
+if ( ! class_exists( 'Plugin_Usage_Tracker' ) ) {
+    require_once dirname( __FILE__ ) . '/tracking/class-plugin-usage-tracker.php';
+}
+
+if ( ! function_exists( 'laterpay_start_plugin_tracking' ) ) {
+    function laterpay_start_plugin_tracking() {
+        $wisdom = new Plugin_Usage_Tracker(
+            __FILE__,
+            'https://lpwptestprod.wpengine.com',
+            array(),
+            true,
+            true,
+            1
+        );
+    }
+
+    laterpay_start_plugin_tracking();
+}
