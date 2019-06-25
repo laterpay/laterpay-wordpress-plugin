@@ -653,7 +653,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                     '<p>',
                     '</p>',
                     '<br/>',
-                    '<a href="https://www.laterpay.net/how-to-become-a-content-provider" target="blank">',
+                    '<a href="https://www.laterpay.net/solutions/influencers" target="blank">',
                     '</a>',
                     '<strong>',
                     '</strong>',
