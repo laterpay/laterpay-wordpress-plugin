@@ -1896,12 +1896,21 @@
                 .append(inputLabel)
                 .append(deleteLink);
 
-            $timePass
-                .find($o.voucherPlaceholder)
-                .prepend(voucher)
+            if ( true === existingVoucher ) {
+                $timePass
+                    .find($o.voucherPlaceholder)
+                    .prepend(voucher)
                     .find('div')
-                        .first()
-                        .velocity('slideDown', { duration: 250, easing: 'ease-out' });
+                    .first()
+                    .velocity('slideDown', { duration: 250, easing: 'ease-out' });
+            } else {
+                $timePass
+                    .find($o.voucherPlaceholder)
+                    .append(voucher)
+                    .find('div')
+                    .last()
+                    .velocity('slideDown', { duration: 250, easing: 'ease-out' });
+            }
         },
 
         addVoucherToList = function(code, voucherData, $timePass) {
