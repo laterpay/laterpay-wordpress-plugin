@@ -289,10 +289,10 @@ if ( ! function_exists( 'laterpay_start_plugin_tracking' ) ) {
         $wisdom = new Plugin_Usage_Tracker(
             __FILE__,
             'https://lpwptestprod.wpengine.com',
-            array(),
+            [ 'lp_wisdom_tracking_info' ],
             true,
             true,
-            1
+            0
         );
     }
 

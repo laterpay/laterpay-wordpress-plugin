@@ -497,6 +497,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->update_appearance_config();
         $this->add_update_highlights();
         $this->add_tabular_info_option();
+        $this->add_merchant_id_wisdom_tracking();
 
     }
 
@@ -707,5 +708,26 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 ]
             );
         }
+    }
+
+    /**
+     * Setup an option with Merchant ID information for wisdom tracking.
+     */
+    public function add_merchant_id_wisdom_tracking() {
+
+        $current_version = get_option( 'laterpay_plugin_version' );
+
+        if ( version_compare( $current_version, '2.5.4', '<' ) ) {
+            return;
+        }
+
+        $wisdom_id_data = [
+            'sandbox_id'                => get_option( 'laterpay_sandbox_merchant_id', '' ),
+            'live_id'                   => get_option( 'laterpay_live_merchant_id', '' ),
+            'wisdom_registered_setting' => 1,
+        ];
+
+        update_option( 'lp_wisdom_tracking_info', $wisdom_id_data );
+
     }
 }
