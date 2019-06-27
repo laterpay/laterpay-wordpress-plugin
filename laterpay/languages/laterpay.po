@@ -160,11 +160,11 @@ msgid ""
 "                    %1$sFor example, if you have set a global default price of 0.15, but a post belongs to a category with a category default price of 0.30, that post will sell for 0.30.%2$s"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:390, laterpay/views/backend/pricing.php:473
+#: laterpay/application/Controller/Admin.php:387, laterpay/views/backend/pricing.php:473
 msgid "Time Passes"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:391
+#: laterpay/application/Controller/Admin.php:388
 msgid ""
 "%1$sWith time passes, you can offer your users time-limited access to your content. You can define which content a time pass should cover and for which period of time it should be valid. A time pass can be valid for all LaterPay content%2$s\n"
 "                    %6$s\n"
@@ -180,23 +180,23 @@ msgid ""
 "                    Example: A user has already purchased the post \"New York – a Travel Report\" for 0.29. Now he purchases a Week Pass for the category \"Travel Reports\" for 0.99. The category also contains the \"New York\" post. For one week, he can now read all posts in the category \"Travel Reports\" for a fixed price of 0.99. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category \"Travel Reports\". After the pass has expired, the user will still have access to the post he had previously purchased individually.%2$s"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:421, laterpay/views/backend/pricing.php:676, laterpay/application/Controller/Admin/Pricing.php:51
+#: laterpay/application/Controller/Admin.php:418, laterpay/views/backend/pricing.php:676, laterpay/application/Controller/Admin/Pricing.php:51
 msgid "Subscriptions"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:422
+#: laterpay/application/Controller/Admin.php:419
 msgid ""
 "%1$sSubscriptions work exactly like time passes, with a simple difference: They renew automatically.%2$s\n"
 "                    %1$sWhen a user purchases a subscription, they have access to all the content covered by this subscription during the validity period. Of course, you can still sell your content individually.%2$s\n"
 "                    %4$sDeleting a Subscription%5$s\n"
-"                    %1$sIf you delete a subscription it, it will continue to renew for users who have an active subscription until the user cancels it. Existing subscribers will still have access to the content in their subscription. New users won't be able to buy the subscription anymore.%2$s					"
+"                    %1$sIf you delete a subscription it, it will continue to renew for users who have an active subscription until the user cancels it. Existing subscribers will still have access to the content in their subscription. New users won't be able to buy the subscription anymore.%2$s"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:440
+#: laterpay/application/Controller/Admin.php:437
 msgid "Vouchers"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:441
+#: laterpay/application/Controller/Admin.php:438
 msgid ""
 "%1$sVoucher codes can be generated for time passes and subscriptions. Vouchers are most commonly used to give discounted access to readers who already have a print subscription. To create a voucher code, simply click “+ Generate Voucher Code” at the bottom of the time pass or subscription box. A random 6 character code will be generated but this can be overridden with a custom 6 characters if you choose. Then simply set the reduced price, add a description and save!%2$s\n"
 "                    %1$sYou can create any number of voucher codes. A voucher code allows one (or multiple) user(s) to purchase a time pass or subscription for a reduced price. A user can enter a voucher code right below the time passes by clicking \"I have a voucher\". If the entered code is a valid voucher code, the price of the respective offer will be reduced.%2$s\n"
@@ -210,11 +210,11 @@ msgid ""
 "                    %1$sFor example, if you have a monthly subscription regularly priced at 10 per month and generate a voucher code which makes that subscription available for 5 per month, anyone who signs up for that subscription using the voucher code will pay 5 every month.%2$s"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:469
+#: laterpay/application/Controller/Admin.php:466
 msgid "Additional Ways to Monetize Content"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:470
+#: laterpay/application/Controller/Admin.php:467
 msgid ""
 "%4$sIndividual Article Price%5$s\n"
 "                    %1$sIf you ever need to override a price for a specific article, you may do so on the WordPress Edit Post page. To do this simply:%2$s\n"
@@ -225,27 +225,27 @@ msgid ""
 "                    %7$s"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:494, laterpay/application/Controller/Admin.php:705
+#: laterpay/application/Controller/Admin.php:491, laterpay/application/Controller/Admin.php:702
 msgid "Need additional help?"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:495
+#: laterpay/application/Controller/Admin.php:492
 msgid "Check out other advanced pricing options on the"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:495
+#: laterpay/application/Controller/Admin.php:492
 msgid "Advanced Tab"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:496
+#: laterpay/application/Controller/Admin.php:493
 msgid "For more instruction on setting up Pricing, %sclick here%s."
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:511
+#: laterpay/application/Controller/Admin.php:508
 msgid "Configure Appearance"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:512
+#: laterpay/application/Controller/Admin.php:509
 msgid ""
 "%1$sThe top portion of this page allows you to customize how your pricing options are displayed. Below are the different options available. By checking & un-checking the corresponding checkboxes, you can easily see how the overlay will be displayed using the preview section to the right.%2$s\n"
 "                    %1$sOnce you have your display options configured, %6$sbe sure to click save%7$s at the bottom of the Configure Appearance section to apply these changes to your site.%2$s\n"
@@ -291,11 +291,11 @@ msgid ""
 "                    "
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:572
+#: laterpay/application/Controller/Admin.php:569
 msgid "Customize Colors"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:573
+#: laterpay/application/Controller/Admin.php:570
 msgid ""
 "%1$sUse the lower half of this page to customize the colors of the LaterPay elements. This section can be used to ensure that the color scheme matches your %3$s theme and brand. The following customizations are available:%2$s\n"
 "                     %4$s\n"
@@ -346,11 +346,11 @@ msgid ""
 "                    "
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:647
+#: laterpay/application/Controller/Admin.php:644
 msgid "API Credentials"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:648
+#: laterpay/application/Controller/Admin.php:645
 msgid ""
 "%1$sIn order to receive payments, you first need a LaterPay account. %3$sOnce this is set up, you need LaterPay API credentials, consisting of the following to link your WordPress plugin to your LaterPay account.%2$s\n"
 "                    %10$s\n"
@@ -360,11 +360,11 @@ msgid ""
 "                    %4$sVisit our website to read more about how to become a content provider or to sign up with LaterPay.%5$s"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:674
+#: laterpay/application/Controller/Admin.php:671
 msgid "Plugin Mode"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:675
+#: laterpay/application/Controller/Admin.php:672
 msgid ""
 "%1$sYou can run the LaterPay plugin in two modes:%2$s\n"
 "                    %4$s\n"
@@ -381,47 +381,47 @@ msgid ""
 "                        %1$s Using the LaterPay plugin usually requires some adjustments of your theme. Therefore, we recommend installing, configuring, and testing the LaterPay plugin on a test system before activating it on your production system.%2$s"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:706
+#: laterpay/application/Controller/Admin.php:703
 msgid "Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:828
+#: laterpay/application/Controller/Admin.php:825
 msgid "Pricing"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:834, laterpay/views/backend/advanced.php:200
+#: laterpay/application/Controller/Admin.php:831, laterpay/views/backend/advanced.php:200
 msgid "Appearance"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:840
+#: laterpay/application/Controller/Admin.php:837
 msgid "Account"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:851
+#: laterpay/application/Controller/Admin.php:848
 msgid "Advanced"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:899
+#: laterpay/application/Controller/Admin.php:896
 msgid "Version %s Highlights:"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:900
+#: laterpay/application/Controller/Admin.php:897
 msgid "You can now fully customize the appearance of your payment overlay. Visit the Appearance tab, to check it out!"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:906
+#: laterpay/application/Controller/Admin.php:903
 msgid "Learn More"
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:909
+#: laterpay/application/Controller/Admin.php:906
 msgid "%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed."
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:910
+#: laterpay/application/Controller/Admin.php:907
 msgid "%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page."
 msgstr ""
 
-#: laterpay/application/Controller/Admin.php:911
+#: laterpay/application/Controller/Admin.php:908
 msgid "%sOptional%s Here we highlight advanced features & settings like contributions, selling downloadable content, and promoting your subscriptions. Scroll through to learn more!"
 msgstr ""
 
