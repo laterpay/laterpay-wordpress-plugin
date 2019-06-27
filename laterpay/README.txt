@@ -4,8 +4,8 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay, Payments, Content Monetization, Paywall, Paid Content, Publisher, Blogger, conversion, paygate, monetization
 Requires at least: 4.6
-Tested up to: 5.2.1
-Stable tag: 2.5.4
+Tested up to: 5.2.2
+Stable tag: 2.6.0
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -88,6 +88,18 @@ Yes!
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.6.0 ( June 27, 2019 ) =
+* Combine content layout preview into one interface.
+* Update color scheme settings for new preview layout.
+* Increase "Pay Now" maximum price amount.
+* Merchant credentials are now validate automatically based on region.
+* Add warning to clear cache when plugin mode is set to LIVE.
+* Add more information to post preview widget.
+* Add instructional info on Pricing, Appearance and Advanced tabs.
+* Update region change behaviour and message.
+* Update Account tab with clear instructions.
+* Update Category FAQ link.
+
 = 2.5.4 ( June 6, 2019 ) =
 * Add option to customize Voucher Code.
 
@@ -631,8 +643,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.5.4 ( June 6, 2019 ) =
-Add option to customize Voucher Code and minor improvements with LaterPay functionality.
+= 2.6.0 ( June 27, 2019 ) =
+Update appearance tab to combine layout preview into one interface, Add info for clear instruction on each tab and various improvements with LaterPay functionality.
 
 == Arbitrary section ==
 

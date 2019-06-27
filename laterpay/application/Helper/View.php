@@ -282,7 +282,7 @@ class LaterPay_Helper_View
 
         if ( $hover_color ) {
             $custom_css .= "
-                .lp_purchase-button:hover {
+                .lp_purchase-button:hover, .lp_purchase-overlay__submit:hover {
                     background-color: {$hover_color} !important;
                 }
                 .lp_time-pass__front-side-link:hover {

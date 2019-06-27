@@ -8,6 +8,54 @@
                 pricing       : {
                     setGlobalPrice : $('#lp_js_saveGlobalDefaultPrice'),
                 },
+                wp_body_content     : $('#wpbody-content'),
+                backendPage         : $('.lp_page'),
+                close_update_notice : $('#close_update_notice'),
+                close_info_notice   : $('#close_info_notice'),
+                navigation          : $('.lp_navigation'),
+        },
+
+        bindEvents = function() {
+
+            // Reset update highlights data on click.
+            $o.backendPage.add($o.wp_body_content).on('click', $o.close_update_notice, function( e ) {
+                if ( 'close_update_notice' === e.target.id ) {
+                    $.post(
+                        lpCommonVar.ajaxUrl, {
+                            action   : 'laterpay_reset_highlights_data',
+                            security : lpCommonVar.update_highlights_nonce,
+                        },
+                        function(data) {
+                            if (data.success) {
+                                $o.backendPage.find('div.lp_update_notification').remove();
+                                if ( $o.wp_body_content.length ) {
+                                    $o.wp_body_content.find('div.lp_update_notification').remove();
+                                }
+                            }
+                        },
+                        'json'
+                    );
+                }
+            });
+
+            // Reset update highlights data on click.
+            $o.backendPage.on('click', $o.close_info_notice, function( e ) {
+                if ( 'close_info_notice' === e.target.id ) {
+                    $.post(
+                        lpCommonVar.ajaxUrl, {
+                            action   : 'laterpay_read_tabular_instructions',
+                            security : lpCommonVar.read_tabular_nonce,
+                            lppage   : lpCommonVar.current_page,
+                        },
+                        function(data) {
+                            if (data.success) {
+                                $o.backendPage.find('div.lp_info_notification').remove();
+                            }
+                        },
+                        'json'
+                    );
+                }
+            });
         },
 
         lp_delete_cookie = function( name ) {
@@ -165,6 +213,100 @@
             }
         },
 
+        // Create markup for highlights notice dynamically if there is notice data.
+        addUpdateHighlights = function () {
+
+            if ( 'settings' === lpCommonVar.current_page ) {
+                return;
+            }
+
+            if ( Object.keys(lpCommonVar.update_highlights).length ) {
+
+                // Notice Div.
+                var updateWrapper = $('<div/>', {
+                    class: 'lp_update_notification',
+                });
+
+                // Version Text.
+                var version = $('<b/>', {
+                    text: lpCommonVar.update_highlights.version
+                });
+
+                // Version Description.
+                var versionDescritpion = $('<p/>', {
+                    text: lpCommonVar.update_highlights.notice
+                });
+
+                // Learn More CTA.
+                var updateDetailsCallToAction = $('<a/>', {
+                    class : 'lp_purchase-overlay__submit',
+                    href  : 'https://wordpress.org/plugins/laterpay/#developers',
+                    text  : lpCommonVar.learn_more,
+                    target: '_blank',
+                });
+
+                // Dismiss button.
+                var updateDetailsDismiss = $('<a/>', {
+                    class: 'close_notice',
+                    id   : 'close_update_notice'
+                }).attr('data-icon', 'e').css('cursor', 'pointer');
+
+                versionDescritpion.prepend(version);
+                updateWrapper.append(versionDescritpion);
+                updateWrapper.append(updateDetailsCallToAction);
+                updateWrapper.append(updateDetailsDismiss);
+
+                if ( 'advanced' !== lpCommonVar.current_page && $o.wp_body_content.length ) {
+                    $o.wp_body_content.prepend(updateWrapper);
+                } else {
+                    $('#lp_js_flashMessage').after(updateWrapper);
+                }
+            }
+        },
+
+        // Create markup for instructional notice dynamically if not dismissed already.
+        addInstructionalNotice = function () {
+
+            if ( 'settings' === lpCommonVar.current_page ) {
+                return;
+            }
+
+            if ( Object.keys(lpCommonVar.lp_instructional_info).length ) {
+
+                if ( typeof lpCommonVar.lp_instructional_info[lpCommonVar.current_page] === 'undefined' ) {
+                    return;
+                }
+
+                // Notice Div.
+                var infoWrapper = $('<div/>', {
+                    class: 'lp_info_notification',
+                });
+
+                // Info.
+                infoWrapper.append(lpCommonVar.lp_instructional_info[lpCommonVar.current_page]);
+
+                if ( 'pricing' === lpCommonVar.current_page ) {
+                    // Learn More CTA.
+                    var updateDetailsCallToAction = $('<a/>', {
+                        class : 'lp_purchase-overlay__submit',
+                        href  : 'https://www.laterpay.net/academy/wordpress-pricing',
+                        text  : lpCommonVar.learn_more,
+                        target: '_blank',
+                    });
+                    infoWrapper.append(updateDetailsCallToAction);
+                }
+
+                // Dismiss button.
+                var updateDetailsDismiss = $('<a/>', {
+                    class: 'close_info',
+                    id   : 'close_info_notice'
+                }).attr('data-icon', 'e').css('cursor', 'pointer');
+                infoWrapper.append(updateDetailsDismiss);
+
+                $o.navigation.after(infoWrapper);
+            }
+        },
+
         initializePage = function() {
 
             if ( typeof(lpCommonVar) !== 'undefined' ) {
@@ -196,6 +338,10 @@
                 var eventCategory = 'LaterPay WordPress Plugin';
                 lpGlobal.sendLPGAEvent( 'Paid Content Replacement Show', eventCategory, eventlabel, 0, true );
             }
+
+            addUpdateHighlights();
+            addInstructionalNotice();
+            bindEvents();
         };
 
         window.lpGlobal = {

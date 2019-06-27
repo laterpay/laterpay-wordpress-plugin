@@ -299,30 +299,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
             'laterpay'
         );
 
-        // Main color Setting.
-        add_settings_field(
-            'laterpay_main_color',
-            esc_html__( 'Button & Link Color', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_appearance',
-            array(
-                'name' => 'laterpay_main_color',
-            )
-        );
-
-        // Hover color Setting.
-        add_settings_field(
-            'laterpay_hover_color',
-            esc_html__( 'Button & Link Hover Color', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_appearance',
-            array(
-                'name' => 'laterpay_hover_color',
-            )
-        );
-
         // Teaser content word count Settings.
         add_settings_field(
             'laterpay_teaser_content_word_count',
@@ -420,7 +396,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
      */
     public function get_appearance_section_description() {
         echo '<p>';
-        esc_html_e( 'Our most common configuration options are found under the LaterPay plugin’s Appearance tab. Here you can adjust the default colors, the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall.', 'laterpay' );
+        esc_html_e( 'Our most common configuration options are found under the LaterPay plugin’s Appearance tab. Here you can adjust the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall.', 'laterpay' );
         echo '</p>';
     }
 

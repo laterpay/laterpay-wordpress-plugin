@@ -26,7 +26,11 @@
 
                 showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
                 apiCredentials                  : $('#lp_js_apiCredentialsSection'),
-                requestSent                     : false
+                requestSent                     : false,
+
+                hide_cache_warning              : $('#hide_cache_warning'),
+                lp_cache_warning                : $('#lp_cache_warning'),
+                lp_account_login                : $('#lp_account_login')
             },
 
             regionVal = $o.region.val(),
@@ -67,10 +71,30 @@
                     return true;
                 });
 
+                $o.lp_account_login.bind('click', function() {
+                    $(this).attr('href', $(this).data('href-'+$o.region.val()));
+                    return true;
+                });
+
                 // ask user for confirmation, if he tries to leave the page without a set of valid API credentials
                 window.onbeforeunload = function() {
                     preventLeavingWithoutValidCredentials();
                 };
+
+                $o.hide_cache_warning.on( 'click', function () {
+                    $.post(
+                        lpVars.ajaxUrl, {
+                            action   : 'laterpay_reset_notice_data',
+                            security : lpVars.reset_cache_nonce,
+                        },
+                        function(data) {
+                            if (data.success) {
+                                $o.lp_cache_warning.hide();
+                            }
+                        },
+                        'json'
+                    );
+                } );
             },
 
             autofocusEmptyInput = function() {
@@ -162,7 +186,7 @@
                             $o.testMerchantId.val( data.creds.cp_key );
                             $o.testApiKey.val( data.creds.api_key );
 
-                            if ( regionVal !== 'us' ) {
+                            if ( regionVal !== 'eu' ) {
                                 $o.regionNoticeBlock.removeClass('hidden');
                             } else {
                                 $o.regionNoticeBlock.addClass('hidden');
@@ -171,6 +195,12 @@
                     },
                     'json'
                 );
+
+                setTimeout(function() {
+                    if ( $o.pluginModeToggle.prop('checked') ) {
+                        validateCredByRegion();
+                    }
+                }, 2000);
             },
 
             makeAjaxRequest = function(form_id) {
@@ -195,11 +225,25 @@
                             var sbMerchantId   = $('#lp_js_sandboxMerchantId').val();
                             var liveMerchantId = $('#lp_js_liveMerchantId').val();
 
+                            if ( $o.pluginModeToggle.prop('checked') ) {
+                                $o.lp_cache_warning.show();
+                            }
+
                             var commonLabel = sbMerchantId + ' | ' + liveMerchantId + ' | ' +
                                 lpVars.gaData.site_url + ' | ';
                             var eveCategory = 'LP WP Account';
                             var eveAction = 'Account Status Change';
                             lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + pluginStatus );
+                        }
+
+                        if ( 'laterpay_plugin_mode' === form_id ||
+                            'laterpay_live_merchant_id' === form_id ||
+                            'laterpay_live_api_key' === form_id ) {
+                            setTimeout(function() {
+                                if ( $o.pluginModeToggle.prop('checked') ) {
+                                    validateCredByRegion();
+                                }
+                            }, 2000);
                         }
                     });
                 }
@@ -281,6 +325,22 @@
                 if (hasNoValidCredentials()) {
                     return lpVars.i18nPreventUnload;
                 }
+            },
+
+            validateCredByRegion = function() {
+                $.post(
+                    lpVars.ajaxUrl, {
+                        action   : 'laterpay_validate_cred_region',
+                        security : lpVars.validate_cred_nonce,
+                    },
+                    function(data) {
+                        if ( data.hasOwnProperty( 'mode' ) ) {
+                            $o.pluginModeToggle.prop('checked', false);
+                            $o.navigation.showMessage(data);
+                        }
+                    },
+                    'json'
+                );
             },
 
             initializePage = function() {

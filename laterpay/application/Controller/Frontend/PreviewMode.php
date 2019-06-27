@@ -42,6 +42,11 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
      */
     public function modify_footer( LaterPay_Core_Event $event ) {
 
+        // Check if preview widget needs to be displayed.
+        if ( ! $this->check_preview_eligibility() ) {
+            return;
+        }
+
         // don't add the preview pane placeholder to the footer, if the user is not logged in
         if ( ! LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', get_the_ID() ) ) {
             return;
@@ -139,9 +144,11 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
         $post = get_post( $post_id );
         // assign variables
         $view_args = array(
-            'diplay_preview_pane'       => LaterPay_Helper_User::display_preview_pane(),
-            'hide_preview_mode_pane'    => LaterPay_Helper_User::preview_mode_pane_is_hidden(),
-            'preview_post_as_visitor'   => (bool) LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'diplay_preview_pane'     => LaterPay_Helper_User::display_preview_pane(),
+            'hide_preview_mode_pane'  => LaterPay_Helper_User::preview_mode_pane_is_hidden(),
+            'preview_post_as_visitor' => (bool) LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'admin_menu'              => LaterPay_Helper_View::get_admin_menu(),
+            'plugin_is_in_live_mode'  => $this->config->get( 'is_in_live_mode' ),
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -197,5 +204,30 @@ class LaterPay_Controller_Frontend_PreviewMode extends LaterPay_Controller_Base
                 'message' => __( 'Updated.', 'laterpay' ),
             )
         );
+    }
+
+    /**
+     * Check if preview widget is needed or not.
+     *
+     * @return bool
+     */
+    private function check_preview_eligibility() {
+        // Check if it's a singular page.
+        if ( ! is_singular() ) {
+            return false;
+        }
+
+        // Check current post data.
+        $post = get_post();
+        if ( $post === null ) {
+            return false;
+        }
+
+        // Check if content is purchasable.
+        if ( ! LaterPay_Helper_Post::is_content_purchasable( $post->ID ) ) {
+            return false;
+        }
+
+        return true;
     }
 }

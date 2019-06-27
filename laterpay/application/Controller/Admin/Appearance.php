@@ -60,16 +60,17 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
             'laterpay-backend-appearance',
             'lpVars',
             array(
-                'overlaySettings'  => wp_json_encode(
+                'overlaySettings'    => wp_json_encode(
                     array(
                         'default' => LaterPay_Helper_Appearance::get_default_options(),
                         'current' => LaterPay_Helper_Appearance::get_current_options()
                     )
                 ),
-                'l10n_print_after' => 'lpVars.overlaySettings = JSON.parse(lpVars.overlaySettings)',
-                'gaData'           => array(
+                'l10n_print_after'   => 'lpVars.overlaySettings = JSON.parse(lpVars.overlaySettings)',
+                'gaData'             => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
+                'invalidConfigError' => esc_html__( 'Please select one of the recommended options above to ensure that your users can purchase all content types.', 'laterpay' ),
             )
         );
     }
@@ -84,7 +85,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
 
         $view_args = array(
             'plugin_is_in_live_mode'              => $this->config->get( 'is_in_live_mode' ),
-            'teaser_mode'                         => get_option( 'laterpay_teaser_mode', '2' ),
             'appearance_obj'                      => $this,
             'admin_menu'                          => add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => $menu['account']['url'] ) ), admin_url( 'admin.php' ) ),
             'purchase_button_positioned_manually' => get_option( 'laterpay_purchase_button_positioned_manually' ),
@@ -126,72 +126,102 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
         }
 
         switch ( $submitted_form_value ) {
-            // update presentation mode for paid content
-            case 'paid_content_preview':
-                $paid_content_preview_form = new LaterPay_Form_PaidContentPreview();
+            case 'appearance_config':
+                // Update Appearance tab config.
+                $appearance_config_options = [
+                    'lp_show_purchase_overlay'              => 'show_purchase_overlay',
+                    'lp_show_purchase_button_above_article' => 'show_purchase_button_above_article',
+                    'lp_show_tp_sub_below_modal'            => 'show_tp_sub_below_modal',
+                    'lp_show_introduction'                  => 'show_introduction',
+                ];
 
-                if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {  // phpcs:ignore
-                    throw new LaterPay_Core_Exception_FormValidation( get_class( $paid_content_preview_form ), $paid_content_preview_form->get_errors() );
+                // Create an array of keys to iterate over.
+                $appearance_config_keys = array_keys( $appearance_config_options );
+                foreach ( $appearance_config_keys as $key ) {
+                    $config_option_value = filter_input( INPUT_POST, $appearance_config_options[ $key ], FILTER_SANITIZE_STRING );
+
+                    // check if value is set and set option value accordingly.
+                    $appearance_config_options[ $key ] = null === $config_option_value ? 0 : absint( $config_option_value );
                 }
 
-                $result = update_option( 'laterpay_teaser_mode', $paid_content_preview_form->get_field_value( 'paid_content_preview' ) );
+                update_option( 'lp_appearance_config', $appearance_config_options );
 
-                if ( $result ) {
-                    switch ( get_option( 'laterpay_teaser_mode' ) ) {
-                        case '1':
-                            $message = __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.', 'laterpay' );
-                            break;
-                        case '2':
-                            $message = __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay with all purchase options.', 'laterpay' );
-                            break;
-                        default:
-                            $message = __( 'Visitors will now see only the teaser content of paid posts.', 'laterpay' );
-                            break;
-                    }
-
-                    $event->set_result(
-                        array(
-                            'success' => true,
-                            'message' => $message
-                        )
-                    );
-                    return;
+                $lp_body_text    = [];
+                $body_text_value = filter_input( INPUT_POST, 'show_body_text', FILTER_SANITIZE_STRING );
+                if ( null !== $body_text_value ) {
+                    $lp_body_text['enabled'] = absint( $body_text_value );
+                } else {
+                    $lp_body_text['enabled'] = 0;
                 }
+
+                $custom_html_text = esc_html__( 'Enter custom HTML here', 'laterpay' );
+                if ( 1 === $lp_body_text['enabled'] ) {
+                    $body_text_content_value = filter_input( INPUT_POST, 'body_text_content', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+                    $lp_body_text['content'] = ! empty( $body_text_content_value ) ? $body_text_content_value : "<p>$custom_html_text</p>";
+                    update_option( 'lp_body_text', $lp_body_text );
+                } else {
+                    $laterpay_body_text      = get_option( 'lp_body_text' );
+                    $lp_body_text['content'] = ! empty( $laterpay_body_text['content'] ) ? $laterpay_body_text['content'] : "<p>$custom_html_text</p>";
+                    update_option( 'lp_body_text', $lp_body_text );
+                }
+
+                // Update purchase header.
+                $purchase_header = filter_input( INPUT_POST, 'purchase_header', FILTER_SANITIZE_STRING );
+                update_option( 'laterpay_overlay_header_title', ! empty( $purchase_header ) ? $purchase_header : __( 'Read now, pay later', 'laterpay' ) );
+
+                // Update existing options.
+                $existing_options = [
+                    'laterpay_purchase_button_positioned_manually' => 'is_purchase_button_custom_positioned',
+                    'laterpay_time_passes_positioned_manually'     => 'is_tp_sub_custom_positioned',
+                    'laterpay_overlay_show_footer'                 => 'show_footer',
+                ];
+
+                // Create an array of keys to iterate over.
+                $existing_options_keys = array_keys( $existing_options );
+
+                // check if value is set and set option value accordingly.
+                foreach ( $existing_options_keys as $key ) {
+                    $existing_option_value = filter_input( INPUT_POST, $existing_options[ $key ], FILTER_SANITIZE_STRING );
+                    update_option( $key, null === $existing_option_value ? 0 : absint( $existing_option_value ) );
+                }
+
+                $event->set_result(
+                    array(
+                        'success' => true,
+                        'message' => __( 'Appearance settings saved successfully.', 'laterpay' )
+                    )
+                );
+
                 break;
-
             case 'overlay_settings':
 
                 // handle additional settings save if present in request
-                $header_title            = filter_input( INPUT_POST, 'header_title', FILTER_SANITIZE_STRING );
                 $header_background_color = filter_input( INPUT_POST, 'header_background_color', FILTER_SANITIZE_STRING );
                 $background_color        = filter_input( INPUT_POST, 'background_color', FILTER_SANITIZE_STRING );
                 $main_text_color         = filter_input( INPUT_POST, 'main_text_color', FILTER_SANITIZE_STRING );
                 $description_text_color  = filter_input( INPUT_POST, 'description_text_color', FILTER_SANITIZE_STRING );
                 $button_background_color = filter_input( INPUT_POST, 'button_background_color', FILTER_SANITIZE_STRING );
+                $button_hover_color      = filter_input( INPUT_POST, 'button_hover_color', FILTER_SANITIZE_STRING );
                 $button_text_color       = filter_input( INPUT_POST, 'button_text_color', FILTER_SANITIZE_STRING );
                 $link_main_color         = filter_input( INPUT_POST, 'link_main_color', FILTER_SANITIZE_STRING );
                 $link_hover_color        = filter_input( INPUT_POST, 'link_hover_color', FILTER_SANITIZE_STRING );
-                $show_footer             = isset( $_POST['show_footer'] ) ? sanitize_text_field( $_POST['show_footer'] ) : ''; // WPCS:input var ok.
                 $footer_background_color = filter_input( INPUT_POST, 'footer_background_color', FILTER_SANITIZE_STRING );
 
-                update_option( 'laterpay_overlay_header_title',      $header_title );
                 update_option( 'laterpay_overlay_header_bg_color',   $header_background_color );
                 update_option( 'laterpay_overlay_main_bg_color',     $background_color );
                 update_option( 'laterpay_overlay_main_text_color',   $main_text_color );
                 update_option( 'laterpay_overlay_description_color', $description_text_color );
-                update_option( 'laterpay_overlay_button_bg_color',   $button_background_color );
+                update_option( 'laterpay_main_color',                $button_background_color );
+                update_option( 'laterpay_hover_color',               $button_hover_color );
                 update_option( 'laterpay_overlay_button_text_color', $button_text_color );
                 update_option( 'laterpay_overlay_link_main_color',   $link_main_color );
                 update_option( 'laterpay_overlay_link_hover_color',  $link_hover_color );
-                if ( null !== $show_footer ) {
-                    update_option( 'laterpay_overlay_show_footer', (int) $show_footer );
-                }
                 update_option( 'laterpay_overlay_footer_bg_color',   $footer_background_color );
 
                 $event->set_result(
                     array(
                         'success' => true,
-                        'message' => __( 'Purchase overlay settings saved successfully.', 'laterpay' )
+                        'message' => __( 'Color scheme saved successfully.', 'laterpay' )
                     )
                 );
 

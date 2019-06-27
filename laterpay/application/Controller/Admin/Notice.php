@@ -16,6 +16,21 @@ class LaterPay_Controller_Admin_Notice extends LaterPay_Controller_Base
                 array( 'laterpay_on_ajax_send_json', 300 ),
                 array( 'ajax_save_wpengine_notice_status', 400 ),
             ),
+           'wp_ajax_laterpay_reset_highlights_data' => array(
+               array( 'laterpay_on_admin_view', 200 ),
+               array( 'laterpay_on_ajax_send_json', 300 ),
+               array( 'ajax_reset_highlights_data', 400 ),
+           ),
+           'wp_ajax_laterpay_reset_notice_data' => array(
+               array( 'laterpay_on_admin_view', 200 ),
+               array( 'laterpay_on_ajax_send_json', 300 ),
+               array( 'ajax_reset_notice_data', 400 ),
+           ),
+           'wp_ajax_laterpay_read_tabular_instructions' => array(
+               array( 'laterpay_on_admin_view', 200 ),
+               array( 'laterpay_on_ajax_send_json', 300 ),
+               array( 'ajax_read_tabular_instructions', 400 ),
+           ),
         );
     }
 
@@ -92,4 +107,94 @@ class LaterPay_Controller_Admin_Notice extends LaterPay_Controller_Base
         $event->set_result( $result );
     }
 
+    /**
+     * Update update_highlights_data option.
+     *
+     * @wp-hook wp_ajax_laterpay_reset_highlights_data
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    function ajax_reset_highlights_data( LaterPay_Core_Event $event ) {
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        check_ajax_referer('update_highlights_nonce', 'security' );
+
+        update_option( 'lp_update_highlights', [] );
+
+        $event->set_result(
+            array(
+                'success' => true,
+            )
+        );
+
+        return;
+    }
+
+    /**
+     * Update update_highlights_data option.
+     *
+     * @wp-hook wp_ajax_laterpay_reset_highlights_data
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    function ajax_reset_notice_data( LaterPay_Core_Event $event ) {
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        check_ajax_referer( 'reset_cache_nonce', 'security' );
+
+        update_option( 'laterpay_show_cache_msg', 0 );
+
+        $event->set_result(
+            array(
+                'success' => true,
+            )
+        );
+
+        return;
+    }
+
+    /**
+     * Update update_highlights_data option.
+     *
+     * @wp-hook wp_ajax_laterpay_read_tabular_instructions
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    function ajax_read_tabular_instructions( LaterPay_Core_Event $event ) {
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        check_ajax_referer( 'read_tabular_info_nonce', 'security' );
+
+        $current_info_status = get_option( 'lp_tabular_info', [] );
+
+        $dismissed_page = filter_input( INPUT_POST, 'lppage', FILTER_SANITIZE_STRING );
+
+        if ( ! empty( $dismissed_page ) && ! empty( $current_info_status[ $dismissed_page ] ) ) {
+            $current_info_status[ $dismissed_page ] = 0;
+            update_option( 'lp_tabular_info', $current_info_status );
+        }
+
+        $event->set_result(
+            array(
+                'success' => true,
+            )
+        );
+
+        return;
+    }
 }

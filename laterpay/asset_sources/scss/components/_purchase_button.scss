@@ -4,7 +4,7 @@
 .lp_purchase-link {
     border: 0 !important;
     box-shadow: none !important;
-    color: $laterpay-brand !important;
+    color: $laterpay-brand;
     display: block !important;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs !important;
@@ -56,7 +56,7 @@
     border-radius: 4px !important;
     border: 0 !important;
     box-shadow: none!important;
-    color: $text--inverse !important;
+    color: $text--inverse;
     cursor: pointer !important;
     float: right !important;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
@@ -92,7 +92,7 @@
     &:focus,
     &:active {
         background: $laterpay-brand--darker;
-        color: $text--inverse !important;
+        color: $text--inverse;
         text-decoration: none !important;
     }
 
