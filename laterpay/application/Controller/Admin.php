@@ -313,96 +313,185 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      */
     protected function render_pricing_tab_help() {
         $screen = get_current_screen();
+
+        // Add LaterPay content contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_pricing_tab_help_global_default_price',
-            'title'   => __( 'Global Default Price', 'laterpay' ),
-            'content' => __( '
-            <p>
-                The global default price is used for all posts, for which no
-                category default price or individual price has been set.<br>
-                Accordingly, setting the global default price to 0.00 makes
-                all articles free, for which no category default price or
-                individual price has been set.
-            </p>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_pricing_tab_help_content',
+                'title'   => __( 'LaterPay Content', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sUse the LaterPay Content section to select what types of WordPress content you would like to sell using LaterPay. %3$s The most common types are Pages, Posts, and Media but additional options may be available depending on the other plugins that you have installed.%2$s
+                    %1$s%4$sTIP:%5$s If you are not sure what kind of content you would like to sell, we recommend starting with Posts & Media. This should ensure that your Pages (typically your Home Page, About Us Page, etc) remain free while you can monetize the majority of your other content (typically Posts).%2$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<strong>',
+                    '</strong>'
+                ),
+            )
+        );
+
+        // Add Global Default Price contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_pricing_tab_help_category_default_price',
-            'title'   => __( 'Category Default Prices', 'laterpay' ),
-            'content' => __( '
-            <p>
-                A category default price is applied to all posts in a given
-                category that don\'t have an individual price.<br>
-                A category default price overwrites the global default price.<br>
-                If a post belongs to multiple categories, you can choose on
-                the add / edit post page, which category default price should
-                be effective.<br>
-                For example, if you have set a global default price of 0.15,
-                but a post belongs to a category with a category default price
-                of 0.30, that post will sell for 0.30.
-            </p>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_pricing_tab_help_global_default_price',
+                'title'   => __( 'Global Default Price', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sSetting the Global Default Price will determine the standard behavior of your monetized content. There are three options to choose from and we will go through each one in detail and provide a few examples to help determine which is the best option based on your strategy:%2$s
+                    %6$s 
+                    %8$s%4$sFREE unless price is set on post page or by category%5$s%9$s
+                        %4$sDescription:%5$s All articles will be free by default. Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post Page.%3$s
+                        %4$sWhat does that mean?%5$s We are getting a bit ahead of ourselves here but to simplify, this means that your content will be completely free (no single purchases, no time passes, no subscriptions) unless you intentionally override this setting.%3$s
+                        %4$sExample:%5$s Assuming you are a news site and you want most of your articles to be free except for your content flagged as “Premium,” then this option is perfect for you. Make articles free by default and then we will walk you through how to override that for your premium content later on in this tutorial.%3$s%3$s
+                    %8$s%4$sPosts cannot be purchased individually%5$s%9$s
+                        %4$sDescription:%5$s Only Time Passes & Subscriptions will be displayed in the purchase dialog.%3$s
+                        %4$sWhat does that mean?%5$s This means that you do not want to allow your users to purchase just one piece of content, instead you only want to allow them to access content using a time pass or subscription.%3$s
+                        %4$sExample:%5$s If you are a music streaming service and you don’t want users to be able to purchase one song at a time, but instead you want to sell subscriptions, then this option is best suited for you. By selecting this, you will ensure that only time passes or subscriptions are displayed on your site.%3$s%3$s
+                    %8$s%4$sSet individual article default price%5$s%9$s
+                        %4$sDescription:%5$s All single pieces of content will be for sale at this price unless overridden.%3$s
+                        %4$sWhat does that mean?%5$s This is the most standard of the three options; it is what you would typically think of when you are setting a “default.” By setting a price on this option, you are setting that as the default price for purchasing any single piece of content.%3$s
+                        %4$sExample:%5$s I am a blogger, all of my content is along the same topic and ideally of equal interest (and value) to my readers. Therefore, I would like to set one default price for all of my blog posts. By selecting this option, I will do exactly that; set one price for all blog posts. Later I can override this for different categories or for specific posts but by default all of my blog posts will have the same price.
+                    %7$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<strong>',
+                    '</strong>',
+                    '<ol>',
+                    '</ol>',
+                    '<li>',
+                    '</li>'
+
+                ),
+            )
+        );
+
+        // Add Category Default Price contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_pricing_tab_help_currency',
-            'title'   => __( 'Currency', 'laterpay' ),
-            'content' => __( '
-            <p>
-                The plugin supports two currencies, depending on the region of your LaterPay merchant account: EUR (€) for European merchant accounts, USD ($) for a U.S. merchant account.<br>
-                Changing the standard currency will not convert the prices you have set.
-                Only the currency code next to the price is changed.<br>
-                For example, if your global default price is 0.10 EUR and you change the default currency to USD, the global default
-                price will be 0.10 USD.<br>
-            </p>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_pricing_tab_help_category_default_price',
+                'title'   => __( 'Category Default Prices', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sA category default price is applied to all posts in a given category that don\'t have an individual price assigned to them on the edit post page.%2$s
+                    %1$sA category default price overwrites the global default price. If a post belongs to multiple categories, you can choose on the add / edit post page, which category default price should be effective.%2$s
+                    %1$sFor example, if you have set a global default price of 0.15, but a post belongs to a category with a category default price of 0.30, that post will sell for 0.30.%2$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>'
+                ),
+            )
+        );
+
+        // Add Time Passes contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_pricing_tab_help_time_passes',
-            'title'   => __( 'Time Passes', 'laterpay' ),
-            'content' => __( '
-            <p>
-                <strong>Validity of Time Passes</strong><br>
-                With time passes, you can offer your users <strong>time-limited</strong> access to your content. You can define, which content a time pass should cover and for which period of time it should be valid. A time pass can be valid for <strong>all LaterPay content</strong>
-            </p>
-            <ul>
-                <li>on your <strong>entire website</strong>,</li>
-                <li>in one <strong>specific category</strong>, or</li>
-                <li>on your entire website <strong>except from a specific category</strong>.</li>
-            </ul>
-            <p>
-                The <strong>validity period</strong> of a time pass starts with the <strong>purchase</strong> and is defined for a <strong>continuous</strong> use – i.e. it doesn\'t matter, if a user is on your website during the entire validity period. After a time pass has expired, the access to the covered content is automatically refused. Please note: Access to pages which are <strong>still open</strong> when a pass expires will be refused only after <strong>reloading</strong> the respective page. <strong>Any files</strong> (images, documents, presentations...), that were downloaded during the validity period, can still be used after the access has expired – but the user will <strong>not</strong> be able to <strong>download them </strong> without purchasing again.
-            </p>
-            <p>
-                <strong>Deleting Time Passes</strong><br>
-                If you <strong>delete</strong> a time pass, users who have bought this time pass <strong>will still have access</strong> to the covered content. Deleted time passes <strong>can\'t be restored</strong>.
-            </p>
-            <p>
-                <strong>Time Passes and Individual Sales</strong><br>
-                When a user purchases a time pass, he has access to all the content covered by this pass during the validity period. Of course, you can still sell your content individually.<br>
-                Example: A user has already purchased the post "New York – a Travel Report" for 0.29. Now he purchases a Week Pass for the category "Travel Reports" for 0.99. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.
-            </p>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_pricing_tab_help_time_passes',
+                'title'   => __( 'Time Passes', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sWith time passes, you can offer your users time-limited access to your content. You can define which content a time pass should cover and for which period of time it should be valid. A time pass can be valid for all LaterPay content%2$s
+                    %6$s
+                        %8$son your entire website,%9$s
+                        %8$sin specific category/ies, or%9$s
+                        %8$son your entire website except from a specific category/ies.%9$s
+                    %7$s
+                    %1$sThe validity period of a time pass starts with the purchase and is defined for a continuous use – i.e. it doesn\'t matter, if a user is on your website during the entire validity period. After a time pass has expired, the access to the covered content is automatically refused. Please note: Access to pages which are still open when a pass expires will be refused only after reloading the respective page. Any files (images, documents, presentations...), that were downloaded during the validity period, can still be used after the access has expired – but the user will not be able to download them without purchasing again.%2$s
+                    %4$sDeleting Time Passes%5$s
+                    %1$sIf you delete a time pass, users who have bought this time pass will still have access to the covered content. Deleted time passes can\'t be restored.%2$s
+                    %4$sTime Passes and Individual Sales%5$s
+                    %1$sWhen a user purchases a time pass, they have access to all the content covered by this pass during the validity period. Of course, you can still sell your content individually.
+                    Example: A user has already purchased the post "New York – a Travel Report" for 0.29. Now he purchases a Week Pass for the category "Travel Reports" for 0.99. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.%2$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<strong>',
+                    '</strong>',
+                    '<ul>',
+                    '</ul>',
+                    '<li>',
+                    '</li>'
+                ),
+            )
+        );
+
+        // Add Subscriptions contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_pricing_tab_help_time_pass_vouchers',
-            'title'   => __( 'Time Pass Vouchers', 'laterpay' ),
-            'content' => __( '
-            <p>
-                You can create any number of voucher codes for each time pass. A voucher code allows one (or multiple) user(s) to purchase a time pass for a reduced price. A user can enter a voucher code right <strong>below the time passes</strong> by clicking <strong>"I have a voucher"</strong>. If the entered code is a valid voucher code, the price of the respective time pass will be reduced.<br>
-                A voucher code can be used <strong>any number of times</strong> and is <strong>not linked</strong> to a specific user. If you want to invalidate a time pass voucher code, you can simply delete it.<br>
-                <strong>Deleting</strong> a voucher code will <strong>not affect</strong> the validity of time passes which have already been purchased using this voucher code.
-            </p>
-            <p>
-            Follow these steps to create a voucher code:
-            </p>
-            <ul>
-                <li>Click the "Edit" icon next to the time pass for which you want to create a voucher code.</strong>,</li>
-                <li>Enter a price next to \'Offer this time pass at a reduced price of\'. If you enter a price of \'0.00\', anyone with this voucher code can purchase the respective time pass for 0.00.<br>
-                    If you enter a price of e.g. \'0.20\', entering this voucher code will change the price of the respective time pass to 0.20.</li>
-                <li>Click the \'Save\' button.</li>
-            </ul>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_pricing_tab_help_subscriptions',
+                'title'   => __( 'Subscriptions', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sSubscriptions work exactly like time passes, with a simple difference: They renew automatically.%2$s
+                    %1$sWhen a user purchases a subscription, they have access to all the content covered by this subscription during the validity period. Of course, you can still sell your content individually.%2$s
+                    %4$sDeleting a Subscription%5$s
+                    %1$sIf you delete a subscription it, it will continue to renew for users who have an active subscription until the user cancels it. Existing subscribers will still have access to the content in their subscription. New users won\'t be able to buy the subscription anymore.%2$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<strong>',
+                    '</strong>'
+                ),
+            )
+        );
+
+        // Add Vouchers contextual help.
+        $screen->add_help_tab( array(
+                'id'      => 'laterpay_pricing_tab_vouchers',
+                'title'   => __( 'Vouchers', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sVoucher codes can be generated for time passes and subscriptions. Vouchers are most commonly used to give discounted access to readers who already have a print subscription. To create a voucher code, simply click “+ Generate Voucher Code” at the bottom of the time pass or subscription box. A random 6 character code will be generated but this can be overridden with a custom 6 characters if you choose. Then simply set the reduced price, add a description and save!%2$s
+                    %1$sYou can create any number of voucher codes. A voucher code allows one (or multiple) user(s) to purchase a time pass or subscription for a reduced price. A user can enter a voucher code right below the time passes by clicking "I have a voucher". If the entered code is a valid voucher code, the price of the respective offer will be reduced.%2$s
+                    %1$sA voucher code can be used any number of times and is not linked to a specific user. If you want to invalidate a time pass voucher code, you can simply delete it.%2$s
+                    %1$sDeleting a voucher code will not affect the validity of time passes which have already been purchased using this voucher code.%2$s
+                    %6$s
+                        A few key things to note when using voucher codes:
+                        %8$sEach active voucher can be redeemed an unlimited number of times%9$s
+                        %8$sIf a new user signs up for a subscription using a voucher code, the voucher code will reduce the price for the entirety of the subscription%9$s
+                    %7$s
+                    %1$sFor example, if you have a monthly subscription regularly priced at 10 per month and generate a voucher code which makes that subscription available for 5 per month, anyone who signs up for that subscription using the voucher code will pay 5 every month.%2$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<strong>',
+                    '</strong>',
+                    '<ul>',
+                    '</ul>',
+                    '<li>',
+                    '</li>'
+                ),
+            )
+        );
+
+        // Add additional content monetize contextual help.
+        $screen->add_help_tab( array(
+                'id'      => 'laterpay_pricing_tab_additional_ways',
+                'title'   => __( 'Additional Ways to Monetize Content', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%4$sIndividual Article Price%5$s
+                    %1$sIf you ever need to override a price for a specific article, you may do so on the WordPress Edit Post page. To do this simply:%2$s
+                    %6$s
+                        %8$sNavigate to the post you would like to override%9$s
+                        %8$sChoose to Edit that post using the WordPress Admin%9$s
+                        %8$sIn the right sidebar you should see a LaterPay section where you can select to use the Global Default Price, a Category Default Price (when applicable), or to set an Individual Price. By selecting the Individual Price, you will be able to override any other defaults for this specific post.%9$s
+                    %7$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<strong>',
+                    '</strong>',
+                    '<ol>',
+                    '</ol>',
+                    '<li>',
+                    '</li>'
+                ),
+            )
+        );
+
+        // Add a sidebar for general help.
+        $screen->set_help_sidebar(
+            '<br/><p><strong>' . esc_html__( 'Need additional help?', 'laterpay' ) . '</strong></p>' .
+            '<p>' . sprintf( '%s <a href="%s">%s</a>', esc_html__( 'Check out other advanced pricing options on the', 'laterpay' ), esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => 'laterpay-account-tab' ) ), admin_url( 'admin.php' ) ) ), esc_html__( 'Advanced Tab', 'laterpay' ) ) .
+            '<p>' . sprintf( esc_html__( 'For more instruction on setting up Pricing, %sclick here%s.', 'laterpay' ), '<a href="https://www.laterpay.net/academy/wordpress-pricing" target="_blank">', '</a>' ) . '</p>'
+        );
     }
 
     /**
@@ -412,65 +501,133 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      */
     protected function render_appearance_tab_help() {
         $screen = get_current_screen();
+
+        // Add appearance configuration contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_appearance_tab_help_preview_mode',
-            'title'   => __( 'Preview Mode', 'laterpay' ),
-            'content' => __( '
-            <p>
-                The preview mode defines, how teaser content is shown to your
-                visitors.<br>
-                You can choose between two preview modes:
-            </p>
-            <ul>
-                <li>
-                    <strong>Teaser only</strong> &ndash; This mode shows only
-                    the teaser with an unobtrusive purchase link below.
-                </li>
-                <li>
-                    <strong>Teaser + overlay</strong> &ndash; This mode shows
-                    the teaser and an excerpt of the full content under a
-                    semi-transparent overlay that briefly explains LaterPay.<br>
-                    The plugin never loads the entire content before a user has
-                    purchased it.
-                </li>
-            </ul>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_appearance_tab_help_configure_appearance',
+                'title'   => __( 'Configure Appearance', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sThe top portion of this page allows you to customize how your pricing options are displayed. Below are the different options available. By checking & un-checking the corresponding checkboxes, you can easily see how the overlay will be displayed using the preview section to the right.%2$s
+                    %1$sOnce you have your display options configured, %6$sbe sure to click save%7$s at the bottom of the Configure Appearance section to apply these changes to your site.%2$s
+                     %4$s
+                        %8$s
+                        %6$sShow purchase button above article%7$s - By enabling this option, a button displaying the article purchase price will be displayed at the top right of the post.
+                        %4$s
+                            %8$s
+                            %6$sCustomize position of purchase button%7$s - Use the provided WordPress code to customize the position of the button described above.
+                            %9$s
+                        %5$s
+                        %9$s
+
+                        %8$s
+                        %6$sShow Purchase Overlay%7$s - Display an overlay with the available purchase options over your paid content.
+                        %9$s
+
+                        %8$s
+                        %6$sHeader%7$s - Adjust the header text that is displayed at the top of the Purchase Overlay.
+                        %9$s
+
+                        %8$s
+                        %6$sShow LaterPay Introduction%7$s - In the Purchase Overlay, provide information describing LaterPay to your customers.
+                        %9$s
+
+                        %8$s
+                        %6$sShow Time Passes & Subscriptions below modal%7$s - Display Time Pass &/or Subscription options as tickets at the bottom of your content.
+                        %4$s
+                            %8$s
+                            %6$sCustomize position of Time Passes & Subscriptions%7$s - Use the provided WordPress code to customize the position of the items described above.
+                            %9$s
+                        %5$s
+                        %9$s
+
+                        %8$s
+                        %6$sAdd custom HTML section below payment button%7$s - In this section you can choose to add custom HTML or text content at the bottom of the Purchase Overlay.
+                        %9$s
+
+                        %8$s
+                        %6$sShow valid payment options%7$s - Display a footer section at the bottom of the Purchase Overlay with images of the various payment options available.
+                        %9$s
+                     %5$s
+                    ',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<ul>',
+                    '</ul>',
+                    '<strong>',
+                    '</strong>',
+                    '<li>',
+                    '</li>'
+                ),
+            )
+        );
+
+        // Add customize colors contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_appearance_tab_help_purchase_button_position',
-            'title'   => __( 'Purchase Button Position', 'laterpay' ),
-            'content' => __( '
-            <p>
-                You can choose, if the LaterPay purchase button is positioned at its default or a custom position:
-            </p>
-            <ul>
-                <li>
-                    <strong>Default position</strong> &ndash; The LaterPay purchase button is displayed at the top on the right below the title.
-                </li>
-                <li>
-                    <strong>Custom position</strong> &ndash; You can position the LaterPay purchase button yourself by using the stated WordPress action.
-                </li>
-            </ul>', 'laterpay'
-            ),
-        ) );
-        $screen->add_help_tab( array(
-            'id'      => 'laterpay_appearance_tab_help_time_pass_position',
-            'title'   => __( 'Time Pass Position', 'laterpay' ),
-            'content' => __( '
-            <p>
-                You can choose, if time passes are positioned at their default or a custom position:
-            </p>
-            <ul>
-                <li>
-                    <strong>Default position</strong> &ndash; Time passes are displayed right below each paid article.<br>
-                    If you want to display time passes also for free posts, you can choose \'I want to display the time passes widget on free and paid posts\' in the plugin\'s advanced settings (Settings > LaterPay).
-                </li>
-                <li>
-                    <strong>Custom position</strong> &ndash; You can position time passes yourself by using the stated WordPress action.
-                </li>
-            </ul>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_appearance_tab_help_customize_colors',
+                'title'   => __( 'Customize Colors', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sUse the lower half of this page to customize the colors of the LaterPay elements. This section can be used to ensure that the color scheme matches your %3$s theme and brand. The following customizations are available:%2$s
+                     %4$s
+                        %8$s
+                        %6$sHeader background color%7$s - The header background color defines a custom color used as the background of the Purchase Overlay header.
+                        %9$s
+
+                        %8$s
+                        %6$sPurchase option background color%7$s - This option defines a custom color for the background of the Purchase Overlay.
+                        %9$s
+
+                        %8$s
+                        %6$sMain text color%7$s - The main text color defines the text color for the sub-headers (purchase options) within the Purchase Overlay.
+                        %9$s
+
+                        %8$s
+                        %6$sDescription text color%7$s - This option sets the text color for all standard, non-bolded text within the Purchase Overlay.
+                        %9$s
+
+                        %8$s
+                        %6$sPurchase button background color%7$s - The purchase button color allows you to define a custom background color for the purchase button.
+                        %9$s
+
+                        %8$s
+                        %6$sPurchase button hover color%7$s - This is the color displayed when a user hovers their mouse over the purchase button.
+                        %9$s
+
+                        %8$s
+                        %6$sPurchase button text color%7$s - Here you may define the color of the text displayed in the purchase button.
+                        %9$s
+
+                        %8$s
+                        %6$sLink main color%7$s - The link main color defines the text color for all links added by the LaterPay plugin.
+                        %9$s
+
+                        %8$s
+                        %6$sLink hover color%7$s - This is the color displayed when a user hovers their mouse over links.
+                        %9$s
+
+                        %8$s
+                        %6$sFooter background color%7$s - The footer background color defines the background color of the footer, payment options section.
+                        %9$s
+
+                        %8$s
+                        %6$sRestore default values%7$s - By clicking "Restore default values," all colors will be restored to the original LaterPay default values.
+                        %9$s
+                     %5$s
+                    ',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<ul>',
+                    '</ul>',
+                    '<strong>',
+                    '</strong>',
+                    '<li>',
+                    '</li>'
+                ),
+            )
+        );
     }
 
     /**
@@ -480,88 +637,71 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      */
     protected function render_account_tab_help() {
         $screen = get_current_screen();
+
+        // Add API Credentials contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_account_tab_help_api_credentials',
-            'title'   => __( 'API Credentials', 'laterpay' ),
-            'content' => __( '
-            <p>
-                To access the LaterPay API, you need LaterPay API credentials,
-                consisting of
-            </p>
-            <ul>
-                <li><strong>Merchant ID</strong> (a 22-character string) and</li>
-                <li><strong>API Key</strong> (a 32-character string).</li>
-            </ul>
-            <p>
-                LaterPay runs two completely separated API environments that
-                need <strong>different API credentials:</strong>
-            </p>
-            <ul>
-                <li>
-                    The <strong>Sandbox</strong> environment for testing and
-                    development use.<br>
-                    In this environment you can play around with LaterPay
-                    without fear, as your transactions will only be simulated
-                    and not actually be processed.<br>
-                    LaterPay guarantees no particular service level of
-                    availability for this environment.
-                </li>
-                <li>
-                    The <strong>Live</strong> environment for production use.<br>
-                    In this environment all transactions will be actually
-                    processed and credited to your LaterPay merchant account.<br>
-                    The LaterPay SLA for availability and response time apply.
-                </li>
-            </ul>
-            <p>
-                The LaterPay plugin comes with a set of <strong>public Sandbox
-                credentials</strong> to allow immediate testing use.
-            </p>
-            <p>
-                If you want to switch to <strong>Live mode</strong> and sell
-                content, you need your individual <strong>Live API credentials.
-                </strong><br>
-                Due to legal reasons, we can email you those credentials only
-                once we have received a <strong>signed merchant contract</strong>
-                including <strong>all necessary identification documents</strong>.<br>
-                <a href="https://www.laterpay.net/how-to-become-a-content-provider" target="blank">Visit our website to read more about how to become a content provider.</a>
-            </p>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_account_tab_help_api_credentials',
+                'title'   => __( 'API Credentials', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sIn order to receive payments, you first need a LaterPay account. %3$sOnce this is set up, you need LaterPay API credentials, consisting of the following to link your WordPress plugin to your LaterPay account.%2$s
+                    %10$s
+                    %8$s %6$sMerchant ID%7$s (a 22-character string) and%9$s
+                    %8$s %6$sAPI Key%7$s (a 32-character string).%9$s
+                    %11$s
+                    %4$sVisit our website to read more about how to become a content provider or to sign up with LaterPay.%5$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<a href="https://www.laterpay.net/solutions/influencers" target="blank">',
+                    '</a>',
+                    '<strong>',
+                    '</strong>',
+                    '<li>',
+                    '</li>',
+                    '<ul>',
+                    '</ul>'
+                ),
+            )
+        );
+
+        // Add plugin mode contextual help.
         $screen->add_help_tab( array(
-            'id'      => 'laterpay_account_tab_help_plugin_mode',
-            'title'   => __( 'Plugin Mode', 'laterpay' ),
-            'content' => __( '
-            <p>You can run the LaterPay plugin in three modes:</p>
-            <ul>
-                <li>
-                    <strong>Invisible Test Mode</strong> &ndash; This test mode lets you
-                    test your plugin configuration.<br>
-                    While providing the full plugin functionality, payments are
-                    only simulated and not actually processed.<br>
-                    The plugin will <em>only</em> be visible to admin users,
-                    not to visitors.<br>
-                    This is the <strong>default</strong> setting after activating the plugin for the first time.
-                </li>
-                <li>
-                    <strong>Visible Test Mode</strong> &ndash; The plugin will be <strong>visible</strong> to regular visitors and users,<br>
-                    but payments will still only be simulated and not actually processed.
-                </li>
-                <li>
-                    <strong>Live Mode</strong> &ndash; In live mode, the plugin
-                    is publicly visible and manages access to paid content.<br>
-                    All payments are actually processed.
-                </li>
-            </ul>
-            <p>
-                Using the LaterPay plugin usually requires some adjustments of
-                your theme.<br>
-                Therefore, we recommend installing, configuring, and testing
-                the LaterPay plugin on a test system before activating it on
-                your production system.
-            </p>', 'laterpay'
-            ),
-        ) );
+                'id'      => 'laterpay_account_tab_help_plugin_mode',
+                'title'   => __( 'Plugin Mode', 'laterpay' ),
+                'content' => sprintf( __(
+                    '%1$sYou can run the LaterPay plugin in two modes:%2$s
+                    %4$s
+                        %8$s
+                        %6$sTest Mode%7$s - This allows you to test your plugin configuration.%3$s
+                        While providing the full plugin functionality, payments are only simulated and not actually processed. The plugin will only be visible to admin users, not to visitors.%3$s
+                        This is the default setting after activating the plugin for the first time.
+                        %9$s
+                        %8$s
+                        %6$sLive Mode%7$s - In live mode, the plugin is publicly visible and manages access to paid content.%3$s
+                        All payments are actually processed.%3$s
+                        %9$s
+                    %5$s
+                        %1$s Using the LaterPay plugin usually requires some adjustments of your theme. Therefore, we recommend installing, configuring, and testing the LaterPay plugin on a test system before activating it on your production system.%2$s',
+                    'laterpay' ),
+                    '<p>',
+                    '</p>',
+                    '<br/>',
+                    '<ul>',
+                    '</ul>',
+                    '<strong>',
+                    '</strong>',
+                    '<li>',
+                    '</li>'
+                ),
+            )
+        );
+
+        // Add a sidebar for general help.
+        $screen->set_help_sidebar(
+            '<br/><p><strong>' . esc_html__( 'Need additional help?', 'laterpay' ) . '</strong></p>' .
+            '<p>' . sprintf( esc_html__( 'Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s', 'laterpay' ), '<a href="https://www.laterpay.net/academy/tag/wordpress" target="_blank">', '</a>' ) . '</p>'
+        );
     }
 
     /**
