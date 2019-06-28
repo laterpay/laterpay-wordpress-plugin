@@ -75,98 +75,49 @@ if ( 1 !== $overlay['tp_sub_below_modal'] && ! empty( $overlay['benefits'] ) ) {
                     ?>
                     <section class="lp_purchase-overlay__body">
                         <div class="lp_purchase-overlay__settings">
-                            <?php if ( isset( $overlay_data['article'] ) && floatval( 0.00 ) !== floatval( $overlay_data['article']['actual_price'] ) ) : ?>
-                                <div class="lp_purchase-overlay-option<?php if ( empty( $overlay_data['subscriptions'] ) && empty( $overlay_data['timepasses'] ) ): ?> lp_purchase-overlay-option-single<?php endif; ?>"
-                                     data-revenue="<?php echo esc_attr( $overlay_data['article']['revenue'] ); ?>">
-                                    <div class="lp_purchase-overlay-option__button">
-                                        <input id="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id ); ?>" type="radio"
-                                               class="lp_purchase-overlay-option__input" value="<?php echo esc_url( $overlay_data['article']['url'] ); ?>"
-                                               name="lp_purchase-overlay-option" checked>
-                                        <label for="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id ++ ); ?>" class="lp_purchase-overlay-option__label"></label>
-                                    </div>
-                                    <div class="lp_purchase-overlay-option__name">
-                                        <div class="lp_purchase-overlay-option__title">
-                                            <?php esc_html_e( 'This article', 'laterpay' ); ?>
-                                        </div>
-                                        <div class="lp_purchase-overlay-option__description">
-                                            <?php echo esc_html( $overlay_data['article']['title'] ); ?>
-                                        </div>
-                                    </div>
-                                    <div class="lp_purchase-overlay-option__cost">
-                                        <div class="lp_purchase-overlay-option__price">
-                                            <?php echo esc_html( $overlay_data['article']['price'] ); ?>
-                                        </div>
-                                        <div class="lp_purchase-overlay-option__currency">
-                                            <?php echo esc_html( $overlay['currency'] ); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-                            <?php if ( isset( $overlay_data['timepasses'] ) ) : ?>
-                                <?php
-                                $individual_timepass = ( ! isset( $overlay_data['article'] ) && empty( $overlay_data['subscriptions'] ) && count( $overlay_data['timepasses'] ) === 1 );
-                                $tp_index            = 0; ?>
-                                <?php foreach ( $overlay_data['timepasses'] as $timepass ) : ?>
-                                    <div class="lp_purchase-overlay-option <?php if ( $individual_timepass ): ?> lp_purchase-overlay-option-single<?php endif; ?> lp_js_timePass"
-                                         data-pass-id="<?php echo esc_attr( $timepass['id'] ); ?>"
-                                         data-revenue="<?php echo esc_attr( $timepass['revenue'] ); ?>">
+                            <?php if ( ! empty( $overlay_data ) ) : ?>
+                                <?php foreach ( $overlay_data as $purchase_option ) : ?>
+                                    <div class="lp_purchase-overlay-option lp_js_timePass"
+                                        <?php if ( 'timepass' === $purchase_option['type'] ): ?> data-pass-id="<?php echo esc_attr( $purchase_option['id'] );
+                                    endif; ?>"
+                                        <?php if ( 'subscription' === $purchase_option['type'] ): ?> data-sub-id="<?php echo esc_attr( $purchase_option['id'] );
+                                    endif; ?>"
+                                         data-revenue="<?php echo esc_attr( $purchase_option['revenue'] ); ?>">
                                         <div class="lp_purchase-overlay-option__button">
                                             <input id="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id ); ?>" type="radio"
-                                                   class="lp_purchase-overlay-option__input" value="<?php echo esc_url( $timepass['url'] ); ?>"
-                                                   name="lp_purchase-overlay-option" <?php if ( $individual_timepass || ( 0 === $tp_index && ! isset( $overlay_data['article'] ) ) ): ?> checked <?php endif; ?> >
+                                                   class="lp_purchase-overlay-option__input" value="<?php echo esc_url( $purchase_option['url'] ); ?>"
+                                                   name="lp_purchase-overlay-option" <?php if ( ! empty( $purchase_option['selected'] ) ) : ?> checked <?php endif; ?>>
                                             <label for="lp_purchaseOverlayOptionInput<?php echo esc_html( $input_id ++ ); ?>" class="lp_purchase-overlay-option__label"></label>
                                         </div>
                                         <div class="lp_purchase-overlay-option__name">
-                                            <div class="lp_purchase-overlay-option__title">
-                                                <?php echo esc_html( $timepass['title'] ); ?>
-                                            </div>
-                                            <div class="lp_purchase-overlay-option__description">
-                                                <?php echo wp_kses_post( $timepass['description'] ); ?>
-                                            </div>
+                                            <?php if ( 'article' !== $purchase_option['type'] ): ?>
+                                                <div class="lp_purchase-overlay-option__title">
+                                                    <?php echo esc_html( $purchase_option['title'] ); ?>
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="lp_purchase-overlay-option__title">
+                                                    <?php esc_html_e( 'This article', 'laterpay' ); ?>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ( 'article' !== $purchase_option['type'] ): ?>
+                                                <div class="lp_purchase-overlay-option__description">
+                                                    <?php echo wp_kses_post( $purchase_option['description'] ); ?>
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="lp_purchase-overlay-option__description">
+                                                    <?php echo wp_kses_post( $purchase_option['title'] ); ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="lp_purchase-overlay-option__cost">
                                             <div class="lp_purchase-overlay-option__price lp_js_timePassPrice">
-                                                <?php echo esc_html( $timepass['price'] ); ?>
+                                                <?php echo esc_html( $purchase_option['price'] ); ?>
                                             </div>
                                             <div class="lp_purchase-overlay-option__currency">
                                                 <?php echo esc_html( $overlay['currency'] ); ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <?php $tp_index ++; ?>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                            <?php if ( isset( $overlay_data['subscriptions'] ) ) : ?>
-                                <?php
-                                $only_subscription       = ( ! isset( $overlay_data['article'] ) && empty( $overlay_data['timepasses'] ) );
-                                $individual_subscription = ( $only_subscription && count( $overlay_data['subscriptions'] ) === 1 );
-                                $sp_index                = 0;
-                                ?>
-                                <?php foreach ( $overlay_data['subscriptions'] as $subscription ) : ?>
-                                    <div class="lp_purchase-overlay-option <?php if ( $individual_subscription ): ?> lp_purchase-overlay-option-single<?php endif; ?> lp_js_subscription" data-sub-id="<?php echo esc_attr( $subscription['id'] ); ?>" data-revenue="<?php echo esc_attr( $subscription['revenue'] ); ?>">
-                                        <div class="lp_purchase-overlay-option__button">
-                                            <input id="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id ); ?>" type="radio"
-                                                   class="lp_purchase-overlay-option__input" value="<?php echo esc_url( $subscription['url'] ); ?>" name="lp_purchase-overlay-option" <?php if ( $individual_subscription || ( 0 === $sp_index && $only_subscription ) ): ?> checked <?php endif; ?>>
-                                            <label for="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id ++ ); ?>" class="lp_purchase-overlay-option__label"></label>
-                                        </div>
-                                        <div class="lp_purchase-overlay-option__name">
-                                            <div class="lp_purchase-overlay-option__title">
-                                                <?php echo esc_html( $subscription['title'] ); ?>
-                                            </div>
-                                            <div class="lp_purchase-overlay-option__description">
-                                                <?php echo wp_kses_post( $subscription['description'] ); ?>
-                                            </div>
-                                        </div>
-                                        <div class="lp_purchase-overlay-option__cost">
-                                            <div class="lp_purchase-overlay-option__price">
-                                                <?php echo esc_html( $subscription['price'] ); ?>
-                                            </div>
-                                            <div class="lp_purchase-overlay-option__currency">
-                                                <?php echo esc_html( $overlay['currency'] ); ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <?php $sp_index ++; ?>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
