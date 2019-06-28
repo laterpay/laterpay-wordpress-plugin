@@ -35,13 +35,13 @@
         width: 55%;
     }
 
-    label.lp_js_postPriceLabel {
+    label.lp_js_postPriceLabel, label.lp_js_purchaseCustomizeLabel {
         color: #a2a2a2;
         font-size: 13px;
         font-weight: 600;
         line-height: 30px;
     }
-    input[type=radio].lp_js_postPriceDisplayOption {
+    input[type=radio].lp_js_postPriceDisplayOption, input[type=radio].lp_js_purchaseCustomizeOption {
         margin-right: 15px;
         border: 2px  solid #9a9a9a;
 
@@ -246,16 +246,19 @@ table {
     }
 }
 
+.lp_content_space {
+    margin-top: 20px;
+}
+
 .lp_enabled_post_types {
 
     padding-right: $fs;
 
-    .lp_enabled_post_types_inner_div {
+    .lp_edit-link--bold {
+        padding: 12px;
+    }
 
-        background: $background--darker;
-        border-radius: $border-radius;
-        padding: $fs;
-        margin-bottom: ($fs * 2);
+    .lp_greybox--outline {
 
         p {
             margin: 0;
@@ -279,4 +282,45 @@ table {
             }
         }
     }
+}
+
+.lp_customize_overlay {
+
+    .lp_edit-link--bold {
+        padding: 21px;
+    }
+
+    .lp_customize_optional_text {
+        display: inline-block;
+        position: absolute;
+        margin: 0 0 0 $fs;
+        font-size: 14px;
+        font-weight: 300;
+        font-style: italic;
+    }
+
+	.lp_greybox--outline {
+
+		label {
+			line-height: 2;
+		}
+
+		p.overlay_option_title {
+			margin: 0;
+			padding-left: 9px;
+			font-size: $fs;
+			font-weight: 500;
+		}
+
+        b {
+            color: #000000;
+        }
+
+        .lp_customize_overlay_warning {
+            color: #ffb74d;
+            font-style: italic;
+            font-size: 12px;
+        }
+
+	}
 }

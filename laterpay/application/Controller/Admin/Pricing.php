@@ -114,7 +114,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'tpVoucherMaximumPrice'     => esc_html__( 'The voucher price must be less than or equal to the time pass price.', 'laterpay' ),
             'codeTooShort'              => esc_html__( 'Please enter a six-digit voucher code.', 'laterpay' ),
             'voucherExists'             => esc_html__( 'This voucher code is already in use, please choose a different name.', 'laterpay' ),
+            'noContentItems'            => esc_html__( 'No Items!', 'laterpay' ),
         );
+
+        // Pricing order label.
+        $pricing_order_label = [
+            0 => esc_html( 'default order', 'laterpay' ),
+            1 => esc_html( 'ascending order', 'laterpay' ),
+            2 => esc_html( 'descending order', 'laterpay' ),
+        ];
+
+        // Default selection label.
+        $default_selection_label = [
+            0 => esc_html( 'First option', 'laterpay' ),
+            1 => esc_html( 'Single Purchase', 'laterpay' ),
+            2 => esc_html( 'Time Pass', 'laterpay' ),
+            3 => esc_html( 'Subscription', 'laterpay' ),
+        ];
 
         // pass localized strings and variables to script
         // time pass with vouchers
@@ -132,26 +148,28 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'laterpay-backend-pricing',
             'lpVars',
             array(
-                'locale'                 => get_locale(),
-                'i18n'                   => $i18n,
-                'currency'               => wp_json_encode( LaterPay_Helper_Config::get_currency_config() ),
-                'globalDefaultPrice'     => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
-                'inCategoryLabel'        => __( 'All posts in category', 'laterpay' ),
-                'time_passes_list'       => $this->get_time_passes_json( $time_passes_list ),
-                'subscriptions_list'     => $this->get_subscriptions_json( $subscriptions_list ),
-                'vouchers_list'          => wp_json_encode( $vouchers_list ),
-                'sub_vouchers_list'      => wp_json_encode( $sub_vouchers_list ),
-                'vouchers_statistic'     => wp_json_encode( $vouchers_statistic ),
-                'l10n_print_after'       => 'lpVars.currency = JSON.parse(lpVars.currency);
+                'locale'                  => get_locale(),
+                'i18n'                    => $i18n,
+                'pricing_order_label'     => $pricing_order_label,
+                'default_selection_label' => $default_selection_label,
+                'currency'                => wp_json_encode( LaterPay_Helper_Config::get_currency_config() ),
+                'globalDefaultPrice'      => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
+                'inCategoryLabel'         => __( 'All posts in category', 'laterpay' ),
+                'time_passes_list'        => $this->get_time_passes_json( $time_passes_list ),
+                'subscriptions_list'      => $this->get_subscriptions_json( $subscriptions_list ),
+                'vouchers_list'           => wp_json_encode( $vouchers_list ),
+                'sub_vouchers_list'       => wp_json_encode( $sub_vouchers_list ),
+                'vouchers_statistic'      => wp_json_encode( $vouchers_statistic ),
+                'l10n_print_after'        => 'lpVars.currency = JSON.parse(lpVars.currency);
                                             lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
                                             lpVars.subscriptions_list = JSON.parse(lpVars.subscriptions_list);
                                             lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);
                                             lpVars.sub_vouchers_list = JSON.parse(lpVars.sub_vouchers_list);
                                             lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
-                'gaData'                 => array(
+                'gaData'                  => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
-                'voucherDescriptionText' => esc_html__( 'Description', 'laterpay' ),
+                'voucherDescriptionText'  => esc_html__( 'Description', 'laterpay' ),
             )
         );
     }
@@ -211,6 +229,24 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // Get already enabled post type data.
         $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
 
+        // Get purchase custom overlay options.
+        $custom_overlay_options = get_option( 'lp_custom_overlay_options' );
+
+        // Pricing order label.
+        $pricing_order_label = [
+            0 => esc_html( 'default order', 'laterpay' ),
+            1 => esc_html( 'ascending order', 'laterpay' ),
+            2 => esc_html( 'descending order', 'laterpay' ),
+        ];
+
+        // Default selection label.
+        $default_selection_label = [
+            0 => esc_html( 'First option', 'laterpay' ),
+            1 => esc_html( 'Single Purchase', 'laterpay' ),
+            2 => esc_html( 'Time Pass', 'laterpay' ),
+            3 => esc_html( 'Subscription', 'laterpay' ),
+        ];
+
         $view_args = array(
             'pricing_obj'                        => $this,
             'admin_menu'                         => LaterPay_Helper_View::get_admin_menu(),
@@ -227,6 +263,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'hidden_post_types'                  => self::get_hidden_post_types(),
             'all_post_types'                     => $all_post_types,
             'enabled_post_types'                 => $enabled_post_types,
+            'purchase_order'                     => $custom_overlay_options['purchase_order'],
+            'purchase_selection'                 => $custom_overlay_options['purchase_selection'],
+            'order_label'                        => $pricing_order_label[ $custom_overlay_options['purchase_order'] ],
+            'default_selection_label'            => $default_selection_label[ $custom_overlay_options['purchase_selection'] ],
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -381,6 +421,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
             case 'update_enabled_post_types':
                 $this->update_enabled_post_types( $event );
+                break;
+
+            case 'update_custom_overlay_options':
+                $this->update_custom_overlay_options( $event );
                 break;
 
             default:
@@ -1094,5 +1138,74 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             return $cat->$field;
         }, $category_data );
 
+    }
+
+    /**
+     * Update custom overlay purchase options.
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @throws LaterPay_Core_Exception_FormValidation
+     *
+     * @return void
+     */
+    protected function update_custom_overlay_options( LaterPay_Core_Event $event ) {
+        $custom_overlay_options_form = new LaterPay_Form_CustomPurchaseOverlayOptions();
+
+        $event->set_result(
+            array(
+                'success' => false,
+                'message' => esc_html__( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
+
+        if ( ! $custom_overlay_options_form->is_valid( $_POST ) ) { // phpcs:ignore
+            throw new LaterPay_Core_Exception_FormValidation( get_class( $custom_overlay_options_form ), $custom_overlay_options_form->get_errors() );
+        }
+
+        $overlay_option_order         = 0;
+        $overlay_default_selection    = 0;
+        $lp_overlay_option_order      = $custom_overlay_options_form->get_field_value( 'lp_overlay_option_order' );
+        $lp_overlay_default_selection = $custom_overlay_options_form->get_field_value( 'lp_overlay_default_selection' );
+
+        // If received data is not null, use valid values from received data.
+        if ( null !== $lp_overlay_option_order ) {
+            $overlay_option_order = (int) $lp_overlay_option_order;
+        }
+
+        // If received data is not null, use valid values from received data.
+        if ( null !== $lp_overlay_default_selection ) {
+            $overlay_default_selection = (int) $lp_overlay_default_selection;
+        }
+
+        // Update option for custom_overlay_options.
+        $is_updated = update_option( 'lp_custom_overlay_options',
+            [
+                'purchase_order'     => $overlay_option_order,
+                'purchase_selection' => $overlay_default_selection,
+            ]
+        );
+
+        if ( ! $is_updated ) {
+            // Display different error if option was not updated.
+            $event->set_result(
+                array(
+                    'success' => false,
+                    'message' => esc_html__( 'Unable to update Custom Overlay Purchase Options.', 'laterpay' ),
+                )
+            );
+
+            return;
+        }
+
+        // Set success message.
+        $event->set_result(
+            array(
+                'success'            => true,
+                'message'            => esc_html__( 'Successfully Updated Custom Overlay Purchase Options.', 'laterpay' ),
+                'purchase_order'     => $overlay_option_order,
+                'purchase_selection' => $overlay_default_selection,
+            )
+        );
     }
 }
