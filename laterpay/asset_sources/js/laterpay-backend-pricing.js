@@ -2072,6 +2072,19 @@
                     if (r.success) {
                         $o.pricing_option_order_label.text(lpVars.pricing_order_label[r.purchase_order]);
                         $o.default_selection_label.text(lpVars.default_selection_label[r.purchase_selection]);
+
+                        // Labels for selection of overlay option.
+                        var contentLabel = '';
+                        var purchaseOrder = ['Default', 'Ascending', 'Descending'];
+                        var purchaseSelection = ['First', 'Single Purchase', 'Time Pass', 'Subscription'];
+                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+
+                        contentLabel = commonLabel + purchaseOrder[r.purchase_order] + ' | ' +
+                            purchaseSelection[r.purchase_selection];
+
+                        // Send GA event with current user selection of customize overlay options.
+                        lpGlobal.sendLPGAEvent( 'Customize Display', 'LP WP Pricing',
+                            contentLabel );
                     }
                     exitEditOverlayOptions();
                     $o.navigation.showMessage(r);
