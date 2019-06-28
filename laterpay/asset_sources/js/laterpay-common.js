@@ -234,7 +234,13 @@
 
                 // Version Description.
                 var versionDescritpion = $('<p/>', {
-                    text: lpCommonVar.update_highlights.notice
+                    class: 'version_text'
+                });
+
+                // Version Description.
+                var versionDescritpionExtra = $('<p/>', {
+                    text: lpCommonVar.update_highlights.notice,
+                    class: 'version_info'
                 });
 
                 // Learn More CTA.
@@ -253,8 +259,9 @@
 
                 versionDescritpion.prepend(version);
                 updateWrapper.append(versionDescritpion);
-                updateWrapper.append(updateDetailsCallToAction);
-                updateWrapper.append(updateDetailsDismiss);
+                versionDescritpionExtra.append(updateDetailsCallToAction);
+                versionDescritpionExtra.append(updateDetailsDismiss);
+                updateWrapper.append(versionDescritpionExtra);
 
                 if ( 'advanced' !== lpCommonVar.current_page && $o.wp_body_content.length ) {
                     $o.wp_body_content.prepend(updateWrapper);

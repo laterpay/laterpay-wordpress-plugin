@@ -894,7 +894,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         if ( ! empty( $ga_data['update_highlights']['version'] ) ) {
             $version_update_number                   = $ga_data['update_highlights']['version'];
             $ga_data['update_highlights']['version'] = sprintf( __( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
-            $ga_data['update_highlights']['notice']  = sprintf( __( 'You can now fully customize the appearance of your payment overlay. Visit the Appearance tab, to check it out!', 'laterpay' ) );
+            $ga_data['update_highlights']['notice']  = sprintf( __( 'Thanks to feedback from customers like you, we are excited to announce that you can now make an individual post free directly on the Edit Post Page. You can also customize the order of the items in your Purchase Overlay from a new section available on the Pricing Tab.', 'laterpay' ) );
             $ga_data['update_highlights_nonce']      = wp_create_nonce( 'update_highlights_nonce' );
         }
 

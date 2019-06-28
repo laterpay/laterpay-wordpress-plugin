@@ -673,15 +673,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $update_highlights = [];
 
-        if ( ! empty( $current_version ) && false === get_option( 'lp_update_highlights' ) ) {
+        if ( ! empty( $current_version ) ) {
 
-            if ( version_compare( $current_version, '2.5.4', '<' ) ) {
+            if ( version_compare( $current_version, '2.6.0', '<' ) ) {
                 return;
             }
 
             $update_highlights = [
-                'version' => '2.6.0',
-                'notice'  => __( 'You can now fully customize the appearance of your payment overlay. Visit the Appearance tab to check it out!', 'laterpay' ),
+                'version' => '2.6.1',
             ];
 
             update_option( 'lp_update_highlights', $update_highlights );
