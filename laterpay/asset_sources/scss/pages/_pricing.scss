@@ -299,18 +299,18 @@ table {
         font-style: italic;
     }
 
-	.lp_greybox--outline {
+    .lp_greybox--outline {
 
-		label {
-			line-height: 2;
-		}
+        label {
+            line-height: 2;
+        }
 
-		p.overlay_option_title {
-			margin: 0;
-			padding-left: 9px;
-			font-size: $fs;
-			font-weight: 500;
-		}
+        p.overlay_option_title {
+            margin: 0;
+            padding-left: 9px;
+            font-size: $fs;
+            font-weight: 500;
+        }
 
         b {
             color: #000000;
@@ -322,5 +322,5 @@ table {
             font-size: 12px;
         }
 
-	}
+    }
 }
