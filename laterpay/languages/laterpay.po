@@ -1179,15 +1179,15 @@ msgstr ""
 msgid "First Option (as defined above)"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:174
+#: laterpay/views/backend/pricing.php:174, laterpay/application/Controller/Admin/Pricing.php:130
 msgid "Single Purchase"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:179, laterpay/application/Controller/Frontend/Shortcode.php:530
+#: laterpay/views/backend/pricing.php:179, laterpay/application/Controller/Admin/Pricing.php:131, laterpay/application/Controller/Frontend/Shortcode.php:530
 msgid "Time Pass"
 msgstr ""
 
-#: laterpay/views/backend/pricing.php:184, laterpay/application/Controller/Admin/Pricing.php:52, laterpay/application/Controller/Frontend/Shortcode.php:530
+#: laterpay/views/backend/pricing.php:184, laterpay/application/Controller/Admin/Pricing.php:52, laterpay/application/Controller/Admin/Pricing.php:132, laterpay/application/Controller/Frontend/Shortcode.php:530
 msgid "Subscription"
 msgstr ""
 
@@ -1591,6 +1591,22 @@ msgstr ""
 
 #: laterpay/application/Controller/Admin/Pricing.php:116
 msgid "This voucher code is already in use, please choose a different name."
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Pricing.php:122
+msgid "default order"
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Pricing.php:123
+msgid "ascending order"
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Pricing.php:124
+msgid "descending order"
+msgstr ""
+
+#: laterpay/application/Controller/Admin/Pricing.php:129
+msgid "First option"
 msgstr ""
 
 #: laterpay/application/Controller/Admin/Pricing.php:157

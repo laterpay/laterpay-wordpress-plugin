@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-06-28 12:01+0530\n"
-"PO-Revision-Date: 2019-06-28 12:05+0530\n"
+"POT-Creation-Date: 2019-06-28 23:11+0530\n"
+"PO-Revision-Date: 2019-06-28 23:14+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1000,6 +1000,7 @@ msgstr ""
 "um die Attraktivität des Beitrags zu steigern."
 
 #: application/Controller/Admin/Pricing.php:52
+#: application/Controller/Admin/Pricing.php:132
 #: application/Controller/Frontend/Shortcode.php:530
 #: views/backend/pricing.php:184
 msgid "Subscription"
@@ -1108,7 +1109,33 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:117 views/backend/pricing.php:67
 msgid "No Items!"
-msgstr ""
+msgstr "Keine Artikel!"
+
+#: application/Controller/Admin/Pricing.php:122
+msgid "default order"
+msgstr "der Standardreihenfolge angezeigt"
+
+#: application/Controller/Admin/Pricing.php:123
+msgid "ascending order"
+msgstr "aufsteigender Reihenfolge angezeigt"
+
+#: application/Controller/Admin/Pricing.php:124
+msgid "descending order"
+msgstr "absteigender Reihenfolge angezeigt"
+
+#: application/Controller/Admin/Pricing.php:129
+msgid "First option"
+msgstr "Die erste Option"
+
+#: application/Controller/Admin/Pricing.php:130 views/backend/pricing.php:174
+msgid "Single Purchase"
+msgstr "Einzelkauf"
+
+#: application/Controller/Admin/Pricing.php:131
+#: application/Controller/Frontend/Shortcode.php:530
+#: views/backend/pricing.php:179
+msgid "Time Pass"
+msgstr "Zeitpass"
 
 #: application/Controller/Admin/Pricing.php:157
 msgid "All posts in category"
@@ -1712,11 +1739,6 @@ msgstr "Ungültige Zeitpass-ID."
 #, php-format
 msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
-
-#: application/Controller/Frontend/Shortcode.php:530
-#: views/backend/pricing.php:179
-msgid "Time Pass"
-msgstr "Zeitpass"
 
 #: application/Controller/Install.php:76
 #, php-format
@@ -2996,32 +3018,28 @@ msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
 #: views/backend/pricing.php:71
-#, fuzzy
-#| msgid "Which content would you like to sell with LaterPay?"
 msgid "are currently available to be sold with LaterPay"
-msgstr "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
+msgstr "sind derzeit verfügbar, um mit LaterPay verkauft zu werden"
 
 #: views/backend/pricing.php:79
 msgid "Which content would you like to sell with LaterPay?"
 msgstr "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
 
 #: views/backend/pricing.php:121
-#, fuzzy
-#| msgid "%sCustomize%s Colors"
 msgid "Customize Overlay"
-msgstr "%sFARBEN%s ANPASSEN"
+msgstr "Overlay anpassen"
 
 #: views/backend/pricing.php:122
 msgid "(optional)"
-msgstr ""
+msgstr "(optional)"
 
 #: views/backend/pricing.php:125
 msgid "Pricing options displayed in"
-msgstr ""
+msgstr "Die Preisoptionen werden in"
 
 #: views/backend/pricing.php:127
 msgid "is selected by default"
-msgstr ""
+msgstr "ist standardmäßig ausgewählt"
 
 #: views/backend/pricing.php:138
 msgid "In what order should the purchase options be displayed?"
@@ -3066,10 +3084,6 @@ msgstr "Welche Kaufoption soll als Standard eingestellt werden?"
 #: views/backend/pricing.php:169
 msgid "First Option (as defined above)"
 msgstr "Erste Option (wie oben definiert)"
-
-#: views/backend/pricing.php:174
-msgid "Single Purchase"
-msgstr "Einzelkauf"
 
 #: views/backend/pricing.php:191
 msgid ""

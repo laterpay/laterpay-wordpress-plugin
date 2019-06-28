@@ -119,17 +119,17 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         // Pricing order label.
         $pricing_order_label = [
-            0 => esc_html( 'default order', 'laterpay' ),
-            1 => esc_html( 'ascending order', 'laterpay' ),
-            2 => esc_html( 'descending order', 'laterpay' ),
+            0 => esc_html__( 'default order', 'laterpay' ),
+            1 => esc_html__( 'ascending order', 'laterpay' ),
+            2 => esc_html__( 'descending order', 'laterpay' ),
         ];
 
         // Default selection label.
         $default_selection_label = [
-            0 => esc_html( 'First option', 'laterpay' ),
-            1 => esc_html( 'Single Purchase', 'laterpay' ),
-            2 => esc_html( 'Time Pass', 'laterpay' ),
-            3 => esc_html( 'Subscription', 'laterpay' ),
+            0 => esc_html__( 'First option', 'laterpay' ),
+            1 => esc_html__( 'Single Purchase', 'laterpay' ),
+            2 => esc_html__( 'Time Pass', 'laterpay' ),
+            3 => esc_html__( 'Subscription', 'laterpay' ),
         ];
 
         // pass localized strings and variables to script
