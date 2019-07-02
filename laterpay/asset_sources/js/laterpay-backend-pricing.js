@@ -51,6 +51,23 @@
             globalEnabledPostTypesForm              : $('#lp_js_globalEnabledPostTypesForm'),
             saveEnabledPostTypes                    : $('#lp_js_saveEnabledPostTypes'),
             cancelEditingEnabledPostTypes           : $('#lp_js_cancelEditingEnabledPostTypes'),
+            globalEnabledPostTypeShowElements       : $('#lp_js_globalEnabledPostTypeShowElements'),
+            laterpayContentElements                 : $('#lp_js_laterpayContentElements'),
+            editLaterPayEnabledContent              : $('#lp_js_editLaterPayEnabledContent'),
+            salableContentLabelInfo                 : $('#lp_js_salablePostInfo'),
+
+            // customize overlay options.
+            customizeOverlayOptionsForm                  : $('#lp_js_customizeOverlayOptionsForm'),
+            saveOverlayCustomizeOptions             : $('#lp_js_saveOverlayCustomizeOptions'),
+            customizeOverlayShowElements            : $('#lp_js_customizeOverlayShowElements'),
+            customizeOverlayOptionsElements         : $('#lp_js_customizeOverlayOptionsElements'),
+            editCustomizeOverlayOptions             : $('#lp_js_editCustomizeOverlayOptions'),
+            cancelEditingOverlayOptions             : $('#lp_js_cancelEditingOverlayCustomizeOptions'),
+            pricing_option_order_label              : $('#lp_js_pricing_option_order_label'),
+            default_selection_label                 : $('#lp_js_default_selection_label'),
+            timepass_selection_info                 : $('#lp_js_timepass_selection_info'),
+            subscription_selection_info             : $('#lp_js_subscription_selection_info'),
+            overlay_default_selection               : $('input[name="lp_overlay_default_selection"]'),
 
             // time passes
             timepass                                : {
@@ -574,6 +591,13 @@
             // cancel.
             $o.cancelEditingEnabledPostTypes.on('mousedown', function() {
                 $o.globalEnabledPostTypesForm.trigger( 'reset' );
+                exitEditModeGlobalEnabledContent();
+            }).click(function(e) {e.preventDefault();});
+
+            // edit.
+            $o.editLaterPayEnabledContent
+                .on('mousedown', function() {
+                    enterEditModeGlobalEnabledContent();
             }).click(function(e) {e.preventDefault();});
 
             // Voucher code edit.
@@ -589,6 +613,34 @@
                     validateVoucherCode($(e.target), wrapper, type );
                 }
             });
+
+            // customize overlay options change events.
+            // save.
+            $o.saveOverlayCustomizeOptions.on('mousedown', function() {
+                saveCustomOverlayPurchaseOptions();
+            }).click(function(e) {e.preventDefault();});
+
+            // cancel.
+            $o.cancelEditingOverlayOptions.on('mousedown', function() {
+                exitEditOverlayOptions();
+            }).click(function(e) {e.preventDefault();});
+
+            // edit.
+            $o.editCustomizeOverlayOptions
+                .on('mousedown', function() {
+                    enterEditOverlayOptions();
+            }).click(function(e) {e.preventDefault();});
+
+            $o.overlay_default_selection.on( 'change', function () {
+                var purchase_selection = $(this).val();
+                if ( '2' === purchase_selection ) {
+                    $o.timepass_selection_info.show();
+                    $o.subscription_selection_info.hide();
+                } else if ( '3' === purchase_selection ) {
+                    $o.subscription_selection_info.show();
+                    $o.timepass_selection_info.hide();
+                }
+            } );
         },
 
         // Check if the enterd voucher code is valid.
@@ -1959,12 +2011,15 @@
 
         saveEnabledPostTypes = function() {
 
-            var lp_post_types = $('ul.post_types :checkbox:checked');
-            var contentLabel = [];
+            var lp_post_types  = $('ul.post_types :checkbox:checked');
+            var contentLabel   = [];
+            var postTypeLabels = [];
+            var allPostLabel   = lpVars.i18n.noContentItems;
 
             // Loop through selected categories and store in an array.
             $.each( lp_post_types, function( i ) {
                 contentLabel.push($(lp_post_types[i]).next().text().trim());
+                postTypeLabels.push($(lp_post_types[i]).next().text().trim());
             } );
 
             var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
@@ -1981,6 +2036,61 @@
             );
 
             lpGlobal.sendLPGAEvent( 'LaterPay Content', 'LP WP Pricing', contentLabel );
+            if ( postTypeLabels.length ) {
+                allPostLabel = postTypeLabels.join(', ');
+            }
+            $o.salableContentLabelInfo.empty().append( $( '<b/>' ).text( allPostLabel ) );
+            exitEditModeGlobalEnabledContent();
+        },
+
+        enterEditModeGlobalEnabledContent = function() {
+            $o.laterpayContentElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
+            $o.globalEnabledPostTypeShowElements.velocity('slideDown', { duration: 250, easing: 'ease-out', });
+        },
+
+        exitEditModeGlobalEnabledContent = function() {
+            $o.laterpayContentElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
+            $o.globalEnabledPostTypeShowElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
+        },
+
+        enterEditOverlayOptions = function() {
+            $o.customizeOverlayOptionsElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
+            $o.customizeOverlayShowElements.velocity('slideDown', { duration: 250, easing: 'ease-out', });
+        },
+
+        exitEditOverlayOptions = function() {
+            $o.customizeOverlayOptionsElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
+            $o.customizeOverlayShowElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
+        },
+
+        saveCustomOverlayPurchaseOptions = function() {
+            // save custom overlay options.
+            $.post(
+                ajaxurl,
+                $o.customizeOverlayOptionsForm.serializeArray(),
+                function(r) {
+                    if (r.success) {
+                        $o.pricing_option_order_label.text(lpVars.pricing_order_label[r.purchase_order]);
+                        $o.default_selection_label.text(lpVars.default_selection_label[r.purchase_selection]);
+
+                        // Labels for selection of overlay option.
+                        var contentLabel = '';
+                        var purchaseOrder = ['Default', 'Ascending', 'Descending'];
+                        var purchaseSelection = ['First', 'Single Purchase', 'Time Pass', 'Subscription'];
+                        var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ';
+
+                        contentLabel = commonLabel + purchaseOrder[r.purchase_order] + ' | ' +
+                            purchaseSelection[r.purchase_selection];
+
+                        // Send GA event with current user selection of customize overlay options.
+                        lpGlobal.sendLPGAEvent( 'Customize Display', 'LP WP Pricing',
+                            contentLabel );
+                    }
+                    exitEditOverlayOptions();
+                    $o.navigation.showMessage(r);
+                },
+                'json'
+            );
         },
 
         // throttle the execution of a function by a given delay
