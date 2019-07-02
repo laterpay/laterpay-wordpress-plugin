@@ -148,6 +148,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                         LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE,
                         LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE,
                         LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE,
+                        LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_FREE,
                     )
                 ),
                 'filters'    => array(
