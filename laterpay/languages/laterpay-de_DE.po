@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-06-27 15:18+0530\n"
-"PO-Revision-Date: 2019-06-27 15:18+0530\n"
+"POT-Creation-Date: 2019-07-02 20:28+0530\n"
+"PO-Revision-Date: 2019-07-02 20:29+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -50,7 +50,7 @@ msgid "Click"
 msgstr ""
 
 #: application/Compatibility/Migrate.php:56
-#: views/backend/partials/post-pricing-form.php:73
+#: views/backend/partials/post-pricing-form.php:78
 msgid "here"
 msgstr ""
 
@@ -874,43 +874,56 @@ msgstr "Preis"
 msgid "Price Type"
 msgstr "Preistyp"
 
-#: application/Controller/Admin/Post/Column.php:93
+#: application/Controller/Admin/Post/Column.php:95
 #: application/Controller/Admin/Post/Column.php:102
-#: views/backend/partials/post-pricing-form.php:87
+#: application/Controller/Admin/Post/Column.php:108
+#: views/backend/partials/post-pricing-form.php:92
 msgid "FREE"
 msgstr "KOSTENLOS"
 
-#: application/Controller/Admin/Post/Column.php:122
-#: application/Helper/Pricing.php:920
-#: views/backend/partials/post-pricing-form.php:139
+#: application/Controller/Admin/Post/Column.php:128
+#: application/Controller/Admin/Post/Metabox.php:155
+#: application/Helper/Pricing.php:932
+#: views/backend/partials/post-pricing-form.php:163
+#: views/backend/partials/post-pricing-form.php:186
+#: views/backend/partials/post-pricing-form.php:265
 #: views/backend/pricing.php:198 views/backend/pricing.php:329
 #: views/backend/pricing.php:449 views/backend/pricing.php:608
 msgid "Pay Now"
 msgstr "Sofort zahlen"
 
-#: application/Controller/Admin/Post/Column.php:123
-#: application/Helper/Pricing.php:923 application/Module/Purchase.php:619
-#: views/backend/partials/post-pricing-form.php:126
+#: application/Controller/Admin/Post/Column.php:129
+#: application/Controller/Admin/Post/Metabox.php:154
+#: application/Helper/Pricing.php:935 application/Module/Purchase.php:619
+#: views/backend/partials/post-pricing-form.php:159
+#: views/backend/partials/post-pricing-form.php:182
+#: views/backend/partials/post-pricing-form.php:241
 #: views/backend/partials/purchase-overlay.php:44 views/backend/pricing.php:193
 #: views/backend/pricing.php:324 views/backend/pricing.php:444
 #: views/backend/pricing.php:603
 msgid "Pay Later"
 msgstr "Später zahlen"
 
-#: application/Controller/Admin/Post/Column.php:124
+#: application/Controller/Admin/Post/Column.php:130
 msgid "individual price"
 msgstr "Individueller Preis"
 
-#: application/Controller/Admin/Post/Column.php:128
+#: application/Controller/Admin/Post/Column.php:134
 msgid "dynamic individual price"
 msgstr "Individueller Preis (dynamisch)"
 
-#: application/Controller/Admin/Post/Column.php:132
+#: application/Controller/Admin/Post/Column.php:138
 msgid "category default price"
 msgstr "Kategorie-Standardpreis"
 
-#: application/Controller/Admin/Post/Column.php:136
+#: application/Controller/Admin/Post/Column.php:142
+#, fuzzy
+#| msgid "individual price"
+msgid "individual free"
+msgstr "Individueller Preis"
+
 #: application/Controller/Admin/Post/Column.php:146
+#: application/Controller/Admin/Post/Column.php:156
 msgid "global default price"
 msgstr "Standardpreis"
 
@@ -923,66 +936,66 @@ msgstr ""
 "Teaser an."
 
 #: application/Controller/Admin/Post/Metabox.php:143
-#: views/backend/partials/post-pricing-form.php:235
+#: views/backend/partials/post-pricing-form.php:307
 msgid "Add dynamic pricing"
 msgstr "Dynamische Preissetzung hinzufügen"
 
 #: application/Controller/Admin/Post/Metabox.php:144
-#: views/backend/partials/post-pricing-form.php:228
+#: views/backend/partials/post-pricing-form.php:300
 msgid "Remove dynamic pricing"
 msgstr "Dynamische Preissetzung entfernen"
 
 #: application/Controller/Admin/Post/Metabox.php:145
-#: views/backend/partials/post-pricing-form.php:174
+#: views/backend/partials/post-pricing-form.php:123
 msgid ""
 "Global Default Pricing is not available to Posts which have a Category "
 "Default Price."
 msgstr ""
 
 #: application/Controller/Admin/Post/Metabox.php:146
-#: views/backend/partials/post-pricing-form.php:168
+#: views/backend/partials/post-pricing-form.php:132
 msgid ""
 "It looks like you have not set up a Category Default Price. Go to the "
 "LaterPay > Pricing page to set up Category Default Prices."
 msgstr ""
 
 #: application/Controller/Admin/Post/Metabox.php:147
-#: views/backend/partials/post-pricing-form.php:168
+#: views/backend/partials/post-pricing-form.php:134
 msgid ""
 "Please select a category from the \"Categories\" panel below to enable "
 "Category Default Pricing."
 msgstr ""
 
-#: application/Controller/Admin/Post/Metabox.php:161
+#: application/Controller/Admin/Post/Metabox.php:163
 msgid "default price"
 msgstr "Standardpreis"
 
-#: application/Controller/Admin/Post/Metabox.php:162
+#: application/Controller/Admin/Post/Metabox.php:164
 msgid "days"
 msgstr "Tage"
 
-#: application/Controller/Admin/Post/Metabox.php:163
+#: application/Controller/Admin/Post/Metabox.php:165
 msgid "Today"
 msgstr "Heute"
 
-#: application/Controller/Admin/Post/Metabox.php:183
+#: application/Controller/Admin/Post/Metabox.php:185
 #, fuzzy
 #| msgid "Teaser Content"
 msgid "LaterPay Teaser Content"
 msgstr "Teaser für den Beitrag"
 
-#: application/Controller/Admin/Post/Metabox.php:206
+#: application/Controller/Admin/Post/Metabox.php:208
 msgid "Pricing for this Post"
 msgstr "Preis des Beitrags"
 
-#: application/Controller/Admin/Post/Metabox.php:248
+#: application/Controller/Admin/Post/Metabox.php:250
 #, php-format
 msgid ""
 "Visitors will see the teaser content %s instead of the full content %s "
 "before purchase."
 msgstr "Besucher werden den Teaser %s anstatt des gesamten Artikels sehen. %s"
 
-#: application/Controller/Admin/Post/Metabox.php:251
+#: application/Controller/Admin/Post/Metabox.php:253
 msgid ""
 "If you do not enter any teaser content, the plugin will use an excerpt of "
 "the full content as teaser content."
@@ -990,7 +1003,7 @@ msgstr ""
 "Wenn Sie keinen Teaser angeben, verwendet das Plugin automatisch einen "
 "Auszug aus dem Volltext als Teaser."
 
-#: application/Controller/Admin/Post/Metabox.php:253
+#: application/Controller/Admin/Post/Metabox.php:255
 msgid ""
 "We do recommend to write dedicated teaser content to increase your sales "
 "though."
@@ -1063,7 +1076,7 @@ msgid "reduces the price to"
 msgstr "reduziert den Preis auf"
 
 #: application/Controller/Admin/Pricing.php:110
-#: views/backend/partials/post-pricing-form.php:122
+#: views/backend/partials/post-pricing-form.php:235
 #: views/backend/pricing.php:192
 msgid ""
 "Pay Later allows users to gain access now by committing to pay once their "
@@ -1072,7 +1085,7 @@ msgid ""
 msgstr ""
 
 #: application/Controller/Admin/Pricing.php:111
-#: views/backend/partials/post-pricing-form.php:135
+#: views/backend/partials/post-pricing-form.php:259
 #: views/backend/pricing.php:197
 msgid ""
 "Pay Now requires users pay for purchased content immediately; available for "
@@ -1127,7 +1140,7 @@ msgid ""
 msgstr ""
 
 #: application/Controller/Admin/Pricing.php:429
-#: views/backend/partials/post-pricing-form.php:102
+#: views/backend/partials/post-pricing-form.php:107
 #: views/backend/pricing.php:157 views/backend/pricing.php:243
 msgid ""
 "Only Time Passes & Subscriptions will be displayed in the purchase dialog."
@@ -2002,21 +2015,21 @@ msgstr ""
 
 #: views/backend/account.php:24 views/backend/advanced.php:28
 #: views/backend/appearance.php:38
-#: views/backend/partials/post-pricing-form.php:57 views/backend/pricing.php:19
+#: views/backend/partials/post-pricing-form.php:62 views/backend/pricing.php:19
 #: views/frontend/partials/post/select-preview-mode-tab.php:23
 msgid "Test mode"
 msgstr "Test-Modus"
 
 #: views/backend/account.php:25 views/backend/advanced.php:29
 #: views/backend/appearance.php:39
-#: views/backend/partials/post-pricing-form.php:61 views/backend/pricing.php:23
+#: views/backend/partials/post-pricing-form.php:66 views/backend/pricing.php:23
 #: views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "Earn money in"
 msgstr "Geld verdienen im"
 
 #: views/backend/account.php:25 views/backend/advanced.php:29
 #: views/backend/appearance.php:39
-#: views/backend/partials/post-pricing-form.php:61 views/backend/pricing.php:23
+#: views/backend/partials/post-pricing-form.php:66 views/backend/pricing.php:23
 #: views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "live mode"
 msgstr "Live-Modus"
@@ -2742,19 +2755,19 @@ msgstr ""
 "Um Ihren Nutzern eine bessere Vorstellung davon zu geben, was sie kaufen, "
 "sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
 
-#: views/backend/partials/post-pricing-form.php:53
+#: views/backend/partials/post-pricing-form.php:58
 msgid "Click here to finish your account set up"
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:71
+#: views/backend/partials/post-pricing-form.php:76
 msgid "Your LaterPay Plugin is currently invisible to viewers. Click"
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:74
+#: views/backend/partials/post-pricing-form.php:79
 msgid "to toggle visibility."
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:90
+#: views/backend/partials/post-pricing-form.php:95
 msgid ""
 "All articles are free by default; Time Passes & Subscriptions will only be "
 "displayed if an Individual Article Price greater than 0.00 is manually set "
@@ -2764,64 +2777,74 @@ msgstr ""
 "angezeigt, wenn ein Einzelpreis größer 0.00 manuell über “Individueller "
 "Preis” eingestellt wurde."
 
-#: views/backend/partials/post-pricing-form.php:97
+#: views/backend/partials/post-pricing-form.php:102
 #: views/backend/pricing.php:155
 msgid "Posts cannot be purchased individually"
 msgstr "Beiträge können nicht einzeln gekauft werden"
 
-#: views/backend/partials/post-pricing-form.php:103
+#: views/backend/partials/post-pricing-form.php:108
 msgid "If you would like to allow articles to be purchased individually,"
 msgstr "Wenn Sie Artikel auch einzeln verkaufen möchten,"
 
-#: views/backend/partials/post-pricing-form.php:105
+#: views/backend/partials/post-pricing-form.php:110
 msgid "click here to adjust your Global Default Price."
 msgstr "klicken Sie hier um Ihren globalen Standardpreis anzupassen."
 
-#: views/backend/partials/post-pricing-form.php:148
-msgid "0.00"
-msgstr "0,00"
+#: views/backend/partials/post-pricing-form.php:128
+#, php-format
+msgid "Global %sDefault Price"
+msgstr "Globaler %sStandardpreis"
 
-#: views/backend/partials/post-pricing-form.php:162
-#: views/backend/partials/post-pricing-form.php:169
+#: views/backend/partials/post-pricing-form.php:137
+#: views/backend/partials/post-pricing-form.php:148
 msgid ""
 "To allow articles to be purchased individually, visit the LaterPay Pricing "
 "tab & adjust your Global Default Price."
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:165
-msgid "Individual Price"
-msgstr "Individueller Preis"
-
-#: views/backend/partials/post-pricing-form.php:172
+#: views/backend/partials/post-pricing-form.php:141
 msgid "Category Default Price"
 msgstr "Kategorie- preis"
 
-#: views/backend/partials/post-pricing-form.php:179
-#, php-format
-msgid "Global %sDefault Price"
-msgstr "Globaler %sStandardpreis"
+#: views/backend/partials/post-pricing-form.php:146
+#, fuzzy
+#| msgid "Make free"
+msgid "Make Article Free"
+msgstr "Kostenlos-machen"
 
-#: views/backend/partials/post-pricing-form.php:217
+#: views/backend/partials/post-pricing-form.php:151
+msgid "Individual Price"
+msgstr "Individueller Preis"
+
+#: views/backend/partials/post-pricing-form.php:199
+msgid "Time Pass & Subscription Offers Hidden"
+msgstr "Time Pass & Subscription Offers Hidden"
+
+#: views/backend/partials/post-pricing-form.php:208
+msgid "0.00"
+msgstr "0,00"
+
+#: views/backend/partials/post-pricing-form.php:289
 msgid "The dynamic pricing will"
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:217
+#: views/backend/partials/post-pricing-form.php:289
 msgid "start"
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:217
+#: views/backend/partials/post-pricing-form.php:289
 msgid ", once you have"
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:217
+#: views/backend/partials/post-pricing-form.php:289
 msgid "published"
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:217
+#: views/backend/partials/post-pricing-form.php:289
 msgid "this post."
 msgstr ""
 
-#: views/backend/partials/post-pricing-form.php:222
+#: views/backend/partials/post-pricing-form.php:294
 msgid "Restart dynamic pricing"
 msgstr "Dynamische Preissetzung neu starten"
 
@@ -4046,9 +4069,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
 #~ msgid "Reduce price of"
 #~ msgstr "Reduziere den Preis"
-
-#~ msgid "Make free"
-#~ msgstr "Kostenlos-machen"
 
 #~ msgid "Reset"
 #~ msgstr "Zurücksetzen"
