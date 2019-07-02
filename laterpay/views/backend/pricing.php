@@ -141,19 +141,17 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <td colspan="3">
                                     <label class="lp_js_purchaseCustomizeLabel">
                                         <input type="radio" class="lp_js_purchaseCustomizeOption" value="0" <?php checked( $selected_purchase_order_option, 0 ); ?> name="lp_overlay_option_order" id="lp_js_overlay_option_order_zero">
-                                        <?php printf( '<b>%s</b> - %s', esc_html__( 'Default Order', 'laterpay' ), esc_html__( 'Single Purchase, Time Pass, the Subscription.', 'laterpay' ) ); ?>
-                                        <br />
-                                        <?php esc_html_e( 'If multiple Time Passes or Subscriptions, they will be shown in the order they were created.', 'laterpay' ); ?>
+                                        <?php printf( '%s - %s', esc_html__( 'Default Order', 'laterpay' ), esc_html__( 'Single Purchase followed by Time Passes and Subscriptions in the order they were created.', 'laterpay' ) ); ?>
                                     </label>
                                     <br />
                                     <label class="lp_js_purchaseCustomizeLabel">
                                         <input type="radio" class="lp_js_purchaseCustomizeOption" value="1" <?php checked( $selected_purchase_order_option, 1 ); ?> name="lp_overlay_option_order" id="lp_js_overlay_option_order_one">
-                                        <?php printf( '<b>%s</b> - %s', esc_html__( 'By Price (Ascending)', 'laterpay' ), esc_html__( 'Least expensive option listed first', 'laterpay' ) ); ?>
+                                        <?php printf( '%s - %s', esc_html__( 'By Price (Ascending)', 'laterpay' ), esc_html__( 'Least expensive option listed first', 'laterpay' ) ); ?>
                                     </label>
                                     <br />
                                     <label class="lp_js_purchaseCustomizeLabel">
                                         <input type="radio" class="lp_js_purchaseCustomizeOption" value="2" <?php checked( $selected_purchase_order_option, 2 ); ?> name="lp_overlay_option_order" id="lp_js_overlay_option_order_two">
-                                        <?php printf( '<b>%s</b> - %s', esc_html__( 'By Price (Descending)', 'laterpay' ), esc_html__( 'Most expensive option listed first', 'laterpay' ) ); ?>
+                                        <?php printf( '%s - %s', esc_html__( 'By Price (Descending)', 'laterpay' ), esc_html__( 'Most expensive option listed first', 'laterpay' ) ); ?>
                                     </label>
                                     <br />
                                 </td>
