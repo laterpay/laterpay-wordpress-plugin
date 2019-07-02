@@ -339,17 +339,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                     '%1$sSetting the Global Default Price will determine the standard behavior of your monetized content. There are three options to choose from and we will go through each one in detail and provide a few examples to help determine which is the best option based on your strategy:%2$s
                     %6$s 
                     %8$s%4$sFREE unless price is set on post page or by category%5$s%9$s
-                        %4$sDescription:%5$s All articles will be free by default. Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post Page.%3$s
-                        %4$sWhat does that mean?%5$s We are getting a bit ahead of ourselves here but to simplify, this means that your content will be completely free (no single purchases, no time passes, no subscriptions) unless you intentionally override this setting.%3$s
-                        %4$sExample:%5$s Assuming you are a news site and you want most of your articles to be free except for your content flagged as “Premium,” then this option is perfect for you. Make articles free by default and then we will walk you through how to override that for your premium content later on in this tutorial.%3$s%3$s
+                        %4$sDescription:%5$s All articles will be free by default. Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post Page.%3$s%3$s
                     %8$s%4$sPosts cannot be purchased individually%5$s%9$s
-                        %4$sDescription:%5$s Only Time Passes & Subscriptions will be displayed in the purchase dialog.%3$s
-                        %4$sWhat does that mean?%5$s This means that you do not want to allow your users to purchase just one piece of content, instead you only want to allow them to access content using a time pass or subscription.%3$s
-                        %4$sExample:%5$s If you are a music streaming service and you don’t want users to be able to purchase one song at a time, but instead you want to sell subscriptions, then this option is best suited for you. By selecting this, you will ensure that only time passes or subscriptions are displayed on your site.%3$s%3$s
+                        %4$sDescription:%5$s Only Time Passes & Subscriptions will be displayed in the purchase dialog.%3$s%3$s
                     %8$s%4$sSet individual article default price%5$s%9$s
-                        %4$sDescription:%5$s All single pieces of content will be for sale at this price unless overridden.%3$s
-                        %4$sWhat does that mean?%5$s This is the most standard of the three options; it is what you would typically think of when you are setting a “default.” By setting a price on this option, you are setting that as the default price for purchasing any single piece of content.%3$s
-                        %4$sExample:%5$s I am a blogger, all of my content is along the same topic and ideally of equal interest (and value) to my readers. Therefore, I would like to set one default price for all of my blog posts. By selecting this option, I will do exactly that; set one price for all blog posts. Later I can override this for different categories or for specific posts but by default all of my blog posts will have the same price.
+                        %4$sDescription:%5$s All single pieces of content will be for sale at this price unless overridden.%3$s%3$s
                     %7$s',
                     'laterpay' ),
                     '<p>',
@@ -392,12 +386,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                         %8$sin specific category/ies, or%9$s
                         %8$son your entire website except from a specific category/ies.%9$s
                     %7$s
-                    %1$sThe validity period of a time pass starts with the purchase and is defined for a continuous use – i.e. it doesn\'t matter, if a user is on your website during the entire validity period. After a time pass has expired, the access to the covered content is automatically refused. Please note: Access to pages which are still open when a pass expires will be refused only after reloading the respective page. Any files (images, documents, presentations...), that were downloaded during the validity period, can still be used after the access has expired – but the user will not be able to download them without purchasing again.%2$s
+                    %1$sThe validity period of a time pass starts with the purchase and is defined for a continuous use – i.e. it doesn\'t matter, if a user is on your website during the entire validity period. After a time pass has expired, the access to the covered content is automatically refused. %2$s
                     %4$sDeleting Time Passes%5$s
-                    %1$sIf you delete a time pass, users who have bought this time pass will still have access to the covered content. Deleted time passes can\'t be restored.%2$s
-                    %4$sTime Passes and Individual Sales%5$s
-                    %1$sWhen a user purchases a time pass, they have access to all the content covered by this pass during the validity period. Of course, you can still sell your content individually.
-                    Example: A user has already purchased the post "New York – a Travel Report" for 0.29. Now he purchases a Week Pass for the category "Travel Reports" for 0.99. The category also contains the "New York" post. For one week, he can now read all posts in the category "Travel Reports" for a fixed price of 0.99. After this week, the access expires automatically. During the validity period, the user will not see any LaterPay purchase buttons for posts in the category "Travel Reports". After the pass has expired, the user will still have access to the post he had previously purchased individually.%2$s',
+                    %1$sIf you delete a time pass, users who have bought this time pass will still have access to the covered content. Deleted time passes can\'t be restored.%2$s',
                     'laterpay' ),
                     '<p>',
                     '</p>',
@@ -436,10 +427,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 'id'      => 'laterpay_pricing_tab_vouchers',
                 'title'   => __( 'Vouchers', 'laterpay' ),
                 'content' => sprintf( __(
-                    '%1$sVoucher codes can be generated for time passes and subscriptions. Vouchers are most commonly used to give discounted access to readers who already have a print subscription. To create a voucher code, simply click “+ Generate Voucher Code” at the bottom of the time pass or subscription box. A random 6 character code will be generated but this can be overridden with a custom 6 characters if you choose. Then simply set the reduced price, add a description and save!%2$s
+                    '%1$sVoucher codes can be generated for time passes and subscriptions. To create a voucher code, simply click “+ Generate Voucher Code” at the bottom of the time pass or subscription box. A random 6 character code will be generated but this can be overridden with a custom 6 characters if you choose.%2$s
                     %1$sYou can create any number of voucher codes. A voucher code allows one (or multiple) user(s) to purchase a time pass or subscription for a reduced price. A user can enter a voucher code right below the time passes by clicking "I have a voucher". If the entered code is a valid voucher code, the price of the respective offer will be reduced.%2$s
-                    %1$sA voucher code can be used any number of times and is not linked to a specific user. If you want to invalidate a time pass voucher code, you can simply delete it.%2$s
-                    %1$sDeleting a voucher code will not affect the validity of time passes which have already been purchased using this voucher code.%2$s
                     %6$s
                         A few key things to note when using voucher codes:
                         %8$sEach active voucher can be redeemed an unlimited number of times%9$s
@@ -471,7 +460,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                         %8$sNavigate to the post you would like to override%9$s
                         %8$sChoose to Edit that post using the WordPress Admin%9$s
                         %8$sIn the right sidebar you should see a LaterPay section where you can select to use the Global Default Price, a Category Default Price (when applicable), or to set an Individual Price. By selecting the Individual Price, you will be able to override any other defaults for this specific post.%9$s
-                    %7$s',
+                    %7$s
+                    Check out other advanced pricing options on the %10$sAdvanced Tab%11$s',
                     'laterpay' ),
                     '<p>',
                     '</p>',
@@ -481,7 +471,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                     '<ol>',
                     '</ol>',
                     '<li>',
-                    '</li>'
+                    '</li>',
+                    '<a href="' . esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => 'laterpay-account-tab' ) ), admin_url( 'admin.php' ) ) ) . '">',
+                    '</a>'
                 ),
             )
         );
@@ -489,7 +481,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         // Add a sidebar for general help.
         $screen->set_help_sidebar(
             '<br/><p><strong>' . esc_html__( 'Need additional help?', 'laterpay' ) . '</strong></p>' .
-            '<p>' . sprintf( '%s <a href="%s">%s</a>', esc_html__( 'Check out other advanced pricing options on the', 'laterpay' ), esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => 'laterpay-account-tab' ) ), admin_url( 'admin.php' ) ) ), esc_html__( 'Advanced Tab', 'laterpay' ) ) .
             '<p>' . sprintf( esc_html__( 'For more instruction on setting up Pricing, %sclick here%s.', 'laterpay' ), '<a href="https://www.laterpay.net/academy/wordpress-pricing" target="_blank">', '</a>' ) . '</p>'
         );
     }
@@ -674,7 +665,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                     %4$s
                         %8$s
                         %6$sTest Mode%7$s - This allows you to test your plugin configuration.%3$s
-                        While providing the full plugin functionality, payments are only simulated and not actually processed. The plugin will only be visible to admin users, not to visitors.%3$s
+                        While providing the full plugin functionality, payments are only simulated and not actually processed. %3$sThe plugin will only be visible to admin users, not to visitors.%3$s
                         This is the default setting after activating the plugin for the first time.
                         %9$s
                         %8$s
