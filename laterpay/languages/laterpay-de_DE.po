@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-07-02 20:43+0530\n"
-"PO-Revision-Date: 2019-07-02 20:44+0530\n"
+"POT-Creation-Date: 2019-07-02 21:29+0530\n"
+"PO-Revision-Date: 2019-07-02 21:30+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -176,7 +176,7 @@ msgid ""
 "(typically Posts).%2$s"
 msgstr ""
 
-#: application/Controller/Admin.php:337 views/backend/pricing.php:210
+#: application/Controller/Admin.php:337 views/backend/pricing.php:208
 msgid "Global Default Price"
 msgstr "Globaler Standardpreis"
 
@@ -193,51 +193,21 @@ msgid ""
 "                        %4$sDescription:%5$s All articles will be free by "
 "default. Time Passes & Subscriptions will only be displayed if the article "
 "matches a Category Default Price or has an Individual Article Price set on "
-"the Post Page.%3$s\n"
-"                        %4$sWhat does that mean?%5$s We are getting a bit "
-"ahead of ourselves here but to simplify, this means that your content will "
-"be completely free (no single purchases, no time passes, no subscriptions) "
-"unless you intentionally override this setting.%3$s\n"
-"                        %4$sExample:%5$s Assuming you are a news site and "
-"you want most of your articles to be free except for your content flagged as "
-"“Premium,” then this option is perfect for you. Make articles free by "
-"default and then we will walk you through how to override that for your "
-"premium content later on in this tutorial.%3$s%3$s\n"
+"the Post Page.%3$s%3$s\n"
 "                    %8$s%4$sPosts cannot be purchased individually%5$s%9$s\n"
 "                        %4$sDescription:%5$s Only Time Passes & "
-"Subscriptions will be displayed in the purchase dialog.%3$s\n"
-"                        %4$sWhat does that mean?%5$s This means that you do "
-"not want to allow your users to purchase just one piece of content, instead "
-"you only want to allow them to access content using a time pass or "
-"subscription.%3$s\n"
-"                        %4$sExample:%5$s If you are a music streaming "
-"service and you don’t want users to be able to purchase one song at a time, "
-"but instead you want to sell subscriptions, then this option is best suited "
-"for you. By selecting this, you will ensure that only time passes or "
-"subscriptions are displayed on your site.%3$s%3$s\n"
+"Subscriptions will be displayed in the purchase dialog.%3$s%3$s\n"
 "                    %8$s%4$sSet individual article default price%5$s%9$s\n"
 "                        %4$sDescription:%5$s All single pieces of content "
-"will be for sale at this price unless overridden.%3$s\n"
-"                        %4$sWhat does that mean?%5$s This is the most "
-"standard of the three options; it is what you would typically think of when "
-"you are setting a “default.” By setting a price on this option, you are "
-"setting that as the default price for purchasing any single piece of content."
-"%3$s\n"
-"                        %4$sExample:%5$s I am a blogger, all of my content "
-"is along the same topic and ideally of equal interest (and value) to my "
-"readers. Therefore, I would like to set one default price for all of my blog "
-"posts. By selecting this option, I will do exactly that; set one price for "
-"all blog posts. Later I can override this for different categories or for "
-"specific posts but by default all of my blog posts will have the same "
-"price.\n"
+"will be for sale at this price unless overridden.%3$s%3$s\n"
 "                    %7$s"
 msgstr ""
 
-#: application/Controller/Admin.php:372 views/backend/pricing.php:350
+#: application/Controller/Admin.php:366 views/backend/pricing.php:348
 msgid "Category Default Prices"
 msgstr "Kategoriespezifische Standardpreise"
 
-#: application/Controller/Admin.php:374
+#: application/Controller/Admin.php:368
 #, php-format
 msgid ""
 "%1$sA category default price is applied to all posts in a given category "
@@ -252,11 +222,11 @@ msgid ""
 "0.30, that post will sell for 0.30.%2$s"
 msgstr ""
 
-#: application/Controller/Admin.php:387 views/backend/pricing.php:593
+#: application/Controller/Admin.php:381 views/backend/pricing.php:591
 msgid "Time Passes"
 msgstr "Zeitpässe"
 
-#: application/Controller/Admin.php:389
+#: application/Controller/Admin.php:383
 #, php-format
 msgid ""
 "%1$sWith time passes, you can offer your users time-limited access to your "
@@ -273,36 +243,19 @@ msgid ""
 "purchase and is defined for a continuous use – i.e. it doesn't matter, if a "
 "user is on your website during the entire validity period. After a time pass "
 "has expired, the access to the covered content is automatically refused. "
-"Please note: Access to pages which are still open when a pass expires will "
-"be refused only after reloading the respective page. Any files (images, "
-"documents, presentations...), that were downloaded during the validity "
-"period, can still be used after the access has expired – but the user will "
-"not be able to download them without purchasing again.%2$s\n"
+"%2$s\n"
 "                    %4$sDeleting Time Passes%5$s\n"
 "                    %1$sIf you delete a time pass, users who have bought "
 "this time pass will still have access to the covered content. Deleted time "
-"passes can't be restored.%2$s\n"
-"                    %4$sTime Passes and Individual Sales%5$s\n"
-"                    %1$sWhen a user purchases a time pass, they have access "
-"to all the content covered by this pass during the validity period. Of "
-"course, you can still sell your content individually.\n"
-"                    Example: A user has already purchased the post \"New "
-"York – a Travel Report\" for 0.29. Now he purchases a Week Pass for the "
-"category \"Travel Reports\" for 0.99. The category also contains the \"New "
-"York\" post. For one week, he can now read all posts in the category "
-"\"Travel Reports\" for a fixed price of 0.99. After this week, the access "
-"expires automatically. During the validity period, the user will not see any "
-"LaterPay purchase buttons for posts in the category \"Travel Reports\". "
-"After the pass has expired, the user will still have access to the post he "
-"had previously purchased individually.%2$s"
+"passes can't be restored.%2$s"
 msgstr ""
 
-#: application/Controller/Admin.php:418
-#: application/Controller/Admin/Pricing.php:51 views/backend/pricing.php:796
+#: application/Controller/Admin.php:409
+#: application/Controller/Admin/Pricing.php:51 views/backend/pricing.php:794
 msgid "Subscriptions"
 msgstr "Abos"
 
-#: application/Controller/Admin.php:420
+#: application/Controller/Admin.php:411
 #, php-format
 msgid ""
 "%1$sSubscriptions work exactly like time passes, with a simple difference: "
@@ -317,31 +270,23 @@ msgid ""
 "subscription. New users won't be able to buy the subscription anymore.%2$s"
 msgstr ""
 
-#: application/Controller/Admin.php:437
+#: application/Controller/Admin.php:428
 msgid "Vouchers"
 msgstr ""
 
-#: application/Controller/Admin.php:439
+#: application/Controller/Admin.php:430
 #, php-format
 msgid ""
-"%1$sVoucher codes can be generated for time passes and subscriptions. "
-"Vouchers are most commonly used to give discounted access to readers who "
-"already have a print subscription. To create a voucher code, simply click “+ "
-"Generate Voucher Code” at the bottom of the time pass or subscription box. A "
-"random 6 character code will be generated but this can be overridden with a "
-"custom 6 characters if you choose. Then simply set the reduced price, add a "
-"description and save!%2$s\n"
+"%1$sVoucher codes can be generated for time passes and subscriptions. To "
+"create a voucher code, simply click “+ Generate Voucher Code” at the bottom "
+"of the time pass or subscription box. A random 6 character code will be "
+"generated but this can be overridden with a custom 6 characters if you "
+"choose.%2$s\n"
 "                    %1$sYou can create any number of voucher codes. A "
 "voucher code allows one (or multiple) user(s) to purchase a time pass or "
 "subscription for a reduced price. A user can enter a voucher code right "
 "below the time passes by clicking \"I have a voucher\". If the entered code "
 "is a valid voucher code, the price of the respective offer will be reduced."
-"%2$s\n"
-"                    %1$sA voucher code can be used any number of times and "
-"is not linked to a specific user. If you want to invalidate a time pass "
-"voucher code, you can simply delete it.%2$s\n"
-"                    %1$sDeleting a voucher code will not affect the validity "
-"of time passes which have already been purchased using this voucher code."
 "%2$s\n"
 "                    %6$s\n"
 "                        A few key things to note when using voucher codes:\n"
@@ -357,13 +302,13 @@ msgid ""
 "subscription using the voucher code will pay 5 every month.%2$s"
 msgstr ""
 
-#: application/Controller/Admin.php:466
+#: application/Controller/Admin.php:455
 #, fuzzy
 #| msgid "Additional Premium Content"
 msgid "Additional Ways to Monetize Content"
 msgstr "Zusätzlicher Premium-Inhalt"
 
-#: application/Controller/Admin.php:468
+#: application/Controller/Admin.php:457
 #, php-format
 msgid ""
 "%4$sIndividual Article Price%5$s\n"
@@ -380,35 +325,27 @@ msgid ""
 "Default Price (when applicable), or to set an Individual Price. By selecting "
 "the Individual Price, you will be able to override any other defaults for "
 "this specific post.%9$s\n"
-"                    %7$s"
+"                    %7$s\n"
+"                    Check out other advanced pricing options on the "
+"%10$sAdvanced Tab%11$s"
 msgstr ""
 
-#: application/Controller/Admin.php:491 application/Controller/Admin.php:702
+#: application/Controller/Admin.php:483 application/Controller/Admin.php:693
 msgid "Need additional help?"
 msgstr ""
 
-#: application/Controller/Admin.php:492
-msgid "Check out other advanced pricing options on the"
-msgstr ""
-
-#: application/Controller/Admin.php:492
-#, fuzzy
-#| msgid "Advanced Example"
-msgid "Advanced Tab"
-msgstr "Erweitertes Beispiel"
-
-#: application/Controller/Admin.php:493
+#: application/Controller/Admin.php:484
 #, php-format
 msgid "For more instruction on setting up Pricing, %sclick here%s."
 msgstr ""
 
-#: application/Controller/Admin.php:508
+#: application/Controller/Admin.php:499
 #, fuzzy
 #| msgid "%s Appearance %s"
 msgid "Configure Appearance"
 msgstr "%s Darstellung %s"
 
-#: application/Controller/Admin.php:510
+#: application/Controller/Admin.php:501
 #, php-format
 msgid ""
 "%1$sThe top portion of this page allows you to customize how your pricing "
@@ -475,13 +412,13 @@ msgid ""
 "                    "
 msgstr ""
 
-#: application/Controller/Admin.php:569
+#: application/Controller/Admin.php:560
 #, fuzzy
 #| msgid "%sCustomize%s Colors"
 msgid "Customize Colors"
 msgstr "%sFARBEN%s ANPASSEN"
 
-#: application/Controller/Admin.php:571
+#: application/Controller/Admin.php:562
 #, php-format
 msgid ""
 "%1$sUse the lower half of this page to customize the colors of the LaterPay "
@@ -552,11 +489,11 @@ msgid ""
 "                    "
 msgstr ""
 
-#: application/Controller/Admin.php:644
+#: application/Controller/Admin.php:635
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: application/Controller/Admin.php:646
+#: application/Controller/Admin.php:637
 #, php-format
 msgid ""
 "%1$sIn order to receive payments, you first need a LaterPay account. "
@@ -571,11 +508,11 @@ msgid ""
 "content provider or to sign up with LaterPay.%5$s"
 msgstr ""
 
-#: application/Controller/Admin.php:671
+#: application/Controller/Admin.php:662
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
-#: application/Controller/Admin.php:673
+#: application/Controller/Admin.php:664
 #, php-format
 msgid ""
 "%1$sYou can run the LaterPay plugin in two modes:%2$s\n"
@@ -584,8 +521,8 @@ msgid ""
 "                        %6$sTest Mode%7$s - This allows you to test your "
 "plugin configuration.%3$s\n"
 "                        While providing the full plugin functionality, "
-"payments are only simulated and not actually processed. The plugin will only "
-"be visible to admin users, not to visitors.%3$s\n"
+"payments are only simulated and not actually processed. %3$sThe plugin will "
+"only be visible to admin users, not to visitors.%3$s\n"
 "                        This is the default setting after activating the "
 "plugin for the first time.\n"
 "                        %9$s\n"
@@ -601,35 +538,35 @@ msgid ""
 "your production system.%2$s"
 msgstr ""
 
-#: application/Controller/Admin.php:703
+#: application/Controller/Admin.php:694
 #, php-format
 msgid "Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s"
 msgstr ""
 
-#: application/Controller/Admin.php:825
+#: application/Controller/Admin.php:816
 msgid "Pricing"
 msgstr "Preise"
 
-#: application/Controller/Admin.php:831 views/backend/advanced.php:200
+#: application/Controller/Admin.php:822 views/backend/advanced.php:200
 msgid "Appearance"
 msgstr "Darstellung"
 
-#: application/Controller/Admin.php:837
+#: application/Controller/Admin.php:828
 msgid "Account"
 msgstr "Konto"
 
-#: application/Controller/Admin.php:848
+#: application/Controller/Admin.php:839
 #, fuzzy
 #| msgid "Advanced Example"
 msgid "Advanced"
 msgstr "Erweitertes Beispiel"
 
-#: application/Controller/Admin.php:896
+#: application/Controller/Admin.php:887
 #, php-format
 msgid "Version %s Highlights:"
 msgstr "Highlights der Version %s:"
 
-#: application/Controller/Admin.php:897
+#: application/Controller/Admin.php:888
 msgid ""
 "You can now fully customize the appearance of your payment overlay. Visit "
 "the Appearance tab, to check it out!"
@@ -637,11 +574,11 @@ msgstr ""
 "Sie können nun das Erscheinungsbild Ihres Zahlungs-Overlays vollständig "
 "anpassen. Besuchen Sie die Registerkarte Aussehen, um es auszuprobieren!"
 
-#: application/Controller/Admin.php:903
+#: application/Controller/Admin.php:894
 msgid "Learn More"
 msgstr "Erfahren Sie mehr"
 
-#: application/Controller/Admin.php:906
+#: application/Controller/Admin.php:897
 #, php-format
 msgid ""
 "%sOptional%s Use the appearance tab to configure your payment button colors "
@@ -650,7 +587,7 @@ msgstr ""
 "%sOptional%s Verwenden Sie die Registerkarte Aussehen, um die Farben Ihrer "
 "Zahlungstasten zu konfigurieren und wie Ihre Preisoptionen angezeigt werden."
 
-#: application/Controller/Admin.php:907
+#: application/Controller/Admin.php:898
 #, php-format
 msgid ""
 "%sREQUIRED%s Use this tab to configure your default prices. Prices can also "
@@ -660,7 +597,7 @@ msgstr ""
 "konfigurieren. Die Preise können auch für einen einzelnen Beitrag auf der "
 "Seite Beitrag bearbeiten festgelegt werden."
 
-#: application/Controller/Admin.php:908
+#: application/Controller/Admin.php:899
 #, php-format
 msgid ""
 "%sOptional%s Here we highlight advanced features & settings like "
@@ -866,8 +803,8 @@ msgstr ""
 
 #: application/Controller/Admin/Post/Column.php:42
 #: views/backend/partials/subscription.php:62
-#: views/backend/partials/time-pass.php:70 views/backend/pricing.php:292
-#: views/backend/pricing.php:424 views/backend/pricing.php:544
+#: views/backend/partials/time-pass.php:70 views/backend/pricing.php:290
+#: views/backend/pricing.php:422 views/backend/pricing.php:542
 msgid "Price"
 msgstr "Preis"
 
@@ -888,8 +825,8 @@ msgstr "KOSTENLOS"
 #: views/backend/partials/post-pricing-form.php:163
 #: views/backend/partials/post-pricing-form.php:186
 #: views/backend/partials/post-pricing-form.php:265
-#: views/backend/pricing.php:318 views/backend/pricing.php:449
-#: views/backend/pricing.php:569 views/backend/pricing.php:728
+#: views/backend/pricing.php:316 views/backend/pricing.php:447
+#: views/backend/pricing.php:567 views/backend/pricing.php:726
 msgid "Pay Now"
 msgstr "Sofort zahlen"
 
@@ -899,9 +836,9 @@ msgstr "Sofort zahlen"
 #: views/backend/partials/post-pricing-form.php:159
 #: views/backend/partials/post-pricing-form.php:182
 #: views/backend/partials/post-pricing-form.php:241
-#: views/backend/partials/purchase-overlay.php:44 views/backend/pricing.php:313
-#: views/backend/pricing.php:444 views/backend/pricing.php:564
-#: views/backend/pricing.php:723
+#: views/backend/partials/purchase-overlay.php:44 views/backend/pricing.php:311
+#: views/backend/pricing.php:442 views/backend/pricing.php:562
+#: views/backend/pricing.php:721
 msgid "Pay Later"
 msgstr "Später zahlen"
 
@@ -1015,7 +952,7 @@ msgstr ""
 #: application/Controller/Admin/Pricing.php:52
 #: application/Controller/Admin/Pricing.php:132
 #: application/Controller/Frontend/Shortcode.php:530
-#: views/backend/pricing.php:184
+#: views/backend/pricing.php:182
 msgid "Subscription"
 msgstr "Abo"
 
@@ -1073,14 +1010,14 @@ msgstr ""
 "Abos haben. Neue Nutzer werden das Abo nicht mehr kaufen können. Möchten Sie "
 "dieses Abo wirklich löschen?"
 
-#: application/Controller/Admin/Pricing.php:109 views/backend/pricing.php:626
-#: views/backend/pricing.php:841
+#: application/Controller/Admin/Pricing.php:109 views/backend/pricing.php:624
+#: views/backend/pricing.php:839
 msgid "reduces the price to"
 msgstr "reduziert den Preis auf"
 
 #: application/Controller/Admin/Pricing.php:110
 #: views/backend/partials/post-pricing-form.php:235
-#: views/backend/pricing.php:312
+#: views/backend/pricing.php:310
 msgid ""
 "Pay Later allows users to gain access now by committing to pay once their "
 "invoice reaches $5 or 5€; it is available for posts with pricing between "
@@ -1089,7 +1026,7 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:111
 #: views/backend/partials/post-pricing-form.php:259
-#: views/backend/pricing.php:317
+#: views/backend/pricing.php:315
 msgid ""
 "Pay Now requires users pay for purchased content immediately; available for "
 "posts with pricing above $1.99 or 1.49€"
@@ -1140,13 +1077,13 @@ msgstr "absteigender Reihenfolge angezeigt"
 msgid "First option"
 msgstr "Die erste Option"
 
-#: application/Controller/Admin/Pricing.php:130 views/backend/pricing.php:174
+#: application/Controller/Admin/Pricing.php:130 views/backend/pricing.php:172
 msgid "Single Purchase"
 msgstr "Einzelkauf"
 
 #: application/Controller/Admin/Pricing.php:131
 #: application/Controller/Frontend/Shortcode.php:530
-#: views/backend/pricing.php:179
+#: views/backend/pricing.php:177
 msgid "Time Pass"
 msgstr "Zeitpass"
 
@@ -1154,8 +1091,8 @@ msgstr "Zeitpass"
 msgid "All posts in category"
 msgstr "aller Beiträge in Kategorie"
 
-#: application/Controller/Admin/Pricing.php:172 views/backend/pricing.php:746
-#: views/backend/pricing.php:945
+#: application/Controller/Admin/Pricing.php:172 views/backend/pricing.php:744
+#: views/backend/pricing.php:943
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -1174,7 +1111,7 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:473
 #: views/backend/partials/post-pricing-form.php:107
-#: views/backend/pricing.php:277 views/backend/pricing.php:363
+#: views/backend/pricing.php:275 views/backend/pricing.php:361
 msgid ""
 "Only Time Passes & Subscriptions will be displayed in the purchase dialog."
 msgstr "Nur Zeitpässe und Abos werden im Kaufdialog angezeigt."
@@ -1243,8 +1180,8 @@ msgstr "Ungültiger Gutschein-Preis."
 msgid "Passes"
 msgstr ""
 
-#: application/Controller/Admin/Pricing.php:1014 views/backend/pricing.php:602
-#: views/backend/pricing.php:641
+#: application/Controller/Admin/Pricing.php:1014 views/backend/pricing.php:600
+#: views/backend/pricing.php:639
 msgid "Pass"
 msgstr "Pass"
 
@@ -1367,11 +1304,11 @@ msgstr ""
 
 #: application/Controller/Admin/Settings.php:248 views/backend/advanced.php:264
 #: views/backend/appearance.php:147 views/backend/appearance.php:280
-#: views/backend/pricing.php:113 views/backend/pricing.php:198
-#: views/backend/pricing.php:340 views/backend/pricing.php:460
-#: views/backend/pricing.php:580 views/backend/pricing.php:612
-#: views/backend/pricing.php:774 views/backend/pricing.php:827
-#: views/backend/pricing.php:974
+#: views/backend/pricing.php:113 views/backend/pricing.php:196
+#: views/backend/pricing.php:338 views/backend/pricing.php:458
+#: views/backend/pricing.php:578 views/backend/pricing.php:610
+#: views/backend/pricing.php:772 views/backend/pricing.php:825
+#: views/backend/pricing.php:972
 #: views/frontend/partials/widget/purchase-overlay.php:145
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -1841,7 +1778,7 @@ msgid "1 month access to all content on this website (cancellable anytime)"
 msgstr "1 Monat Zugriff auf alle Inhalte dieser Website (jederzeit kündbar)"
 
 #: application/Helper/Subscription.php:68 application/Helper/TimePass.php:174
-#: views/backend/pricing.php:684 views/backend/pricing.php:888
+#: views/backend/pricing.php:682 views/backend/pricing.php:886
 msgid "access to"
 msgstr "Zugriff auf"
 
@@ -2623,11 +2560,11 @@ msgid "Show valid payment options"
 msgstr "Gültige Zahlungsoptionen anzeigen"
 
 #: views/backend/appearance.php:146 views/backend/appearance.php:279
-#: views/backend/pricing.php:112 views/backend/pricing.php:197
-#: views/backend/pricing.php:339 views/backend/pricing.php:459
-#: views/backend/pricing.php:579 views/backend/pricing.php:611
-#: views/backend/pricing.php:773 views/backend/pricing.php:826
-#: views/backend/pricing.php:973
+#: views/backend/pricing.php:112 views/backend/pricing.php:195
+#: views/backend/pricing.php:337 views/backend/pricing.php:457
+#: views/backend/pricing.php:577 views/backend/pricing.php:609
+#: views/backend/pricing.php:771 views/backend/pricing.php:824
+#: views/backend/pricing.php:971
 msgid "Save"
 msgstr "Speichern"
 
@@ -2821,7 +2758,7 @@ msgstr ""
 "Preis” eingestellt wurde."
 
 #: views/backend/partials/post-pricing-form.php:102
-#: views/backend/pricing.php:275
+#: views/backend/pricing.php:273
 msgid "Posts cannot be purchased individually"
 msgstr "Beiträge können nicht einzeln gekauft werden"
 
@@ -3073,42 +3010,38 @@ msgid "Default Order"
 msgstr "Standardbestellung"
 
 #: views/backend/pricing.php:144
-msgid "Single Purchase, Time Pass, the Subscription."
-msgstr "Einzelkauf, Zeitpässe, Abonnement."
-
-#: views/backend/pricing.php:146
 msgid ""
-"If multiple Time Passes or Subscriptions, they will be shown in the order "
-"they were created."
+"Single Purchase followed by Time Passes and Subscriptions in the order they "
+"were created."
 msgstr ""
-"Wenn mehrere Zeitpässe oder Abonnements bestehen, werden sie in der "
-"Reihenfolge ihrer Erstellung angezeigt."
+"Einzelbestellung, gefolgt von Zeitpässen und Abonnements in der Reihenfolge "
+"ihrer Erstellung."
 
-#: views/backend/pricing.php:151
+#: views/backend/pricing.php:149
 msgid "By Price (Ascending)"
 msgstr "Nach Preis (Aufsteigend)"
 
-#: views/backend/pricing.php:151
+#: views/backend/pricing.php:149
 msgid "Least expensive option listed first"
 msgstr "Günstigste Option zuerst aufgeführt"
 
-#: views/backend/pricing.php:156
+#: views/backend/pricing.php:154
 msgid "By Price (Descending)"
 msgstr "Nach Preis (Absteigend)"
 
-#: views/backend/pricing.php:156
+#: views/backend/pricing.php:154
 msgid "Most expensive option listed first"
 msgstr "Teuerste Option zuerst aufgeführt"
 
-#: views/backend/pricing.php:163
+#: views/backend/pricing.php:161
 msgid "Which purchase option should be selected by default?"
 msgstr "Welche Kaufoption soll als Standard eingestellt werden?"
 
-#: views/backend/pricing.php:169
+#: views/backend/pricing.php:167
 msgid "First Option (as defined above)"
 msgstr "Erste Option (wie oben definiert)"
 
-#: views/backend/pricing.php:191
+#: views/backend/pricing.php:189
 msgid ""
 "If there are multiple Time Passes available, the first option (as defined "
 "above) will be selected by default."
@@ -3116,7 +3049,7 @@ msgstr ""
 "Wenn mehrere Zeitpässe verfügbar sind, wird automatisch die erste Option "
 "(wie oben definiert) ausgewählt."
 
-#: views/backend/pricing.php:192
+#: views/backend/pricing.php:190
 msgid ""
 "If there are multiple Subscriptions available, the first option (as defined "
 "above) will be selected by default."
@@ -3124,11 +3057,11 @@ msgstr ""
 "Wenn mehrere Abonnements verfügbar sind, wird automatisch die erste Option "
 "(wie oben definiert) ausgewählt."
 
-#: views/backend/pricing.php:221
+#: views/backend/pricing.php:219
 msgid "Every post costs"
 msgstr "Jeder Artikel kostet"
 
-#: views/backend/pricing.php:235
+#: views/backend/pricing.php:233
 #, php-format
 msgid ""
 "Posts cannot be purchased individually;%s only Time Passes & Subscriptions "
@@ -3137,7 +3070,7 @@ msgstr ""
 "Beiträge können nicht einzeln gekauft werden; %s Nur Zeitpässe und Abos "
 "werden angezeigt."
 
-#: views/backend/pricing.php:241
+#: views/backend/pricing.php:239
 #, php-format
 msgid ""
 "%1$sEvery post is FREE%2$s unless they match a Category Default Price %3$s\n"
@@ -3148,17 +3081,17 @@ msgstr ""
 "trifft zu, %3$s\n"
 "oder ein individueller Artikelpreis wurde im Beitragseditor vergeben."
 
-#: views/backend/pricing.php:260
+#: views/backend/pricing.php:258
 msgid "Edit Global Default Price"
 msgstr "Allgemeinen Standardpreis bearbeiten"
 
-#: views/backend/pricing.php:267
+#: views/backend/pricing.php:265
 msgid "FREE unless price is set on post page or by category"
 msgstr ""
 "KOSTENLOS, es sei denn der Preis wurde im Beitragseditor oder per Kategorie "
 "vergeben"
 
-#: views/backend/pricing.php:269
+#: views/backend/pricing.php:267
 msgid ""
 "All articles will be free by default; Time Passes & Subscriptions will only "
 "be displayed if the article matches a Category Default Price or has an "
@@ -3168,16 +3101,16 @@ msgstr ""
 "werden nur angezeigt, wenn der Artikel einem Kategoriestandardpreis "
 "zugewiesen wurde, oder einen individuellen Artikelpreis erhielt."
 
-#: views/backend/pricing.php:283
+#: views/backend/pricing.php:281
 msgid "Set individual article default price"
 msgstr "Individuellen Artikel-Standardpreis definieren"
 
-#: views/backend/pricing.php:306 views/backend/pricing.php:437
-#: views/backend/pricing.php:557
+#: views/backend/pricing.php:304 views/backend/pricing.php:435
+#: views/backend/pricing.php:555
 msgid "Revenue Model"
 msgstr "Erlösmodell"
 
-#: views/backend/pricing.php:326
+#: views/backend/pricing.php:324
 #, php-format
 msgid ""
 "%sTIP:%s \"Pay Later\" is LaterPay's patented revenue model which allows "
@@ -3192,38 +3125,38 @@ msgstr ""
 "oder 5€ an Inhalten erreicht haben, werden sie zur Registrierung und Zahlung "
 "aufgefordert. %sKlicken Sie hier, um mehr zu erfahren.%s"
 
-#: views/backend/pricing.php:351 views/backend/pricing.php:364
+#: views/backend/pricing.php:349 views/backend/pricing.php:362
 msgid ""
 "To allow articles to be purchased individually, adjust your Global Default "
 "Price."
 msgstr ""
 
-#: views/backend/pricing.php:353 views/backend/pricing.php:595
-#: views/backend/pricing.php:798
+#: views/backend/pricing.php:351 views/backend/pricing.php:593
+#: views/backend/pricing.php:796
 msgid "Create"
 msgstr "Erstellen"
 
-#: views/backend/pricing.php:384 views/backend/pricing.php:507
+#: views/backend/pricing.php:382 views/backend/pricing.php:505
 msgid "Every post in"
 msgstr "Jeder Beitrag in"
 
-#: views/backend/pricing.php:388 views/backend/pricing.php:510
+#: views/backend/pricing.php:386 views/backend/pricing.php:508
 msgid "costs"
 msgstr "kostet"
 
-#: views/backend/pricing.php:409
+#: views/backend/pricing.php:407
 msgid "Edit Category Default Price"
 msgstr "Kategoriespezifischen Standardpreis bearbeiten"
 
-#: views/backend/pricing.php:416 views/backend/pricing.php:536
+#: views/backend/pricing.php:414 views/backend/pricing.php:534
 msgid "Category"
 msgstr "Kategorie"
 
-#: views/backend/pricing.php:471
+#: views/backend/pricing.php:469
 msgid "Set prices by category"
 msgstr "Kategoriespezifische Standardpreise setzen"
 
-#: views/backend/pricing.php:476
+#: views/backend/pricing.php:474
 #, php-format
 msgid ""
 "Not familiar with WordPress categories? %s\n"
@@ -3232,7 +3165,7 @@ msgstr ""
 "Nicht mit WordPress-Kategorien vertraut?%s\n"
 "%sKlicken Sie hier, um mehr zu erfahren.%s"
 
-#: views/backend/pricing.php:487
+#: views/backend/pricing.php:485
 #, php-format
 msgid ""
 "Category default prices are convenient for selling different categories of "
@@ -3244,53 +3177,53 @@ msgstr ""
 "Kategorien zu verschiedenen Standardpreisen zu verkaufen. %s\n"
 "Einzelne Preise können auf Beitragsebene nach Wunsch überschrieben werden."
 
-#: views/backend/pricing.php:494
+#: views/backend/pricing.php:492
 msgid "Click the \"Create\" button to set a default price for a category."
 msgstr ""
 "Klicken Sie auf den \"Erstellen\" Button, um einen Standardpreis für eine "
 "Kategorie zu setzen."
 
-#: views/backend/pricing.php:529
+#: views/backend/pricing.php:527
 msgid "Add a Category Default Price"
 msgstr "Kategoriespezifischen Standardpreis hinzufügen"
 
-#: views/backend/pricing.php:659
+#: views/backend/pricing.php:657
 msgid "The pass is valid for "
 msgstr "Dieser Pass gilt für "
 
-#: views/backend/pricing.php:679
+#: views/backend/pricing.php:677
 msgid "and grants"
 msgstr "und gibt"
 
-#: views/backend/pricing.php:706
+#: views/backend/pricing.php:704
 msgid "This pass costs"
 msgstr "Dieser Pass kostet"
 
-#: views/backend/pricing.php:714
+#: views/backend/pricing.php:712
 msgid "and the user has to"
 msgstr "und Nutzer müssen"
 
-#: views/backend/pricing.php:735 views/backend/pricing.php:934
+#: views/backend/pricing.php:733 views/backend/pricing.php:932
 msgid "Title"
 msgstr "Titel"
 
-#: views/backend/pricing.php:762 views/backend/pricing.php:961
+#: views/backend/pricing.php:760 views/backend/pricing.php:959
 msgid "The voucher price must be less than or equal to the "
 msgstr ""
 
-#: views/backend/pricing.php:762
+#: views/backend/pricing.php:760
 msgid "time pass price."
 msgstr ""
 
-#: views/backend/pricing.php:766 views/backend/pricing.php:965
+#: views/backend/pricing.php:764 views/backend/pricing.php:963
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
-#: views/backend/pricing.php:784
+#: views/backend/pricing.php:782
 msgid "Sell time-limited access to content"
 msgstr "Zeitbasierten Zugriff auf Inhalte verkaufen"
 
-#: views/backend/pricing.php:787
+#: views/backend/pricing.php:785
 msgid ""
 "With Time Passes you can sell time-limited access to a category or your "
 "entire site. Time Passes do not renew automatically and are a great option "
@@ -3301,47 +3234,47 @@ msgstr ""
 "großartige Option für Leser, die noch nicht bereit sind ein Abo "
 "abzuschließen."
 
-#: views/backend/pricing.php:790
+#: views/backend/pricing.php:788
 msgid "Click the \"Create\" button to add a Time Pass."
 msgstr ""
 "Klicken Sie auf den \"Erstellen\" Button, um einen Zeitpass hinzuzufügen."
 
-#: views/backend/pricing.php:808
+#: views/backend/pricing.php:806
 msgid ""
 "Important: The minimum value for \"Pay Now\" prices in the US is $1.99. "
 "Please be sure to update your subscriptions so that your users to not "
 "receive an error when they try to purchase."
 msgstr ""
 
-#: views/backend/pricing.php:817 views/backend/pricing.php:856
+#: views/backend/pricing.php:815 views/backend/pricing.php:854
 msgid "Sub"
 msgstr "Abo"
 
-#: views/backend/pricing.php:874
+#: views/backend/pricing.php:872
 msgid "The subscription costs"
 msgstr "Das Abo kostet"
 
-#: views/backend/pricing.php:883
+#: views/backend/pricing.php:881
 msgid ", grants "
 msgstr ", gibt"
 
-#: views/backend/pricing.php:911
+#: views/backend/pricing.php:909
 msgid "and renews every"
 msgstr "und verlängert sich nach"
 
-#: views/backend/pricing.php:961
+#: views/backend/pricing.php:959
 msgid "subscription price."
 msgstr ""
 
-#: views/backend/pricing.php:967
+#: views/backend/pricing.php:965
 msgid "This will reduce the price for the entirety of the subscription."
 msgstr "Der Gutschein bezieht sich auf die gesamte Laufzeit des Abos."
 
-#: views/backend/pricing.php:984
+#: views/backend/pricing.php:982
 msgid "Sell subscriptions"
 msgstr "Abos verkaufen"
 
-#: views/backend/pricing.php:987
+#: views/backend/pricing.php:985
 msgid ""
 "Subscriptions work exactly like time passes, with a simple difference: They "
 "renew automatically."
@@ -3349,7 +3282,7 @@ msgstr ""
 "Abos funktionieren genau wie Zeitpässe, mit einem einfachen Unterschied: Sie "
 "verlängern sich automatisch."
 
-#: views/backend/pricing.php:990
+#: views/backend/pricing.php:988
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr "Klicken Sie auf den \"Erstellen\" Button, um ein Abo hinzuzufügen."
 
@@ -3456,6 +3389,14 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#, fuzzy
+#~| msgid "Advanced Example"
+#~ msgid "Advanced Tab"
+#~ msgstr "Erweitertes Beispiel"
+
+#~ msgid "Single Purchase, Time Pass, the Subscription."
+#~ msgstr "Einzelkauf, Zeitpässe, Abonnement."
 
 #~ msgid "Currency"
 #~ msgstr "Währung"
