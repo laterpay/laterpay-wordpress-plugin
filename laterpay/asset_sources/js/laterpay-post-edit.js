@@ -20,7 +20,10 @@
                 categoryPriceButton     : $('#lp_js_useCategoryDefaultPrice').parent(),
                 globalPriceButton       : $('#lp_js_useGlobalDefaultPrice').parent(),
                 postEditTypeZero        : $('#lp_postEditTypeZero'),
-                priceEditSection        : $('#lp_js_priceEditSection'),
+                priceEditSection        : $('#lp_js_priceEditSection').parent(),
+                setPostFreeButton       : $('#lp_js_setPostFree').parent(),
+                postFreeDescription     : $('#lp_js_free_postDescriptionSpan'),
+                postPriceInputInfo      : $('#lp_js_postPriceInputInfo').children(),
 
                 // details sections for chosen pricing type
                 details                 : $('#lp_js_priceTypeDetails'),
@@ -105,6 +108,9 @@
                 $o.categoryPriceDetails
                 .on('mousedown', 'a', function() {
                     applyCategoryPrice(this);
+                    // hide other post price options.
+                    $o.postFreeDescription.hide();
+                    $o.postPriceInputInfo.hide();
                 })
                 .on('click', 'a', function(e) {e.preventDefault();});
 
@@ -120,6 +126,9 @@
                         $o.priceEditSection.hide();
                         $o.postEditTypeZero.show();
                     }
+
+                    $o.postFreeDescription.hide();
+                    $o.postPriceInputInfo.hide();
                 });
 
                 // Display Price Editing Section if hidden.
@@ -136,6 +145,9 @@
                         $o.postEditTypeZero.hide();
                     }
 
+                    $o.postPriceInputInfo.show();
+                    $o.postFreeDescription.hide();
+
                 });
 
                 // Display Price Editing Section if hidden.
@@ -147,6 +159,15 @@
                     }
 
                     $o.priceEditSection.show();
+                    $o.postFreeDescription.hide();
+                    $o.postPriceInputInfo.hide();
+                });
+
+                // Display post free information.
+                $($o.setPostFreeButton).on( 'click', function (e) {
+                    e.preventDefault();
+                    $o.postFreeDescription.show();
+                    $o.postPriceInputInfo.hide();
                 });
 
             },
@@ -268,6 +289,10 @@
                     // show / hide stuff
                     $o.dynamicPricingToggle.velocity('fadeOut', { duration: 250 });
                     $o.priceTypeInput.val('global default price');
+                } else if ( priceType === 'lp_js_setPostFree' ) {
+                    setPrice(0.00);
+                    $o.dynamicPricingToggle.velocity('fadeOut', { duration: 250 });
+                    $o.priceTypeInput.val('individual free');
                 }
 
                 // disable price input for all scenarios other than static individual price
@@ -446,6 +471,9 @@
                             data.prices.forEach(function(category) {
                                 var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
 
+                                var revenueModelText = 'ppu' === category.revenue_model ?
+                                    lpVars.i18nPayLater : lpVars.i18nPayNow;
+
                                 var newCategory = $('<li/>',{
                                     'data-category': category.category_id,
                                     'calss': 'lp_price-type-categorized__item',
@@ -453,7 +481,14 @@
                                     'href': '#',
                                     'data-price': category.category_price,
                                     'data-revenue-model': category.revenue_model,
-                                }).append($('<span/>').text(price)).append(category.category_name));
+                                    'text': category.category_name
+                                }).append(
+                                    $('<br/>'),
+                                    $('<span/>').text(price),
+                                    $('<span/>',
+                                        { 'class': 'lp_badge lp_badge--revenue-model-global'
+                                        }).text(revenueModelText)
+                                ) );
 
                                 categoriesList.push(newCategory);
                             });
@@ -505,6 +540,8 @@
                                     }
                                 }
                             }
+                            $o.postFreeDescription.hide();
+                            $o.postPriceInputInfo.hide();
                         }
                     },
                     'json'
