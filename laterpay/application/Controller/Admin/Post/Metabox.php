@@ -163,6 +163,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'i18nDefaultPrice'  => __( 'default price', 'laterpay' ),
                 'i18nDays'          => __( 'days', 'laterpay' ),
                 'i18nToday'         => __( 'Today', 'laterpay' ),
+                'i18nPayLater'      => __( 'Pay Later', 'laterpay' ),
                 'l10n_print_after'  => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget)',
             )
         );

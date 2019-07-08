@@ -17,10 +17,12 @@ var DynamicPricingWidget = function (container) {
     this.minPrice = 0;
     this.maxPrice = 5;
     this.defaultPrice = 0.49;
+    this.payLaterPrice = ( lpVars.currency === 'USD' ) ? 1.99 : 1.49;
     this.currentPrice = 0;
     this.pubDays = 0;
     this.currency = lpVars.currency;
     this.i18nDefaultPrice = lpVars.i18nDefaultPrice;
+    this.i18nPayLater = lpVars.i18nPayLater;
     this.i18nDays = lpVars.i18nDays;
     this.i18nToday = lpVars.i18nToday;
     this.dragging = false;
@@ -97,6 +99,23 @@ var DynamicPricingWidget = function (container) {
         .attr('class', 'lp_dynamic-pricing__default-price-label')
         .attr('text-anchor', 'middle')
         .text(this.i18nDefaultPrice);
+
+    // draw pay later marker
+    var transformText = ( lpVars.currency === 'USD' ) ? 105 : 125;
+
+    svg.append('line')
+        .attr('class', 'lp_dynamic-pricing__pay-later-price-marker');
+    svg.append('rect')
+        .attr({
+            class: 'lp_dynamic-pricing__pay-later-price-label-background',
+            width: 60,
+            height: 16,
+        });
+    svg.append('text')
+        .attr('transform', 'translate(85,' + transformText + ')')
+        .attr('class', 'lp_dynamic-pricing__default-price-label')
+        .attr('text-anchor', 'middle')
+        .text(this.i18nPayLater);
 
 
     // draw price curve
@@ -382,6 +401,28 @@ DynamicPricingWidget.prototype._plotAxes = function () {
         .attr({
             x: this.dimensions.width / 2,
             y: this.scale.y(this.defaultPrice)
+        });
+
+    // position pay later price marker
+    this.svg.select('.lp_dynamic-pricing__pay-later-price-marker')
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr({
+            x1: 0,
+            y1: this.scale.y(this.payLaterPrice),
+            x2: this.dimensions.width + 10,
+            y2: this.scale.y(this.payLaterPrice)
+        });
+    this.svg.select('.lp_dynamic-pricing__pay-later-price-label-background')
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr({
+            x: (this.dimensions.width - 60) / 2, // center horizontally
+            y: this.scale.y(this.payLaterPrice) - 9 // center vertically
+        });
+    this.svg.select('.lp_dynamic-pricing__pay-later-price-label')
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr({
+            x: this.dimensions.width / 2,
+            y: this.scale.y(this.payLaterPrice)
         });
 };
 
