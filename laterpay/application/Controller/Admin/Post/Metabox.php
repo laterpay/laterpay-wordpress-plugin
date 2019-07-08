@@ -151,6 +151,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
                 'is_block_editor'           => self::lp_check_is_block_editor(),
+                'i18nPayLater'              => esc_html__( 'Pay Later', 'laterpay' ),
+                'i18nPayNow'                => esc_html__( 'Pay Now', 'laterpay' ),
             )
         );
         wp_localize_script(
@@ -161,6 +163,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
                 'i18nDefaultPrice'  => __( 'default price', 'laterpay' ),
                 'i18nDays'          => __( 'days', 'laterpay' ),
                 'i18nToday'         => __( 'Today', 'laterpay' ),
+                'i18nPayLater'      => __( 'Pay Later', 'laterpay' ),
                 'l10n_print_after'  => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget)',
             )
         );
@@ -359,6 +362,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             'post_status'                          => $post_status,
             'post_revenue_model'                   => $post_revenue_model,
             'price'                                => $price,
+            'global_price'                         => (float) get_option( 'laterpay_global_price' ),
             'currency'                             => $currency_settings,
             'category_prices'                      => $category_price_data,
             'no_category_price_set'                => $empty_all_category_default_prices,
@@ -428,6 +432,10 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             // apply (static) individual price
             if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) {
                 $meta_values['price'] = $post_form->get_field_value( 'post-price' );
+            }
+
+            if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_FREE ) {
+                $meta_values['price'] = 0;
             }
 
             // apply revenue model

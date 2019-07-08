@@ -32,57 +32,175 @@ if ( ! defined( 'ABSPATH' ) ) {
         $hasCategories   = ( count( $laterpay['categories_with_defined_price'] ) > 0 );
         $isGlobalTypeOne = ( 1 === $selected_option );
 
+        // Custom overlay purchase options.
+        $selected_purchase_order_option     = $laterpay['purchase_order'];
+        $selected_purchase_selection_option = $laterpay['purchase_selection'];
+
         $hidden_post_types  = $laterpay['hidden_post_types'];
         $all_post_types     = $laterpay['all_post_types'];
         $enabled_post_types = $laterpay['enabled_post_types'];
+
+        $enabled_labels = [];
+        if ( ! empty( $enabled_post_types ) ) {
+            foreach ( $enabled_post_types as $checked_post_type ) {
+                if ( isset( $all_post_types[ $checked_post_type ] ) ) {
+                    $enabled_labels[] = esc_html__( $all_post_types[ $checked_post_type ]->label );
+                }
+            }
+        }
         ?>
     </div>
 
     <div class="lp_pagewrap">
 
-        <div class="lp_enabled_post_types">
-            <h2><?php esc_html_e( 'LaterPay Content', 'laterpay' ); ?></h2>
-            <div class="lp_enabled_post_types_inner_div">
-                <p><?php esc_html_e( 'Which content would you like to sell with LaterPay?', 'laterpay' ); ?></p>
+        <div class="lp_layout lp_mb++ lp_content_space">
 
-                <form id="lp_js_globalEnabledPostTypesForm" method="post" action="">
-                    <input type="hidden" name="form"    value="update_enabled_post_types">
-                    <input type="hidden" name="action"  value="laterpay_enabled_post_types">
-                    <?php wp_nonce_field( 'laterpay_form' ); ?>
-                    <table width="100%">
-                        <tr>
-                            <td style="padding-left: 0;">
-                                <ul class="post_types">
-                                    <?php
-                                    foreach ( $all_post_types as $slug => $post_type_data ) {
+            <div class="lp_enabled_post_types lp_layout__item lp_1/2 lp_pdr">
+                <h2><?php esc_html_e( 'LaterPay Content', 'laterpay' ); ?></h2>
+                <div id="lp_js_laterpayContentElements" class="lp_greybox lp_price-panel">
+                    <div id="lp_js_laterpayContentInfo">
+                    <span id="lp_js_salablePostInfo">
+                            <?php
+                            if ( ! empty( $enabled_labels ) ) {
+                                printf( '<b>%s</b>', implode( ',</b> <b>', $enabled_labels ) ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped above.
+                            } else {
+                                printf( '<b>%s</b>', esc_html__( 'No Items!', 'laterpay' ) );
+                            }
+                            ?>
+                        </span>
+                        <span><?php esc_html_e( 'are currently available to be sold with LaterPay', 'laterpay' ); ?></span>
 
-                                        if ( in_array( $slug, $hidden_post_types, true ) ) {
-                                            continue;
-                                        }
+                        <div class="lp_price-panel__buttons">
+                            <a href="#" id="lp_js_editLaterPayEnabledContent" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="lp_js_globalEnabledPostTypeShowElements" class="lp_greybox--outline lp_mb-" style="display:none;">
+                    <p><?php esc_html_e( 'Which content would you like to sell with LaterPay?', 'laterpay' ); ?></p>
 
-                                        $is_checked = ( is_array( $enabled_post_types ) ) ? in_array( $slug, $enabled_post_types, true ) : '';
-                                        ?>
-                                        <li>
-                                            <label title="<?php echo esc_attr( $post_type_data->labels->name ); ?>">
-                                                <input type="checkbox" name="laterpay_enabled_post_types[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( $is_checked ); ?>>
-                                                <span><?php echo esc_html( $post_type_data->labels->name ); ?></span>
-                                            </label>
-                                        </li>
+                    <form id="lp_js_globalEnabledPostTypesForm" method="post" action="">
+                        <input type="hidden" name="form" value="update_enabled_post_types">
+                        <input type="hidden" name="action" value="laterpay_enabled_post_types">
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
+                        <table width="100%">
+                            <tr>
+                                <td style="padding-left: 0;">
+                                    <ul class="post_types">
                                         <?php
-                                    }
-                                    ?>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="lp_js_postTypeFormButtons">
-                                <a href="#" id="lp_js_saveEnabledPostTypes" class="button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
-                                <a href="#" id="lp_js_cancelEditingEnabledPostTypes" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                                        foreach ( $all_post_types as $slug => $post_type_data ) {
+
+                                            if ( in_array( $slug, $hidden_post_types, true ) ) {
+                                                continue;
+                                            }
+
+                                            $is_checked = ( is_array( $enabled_post_types ) ) ? in_array( $slug, $enabled_post_types, true ) : '';
+                                            ?>
+                                            <li>
+                                                <label title="<?php echo esc_attr( $post_type_data->labels->name ); ?>">
+                                                    <input type="checkbox" name="laterpay_enabled_post_types[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( $is_checked ); ?>>
+                                                    <span><?php echo esc_html( $post_type_data->labels->name ); ?></span>
+                                                </label>
+                                            </li>
+                                            <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="lp_js_postTypeFormButtons">
+                                    <a href="#" id="lp_js_saveEnabledPostTypes" class="button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                                    <a href="#" id="lp_js_cancelEditingEnabledPostTypes" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div><!--
+         --><div class="lp_customize_overlay lp_layout__item lp_1/2 lp_pdr">
+                <h2><?php esc_html_e( 'Customize Overlay', 'laterpay' ); ?>
+                    <p class="lp_customize_optional_text"><?php esc_html_e( '(optional)', 'laterpay' ) ?></p></h2>
+                <div id="lp_js_customizeOverlayOptionsElements" class="lp_greybox lp_price-panel">
+                    <div id="lp_js_overlayOptionsInfo">
+                        <span><?php esc_html_e( 'Pricing options displayed in', 'laterpay' ); ?> <b id="lp_js_pricing_option_order_label"><?php echo esc_html( $laterpay['order_label'] ); ?></b>.</span>
+                        <br />
+                        <span><b id="lp_js_default_selection_label"><?php echo esc_html( $laterpay['default_selection_label'] ); ?></b> <?php esc_html_e( 'is selected by default', 'laterpay' ); ?>.</span>
+                        <div class="lp_price-panel__buttons">
+                            <a href="#" id="lp_js_editCustomizeOverlayOptions" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="lp_js_customizeOverlayShowElements" class="lp_greybox--outline lp_mb-" style="display:none;">
+                    <form id="lp_js_customizeOverlayOptionsForm" method="post">
+                        <input type="hidden" name="form" value="update_custom_overlay_options">
+                        <input type="hidden" name="action" value="laterpay_pricing">
+                        <?php wp_nonce_field( 'laterpay_form' ); ?>
+                        <p class="overlay_option_title"><?php esc_html_e( 'In what order should the purchase options be displayed?', 'laterpay' ); ?></p>
+                        <table width="100%" class="lp_table--form">
+                            <tr>
+                                <td colspan="3">
+                                    <label class="lp_js_purchaseCustomizeLabel">
+                                        <input type="radio" class="lp_js_purchaseCustomizeOption" value="0" <?php checked( $selected_purchase_order_option, 0 ); ?> name="lp_overlay_option_order" id="lp_js_overlay_option_order_zero">
+                                        <?php printf( '%s - %s', esc_html__( 'Default Order', 'laterpay' ), esc_html__( 'Single Purchase followed by Time Passes and Subscriptions in the order they were created.', 'laterpay' ) ); ?>
+                                    </label>
+                                    <br />
+                                    <label class="lp_js_purchaseCustomizeLabel">
+                                        <input type="radio" class="lp_js_purchaseCustomizeOption" value="1" <?php checked( $selected_purchase_order_option, 1 ); ?> name="lp_overlay_option_order" id="lp_js_overlay_option_order_one">
+                                        <?php printf( '%s - %s', esc_html__( 'By Price (Ascending)', 'laterpay' ), esc_html__( 'Least expensive option listed first', 'laterpay' ) ); ?>
+                                    </label>
+                                    <br />
+                                    <label class="lp_js_purchaseCustomizeLabel">
+                                        <input type="radio" class="lp_js_purchaseCustomizeOption" value="2" <?php checked( $selected_purchase_order_option, 2 ); ?> name="lp_overlay_option_order" id="lp_js_overlay_option_order_two">
+                                        <?php printf( '%s - %s', esc_html__( 'By Price (Descending)', 'laterpay' ), esc_html__( 'Most expensive option listed first', 'laterpay' ) ); ?>
+                                    </label>
+                                    <br />
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <p class="overlay_option_title"><?php esc_html_e( 'Which purchase option should be selected by default?', 'laterpay' ); ?></p>
+                        <table width="100%" class="lp_table--form">
+                            <tr>
+                                <td colspan="3">
+                                    <label>
+                                        <input type="radio" class="lp_js_purchaseCustomizeOption" value="0" <?php checked( $selected_purchase_selection_option, 0 ); ?> name="lp_overlay_default_selection" id="lp_js_overlay_default_selection_zero">
+                                        <?php esc_html_e( 'First Option (as defined above)', 'laterpay' ); ?>
+                                    </label>
+                                    <br />
+                                    <label>
+                                        <input type="radio" class="lp_js_purchaseCustomizeOption" value="1" <?php checked( $selected_purchase_selection_option, 1 ); ?> name="lp_overlay_default_selection" id="lp_js_overlay_default_selection_one">
+                                        <?php esc_html_e( 'Single Purchase', 'laterpay' ); ?>
+                                    </label>
+                                    <br />
+                                    <label>
+                                        <input type="radio" class="lp_js_purchaseCustomizeOption" value="2" <?php checked( $selected_purchase_selection_option, 2 ); ?> name="lp_overlay_default_selection" id="lp_js_overlay_default_selection_two">
+                                        <?php esc_html_e( 'Time Pass', 'laterpay' ); ?>
+                                    </label>
+                                    <br />
+                                    <label>
+                                        <input type="radio" class="lp_js_purchaseCustomizeOption" value="3" <?php checked( $selected_purchase_selection_option, 3 ); ?> name="lp_overlay_default_selection" id="lp_js_overlay_default_selection_three">
+                                        <?php esc_html_e( 'Subscription', 'laterpay' ); ?>
+                                    </label>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span data-icon="n" id="lp_js_timepass_selection_info" class="lp_customize_overlay_warning" style="display:<?php echo ( 2 === $selected_purchase_selection_option ) ? 'block' : 'none'; ?>"><?php esc_html_e( 'If there are multiple Time Passes available, the first option (as defined above) will be selected by default.', 'laterpay' ); ?></span>
+                                    <span data-icon="n" id="lp_js_subscription_selection_info" class="lp_customize_overlay_warning" style="display:<?php echo ( 3 === $selected_purchase_selection_option ) ? 'block' : 'none'; ?>"><?php esc_html_e( 'If there are multiple Subscriptions available, the first option (as defined above) will be selected by default.', 'laterpay' ); ?></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <a href="#" id="lp_js_saveOverlayCustomizeOptions" class="button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                                    <a href="#" id="lp_js_cancelEditingOverlayCustomizeOptions" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </div>
+
         </div>
 
         <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++">

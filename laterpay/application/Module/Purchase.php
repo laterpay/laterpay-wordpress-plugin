@@ -631,6 +631,76 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 $explanatory_button = (string) $action_event->get_result();
             }
 
+            // Final array initialization, and get current options.
+            $final_purchase_options = [];
+            $purchase_options_order = (array) $overlay_content_event->get_result();
+
+            // Get purchase custom overlay options.
+            $custom_overlay_options    = get_option( 'lp_custom_overlay_options' );
+            $purchase_option_order     = $custom_overlay_options['purchase_order'];
+            $purchase_option_selection = $custom_overlay_options['purchase_selection'];
+
+            // Setup purchase options.
+            $article_individual_price = empty( $purchase_options_order['article'] ) ? [] : $purchase_options_order['article'];
+            $article_time_passes      = empty( $purchase_options_order['timepasses'] ) ? [] : $purchase_options_order['timepasses'];
+            $article_subscriptions    = empty( $purchase_options_order['subscriptions'] ) ? [] : $purchase_options_order['subscriptions'];
+
+            // Add article to combined purchase options.
+            if ( ! empty( $article_individual_price ) ) {
+                $article_individual_price['type'] = 'article';
+                $final_purchase_options[]         = $article_individual_price;
+            }
+
+            // Add time pass to combined purchase options.
+            if ( ! empty( $article_time_passes ) ) {
+                foreach ( $article_time_passes as $article_time_pass ) {
+                    $article_time_pass['type'] = 'timepass';
+                    $final_purchase_options[]  = $article_time_pass;
+                }
+            }
+
+            // Add subscription to combined purchase options.
+            if ( ! empty( $article_subscriptions ) ) {
+                foreach ( $article_subscriptions as $article_subscription ) {
+                    $article_subscription['type'] = 'subscription';
+                    $final_purchase_options[]     = $article_subscription;
+                }
+            }
+
+            // Sort by pricing order.
+            if ( 1 === absint( $purchase_option_order ) ) {
+                // Least expensive option listed first.
+                array_multisort( array_column( $final_purchase_options, 'actual_price' ), SORT_ASC, $final_purchase_options );
+            } elseif ( 2 === absint( $purchase_option_order ) ) {
+                // Most expensive option listed first.
+                array_multisort( array_column( $final_purchase_options, 'actual_price' ), SORT_DESC, $final_purchase_options );
+            }
+
+            // Make default purchase option selection.
+            if ( ! empty( $final_purchase_options ) ) {
+                $purchase_options_order = $final_purchase_options;
+                $found_selection        = false;
+
+                // Check all options and add 'selected' if conditions match.
+                foreach ( $purchase_options_order as $key => $single_purchase_option ) {
+                    if (
+                        ( 1 === $purchase_option_selection && 'article' === $single_purchase_option['type'] ) ||
+                        ( 2 === $purchase_option_selection && 'timepass' === $single_purchase_option['type'] ) ||
+                        ( 3 === $purchase_option_selection && 'subscription' === $single_purchase_option['type'] )
+                    ) {
+                        $purchase_options_order[ $key ]['selected'] = true;
+                        $found_selection                            = true;
+                        break;
+                    }
+
+                }
+
+                // Select the first option if that is the chosen option or no conditions matched above.
+                if ( 0 === $purchase_option_selection || ! $found_selection ) {
+                    $purchase_options_order[0]['selected'] = true;
+                }
+            }
+
             $view_args['title']               = ! empty( $overlay_title ) ? $overlay_title : LaterPay_Helper_Appearance::get_current_options( 'header_title' );
             $view_args['benefits']            = $overlay_benefits;
             $view_args['action_html_escaped'] = $explanatory_button;
@@ -641,7 +711,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $view_args['teaser']              = $event->get_argument( 'teaser' );
             $view_args['overlay_content']     = $event->get_argument( 'overlay_content' );
             $view_args['teaser']              = $event->get_argument( 'teaser' );
-            $view_args['data']                = (array) $overlay_content_event->get_result();
+            $view_args['data']                = $purchase_options_order;
             $view_args['icons']               = $this->config->get_section( 'payment.icons' );
             $view_args['notification_text']   = __( 'I already bought this', 'laterpay' );
             $view_args['identify_url']        = $client->get_identify_url( $back_url, $content_ids );

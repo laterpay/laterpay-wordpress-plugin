@@ -85,16 +85,16 @@
     font-size: 9px;
 }
 
-.lp_dynamic-pricing__default-price-marker {
+.lp_dynamic-pricing__default-price-marker, .lp_dynamic-pricing__pay-later-price-marker {
     stroke: $text--lighter;
     stroke-width: 1px;
 }
 
-.lp_dynamic-pricing__default-price-label-background {
+.lp_dynamic-pricing__default-price-label-background, .lp_dynamic-pricing__pay-later-price-label-background {
     fill: $background;
 }
 
-.lp_dynamic-pricing__default-price-label {
+.lp_dynamic-pricing__default-price-label, .lp_dynamic-pricing__pay-later-price-label {
     fill: $text--lighter;
     font-size: 9px;
 }

@@ -7,19 +7,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="lp_side_info">
     <h2><?php esc_html_e( 'FAQ\'s', 'laterpay' ); ?></h2>
-    <h3><?php printf( esc_html__( 'Having Trouble with Page Cache? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/wordpress-cache" target="_blank" class="lp_info_link">', '</a>' ); ?></h3>
+    <p><?php printf( esc_html__( 'Having Trouble with Page Cache? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/wordpress-cache" target="_blank" class="lp_info_link">', '</a>' ); ?></p>
 
     <?php
     // Only show info if on WPEngine environment.
     if ( function_exists( 'is_wpe' ) && is_wpe() ) {
         ?>
-        <h3><?php printf( esc_html__( 'Having Trouble on WPEngine? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/i-am-having-trouble-with-wordpress-engine" target="_blank" class="lp_info_link">', '</a>' ); ?></h3>
+        <p><?php printf( esc_html__( 'Having Trouble on WPEngine? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/i-am-having-trouble-with-wordpress-engine" target="_blank" class="lp_info_link">', '</a>' ); ?></p>
         <?php
     }
     ?>
-    <h3>
+    <p>
         <?php printf( esc_html__( 'The new version of the plugin is not compatible with my site. How can I rollback? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/rollback-wordpress-plugin" target="_blank" class="lp_info_link">', '</a>' ); ?>
-    </h3>
+    </p>
 </div>
 <div class="lp_side_info">
     <h2><?php esc_html_e( 'Support', 'laterpay' ); ?></h2>

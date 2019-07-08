@@ -497,6 +497,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->update_appearance_config();
         $this->add_update_highlights();
         $this->add_tabular_info_option();
+        $this->setup_overlay_options_order();
         $this->add_merchant_id_wisdom_tracking();
 
     }
@@ -705,6 +706,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                     'appearance' => 1,
                     'pricing'    => 1,
                     'advanced'   => 1,
+                ]
+            );
+        }
+    }
+
+    /**
+     * Setup overlay options order and selection.
+     */
+    public function setup_overlay_options_order() {
+        // Add option to show instruction on given tabs.
+        if ( false === get_option( 'lp_custom_overlay_options' ) ) {
+            update_option( 'lp_custom_overlay_options',
+                [
+                    'purchase_order'     => 0,
+                    'purchase_selection' => 0,
                 ]
             );
         }
