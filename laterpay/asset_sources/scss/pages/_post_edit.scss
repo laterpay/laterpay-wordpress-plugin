@@ -198,6 +198,10 @@
         ul.lp_js_priceTypeDetailsCategoryDefaultPriceList {
             max-height: 130px;
             overflow: scroll;
+            border: 1px solid #01a99d;
+            border-radius: 5px;
+            padding: 1px 3px;
+            overflow-x: hidden;
 
             li {
                 padding: 10px 5px;
@@ -215,9 +219,9 @@
                     }
 
                     span.lp_badge {
-                        float: right;
                         position: absolute;
-                        margin-left: 2px;
+                        margin-left: 3px;
+                        width: 65px;
                     }
                 }
             }
@@ -333,6 +337,8 @@ div.lp_postMetaBox {
 }
 
 li.lp_price-type__global {
+
+    display: block;
 
     &:after {
         margin-left: -47px;

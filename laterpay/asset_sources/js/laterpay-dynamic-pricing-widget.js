@@ -28,6 +28,15 @@ var DynamicPricingWidget = function (container) {
     this.dragging = false;
     this.currentStartPricePosition = null;
     this.currentEndPricePosition = null;
+    this.showPayLaterText = false;
+
+    // Check current post price value.
+    var currentPostPrice = parseFloat(jQuery('#lp_js_postPriceInput').val());
+
+    if ( ( lpVars.currency === 'USD' && currentPostPrice >= 2 ) ||
+        ( lpVars.currency === 'EUR' && currentPostPrice >= 1.5 ) ) {
+        this.showPayLaterText = true;
+    }
 
 
     // set up D3 graph in container
@@ -103,19 +112,21 @@ var DynamicPricingWidget = function (container) {
     // draw pay later marker
     var transformText = ( lpVars.currency === 'USD' ) ? 105 : 125;
 
-    svg.append('line')
-        .attr('class', 'lp_dynamic-pricing__pay-later-price-marker');
-    svg.append('rect')
-        .attr({
-            class: 'lp_dynamic-pricing__pay-later-price-label-background',
-            width: 60,
-            height: 16,
-        });
-    svg.append('text')
-        .attr('transform', 'translate(85,' + transformText + ')')
-        .attr('class', 'lp_dynamic-pricing__default-price-label')
-        .attr('text-anchor', 'middle')
-        .text(this.i18nPayLater);
+    if ( true === this.showPayLaterText ) {
+        svg.append('line')
+            .attr('class', 'lp_dynamic-pricing__pay-later-price-marker');
+        svg.append('rect')
+            .attr({
+                class: 'lp_dynamic-pricing__pay-later-price-label-background',
+                width: 60,
+                height: 16,
+            });
+        svg.append('text')
+            .attr('transform', 'translate(85,' + transformText + ')')
+            .attr('class', 'lp_dynamic-pricing__default-price-label')
+            .attr('text-anchor', 'middle')
+            .text(this.i18nPayLater);
+    }
 
 
     // draw price curve
@@ -403,27 +414,29 @@ DynamicPricingWidget.prototype._plotAxes = function () {
             y: this.scale.y(this.defaultPrice)
         });
 
-    // position pay later price marker
-    this.svg.select('.lp_dynamic-pricing__pay-later-price-marker')
-        .transition().duration(this.dragging ? 0 : 250)
-        .attr({
-            x1: 0,
-            y1: this.scale.y(this.payLaterPrice),
-            x2: this.dimensions.width + 10,
-            y2: this.scale.y(this.payLaterPrice)
-        });
-    this.svg.select('.lp_dynamic-pricing__pay-later-price-label-background')
-        .transition().duration(this.dragging ? 0 : 250)
-        .attr({
-            x: (this.dimensions.width - 60) / 2, // center horizontally
-            y: this.scale.y(this.payLaterPrice) - 9 // center vertically
-        });
-    this.svg.select('.lp_dynamic-pricing__pay-later-price-label')
-        .transition().duration(this.dragging ? 0 : 250)
-        .attr({
-            x: this.dimensions.width / 2,
-            y: this.scale.y(this.payLaterPrice)
-        });
+    if ( true === this.showPayLaterText ) {
+        // position pay later price marker
+        this.svg.select('.lp_dynamic-pricing__pay-later-price-marker')
+            .transition().duration(this.dragging ? 0 : 250)
+            .attr({
+                x1: 0,
+                y1: this.scale.y(this.payLaterPrice),
+                x2: this.dimensions.width + 10,
+                y2: this.scale.y(this.payLaterPrice)
+            });
+        this.svg.select('.lp_dynamic-pricing__pay-later-price-label-background')
+            .transition().duration(this.dragging ? 0 : 250)
+            .attr({
+                x: (this.dimensions.width - 60) / 2, // center horizontally
+                y: this.scale.y(this.payLaterPrice) - 9 // center vertically
+            });
+        this.svg.select('.lp_dynamic-pricing__pay-later-price-label')
+            .transition().duration(this.dragging ? 0 : 250)
+            .attr({
+                x: this.dimensions.width / 2,
+                y: this.scale.y(this.payLaterPrice)
+            });
+    }
 };
 
 DynamicPricingWidget.prototype._plotPriceCurve = function () {
