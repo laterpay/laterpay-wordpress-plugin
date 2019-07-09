@@ -11,7 +11,8 @@
                     navigation                : $('.lp_navigation'),
                     pluginDelete              : $('.lp_js_disablePlugin'),
                     pluginDeleteConfirm       : $('.lp_js_disablePluginConfirm'),
-                    modalClose                : $('button.lp_js_ga_cancel')
+                    modalClose                : $('button.lp_js_ga_cancel'),
+                    pluginTrackingToggle      : $('#lp_js_toggleWisdomTracking'),
                 },
 
 
@@ -53,6 +54,12 @@
                     $o.modalClose.click(function () {
                         $('#TB_closeWindowButton').click();
                     });
+
+                    // switch plugin tracking permission.
+                    $o.pluginTrackingToggle
+                        .change(function() {
+                            togglePluginTrackingMode();
+                        });
                 },
 
                 disablePluginEraseData = function () {
@@ -80,6 +87,25 @@
                             }, 2000);
                         }
                     });
+                },
+
+                togglePluginTrackingMode = function () {
+                    makeAjaxRequest('laterpay_wisdom_optinout');
+                },
+
+                makeAjaxRequest = function ( form_id ) {
+                    // prevent duplicate Ajax requests
+                    $.post(
+                        ajaxurl,
+                        $('#' + form_id).serializeArray(),
+                        function(data) {
+                            $o.navigation.showMessage(data);
+                        },
+                        'json'
+                    ).done( function () {
+                        window.location.reload();
+                    } );
+
                 },
 
                 initializePage = function () {

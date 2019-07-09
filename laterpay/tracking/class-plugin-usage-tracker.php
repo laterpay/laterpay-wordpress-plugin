@@ -105,7 +105,7 @@ if( ! class_exists( 'Plugin_Usage_Tracker') ) {
             add_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
 
             // Use this action for local testing
-            // add_action( 'admin_init', array( $this, 'do_tracking' ) ); phpcs:ignore Squiz.PHP.CommentedOutCode.Found
+             add_action( 'admin_init', array( $this, 'do_tracking' ) );
 
             // Display the admin notice on activation
             add_action( 'admin_init', array( $this, 'set_notification_time' ) );
