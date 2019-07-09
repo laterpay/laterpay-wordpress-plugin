@@ -4,8 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$overlay_data = $overlay['data'];
-$input_id     = 1;
+$overlay_data           = $overlay['data'];
+$total_purchase_options = is_array( $overlay_data ) ? count( $overlay_data ) : 0;
+$input_id               = 1;
 
 $paid_content_height = '';
 if ( 1 !== $overlay['tp_sub_below_modal'] && ! empty( $overlay['benefits'] ) ) {
@@ -77,7 +78,7 @@ if ( 1 !== $overlay['tp_sub_below_modal'] && ! empty( $overlay['benefits'] ) ) {
                         <div class="lp_purchase-overlay__settings">
                             <?php if ( ! empty( $overlay_data ) ) : ?>
                                 <?php foreach ( $overlay_data as $purchase_option ) : ?>
-                                    <div class="lp_purchase-overlay-option lp_js_timePass"
+                                    <div class="lp_purchase-overlay-option lp_js_timePass lp_js_subscription <?php if ( 1 === $total_purchase_options ): ?> lp_purchase-overlay-option-single<?php endif; ?>"
                                         <?php if ( 'timepass' === $purchase_option['type'] ): ?> data-pass-id="<?php echo esc_attr( $purchase_option['id'] );
                                     endif; ?>"
                                         <?php if ( 'subscription' === $purchase_option['type'] ): ?> data-sub-id="<?php echo esc_attr( $purchase_option['id'] );

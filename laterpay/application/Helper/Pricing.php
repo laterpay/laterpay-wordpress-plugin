@@ -535,9 +535,17 @@ class LaterPay_Helper_Pricing
 
         // set a price type (global default price or individual price), if the returned post price type is invalid
         switch ( $post_price_type ) {
-            // Dynamic Price does currently not support Single Sale as revenue model
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                $revenue_model = 'ppu';
+                // get current price based on post's dynamic scheme.
+                $current_price    = self::get_dynamic_price( get_post( $post_id ) );
+                $current_currency = LaterPay_Helper_Config::get_currency_config(); // get currency based limits for comparison.
+                if ( ( $current_price >= $current_currency['ppu_min'] && $current_price < $current_currency['ppu_max'] ) || floatval( 0.00 ) === floatval( $current_price ) ) {
+                    $revenue_model = 'ppu';
+                } else if ( $current_price >= $current_currency['sis_only_limit'] && $current_price <= $current_currency['sis_max'] ) {
+                    $revenue_model = 'sis';
+                } else {
+                    $revenue_model = 'ppu';
+                }
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
