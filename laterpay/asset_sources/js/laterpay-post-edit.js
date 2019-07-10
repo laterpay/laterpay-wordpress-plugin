@@ -696,6 +696,11 @@
                 var eventCategory = 'LP WP Post';
                 var commonLabel = lpVars.gaData.sandbox_merchant_id + ' | ' + lpVars.postId + ' | ';
 
+                // Update selected post price type text for GA event.
+                if ( 'Make Article Free' === selectedType ) {
+                    selectedType = 'FREE';
+                }
+
                 var categoryLabel = [];
 
                 // Check editor type to get selected categories in post.
