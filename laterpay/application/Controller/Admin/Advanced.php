@@ -44,7 +44,8 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
 
         wp_enqueue_script( 'laterpay-backend-advanced' );
 
-        $nonce = wp_create_nonce( 'plugin_disable_nonce' );
+        $nonce        = wp_create_nonce( 'plugin_disable_nonce' );
+        $wisdom_nonce = wp_create_nonce( 'wisdom_goodbye_form' );
 
         // pass localized strings and variables to script
         wp_localize_script(
@@ -54,6 +55,7 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
                 'region'               => get_option( 'laterpay_region', 'us' ),
                 'liveKeyAvailable'     => empty( get_option( 'laterpay_live_merchant_id', '' ) ) ? 'false' : 'true',
                 'plugin_disable_nonce' => $nonce,
+                'wisdom_survey_nonce'  => $wisdom_nonce,
                 'modal'                => array(
                     'id'    => 'lp_plugin_disable_modal_id',
                     'title' => ( laterpay_check_is_vip() ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ),
@@ -77,13 +79,17 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
             $lp_wisdom_data_enabled = absint( $lp_wisdom_data['wisdom_opt_out'] );
         }
 
+        // get current wisdom option value and update accordingly.
         $wisdom_tracking_info = get_option( 'wisdom_allow_tracking' );
         if ( false !== $wisdom_tracking_info ) {
             if ( isset( $wisdom_tracking_info['laterpay'] ) ) {
                 $lp_wisdom_data_enabled           = 1;
+                $lp_wisdom_data['wisdom_opt_out'] = 0;
+            } else {
+                $lp_wisdom_data_enabled           = 0;
                 $lp_wisdom_data['wisdom_opt_out'] = 1;
-                update_option( 'lp_wisdom_tracking_info', $lp_wisdom_data );
             }
+            update_option( 'lp_wisdom_tracking_info', $lp_wisdom_data );
         }
 
         // View data for laterpay/views/backend/advanced.php.

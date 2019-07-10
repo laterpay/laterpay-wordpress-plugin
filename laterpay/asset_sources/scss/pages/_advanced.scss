@@ -84,6 +84,58 @@ button.lp_js_disablePluginConfirm {
     -1px 0 1px #ff1744 !important;
 }
 
+// -------------- Wisdom tracking survey --------------
+.put-goodbye-form-bg {
+    background: rgba( 0, 0, 0, .5 );
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.put-goodbye-form-wrapper {
+    position: relative;
+    z-index: 999;
+    display: none;
+}
+.put-goodbye-form-wrapper {
+    display: block;
+}
+.put-goodbye-form {
+    display: none;
+}
+.put-goodbye-form {
+    position: absolute;
+    left: 400px;
+    z-index: 111111;
+    width: 250px;
+    max-width: 400px;
+    background: #fff;
+    white-space: normal;
+    bottom: 100px;
+}
+.put-goodbye-form-head {
+    background: #0073aa;
+    color: #fff;
+    padding: 8px 18px;
+}
+.put-goodbye-form-body {
+    padding: 8px 18px;
+    color: #444;
+}
+.deactivating-spinner {
+    display: none;
+}
+.spinner {
+    float: none;
+    margin: 4px 4px 0 18px;
+    vertical-align: bottom;
+    visibility: visible;
+}
+.put-goodbye-form-footer {
+    padding: 8px 18px;
+}
+// -------------- Wisdom tracking survey --------------
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px) {

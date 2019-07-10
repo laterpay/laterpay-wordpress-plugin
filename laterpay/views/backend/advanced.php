@@ -278,6 +278,8 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                     ?>
                 </label>
                 <div class="lp_info_div">
+                    <!-- This following empty div is used for adding deactivation survey form on user action. -->
+                    <div id="put-goodbye-form-laterpay" class="put-goodbye-form"></div>
                     <div class="lp_advanced_info">
                         <p>
                             <?php
