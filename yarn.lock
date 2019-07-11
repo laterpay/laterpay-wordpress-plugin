@@ -1069,9 +1069,10 @@ editorconfig@^0.15.0:
     semver "^5.6.0"
     sigmund "^1.0.1"
 
-"editorconfig@git+https://github.com/editorconfig/editorconfig-core-js#50e0dba":
+editorconfig@editorconfig/editorconfig-core-js#50e0dba:
   version "0.11.4"
-  resolved "git+https://github.com/editorconfig/editorconfig-core-js#50e0dba81b2f7f3e9ea4f701f2c65dd3f482cd4c"
+  uid "50e0dba81b2f7f3e9ea4f701f2c65dd3f482cd4c"
+  resolved "https://codeload.github.com/editorconfig/editorconfig-core-js/tar.gz/50e0dba81b2f7f3e9ea4f701f2c65dd3f482cd4c"
   dependencies:
     commander "~1.1.1"
     lru-cache "~2.0.0"
@@ -2879,9 +2880,9 @@ lodash.keys@~2.4.1:
     lodash.isobject "~2.4.1"
 
 lodash.mergewith@^4.6.0:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
-  integrity sha512-eWw5r+PYICtEBgrBE5hhlT6aAa75f411bgDz/ZL2KZqYV03USvucsxcHUIlGTDTECs1eunpI7HOV7U+WLDvNdQ==
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
+  integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
 
 lodash.restparam@^3.0.0:
   version "3.6.1"
