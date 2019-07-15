@@ -47,8 +47,13 @@
 
                     // Close the modal and disable plugin.
                     $o.pluginDeleteConfirm.click(function () {
-                        // Add wisdom tracking deactivation survey form.
-                        showWisdomDeactivationSurvey();
+                        if ( true === $o.pluginTrackingToggle.prop('checked') ) {
+                            // Add wisdom tracking deactivation survey form.
+                            showWisdomDeactivationSurvey();
+                        } else {
+                            $('#TB_closeWindowButton').click();
+                            disablePluginEraseData();
+                        }
                     });
 
                     // Close the plugin disable modal.

@@ -72,22 +72,19 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
         $this->load_assets();
 
         // get current tracking status.
-        $lp_wisdom_data_enabled = 0;
         $lp_wisdom_data         = get_option( 'lp_wisdom_tracking_info' );
+        $wisdom_tracking_info   = get_option( 'wisdom_allow_tracking' );
+        $lp_wisdom_data_enabled = 0;
 
-        if ( isset( $lp_wisdom_data['wisdom_opt_out'] ) ) {
-            $lp_wisdom_data_enabled = absint( $lp_wisdom_data['wisdom_opt_out'] );
-        }
-
-        // get current wisdom option value and update accordingly.
-        $wisdom_tracking_info = get_option( 'wisdom_allow_tracking' );
         if ( false !== $wisdom_tracking_info ) {
-            if ( isset( $wisdom_tracking_info['laterpay'] ) ) {
+            $lp_wisdom_data_enabled = isset( $wisdom_tracking_info['laterpay'] ) ? 1 : 0;
+            // get current wisdom option value and update accordingly.
+            if ( 1 === $lp_wisdom_data_enabled ) {
                 $lp_wisdom_data_enabled           = 1;
                 $lp_wisdom_data['wisdom_opt_out'] = 0;
             } else {
                 $lp_wisdom_data_enabled           = 0;
-                $lp_wisdom_data['wisdom_opt_out'] = 1;
+                unset( $lp_wisdom_data['wisdom_opt_out'] );
             }
             update_option( 'lp_wisdom_tracking_info', $lp_wisdom_data );
         }
@@ -166,12 +163,22 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
         // get current option setting value and disable tracking.
         $lp_wisdom_info                   = get_option( 'lp_wisdom_tracking_info' );
         $lp_wisdom_info['wisdom_opt_out'] = $plugin_tracking_mode;
-        $result                           = update_option( 'lp_wisdom_tracking_info', $lp_wisdom_info );
 
         // unset plugin info from wisdom tracking if disallowed.
         if ( 0 === $plugin_tracking_mode ) {
+            unset( $lp_wisdom_info['wisdom_opt_out'] );
             self::unset_wisdom_tracking_info();
+        } else {
+            $wisdom_tracking_info = get_option( 'wisdom_allow_tracking' );
+            if ( false !== $wisdom_tracking_info ) {
+                if ( ! isset( $wisdom_tracking_info['laterpay'] ) ) {
+                    $wisdom_tracking_info['laterpay'] = 'laterpay';
+                    update_option( 'wisdom_allow_tracking', $wisdom_tracking_info );
+                }
+            }
         }
+
+        $result = update_option( 'lp_wisdom_tracking_info', $lp_wisdom_info );
 
         if ( $result ) {
             $event->set_result(
