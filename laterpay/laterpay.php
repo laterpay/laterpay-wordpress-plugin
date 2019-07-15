@@ -288,7 +288,7 @@ if ( ! function_exists( 'laterpay_start_plugin_tracking' ) ) {
     function laterpay_start_plugin_tracking() {
         $wisdom = new Plugin_Usage_Tracker(
             __FILE__,
-            'https://lpwptestprod.wpengine.com',
+            'https://laterpayplugin.cloudaccess.host',
             [ 'lp_wisdom_tracking_info' ],
             true,
             true,
