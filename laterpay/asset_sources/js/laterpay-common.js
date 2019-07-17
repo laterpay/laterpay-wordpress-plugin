@@ -38,7 +38,7 @@
                 }
             });
 
-            // Reset update highlights data on click.
+            // Remove tabular instruction data on click.
             $o.backendPage.on('click', $o.close_info_notice, function( e ) {
                 if ( 'close_info_notice' === e.target.id ) {
                     $.post(
@@ -216,7 +216,8 @@
         // Create markup for highlights notice dynamically if there is notice data.
         addUpdateHighlights = function () {
 
-            if ( 'settings' === lpCommonVar.current_page ) {
+            if ( 'settings' === lpCommonVar.current_page || 'post_edit' === lpCommonVar.current_page ||
+                'front_post' === lpCommonVar.current_page ) {
                 return;
             }
 
@@ -274,7 +275,8 @@
         // Create markup for instructional notice dynamically if not dismissed already.
         addInstructionalNotice = function () {
 
-            if ( 'settings' === lpCommonVar.current_page ) {
+            if ( 'settings' === lpCommonVar.current_page || 'post_edit' === lpCommonVar.current_page ||
+                'front_post' === lpCommonVar.current_page ) {
                 return;
             }
 

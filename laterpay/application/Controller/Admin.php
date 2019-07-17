@@ -888,39 +888,45 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $ga_data['sb_merchant_id']   = get_option( 'laterpay_sandbox_merchant_id' );
         }
 
-        // Following vars are not for GA but for update notice.
-        $ga_data['update_highlights'] = get_option( 'lp_update_highlights', [] );
+        // Allowed pages for notice and instruction.
+        $lp_update_notice_allowed_page = [ 'pricing', 'appearance', 'advanced', 'account' ];
 
-        if ( ! empty( $ga_data['update_highlights']['version'] ) ) {
-            $version_update_number                   = $ga_data['update_highlights']['version'];
-            $ga_data['update_highlights']['version'] = sprintf( __( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
-            $ga_data['update_highlights']['notice']  = sprintf( __( 'Thanks to feedback from customers like you, we are excited to announce that you can now make an individual post free directly on the Edit Post Page. You can also customize the order of the items in your Purchase Overlay from a new section available on the Pricing Tab.', 'laterpay' ) );
-            $ga_data['update_highlights_nonce']      = wp_create_nonce( 'update_highlights_nonce' );
-        }
+        // Check if current page is in allowed page.
+        if ( in_array( $page, $lp_update_notice_allowed_page, true ) ) {
+            // Following vars are not for GA but for update notice.
+            $ga_data['update_highlights'] = get_option( 'lp_update_highlights', [] );
 
-        $data_for_localize['lp_instructional_info'] = [];
-        $data_for_localize['ajaxUrl']               = admin_url( 'admin-ajax.php' );
-        $data_for_localize['learn_more']            = __( 'Learn More', 'laterpay' );
+            if ( ! empty( $ga_data['update_highlights']['version'] ) ) {
+                $version_update_number                   = $ga_data['update_highlights']['version'];
+                $ga_data['update_highlights']['version'] = sprintf( __( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
+                $ga_data['update_highlights']['notice']  = sprintf( __( 'Thanks to feedback from customers like you, we are excited to announce that you can now make an individual post free directly on the Edit Post Page. You can also customize the order of the items in your Purchase Overlay from a new section available on the Pricing Tab.', 'laterpay' ) );
+                $ga_data['update_highlights_nonce']      = wp_create_nonce( 'update_highlights_nonce' );
+            }
 
-        $tab_information = [
-            'appearance' => sprintf( __( '%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed.', 'laterpay' ), '<b>', '</b>' ),
-            'pricing'    => sprintf( __( '%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page.', 'laterpay' ), '<b>', '</b>' ),
-            'advanced'   => sprintf( __( '%sOptional%s Here we highlight advanced features & settings like contributions, selling downloadable content, and promoting your subscriptions. Scroll through to learn more!', 'laterpay' ), '<b>', '</b>' ),
-        ];
+            $data_for_localize['lp_instructional_info'] = [];
+            $data_for_localize['ajaxUrl']               = admin_url( 'admin-ajax.php' );
+            $data_for_localize['learn_more']            = __( 'Learn More', 'laterpay' );
 
-        $tab_information_status = get_option( 'lp_tabular_info' );
+            $tab_information = [
+                'appearance' => sprintf( __( '%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed.', 'laterpay' ), '<b>', '</b>' ),
+                'pricing'    => sprintf( __( '%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page.', 'laterpay' ), '<b>', '</b>' ),
+                'advanced'   => sprintf( __( '%sOptional%s Here we highlight advanced features & settings like contributions, selling downloadable content, and promoting your subscriptions. Scroll through to learn more!', 'laterpay' ), '<b>', '</b>' ),
+            ];
 
-        foreach ( $tab_information as $key => $value ) {
-            if ( 1 === absint( $tab_information_status[ $key ] ) ) {
-                $data_for_localize['lp_instructional_info'][ $key ] = $value;
+            $tab_information_status = get_option( 'lp_tabular_info' );
+
+            foreach ( $tab_information as $key => $value ) {
+                if ( 1 === absint( $tab_information_status[ $key ] ) ) {
+                    $data_for_localize['lp_instructional_info'][ $key ] = $value;
+                }
+            }
+
+            if ( ! empty( $data_for_localize['lp_instructional_info'] ) ) {
+                $data_for_localize['read_tabular_nonce'] = wp_create_nonce( 'read_tabular_info_nonce' );
             }
         }
 
-        if ( ! empty( $data_for_localize['lp_instructional_info'] ) ) {
-            $data_for_localize['read_tabular_nonce'] = wp_create_nonce( 'read_tabular_info_nonce' );
-        }
-
-        $final_data = array_merge( $ga_data,$data_for_localize );
+        $final_data = array_merge( $ga_data, $data_for_localize );
 
         wp_localize_script(
             'laterpay-common',
