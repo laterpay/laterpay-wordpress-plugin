@@ -675,10 +675,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         if ( ! empty( $current_version ) ) {
 
-            if ( version_compare( $current_version, '2.6.0', '<' ) ) {
-                return;
-            }
-
             $update_highlights = [
                 'version' => '2.6.1',
             ];
