@@ -40,6 +40,11 @@ class LaterPay_Helper_Voucher
     const SUBSCRIPTION_VOUCHER_CODES_OPTION = 'laterpay_subscription_voucher_codes';
 
     /**
+     * @const string Name of option to update for global vouchers.
+     */
+    const GLOBAL_VOUCHER_CODES_OPTION = 'laterpay_global_voucher_codes';
+
+    /**
      * @const string Name of statistic option to update if voucher is NOT a gift.
      */
     const VOUCHER_STAT_OPTION  = 'laterpay_voucher_statistic';
@@ -251,8 +256,13 @@ class LaterPay_Helper_Voucher
         $all_passes['time_pass'] = $time_pass_vouchers;
 
         if ( ! $is_gift ) {
+            // add subscription vouchers.
             $subscription_vouchers      = self::get_all_subscription_vouchers();
             $all_passes['subscription'] = $subscription_vouchers;
+
+            // add global vouchers.
+            $global_vouchers      = self::get_all_global_vouchers();
+            $all_passes['global'] = $global_vouchers;
         }
 
         foreach ( $all_passes as $key => $vouchers ){
@@ -468,5 +478,40 @@ class LaterPay_Helper_Voucher
             return true;
         }
         return false;
+    }
+
+    /**
+     * Save vouchers for global pricing.
+     *
+     * @param array $data Voucher Data.
+     *
+     * @return void
+     */
+    public static function save_global_vouchers( $data ) {
+        // save new voucher data
+        update_option( self::GLOBAL_VOUCHER_CODES_OPTION, [ $data ] );
+    }
+
+    /**
+     * Get all global vouchers.
+     *
+     * @return array of vouchers
+     */
+    public static function get_all_global_vouchers() {
+
+        $vouchers = get_option( self::GLOBAL_VOUCHER_CODES_OPTION );
+        if ( ! $vouchers || ! is_array( $vouchers ) ) {
+            update_option( self::GLOBAL_VOUCHER_CODES_OPTION, '' );
+            $vouchers = [];
+        }
+
+        // format prices.
+        foreach ( $vouchers as $index => $voucher_data ) {
+            foreach ( $voucher_data as $code => $data ) {
+                $vouchers[ $index ][ $code ]['price'] = LaterPay_Helper_View::format_number( $data['price'] );
+            }
+        }
+
+        return $vouchers;
     }
 }

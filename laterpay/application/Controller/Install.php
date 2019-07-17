@@ -439,6 +439,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_global_price_revenue_model',              'ppu' );
         add_option( 'laterpay_voucher_codes',                           '' );
         add_option( 'laterpay_subscription_voucher_codes',              '' );
+        add_option( 'laterpay_global_voucher_codes',                    '' );
         add_option( 'laterpay_gift_codes',                              '' );
         add_option( 'laterpay_voucher_statistic',                       '' );
         add_option( 'laterpay_gift_statistic',                          '' );

@@ -285,9 +285,10 @@
                     $.get(
                         lpVars.ajaxUrl,
                         {
-                            action  : 'laterpay_redeem_voucher_code',
-                            code    : code,
-                            link    : window.location.href
+                            action     : 'laterpay_redeem_voucher_code',
+                            code       : code,
+                            link       : window.location.href,
+                            lp_post_id : typeof lpVars.post_id !== 'undefined' ? lpVars.post_id : ''
                         },
                         function(r) {
                             // clear input
@@ -320,6 +321,11 @@
                                                 return false;
                                             }
                                         });
+                                    }
+
+                                    if ( 'global' === r.type ) {
+                                        // always match if global.
+                                        has_matches = true;
                                     }
 
                                     if (has_matches) {
