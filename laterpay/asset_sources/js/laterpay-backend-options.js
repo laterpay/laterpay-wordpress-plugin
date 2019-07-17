@@ -17,6 +17,7 @@
       var lp_excerpt_word_count_max = jQuery('input[name="laterpay_preview_excerpt_word_count_max"]').val();
       var lp_caching_enabled = jQuery('input[name="laterpay_caching_compatibility"]').prop('checked') ? 1 : 0;
       var lp_require_login = jQuery('input[name="laterpay_require_login"]').prop('checked') ? 1 :  0;
+      var lp_content_voucher_status = jQuery('input[name="laterpay_enable_content_voucher"]').prop('checked') ? 1 :  0;
       var lp_ga_enabled  = laterpay_tracking_status.prop('checked') ? 1 : 0;
       var user_ga_enabled = user_tracking_status.prop('checked') ? 1 : 0;
       var lp_fallback_behaviour = jQuery('#lp_js_laterpayApiFallbackSelect :selected').text();
@@ -143,6 +144,8 @@
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'LaterPay GA Enabled', lp_ga_enabled );
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'Unlimited Access', getEnabledRoles() );
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'Require LaterPay Login', lp_require_login );
+        lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'Single Purchase Vouchers Enabled',
+            lp_content_voucher_status );
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'Caching Compatibility Mode On',
             lp_caching_enabled );
         lpGlobal.sendLPGAEvent( eveAction, eveCategory, commonLabel + 'Teaser Default Word Count',
