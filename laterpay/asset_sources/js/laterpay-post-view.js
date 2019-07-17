@@ -282,82 +282,85 @@
                 var code = $(input).val();
 
                 if (code.length === 6) {
-                    $.get(
-                        lpVars.ajaxUrl,
-                        {
+                    $.ajax( {
+                        url       : lpVars.ajaxUrl,
+                        method    : 'GET',
+                        data      :{
                             action     : 'laterpay_redeem_voucher_code',
                             code       : code,
                             link       : window.location.href,
                             lp_post_id : typeof lpVars.post_id !== 'undefined' ? lpVars.post_id : ''
                         },
-                        function(r) {
-                            // clear input
-                            $(input).val('');
+                        xhrFields : {
+                            withCredentials : true
+                        },
+                        dataType  : 'json',
+                    } ).done( function ( r ) {
+                        // clear input
+                        $(input).val('');
 
-                            if (r.success) {
-                                if (!is_gift) {
-                                    var has_matches = false,
-                                        passId,subId;
+                        if (r.success) {
+                            if (!is_gift) {
+                                var has_matches = false,
+                                    passId,subId;
 
-                                    if ( 'time_pass' === r.type ) {
-                                        $($o.timePass).each(function() {
-                                            // Check for each shown time pass,
-                                            // if the request returned updated data for it.
-                                            passId = $(this).data('pass-id');
-                                            if (passId === r.pass_id) {
-                                                has_matches = true;
-                                                return false;
-                                            }
-                                        });
-                                    }
+                                if ( 'time_pass' === r.type ) {
+                                    $($o.timePass).each(function() {
+                                        // Check for each shown time pass,
+                                        // if the request returned updated data for it.
+                                        passId = $(this).data('pass-id');
+                                        if (passId === r.pass_id) {
+                                            has_matches = true;
+                                            return false;
+                                        }
+                                    });
+                                }
 
-                                    if ( 'subscription' === r.type ) {
-                                        $($o.subscription).each(function() {
-                                            // Check for each shown subscription,
-                                            // if the request returned updated data for it.
-                                            subId = $(this).data('sub-id');
-                                            if (subId === r.sub_id) {
-                                                has_matches = true;
-                                                return false;
-                                            }
-                                        });
-                                    }
+                                if ( 'subscription' === r.type ) {
+                                    $($o.subscription).each(function() {
+                                        // Check for each shown subscription,
+                                        // if the request returned updated data for it.
+                                        subId = $(this).data('sub-id');
+                                        if (subId === r.sub_id) {
+                                            has_matches = true;
+                                            return false;
+                                        }
+                                    });
+                                }
 
-                                    if ( 'global' === r.type ) {
-                                        // always match if global.
-                                        has_matches = true;
-                                    }
+                                if ( 'global' === r.type ) {
+                                    // always match if global.
+                                    has_matches = true;
+                                }
 
-                                    if (has_matches) {
-                                        // voucher is valid for at least one displayed time pass ->
-                                        // forward to purchase dialog
-                                        window.location.href = r.url;
-                                    } else {
-                                        // voucher is invalid for all displayed time passes
-                                        showVoucherCodeFeedbackMessage(
-                                            code + lpVars.i18n.invalidVoucher,
-                                            feedbackMessageTpl,
-                                            type,
-                                            $wrapper
-                                        );
-                                    }
+                                if (has_matches) {
+                                    // voucher is valid for at least one displayed time pass ->
+                                    // forward to purchase dialog
+                                    window.location.href = r.url;
                                 } else {
-                                    $('#fakebtn')
-                                        .attr('data-laterpay', r.url)
-                                        .click();
+                                    // voucher is invalid for all displayed time passes
+                                    showVoucherCodeFeedbackMessage(
+                                        code + lpVars.i18n.invalidVoucher,
+                                        feedbackMessageTpl,
+                                        type,
+                                        $wrapper
+                                    );
                                 }
                             } else {
-                                // voucher is invalid for all displayed time passes
-                                showVoucherCodeFeedbackMessage(
-                                    code + lpVars.i18n.invalidVoucher,
-                                    feedbackMessageTpl,
-                                    type,
-                                    $wrapper
-                                );
+                                $('#fakebtn')
+                                    .attr('data-laterpay', r.url)
+                                    .click();
                             }
-                        },
-                        'json'
-                    );
+                        } else {
+                            // voucher is invalid for all displayed time passes
+                            showVoucherCodeFeedbackMessage(
+                                code + lpVars.i18n.invalidVoucher,
+                                feedbackMessageTpl,
+                                type,
+                                $wrapper
+                            );
+                        }
+                    } );
                 } else {
                     // request was not sent, because voucher code is not six characters long
                     showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort, feedbackMessageTpl, type, $wrapper);
