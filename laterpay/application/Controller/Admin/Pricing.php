@@ -144,6 +144,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $subscriptions_list  = $subscriptions_model->get_active_subscriptions();
         $sub_vouchers_list   = LaterPay_Helper_Voucher::get_all_subscription_vouchers();
 
+        // global vouchers data.
+        $global_vouchers_list = LaterPay_Helper_Voucher::get_all_global_vouchers();
+
         wp_localize_script(
             'laterpay-backend-pricing',
             'lpVars',
@@ -159,6 +162,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 'subscriptions_list'      => $this->get_subscriptions_json( $subscriptions_list ),
                 'vouchers_list'           => wp_json_encode( $vouchers_list ),
                 'sub_vouchers_list'       => wp_json_encode( $sub_vouchers_list ),
+                'global_vouchers_list'    => wp_json_encode( $global_vouchers_list ),
                 'vouchers_statistic'      => wp_json_encode( $vouchers_statistic ),
                 'l10n_print_after'        => 'lpVars.currency = JSON.parse(lpVars.currency);
                                             lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
@@ -479,10 +483,37 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             );
         }
 
+        // default vouchers data.
+        $vouchers_data = array();
+
+        // set vouchers data.
+        $voucher_codes = $global_price_form->get_field_value( 'voucher_code' );
+        if ( $voucher_codes && is_array( $voucher_codes ) ) {
+            $voucher_prices = $global_price_form->get_field_value( 'voucher_price' );
+            $voucher_titles = $global_price_form->get_field_value( 'voucher_title' );
+            foreach ( $voucher_codes as $idx => $code ) {
+                // normalize prices and format with 2 digits in form.
+                $voucher_price           = isset( $voucher_prices[ $idx ] ) ? $voucher_prices[ $idx ] : 0;
+                $formatted_voucher_price = number_format( LaterPay_Helper_View::normalize( $voucher_price ), 2, '.', '' );
+
+                $vouchers_data[ $code ] = array(
+                    'price' => $formatted_voucher_price,
+                    'title' => isset( $voucher_titles[ $idx ] ) ? $voucher_titles[ $idx ] : '',
+                );
+            }
+        }
+
+        // save vouchers for global pricing.
+        LaterPay_Helper_Voucher::save_global_vouchers( $vouchers_data );
+
+        // get global pricing vouchers.
+        $vouchers = LaterPay_Helper_Voucher::get_all_global_vouchers();
+
         $event->set_result(
             array(
                 'success'              => true,
                 'price'                => number_format( $delocalized_global_price, 2, '.', '' ),
+                'vouchers'             => $vouchers,
                 'localized_price'      => esc_html( $localized_global_price ),
                 'revenue_model'        => esc_html( $global_price_revenue_model ),
                 'revenue_model_label'  => esc_html( LaterPay_Helper_Pricing::get_revenue_label( $global_price_revenue_model ) ),

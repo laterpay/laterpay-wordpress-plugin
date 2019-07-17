@@ -159,21 +159,27 @@ class LaterPay_Helper_Post
     /**
      * Get the LaterPay purchase link for a post.
      *
-     * @param int $post_id
-     * @param int $current_post_id optional for attachments
+     * @param int   $post_id         Post ID.
+     * @param int   $current_post_id Optional for attachments.
+     * @param array $data            Additional data for vouchers.
      *
      * @return string url || empty string, if something went wrong
      */
-    public static function get_laterpay_purchase_link( $post_id, $current_post_id = null ) {
+    public static function get_laterpay_purchase_link( $post_id, $current_post_id = null, $data = null ) {
         $post = get_post( $post_id );
         if ( $post === null ) {
             return '';
         }
 
+        // Check if additional data for voucher is set.
+        if ( ! isset( $data ) ) {
+            $data = array();
+        }
+
         $config = laterpay_get_plugin_config();
 
         $currency       = $config->get( 'currency.code' );
-        $price          = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $price          = isset( $data['price'] ) ? $data['price'] : LaterPay_Helper_Pricing::get_post_price( $post->ID );
         $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
@@ -218,6 +224,14 @@ class LaterPay_Helper_Post
             'title'         => $post->post_title,
             'require_login' => (int) get_option( 'laterpay_require_login', 0 ),
         );
+
+        // set voucher param and override some value (title, revenue model) for purchase.
+        if ( isset( $data['voucher'] ) ) {
+            $post_pass_title   = sprintf( '%1$s (%2$s %3$s)', $post->post_title, 'Voucher Code ', $data['voucher'] );
+            $params['title']   = $post_pass_title;
+            $params['voucher'] = $data['voucher'];
+            $revenue_model     = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $revenue_model, $price );
+        }
 
         if ( $revenue_model === 'sis' ) {
             // Single Sale purchase
