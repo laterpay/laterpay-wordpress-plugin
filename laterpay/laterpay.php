@@ -292,7 +292,7 @@ if ( ! function_exists( 'laterpay_start_plugin_tracking' ) ) {
             [ 'lp_wisdom_tracking_info' ],
             true,
             true,
-            0
+            2
         );
     }
 
