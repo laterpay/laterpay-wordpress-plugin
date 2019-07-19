@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     if ( 0 !== absint( $gift_pass['access_to'] ) ) {
         $access_dest = $category->name;
     }
-?>
+    ?>
 
 <div class="lp_js_giftCard lp_gift-card lp_gift-card-<?php echo esc_attr( $gift_pass['pass_id'] ); ?>">
     <h4 class="lp_gift-card__title"><?php echo esc_html( $gift_pass['title'] ); ?></h4>

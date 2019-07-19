@@ -315,7 +315,7 @@ class LaterPay_Helper_Subscription
                     $access_type                = $subscription_with_access_data['access_to'];
                     if ( $access_type === 2 ) {
                         $covered_categories['included'][] = $access_category;
-                    } else if ( $access_type === 1 ) {
+                    } elseif ( $access_type === 1 ) {
                         $excluded_categories[] = $access_category;
                     } else {
                         return array();

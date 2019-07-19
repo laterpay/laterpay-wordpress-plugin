@@ -130,16 +130,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         }
 
         switch ( $submitted_form_value ) {
-            case 'laterpay_sandbox_merchant_id':
-                $event->set_argument( 'is_live', false );
-                self::update_merchant_id( $event );
-                break;
-
-            case 'laterpay_sandbox_api_key':
-                $event->set_argument( 'is_live', false );
-                self::update_api_key( $event );
-                break;
-
             case 'laterpay_live_merchant_id':
                 $event->set_argument( 'is_live', true );
                 self::update_merchant_id( $event );

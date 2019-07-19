@@ -105,7 +105,7 @@ class LaterPay_Helper_Request {
         }
         if ( ! $ssl && 80 !== absint( $serverPort ) ) {
             $pageURL .= $serverName . ':' . $serverPort . $uri;
-        } else if ( $ssl && 443 !== absint( $serverPort ) ) {
+        } elseif ( $ssl && 443 !== absint( $serverPort ) ) {
             $pageURL .= $serverName . ':' . $serverPort . $uri;
         } else {
             $pageURL .= $serverName . $uri;

@@ -293,8 +293,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                         break;
 
                     case 'video':
-	                    $button_label = __( 'Watch now', 'laterpay' );
-	                    break;
+                        $button_label = __( 'Watch now', 'laterpay' );
+                        break;
 
                     case 'gallery':
                         $button_label = __( 'View now', 'laterpay' );

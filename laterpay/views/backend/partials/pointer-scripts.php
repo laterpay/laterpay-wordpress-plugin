@@ -11,7 +11,7 @@ $admin_menu_pointer = in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $
 if ( $admin_menu_pointer ) :
     $pointer_title = __( 'Welcome to LaterPay', 'laterpay' );
     $pointer_body = __( 'Set the most appropriate settings for you.', 'laterpay' );
-?>
+    ?>
 <script>
     jQuery(document).ready(function($) {
         if (typeof(jQuery().pointer) !== 'undefined') {
@@ -45,7 +45,7 @@ if ( $post_price_box_pointer ) :
     $pointer_body_4 = __( 'You can also apply', 'laterpay' );
     $pointer_body_5 = __( ' advanced pricing ', 'laterpay' );
     $pointer_body_6 = __( 'by defining how the price changes over time.', 'laterpay' );
-?>
+    ?>
 <script>
     jQuery(document).ready(function($) {
         if (typeof(jQuery().pointer) !== 'undefined') {

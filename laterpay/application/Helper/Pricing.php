@@ -435,7 +435,7 @@ class LaterPay_Helper_Pricing
                     } else {
                         $rounded_price = 0;
                     }
-                } else if ( $rounded_price > $currency['ppu_only_limit'] ) {
+                } elseif ( $rounded_price > $currency['ppu_only_limit'] ) {
                     $rounded_price = $currency['ppu_only_limit'];
                 }
                 break;
@@ -446,14 +446,14 @@ class LaterPay_Helper_Pricing
                     } else {
                         $rounded_price = 0;
                     }
-                } else if ( $rounded_price > $currency['sis_max'] ) {
+                } elseif ( $rounded_price > $currency['sis_max'] ) {
                     $rounded_price = $currency['sis_max'];
                 }
                 break;
             case 'ppusis':
                 if ( $rounded_price > $currency['ppu_max'] ) {
                     $rounded_price = $currency['ppu_max'];
-                } else if ( $rounded_price < $currency['sis_min'] ) {
+                } elseif ( $rounded_price < $currency['sis_min'] ) {
                     if ( abs( $currency['sis_min'] - $rounded_price ) < $rounded_price ) {
                         $rounded_price = $currency['sis_min'];
                     } else {
@@ -541,7 +541,7 @@ class LaterPay_Helper_Pricing
                 $current_currency = LaterPay_Helper_Config::get_currency_config(); // get currency based limits for comparison.
                 if ( ( $current_price >= $current_currency['ppu_min'] && $current_price < $current_currency['ppu_max'] ) || floatval( 0.00 ) === floatval( $current_price ) ) {
                     $revenue_model = 'ppu';
-                } else if ( $current_price >= $current_currency['sis_only_limit'] && $current_price <= $current_currency['sis_max'] ) {
+                } elseif ( $current_price >= $current_currency['sis_only_limit'] && $current_price <= $current_currency['sis_max'] ) {
                     $revenue_model = 'sis';
                 } else {
                     $revenue_model = 'ppu';
@@ -576,7 +576,7 @@ class LaterPay_Helper_Pricing
 
             if ( ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) || 0.00 == floatval( $price ) ) { // WPCS: loose comparison ok.
                 $revenue_model = 'ppu';
-            } else if ( $price >= $currency['sis_only_limit'] && $price <= $currency['sis_max'] ) {
+            } elseif ( $price >= $currency['sis_only_limit'] && $price <= $currency['sis_max'] ) {
                 $revenue_model = 'sis';
             }
         }

@@ -218,6 +218,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 $account_controller = new LaterPay_Controller_Admin_Account( $this->config );
                 $account_controller->render_page();
                 break;
+
             // render advanced tab
             case 'advanced':
                 $advanced_controller = new LaterPay_Controller_Admin_Advanced( $this->config );
