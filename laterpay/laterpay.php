@@ -33,17 +33,7 @@ function laterpay_init() {
     laterpay_before_start();
 
     if ( laterpay_check_is_vip() && is_admin()) {
-        $current_version = get_option( 'laterpay_plugin_version' );
-
-        // Plugin headers info.
-        $lp_plugin_headers = get_file_data(
-            __FILE__,
-            array(
-                'version' => 'Version',
-            )
-        );
-
-        if ( version_compare( $current_version, $lp_plugin_headers['version'], '!=' ) ) {
+        if( false !== get_option( 'laterpay_plugin_version' ) ) {
             laterpay_activate();
         }
     }
