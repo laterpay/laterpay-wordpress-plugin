@@ -40,6 +40,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
         // Get data for GA.
         $merchant_key = LaterPay_Controller_Admin::get_merchant_id_for_ga();
         $site_url     = get_site_url();
+        $sb_merch_key = get_option( 'laterpay_sandbox_merchant_id' );
 
         LaterPay_Controller_Admin::register_common_scripts( 'account' );
 
@@ -66,6 +67,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 'gaData'                => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
                     'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ) : '',
+                    'sb_merch_id_status'  => $sb_merch_key,
                 ),
                 'reset_cache_nonce'     => wp_create_nonce( 'reset_cache_nonce' ),
                 'validate_cred_nonce'   => wp_create_nonce( 'validate_cred_nonce' ),

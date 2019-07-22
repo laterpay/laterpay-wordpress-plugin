@@ -63,6 +63,8 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                 $price              = (float) LaterPay_Helper_Pricing::get_post_price( $post_id, true );
                 $localized_price    = LaterPay_Helper_View::format_number( $price );
                 $currency           = $this->config->get( 'currency.code' );
+                $post_prices        = get_post_meta( $post_id, 'laterpay_post_prices', true );
+                $is_individual_free = ( ! empty( $post_prices['type'] ) && $post_prices['type'] === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_FREE ) ? true : false;
 
                 // Get current post price behaviour.
                 $post_price_behaviour = LaterPay_Helper_Pricing::get_post_price_behaviour();
@@ -89,16 +91,20 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 
                     $is_price_zero_and_type_not_global = ( $is_price_zero && LaterPay_Helper_Pricing::is_price_type_not_global( $post_price_type ) );
 
-                    if ( ( empty( $post_price_type ) || $is_global_price_type ) || ( $is_price_zero_and_type_not_global ) ) {
+                    if ( ( empty( $post_price_type ) || $is_global_price_type ) || ( $is_price_zero_and_type_not_global ) || ( $is_individual_free ) ) {
                         esc_html_e( 'FREE', 'laterpay' );
                     } else {
                         /* translators: %1$s post price, %2$s currency code */
                         printf( '<strong>%1$s</strong> <span>%2$s</span>', esc_html( $localized_price ), esc_html( $currency ) );
                     }
                 } elseif ( $post_price_type_one ) {
-                    echo '--';
+                    if ( $is_individual_free ) {
+                        esc_html_e( 'FREE', 'laterpay' );
+                    } else {
+                        echo '--';
+                    }
                 } elseif ( 2 === $post_price_behaviour ) {
-                    if ( ( $is_global_zero && $is_time_pass_subscription_count_zero ) || $is_post_type_not_supported ) {
+                    if ( ( $is_global_zero && $is_time_pass_subscription_count_zero ) || $is_post_type_not_supported || $is_individual_free ) {
                         esc_html_e( 'FREE', 'laterpay' );
                     } else {
                         /* translators: %1$s post price, %2$s currency code */
@@ -132,6 +138,10 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                             $post_price_type = esc_html__( 'category default price', 'laterpay' );
                             break;
 
+                        case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_FREE:
+                            $post_price_type = esc_html__( 'individual free', 'laterpay' );
+                            break;
+
                         case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
                             $post_price_type = esc_html__( 'global default price', 'laterpay' );
                             break;
@@ -140,10 +150,10 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                             $post_price_type = '&mdash;';
                     }
 
-	                echo esc_html( $post_price_type );
+                    echo esc_html( $post_price_type );
                 } else {
                     // label the post to use the global default price
-	                esc_html_e( 'global default price', 'laterpay' );
+                    esc_html_e( 'global default price', 'laterpay' );
                 }
                 break;
         }

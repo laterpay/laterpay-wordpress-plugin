@@ -96,9 +96,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'link' );
         }
 
+        if ( ! isset( $_GET['lp_post_id'] ) ) { // phpcs:ignore
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'lp_post_id' );
+        }
+
         // Check if voucher code exists and time pass or subscription is available for purchase.
         $is_gift     = true;
         $code        = sanitize_text_field( $_GET['code'] ); // phpcs:ignore
+        $lp_post_id  = intval( $_GET['lp_post_id'] ); // phpcs:ignore
         $code_data   = LaterPay_Helper_Voucher::check_voucher_code( $code, $is_gift );
         if ( ! $code_data ) {
             $is_gift     = false;
@@ -130,11 +135,21 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 $url                 = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
                 $url_data['pass_id'] = $pass_id;
                 $url_data['type']    = 'time_pass';
-            } else {
+            } elseif ( 'subscription' === $code_data['type'] ) {
                 $url                = LaterPay_Helper_Subscription::get_subscription_purchase_link( $pass_id, $data );
                 $url_data['sub_id'] = $pass_id;
                 $url_data['type']   = 'subscription';
-
+            } else {
+                if ( ! empty( $lp_post_id ) && LaterPay_Helper_Pricing::is_single_purchase_vouhcer_enabled() ) {
+                    $url               = LaterPay_Helper_Post::get_laterpay_purchase_link( $lp_post_id, null, $data );
+                    $url_data['type']  = 'global';
+                } else {
+                    $event->set_result(
+                        array(
+                            'success' => false,
+                        )
+                    );
+                }
             }
 
             if ( $url ) {

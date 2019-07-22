@@ -71,23 +71,23 @@
 
 // select price type section
 .lp_price-type {
-    border: 1px solid $border;
-    border-radius: $border-radius;
+    position: relative;
 
     // switch for selecting price type
     .lp_price-type__list {
         background-color: darken($background, 4%);
         margin: 0;
         padding: 0;
+        width: 40%;
+        border: 1px solid $border;
+        border-radius: $border-radius;
 
         .lp_price-type__item {
             box-shadow: inset 1px 0 0 $border, inset 0 1px 0 hsla(0, 0%, 100%, 0.55);
-            float: left;
             line-height: 1.25;
             margin: 0;
             padding: 0.5em 0;
             text-align: center;
-            width: 33.333%;
 
             &:first-child {
                 border-radius: 3px 0 0 3px;
@@ -151,51 +151,92 @@
     }
 
 
-    // details for selected price type
-    .lp_price-type__details .lp_price-type__details-item {
+    .lp_price-type__options {
+        position: absolute;
+        float: right;
+        top: 0;
+        right: 0;
+        width: 60%;
+        margin: 5px 0;
 
-        // velocity.js opacity superfix
-        opacity: 1 !important;
-
-        ul,
         li {
-            margin: 0;
-            padding: 0;
+            margin-left: 10px;
+            min-height: 35px;
+            color: #989898;
+            font-size: 12px;
+            padding: 1px 0;
+
+            .lp_badge--revenue-model-global {
+                width: 75px;
+                text-transform: uppercase;
+            }
         }
 
-        li {
-            border-top: 1px solid $border--lightest;
+        li#lp_js_postPriceInputInfo {
+            margin-top: 10px;
 
-            &:nth-child(even) {
-                background-color: lighten($background, 2%);
+            input.lp_input {
+                font-size: $fs;
             }
 
-            &:last-child {
-                border-radius: 0 0 1px 1px;
+            div.postPriceInputHolder {
+                float: left;
+                width: 40%;
             }
 
-            &:hover {
-                background-color: $background--highlight;
-            }
+            div#lp_js_priceEditSection {
+                float: right;
+                width: 60%;
 
-            a {
-                display: block;
-                padding: $fs--05 $fs--075;
-
-                span {
-                    color: lighten($text, 20%);
-                    float: right;
+                label.lp_badge--revenue-model {
+                    width: 65px;
+                    margin-left: 10px;
                 }
             }
         }
 
-        .lp_is-selectedCategory,
-        .lp_is-selectedCategory:nth-child(even) {
-            background-color: $background--highlight;
+        ul.lp_js_priceTypeDetailsCategoryDefaultPriceList {
+            max-height: 130px;
+            overflow: scroll;
+            border: 1px solid #01a99d;
+            border-radius: 5px;
+            padding: 1px 3px;
+            overflow-x: hidden;
+            overflow-y: auto;
 
-            a {
-                color: darken($text, 6%);
-                cursor: default;
+            li {
+                padding: 10px 5px;
+                min-height: 25px;
+                margin: 0;
+                font-size: 12px;
+                width: 120px;
+
+                a {
+                    position: relative;
+                    color: #0f3f75;
+                    font-weight: 500;
+
+                    span {
+                        color: #989898;
+                    }
+
+                    span.lp_badge {
+                        position: absolute;
+                        margin-left: 3px;
+                        width: 65px;
+                    }
+                }
+            }
+
+            li.lp_is-selectedCategory {
+                background-color: #d9f2f0;
+                border: 2px solid #01a99d;
+                border-radius: 5px;
+
+                a {
+                    color: #000000;
+                    cursor: default;
+                }
             }
         }
     }
@@ -298,6 +339,8 @@ div.lp_postMetaBox {
 }
 
 li.lp_price-type__global {
+
+    display: block;
 
     &:after {
         margin-left: -47px;

@@ -4,11 +4,19 @@
 	background-color: #a9e2de;
 	min-height: 40px;
 
-	p {
-		margin-top: 0;
+	p.version_text {
+		margin: 0;
 		padding: 10px 20px;
 		float: left;
 		font-size: 12px;
+	}
+
+	p.version_info {
+		margin: 0;
+		padding: 10px 20px;
+		a {
+			margin-left: 20px;
+		}
 	}
 
 	a {
@@ -16,8 +24,6 @@
 	}
 
 	a.close_notice {
-		position: absolute;
-		right: 5%;
 		font-size: 20px;
 	}
 }

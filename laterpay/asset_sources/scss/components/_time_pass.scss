@@ -590,8 +590,31 @@ a.lp_sub_voucher_button {
     width: 50%;
     float: left;
 }
+
 span.lp_sub_voucher_disclaimer{
     color: #ffb74d;
     font-style: italic;
     font-size: 12px;
+}
+
+#lp_js_globalDefaultPriceEditElements {
+
+    .lp_js_voucherPlaceholder {
+        margin-bottom: 20px;
+        background: #e3e3e3;
+        padding: 10px;
+        visibility: hidden;
+    }
+
+    a.lp_single_voucher_button {
+        width: 40%;
+        float: left;
+    }
+
+    span.lp_single_voucher_disclaimer{
+        color: #ffb74d;
+        font-style: italic;
+        font-size: 12px;
+        display: table-row;
+    }
 }

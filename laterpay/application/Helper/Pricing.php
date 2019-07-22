@@ -16,6 +16,7 @@ class LaterPay_Helper_Pricing
     const TYPE_CATEGORY_DEFAULT_PRICE   = 'category default price';
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
+    const TYPE_INDIVIDUAL_FREE          = 'individual free';
 
     /**
      * @const string Status of post at time of publication.
@@ -45,6 +46,12 @@ class LaterPay_Helper_Pricing
             if ( ! $post_id ) {
                 return false;
             }
+        }
+
+        $post_prices = get_post_meta( $post_id, 'laterpay_post_prices', true );
+
+        if ( ! empty( $post_prices['type'] ) && $post_prices['type'] === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_FREE ) {
+            return false;
         }
 
         // Check if price already exists.
@@ -171,7 +178,7 @@ class LaterPay_Helper_Pricing
         }
 
         // Recalculate category default price.
-        if ( $recalculate_cat_price && ! in_array( $post_price_type, array( self::TYPE_INDIVIDUAL_PRICE, self::TYPE_INDIVIDUAL_DYNAMIC_PRICE ), true ) ) {
+        if ( $recalculate_cat_price && ! in_array( $post_price_type, array( self::TYPE_INDIVIDUAL_PRICE, self::TYPE_INDIVIDUAL_DYNAMIC_PRICE, self::TYPE_INDIVIDUAL_FREE ), true ) ) {
 
             $new_category  = 0;
             $new_cat_price = 0;
@@ -251,7 +258,7 @@ class LaterPay_Helper_Pricing
         $category_id     = array_key_exists( 'category_id', $post_price ) ? $post_price['category_id'] : '';
 
         // Recalculate post price.
-        if ( $recalculate && ! in_array( $post_price_type, array( self::TYPE_INDIVIDUAL_PRICE, self::TYPE_INDIVIDUAL_DYNAMIC_PRICE ), true ) ) {
+        if ( $recalculate && ! in_array( $post_price_type, array( self::TYPE_INDIVIDUAL_PRICE, self::TYPE_INDIVIDUAL_DYNAMIC_PRICE, self::TYPE_INDIVIDUAL_FREE ), true ) ) {
 
             $categories_of_post  = wp_get_post_categories( $post_id );
             $category_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $categories_of_post );
@@ -320,6 +327,10 @@ class LaterPay_Helper_Pricing
                 $price = $global_default_price;
                 break;
 
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_FREE:
+                $price = 0;
+                break;
+
             default:
                 if ( $global_default_price > 0 ) {
                     $price = $global_default_price;
@@ -368,6 +379,7 @@ class LaterPay_Helper_Pricing
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_FREE:
                 break;
 
             default:
@@ -523,9 +535,17 @@ class LaterPay_Helper_Pricing
 
         // set a price type (global default price or individual price), if the returned post price type is invalid
         switch ( $post_price_type ) {
-            // Dynamic Price does currently not support Single Sale as revenue model
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                $revenue_model = 'ppu';
+                // get current price based on post's dynamic scheme.
+                $current_price    = self::get_dynamic_price( get_post( $post_id ) );
+                $current_currency = LaterPay_Helper_Config::get_currency_config(); // get currency based limits for comparison.
+                if ( ( $current_price >= $current_currency['ppu_min'] && $current_price < $current_currency['ppu_max'] ) || floatval( 0.00 ) === floatval( $current_price ) ) {
+                    $revenue_model = 'ppu';
+                } else if ( $current_price >= $current_currency['sis_only_limit'] && $current_price <= $current_currency['sis_max'] ) {
+                    $revenue_model = 'sis';
+                } else {
+                    $revenue_model = 'ppu';
+                }
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
@@ -1008,5 +1028,14 @@ class LaterPay_Helper_Pricing
         }
 
         return false;
+    }
+
+    /**
+     * Return current status of voucher sale on single purchase.
+     *
+     * @return bool
+     */
+    public static function is_single_purchase_vouhcer_enabled() {
+        return ( bool) get_option( 'laterpay_enable_content_voucher', false );
     }
 }

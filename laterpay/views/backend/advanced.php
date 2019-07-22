@@ -294,7 +294,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                     </a>
                 </div>
             </div>
-
+            <br/>
         </div>
         <div class="lp_side_area">
             <div class="lp_clearfix lp_info">
