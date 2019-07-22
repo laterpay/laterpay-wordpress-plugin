@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-07-18 12:20+0530\n"
-"PO-Revision-Date: 2019-07-18 12:25+0530\n"
+"POT-Creation-Date: 2019-07-22 13:06+0530\n"
+"PO-Revision-Date: 2019-07-22 13:06+0530\n"
 "Last-Translator: lpadmin <twoldrich@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1862,8 +1862,8 @@ msgstr "t"
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:585 application/Module/TimePasses.php:463
-#: application/Module/TimePasses.php:486 application/Module/TimePasses.php:504
+#: application/Module/Purchase.php:585 application/Module/TimePasses.php:471
+#: application/Module/TimePasses.php:494 application/Module/TimePasses.php:512
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
@@ -1879,7 +1879,7 @@ msgstr ""
 "Zahlungsmethode Ihres Vertrauens."
 
 #: application/Module/Purchase.php:601 application/Module/Purchase.php:614
-#: application/Module/TimePasses.php:471
+#: application/Module/TimePasses.php:479
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr "Sofort lesen"
@@ -1915,21 +1915,21 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie %s %s erreicht haben. Erst dann müssen Sie "
 "sich registrieren und bezahlen."
 
-#: application/Module/TimePasses.php:407
+#: application/Module/TimePasses.php:415
 msgid "Wrong time pass id or no time passes specified."
 msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
 
-#: application/Module/TimePasses.php:466
+#: application/Module/TimePasses.php:474
 msgid "Buy Time Pass"
 msgstr "Zeitpass kaufen"
 
-#: application/Module/TimePasses.php:467
+#: application/Module/TimePasses.php:475
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
 "Ihres Vertrauens."
 
-#: application/Module/TimePasses.php:472
+#: application/Module/TimePasses.php:480
 msgid ""
 "Immediately access your content. <br>A time pass is not a subscription, it "
 "expires automatically."
@@ -1937,21 +1937,21 @@ msgstr ""
 "Greifen Sie sofort auf Ihre Inhalte zu.<br>\n"
 "Ein Zeitpass ist kein Abo, denn er läuft automatisch aus."
 
-#: application/Module/TimePasses.php:489
+#: application/Module/TimePasses.php:497
 msgid "Buy Subscription"
 msgstr "Abo kaufen"
 
-#: application/Module/TimePasses.php:490
+#: application/Module/TimePasses.php:498
 msgid "Buy a subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie ein Abo und bezahlen Sie mit einer Zahlungsmethode,  der Sie "
 "vertrauen."
 
-#: application/Module/TimePasses.php:507
+#: application/Module/TimePasses.php:515
 msgid "Buy a Time Pass or Subscription"
 msgstr "Kaufen Sie einen Zeitpass oder ein Abo"
 
-#: application/Module/TimePasses.php:508
+#: application/Module/TimePasses.php:516
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer "
