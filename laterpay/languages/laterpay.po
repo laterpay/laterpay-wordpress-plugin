@@ -563,7 +563,7 @@ msgstr ""
 msgid "Buy Now, Pay Later"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:585, laterpay/application/Module/TimePasses.php:463, laterpay/application/Module/TimePasses.php:486, laterpay/application/Module/TimePasses.php:504
+#: laterpay/application/Module/Purchase.php:585, laterpay/application/Module/TimePasses.php:471, laterpay/application/Module/TimePasses.php:494, laterpay/application/Module/TimePasses.php:512
 msgid "Read Now"
 msgstr ""
 
@@ -575,7 +575,7 @@ msgstr ""
 msgid "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:601, laterpay/application/Module/Purchase.php:614, laterpay/application/Module/TimePasses.php:471, laterpay/views/backend/partials/purchase-overlay.php:38
+#: laterpay/application/Module/Purchase.php:601, laterpay/application/Module/Purchase.php:614, laterpay/application/Module/TimePasses.php:479, laterpay/views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr ""
 
@@ -595,35 +595,35 @@ msgstr ""
 msgid "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:407
+#: laterpay/application/Module/TimePasses.php:415
 msgid "Wrong time pass id or no time passes specified."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:466
+#: laterpay/application/Module/TimePasses.php:474
 msgid "Buy Time Pass"
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:467
+#: laterpay/application/Module/TimePasses.php:475
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:472
+#: laterpay/application/Module/TimePasses.php:480
 msgid "Immediately access your content. <br>A time pass is not a subscription, it expires automatically."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:489
+#: laterpay/application/Module/TimePasses.php:497
 msgid "Buy Subscription"
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:490
+#: laterpay/application/Module/TimePasses.php:498
 msgid "Buy a subscription and pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:507
+#: laterpay/application/Module/TimePasses.php:515
 msgid "Buy a Time Pass or Subscription"
 msgstr ""
 
-#: laterpay/application/Module/TimePasses.php:508
+#: laterpay/application/Module/TimePasses.php:516
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 
