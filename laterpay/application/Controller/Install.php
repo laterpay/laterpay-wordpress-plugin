@@ -671,6 +671,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      */
     public function add_update_highlights() {
 
+        /**
+         * Don't add release notice in VIP env.
+         */
+        if ( laterpay_check_is_vip() ) {
+            return;
+        }
+
         $current_version = get_option( 'laterpay_plugin_version' );
 
         $update_highlights = [];
