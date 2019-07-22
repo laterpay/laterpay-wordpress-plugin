@@ -332,7 +332,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </td>
                                 </tr>
                                 <tr>&nbsp;</tr>
-                                <?php if ( LaterPay_Helper_Pricing::is_single_purchase_vouhcer_enabled() ) : ?>
+                                <?php if ( LaterPay_Helper_Pricing::is_single_purchase_voucher_enabled() ) : ?>
                                     <tr>
                                         <td colspan="3">
                                             <div class="lp_js_voucherEditor lp_mt-">

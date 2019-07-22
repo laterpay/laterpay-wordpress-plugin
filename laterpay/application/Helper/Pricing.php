@@ -1035,7 +1035,7 @@ class LaterPay_Helper_Pricing
      *
      * @return bool
      */
-    public static function is_single_purchase_vouhcer_enabled() {
+    public static function is_single_purchase_voucher_enabled() {
         return ( bool) get_option( 'laterpay_enable_content_voucher', false );
     }
 }

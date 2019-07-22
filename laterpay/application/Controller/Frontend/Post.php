@@ -128,9 +128,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 $url_data['sub_id'] = $pass_id;
                 $url_data['type']   = 'subscription';
             } else {
-                if ( ! empty( $lp_post_id ) && LaterPay_Helper_Pricing::is_single_purchase_vouhcer_enabled() ) {
-                    $url               = LaterPay_Helper_Post::get_laterpay_purchase_link( $lp_post_id, null, $data );
-                    $url_data['type']  = 'global';
+                if ( ! empty( $lp_post_id ) && LaterPay_Helper_Pricing::is_single_purchase_voucher_enabled() ) {
+                    $url              = LaterPay_Helper_Post::get_laterpay_purchase_link( $lp_post_id, null, $data );
+                    $url_data['type'] = 'global';
                 } else {
                     $event->set_result(
                         array(

@@ -209,7 +209,7 @@ class LaterPay_Helper_Post
         $post_permalink = get_permalink( $post->ID );
 
         // Build URL.
-        $back_url = add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $url_params ), $post_permalink );
+        $back_url = isset( $data['link'] ) ? $data['link'] : add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $url_params ), $post_permalink );
 
         // if params exists in uri.
         if ( ! empty( $parsed_link[1] ) ) {

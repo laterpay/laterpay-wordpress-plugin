@@ -163,7 +163,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
 
         // check global vouchers.
         $global_has_vouchers = false;
-        if ( LaterPay_Helper_Pricing::is_single_purchase_vouhcer_enabled() ) {
+        if ( LaterPay_Helper_Pricing::is_single_purchase_voucher_enabled() ) {
             $lp_global_vouchers  = LaterPay_Helper_Voucher::get_all_global_vouchers();
             $global_has_vouchers = ( isset( $lp_global_vouchers[0] ) && empty( $lp_global_vouchers[0] ) ) ? false : true;
         }
