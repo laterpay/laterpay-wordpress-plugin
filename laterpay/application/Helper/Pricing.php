@@ -1038,4 +1038,88 @@ class LaterPay_Helper_Pricing
     public static function is_single_purchase_voucher_enabled() {
         return ( bool) get_option( 'laterpay_enable_content_voucher', false );
     }
+
+    /**
+     * Check if user has access to current post.
+     * @return bool
+     */
+    public static function check_current_post_access() {
+
+        // Check if we are on a singular page/post.
+        if ( ! is_singular() ) {
+            return false;
+        }
+
+        // Get current post.
+        $post = get_post();
+
+        // Check if user has access to current page/post, if so hide content.
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if user has access to passed time passes / subscriptions.
+     *
+     * @param string $time_pass_ids    Comma delimited string containing ID of time passes.
+     * @param string $subscription_ids Comma delimited string containing ID of subscriptions.
+     *
+     * @return bool
+     */
+    public static function check_time_pass_subscription_access( $time_pass_ids = '', $subscription_ids = '' ) {
+
+        // Create an array of both time passes and subscriptions.
+        $time_passes_list   = explode( ',', $time_pass_ids );
+        $subscriptions_list = explode( ',', $subscription_ids );
+
+        // Iterate through time pass ids and prepend token string to it for API request.
+        $time_passes = array_map( function ( $tp ) {
+            if ( ! empty( $tp ) ) {
+                return 'tlp_' . $tp;
+            }
+        }, $time_passes_list );
+
+        // Iterate through subscription ids and prepend token string to it for API request.
+        $subscriptions = array_map( function ( $sub ) {
+            if ( ! empty( $sub ) ) {
+                return 'sub_' . $sub;
+            }
+        }, $subscriptions_list );
+
+        // Merge all time passes and subscriptions ( removes empty values ) and check access.
+        $final_content_list = array_filter( array_merge( $time_passes, $subscriptions ), 'strlen' );
+        $result             = LaterPay_Helper_Request::laterpay_api_get_access( $final_content_list );
+
+        // Check result and see if user has access, if so hide content.
+        if ( ! empty( $result['articles'] ) ) {
+            $access_status = array_column( $result['articles'], 'access' );
+            if ( in_array( true, $access_status, true ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if user has premium access, this method can be used to conditionally show/hide content based on access to certain,
+     * time pass / subscription / post.
+     *
+     * @param string $time_pass_ids    Comma delimited string containing ID of time passes.
+     * @param string $subscription_ids Comma delimited string containing ID of subscriptions.
+     *
+     * @return bool
+     */
+    public static function check_premium_access( $time_pass_ids = '', $subscription_ids = '' ) {
+        if ( true === self::check_current_post_access() ) {
+            return true;
+        } elseif ( true === self::check_time_pass_subscription_access( $time_pass_ids, $subscription_ids ) ) {
+            return true;
+        }
+
+        return false;
+    }
 }
