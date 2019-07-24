@@ -375,9 +375,6 @@ class LaterPay_Helper_Config {
 
         delete_option( 'laterpay_voucher_codes' );
         delete_option( 'laterpay_subscription_voucher_codes' );
-        delete_option( 'laterpay_gift_codes' );
-        delete_option( 'laterpay_voucher_statistic' );
-        delete_option( 'laterpay_gift_statistic' );
         delete_option( 'laterpay_gift_codes_usages' );
         delete_option( 'laterpay_debugger_enabled' );
         delete_option( 'laterpay_debugger_addresses' );
@@ -386,8 +383,6 @@ class LaterPay_Helper_Config {
         delete_option( 'laterpay_time_passes_positioned_manually' );
 
         delete_option( 'laterpay_only_time_pass_purchases_allowed' );
-
-        delete_option( 'laterpay_maximum_redemptions_per_gift_code' );
 
         delete_option( 'laterpay_api_fallback_behavior' );
         delete_option( 'laterpay_api_enabled_on_homepage' );
@@ -401,6 +396,8 @@ class LaterPay_Helper_Config {
         delete_option( 'lp_update_highlights' );
         delete_option( 'laterpay_show_cache_msg' );
         delete_option( 'lp_tabular_info' );
+        delete_option( 'lp_custom_overlay_options' );
+        delete_option( 'laterpay_global_voucher_codes' );
         delete_option( 'laterpay_plugin_version' );
         delete_option( 'lp_custom_overlay_options' );
         delete_option( 'lp_wisdom_tracking_info' );

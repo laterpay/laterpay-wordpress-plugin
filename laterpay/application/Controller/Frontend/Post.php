@@ -96,30 +96,23 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             throw new LaterPay_Core_Exception_InvalidIncomingData( 'link' );
         }
 
-        // Check if voucher code exists and time pass or subscription is available for purchase.
-        $is_gift     = true;
-        $code        = sanitize_text_field( $_GET['code'] ); // phpcs:ignore
-        $code_data   = LaterPay_Helper_Voucher::check_voucher_code( $code, $is_gift );
-        if ( ! $code_data ) {
-            $is_gift     = false;
-            $can_be_used = true;
-            $code_data   = LaterPay_Helper_Voucher::check_voucher_code( $code, $is_gift );
-        } else {
-            $can_be_used = LaterPay_Helper_Voucher::check_gift_code_usages_limit( $code );
+        if ( ! isset( $_GET['lp_post_id'] ) ) { // phpcs:ignore
+            throw new LaterPay_Core_Exception_InvalidIncomingData( 'lp_post_id' );
         }
 
-        // if gift code data exists and usage limit is not exceeded
-        if ( $code_data && $can_be_used ) {
-            // update gift code usage
-            if ( $is_gift ) {
-                LaterPay_Helper_Voucher::update_gift_code_usages( $code );
-            }
+        // Check if voucher code exists and time pass or subscription is available for purchase.
+        $code       = sanitize_text_field( $_GET['code'] ); // phpcs:ignore
+        $code_data  = LaterPay_Helper_Voucher::check_voucher_code( $code );
+        $lp_post_id = intval( $_GET['lp_post_id'] ); // phpcs:ignore
+
+        // if code data exists.
+        if ( $code_data ) {
             // Get new URL for this time pass / subscription.
             $pass_id    = $code_data['pass_id'];
             // prepare URL before use
             $data       = array(
                 'voucher' => $code,
-                'link'    => $is_gift ? home_url() : esc_url_raw( $_GET['link'] ), // phpcs:ignore
+                'link'    => esc_url_raw( $_GET['link'] ), // phpcs:ignore
                 'price'   => $code_data['price'],
             );
 
@@ -130,11 +123,21 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 $url                 = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
                 $url_data['pass_id'] = $pass_id;
                 $url_data['type']    = 'time_pass';
-            } else {
+            } elseif ( 'subscription' === $code_data['type'] ) {
                 $url                = LaterPay_Helper_Subscription::get_subscription_purchase_link( $pass_id, $data );
                 $url_data['sub_id'] = $pass_id;
                 $url_data['type']   = 'subscription';
-
+            } else {
+                if ( ! empty( $lp_post_id ) && LaterPay_Helper_Pricing::is_single_purchase_voucher_enabled() ) {
+                    $url              = LaterPay_Helper_Post::get_laterpay_purchase_link( $lp_post_id, null, $data );
+                    $url_data['type'] = 'global';
+                } else {
+                    $event->set_result(
+                        array(
+                            'success' => false,
+                        )
+                    );
+                }
             }
 
             if ( $url ) {

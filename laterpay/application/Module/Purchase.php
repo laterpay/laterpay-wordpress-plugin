@@ -290,58 +290,24 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 $laterpay_client->set_token( $lptoken );
             }
 
-            if ( $pass_id ) {
-                $voucher = $request->get_param( 'voucher' );
-                $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $pass_id );
-
-                // process vouchers
-                if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher ) ) {
-                    if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher, true ) ) {
-                        // save the pre-generated gift code as valid voucher code now that the purchase is complete
-                        $gift_cards = LaterPay_Helper_Voucher::get_time_pass_vouchers( $pass_id, true );
-                        $gift_cards[ $voucher ] = array(
-                            'price' => 0,
-                            'title' => null,
-                        );
-                        LaterPay_Helper_Voucher::save_time_pass_vouchers( $pass_id, $gift_cards, true );
-                        // set cookie to store information that gift card was purchased
-                        setcookie(
-                            'laterpay_purchased_gift_card',
-                            $voucher . '|' . $pass_id,
-                            time() + 30,
-                            '/'
-                        );
-                        if ( laterpay_is_vip_go() ) {
-                            setcookie( 'vip-go-cb', '1', time() + 30, '/' );
-                        }
-                    } else {
-                        // update gift code statistics
-                        LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher, true );
-                    }
-                } else {
-                    // update voucher statistics
-                    LaterPay_Helper_Voucher::update_voucher_statistic( $pass_id, $voucher );
-                }
-            } else {
-                // prepare attachment URL for download
-                $download_attached = $request->get_param( 'download_attached' );
-                if ( $download_attached ) {
-                    $post           = get_post( $download_attached );
-                    $access         = LaterPay_Helper_Post::has_access_to_post( $post );
-                    $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
-                        $download_attached,
-                        wp_get_attachment_url( $download_attached ),
-                        $access,
-                        'attachment'
-                    );
-                    // set cookie to notify post that we need to start attachment download
-                    setcookie(
-                        'laterpay_download_attached',
-                        $attachment_url,
-                        time() + 60,
-                        '/'
-                    );
-                }
+            // prepare attachment URL for download
+            $download_attached = $request->get_param( 'download_attached' );
+            if ( $download_attached ) {
+                $post           = get_post( $download_attached );
+                $access         = LaterPay_Helper_Post::has_access_to_post( $post );
+                $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
+                    $download_attached,
+                    wp_get_attachment_url( $download_attached ),
+                    $access,
+                    'attachment'
+                );
+                // set cookie to notify post that we need to start attachment download
+                setcookie(
+                    'laterpay_download_attached',
+                    $attachment_url,
+                    time() + 60,
+                    '/'
+                );
             }
 
             unset( $params['post_id'],

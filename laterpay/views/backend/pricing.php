@@ -250,7 +250,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                     </div>
 
-                    <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mb-" style="display:none;">
+                    <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mb- lp_globalEditSection" style="display:none;">
                         <table class="lp_table--form" width="100%">
                             <thead>
                                 <tr>
@@ -331,8 +331,26 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>&nbsp;</tr>
+                                <?php if ( LaterPay_Helper_Pricing::is_single_purchase_voucher_enabled() ) : ?>
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="lp_js_voucherEditor lp_mt-">
+                                                <input type="hidden" name="voucher_currency_code" value="<?php echo esc_attr( $laterpay['currency']['code'] ); ?>" />
+                                                <input type="hidden" class="lp_js_voucherPriceInput" name="voucher_default_price" value="0.39" />
+                                                <input type="hidden" name="voucher_temp_code" value="" />
+                                                <span class="lp_js_voucher_msg" data-icon="n"><?php esc_html_e( 'This voucher code is already in use, please choose a different name.', 'laterpay' ); ?></span>
+
+                                                <div class="lp_js_voucherPlaceholder"></div>
+                                                <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link lp_single_voucher_button" data-icon="c">
+                                                    <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
+                                                </a>
+                                                <span data-icon="n" class="lp_single_voucher_disclaimer"><?php esc_html_e( 'This voucher will provide discounted access to all Articles, even those with a Category Default or Single Article Price.', 'laterpay' ); ?></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                                 <tr>
-                                    <td>&nbsp;</td>
                                     <td colspan="3" id="lp_js_formButtons">
                                         <a href="#" id="lp_js_saveGlobalDefaultPrice" class="button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
                                         <a href="#" id="lp_js_cancelEditingGlobalDefaultPrice" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>

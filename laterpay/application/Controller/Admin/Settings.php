@@ -164,7 +164,22 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
             )
         );
 
+        // Allow vouchers for single purchase setting.
+        add_settings_field(
+            'laterpay_enable_content_voucher',
+            esc_html__( 'Enable Vouchers for Single Article Purchases', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_access',
+            array(
+                'name'  => 'laterpay_enable_content_voucher',
+                'value' => 1,
+                'type'  => 'checkbox',
+            )
+        );
+
         register_setting( 'laterpay', 'laterpay_require_login' );
+        register_setting( 'laterpay', 'laterpay_enable_content_voucher' );
     }
 
     /**

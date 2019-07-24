@@ -21,6 +21,7 @@ $category_disabled_class        = '';
 $global_selected_class          = '';
 $global_disabled_class          = '';
 $individual_free_selected_class = '';
+$individual_free_disabled_class = '';
 
 if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ), true )
      && ( 1 !== $post_price_behaviour ) ) {
@@ -49,6 +50,10 @@ if ( $laterpay['post_price_type'] === LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAU
 
 if ( ! empty( $laterpay['category_prices'] ) ) {
     $global_disabled_class = ' lp_is-disabled lp_tooltip';
+}
+
+if ( 0 === $post_price_behaviour ) {
+    $individual_free_disabled_class = 'lp_is-disabled lp_tooltip';
 }
 
 $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
@@ -127,7 +132,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
                data-price="<?php echo esc_attr( LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ) ); ?>"
                data-revenue-model="<?php echo esc_attr( $laterpay['global_default_price_revenue_model'] ); ?>"><?php printf( esc_html__( 'Global %sDefault Price', 'laterpay' ), "<br/>" ); ?></a>
         </li>
-        <li class="lp_price-type__item <?php echo esc_attr( $category_selected_class . ' ' . $category_disabled_class ); ?>"
+        <li id="lp_js_individualPriceHolder" class="lp_price-type__item <?php echo esc_attr( $category_selected_class . ' ' . $category_disabled_class ); ?>"
             <?php if ( $laterpay['no_category_price_set'] && ( 1 !== $post_price_behaviour ) ) {
                 printf( '%1$s="%2$s"', 'data-tooltip', esc_html__( 'It looks like you have not set up a Category Default Price. Go to the LaterPay > Pricing page to set up Category Default Prices.', 'laterpay' ) );
             } elseif ( empty( $laterpay['category_prices'] ) && ( 1 !== $post_price_behaviour ) ) {
@@ -140,7 +145,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
                id="lp_js_useCategoryDefaultPrice"
                class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Category Default Price', 'laterpay' ); ?></a>
         </li>
-        <li class="lp_price-type__item <?php echo esc_attr( $individual_free_selected_class ); ?>">
+        <li class="lp_price-type__item <?php echo esc_attr( $individual_free_selected_class . ' ' . $individual_free_disabled_class ); ?>" <?php if ( ! empty( $individual_free_disabled_class ) ) { printf( '%1$s="%2$s"', 'data-tooltip', esc_html__( 'In order to make this article free, simply select the "Global Default Price" option above.', 'laterpay' ) ); } ?>>
             <a href="#"
                id="lp_js_setPostFree"
                class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Make Article Free', 'laterpay' ); ?></a>
@@ -153,8 +158,12 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
     </ul>
     <ul class="lp_price-type__options">
         <li>
-            <?php echo esc_attr( LaterPay_Helper_View::format_number( $laterpay['global_price'] ) ); ?> <?php esc_html_e( $laterpay['currency']['code'] ); ?>
-            <?php if ( $laterpay['post_revenue_model'] === 'ppu' ) : ?>
+            <?php
+            if ( 0 === $post_price_behaviour ) :
+                printf( esc_html__( '%sFREE%s', 'laterpay' ), '<b class="lp_postEditTypeZero">', '</b>' );
+            else :
+                echo esc_attr( LaterPay_Helper_View::format_number( $laterpay['global_price'] ) ); ?><?php esc_html_e( $laterpay['currency']['code'] ); ?>
+                <?php if ( $laterpay['post_revenue_model'] === 'ppu' ) : ?>
                 <label class="lp_badge lp_badge--revenue-model-global">
                     <?php esc_html_e( 'Pay Later', 'laterpay' ); ?>
                 </label>
@@ -162,7 +171,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
                 <label class="lp_badge lp_badge--revenue-model-global">
                     <?php esc_html_e( 'Pay Now', 'laterpay' ); ?>
                 </label>
-            <?php endif; ?>
+            <?php endif; endif; ?>
         </li>
         <li id="lp_js_categoryTypeInfo">
             <div id="lp_js_priceTypeDetailsCategoryDefaultPrice"

@@ -62,12 +62,12 @@ class LaterPay_Helper_Cache
         // W3 Total Cache
         if ( function_exists( 'w3tc_pgcache_flush' ) ) {
             w3tc_pgcache_flush();
-        } else if ( function_exists( 'wp_cache_clean_cache' ) ) { // WP Super Cache
+        } elseif ( function_exists( 'wp_cache_clean_cache' ) ) { // WP Super Cache
             global $file_prefix;
             wp_cache_clean_cache( $file_prefix );
-        } else if ( class_exists( 'quick_cache' ) && method_exists( 'quick_cache', 'clear' ) ) { // Quick Cache
+        } elseif ( class_exists( 'quick_cache' ) && method_exists( 'quick_cache', 'clear' ) ) { // Quick Cache
             quick_cache::clear();
-        } else if ( class_exists( 'Cachify' ) && method_exists( 'Cachify', 'flush_total_cache' ) ) { // Cachify
+        } elseif ( class_exists( 'Cachify' ) && method_exists( 'Cachify', 'flush_total_cache' ) ) { // Cachify
             Cachify::flush_total_cache();
         }
     }

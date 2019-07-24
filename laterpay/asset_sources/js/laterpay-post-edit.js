@@ -139,12 +139,13 @@
                         return;
                     }
 
-                    $o.priceEditSection.show();
-
                     if ( '0' === lpVars.postPriceBehaviour ) {
                         $o.postEditTypeZero.hide();
                     }
 
+                    $o.priceEditSection.show();
+                    $o.priceEditSection.find('div.postPriceInputHolder').show();
+                    $o.priceEditSection.find('div#lp_js_priceEditSection').show();
                     $o.postPriceInputInfo.show();
                     $o.postFreeDescription.hide();
 
@@ -166,6 +167,11 @@
                 // Display post free information.
                 $($o.setPostFreeButton).on( 'click', function (e) {
                     e.preventDefault();
+
+                    if ( $o.setPostFreeButton.hasClass('lp_is-disabled') ) {
+                        return;
+                    }
+
                     $o.postFreeDescription.show();
                     $o.postPriceInputInfo.hide();
                 });
@@ -234,6 +240,8 @@
 
                     // Display price edit box.
                     $o.priceEditSection.show();
+                    $o.priceEditSection.find('div.postPriceInputHolder').show();
+                    $o.priceEditSection.find('div#lp_js_priceEditSection').show();
 
                     // Hide FREE message when individual price type is selected while Global default type is FREE.
                     if ( '0' === lpVars.postPriceBehaviour ) {

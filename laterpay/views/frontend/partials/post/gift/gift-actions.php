@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         LaterPay_Helper_View::format_number( $pass['price'] ),
         $laterpay['standard_currency']
     );
-?>
+    ?>
 <div class="lp_gift-card__actions">
     <?php if ( $laterpay['has_access'] ) : ?>
         <?php esc_html_e( 'Gift Code', 'laterpay' ); ?>

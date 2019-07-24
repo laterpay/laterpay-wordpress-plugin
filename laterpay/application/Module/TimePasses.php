@@ -161,8 +161,16 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // get subscriptions
         $subscriptions = $event->get_argument( 'subscriptions' );
 
+        // check global vouchers.
+        $global_has_vouchers = false;
+        if ( LaterPay_Helper_Pricing::is_single_purchase_voucher_enabled() ) {
+            $lp_global_vouchers  = LaterPay_Helper_Voucher::get_all_global_vouchers();
+            $global_has_vouchers = ( isset( $lp_global_vouchers[0] ) && empty( $lp_global_vouchers[0] ) ) ? false : true;
+        }
+
+
         // don't render the widget, if there are no time passes and no subsriptions
-        if ( empty( $time_passes_list ) && empty( $subscriptions ) ) {
+        if ( empty( $time_passes_list ) && empty( $subscriptions ) && false === $global_has_vouchers ) {
             return;
         }
 
@@ -170,7 +178,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         $time_pass_has_vouchers    = LaterPay_Helper_Voucher::passes_have_vouchers( $time_passes_list );
         $subscription_has_vouchers = LaterPay_Helper_Voucher::subscriptions_have_vouchers( $subscriptions_list );
 
-        $has_vouchers = $time_pass_has_vouchers || $subscription_has_vouchers;
+        $has_vouchers = $time_pass_has_vouchers || $subscription_has_vouchers || $global_has_vouchers;
 
         $view_args = array(
             'passes_list'                    => $time_passes_list,

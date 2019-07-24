@@ -439,9 +439,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_global_price_revenue_model',              'ppu' );
         add_option( 'laterpay_voucher_codes',                           '' );
         add_option( 'laterpay_subscription_voucher_codes',              '' );
-        add_option( 'laterpay_gift_codes',                              '' );
-        add_option( 'laterpay_voucher_statistic',                       '' );
-        add_option( 'laterpay_gift_statistic',                          '' );
+        add_option( 'laterpay_global_voucher_codes',                    '' );
         add_option( 'laterpay_gift_codes_usages',                       '' );
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
@@ -455,7 +453,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
         add_option( 'laterpay_enabled_post_types', [ 'post' => 'post', 'attachment' => 'attachment' ] );
         add_option( 'laterpay_require_login',                           '' );
-        add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
         add_option( 'laterpay_api_fallback_behavior',                   0 );
 
         // keep the plugin version up to date
@@ -671,19 +668,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
      */
     public function add_update_highlights() {
 
+        /**
+         * Don't add release notice in VIP env.
+         */
+        if ( laterpay_check_is_vip() ) {
+            return;
+        }
+
         $current_version = get_option( 'laterpay_plugin_version' );
 
         $update_highlights = [];
 
-        if ( ! empty( $current_version ) && false === get_option( 'lp_update_highlights' ) ) {
-
-            if ( version_compare( $current_version, '2.5.4', '<' ) ) {
-                return;
-            }
+        if ( ! empty( $current_version ) ) {
 
             $update_highlights = [
-                'version' => '2.6.0',
-                'notice'  => __( 'You can now fully customize the appearance of your payment overlay. Visit the Appearance tab to check it out!', 'laterpay' ),
+                'version' => '2.6.1',
             ];
 
             update_option( 'lp_update_highlights', $update_highlights );

@@ -34,6 +34,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_time_pass_subscription_purchase', 200 ),
             ),
+            'laterpay_shortcode_check_access' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'laterpay_access_manage_content', 200 ),
+            ),
             'wp_ajax_laterpay_get_premium_shortcode_link' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_get_premium_shortcode_link' ),
@@ -293,8 +297,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                         break;
 
                     case 'video':
-	                    $button_label = __( 'Watch now', 'laterpay' );
-	                    break;
+                        $button_label = __( 'Watch now', 'laterpay' );
+                        break;
 
                     case 'gallery':
                         $button_label = __( 'View now', 'laterpay' );
@@ -562,5 +566,56 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // Set final result.
         $event->set_result( $html_button );
 
+    }
+
+    /**
+     * Wrap your Ads or content around these shortcode so that it's hidden to premium users those who have access to certain,
+     * time pass /  subscription / current post.
+     *
+     * The shortcode [laterpay_check_access] accepts these parameters:
+     * - timepasses: A comma separated string containing ID of time passes.
+     * - subscriptions: A comma separated string containing ID of subscriptions.
+     *
+     * Basic example:
+     * [laterpay_check_access timepasses="47" ]Ads![/laterpay_check_access]
+     * or:
+     * [laterpay_check_access subscriptions="18" ]AdS![/laterpay_check_access]
+     * or:
+     * [laterpay_check_access timepasses="47" subscriptions="18"]Ads![/laterpay_check_access]
+     *
+     * @param  LaterPay_Core_Event $event
+     *
+     * @throws LaterPay_Core_Exception
+     */
+    public function laterpay_access_manage_content( LaterPay_Core_Event $event ) {
+
+        // Get all the attributes.
+        list( $attributes, $content ) = $event->get_arguments() + array( array(), '' );
+
+        // Check if user has access to current page/post, if so hide content.
+        if ( true === LaterPay_Helper_Pricing::check_current_post_access() ) {
+            $event->set_result( '' );
+
+            return;
+        }
+
+        // Provide default values for empty shortcode attributes.
+        $shortcode_atts = shortcode_atts( array(
+            'timepasses'    => '',
+            'subscriptions' => '',
+        ), $attributes );
+
+        // ID of Time Passes and Subscriptions.
+        $time_pass_ids    = $shortcode_atts['timepasses'];
+        $subscription_ids = $shortcode_atts['subscriptions'];
+
+        if ( true === LaterPay_Helper_Pricing::check_time_pass_subscription_access( $time_pass_ids, $subscription_ids ) ) {
+            $event->set_result( '' );
+
+            return;
+        }
+
+        // If user has no access then show content.
+        $event->set_result( $content );
     }
 }

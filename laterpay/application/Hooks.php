@@ -112,6 +112,7 @@ class LaterPay_Hooks {
             'laterpay_global_price_revenue_model',
             'laterpay_enabled_post_types',
             'laterpay_teaser_mode',
+            'lp_appearance_config',
             'laterpay_plugin_is_in_live_mode',
         );
         foreach ( $options as $option_name ) {

@@ -170,6 +170,13 @@
                 width: 75px;
                 text-transform: uppercase;
             }
+
+            b.lp_postEditTypeZero {
+                font-size: $fs;
+                line-height: 2;
+                color: #000;
+                font-weight: 800;
+            }
         }
 
         li#lp_js_postPriceInputInfo {
@@ -202,12 +209,14 @@
             border-radius: 5px;
             padding: 1px 3px;
             overflow-x: hidden;
+            overflow-y: auto;
 
             li {
                 padding: 10px 5px;
                 min-height: 25px;
                 margin: 0;
                 font-size: 12px;
+                width: 120px;
 
                 a {
                     position: relative;
