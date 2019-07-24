@@ -9,6 +9,7 @@ $is_vip         = laterpay_check_is_vip();
 $access_url     = admin_url( 'options-general.php?page=laterpay#lpaccess' );
 $appearance_url = admin_url( 'options-general.php?page=laterpay#lpappearance' );
 $technical_url  = admin_url( 'options-general.php?page=laterpay#lptechnical' );
+$analytics_url  = admin_url( 'options-general.php?page=laterpay#lpanalytics' );
 $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 ?>
 
@@ -40,7 +41,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
         <div class="lp_main_area">
             <h2><?php esc_html_e( 'Advanced Features', 'laterpay' ); ?></h2>
-            <div class="lp_clearfix">
+            <div class="lp_clearfix" id="lp_analytics_info">
                 <label class="lp_step_label">
                     <span class="lp_step_span"><?php esc_html_e( 'Analytics', 'laterpay' ); ?></span>
                 </label>
@@ -230,10 +231,10 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </p>
                         <ul>
                             <li>
-                                <a href="" class="lp_info_link" target="_blank"><?php esc_html_e( 'Google Analytics Events', 'laterpay' ); ?></a>
+                                <a href="<?php echo esc_url( $analytics_url ); ?>" class="lp_info_link"><?php esc_html_e( 'Google Analytics Events', 'laterpay' ); ?></a>
                             </li>
                             <li>
-                                <a href="#" class="lp_info_link" target="_blank"><?php esc_html_e( 'LaterPay\'s Analytics Dashboard', 'laterpay' ); ?></a>
+                                <a href="#lp_analytics_info" class="lp_info_link"><?php esc_html_e( 'LaterPay\'s Analytics Dashboard', 'laterpay' ); ?></a>
                             </li>
                         </ul>
                     </div>
