@@ -173,9 +173,13 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
             if ( false !== $wisdom_tracking_info ) {
                 if ( ! isset( $wisdom_tracking_info['laterpay'] ) ) {
                     $wisdom_tracking_info['laterpay'] = 'laterpay';
-                    update_option( 'wisdom_allow_tracking', $wisdom_tracking_info );
                 }
+            } else {
+                $wisdom_tracking_info = [
+                    'laterpay' => 'laterpay',
+                ];
             }
+            update_option( 'wisdom_allow_tracking', $wisdom_tracking_info );
         }
 
         $result = update_option( 'lp_wisdom_tracking_info', $lp_wisdom_info );
