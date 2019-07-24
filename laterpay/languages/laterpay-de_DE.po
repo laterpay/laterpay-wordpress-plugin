@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-07-23 17:06+0530\n"
-"PO-Revision-Date: 2019-07-23 17:06+0530\n"
+"POT-Creation-Date: 2019-07-24 15:38+0530\n"
+"PO-Revision-Date: 2019-07-24 15:52+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -671,7 +671,7 @@ msgstr ""
 msgid "Pricing"
 msgstr "Preise"
 
-#: application/Controller/Admin.php:823 views/backend/advanced.php:200
+#: application/Controller/Admin.php:823 views/backend/advanced.php:245
 msgid "Appearance"
 msgstr "Darstellung"
 
@@ -744,6 +744,7 @@ msgid "LaterPay does not work properly with invalid API credentials."
 msgstr "LaterPay funktioniert nicht ohne gültige API Zugangsdaten."
 
 #: application/Controller/Admin/Account.php:118
+#: application/Controller/Admin/Advanced.php:118
 #: application/Controller/Admin/Appearance.php:113
 #: application/Controller/Admin/Pricing.php:287
 #: application/Controller/Admin/Pricing.php:565
@@ -785,6 +786,7 @@ msgstr ""
 
 #: application/Controller/Admin/Account.php:284
 #: application/Controller/Admin/Account.php:331
+#: application/Controller/Admin/Advanced.php:156
 msgid "Error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten. Falsche Daten wurden übergeben."
 
@@ -841,13 +843,17 @@ msgstr ""
 "Ihr LaterPay-Konto ist darauf beschränkt, Inhalte in %s zu verkaufen. Bitte "
 "aktualisieren Sie Ihre Währung oder kontaktieren Sie sales@laterpay.net."
 
-#: application/Controller/Admin/Advanced.php:46 views/backend/advanced.php:266
+#: application/Controller/Admin/Advanced.php:61 views/backend/advanced.php:313
 msgid "Delete Plugin Data"
 msgstr "Plugin Daten löschen"
 
-#: application/Controller/Admin/Advanced.php:46 views/backend/advanced.php:266
+#: application/Controller/Admin/Advanced.php:61 views/backend/advanced.php:313
 msgid "Deactivate Plugin & Delete Data"
 msgstr "Plugin & Daten deaktivieren"
+
+#: application/Controller/Admin/Advanced.php:187
+msgid "Updated LaterPay tracking mode."
+msgstr ""
 
 #: application/Controller/Admin/Appearance.php:73
 #: views/backend/appearance.php:148
@@ -878,7 +884,7 @@ msgstr "Kauf-Overlay Einstellungen erfolgreich gespeichert."
 msgid "Color scheme saved successfully."
 msgstr "Kauf-Overlay Einstellungen erfolgreich gespeichert."
 
-#: application/Controller/Admin/Notice.php:54
+#: application/Controller/Admin/Notice.php:58
 msgid "Please contact WPEngine customer service to bypass the required cookies"
 msgstr ""
 "Bitte kontaktieren Sie den WPEngine Kundenservice, um die erforderlichen "
@@ -895,30 +901,36 @@ msgstr ""
 # damit das Plugin mit dem Page-Cache richtig funktioniert."
 #
 # Thanks for clarification. I guess cookies stay in English anyway, so just translating the "and"
-#: application/Controller/Admin/Notice.php:55
+#: application/Controller/Admin/Notice.php:59
 msgid "laterpay_token, laterpay_purchased_gift_card and laterpay_tracking_code"
 msgstr ""
 "laterpay_token, laterpay_purchased_gift_card und laterpay_tracking_code"
 
-#: application/Controller/Admin/Notice.php:56
+#: application/Controller/Admin/Notice.php:60
 msgid "in order for the plugin to work properly with page-cache."
 msgstr "damit das Plugin mit dem Page-Cache richtig funktioniert."
 
-#: application/Controller/Admin/Notice.php:57
+#: application/Controller/Admin/Notice.php:61
 msgid "Done"
 msgstr "Erledigt"
 
-#: application/Controller/Admin/Notice.php:78
+#: application/Controller/Admin/Notice.php:82
 msgid "Saving Settings "
 msgstr "Einstellungen speichern "
 
-#: application/Controller/Admin/Notice.php:79
+#: application/Controller/Admin/Notice.php:83
 msgid "Settings Saved "
 msgstr "Einstellungen gespeichert "
 
-#: application/Controller/Admin/Notice.php:80
+#: application/Controller/Admin/Notice.php:84
 msgid "Error saving data"
 msgstr "Fehler beim Speichern von Daten"
+
+#: application/Controller/Admin/Notice.php:97
+msgid ""
+"Thank you for opting in to tracking! May we contact you to provide updates "
+"or request feedback?"
+msgstr ""
 
 #: application/Controller/Admin/Post/Column.php:42
 #: views/backend/partials/subscription.php:62
@@ -1214,7 +1226,7 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:130 views/backend/pricing.php:172
 msgid "Single Purchase"
-msgstr ""
+msgstr "Einzelkauf"
 
 #: application/Controller/Admin/Pricing.php:131
 #: application/Controller/Frontend/Shortcode.php:534
@@ -1445,7 +1457,7 @@ msgstr "Sind Sie sicher, dass Sie diese Funktion deaktivieren möchten?"
 msgid "Yes, Disable Tracking"
 msgstr "Ja, Tracking deaktivieren"
 
-#: application/Controller/Admin/Settings.php:263 views/backend/advanced.php:264
+#: application/Controller/Admin/Settings.php:263 views/backend/advanced.php:311
 #: views/backend/appearance.php:147 views/backend/appearance.php:280
 #: views/backend/pricing.php:113 views/backend/pricing.php:196
 #: views/backend/pricing.php:356 views/backend/pricing.php:476
@@ -2116,6 +2128,116 @@ msgstr ""
 msgid "rotateZ"
 msgstr ""
 
+#: tracking/class-plugin-usage-tracker.php:145
+msgid "Once Weekly"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:149
+msgid "Once Monthly"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:311
+msgid ""
+"We can't detect any product information. This is most probably because you "
+"have not included the code snippet."
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:816
+#, php-format
+msgid ""
+"Thank you for installing our %1$s. We would like to track its usage on your "
+"site. We don't record any sensitive data, only information regarding the "
+"WordPress environment and %1$s settings, which we will use to help us make "
+"improvements to the %1$s. Tracking is completely optional."
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:822
+#, php-format
+msgid ""
+"Thank you for installing our %1$s. We'd like your permission to track its "
+"usage on your site and subscribe you to our newsletter. We won't record any "
+"sensitive data, only information regarding the WordPress environment and "
+"%1$s settings, which we will use to help us make improvements to the %1$s. "
+"Tracking is completely optional."
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:833
+msgid "Allow"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:834
+msgid "Do Not Allow"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:884
+#, php-format
+msgid ""
+"Thank you for opting in to tracking. Would you like to receive occasional "
+"news about this %s, including details of new features and special offers?"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:893
+msgid "Yes Please"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:894
+msgid "No Thank You"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:925
+msgid "Sorry to see you go"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:926
+msgid ""
+"Before you deactivate the plugin, would you quickly give us your reason for "
+"doing so?"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:928
+msgid "Set up is too difficult"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:929
+msgid "Lack of documentation"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:930
+msgid "Not the features I wanted"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:931
+msgid "Found a better plugin"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:932
+msgid "Installed by mistake"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:933
+msgid "Only required temporarily"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:934
+msgid "Didn't work"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:936
+msgid "Details (optional)"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:975
+msgid "Submitting form"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:1035
+msgid "Submit and Deactivate"
+msgstr ""
+
+#: tracking/class-plugin-usage-tracker.php:1035
+msgid "Just Deactivate"
+msgstr ""
+
 #: views/backend/account.php:24 views/backend/advanced.php:28
 #: views/backend/appearance.php:38
 #: views/backend/partials/post-pricing-form.php:67 views/backend/pricing.php:19
@@ -2499,37 +2621,81 @@ msgstr "Endbenutzer auffordern, sich vor dem Kauf einzuloggen"
 msgid "Give unrestricted access to specific user roles"
 msgstr "Bestimmten Nutzerrollen uneingeschränkten Zugriff geben"
 
-#: views/backend/advanced.php:209
+#: views/backend/advanced.php:200
+msgid "Analytics & Usage Data"
+msgstr "Analytik & Nutzungsdaten"
+
+#: views/backend/advanced.php:205
+msgid ""
+"In order to make informed decisions about improvements to our plugin, we "
+"would like to gather information on a few of your WordPress settings. We do "
+"not record any sensitive information; only data points in regards to your "
+"WordPress environment and plugin settings."
+msgstr ""
+"Um fundierte Entscheidungen über Verbesserungen an unserem Plugin zu "
+"treffen, möchten wir Informationen über einige Ihrer WordPress-Einstellungen "
+"sammeln. Wir erfassen keine sensiblen Informationen, sondern nur Datenpunkte "
+"in Bezug auf Ihre WordPress-Umgebung und Plugin-Einstellungen."
+
+#: views/backend/advanced.php:222
+msgid "ALLOW"
+msgstr "JA"
+
+#: views/backend/advanced.php:222
+msgid "DISALLOW"
+msgstr "NEIN"
+
+#: views/backend/advanced.php:226
+msgid "LaterPay to view my settings."
+msgstr "LaterPay kann meine Einstellungen einsehen."
+
+#: views/backend/advanced.php:229
+msgid ""
+"If you are also interested in making data informed decisions, additional "
+"analytics available through LaterPay include:"
+msgstr ""
+"Wenn Sie auch daran interessiert sind, datenbasierte Entscheidungen zu "
+"treffen, sind zusätzliche Analysen über LaterPay verfügbar:"
+
+#: views/backend/advanced.php:233
+msgid "Google Analytics Events"
+msgstr "Google Analytics Veranstaltungen"
+
+#: views/backend/advanced.php:236
+msgid "LaterPay's Analytics Dashboard"
+msgstr "LaterPay’s Analytics Dashboard für Analysen"
+
+#: views/backend/advanced.php:254
 msgid "Click here to access additional appearance configurations,"
 msgstr "Klicken Sie hier für weitere Design Einstellungen,"
 
-#: views/backend/advanced.php:210 views/backend/advanced.php:283
-#: views/backend/advanced.php:321
+#: views/backend/advanced.php:255 views/backend/advanced.php:330
+#: views/backend/advanced.php:368
 msgid "including:"
 msgstr "zum Beispiel:"
 
-#: views/backend/advanced.php:215
+#: views/backend/advanced.php:260
 msgid "Length of default teaser content"
 msgstr "Standard Teaser-Länge"
 
-#: views/backend/advanced.php:216
+#: views/backend/advanced.php:261
 msgid "Length of blurred content displayed behind paywall"
 msgstr ""
 "Wie viel des Inhalts verschwommen hinter der Bezahlschranke erscheinen soll"
 
-#: views/backend/advanced.php:229
+#: views/backend/advanced.php:274
 #, php-format
 msgid "%sDelete%s Account"
 msgstr "%sPLUGIN%s & DATEN DEAKTIVIEREN"
 
-#: views/backend/advanced.php:241
+#: views/backend/advanced.php:288
 #, php-format
 msgid "%sWarning!%s This operation deletes ALL LaterPay plugin data."
 msgstr ""
 "%sAchtung!%s Diese Operation löscht alle LaterPay Plugin Daten "
 "unwiderruflich."
 
-#: views/backend/advanced.php:247
+#: views/backend/advanced.php:294
 #, php-format
 msgid ""
 "%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL "
@@ -2539,7 +2705,7 @@ msgstr ""
 "alle Daten unwiderruflich. Sie verlieren hierbei alle Layout- und "
 "Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
 
-#: views/backend/advanced.php:254
+#: views/backend/advanced.php:301
 msgid ""
 "You will lose all appearance settings and pricing configurations. This "
 "cannot be undone."
@@ -2547,7 +2713,7 @@ msgstr ""
 "Sie verlieren hierbei alle Layout- und Preiskonfigurationen. Diese Aktion "
 "kann nicht rückgängig gemacht werden."
 
-#: views/backend/advanced.php:259
+#: views/backend/advanced.php:306
 msgid ""
 "Are you sure you want to delete ALL LaterPay Plugin data? You will loose all "
 "pricing configurations. This cannot be undone."
@@ -2555,7 +2721,7 @@ msgstr ""
 "Sind Sie sicher, dass Sie alle LaterPay Daten löschen möchten? Sie verlieren "
 "alle Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
 
-#: views/backend/advanced.php:261
+#: views/backend/advanced.php:308
 #, fuzzy
 msgid ""
 "Are you sure you want to deactivate LaterPay plugin and delete ALL its data? "
@@ -2564,38 +2730,38 @@ msgstr ""
 "Sind Sie sicher, dass Sie alle LaterPay Daten löschen möchten? Sie verlieren "
 "alle Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
 
-#: views/backend/advanced.php:263
+#: views/backend/advanced.php:310
 msgid "Delete LaterPay Plugin Data"
 msgstr "Plugin Daten löschen"
 
-#: views/backend/advanced.php:263
+#: views/backend/advanced.php:310
 #, fuzzy
 msgid "Deactivate LaterPay Plugin"
 msgstr "Plugin Daten löschen"
 
-#: views/backend/advanced.php:273
+#: views/backend/advanced.php:320
 msgid "Technical"
 msgstr "TECHNISCHE EINSTELLUNGEN"
 
-#: views/backend/advanced.php:282
+#: views/backend/advanced.php:329
 msgid "Click here for more technical configuration options,"
 msgstr "Klicken Sie hier für weitere technische Einstellungen,"
 
-#: views/backend/advanced.php:288
+#: views/backend/advanced.php:335
 msgid "Enable caching compatibility mode"
 msgstr "Aktivieren Sie den Caching-Kompatibilitätsmodus"
 
-#: views/backend/advanced.php:289
+#: views/backend/advanced.php:336
 msgid "Define fallback behavior in case LaterPay API is not responding"
 msgstr ""
 "Wählen Sie ein Fallback-Verhalten für den Fall, dass die LaterPay-API nicht "
 "antwortet"
 
-#: views/backend/advanced.php:302
+#: views/backend/advanced.php:349
 msgid "TIPS & TRICKS"
 msgstr "TIPPS & TRICKS"
 
-#: views/backend/advanced.php:307
+#: views/backend/advanced.php:354
 #, php-format
 msgid ""
 "%sHELP!%s The new version of the plugin is not compatible with my site. How "
@@ -2605,15 +2771,15 @@ msgstr ""
 "kompatibel. Wie kann ich einen Rollback durchführen? %sKlicken Sie hier für "
 "eine Schritt-für-Schritt-Anleitung.%s"
 
-#: views/backend/advanced.php:318
+#: views/backend/advanced.php:365
 msgid "Have you found all of our Advanced Settings?"
 msgstr "Haben Sie alle unsere erweiterten Einstellungen gefunden?"
 
-#: views/backend/advanced.php:320
+#: views/backend/advanced.php:367
 msgid "Click here to see even more LaterPay configurations."
 msgstr "Klicken Sie hier, um noch mehr LaterPay-Konfigurationen zu sehen."
 
-#: views/backend/advanced.php:327
+#: views/backend/advanced.php:374
 #, php-format
 msgid ""
 "Pay Later can be counter-intuitive at first. %sClick here%s to learn more "
@@ -3122,10 +3288,8 @@ msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
 #: views/backend/pricing.php:71
-#, fuzzy
-#| msgid "Which content would you like to sell with LaterPay?"
 msgid "are currently available to be sold with LaterPay"
-msgstr "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
+msgstr "sind derzeit verfügbar, um mit LaterPay verkauft zu werden"
 
 #: views/backend/pricing.php:79
 msgid "Which content would you like to sell with LaterPay?"
@@ -3133,71 +3297,75 @@ msgstr "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
 
 #: views/backend/pricing.php:121
 msgid "Customize Overlay"
-msgstr ""
+msgstr "Overlay anpassen"
 
 #: views/backend/pricing.php:122
 msgid "(optional)"
-msgstr ""
+msgstr "(optional)"
 
 #: views/backend/pricing.php:125
 msgid "Pricing options displayed in"
-msgstr ""
+msgstr "Die Preisoptionen werden in"
 
 #: views/backend/pricing.php:127
 msgid "is selected by default"
-msgstr ""
+msgstr "ist standardmäßig ausgewählt"
 
 #: views/backend/pricing.php:138
 msgid "In what order should the purchase options be displayed?"
-msgstr ""
+msgstr "In welcher Reihenfolge sollen die Kaufoptionen angezeigt werden?"
 
 #: views/backend/pricing.php:144
-#, fuzzy
-#| msgid "default price"
 msgid "Default Order"
-msgstr "Standardpreis"
+msgstr "Standardbestellung"
 
 #: views/backend/pricing.php:144
 msgid ""
 "Single Purchase followed by Time Passes and Subscriptions in the order they "
 "were created."
 msgstr ""
+"Einzelbestellung, gefolgt von Zeitpässen und Abonnements in der Reihenfolge "
+"ihrer Erstellung."
 
 #: views/backend/pricing.php:149
 msgid "By Price (Ascending)"
-msgstr ""
+msgstr "Nach Preis (Aufsteigend)"
 
 #: views/backend/pricing.php:149
 msgid "Least expensive option listed first"
-msgstr ""
+msgstr "Günstigste Option zuerst aufgeführt"
 
 #: views/backend/pricing.php:154
 msgid "By Price (Descending)"
-msgstr ""
+msgstr "Nach Preis (Absteigend)"
 
 #: views/backend/pricing.php:154
 msgid "Most expensive option listed first"
-msgstr ""
+msgstr "Teuerste Option zuerst aufgeführt"
 
 #: views/backend/pricing.php:161
 msgid "Which purchase option should be selected by default?"
-msgstr ""
+msgstr "Welche Kaufoption soll als Standard eingestellt werden?"
 
 #: views/backend/pricing.php:167
 msgid "First Option (as defined above)"
-msgstr ""
+msgstr "Erste Option (wie oben definiert)"
 
 #: views/backend/pricing.php:189
 msgid ""
 "If there are multiple Time Passes available, the first option (as defined "
 "above) will be selected by default."
 msgstr ""
+"Wenn mehrere Zeitpässe verfügbar sind, wird automatisch die erste Option "
+"(wie oben definiert) ausgewählt."
 
 #: views/backend/pricing.php:190
 msgid ""
 "If there are multiple Subscriptions available, the first option (as defined "
 "above) will be selected by default."
 msgstr ""
+"Wenn mehrere Abonnements verfügbar sind, wird automatisch die erste Option "
+"(wie oben definiert) ausgewählt."
 
 #: views/backend/pricing.php:219
 msgid "Every post costs"

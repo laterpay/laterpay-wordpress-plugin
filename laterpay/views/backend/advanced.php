@@ -219,7 +219,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                                             <?php if ( $laterpay['is_wisdom_tracking_allowed'] ) {
                                                 echo 'checked';
                                             } ?>>
-                                        <span class="lp_toggle__text" data-on="ALLOW" data-off="DISALLOW"></span>
+                                        <span class="lp_toggle__text" data-on="<?php esc_attr_e( 'ALLOW', 'laterpay' ); ?>" data-off="<?php esc_attr_e( 'DISALLOW', 'laterpay' ); ?>"></span>
                                         <span class="lp_toggle__handle"></span>
                                     </label>
                                 </form>
