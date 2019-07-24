@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-07-23 17:06+0530\n"
-"PO-Revision-Date: 2019-07-24 16:41+0530\n"
+"POT-Creation-Date: 2019-07-24 18:20+0530\n"
+"PO-Revision-Date: 2019-07-24 18:21+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -935,6 +935,7 @@ msgstr "Preistyp"
 #: application/Controller/Admin/Post/Column.php:102
 #: application/Controller/Admin/Post/Column.php:108
 #: views/backend/partials/post-pricing-form.php:97
+#: views/backend/partials/post-pricing-form.php:163
 msgid "FREE"
 msgstr "KOSTENLOS"
 
@@ -1214,7 +1215,7 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:130 views/backend/pricing.php:172
 msgid "Single Purchase"
-msgstr ""
+msgstr "Einzelkauf"
 
 #: application/Controller/Admin/Pricing.php:131
 #: application/Controller/Frontend/Shortcode.php:534
@@ -2146,7 +2147,6 @@ msgid "mode."
 msgstr "Modus."
 
 #: views/backend/account.php:59
-#, fuzzy
 msgid ""
 "In Test mode, only WordPress administrators will be able to see the LaterPay "
 "paywall. You must complete step 3 below to enable Live mode. This will "
@@ -2877,6 +2877,7 @@ msgid "to toggle visibility."
 msgstr "um die Sichtbarkeit umzuschalten."
 
 #: views/backend/partials/post-pricing-form.php:100
+#: views/backend/partials/post-pricing-form.php:163
 msgid ""
 "All articles are free by default; Time Passes & Subscriptions will only be "
 "displayed if an Individual Article Price greater than 0.00 is manually set "
@@ -2933,12 +2934,6 @@ msgstr ""
 #: views/backend/partials/post-pricing-form.php:156
 msgid "Individual Price"
 msgstr "Individueller Preis"
-
-#: views/backend/partials/post-pricing-form.php:163
-#, fuzzy, php-format
-#| msgid "FREE"
-msgid "%sFREE%s"
-msgstr "KOSTENLOS"
 
 #: views/backend/partials/post-pricing-form.php:208
 #, fuzzy
@@ -3124,10 +3119,8 @@ msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
 #: views/backend/pricing.php:71
-#, fuzzy
-#| msgid "Which content would you like to sell with LaterPay?"
 msgid "are currently available to be sold with LaterPay"
-msgstr "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
+msgstr "sind derzeit verfügbar, um mit LaterPay verkauft zu werden"
 
 #: views/backend/pricing.php:79
 msgid "Which content would you like to sell with LaterPay?"
@@ -3135,71 +3128,75 @@ msgstr "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
 
 #: views/backend/pricing.php:121
 msgid "Customize Overlay"
-msgstr ""
+msgstr "Overlay anpassen"
 
 #: views/backend/pricing.php:122
 msgid "(optional)"
-msgstr ""
+msgstr "(optional)"
 
 #: views/backend/pricing.php:125
 msgid "Pricing options displayed in"
-msgstr ""
+msgstr "Die Preisoptionen werden in"
 
 #: views/backend/pricing.php:127
 msgid "is selected by default"
-msgstr ""
+msgstr "ist standardmäßig ausgewählt"
 
 #: views/backend/pricing.php:138
 msgid "In what order should the purchase options be displayed?"
-msgstr ""
+msgstr "In welcher Reihenfolge sollen die Kaufoptionen angezeigt werden?"
 
 #: views/backend/pricing.php:144
-#, fuzzy
-#| msgid "default price"
 msgid "Default Order"
-msgstr "Standardpreis"
+msgstr "Standardbestellung"
 
 #: views/backend/pricing.php:144
 msgid ""
 "Single Purchase followed by Time Passes and Subscriptions in the order they "
 "were created."
 msgstr ""
+"Einzelbestellung, gefolgt von Zeitpässen und Abonnements in der Reihenfolge "
+"ihrer Erstellung."
 
 #: views/backend/pricing.php:149
 msgid "By Price (Ascending)"
-msgstr ""
+msgstr "Nach Preis (Aufsteigend)"
 
 #: views/backend/pricing.php:149
 msgid "Least expensive option listed first"
-msgstr ""
+msgstr "Günstigste Option zuerst aufgeführt"
 
 #: views/backend/pricing.php:154
 msgid "By Price (Descending)"
-msgstr ""
+msgstr "Nach Preis (Absteigend)"
 
 #: views/backend/pricing.php:154
 msgid "Most expensive option listed first"
-msgstr ""
+msgstr "Teuerste Option zuerst aufgeführt"
 
 #: views/backend/pricing.php:161
 msgid "Which purchase option should be selected by default?"
-msgstr ""
+msgstr "Welche Kaufoption soll als Standard eingestellt werden?"
 
 #: views/backend/pricing.php:167
 msgid "First Option (as defined above)"
-msgstr ""
+msgstr "Erste Option (wie oben definiert)"
 
 #: views/backend/pricing.php:189
 msgid ""
 "If there are multiple Time Passes available, the first option (as defined "
 "above) will be selected by default."
 msgstr ""
+"Wenn mehrere Zeitpässe verfügbar sind, wird automatisch die erste Option "
+"(wie oben definiert) ausgewählt."
 
 #: views/backend/pricing.php:190
 msgid ""
 "If there are multiple Subscriptions available, the first option (as defined "
 "above) will be selected by default."
 msgstr ""
+"Wenn mehrere Abonnements verfügbar sind, wird automatisch die erste Option "
+"(wie oben definiert) ausgewählt."
 
 #: views/backend/pricing.php:219
 msgid "Every post costs"
@@ -3545,6 +3542,48 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#~ msgid "Analytics & Usage Data"
+#~ msgstr "Analytik & Nutzungsdaten"
+
+#~ msgid ""
+#~ "In order to make informed decisions about improvements to our plugin, we "
+#~ "would like to gather information on a few of your WordPress settings. We "
+#~ "do not record any sensitive information; only data points in regards to "
+#~ "your WordPress environment and plugin settings."
+#~ msgstr ""
+#~ "Um fundierte Entscheidungen über Verbesserungen an unserem Plugin zu "
+#~ "treffen, möchten wir Informationen über einige Ihrer WordPress-"
+#~ "Einstellungen sammeln. Wir erfassen keine sensiblen Informationen, "
+#~ "sondern nur Datenpunkte in Bezug auf Ihre WordPress-Umgebung und Plugin-"
+#~ "Einstellungen."
+
+#~ msgid "ALLOW"
+#~ msgstr "JA"
+
+#~ msgid "DISALLOW"
+#~ msgstr "NEIN"
+
+#~ msgid "LaterPay to view my settings."
+#~ msgstr "LaterPay kann meine Einstellungen einsehen."
+
+#~ msgid ""
+#~ "If you are also interested in making data informed decisions, additional "
+#~ "analytics available through LaterPay include:"
+#~ msgstr ""
+#~ "Wenn Sie auch daran interessiert sind, datenbasierte Entscheidungen zu "
+#~ "treffen, sind zusätzliche Analysen über LaterPay verfügbar:"
+
+#~ msgid "Google Analytics Events"
+#~ msgstr "Google Analytics Veranstaltungen"
+
+#~ msgid "LaterPay's Analytics Dashboard"
+#~ msgstr "LaterPay’s Analytics Dashboard für Analysen"
+
+#, fuzzy
+#~| msgid "FREE"
+#~ msgid "%sFREE%s"
+#~ msgstr "KOSTENLOS"
 
 #~ msgid ""
 #~ "\n"

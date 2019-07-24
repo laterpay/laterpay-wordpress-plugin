@@ -2041,11 +2041,11 @@ msgstr ""
 msgid "to toggle visibility."
 msgstr ""
 
-#: laterpay/views/backend/partials/post-pricing-form.php:97, laterpay/application/Controller/Admin/Post/Column.php:95, laterpay/application/Controller/Admin/Post/Column.php:102, laterpay/application/Controller/Admin/Post/Column.php:108
+#: laterpay/views/backend/partials/post-pricing-form.php:97, laterpay/views/backend/partials/post-pricing-form.php:163, laterpay/application/Controller/Admin/Post/Column.php:95, laterpay/application/Controller/Admin/Post/Column.php:102, laterpay/application/Controller/Admin/Post/Column.php:108
 msgid "FREE"
 msgstr ""
 
-#: laterpay/views/backend/partials/post-pricing-form.php:100
+#: laterpay/views/backend/partials/post-pricing-form.php:100, laterpay/views/backend/partials/post-pricing-form.php:163
 msgid "All articles are free by default; Time Passes & Subscriptions will only be displayed if an Individual Article Price greater than 0.00 is manually set by selecting “Individual Price” below."
 msgstr ""
 
@@ -2091,10 +2091,6 @@ msgstr ""
 
 #: laterpay/views/backend/partials/post-pricing-form.php:156
 msgid "Individual Price"
-msgstr ""
-
-#: laterpay/views/backend/partials/post-pricing-form.php:163
-msgid "%sFREE%s"
 msgstr ""
 
 #: laterpay/views/backend/partials/post-pricing-form.php:208
