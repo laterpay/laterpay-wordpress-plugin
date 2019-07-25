@@ -528,7 +528,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // ID was provided, but didn't work.
         if ( empty( $entity ) ) {
 
-            if ( is_user_logged_in() ) {
+            if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
                 $error_message = sprintf(
                     $template,
                     sprintf( esc_html__( 'We couldn\'t find a %s with id="%s" on this site.', 'laterpay' ), $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' ), $entity_id )
@@ -582,6 +582,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * [laterpay_check_access subscriptions="18" ]AdS![/laterpay_check_access]
      * or:
      * [laterpay_check_access timepasses="47" subscriptions="18"]Ads![/laterpay_check_access]
+     * or:
+     * [laterpay_check_access timepasses="all"]Ads![/laterpay_check_access]
+     * or:
+     * [laterpay_check_access subscriptions="all"]Ads![/laterpay_check_access]
      *
      * @param  LaterPay_Core_Event $event
      *
@@ -608,6 +612,23 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // ID of Time Passes and Subscriptions.
         $time_pass_ids    = $shortcode_atts['timepasses'];
         $subscription_ids = $shortcode_atts['subscriptions'];
+
+        // Check if all is set for both time pass and subscription.
+        if ( 'all' === $time_pass_ids && 'all' === $subscription_ids ) {
+            // Template for error message.
+            $template = '<div class="lp_shortcode-error">%s</div>';
+
+            if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
+                $error_message = sprintf(
+                    $template,
+                    sprintf( esc_html__( '%1$s"all"%2$s cannot be used for both %1$s"timepasses"%2$s and %1$s"subscriptions"%2$s at the same time.', 'laterpay' ), '<code>', '</code>' )
+                );
+            }
+
+            $event->set_result( $error_message );
+
+            return;
+        }
 
         if ( true === LaterPay_Helper_Pricing::check_time_pass_subscription_access( $time_pass_ids, $subscription_ids ) ) {
             $event->set_result( '' );
