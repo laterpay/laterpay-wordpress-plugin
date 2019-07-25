@@ -889,10 +889,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $ga_data['update_highlights'] = get_option( 'lp_update_highlights', [] );
 
             if ( ! empty( $ga_data['update_highlights']['version'] ) ) {
-                $version_update_number                   = $ga_data['update_highlights']['version'];
-                $ga_data['update_highlights']['version'] = sprintf( __( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
-                $ga_data['update_highlights']['notice']  = sprintf( __( 'Thanks to feedback from customers like you, we are excited to announce that you can now make an individual post free directly on the Edit Post Page. You can also customize the order of the items in your Purchase Overlay from a new section available on the Pricing Tab.', 'laterpay' ) );
-                $ga_data['update_highlights_nonce']      = wp_create_nonce( 'update_highlights_nonce' );
+                $version_update_number                        = $ga_data['update_highlights']['version'];
+                $ga_data['update_highlights']['version']      = sprintf( __( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
+                $ga_data['update_highlights']['notice']       = sprintf( __( 'Create an ad-free experience & much more with our newest shortcode. Check out the "Dynamic Access" section on the Advanced tab or ', 'laterpay' ) );
+                $ga_data['update_highlights']['notice_link']  = __( 'click here ', 'laterpay' );
+                $ga_data['update_highlights']['notice_extra'] = __( 'for more details.', 'laterpay' );
+                $ga_data['update_highlights_nonce']           = wp_create_nonce( 'update_highlights_nonce' );
             }
 
             $data_for_localize['lp_instructional_info'] = [];
