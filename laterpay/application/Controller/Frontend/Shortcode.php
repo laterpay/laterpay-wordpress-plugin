@@ -528,7 +528,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // ID was provided, but didn't work.
         if ( empty( $entity ) ) {
 
-            if ( is_user_logged_in() ) {
+            if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
                 $error_message = sprintf(
                     $template,
                     sprintf( esc_html__( 'We couldn\'t find a %s with id="%s" on this site.', 'laterpay' ), $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' ), $entity_id )
@@ -618,7 +618,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             // Template for error message.
             $template = '<div class="lp_shortcode-error">%s</div>';
 
-            if ( is_user_logged_in() ) {
+            if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
                 $error_message = sprintf(
                     $template,
                     sprintf( esc_html__( '%1$s"all"%2$s cannot be used for both %1$s"timepasses"%2$s and %1$s"subscriptions"%2$s at the same time.', 'laterpay' ), '<code>', '</code>' )
