@@ -294,6 +294,7 @@ if ( ! function_exists( 'laterpay_start_plugin_tracking' ) ) {
             true,
             2
         );
+        return $wisdom;
     }
 
     laterpay_start_plugin_tracking();

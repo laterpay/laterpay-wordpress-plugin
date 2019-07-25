@@ -180,6 +180,7 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
                 ];
             }
             update_option( 'wisdom_allow_tracking', $wisdom_tracking_info );
+            laterpay_start_plugin_tracking()->do_tracking( true );
         }
 
         $result = update_option( 'lp_wisdom_tracking_info', $lp_wisdom_info );
