@@ -28,6 +28,9 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
     public function load_assets() {
         parent::load_assets();
 
+        // Update Wisdom opt_out status if necessary.
+        $this->lp_update_optout_value();
+
         LaterPay_Controller_Admin::register_common_scripts( 'advanced' );
 
         // Add thickbox to display modal.
@@ -164,37 +167,48 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
         $lp_wisdom_info                   = get_option( 'lp_wisdom_tracking_info' );
         $lp_wisdom_info['wisdom_opt_out'] = $plugin_tracking_mode;
 
-        // unset plugin info from wisdom tracking if disallowed.
+        // update plugin info for wisdom tracking.
         if ( 0 === $plugin_tracking_mode ) {
             unset( $lp_wisdom_info['wisdom_opt_out'] );
+            $lp_wisdom_info['lp_wisdom_opt_out'] = 1;
+            update_option( 'lp_wisdom_tracking_info', $lp_wisdom_info );
+            laterpay_start_plugin_tracking()->do_tracking( true );
             self::unset_wisdom_tracking_info();
         } else {
+            $lp_wisdom_info['lp_wisdom_opt_out'] = 0;
+            $lp_wisdom_info['wisdom_opt_out']    = 0;
+
+            // Options to update in wisdom library.
             $wisdom_tracking_info = get_option( 'wisdom_allow_tracking' );
-            if ( false !== $wisdom_tracking_info ) {
-                if ( ! isset( $wisdom_tracking_info['laterpay'] ) ) {
-                    $wisdom_tracking_info['laterpay'] = 'laterpay';
-                }
+            $wisdom_block_notice  = get_option( 'wisdom_block_notice' );
+
+            // Update wisdom options when allowed from advanced section.
+            if ( empty( $wisdom_tracking_info ) || ! is_array( $wisdom_tracking_info ) ) {
+                $wisdom_tracking_info = [ 'laterpay' => 'laterpay' ];
             } else {
-                $wisdom_tracking_info = [
-                    'laterpay' => 'laterpay',
-                ];
+                $wisdom_tracking_info['laterpay'] = 'laterpay';
             }
             update_option( 'wisdom_allow_tracking', $wisdom_tracking_info );
+
+            if ( empty( $wisdom_block_notice ) || ! is_array( $wisdom_block_notice ) ) {
+                $wisdom_block_notice = [ 'laterpay' => 'laterpay' ];
+            } else {
+                $wisdom_block_notice['laterpay'] = 'laterpay';
+            }
+            update_option( 'wisdom_block_notice', $wisdom_block_notice );
+
+            update_option( 'lp_wisdom_tracking_info', $lp_wisdom_info );
             laterpay_start_plugin_tracking()->do_tracking( true );
         }
 
-        $result = update_option( 'lp_wisdom_tracking_info', $lp_wisdom_info );
+        $event->set_result(
+            array(
+                'success' => true,
+                'message' => __( 'Updated LaterPay tracking mode.', 'laterpay' ),
+            )
+        );
 
-        if ( $result ) {
-            $event->set_result(
-                array(
-                    'success' => true,
-                    'message' => __( 'Updated LaterPay tracking mode.', 'laterpay' ),
-                )
-            );
-
-            return;
-        }
+        return;
     }
 
     /**
@@ -208,6 +222,7 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
             'wisdom_block_notice',
             'wisdom_admin_emails',
             'wisdom_last_track_time',
+            'wisdom_collect_email',
         ];
 
         // loop through each option and unset laterpay info.

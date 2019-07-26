@@ -660,7 +660,7 @@ if( ! class_exists( 'Plugin_Usage_Tracker') ) {
             // The wisdom_collect_email option is an array of plugins that are being tracked
             $collect_email = get_option( 'wisdom_collect_email' );
             // If the user has agreed to allow tracking or if opt-in is not required
-            if( $can_collect ) {
+            if( true === $can_collect || 'yes' === $can_collect ) {
                 if( empty( $collect_email ) || ! is_array( $collect_email ) ) {
                     // If nothing exists in the option yet, start a new array with the plugin name
                     $collect_email = array( $plugin => $plugin );

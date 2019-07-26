@@ -60,6 +60,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     public function load_assets() {
         parent::load_assets();
 
+        // Update Wisdom opt_out status if necessary.
+        $this->lp_update_optout_value();
+
         // Get data for GA.
         $merchant_key      = LaterPay_Controller_Admin::get_merchant_id_for_ga();
         $data_for_localize = [
