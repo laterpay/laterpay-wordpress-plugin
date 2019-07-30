@@ -38,6 +38,7 @@
 
     img.lp_advanced_info_img_no_width {
         height: 130px;
+        width: 200px;
     }
 
     .lp_clearfix {
@@ -46,6 +47,26 @@
     ul {
         padding-left: 15px;
         list-style: disc;
+    }
+
+    div.lp_info_list_div {
+        position: absolute;
+        left: 45%;
+
+        ul.lp_info_list {
+            list-style: none !important;
+            border: 2px solid #e2e2e2;
+            border-radius: 5px;
+            margin: 0;
+            padding: 0 5px;
+
+            [data-icon] {
+                &:before {
+                    color: #00AAA2;
+                    font-size: 18px;
+                }
+            }
+        }
     }
 }
 
