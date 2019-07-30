@@ -190,10 +190,8 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
             }
             update_option( 'wisdom_allow_tracking', $wisdom_tracking_info );
 
-            if ( empty( $wisdom_block_notice ) || ! is_array( $wisdom_block_notice ) ) {
-                $wisdom_block_notice = [ 'laterpay' => 'laterpay' ];
-            } else {
-                $wisdom_block_notice['laterpay'] = 'laterpay';
+            if ( ! empty( $wisdom_block_notice ) && isset( $wisdom_block_notice['laterpay'] ) ) {
+                unset( $wisdom_block_notice['laterpay'] );
             }
             update_option( 'wisdom_block_notice', $wisdom_block_notice );
 
