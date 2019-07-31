@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-07-30 14:30+0530\n"
-"PO-Revision-Date: 2019-07-30 15:09+0530\n"
+"POT-Creation-Date: 2019-07-31 19:20+0530\n"
+"PO-Revision-Date: 2019-07-31 19:22+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -850,7 +850,7 @@ msgid "Deactivate Plugin & Delete Data"
 msgstr "Plugin & Daten deaktivieren"
 
 #: application/Controller/Admin/Appearance.php:73
-#: views/backend/appearance.php:148
+#: views/backend/appearance.php:149
 msgid ""
 "Please select one of the recommended options above to ensure that your users "
 "can purchase all content types."
@@ -941,7 +941,7 @@ msgstr "KOSTENLOS"
 
 #: application/Controller/Admin/Post/Column.php:128
 #: application/Controller/Admin/Post/Metabox.php:155
-#: application/Helper/Pricing.php:940
+#: application/Helper/Pricing.php:946
 #: views/backend/partials/post-pricing-form.php:172
 #: views/backend/partials/post-pricing-form.php:195
 #: views/backend/partials/post-pricing-form.php:274
@@ -953,7 +953,7 @@ msgstr "Sofort zahlen"
 #: application/Controller/Admin/Post/Column.php:129
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
-#: application/Helper/Pricing.php:943 application/Module/Purchase.php:585
+#: application/Helper/Pricing.php:949 application/Module/Purchase.php:585
 #: views/backend/partials/post-pricing-form.php:168
 #: views/backend/partials/post-pricing-form.php:191
 #: views/backend/partials/post-pricing-form.php:250
@@ -1447,7 +1447,7 @@ msgid "Yes, Disable Tracking"
 msgstr "Ja, Tracking deaktivieren"
 
 #: application/Controller/Admin/Settings.php:263 views/backend/advanced.php:264
-#: views/backend/appearance.php:147 views/backend/appearance.php:280
+#: views/backend/appearance.php:148 views/backend/appearance.php:281
 #: views/backend/pricing.php:113 views/backend/pricing.php:196
 #: views/backend/pricing.php:356 views/backend/pricing.php:476
 #: views/backend/pricing.php:596 views/backend/pricing.php:628
@@ -2482,7 +2482,7 @@ msgstr ""
 "Preisgestaltung hinzufügen\". Nun können Sie die Punkte in der Grafik "
 "verschieben, um die Preise anzupassen."
 
-#: views/backend/advanced.php:169 views/backend/appearance.php:293
+#: views/backend/advanced.php:169 views/backend/appearance.php:294
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
@@ -2670,16 +2670,25 @@ msgstr "Zeigen Sie Zeitabläufe und Abonnements unter Modul an"
 msgid "Customize position of Time Passes & Subscriptions"
 msgstr "Anpassen der Position von Zeitabläufen und Abonnements"
 
-#: views/backend/appearance.php:135
+#: views/backend/appearance.php:109
+msgid ""
+"Call action 'laterpay_time_passes' in your theme or use the shortcode "
+"'[laterpay_time_passes]' to show your users the available time passes."
+msgstr ""
+"Rufen Sie die Aktion ‘laterpay_time_passes’ in Ihrem Theme auf oder "
+"verwenden Sie den Shortcode ‘[laterpay_time_passes]’, um Ihren Benutzern die "
+"verfügbaren Zeitpässe anzuzeigen."
+
+#: views/backend/appearance.php:136
 msgid "Add custom HTML section below payment button"
 msgstr ""
 "Hinzufügen eines benutzerdefinierten HTML-Abschnitts unter dem Zahlungsbutton"
 
-#: views/backend/appearance.php:141
+#: views/backend/appearance.php:142
 msgid "Show valid payment options"
 msgstr "Gültige Zahlungsoptionen anzeigen"
 
-#: views/backend/appearance.php:146 views/backend/appearance.php:279
+#: views/backend/appearance.php:147 views/backend/appearance.php:280
 #: views/backend/pricing.php:112 views/backend/pricing.php:195
 #: views/backend/pricing.php:355 views/backend/pricing.php:475
 #: views/backend/pricing.php:595 views/backend/pricing.php:627
@@ -2688,73 +2697,73 @@ msgstr "Gültige Zahlungsoptionen anzeigen"
 msgid "Save"
 msgstr "Speichern"
 
-#: views/backend/appearance.php:155
+#: views/backend/appearance.php:156
 msgid "Preview"
 msgstr "Vorschau"
 
-#: views/backend/appearance.php:159
+#: views/backend/appearance.php:160
 msgid "Loading..."
 msgstr "Lädt..."
 
-#: views/backend/appearance.php:163
+#: views/backend/appearance.php:164
 #, fuzzy
 msgid "Sample Post Title"
 msgstr "Aktivierte Post-Types"
 
-#: views/backend/appearance.php:183
+#: views/backend/appearance.php:184
 #, php-format
 msgid "%sCustomize%s Colors"
 msgstr "%sFARBEN%s ANPASSEN"
 
-#: views/backend/appearance.php:197
+#: views/backend/appearance.php:198
 msgid "Header background color"
 msgstr "Hintergrundfarbe Header"
 
-#: views/backend/appearance.php:205
+#: views/backend/appearance.php:206
 msgid "Purchase option background color"
 msgstr "Hintergrundfarbe Kaufoptionen"
 
-#: views/backend/appearance.php:213
+#: views/backend/appearance.php:214
 msgid "Main text color"
 msgstr "Schriftfarbe Text"
 
-#: views/backend/appearance.php:221
+#: views/backend/appearance.php:222
 msgid "Description text color"
 msgstr "Schriftfarbe Beschreibungen"
 
-#: views/backend/appearance.php:229
+#: views/backend/appearance.php:230
 msgid "Purchase button background color"
 msgstr "Hintergrundfarbe Kaufbutton"
 
-#: views/backend/appearance.php:237
+#: views/backend/appearance.php:238
 msgid "Purchase button hover color"
 msgstr "Kaufen-Taste Hover-Farbe"
 
-#: views/backend/appearance.php:245
+#: views/backend/appearance.php:246
 msgid "Purchase button text color"
 msgstr "Schriftfarbe Kaufbutton"
 
-#: views/backend/appearance.php:253
+#: views/backend/appearance.php:254
 msgid "Link main color"
 msgstr "Schriftfarbe Links"
 
-#: views/backend/appearance.php:261
+#: views/backend/appearance.php:262
 msgid "Link hover color"
 msgstr "Hover-Schriftfarbe Links"
 
-#: views/backend/appearance.php:269
+#: views/backend/appearance.php:270
 msgid "Footer background color"
 msgstr "Hintergrundfarbe Footer"
 
-#: views/backend/appearance.php:284
+#: views/backend/appearance.php:285
 msgid "Restore Default Values"
 msgstr "Standardwerte wiederherstellen"
 
-#: views/backend/appearance.php:300
+#: views/backend/appearance.php:301
 msgid "Click here"
 msgstr "Hier"
 
-#: views/backend/appearance.php:301
+#: views/backend/appearance.php:302
 msgid ""
 "to adjust the number of characters automatically generated as your teaser "
 "content or the length of the content preview blurred behind our paywall."

@@ -106,7 +106,8 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                                 </div>
                                 <div class="lp_js_buttonGroupHint lp_button-group__hint" <?php if ( ! $laterpay_time_passes_positioned_manually ) : ?> style="display:none;"<?php endif; ?> id="lp_timepass_widget_hint">
                                     <p>
-                                        Call action 'laterpay_time_passes' in your theme or use the shortcode '[laterpay_time_passes]' to show your users the available time passes.<br>
+                                        <?php esc_html_e( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ); ?>
+                                        <br>
                                     </p>
                                     <table>
                                         <tbody>
