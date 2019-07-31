@@ -510,6 +510,10 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             );
 
             if ( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE === $meta_value['type'] ) {
+                // Update post meta so that dynamic pricing values are available and we get valid dynamic price.
+                update_post_meta( $post_id, $name, $meta_value );
+
+                // Get post dynamic price based on price range and days and store in cache.
                 $cache_data['price'] = LaterPay_Helper_Pricing::get_dynamic_price( get_post( $post_id ) );
             } elseif ( LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE === $meta_value['type'] ) {
 
