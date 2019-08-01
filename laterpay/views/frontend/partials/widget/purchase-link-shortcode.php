@@ -17,4 +17,4 @@ $whitelisted_attr = array(
     'data-preview-post-as-visitor',
 );
 ?>
-<span <?php laterpay_whitelisted_attributes( $args, $whitelisted_attr ); ?>></span>
+<span class="lp_shortcode_link" <?php laterpay_whitelisted_attributes( $args, $whitelisted_attr ); ?>></span>

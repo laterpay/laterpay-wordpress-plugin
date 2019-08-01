@@ -129,8 +129,9 @@
 
                         // Add new var to handle premium shortcode link type.
                         var actionElement = $(this);
-                        if ( $(this).data('content-type').toString() === 'link' ) {
-                            actionElement = $(this).find('span');
+                        if ( typeof $(this).data('content-type') !== 'undefined' &&
+                            $(this).data('content-type').toString() === 'link' ) {
+                            actionElement = $(this).find('span.lp_shortcode_link');
                         }
 
                         if ( actionElement.data( 'preview-post-as-visitor' ) ) {
@@ -139,7 +140,8 @@
                             // Check if purchase url is available.
                             if ( actionElement.data('laterpay') ) {
                                 // Send GA Event On Click of Buy Button.
-                                lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin', eventlabel );
+                                lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin',
+                                    eventlabel );
                                 window.location.href = actionElement.data('laterpay');
                             }
                         }
@@ -557,8 +559,9 @@
 
             handlePurchaseInTestMode = function(trigger) {
             var actionElement = $(trigger);
-                if ( $(trigger).data('content-type').toString() === 'link' ) {
-                    actionElement = $(this).find('span');
+                if ( typeof $(trigger).data('content-type') !== 'undefined' &&
+                    $(trigger).data('content-type').toString() === 'link' ) {
+                    actionElement = $(this).find('span.lp_shortcode_link');
                 }
                 if (actionElement.data('preview-as-visitor')) {
                     // show alert instead of loading LaterPay purchase dialogs
