@@ -42,7 +42,6 @@
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
 
                 // purchase buttons and purchase links
-                purchaseLink                    : '.lp_js_doPurchase',
                 purchaseOverlay                 : '.lp_js_overlayPurchase',
                 currentOverlay                  : 'input[name="lp_purchase-overlay-option"]:checked',
 
@@ -121,18 +120,28 @@
 
                 // handle clicks on purchase links in test mode
                 $o.body
-                    .on('mousedown', $o.purchaseLink, function() {
+                    .on('mousedown', '.lp_js_doPurchase, .lp_premium_link', function() {
                         handlePurchaseInTestMode(this);
                     })
-                    .on('click', $o.purchaseLink, function(e) {
+                    .on('click', '.lp_js_doPurchase, .lp_premium_link', function(e) {
                         // redirect to the laterpay side
                         e.preventDefault();
-                        if ( $(this).data( 'preview-post-as-visitor' ) ) {
+
+                        // Add new var to handle premium shortcode link type.
+                        var actionElement = $(this);
+                        if ( $(this).data('content-type').toString() === 'link' ) {
+                            actionElement = $(this).find('span');
+                        }
+
+                        if ( actionElement.data( 'preview-post-as-visitor' ) ) {
                             alert(lpVars.i18n.alert);
                         } else {
-                            // Send GA Event On Click of Buy Button.
-                            lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin', eventlabel );
-                            window.location.href = $(this).data('laterpay');
+                            // Check if purchase url is available.
+                            if ( actionElement.data('laterpay') ) {
+                                // Send GA Event On Click of Buy Button.
+                                lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin', eventlabel );
+                                window.location.href = actionElement.data('laterpay');
+                            }
                         }
                     });
 
@@ -470,7 +479,16 @@
                             url = r.data[i];
                             $.each(boxes, function(j) {
                                 if ($(boxes[j]).data('post-id').toString() === i) {
-                                    $(boxes[j]).prepend(url);
+                                    if ( $(boxes[j]).data('content-type').toString() === 'link' ) {
+                                        if ($(url).attr('href')) {
+                                            $(boxes[j]).attr('href', $(url).attr('href'))
+                                                .removeClass('lp_premium_link');
+                                        } else {
+                                            $(boxes[j]).prepend(url);
+                                        }
+                                    } else {
+                                        $(boxes[j]).prepend(url);
+                                    }
                                 }
                             });
                         });
@@ -538,7 +556,11 @@
             },
 
             handlePurchaseInTestMode = function(trigger) {
-                if ($(trigger).data('preview-as-visitor') && !$(trigger).data('is-in-visible-test-mode')) {
+            var actionElement = $(trigger);
+                if ( $(trigger).data('content-type').toString() === 'link' ) {
+                    actionElement = $(this).find('span');
+                }
+                if (actionElement.data('preview-as-visitor')) {
                     // show alert instead of loading LaterPay purchase dialogs
                     alert(lpVars.i18n.alert);
                 }
