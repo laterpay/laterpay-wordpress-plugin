@@ -213,17 +213,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         $description = $a['description_text'];
 
         if ( 'link' === $content_type ) {
-
-            if ( empty( $description ) ) {
-                $error_reason   = esc_html__( 'description_text is required for content_type link', 'laterpay' );
-                $error_message  = '<div class="lp_shortcode-error">';
-                $error_message .= esc_html__( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-                $error_message .= $error_reason;
-                $error_message .= '</div>';
-
-                $event->set_result( $error_message );
-                throw new LaterPay_Core_Exception( $error_message );
-            }
+            // Build anchor text for premium link.
+            $anchor_text = empty( $description ) ? $heading : sprintf( '%s - %s', $heading, $description );
 
             $html = '<a class="lp_js_premium-file-box lp_premium_link lp_premium_link_anchor" title="'
                     . esc_html__( 'Buy now with LaterPay', 'laterpay' )
@@ -234,7 +225,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                     .'" data-page-url="'
                     . esc_url( $page_url )
                     . '">';
-            $html .= esc_html( $heading ) . ' - ' . esc_html( $description ) . '</a>';
+            $html .= esc_html( $anchor_text ) . '</a>';
 
         } else {
             $image_path  = $a['teaser_image_path'];
