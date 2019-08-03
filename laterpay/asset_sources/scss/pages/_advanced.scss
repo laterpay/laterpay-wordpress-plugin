@@ -25,6 +25,10 @@
         float: left;
     }
 
+    .lp_advanced_info_dynamic {
+        width: 55%;
+    }
+
     img.lp_advanced_info_img_wide {
         width: 200px;
         height: 45px;
@@ -51,7 +55,7 @@
 
     div.lp_info_list_div {
         position: absolute;
-        left: 45%;
+        right: 36%;
 
         ul.lp_info_list {
             list-style: none !important;

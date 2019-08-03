@@ -155,16 +155,15 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                     ?>
                 </label>
                 <div class="lp_info_div">
-                    <div class="lp_advanced_info">
+                    <div class="lp_advanced_info lp_advanced_info_dynamic">
                         <p>
                             <?php
                             printf(
                                 esc_html__(
-                                    'Create a customized experience with our newest %sshortcode%s. Using %s[laterpay_check_access]%s you can grant access and restrict content - ads, promotional pop-ups, certain offers, virtually anything you can imagine - based on the level of access a user has purchased.', 'laterpay' ),
+                                    'Create a customized experience with our newest %1$sshortcode%2$s & %3$sfunction%2$s. Using LaterPay\'s Dynamic Access feature, you can show or hide content - ads, promotional pop-ups, bonus features, virtually anything you can imagine - based on the level of access a user has purchased.', 'laterpay' ),
                                 '<a href="https://en.support.wordpress.com/shortcodes/" target="_blank" class="lp_info_link_black">',
                                 '</a>',
-                                '<code>',
-                                '</code>'
+                                '<a href="https://codex.wordpress.org/Function_Reference/" target="_blank" class="lp_info_link_black">'
                             );
                             ?>
                         </p>
@@ -173,8 +172,8 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                     <div class="lp_info_list_div">
                         <ul class="lp_info_list">
                             <li data-icon="f"><?php esc_html_e( 'Ad-Free Experience', 'laterpay' ); ?></li>
-                            <li data-icon="f"><?php esc_html_e( 'Hide Promotions from Subscribers', 'laterpay' ); ?></li>
-                            <li data-icon="f"><?php esc_html_e( 'Hide Features until Purchase', 'laterpay' ); ?></li>
+                            <li data-icon="f"><?php esc_html_e( 'Hide Promotions after Purchase', 'laterpay' ); ?></li>
+                            <li data-icon="f"><?php esc_html_e( 'Restrict Bonus Features to Subscribers', 'laterpay' ); ?></li>
                             <li data-icon="f"><?php esc_html_e( 'Much More!', 'laterpay' ); ?></li>
                         </ul>
                     </div>
