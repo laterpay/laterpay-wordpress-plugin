@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-08-03 13:26+0530\n"
-"PO-Revision-Date: 2019-08-03 13:27+0530\n"
+"POT-Creation-Date: 2019-08-03 13:43+0530\n"
+"PO-Revision-Date: 2019-08-03 13:44+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -671,7 +671,7 @@ msgstr ""
 msgid "Pricing"
 msgstr "Preise"
 
-#: application/Controller/Admin.php:823 views/backend/advanced.php:200
+#: application/Controller/Admin.php:823 views/backend/advanced.php:236
 msgid "Appearance"
 msgstr "Darstellung"
 
@@ -850,11 +850,11 @@ msgstr ""
 "Ihr LaterPay-Konto ist darauf beschränkt, Inhalte in %s zu verkaufen. Bitte "
 "aktualisieren Sie Ihre Währung oder kontaktieren Sie sales@laterpay.net."
 
-#: application/Controller/Admin/Advanced.php:46 views/backend/advanced.php:266
+#: application/Controller/Admin/Advanced.php:46 views/backend/advanced.php:302
 msgid "Delete Plugin Data"
 msgstr "Plugin Daten löschen"
 
-#: application/Controller/Admin/Advanced.php:46 views/backend/advanced.php:266
+#: application/Controller/Admin/Advanced.php:46 views/backend/advanced.php:302
 msgid "Deactivate Plugin & Delete Data"
 msgstr "Plugin & Daten deaktivieren"
 
@@ -1455,7 +1455,7 @@ msgstr "Sind Sie sicher, dass Sie diese Funktion deaktivieren möchten?"
 msgid "Yes, Disable Tracking"
 msgstr "Ja, Tracking deaktivieren"
 
-#: application/Controller/Admin/Settings.php:263 views/backend/advanced.php:264
+#: application/Controller/Admin/Settings.php:263 views/backend/advanced.php:300
 #: views/backend/appearance.php:148 views/backend/appearance.php:281
 #: views/backend/pricing.php:113 views/backend/pricing.php:196
 #: views/backend/pricing.php:356 views/backend/pricing.php:476
@@ -2459,6 +2459,7 @@ msgstr ""
 "anzupassen."
 
 #: views/backend/advanced.php:109 views/backend/advanced.php:139
+#: views/backend/advanced.php:170
 msgid "Click here for detailed instructions."
 msgstr "Klicken Sie hier für eine detaillierte Anleitung."
 
@@ -2483,10 +2484,45 @@ msgstr ""
 
 #: views/backend/advanced.php:151
 #, php-format
+msgid "%sDYNAMIC%s ACCESS"
+msgstr ""
+
+#: views/backend/advanced.php:163
+#, php-format
+msgid ""
+"Create a customized experience with our newest %1$sshortcode%2$s & "
+"%3$sfunction%2$s. Using LaterPay's Dynamic Access feature, you can show or "
+"hide content - ads, promotional pop-ups, bonus features, virtually anything "
+"you can imagine - based on the level of access a user has purchased."
+msgstr ""
+"Erstellen Sie ein benutzerdefiniertes Erlebnis mit unserem neuesten "
+"%1$sShortcode%2$s und der neuen %3$sFunktion%2$s. Mit der LaterPay Dynamic "
+"Access-Funktion können Sie Inhalte - Anzeigen, Werbe-Popups, Bonus-Features, "
+"praktisch alles, was Sie sich vorstellen können - ein- oder ausblenden, "
+"abhängig von der Zugriffsebene, die ein Benutzer erworben hat."
+
+#: views/backend/advanced.php:174
+msgid "Ad-Free Experience"
+msgstr "Werbefreies Erlebnis"
+
+#: views/backend/advanced.php:175
+msgid "Hide Promotions after Purchase"
+msgstr "Promotionen nach dem Kauf ausblenden"
+
+#: views/backend/advanced.php:176
+msgid "Restrict Bonus Features to Subscribers"
+msgstr "Beschränkung der Bonus-Features auf Abonnenten"
+
+#: views/backend/advanced.php:177
+msgid "Much More!"
+msgstr "Und noch mehr!"
+
+#: views/backend/advanced.php:187
+#, php-format
 msgid "%sDynamic%s Pricing"
 msgstr "%sDYNAMISCHE%s PREISSETZUNG"
 
-#: views/backend/advanced.php:161
+#: views/backend/advanced.php:197
 msgid ""
 "Dynamic pricing is a feature available on the Edit Post page. Once there, "
 "simply choose “Individual Price” in the Pricing for this Post section then "
@@ -2500,61 +2536,61 @@ msgstr ""
 "Preisgestaltung hinzufügen\". Nun können Sie die Punkte in der Grafik "
 "verschieben, um die Preise anzupassen."
 
-#: views/backend/advanced.php:169 views/backend/appearance.php:294
+#: views/backend/advanced.php:205 views/backend/appearance.php:294
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
-#: views/backend/advanced.php:173
+#: views/backend/advanced.php:209
 msgid "Access"
 msgstr "ZUGRIFF"
 
-#: views/backend/advanced.php:182
+#: views/backend/advanced.php:218
 msgid "Click here to adjust your LaterPay user access settings."
 msgstr "Klicken Sie hier, um Ihre LaterPay-Benutzereinstellungen anzupassen."
 
-#: views/backend/advanced.php:183
+#: views/backend/advanced.php:219
 msgid "Within these setting you can:"
 msgstr "Innerhalb dieser Einstellung können Sie:"
 
-#: views/backend/advanced.php:188
+#: views/backend/advanced.php:224
 msgid "Require end-users to login prior to purchase"
 msgstr "Endbenutzer auffordern, sich vor dem Kauf einzuloggen"
 
-#: views/backend/advanced.php:189
+#: views/backend/advanced.php:225
 msgid "Give unrestricted access to specific user roles"
 msgstr "Bestimmten Nutzerrollen uneingeschränkten Zugriff geben"
 
-#: views/backend/advanced.php:209
+#: views/backend/advanced.php:245
 msgid "Click here to access additional appearance configurations,"
 msgstr "Klicken Sie hier für weitere Design Einstellungen,"
 
-#: views/backend/advanced.php:210 views/backend/advanced.php:283
-#: views/backend/advanced.php:321
+#: views/backend/advanced.php:246 views/backend/advanced.php:319
+#: views/backend/advanced.php:357
 msgid "including:"
 msgstr "zum Beispiel:"
 
-#: views/backend/advanced.php:215
+#: views/backend/advanced.php:251
 msgid "Length of default teaser content"
 msgstr "Standard Teaser-Länge"
 
-#: views/backend/advanced.php:216
+#: views/backend/advanced.php:252
 msgid "Length of blurred content displayed behind paywall"
 msgstr ""
 "Wie viel des Inhalts verschwommen hinter der Bezahlschranke erscheinen soll"
 
-#: views/backend/advanced.php:229
+#: views/backend/advanced.php:265
 #, php-format
 msgid "%sDelete%s Account"
 msgstr "%sPLUGIN%s & DATEN DEAKTIVIEREN"
 
-#: views/backend/advanced.php:241
+#: views/backend/advanced.php:277
 #, php-format
 msgid "%sWarning!%s This operation deletes ALL LaterPay plugin data."
 msgstr ""
 "%sAchtung!%s Diese Operation löscht alle LaterPay Plugin Daten "
 "unwiderruflich."
 
-#: views/backend/advanced.php:247
+#: views/backend/advanced.php:283
 #, php-format
 msgid ""
 "%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL "
@@ -2564,7 +2600,7 @@ msgstr ""
 "alle Daten unwiderruflich. Sie verlieren hierbei alle Layout- und "
 "Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
 
-#: views/backend/advanced.php:254
+#: views/backend/advanced.php:290
 msgid ""
 "You will lose all appearance settings and pricing configurations. This "
 "cannot be undone."
@@ -2572,7 +2608,7 @@ msgstr ""
 "Sie verlieren hierbei alle Layout- und Preiskonfigurationen. Diese Aktion "
 "kann nicht rückgängig gemacht werden."
 
-#: views/backend/advanced.php:259
+#: views/backend/advanced.php:295
 msgid ""
 "Are you sure you want to delete ALL LaterPay Plugin data? You will loose all "
 "pricing configurations. This cannot be undone."
@@ -2580,7 +2616,7 @@ msgstr ""
 "Sind Sie sicher, dass Sie alle LaterPay Daten löschen möchten? Sie verlieren "
 "alle Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
 
-#: views/backend/advanced.php:261
+#: views/backend/advanced.php:297
 #, fuzzy
 msgid ""
 "Are you sure you want to deactivate LaterPay plugin and delete ALL its data? "
@@ -2589,38 +2625,38 @@ msgstr ""
 "Sind Sie sicher, dass Sie alle LaterPay Daten löschen möchten? Sie verlieren "
 "alle Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
 
-#: views/backend/advanced.php:263
+#: views/backend/advanced.php:299
 msgid "Delete LaterPay Plugin Data"
 msgstr "Plugin Daten löschen"
 
-#: views/backend/advanced.php:263
+#: views/backend/advanced.php:299
 #, fuzzy
 msgid "Deactivate LaterPay Plugin"
 msgstr "Plugin Daten löschen"
 
-#: views/backend/advanced.php:273
+#: views/backend/advanced.php:309
 msgid "Technical"
 msgstr "TECHNISCHE EINSTELLUNGEN"
 
-#: views/backend/advanced.php:282
+#: views/backend/advanced.php:318
 msgid "Click here for more technical configuration options,"
 msgstr "Klicken Sie hier für weitere technische Einstellungen,"
 
-#: views/backend/advanced.php:288
+#: views/backend/advanced.php:324
 msgid "Enable caching compatibility mode"
 msgstr "Aktivieren Sie den Caching-Kompatibilitätsmodus"
 
-#: views/backend/advanced.php:289
+#: views/backend/advanced.php:325
 msgid "Define fallback behavior in case LaterPay API is not responding"
 msgstr ""
 "Wählen Sie ein Fallback-Verhalten für den Fall, dass die LaterPay-API nicht "
 "antwortet"
 
-#: views/backend/advanced.php:302
+#: views/backend/advanced.php:338
 msgid "TIPS & TRICKS"
 msgstr "TIPPS & TRICKS"
 
-#: views/backend/advanced.php:307
+#: views/backend/advanced.php:343
 #, php-format
 msgid ""
 "%sHELP!%s The new version of the plugin is not compatible with my site. How "
@@ -2630,15 +2666,15 @@ msgstr ""
 "kompatibel. Wie kann ich einen Rollback durchführen? %sKlicken Sie hier für "
 "eine Schritt-für-Schritt-Anleitung.%s"
 
-#: views/backend/advanced.php:318
+#: views/backend/advanced.php:354
 msgid "Have you found all of our Advanced Settings?"
 msgstr "Haben Sie alle unsere erweiterten Einstellungen gefunden?"
 
-#: views/backend/advanced.php:320
+#: views/backend/advanced.php:356
 msgid "Click here to see even more LaterPay configurations."
 msgstr "Klicken Sie hier, um noch mehr LaterPay-Konfigurationen zu sehen."
 
-#: views/backend/advanced.php:327
+#: views/backend/advanced.php:363
 #, php-format
 msgid ""
 "Pay Later can be counter-intuitive at first. %sClick here%s to learn more "

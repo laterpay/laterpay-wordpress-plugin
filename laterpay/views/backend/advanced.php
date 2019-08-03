@@ -148,6 +148,42 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                 <label class="lp_step_label">
                     <?php
                     printf(
+                        esc_html__( '%sDYNAMIC%s ACCESS', 'laterpay' ),
+                        '<span class="lp_step_span">',
+                        '</span>'
+                    );
+                    ?>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info lp_advanced_info_dynamic">
+                        <p>
+                            <?php
+                            printf(
+                                esc_html__(
+                                    'Create a customized experience with our newest %1$sshortcode%2$s & %3$sfunction%2$s. Using LaterPay\'s Dynamic Access feature, you can show or hide content - ads, promotional pop-ups, bonus features, virtually anything you can imagine - based on the level of access a user has purchased.', 'laterpay' ),
+                                '<a href="https://en.support.wordpress.com/shortcodes/" target="_blank" class="lp_info_link_black">',
+                                '</a>',
+                                '<a href="https://codex.wordpress.org/Function_Reference/" target="_blank" class="lp_info_link_black">'
+                            );
+                            ?>
+                        </p>
+                        <a href="https://www.laterpay.net/blog/academy/wordpress-dynamic-access" target='_blank' class='lp_info_link'><?php esc_html_e( 'Click here for detailed instructions.', 'laterpay' ); ?></a>
+                    </div>
+                    <div class="lp_info_list_div">
+                        <ul class="lp_info_list">
+                            <li data-icon="f"><?php esc_html_e( 'Ad-Free Experience', 'laterpay' ); ?></li>
+                            <li data-icon="f"><?php esc_html_e( 'Hide Promotions after Purchase', 'laterpay' ); ?></li>
+                            <li data-icon="f"><?php esc_html_e( 'Restrict Bonus Features to Subscribers', 'laterpay' ); ?></li>
+                            <li data-icon="f"><?php esc_html_e( 'Much More!', 'laterpay' ); ?></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <?php
+                    printf(
                         esc_html__( '%sDynamic%s Pricing', 'laterpay' ),
                         '<span class="lp_step_span">',
                         '</span>'
