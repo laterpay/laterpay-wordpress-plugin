@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-08-03 13:22+0530\n"
-"PO-Revision-Date: 2019-08-03 13:23+0530\n"
+"POT-Creation-Date: 2019-08-03 13:26+0530\n"
+"PO-Revision-Date: 2019-08-03 13:27+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -859,7 +859,7 @@ msgid "Deactivate Plugin & Delete Data"
 msgstr "Plugin & Daten deaktivieren"
 
 #: application/Controller/Admin/Appearance.php:73
-#: views/backend/appearance.php:148
+#: views/backend/appearance.php:149
 msgid ""
 "Please select one of the recommended options above to ensure that your users "
 "can purchase all content types."
@@ -950,7 +950,7 @@ msgstr "KOSTENLOS"
 
 #: application/Controller/Admin/Post/Column.php:128
 #: application/Controller/Admin/Post/Metabox.php:155
-#: application/Helper/Pricing.php:940
+#: application/Helper/Pricing.php:946
 #: views/backend/partials/post-pricing-form.php:172
 #: views/backend/partials/post-pricing-form.php:195
 #: views/backend/partials/post-pricing-form.php:274
@@ -962,7 +962,7 @@ msgstr "Sofort zahlen"
 #: application/Controller/Admin/Post/Column.php:129
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
-#: application/Helper/Pricing.php:943 application/Module/Purchase.php:585
+#: application/Helper/Pricing.php:949 application/Module/Purchase.php:622
 #: views/backend/partials/post-pricing-form.php:168
 #: views/backend/partials/post-pricing-form.php:191
 #: views/backend/partials/post-pricing-form.php:250
@@ -1087,7 +1087,7 @@ msgstr ""
 
 #: application/Controller/Admin/Pricing.php:52
 #: application/Controller/Admin/Pricing.php:132
-#: application/Controller/Frontend/Shortcode.php:534
+#: application/Controller/Frontend/Shortcode.php:565
 #: views/backend/pricing.php:182
 msgid "Subscription"
 msgstr "Abo"
@@ -1227,7 +1227,7 @@ msgid "Single Purchase"
 msgstr "Einzelkauf"
 
 #: application/Controller/Admin/Pricing.php:131
-#: application/Controller/Frontend/Shortcode.php:534
+#: application/Controller/Frontend/Shortcode.php:565
 #: views/backend/pricing.php:177
 msgid "Time Pass"
 msgstr "Zeitpass"
@@ -1456,7 +1456,7 @@ msgid "Yes, Disable Tracking"
 msgstr "Ja, Tracking deaktivieren"
 
 #: application/Controller/Admin/Settings.php:263 views/backend/advanced.php:264
-#: views/backend/appearance.php:147 views/backend/appearance.php:280
+#: views/backend/appearance.php:148 views/backend/appearance.php:281
 #: views/backend/pricing.php:113 views/backend/pricing.php:196
 #: views/backend/pricing.php:356 views/backend/pricing.php:476
 #: views/backend/pricing.php:596 views/backend/pricing.php:628
@@ -1732,22 +1732,22 @@ msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
 #: application/Controller/Frontend/Post.php:628
-#: application/Controller/Frontend/Shortcode.php:546
-#: application/Module/Purchase.php:530
+#: application/Controller/Frontend/Shortcode.php:577
+#: application/Module/Purchase.php:567
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
 #: application/Controller/Frontend/Post.php:629
-#: application/Controller/Frontend/Shortcode.php:548
-#: application/Module/Purchase.php:523 application/Module/Purchase.php:562
-#: application/Module/Purchase.php:575
+#: application/Controller/Frontend/Shortcode.php:579
+#: application/Module/Purchase.php:560 application/Module/Purchase.php:599
+#: application/Module/Purchase.php:612
 #: views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
 #: application/Controller/Frontend/Post.php:630
-#: application/Controller/Frontend/Shortcode.php:554
-#: application/Module/Purchase.php:526
+#: application/Controller/Frontend/Shortcode.php:585
+#: application/Module/Purchase.php:563
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
@@ -1796,34 +1796,50 @@ msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
 msgid "LaterPay has been disabled for the post type of the target page."
 msgstr "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
 
-#: application/Controller/Frontend/Shortcode.php:296
+#: application/Controller/Frontend/Shortcode.php:220
+#: views/backend/partials/subscription.php:32
+#: views/backend/partials/time-pass.php:37
+#: views/frontend/partials/post/gift/gift-actions.php:25
+#: views/frontend/partials/widget/purchase-button.php:18
+#: views/frontend/partials/widget/purchase-link.php:14
+msgid "Buy now with LaterPay"
+msgstr "Jetzt mit LaterPay kaufen"
+
+#: application/Controller/Frontend/Shortcode.php:316
 msgid "Download now"
 msgstr "Jetzt herunterladen"
 
-#: application/Controller/Frontend/Shortcode.php:300
+#: application/Controller/Frontend/Shortcode.php:320
 msgid "Watch now"
 msgstr "Jetzt ansehen"
 
-#: application/Controller/Frontend/Shortcode.php:304
+#: application/Controller/Frontend/Shortcode.php:324
 msgid "View now"
 msgstr "Jetzt ansehen"
 
-#: application/Controller/Frontend/Shortcode.php:309
+#: application/Controller/Frontend/Shortcode.php:329
 msgid "Listen now"
 msgstr "Jetzt anhören"
 
-#: application/Controller/Frontend/Shortcode.php:313
+#: application/Controller/Frontend/Shortcode.php:333
 msgid "Read now"
 msgstr "Jetzt lesen"
 
-#: application/Controller/Frontend/Shortcode.php:393
+#: application/Controller/Frontend/Shortcode.php:424
 msgid "Wrong time pass id."
 msgstr "Ungültige Zeitpass-ID."
 
-#: application/Controller/Frontend/Shortcode.php:534
+#: application/Controller/Frontend/Shortcode.php:565
 #, php-format
 msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
+
+#: application/Controller/Frontend/Shortcode.php:655
+#, php-format
+msgid ""
+"%1$s\"all\"%2$s cannot be used for both %1$s\"timepasses\"%2$s and %1$s"
+"\"subscriptions\"%2$s at the same time."
+msgstr ""
 
 #: application/Controller/Install.php:76
 #, php-format
@@ -1899,7 +1915,7 @@ msgstr "Der Parameter \"%s\" fehlt oder hat einen ungültigen Wert."
 msgid "Post with id \"%s\" not exist"
 msgstr "Es existiert kein Beitrag mit der ID \"%s\"."
 
-#: application/Helper/Post.php:320
+#: application/Helper/Post.php:326
 msgid "(more&hellip;)"
 msgstr ""
 
@@ -1992,36 +2008,36 @@ msgstr "Alle Inhalte in Kategorie"
 msgid "k"
 msgstr "t"
 
-#: application/Module/Purchase.php:103 application/Module/Purchase.php:682
+#: application/Module/Purchase.php:110 application/Module/Purchase.php:719
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:551 application/Module/TimePasses.php:471
+#: application/Module/Purchase.php:588 application/Module/TimePasses.php:471
 #: application/Module/TimePasses.php:494 application/Module/TimePasses.php:512
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
-#: application/Module/Purchase.php:553
+#: application/Module/Purchase.php:590
 msgid "Read Now, Pay Later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: application/Module/Purchase.php:563
+#: application/Module/Purchase.php:600
 msgid ""
 "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie diesen Beitrag jetzt mit LaterPay und <br>bezahlen Sie mit einer "
 "Zahlungsmethode Ihres Vertrauens."
 
-#: application/Module/Purchase.php:567 application/Module/Purchase.php:580
+#: application/Module/Purchase.php:604 application/Module/Purchase.php:617
 #: application/Module/TimePasses.php:479
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
-#: application/Module/Purchase.php:568
+#: application/Module/Purchase.php:605
 msgid ""
 "Immediately access your purchase. <br>You only buy this post. No "
 "subscription, no fees."
@@ -2029,13 +2045,13 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:576
+#: application/Module/Purchase.php:613
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 "Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. "
 "Keine Vorauszahlung."
 
-#: application/Module/Purchase.php:581
+#: application/Module/Purchase.php:618
 msgid ""
 "Access your purchase immediately.<br> You are only buying this article, not "
 "a subscription."
@@ -2043,7 +2059,7 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:586
+#: application/Module/Purchase.php:623
 #, php-format
 msgid ""
 "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you "
@@ -2484,7 +2500,7 @@ msgstr ""
 "Preisgestaltung hinzufügen\". Nun können Sie die Punkte in der Grafik "
 "verschieben, um die Preise anzupassen."
 
-#: views/backend/advanced.php:169 views/backend/appearance.php:293
+#: views/backend/advanced.php:169 views/backend/appearance.php:294
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
@@ -2673,16 +2689,22 @@ msgstr "Zeigen Sie Zeitabläufe und Abonnements unter modal an"
 msgid "Customize position of Time Passes & Subscriptions"
 msgstr "Anpassen der Position von Zeitabläufen und Abonnements"
 
-#: views/backend/appearance.php:135
+#: views/backend/appearance.php:109
+msgid ""
+"Call action 'laterpay_time_passes' in your theme or use the shortcode "
+"'[laterpay_time_passes]' to show your users the available time passes."
+msgstr ""
+
+#: views/backend/appearance.php:136
 msgid "Add custom HTML section below payment button"
 msgstr ""
 "Hinzufügen eines benutzerdefinierten HTML-Abschnitts unter dem Zahlungsbutton"
 
-#: views/backend/appearance.php:141
+#: views/backend/appearance.php:142
 msgid "Show valid payment options"
 msgstr "Gültige Zahlungsoptionen anzeigen"
 
-#: views/backend/appearance.php:146 views/backend/appearance.php:279
+#: views/backend/appearance.php:147 views/backend/appearance.php:280
 #: views/backend/pricing.php:112 views/backend/pricing.php:195
 #: views/backend/pricing.php:355 views/backend/pricing.php:475
 #: views/backend/pricing.php:595 views/backend/pricing.php:627
@@ -2691,73 +2713,73 @@ msgstr "Gültige Zahlungsoptionen anzeigen"
 msgid "Save"
 msgstr "Speichern"
 
-#: views/backend/appearance.php:155
+#: views/backend/appearance.php:156
 msgid "Preview"
 msgstr "Vorschau"
 
-#: views/backend/appearance.php:159
+#: views/backend/appearance.php:160
 msgid "Loading..."
 msgstr "Lädt..."
 
-#: views/backend/appearance.php:163
+#: views/backend/appearance.php:164
 #, fuzzy
 msgid "Sample Post Title"
 msgstr "Aktivierte Post-Types"
 
-#: views/backend/appearance.php:183
+#: views/backend/appearance.php:184
 #, php-format
 msgid "%sCustomize%s Colors"
 msgstr "%sFARBEN%s ANPASSEN"
 
-#: views/backend/appearance.php:197
+#: views/backend/appearance.php:198
 msgid "Header background color"
 msgstr "Hintergrundfarbe Header"
 
-#: views/backend/appearance.php:205
+#: views/backend/appearance.php:206
 msgid "Purchase option background color"
 msgstr "Hintergrundfarbe Kaufoptionen"
 
-#: views/backend/appearance.php:213
+#: views/backend/appearance.php:214
 msgid "Main text color"
 msgstr "Schriftfarbe Text"
 
-#: views/backend/appearance.php:221
+#: views/backend/appearance.php:222
 msgid "Description text color"
 msgstr "Schriftfarbe Beschreibungen"
 
-#: views/backend/appearance.php:229
+#: views/backend/appearance.php:230
 msgid "Purchase button background color"
 msgstr "Hintergrundfarbe Kaufbutton"
 
-#: views/backend/appearance.php:237
+#: views/backend/appearance.php:238
 msgid "Purchase button hover color"
 msgstr "Kaufen-Taste schweben Farbe"
 
-#: views/backend/appearance.php:245
+#: views/backend/appearance.php:246
 msgid "Purchase button text color"
 msgstr "Schriftfarbe Kaufbutton"
 
-#: views/backend/appearance.php:253
+#: views/backend/appearance.php:254
 msgid "Link main color"
 msgstr "Schriftfarbe Links"
 
-#: views/backend/appearance.php:261
+#: views/backend/appearance.php:262
 msgid "Link hover color"
 msgstr "Hover-Schriftfarbe Links"
 
-#: views/backend/appearance.php:269
+#: views/backend/appearance.php:270
 msgid "Footer background color"
 msgstr "Hintergrundfarbe Footer"
 
-#: views/backend/appearance.php:284
+#: views/backend/appearance.php:285
 msgid "Restore Default Values"
 msgstr "Standardwerte wiederherstellen"
 
-#: views/backend/appearance.php:300
+#: views/backend/appearance.php:301
 msgid "Click here"
 msgstr "Hier"
 
-#: views/backend/appearance.php:301
+#: views/backend/appearance.php:302
 msgid ""
 "to adjust the number of characters automatically generated as your teaser "
 "content or the length of the content preview blurred behind our paywall."
@@ -3072,14 +3094,6 @@ msgstr "Powered by"
 #: views/frontend/partials/post/gift/gift-pass.php:26
 msgid "on this website"
 msgstr "dieser Website"
-
-#: views/backend/partials/subscription.php:32
-#: views/backend/partials/time-pass.php:37
-#: views/frontend/partials/post/gift/gift-actions.php:25
-#: views/frontend/partials/widget/purchase-button.php:18
-#: views/frontend/partials/widget/purchase-link.php:14
-msgid "Buy now with LaterPay"
-msgstr "Jetzt mit LaterPay kaufen"
 
 #: views/backend/partials/subscription.php:35
 #: views/backend/partials/time-pass.php:43

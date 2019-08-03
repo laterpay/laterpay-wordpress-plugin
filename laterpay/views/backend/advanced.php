@@ -54,7 +54,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         <a id='lp_js_showMerchantDashboard' href="#" target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login' class='lp_info_link'><?php esc_html_e( 'Click here to view your dashboard.', 'laterpay' ); ?></a>
                     </div>
                     <a id='lp_js_showMerchantDashboardImage' href="#" target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login'>
-                        <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-analytics.png' ); ?>">
+                        <img class="lp_advanced_info_img_no_width" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-analytics.png' ); ?>">
                     </a>
                 </div>
             </div>
