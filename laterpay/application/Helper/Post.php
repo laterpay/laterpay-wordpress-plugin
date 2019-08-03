@@ -72,6 +72,12 @@ class LaterPay_Helper_Post
 
             // check, if parent post has access with time passes
             $parent_post = $is_attachment ? $main_post_id : $post->ID;
+
+            // Check if the post is enabled for sale.
+            if ( ! self::is_enabled_type( $parent_post ) ) {
+                return;
+            }
+
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id($parent_post);
             $time_passes = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids($time_passes_list);
 
