@@ -49,6 +49,13 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 array( 'is_purchasable', 100 ),
                 array( 'on_purchase_link' ),
             ),
+            'laterpay_purchase_link_shortcode' => array(
+                array( 'laterpay_on_preview_post_as_admin', 200 ),
+                array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'is_purchasable', 100 ),
+                array( 'on_purchase_link_shortcode' ),
+            ),
             'laterpay_purchase_layout' => array( // Event for purchase layout.
                 array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
                 array( 'is_purchasable', 100 ),
@@ -147,6 +154,36 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
         );
         $this->assign( 'laterpay', $view_args );
         $html = $this->get_text_view( 'frontend/partials/widget/purchase-link' );
+
+        $event->set_result( $html )
+              ->set_arguments( $view_args );
+    }
+
+    /**
+     * Renders LaterPay purchase link
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_purchase_link_shortcode( LaterPay_Core_Event $event ) {
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+        }
+
+        // get purchase link
+        $purchase_link = LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID );
+
+        $view_args = array_merge(
+            array(
+                'post_id'       => $post->ID,
+                'link'          => $purchase_link,
+                'attributes'    => array(),
+            ),
+            $event->get_arguments()
+        );
+        $this->assign( 'laterpay', $view_args );
+        $html = $this->get_text_view( 'frontend/partials/widget/purchase-link-shortcode' );
 
         $event->set_result( $html )
               ->set_arguments( $view_args );

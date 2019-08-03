@@ -409,6 +409,12 @@ class LaterPay_Helper_Pricing
     public static function get_dynamic_price( WP_Post $post ) {
         $post_price             = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
+
+        // This is to handle the event when, dynamic price is removed, so that it doesn't result into AJAX errors.
+        if ( ! isset( $post_price['price_range_type'] ) ) {
+            return number_format( 0.00, 2 );
+        }
+
         $price_range_type       = $post_price['price_range_type'];
         $currency               = LaterPay_Helper_Config::get_currency_config();
 
