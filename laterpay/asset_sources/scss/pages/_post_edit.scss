@@ -82,6 +82,10 @@
         border: 1px solid $border;
         border-radius: $border-radius;
 
+        .lp_tooltip {
+            display: block;
+        }
+
         .lp_price-type__item {
             box-shadow: inset 1px 0 0 $border, inset 0 1px 0 hsla(0, 0%, 100%, 0.55);
             line-height: 1.25;

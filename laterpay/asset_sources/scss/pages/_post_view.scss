@@ -324,6 +324,10 @@
     color: $text--inverse !important;
     margin: $fs $fs--2 !important;
     padding: $fs--05 $fs !important;
+
+    code {
+        color: #d0d0d0;
+    }
 }
 
 #lp_visibilityToggleIndicator {

@@ -409,6 +409,12 @@ class LaterPay_Helper_Pricing
     public static function get_dynamic_price( WP_Post $post ) {
         $post_price             = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
+
+        // This is to handle the event when, dynamic price is removed, so that it doesn't result into AJAX errors.
+        if ( ! isset( $post_price['price_range_type'] ) ) {
+            return number_format( 0.00, 2 );
+        }
+
         $price_range_type       = $post_price['price_range_type'];
         $currency               = LaterPay_Helper_Config::get_currency_config();
 
@@ -1071,9 +1077,28 @@ class LaterPay_Helper_Pricing
      */
     public static function check_time_pass_subscription_access( $time_pass_ids = '', $subscription_ids = '' ) {
 
-        // Create an array of both time passes and subscriptions.
-        $time_passes_list   = explode( ',', $time_pass_ids );
-        $subscriptions_list = explode( ',', $subscription_ids );
+        // Don't allow all time passes and subscriptions to be queried at the same time.
+        if ( 'all' === $time_pass_ids && 'all' === $subscription_ids ) {
+            return false;
+        }
+
+        // Create an array of time passes.
+        if ( 'all' === $time_pass_ids ) {
+            $time_passes_model    = LaterPay_Model_TimePassWP::get_instance();
+            $time_passes_list_all = $time_passes_model->get_active_time_passes();
+            $time_passes_list     = array_column( $time_passes_list_all, 'pass_id' );
+        } else {
+            $time_passes_list = explode( ',', $time_pass_ids );
+        }
+
+        // Create an array of subscriptions.
+        if ( 'all' === $subscription_ids ) {
+            $subscriptions_model    = LaterPay_Model_SubscriptionWP::get_instance();
+            $subscriptions_list_all = $subscriptions_model->get_active_subscriptions();
+            $subscriptions_list     = array_column( $subscriptions_list_all, 'id' );
+        } else {
+            $subscriptions_list = explode( ',', $subscription_ids );
+        }
 
         // Iterate through time pass ids and prepend token string to it for API request.
         $time_passes = array_map( function ( $tp ) {

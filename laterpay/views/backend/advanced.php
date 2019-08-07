@@ -55,7 +55,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         <a id='lp_js_showMerchantDashboard' href="#" target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login' class='lp_info_link'><?php esc_html_e( 'Click here to view your dashboard.', 'laterpay' ); ?></a>
                     </div>
                     <a id='lp_js_showMerchantDashboardImage' href="#" target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login'>
-                        <img class="lp_advanced_info_img_normal" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-analytics.png' ); ?>">
+                        <img class="lp_advanced_info_img_no_width" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-analytics.png' ); ?>">
                     </a>
                 </div>
             </div>
@@ -142,6 +142,42 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                     <a href="https://www.laterpay.net/academy/how-to-create-a-subscription-button-in-the-laterpay-wordpress-plugin" target='_blank' >
                         <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-subscription-button.png' ); ?>">
                     </a>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
+                    <?php
+                    printf(
+                        esc_html__( '%sDYNAMIC%s ACCESS', 'laterpay' ),
+                        '<span class="lp_step_span">',
+                        '</span>'
+                    );
+                    ?>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info lp_advanced_info_dynamic">
+                        <p>
+                            <?php
+                            printf(
+                                esc_html__(
+                                    'Create a customized experience with our newest %1$sshortcode%2$s & %3$sfunction%2$s. Using LaterPay\'s Dynamic Access feature, you can show or hide content - ads, promotional pop-ups, bonus features, virtually anything you can imagine - based on the level of access a user has purchased.', 'laterpay' ),
+                                '<a href="https://en.support.wordpress.com/shortcodes/" target="_blank" class="lp_info_link_black">',
+                                '</a>',
+                                '<a href="https://codex.wordpress.org/Function_Reference/" target="_blank" class="lp_info_link_black">'
+                            );
+                            ?>
+                        </p>
+                        <a href="https://www.laterpay.net/blog/academy/wordpress-dynamic-access" target='_blank' class='lp_info_link'><?php esc_html_e( 'Click here for detailed instructions.', 'laterpay' ); ?></a>
+                    </div>
+                    <div class="lp_info_list_div">
+                        <ul class="lp_info_list">
+                            <li data-icon="f"><?php esc_html_e( 'Ad-Free Experience', 'laterpay' ); ?></li>
+                            <li data-icon="f"><?php esc_html_e( 'Hide Promotions after Purchase', 'laterpay' ); ?></li>
+                            <li data-icon="f"><?php esc_html_e( 'Restrict Bonus Features to Subscribers', 'laterpay' ); ?></li>
+                            <li data-icon="f"><?php esc_html_e( 'Much More!', 'laterpay' ); ?></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

@@ -52,7 +52,7 @@ if ( ! empty( $laterpay['category_prices'] ) ) {
     $global_disabled_class = ' lp_is-disabled lp_tooltip';
 }
 
-if ( 0 === $post_price_behaviour ) {
+if ( 0 === $post_price_behaviour || 1 === $post_price_behaviour ) {
     $individual_free_disabled_class = 'lp_is-disabled lp_tooltip';
 }
 
@@ -160,7 +160,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
         <li>
             <?php
             if ( 0 === $post_price_behaviour ) :
-                printf( esc_html__( '%sFREE%s', 'laterpay' ), '<b class="lp_postEditTypeZero">', '</b>' );
+                echo '<b class="lp_postEditTypeZero lp_tooltip" data-tooltip="' . esc_html__( 'All articles are free by default; Time Passes & Subscriptions will only be displayed if an Individual Article Price greater than 0.00 is manually set by selecting “Individual Price” below.', 'laterpay' ) . '">' . esc_html__( 'FREE', 'laterpay' ) . '</b>';
             else :
                 echo esc_attr( LaterPay_Helper_View::format_number( $laterpay['global_price'] ) ); ?><?php esc_html_e( $laterpay['currency']['code'] ); ?>
                 <?php if ( $laterpay['post_revenue_model'] === 'ppu' ) : ?>
