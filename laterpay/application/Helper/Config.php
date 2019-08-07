@@ -399,6 +399,11 @@ class LaterPay_Helper_Config {
         delete_option( 'lp_custom_overlay_options' );
         delete_option( 'laterpay_global_voucher_codes' );
         delete_option( 'laterpay_plugin_version' );
+        delete_option( 'lp_custom_overlay_options' );
+        delete_option( 'lp_wisdom_tracking_info' );
+
+        // unset wisdom tracking data.
+        LaterPay_Controller_Admin_Advanced::unset_wisdom_tracking_info();
 
         // Delete Post Price Display Behaviour Option.
         delete_option( 'laterpay_post_price_behaviour' );

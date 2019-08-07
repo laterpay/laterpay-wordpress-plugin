@@ -9,6 +9,7 @@ $is_vip         = laterpay_check_is_vip();
 $access_url     = admin_url( 'options-general.php?page=laterpay#lpaccess' );
 $appearance_url = admin_url( 'options-general.php?page=laterpay#lpappearance' );
 $technical_url  = admin_url( 'options-general.php?page=laterpay#lptechnical' );
+$analytics_url  = admin_url( 'options-general.php?page=laterpay#lpanalytics' );
 $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 ?>
 
@@ -40,7 +41,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
         <div class="lp_main_area">
             <h2><?php esc_html_e( 'Advanced Features', 'laterpay' ); ?></h2>
-            <div class="lp_clearfix">
+            <div class="lp_clearfix" id="lp_analytics_info">
                 <label class="lp_step_label">
                     <span class="lp_step_span"><?php esc_html_e( 'Analytics', 'laterpay' ); ?></span>
                 </label>
@@ -233,6 +234,51 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
             <div class="lp_clearfix">
                 <label class="lp_step_label">
+                    <span class="lp_step_span"><?php esc_html_e( 'Analytics & Usage Data', 'laterpay' ); ?></span>
+                </label>
+                <div class="lp_info_div">
+                    <div class="lp_advanced_info">
+                        <p>
+                            <?php esc_html_e( 'In order to make informed decisions about improvements to our plugin, we would like to gather information on a few of your WordPress settings. We do not record any sensitive information; only data points in regards to your WordPress environment and plugin settings.', 'laterpay' ); ?>
+                        </p>
+                        <div class="lp_greybox lp_mt lp_mr lp_mb">
+                            <div class="lp_toggle">
+                                <form id="laterpay_wisdom_optinout" method="post">
+                                    <input type="hidden" name="form" value="laterpay_wisdom_optinout">
+                                    <input type="hidden" name="action" value="laterpay_advanced">
+                                    <?php wp_nonce_field( 'laterpay_form' ); ?>
+                                    <label class="lp_toggle__label">
+                                        <input type="checkbox"
+                                               id="lp_js_toggleWisdomTracking"
+                                               class="lp_toggle__input"
+                                               name="is_wisdom_tracking_allowed"
+                                               value="1"
+                                            <?php if ( $laterpay['is_wisdom_tracking_allowed'] ) {
+                                                echo 'checked';
+                                            } ?>>
+                                        <span class="lp_toggle__text" data-on="<?php esc_attr_e( 'ALLOW', 'laterpay' ); ?>" data-off="<?php esc_attr_e( 'DISALLOW', 'laterpay' ); ?>"></span>
+                                        <span class="lp_toggle__handle"></span>
+                                    </label>
+                                </form>
+                            </div><?php esc_html_e( 'LaterPay to view my settings.', 'laterpay' ); ?>
+                        </div>
+                        <p>
+                            <?php esc_html_e( 'If you are also interested in making data informed decisions, additional analytics available through LaterPay include:', 'laterpay' ); ?>
+                        </p>
+                        <ul>
+                            <li>
+                                <a href="<?php echo esc_url( $analytics_url ); ?>" class="lp_info_link"><?php esc_html_e( 'Google Analytics Events', 'laterpay' ); ?></a>
+                            </li>
+                            <li>
+                                <a href="#lp_analytics_info" class="lp_info_link"><?php esc_html_e( 'LaterPay\'s Analytics Dashboard', 'laterpay' ); ?></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lp_clearfix">
+                <label class="lp_step_label">
                     <span class="lp_step_span"><?php esc_html_e( 'Appearance', 'laterpay' ); ?></span>
                 </label>
                 <div class="lp_info_div">
@@ -269,6 +315,8 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                     ?>
                 </label>
                 <div class="lp_info_div">
+                    <!-- This following empty div is used for adding deactivation survey form on user action. -->
+                    <div id="put-goodbye-form-laterpay" class="put-goodbye-form"></div>
                     <div class="lp_advanced_info">
                         <p>
                             <?php

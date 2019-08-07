@@ -80,6 +80,9 @@ class LaterPay_Hooks {
             add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $this, self::$wp_action_prefix . 'laterpay_post_custom_column_data' ), 10, 2 );
         }
 
+        // Customize Marketing text for wisdom tracking.
+        add_filter( 'wisdom_marketing_text_laterpay', array( $this, self::$wp_filter_prefix . 'laterpay_marketing_notice' ) );
+
         add_action( 'template_redirect',                array( $this, self::$wp_action_prefix . 'laterpay_loaded' ) );
         add_action( 'wp_footer',                        array( $this, self::$wp_action_prefix . 'laterpay_post_footer' ) );
         add_action( 'wp_enqueue_scripts',               array( $this, self::$wp_action_prefix . 'laterpay_enqueue_scripts' ) );
