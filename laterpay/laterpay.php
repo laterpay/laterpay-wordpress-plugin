@@ -276,9 +276,7 @@ function laterpay_whitelisted_attributes( $args, $whitelisted_keys ) {
 }
 
 /**
- * This function allows you to track usage of your plugin
- * Place in your main plugin file
- * Refer to https://wisdomplugin.com/support for help
+ * Add Wisdom Tracking Library for plugin tracking.
  */
 if ( ! class_exists( 'Plugin_Usage_Tracker' ) ) {
     require_once dirname( __FILE__ ) . '/tracking/class-plugin-usage-tracker.php';
