@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-08-03 13:43+0530\n"
-"PO-Revision-Date: 2019-08-03 13:44+0530\n"
+"POT-Creation-Date: 2019-08-07 12:05+0530\n"
+"PO-Revision-Date: 2019-08-07 12:12+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -2485,7 +2485,7 @@ msgstr ""
 #: views/backend/advanced.php:151
 #, php-format
 msgid "%sDYNAMIC%s ACCESS"
-msgstr ""
+msgstr "%sDYNAMISCHER%s ZUGRIFF"
 
 #: views/backend/advanced.php:163
 #, php-format
