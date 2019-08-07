@@ -247,7 +247,7 @@
                 // Notice Inner Link.
                 var versionDescritpionExtraLink = $('<a/>', {
                     text: lpCommonVar.update_highlights.notice_link,
-                    href: '#',
+                    href: 'https://www.laterpay.net/blog/academy/wordpress-dynamic-access',
                     class: 'notice_inner_link',
                     target: '_blank',
                 });
