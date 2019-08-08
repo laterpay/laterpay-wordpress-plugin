@@ -167,7 +167,12 @@
                 $o.body
                     .on('click', $o.optionContainer, function (e) {
                         e.preventDefault();
-                        $(this).find($o.optionInput).attr('checked', 'checked');
+
+                        // Remove checked prop from previously selected option for overlay.
+                        $('input[name="lp_purchase-overlay-option"]').removeProp('checked');
+
+                        // Check the currently chosen option.
+                        $(this).find($o.optionInput).prop('checked', 'checked');
 
                         switch( $(this).data('revenue') ) {
                             // buy now

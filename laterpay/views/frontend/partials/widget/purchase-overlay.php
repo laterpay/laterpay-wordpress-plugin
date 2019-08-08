@@ -79,10 +79,10 @@ if ( 1 !== $overlay['tp_sub_below_modal'] && ! empty( $overlay['benefits'] ) ) {
                             <?php if ( ! empty( $overlay_data ) ) : ?>
                                 <?php foreach ( $overlay_data as $purchase_option ) : ?>
                                     <div class="lp_purchase-overlay-option lp_js_timePass lp_js_subscription <?php if ( 1 === $total_purchase_options ): ?> lp_purchase-overlay-option-single<?php endif; ?>"
-                                        <?php if ( 'timepass' === $purchase_option['type'] ): ?> data-pass-id="<?php echo esc_attr( $purchase_option['id'] );
-                                    endif; ?>"
-                                        <?php if ( 'subscription' === $purchase_option['type'] ): ?> data-sub-id="<?php echo esc_attr( $purchase_option['id'] );
-                                    endif; ?>"
+                                        <?php if ( 'timepass' === $purchase_option['type'] ): ?> data-pass-id="<?php echo esc_attr( $purchase_option['id'] ); ?>"
+                                        <?php endif;
+                                        if ( 'subscription' === $purchase_option['type'] ): ?> data-sub-id="<?php echo esc_attr( $purchase_option['id'] ); ?>"
+                                        <?php endif; ?>
                                          data-revenue="<?php echo esc_attr( $purchase_option['revenue'] ); ?>">
                                         <div class="lp_purchase-overlay-option__button">
                                             <input id="lp_purchaseOverlayOptionInput<?php echo esc_attr( $input_id ); ?>" type="radio"
