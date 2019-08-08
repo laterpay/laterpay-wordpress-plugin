@@ -230,43 +230,6 @@ class LaterPay_Helper_User
         return static::$_hide_preview_mode_pane;
     }
 
-    /**
-     * Get user unique id.
-     *
-     * @return null|string user id
-     */
-    public static function get_user_unique_id( ) {
-        if ( isset( $_COOKIE['laterpay_tracking_code'] ) ) {
-            list( $uniqueId, $control_code ) = explode( '.', sanitize_text_field( $_COOKIE['laterpay_tracking_code'] ) );
-
-            // make sure only authorized information is recorded
-            if ( $control_code !== md5( $uniqueId . AUTH_SALT ) ) {
-                return null;
-            }
-
-            return $uniqueId;
-        }
-
-        return null;
-    }
-
-    /**
-     * Remove cookie by name
-     *
-     * @param $name
-     *
-     * @return void
-     */
-    public static function remove_cookie_by_name( $name ) {
-        unset( $_COOKIE[ $name ] );
-        setcookie(
-            $name,
-            null,
-            time() - 60,
-            '/'
-        );
-    }
-
     /*
      * Retrieves user_meta based on VIP and Non-VIP environments
      *

@@ -630,6 +630,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         global $wpdb;
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Not run on VIP-GO env, used to remove custom tables after migration.
         $table       = $wpdb->prefix . 'laterpay_terms_price';
         $table_terms = $wpdb->get_results( 'SHOW TABLES LIKE \'' . $table . '\';' );
 
@@ -644,6 +645,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             $wpdb->query( 'DROP TABLE IF EXISTS ' . $term_table . ';' );
 
         }
+        // phpcs:enable
 
     }
 
