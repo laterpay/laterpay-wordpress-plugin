@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     if ( ! is_wp_error( $category ) && ! empty( $category ) && 0 !== $laterpay_pass['access_to'] ) {
         $access_dest = $category->name;
     }
-?>
+    ?>
 
 <div class="lp_js_timePass lp_time-pass lp_time-pass-<?php echo esc_attr( $laterpay_pass['pass_id'] ); ?>" data-pass-id="<?php echo esc_attr( $laterpay_pass['pass_id'] ); ?>">
 

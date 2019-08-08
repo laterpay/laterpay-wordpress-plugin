@@ -1,14 +1,13 @@
 <?php
 
 /**
- * LaterPay purchase button position form class.
+ * LaterPay plugin mode form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Form_PurchaseButtonPosition extends LaterPay_Form_Abstract
-{
+class LaterPay_Form_TrackingMode extends LaterPay_Form_Abstract {
 
     /**
      * Implementation of abstract method.
@@ -23,10 +22,10 @@ class LaterPay_Form_PurchaseButtonPosition extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'purchase_button_position',
+                            'eq' => 'laterpay_wisdom_optinout',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -37,10 +36,10 @@ class LaterPay_Form_PurchaseButtonPosition extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_appearance',
+                            'eq' => 'laterpay_advanced',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -54,21 +53,20 @@ class LaterPay_Form_PurchaseButtonPosition extends LaterPay_Form_Abstract
                             'ne' => null,
                         ),
                     ),
-                )
+                ),
             )
         );
 
         $this->set_field(
-            'purchase_button_positioned_manually',
+            'is_wisdom_tracking_allowed',
             array(
                 'validators' => array(
                     'is_int',
                     'in_array' => array( 0, 1 ),
                 ),
-                'filters' => array(
+                'filters'    => array(
                     'to_int',
                 ),
-                'can_be_null' => true,
             )
         );
     }

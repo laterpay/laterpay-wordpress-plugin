@@ -41,6 +41,9 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
     public function load_assets() {
         parent::load_assets();
 
+        // Update Wisdom opt_out status if necessary.
+        $this->lp_update_optout_value();
+
         // Get data for GA.
         $merchant_key = LaterPay_Controller_Admin::get_merchant_id_for_ga();
 
@@ -225,66 +228,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                     )
                 );
 
-                break;
-
-            case 'purchase_button_position':
-                $purchase_button_position_form = new LaterPay_Form_PurchaseButtonPosition( $_POST ); // phpcs:ignore
-
-                if ( ! $purchase_button_position_form->is_valid() ) {
-                    throw new LaterPay_Core_Exception_FormValidation( get_class( $purchase_button_position_form ), $purchase_button_position_form->get_errors() );
-                }
-
-                $result = update_option( 'laterpay_purchase_button_positioned_manually', ! ! $purchase_button_position_form->get_field_value( 'purchase_button_positioned_manually' ) );
-
-                if ( $result ) {
-                    if ( get_option( 'laterpay_purchase_button_positioned_manually' ) ) {
-                        $event->set_result(
-                            array(
-                                'success' => true,
-                                'message' => __( 'Purchase buttons are now rendered at a custom position.', 'laterpay' ),
-                            )
-                        );
-                        return;
-                    }
-
-                    $event->set_result(
-                        array(
-                            'success' => true,
-                            'message' => __( 'Purchase buttons are now rendered at their default position.', 'laterpay' ),
-                        )
-                    );
-                    return;
-                }
-                break;
-
-            case 'time_passes_position':
-                $time_passes_position_form = new LaterPay_Form_TimePassPosition( $_POST ); // phpcs:ignore
-
-                if ( ! $time_passes_position_form->is_valid() ) {
-                    throw new LaterPay_Core_Exception_FormValidation( get_class( $time_passes_position_form ), $time_passes_position_form->get_errors() );
-                }
-
-                $result = update_option( 'laterpay_time_passes_positioned_manually', ! ! $time_passes_position_form->get_field_value( 'time_passes_positioned_manually' ) );
-
-                if ( $result ) {
-                    if ( get_option( 'laterpay_time_passes_positioned_manually' ) ) {
-                        $event->set_result(
-                            array(
-                                'success' => true,
-                                'message' => __( 'Time passes are now rendered at a custom position.', 'laterpay' ),
-                            )
-                        );
-                        return;
-                    }
-
-                    $event->set_result(
-                        array(
-                            'success' => true,
-                            'message' => __( 'Time passes are now rendered at their default position.', 'laterpay' ),
-                        )
-                    );
-                    return;
-                }
                 break;
 
             default:

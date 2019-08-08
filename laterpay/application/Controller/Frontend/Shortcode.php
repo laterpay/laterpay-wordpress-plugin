@@ -34,6 +34,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'render_time_pass_subscription_purchase', 200 ),
             ),
+            'laterpay_shortcode_check_access' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'laterpay_access_manage_content', 200 ),
+            ),
             'wp_ajax_laterpay_get_premium_shortcode_link' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_get_premium_shortcode_link' ),
@@ -166,7 +170,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $page_url = get_permalink( $page_id );
         }
 
-        $content_types = array( 'file', 'gallery', 'audio', 'video', 'text', 'music' );
+        // Supported content data types.
+        $content_types = array( 'file', 'gallery', 'audio', 'video', 'text', 'music', 'link' );
 
         if ( empty( $a['content_type'] ) ) {
             // determine $content_type from MIME type of files attached to post
@@ -204,36 +209,55 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $content_type = 'text';
         }
 
-        $image_path  = $a['teaser_image_path'];
         $heading     = $a['heading_text'];
         $description = $a['description_text'];
 
-        // build the HTML for the teaser box
-        if ( ! empty( $image_path ) ) {
-            $html = '<div class="lp_js_premium-file-box lp_premium-file-box" '
-                    . 'style="background-image:url(' . esc_url( $image_path ) . ')'
-                    . '" data-post-id="' . esc_attr( $page_id )
-                    . '" data-content-type="' . esc_attr( $content_type )
-                    . '" data-page-url="' . esc_url ( $page_url )
+        if ( 'link' === $content_type ) {
+            // Build anchor text for premium link.
+            $anchor_text = empty( $description ) ? $heading : sprintf( '%s - %s', $heading, $description );
+
+            $html = '<a class="lp_js_premium-file-box lp_premium_link lp_premium_link_anchor" title="'
+                    . esc_html__( 'Buy now with LaterPay', 'laterpay' )
+                    . '" data-content-type="'
+                    . esc_attr( $content_type )
+                    . '" data-post-id="'
+                    . esc_attr( $page_id )
+                    .'" data-page-url="'
+                    . esc_url( $page_url )
                     . '">';
+            $html .= esc_html( $anchor_text ) . '</a>';
+
         } else {
-            $html = '<div class="lp_js_premium-file-box lp_premium-file-box lp_is-' . esc_attr( $content_type )
-                    . '" data-post-id="' . esc_attr( $page_id )
-                    . '" data-content-type="' . esc_attr( $content_type )
-                    . '" data-page-url="' . esc_url( $page_url )
-                    . '">';
+            $image_path  = $a['teaser_image_path'];
+
+
+            // build the HTML for the teaser box
+            if ( ! empty( $image_path ) ) {
+                $html = '<div class="lp_js_premium-file-box lp_premium-file-box" '
+                        . 'style="background-image:url(' . esc_url( $image_path ) . ')'
+                        . '" data-post-id="' . esc_attr( $page_id )
+                        . '" data-content-type="' . esc_attr( $content_type )
+                        . '" data-page-url="' . esc_url ( $page_url )
+                        . '">';
+            } else {
+                $html = '<div class="lp_js_premium-file-box lp_premium-file-box lp_is-' . esc_attr( $content_type )
+                        . '" data-post-id="' . esc_attr( $page_id )
+                        . '" data-content-type="' . esc_attr( $content_type )
+                        . '" data-page-url="' . esc_url( $page_url )
+                        . '">';
+            }
+
+            // create a premium box
+            $html .= '<div class="lp_premium-file-box__details">';
+            $html .= '<h3 class="lp_premium-file-box__title">' . esc_attr( $heading ) . '</h3>';
+
+            if ( ! empty( $description ) ) {
+                $html .= '<p class="lp_premium-file-box__text">' . esc_attr( $description ) . '</p>';
+            }
+
+            $html .= '</div>';
+            $html .= '</div>';
         }
-
-        // create a premium box
-        $html .= '<div class="lp_premium-file-box__details">';
-        $html .= '<h3 class="lp_premium-file-box__title">' . esc_attr( $heading ) . '</h3>';
-
-        if ( ! empty( $description ) ) {
-            $html .= '<p class="lp_premium-file-box__text">' . esc_attr( $description ) . '</p>';
-        }
-
-        $html .= '</div>';
-        $html .= '</div>';
         $event->set_result( $html );
     }
 
@@ -293,8 +317,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                         break;
 
                     case 'video':
-	                    $button_label = __( 'Watch now', 'laterpay' );
-	                    break;
+                        $button_label = __( 'Watch now', 'laterpay' );
+                        break;
 
                     case 'gallery':
                         $button_label = __( 'View now', 'laterpay' );
@@ -335,22 +359,33 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                     esc_html( $button_label ) .
                     '</a>';
             } else {
-                // the user has not purchased the item yet
-                $button_event = new LaterPay_Core_Event();
-                $button_event->set_echo( false );
-                $button_event->set_argument( 'post', $post );
-                $button_event->set_argument( 'current_post', $current_post_id );
-                $button_event->set_argument( 'attributes', array(
-                    'class' => 'lp_js_doPurchase lp_purchase-button lp_purchase-link--shortcode',
-                ) );
-                laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $button_event );
-                $html_button = $button_event->get_result();
-                if ( empty( $html_button ) ) {
-                    $view_args = array(
-                        'url' => get_permalink( $post->ID ),
-                    );
-                    $this->assign( 'laterpay', $view_args );
-                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-link' );
+                if ( 'link' !== $content_type ) {
+                    // the user has not purchased the item yet
+                    $button_event = new LaterPay_Core_Event();
+                    $button_event->set_echo( false );
+                    $button_event->set_argument( 'post', $post );
+                    $button_event->set_argument( 'current_post', $current_post_id );
+                    $button_event->set_argument( 'attributes', array(
+                        'class' => 'lp_js_doPurchase lp_purchase-button lp_purchase-link--shortcode',
+                    ) );
+                    laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_button', $button_event );
+                    $html_button = $button_event->get_result();
+                    if ( empty( $html_button ) ) {
+                        $view_args = array(
+                            'url' => get_permalink( $post->ID ),
+                        );
+                        $this->assign( 'laterpay', $view_args );
+                        $html_button = $this->get_text_view( 'frontend/partials/post/shortcode-purchase-link' );
+                    }
+                } else {
+                    $link_event = new LaterPay_Core_Event();
+                    $link_event->set_echo( false );
+                    $link_event->set_argument( 'post', $post );
+                    $link_event->set_argument( 'attributes', array(
+                        'class' => 'lp_js_premium-file-box lp_premium_link lp_premium_link_anchor',
+                    ) );
+                    laterpay_event_dispatcher()->dispatch( 'laterpay_purchase_link_shortcode', $link_event );
+                    $html_button = $link_event->get_result();
                 }
             }
 
@@ -524,7 +559,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // ID was provided, but didn't work.
         if ( empty( $entity ) ) {
 
-            if ( is_user_logged_in() ) {
+            if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
                 $error_message = sprintf(
                     $template,
                     sprintf( esc_html__( 'We couldn\'t find a %s with id="%s" on this site.', 'laterpay' ), $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' ), $entity_id )
@@ -562,5 +597,77 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         // Set final result.
         $event->set_result( $html_button );
 
+    }
+
+    /**
+     * Wrap your Ads or content around these shortcode so that it's hidden to premium users those who have access to certain,
+     * time pass /  subscription / current post.
+     *
+     * The shortcode [laterpay_check_access] accepts these parameters:
+     * - timepasses: A comma separated string containing ID of time passes.
+     * - subscriptions: A comma separated string containing ID of subscriptions.
+     *
+     * Basic example:
+     * [laterpay_check_access timepasses="47" ]Ads![/laterpay_check_access]
+     * or:
+     * [laterpay_check_access subscriptions="18" ]AdS![/laterpay_check_access]
+     * or:
+     * [laterpay_check_access timepasses="47" subscriptions="18"]Ads![/laterpay_check_access]
+     * or:
+     * [laterpay_check_access timepasses="all"]Ads![/laterpay_check_access]
+     * or:
+     * [laterpay_check_access subscriptions="all"]Ads![/laterpay_check_access]
+     *
+     * @param  LaterPay_Core_Event $event
+     *
+     * @throws LaterPay_Core_Exception
+     */
+    public function laterpay_access_manage_content( LaterPay_Core_Event $event ) {
+
+        // Get all the attributes.
+        list( $attributes, $content ) = $event->get_arguments() + array( array(), '' );
+
+        // Check if user has access to current page/post, if so hide content.
+        if ( true === LaterPay_Helper_Pricing::check_current_post_access() ) {
+            $event->set_result( '' );
+
+            return;
+        }
+
+        // Provide default values for empty shortcode attributes.
+        $shortcode_atts = shortcode_atts( array(
+            'timepasses'    => '',
+            'subscriptions' => '',
+        ), $attributes );
+
+        // ID of Time Passes and Subscriptions.
+        $time_pass_ids    = $shortcode_atts['timepasses'];
+        $subscription_ids = $shortcode_atts['subscriptions'];
+
+        // Check if all is set for both time pass and subscription.
+        if ( 'all' === $time_pass_ids && 'all' === $subscription_ids ) {
+            // Template for error message.
+            $template = '<div class="lp_shortcode-error">%s</div>';
+
+            if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
+                $error_message = sprintf(
+                    $template,
+                    sprintf( esc_html__( '%1$s"all"%2$s cannot be used for both %1$s"timepasses"%2$s and %1$s"subscriptions"%2$s at the same time.', 'laterpay' ), '<code>', '</code>' )
+                );
+            }
+
+            $event->set_result( $error_message );
+
+            return;
+        }
+
+        if ( true === LaterPay_Helper_Pricing::check_time_pass_subscription_access( $time_pass_ids, $subscription_ids ) ) {
+            $event->set_result( '' );
+
+            return;
+        }
+
+        // If user has no access then show content.
+        $event->set_result( $content );
     }
 }

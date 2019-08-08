@@ -409,6 +409,12 @@ class LaterPay_Helper_Pricing
     public static function get_dynamic_price( WP_Post $post ) {
         $post_price             = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
+
+        // This is to handle the event when, dynamic price is removed, so that it doesn't result into AJAX errors.
+        if ( ! isset( $post_price['price_range_type'] ) ) {
+            return number_format( 0.00, 2 );
+        }
+
         $price_range_type       = $post_price['price_range_type'];
         $currency               = LaterPay_Helper_Config::get_currency_config();
 
@@ -435,7 +441,7 @@ class LaterPay_Helper_Pricing
                     } else {
                         $rounded_price = 0;
                     }
-                } else if ( $rounded_price > $currency['ppu_only_limit'] ) {
+                } elseif ( $rounded_price > $currency['ppu_only_limit'] ) {
                     $rounded_price = $currency['ppu_only_limit'];
                 }
                 break;
@@ -446,14 +452,14 @@ class LaterPay_Helper_Pricing
                     } else {
                         $rounded_price = 0;
                     }
-                } else if ( $rounded_price > $currency['sis_max'] ) {
+                } elseif ( $rounded_price > $currency['sis_max'] ) {
                     $rounded_price = $currency['sis_max'];
                 }
                 break;
             case 'ppusis':
                 if ( $rounded_price > $currency['ppu_max'] ) {
                     $rounded_price = $currency['ppu_max'];
-                } else if ( $rounded_price < $currency['sis_min'] ) {
+                } elseif ( $rounded_price < $currency['sis_min'] ) {
                     if ( abs( $currency['sis_min'] - $rounded_price ) < $rounded_price ) {
                         $rounded_price = $currency['sis_min'];
                     } else {
@@ -541,7 +547,7 @@ class LaterPay_Helper_Pricing
                 $current_currency = LaterPay_Helper_Config::get_currency_config(); // get currency based limits for comparison.
                 if ( ( $current_price >= $current_currency['ppu_min'] && $current_price < $current_currency['ppu_max'] ) || floatval( 0.00 ) === floatval( $current_price ) ) {
                     $revenue_model = 'ppu';
-                } else if ( $current_price >= $current_currency['sis_only_limit'] && $current_price <= $current_currency['sis_max'] ) {
+                } elseif ( $current_price >= $current_currency['sis_only_limit'] && $current_price <= $current_currency['sis_max'] ) {
                     $revenue_model = 'sis';
                 } else {
                     $revenue_model = 'ppu';
@@ -576,7 +582,7 @@ class LaterPay_Helper_Pricing
 
             if ( ( $price >= $currency['ppu_min'] && $price <= $currency['ppu_max'] ) || 0.00 == floatval( $price ) ) { // WPCS: loose comparison ok.
                 $revenue_model = 'ppu';
-            } else if ( $price >= $currency['sis_only_limit'] && $price <= $currency['sis_max'] ) {
+            } elseif ( $price >= $currency['sis_only_limit'] && $price <= $currency['sis_max'] ) {
                 $revenue_model = 'sis';
             }
         }
@@ -1035,7 +1041,110 @@ class LaterPay_Helper_Pricing
      *
      * @return bool
      */
-    public static function is_single_purchase_vouhcer_enabled() {
+    public static function is_single_purchase_voucher_enabled() {
         return ( bool) get_option( 'laterpay_enable_content_voucher', false );
+    }
+
+    /**
+     * Check if user has access to current post.
+     * @return bool
+     */
+    public static function check_current_post_access() {
+
+        // Check if we are on a singular page/post.
+        if ( ! is_singular() ) {
+            return false;
+        }
+
+        // Get current post.
+        $post = get_post();
+
+        // Check if user has access to current page/post, if so hide content.
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if user has access to passed time passes / subscriptions.
+     *
+     * @param string $time_pass_ids    Comma delimited string containing ID of time passes.
+     * @param string $subscription_ids Comma delimited string containing ID of subscriptions.
+     *
+     * @return bool
+     */
+    public static function check_time_pass_subscription_access( $time_pass_ids = '', $subscription_ids = '' ) {
+
+        // Don't allow all time passes and subscriptions to be queried at the same time.
+        if ( 'all' === $time_pass_ids && 'all' === $subscription_ids ) {
+            return false;
+        }
+
+        // Create an array of time passes.
+        if ( 'all' === $time_pass_ids ) {
+            $time_passes_model    = LaterPay_Model_TimePassWP::get_instance();
+            $time_passes_list_all = $time_passes_model->get_active_time_passes();
+            $time_passes_list     = array_column( $time_passes_list_all, 'pass_id' );
+        } else {
+            $time_passes_list = explode( ',', $time_pass_ids );
+        }
+
+        // Create an array of subscriptions.
+        if ( 'all' === $subscription_ids ) {
+            $subscriptions_model    = LaterPay_Model_SubscriptionWP::get_instance();
+            $subscriptions_list_all = $subscriptions_model->get_active_subscriptions();
+            $subscriptions_list     = array_column( $subscriptions_list_all, 'id' );
+        } else {
+            $subscriptions_list = explode( ',', $subscription_ids );
+        }
+
+        // Iterate through time pass ids and prepend token string to it for API request.
+        $time_passes = array_map( function ( $tp ) {
+            if ( ! empty( $tp ) ) {
+                return 'tlp_' . $tp;
+            }
+        }, $time_passes_list );
+
+        // Iterate through subscription ids and prepend token string to it for API request.
+        $subscriptions = array_map( function ( $sub ) {
+            if ( ! empty( $sub ) ) {
+                return 'sub_' . $sub;
+            }
+        }, $subscriptions_list );
+
+        // Merge all time passes and subscriptions ( removes empty values ) and check access.
+        $final_content_list = array_filter( array_merge( $time_passes, $subscriptions ), 'strlen' );
+        $result             = LaterPay_Helper_Request::laterpay_api_get_access( $final_content_list );
+
+        // Check result and see if user has access, if so hide content.
+        if ( ! empty( $result['articles'] ) ) {
+            $access_status = array_column( $result['articles'], 'access' );
+            if ( in_array( true, $access_status, true ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if user has premium access, this method can be used to conditionally show/hide content based on access to certain,
+     * time pass / subscription / post.
+     *
+     * @param string $time_pass_ids    Comma delimited string containing ID of time passes.
+     * @param string $subscription_ids Comma delimited string containing ID of subscriptions.
+     *
+     * @return bool
+     */
+    public static function check_premium_access( $time_pass_ids = '', $subscription_ids = '' ) {
+        if ( true === self::check_current_post_access() ) {
+            return true;
+        } elseif ( true === self::check_time_pass_subscription_access( $time_pass_ids, $subscription_ids ) ) {
+            return true;
+        }
+
+        return false;
     }
 }

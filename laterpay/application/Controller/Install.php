@@ -440,9 +440,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_voucher_codes',                           '' );
         add_option( 'laterpay_subscription_voucher_codes',              '' );
         add_option( 'laterpay_global_voucher_codes',                    '' );
-        add_option( 'laterpay_gift_codes',                              '' );
-        add_option( 'laterpay_voucher_statistic',                       '' );
-        add_option( 'laterpay_gift_statistic',                          '' );
         add_option( 'laterpay_gift_codes_usages',                       '' );
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
@@ -456,7 +453,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
         add_option( 'laterpay_enabled_post_types', [ 'post' => 'post', 'attachment' => 'attachment' ] );
         add_option( 'laterpay_require_login',                           '' );
-        add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
         add_option( 'laterpay_api_fallback_behavior',                   0 );
 
         // keep the plugin version up to date
@@ -499,6 +495,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->add_update_highlights();
         $this->add_tabular_info_option();
         $this->setup_overlay_options_order();
+        $this->add_merchant_id_wisdom_tracking();
 
     }
 
@@ -685,7 +682,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         if ( ! empty( $current_version ) ) {
 
             $update_highlights = [
-                'version' => '2.6.1',
+                'version' => '2.6.2',
             ];
 
             update_option( 'lp_update_highlights', $update_highlights );
@@ -725,6 +722,24 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                     'purchase_selection' => 0,
                 ]
             );
+        }
+    }
+
+    /**
+     * Setup an option with Merchant ID information for wisdom tracking.
+     *
+     * @since 2.6.1
+     *
+     * @return void
+     */
+    public function add_merchant_id_wisdom_tracking() {
+        if ( false === get_option( 'lp_wisdom_tracking_info' ) ) {
+            $wisdom_id_data = [
+                'sandbox_id'                => get_option( 'laterpay_sandbox_merchant_id', '' ),
+                'live_id'                   => get_option( 'laterpay_live_merchant_id', '' ),
+                'wisdom_registered_setting' => 1
+            ];
+            update_option( 'lp_wisdom_tracking_info', $wisdom_id_data );
         }
     }
 }

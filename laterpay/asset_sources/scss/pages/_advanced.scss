@@ -25,6 +25,10 @@
         float: left;
     }
 
+    .lp_advanced_info_dynamic {
+        width: 55%;
+    }
+
     img.lp_advanced_info_img_wide {
         width: 200px;
         height: 45px;
@@ -36,12 +40,43 @@
         height: 130px;
     }
 
+    img.lp_advanced_info_img_no_width {
+        height: 130px;
+        width: 200px;
+    }
+
     .lp_clearfix {
         margin-bottom: 20px;
     }
     ul {
         padding-left: 15px;
         list-style: disc;
+    }
+
+    div.lp_info_list_div {
+        position: absolute;
+        right: 36%;
+
+        ul.lp_info_list {
+            list-style: none !important;
+            border: 2px solid #e2e2e2;
+            border-radius: 5px;
+            margin: 0;
+            padding: 0 5px;
+
+            [data-icon] {
+                &:before {
+                    color: #00AAA2;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+
+    div.lp_advanced_info {
+        .lp_toggle__label {
+            width: 7.5em;
+        }
     }
 }
 
@@ -78,6 +113,58 @@ button.lp_js_disablePluginConfirm {
     -1px 0 1px #ff1744 !important;
 }
 
+// -------------- Wisdom tracking survey --------------
+.put-goodbye-form-bg {
+    background: rgba( 0, 0, 0, .5 );
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.put-goodbye-form-wrapper {
+    position: relative;
+    z-index: 999;
+    display: none;
+}
+.put-goodbye-form-wrapper {
+    display: block;
+}
+.put-goodbye-form {
+    display: none;
+}
+.put-goodbye-form {
+    position: absolute;
+    left: 400px;
+    z-index: 111111;
+    width: 250px;
+    max-width: 400px;
+    background: #fff;
+    white-space: normal;
+    bottom: 100px;
+}
+.put-goodbye-form-head {
+    background: #0073aa;
+    color: #fff;
+    padding: 8px 18px;
+}
+.put-goodbye-form-body {
+    padding: 8px 18px;
+    color: #444;
+}
+.deactivating-spinner {
+    display: none;
+}
+.spinner {
+    float: none;
+    margin: 4px 4px 0 18px;
+    vertical-align: bottom;
+    visibility: visible;
+}
+.put-goodbye-form-footer {
+    padding: 8px 18px;
+}
+// -------------- Wisdom tracking survey --------------
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px) {
@@ -85,6 +172,10 @@ button.lp_js_disablePluginConfirm {
 
         .lp_advanced_info {
             width: 50%;
+        }
+
+        div.lp_info_list_div {
+            width: 30%;
         }
 
         img.lp_advanced_info_img_normal {

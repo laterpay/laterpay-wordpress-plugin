@@ -60,6 +60,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     public function load_assets() {
         parent::load_assets();
 
+        // Update Wisdom opt_out status if necessary.
+        $this->lp_update_optout_value();
+
         // Get data for GA.
         $merchant_key      = LaterPay_Controller_Admin::get_merchant_id_for_ga();
         $data_for_localize = [
@@ -137,7 +140,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $time_passes_model   = LaterPay_Model_TimePassWP::get_instance();
         $time_passes_list    = $time_passes_model->get_active_time_passes();
         $vouchers_list       = LaterPay_Helper_Voucher::get_all_time_pass_vouchers();
-        $vouchers_statistic  = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
         // subscriptions and its vouchers if any.
         $subscriptions_model = LaterPay_Model_SubscriptionWP::get_instance();
@@ -163,13 +165,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 'vouchers_list'           => wp_json_encode( $vouchers_list ),
                 'sub_vouchers_list'       => wp_json_encode( $sub_vouchers_list ),
                 'global_vouchers_list'    => wp_json_encode( $global_vouchers_list ),
-                'vouchers_statistic'      => wp_json_encode( $vouchers_statistic ),
                 'l10n_print_after'        => 'lpVars.currency = JSON.parse(lpVars.currency);
                                             lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
                                             lpVars.subscriptions_list = JSON.parse(lpVars.subscriptions_list);
                                             lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);
-                                            lpVars.sub_vouchers_list = JSON.parse(lpVars.sub_vouchers_list);
-                                            lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
+                                            lpVars.sub_vouchers_list = JSON.parse(lpVars.sub_vouchers_list);',
                 'gaData'                  => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? $merchant_key : '',
                 ),
@@ -221,7 +221,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $time_passes_list   = $time_passes_model->get_active_time_passes();
         $vouchers_list      = LaterPay_Helper_Voucher::get_all_time_pass_vouchers();
         $sub_vouchers_list  = LaterPay_Helper_Voucher::get_all_subscription_vouchers();
-        $vouchers_statistic = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
         // subscriptions data
         $subscriptions_model = LaterPay_Model_SubscriptionWP::get_instance();
@@ -262,7 +261,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'passes_list'                        => $time_passes_list,
             'vouchers_list'                      => $vouchers_list,
             'sub_vouchers_list'                  => $sub_vouchers_list,
-            'vouchers_statistic'                 => $vouchers_statistic,
             'subscriptions_list'                 => $subscriptions_list,
             'hidden_post_types'                  => self::get_hidden_post_types(),
             'all_post_types'                     => $all_post_types,
