@@ -168,7 +168,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             );
                             ?>
                         </p>
-                        <a href="https://www.laterpay.net/blog/academy/wordpress-dynamic-access" target='_blank' class='lp_info_link'><?php esc_html_e( 'Click here for detailed instructions.', 'laterpay' ); ?></a>
+                        <a href="https://www.laterpay.net/academy/wordpress-dynamic-access" target='_blank' class='lp_info_link'><?php esc_html_e( 'Click here for detailed instructions.', 'laterpay' ); ?></a>
                     </div>
                     <div class="lp_info_list_div">
                         <ul class="lp_info_list">
