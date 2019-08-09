@@ -11,6 +11,7 @@ jQuery.fn.showLoadingIndicator = function() {
             var loadingIndicator = $('<div/>', {
                 class: 'lp_js_loadingIndicator lp_loading-indicator',
             });
+            // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Adding a div tag created above.
             $container.empty().append(loadingIndicator);
         }
     }, 600);
@@ -31,13 +32,13 @@ jQuery.fn.removeLoadingIndicator = function() {
 jQuery.fn.showMessage = function(message, success) {
     var $container  = jQuery(this);
 
-	try {
-		if ( jQuery.type( message ) === 'string' ) {
-			message = JSON.parse( message );
-		}
-		success = message.success;
-		message = message.message;
-	} catch ( e ) {
+    try {
+        if ( jQuery.type( message ) === 'string' ) {
+            message = JSON.parse( message );
+        }
+        success = message.success;
+        message = message.message;
+    } catch ( e ) {
         if (typeof message !== 'string') {
             success = message.success;
             message = message.message;
@@ -46,7 +47,9 @@ jQuery.fn.showMessage = function(message, success) {
 
     var $message     = jQuery('<div class="lp_flash-message" style="display:none;"><p></p></div>'),
         messageClass = success ? 'updated' : 'error';
+    // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Adding a div tag created above.
     $container.prepend($message);
+    // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Adding success/failure text message.
     $message.addClass(messageClass).find('p').empty().append(message);
     if (jQuery('p:hidden', $message)) {
         $message.velocity('slideDown', { duration: 250 });

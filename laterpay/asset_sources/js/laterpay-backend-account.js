@@ -5,33 +5,33 @@
     function laterPayBackendAccount() {
         var $o = {
                 // API credentials
-                apiKeyInput                     : $('.lp_js_validateApiKey'),
-                merchantIdInput                 : $('.lp_js_validateMerchantId'),
-                apiCredentialsInputs            : $('.lp_js_validateApiKey, .lp_js_validateMerchantId'),
-                testMerchantId                  : $('#lp_js_sandboxMerchantId'),
-                testApiKey                      : $('#lp_js_sandboxApiKey'),
-                liveMerchantId                  : $('#lp_js_liveMerchantId'),
-                liveApiKey                      : $('#lp_js_liveApiKey'),
+            apiKeyInput                     : $('.lp_js_validateApiKey'),
+            merchantIdInput                 : $('.lp_js_validateMerchantId'),
+            apiCredentialsInputs            : $('.lp_js_validateApiKey, .lp_js_validateMerchantId'),
+            testMerchantId                  : $('#lp_js_sandboxMerchantId'),
+            testApiKey                      : $('#lp_js_sandboxApiKey'),
+            liveMerchantId                  : $('#lp_js_liveMerchantId'),
+            liveApiKey                      : $('#lp_js_liveApiKey'),
 
                 // plugin mode
-                pluginModeIndicator             : $('#lp_js_pluginModeIndicator'),
-                pluginModeToggle                : $('#lp_js_togglePluginMode'),
-                pluginVisibilitySetting         : $('#lp_js_pluginVisibilitySetting'),
-                hasInvalidSandboxCredentials    : $('#lp_js_hasInvalidSandboxCredentials'),
-                isLive                          : 'lp_is-live',
-                navigation                      : $('.lp_navigation'),
+            pluginModeIndicator             : $('#lp_js_pluginModeIndicator'),
+            pluginModeToggle                : $('#lp_js_togglePluginMode'),
+            pluginVisibilitySetting         : $('#lp_js_pluginVisibilitySetting'),
+            hasInvalidSandboxCredentials    : $('#lp_js_hasInvalidSandboxCredentials'),
+            isLive                          : 'lp_is-live',
+            navigation                      : $('.lp_navigation'),
 
-                region                          : $('#lp_js_apiRegionSection'),
-                regionNoticeBlock               : $('#lp_js_regionNotice'),
+            region                          : $('#lp_js_apiRegionSection'),
+            regionNoticeBlock               : $('#lp_js_regionNotice'),
 
-                showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
-                apiCredentials                  : $('#lp_js_apiCredentialsSection'),
-                requestSent                     : false,
+            showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
+            apiCredentials                  : $('#lp_js_apiCredentialsSection'),
+            requestSent                     : false,
 
-                hide_cache_warning              : $('#hide_cache_warning'),
-                lp_cache_warning                : $('#lp_cache_warning'),
-                lp_account_login                : $('#lp_account_login')
-            },
+            hide_cache_warning              : $('#hide_cache_warning'),
+            lp_cache_warning                : $('#lp_cache_warning'),
+            lp_account_login                : $('#lp_account_login')
+        },
 
             regionVal = $o.region.val(),
 

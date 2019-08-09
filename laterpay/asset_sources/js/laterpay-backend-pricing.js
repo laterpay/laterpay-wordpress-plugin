@@ -1482,6 +1482,8 @@
 
             // insert cloned form into current entity editor container
             var $form = $($entity.form, $entity.template).clone();
+            // Creating clone of an escaped template.
+            // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
             $($entity.editorContainer, $wrapper).empty().append($form);
 
             populateEntityForm(type, $wrapper);
@@ -1603,8 +1605,8 @@
                 });
                 small.text(lpVars.currency.code);
                 // update pass price in pass preview
-                $('.lp_js_purchaseLink', $wrapper)
-                .empty().append(text).append(small);
+                // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Safe HTML added here.
+                $('.lp_js_purchaseLink', $wrapper).empty().append(text).append(small);
                 $($entity.preview.price).text(text + ' ' + lpVars.currency.code);
             } else if ($input.hasClass($entity.classes.titleClass)) {
                 // update pass title in pass preview
@@ -1744,7 +1746,8 @@
                         // pass data to list
                         $entity.data.list[id] = r.data;
 
-                        // insert entity rendered on server
+                        // insert entity rendered on server, already escaped in views/backend/partials/time-pass.php
+                        // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
                         $($entity.preview.placeholder, $wrapper).empty().append(r.html);
 
                         // hide action links required when editing entity
@@ -1908,12 +1911,9 @@
                 options.push(option);
             }
 
-            $($entity.fields.duration, $form)
-                .find('option')
-                .remove()
-                .end()
-            .append(options)
-            .val(duration && duration <= limit ? duration : 1);
+            // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Safe HTML.
+            $($entity.fields.duration, $form).find('option').remove().end().append(options)
+                .val(duration && duration <= limit ? duration : 1);
         },
 
         regenerateVouchers = function($wrapper, $entity, id) {
@@ -2040,6 +2040,8 @@
                 'data-icon': 'g'
             }).css({'margin-left': '15px', 'position': 'absolute', 'padding': 0});
 
+            // Below HTML is safe, markup is created above for vouchers.
+            // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
             voucher.empty().append(voucherCode)
                 .append(voucherPrice)
                 .append(spanVoucherCode)
@@ -2065,6 +2067,7 @@
                     .last()
                     .velocity('slideDown', { duration: 250, easing: 'ease-out' });
             }
+            // phpcs:enable
         },
 
         addVoucherToList = function(code, voucherData, $timePass) {
@@ -2076,9 +2079,8 @@
                 'data-code': code,
             });
 
-            var voucherTitle = $('<span/>', {
-                class: 'lp_voucher__title',
-            }).append($('<b/>').text(title));
+            // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Safe Markup.
+            var voucherTitle = $('<span/>', { class: 'lp_voucher__title', }).append($('<b/>').text(title));
 
             var voucherCode = $('<span/>', {
                 class: 'lp_voucher__code',
@@ -2093,6 +2095,7 @@
             voucher.append(voucherTitle).append(redeemDetail);
 
             $timePass.find($o.voucherList).append(voucher);
+            // phpcs:enable
         },
 
         clearVouchersList = function($timePass) {
@@ -2141,6 +2144,7 @@
             if ( postTypeLabels.length ) {
                 allPostLabel = postTypeLabels.join(', ');
             }
+            // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Just a bold tag.
             $o.salableContentLabelInfo.empty().append( $( '<b/>' ).text( allPostLabel ) );
             exitEditModeGlobalEnabledContent();
         },

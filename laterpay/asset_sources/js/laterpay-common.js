@@ -4,15 +4,15 @@
     function laterPayCommonModules() {
 
         var $o = {
-                lp_ga_element : $('#lp_ga_tracking'),
-                pricing       : {
-                    setGlobalPrice : $('#lp_js_saveGlobalDefaultPrice'),
-                },
-                wp_body_content     : $('#wpbody-content'),
-                backendPage         : $('.lp_page'),
-                close_update_notice : $('#close_update_notice'),
-                close_info_notice   : $('#close_info_notice'),
-                navigation          : $('.lp_navigation'),
+            lp_ga_element : $('#lp_ga_tracking'),
+            pricing       : {
+                setGlobalPrice : $('#lp_js_saveGlobalDefaultPrice'),
+            },
+            wp_body_content     : $('#wpbody-content'),
+            backendPage         : $('.lp_page'),
+            close_update_notice : $('#close_update_notice'),
+            close_info_notice   : $('#close_info_notice'),
+            navigation          : $('.lp_navigation'),
         },
 
         bindEvents = function() {
@@ -266,6 +266,8 @@
                     id   : 'close_update_notice'
                 }).attr('data-icon', 'e').css('cursor', 'pointer');
 
+                // Safe HTML markup created above.
+                // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
                 versionDescritpion.prepend(version);
                 updateWrapper.append(versionDescritpion);
                 versionDescritpionExtra.append(versionDescritpionExtraLink);
@@ -273,6 +275,7 @@
                 versionDescritpionExtra.append(updateDetailsCallToAction);
                 versionDescritpionExtra.append(updateDetailsDismiss);
                 updateWrapper.append(versionDescritpionExtra);
+                // phpcs:enable
 
                 if ( 'advanced' !== lpCommonVar.current_page && $o.wp_body_content.length ) {
                     $o.wp_body_content.prepend(updateWrapper);
@@ -302,6 +305,7 @@
                 });
 
                 // Info.
+                // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Just Text.
                 infoWrapper.append(lpCommonVar.lp_instructional_info[lpCommonVar.current_page]);
 
                 if ( 'pricing' === lpCommonVar.current_page ) {
@@ -312,6 +316,7 @@
                         text  : lpCommonVar.learn_more,
                         target: '_blank',
                     });
+                    // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Anchor Tag created above.
                     infoWrapper.append(updateDetailsCallToAction);
                 }
 
@@ -320,6 +325,7 @@
                     class: 'close_info',
                     id   : 'close_info_notice'
                 }).attr('data-icon', 'e').css('cursor', 'pointer');
+                // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Anchor Tag created above.
                 infoWrapper.append(updateDetailsDismiss);
 
                 $o.navigation.after(infoWrapper);

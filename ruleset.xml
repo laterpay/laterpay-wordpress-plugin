@@ -29,4 +29,9 @@
         <severity>0</severity>
     </rule>
     <exclude-pattern>*/vendor/*</exclude-pattern>
+    <!-- Usage is safe, and it's not executed on WordPress VIP Go Environment. -->
+    <rule ref="WordPressVIPMinimum.JS.HTMLExecutingFunctions.append">
+        <exclude-pattern>*/laterpay-migrate-data.js$</exclude-pattern>
+        <exclude-pattern>*/laterpay-wpengine-notice.js$</exclude-pattern>
+    </rule>
 </ruleset>
