@@ -1,45 +1,45 @@
 /*global lp_i18n, migration_nonce */
 
 (function ( $ ) {
-	$( function () {
+    $( function () {
 
-		var startMigrationButton  = jQuery( '#lp_js_startDataMigration' );
-		var startDataMigrationTwo = jQuery( '#lp_js_startDataMigrationTwo' );
-		var migrationNoticeBox    = jQuery( '#lp_migration_notice' );
+        var startMigrationButton  = jQuery( '#lp_js_startDataMigration' );
+        var startDataMigrationTwo = jQuery( '#lp_js_startDataMigrationTwo' );
+        var migrationNoticeBox    = jQuery( '#lp_migration_notice' );
 
-		startMigrationButton.on( 'click', function () {
+        startMigrationButton.on( 'click', function () {
 
-			migrationNoticeBox.removeClass( 'notice-error' ).addClass( 'notice-info' );
+            migrationNoticeBox.removeClass( 'notice-error' ).addClass( 'notice-info' );
 
-			migrationNoticeBox.html( '' ).append( lp_i18n.MigratingData );
-			$( '<img />' )
-				.attr( 'id', 'migration-loader' )
-				.attr( 'src', '/wp-admin/images/loading.gif' )
-				.appendTo( migrationNoticeBox );
-			$( '<br />' ).appendTo( migrationNoticeBox );
-			$( '<br />' ).appendTo( migrationNoticeBox );
-			migrationNoticeBox.append( lp_i18n.MigratingSubscriptions );
+            migrationNoticeBox.html( '' ).append( lp_i18n.MigratingData );
+            $( '<img />' )
+                .attr( 'id', 'migration-loader' )
+                .attr( 'src', '/wp-admin/images/loading.gif' )
+                .appendTo( migrationNoticeBox );
+            $( '<br />' ).appendTo( migrationNoticeBox );
+            $( '<br />' ).appendTo( migrationNoticeBox );
+            migrationNoticeBox.append( lp_i18n.MigratingSubscriptions );
 
-			migrateIfNeeded( 'subscription', 0 );
+            migrateIfNeeded( 'subscription', 0 );
 
-		} );
+        } );
 
-		startDataMigrationTwo.on( 'click', function () {
+        startDataMigrationTwo.on( 'click', function () {
 
-			migrationNoticeBox.removeClass( 'notice-error' ).addClass( 'notice-info' );
+            migrationNoticeBox.removeClass( 'notice-error' ).addClass( 'notice-info' );
 
-			migrationNoticeBox.html( '' ).append( lp_i18n.MigratingData );
-			$( '<img />' )
-				.attr( 'id', 'migration-loader' )
-				.attr( 'src', '/wp-admin/images/loading.gif' )
-				.appendTo( migrationNoticeBox );
-			$( '<br />' ).appendTo( migrationNoticeBox );
-			$( '<br />' ).appendTo( migrationNoticeBox );
-			migrationNoticeBox.append( lp_i18n.MigratingSubscriptions );
+            migrationNoticeBox.html( '' ).append( lp_i18n.MigratingData );
+            $( '<img />' )
+                .attr( 'id', 'migration-loader' )
+                .attr( 'src', '/wp-admin/images/loading.gif' )
+                .appendTo( migrationNoticeBox );
+            $( '<br />' ).appendTo( migrationNoticeBox );
+            $( '<br />' ).appendTo( migrationNoticeBox );
+            migrationNoticeBox.append( lp_i18n.MigratingSubscriptions );
 
-			migrateIfNeeded( 'subscription', 0 );
+            migrateIfNeeded( 'subscription', 0 );
 
-		} );
+        } );
 
         function migrateIfNeeded( migrate, offset ) {
 
@@ -50,64 +50,64 @@
                 offset: offset
             };
 
-	        $.post( ajaxurl, data, function ( response ) {
+            $.post( ajaxurl, data, function ( response ) {
 
-		        if ( $.type( response ) === 'string' ) {
-			        response = JSON.parse( response );
-		        }
+                if ( $.type( response ) === 'string' ) {
+                    response = JSON.parse( response );
+                }
 
-		        if ( 'subscription_migrated' in response && response.subscription_migrated !== true ) {
-			        migrateIfNeeded( 'subscription', response.offset );
-		        } else if ( 'subscription_migrated' in response && response.subscription_migrated === true ) {
+                if ( 'subscription_migrated' in response && response.subscription_migrated !== true ) {
+                    migrateIfNeeded( 'subscription', response.offset );
+                } else if ( 'subscription_migrated' in response && response.subscription_migrated === true ) {
 
-			        $( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
-			        $( '<br />' ).appendTo( migrationNoticeBox );
-			        migrationNoticeBox.append( lp_i18n.MigratingTimepasses );
+                    $( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
+                    $( '<br />' ).appendTo( migrationNoticeBox );
+                    migrationNoticeBox.append( lp_i18n.MigratingTimepasses );
 
-			        migrateIfNeeded( 'time_pass', response.offset );
+                    migrateIfNeeded( 'time_pass', response.offset );
 
-		        } else if ( 'time_pass_migrated' in response && response.time_pass_migrated !== true ) {
+                } else if ( 'time_pass_migrated' in response && response.time_pass_migrated !== true ) {
 
-			        migrateIfNeeded( 'time_pass', response.offset );
+                    migrateIfNeeded( 'time_pass', response.offset );
 
-		        } else if ( 'time_pass_migrated' in response && response.time_pass_migrated === true ) {
+                } else if ( 'time_pass_migrated' in response && response.time_pass_migrated === true ) {
 
-			        $( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
-			        $( '<br />' ).appendTo( migrationNoticeBox );
-			        migrationNoticeBox.append( lp_i18n.MigratingCategoryPrices );
+                    $( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
+                    $( '<br />' ).appendTo( migrationNoticeBox );
+                    migrationNoticeBox.append( lp_i18n.MigratingCategoryPrices );
 
-			        migrateIfNeeded( 'category_price', response.offset );
+                    migrateIfNeeded( 'category_price', response.offset );
 
-		        } else if ( 'category_price_migrated' in response && response.category_price_migrated !== true ) {
+                } else if ( 'category_price_migrated' in response && response.category_price_migrated !== true ) {
 
-			        migrateIfNeeded( 'category_price', response.offset );
+                    migrateIfNeeded( 'category_price', response.offset );
 
-		        } else if ( 'category_price_migrated' in response && response.category_price_migrated === true ) {
+                } else if ( 'category_price_migrated' in response && response.category_price_migrated === true ) {
 
-			        $( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
-			        $( '<br />' ).appendTo( migrationNoticeBox );
-			        $( '<br />' ).appendTo( migrationNoticeBox );
-			        migrationNoticeBox.append( lp_i18n.MigrationCompleted );
+                    $( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
+                    $( '<br />' ).appendTo( migrationNoticeBox );
+                    $( '<br />' ).appendTo( migrationNoticeBox );
+                    migrationNoticeBox.append( lp_i18n.MigrationCompleted );
 
-					if ( response.cleanup === true ) {
+                    if ( response.cleanup === true ) {
 
-						$( '<br />' ).appendTo( migrationNoticeBox );
-						migrationNoticeBox.append( lp_i18n.RemovedCustomTables );
-						$( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
+                        $( '<br />' ).appendTo( migrationNoticeBox );
+                        migrationNoticeBox.append( lp_i18n.RemovedCustomTables );
+                        $( '<span />' ).addClass( 'dashicons dashicons-yes' ).appendTo( migrationNoticeBox );
 
-						$( '<button/>' ).attr( 'type', 'button' )
-							.addClass( 'notice-dismiss' )
-							.appendTo( migrationNoticeBox );
+                        $( '<button/>' ).attr( 'type', 'button' )
+                            .addClass( 'notice-dismiss' )
+                            .appendTo( migrationNoticeBox );
 
-						$( '#migration-loader' ).remove();
-						migrationNoticeBox.removeClass( 'notice-info' ).addClass( 'notice-success' );
+                        $( '#migration-loader' ).remove();
+                        migrationNoticeBox.removeClass( 'notice-info' ).addClass( 'notice-success' );
 
-						$( '.notice-dismiss' ).click( function () {
-							migrationNoticeBox.remove();
-						} );
-					}
-				}
-			} );
+                        $( '.notice-dismiss' ).click( function () {
+                            migrationNoticeBox.remove();
+                        } );
+                    }
+                }
+            } );
         }
     } );
 })( jQuery );

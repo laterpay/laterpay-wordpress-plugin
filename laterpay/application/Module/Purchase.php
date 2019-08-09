@@ -297,15 +297,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             return;
         }
 
-        if ( LaterPay_Helper_Appearance::is_any_ga_tracking_enabled() ) {
-            // Add cookie when the user is redirected back after a purchase.
-            try {
-                setcookie( 'lp_ga_purchased', 1, time() + 30, '/' );
-            } catch ( Exception $e ) {
-                unset( $e );
-            }
-        }
-
         $client_options  = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
             $client_options['cp_key'],
@@ -327,6 +318,21 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 $laterpay_client->set_token( $lptoken );
             }
 
+            if ( LaterPay_Helper_Appearance::is_any_ga_tracking_enabled() ) {
+                // Add cookie when the user is redirected back after a purchase.
+                try {
+                    /**
+                     * This cookie is created when user has purchased the post, so the content served is not cached,
+                     * as vip-go-cb cookie will be present at the time thus user will be receiving uncached version.
+                     */
+
+                    // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.cookies_setcookie
+                    setcookie( 'lp_ga_purchased', 1, time() + 30, '/' );
+                } catch ( Exception $e ) {
+                    unset( $e );
+                }
+            }
+
             // prepare attachment URL for download
             $download_attached = $request->get_param( 'download_attached' );
             if ( $download_attached ) {
@@ -338,7 +344,15 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                     $access,
                     'attachment'
                 );
-                // set cookie to notify post that we need to start attachment download
+
+                /**
+                 * set cookie to notify post that we need to start attachment download
+                 *
+                 * This cookie is created when user has purchased the post, so the content served is not cached,
+                 * as vip-go-cb cookie will be present at the time thus user will be receiving uncached version.
+                 */
+
+                // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.cookies_setcookie
                 setcookie(
                     'laterpay_download_attached',
                     $attachment_url,

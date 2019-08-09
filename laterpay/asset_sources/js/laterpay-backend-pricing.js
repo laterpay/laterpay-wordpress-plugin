@@ -256,7 +256,7 @@
             // (function is only triggered 1500ms after the keyup)
             $o.body.on('keyup', $o.priceInput, debounce(function() {
                     validatePrice($(this).parents('form'));
-                }, 1500)
+            }, 1500)
             );
 
             // global default price events -------------------------------------------------------------------------
@@ -313,8 +313,8 @@
                 var currentGlobalBehaviour = $o.lp_current_post_price_val.val();
 
                 if ( '1' === currentGlobalBehaviour ) {
-                  exitEditModeCategoryDefaultPrice($form);
-                  return;
+                    exitEditModeCategoryDefaultPrice($form);
+                    return;
                 }
 
                 saveCategoryDefaultPrice($form);
@@ -386,7 +386,7 @@
             .on('keyup', $o.timepass.fields.price, debounce(function() {
                     validatePrice($(this).parents('form'), false, $(this));
                     updateEntityPreview('timepass', $(this).parents($o.timepass.wrapper), $(this));
-                }, 1500)
+            }, 1500)
             );
 
             // cancel
@@ -427,7 +427,7 @@
             .on('keyup', $o.voucherPriceInputSingle, debounce(function() {
                 var price = validatePrice($(this).parents('form'), true, $(this));
                 $(this).parent().find('input.lp_voucher_form_data').val(price);
-                }, 1500)
+            }, 1500)
             );
 
             // generate voucher code
@@ -449,8 +449,8 @@
             // validate voucher price on input.
             $o.timepass.editor
             .on( 'keyup', $o.voucherPriceInputSingle, function (e) {
-               validateVoucherPrice( 'timepass', $(this).parents($o.timepass.wrapper) );
-               e.preventDefault();
+                validateVoucherPrice( 'timepass', $(this).parents($o.timepass.wrapper) );
+                e.preventDefault();
             } );
 
             // subscription events ----------------------------------------------------------------------------------
@@ -505,7 +505,7 @@
             .on('keyup', $o.subscription.fields.price, debounce(function() {
                     validatePrice($(this).parents('form'), true, $(this), true);
                     updateEntityPreview('subscription', $(this).parents($o.subscription.wrapper), $(this));
-                }, 1500)
+            }, 1500)
             );
 
             // cancel
@@ -546,7 +546,7 @@
                 .on('keyup', $o.voucherPriceInputSingle, debounce(function() {
                     var price = validatePrice($(this).parents('form'), true, $(this), true);
                     $(this).parent().find('input.lp_voucher_form_data').val(price);
-                    }, 1500)
+                }, 1500)
                 );
 
             // Generate voucher code.
@@ -568,29 +568,29 @@
             // validate voucher price on input.
             $o.subscription.editor
             .on( 'keyup', $o.voucherPriceInputSingle, function (e) {
-              validateVoucherPrice( 'subscription', $(this).parents($o.subscription.wrapper) );
-              e.preventDefault();
+                validateVoucherPrice( 'subscription', $(this).parents($o.subscription.wrapper) );
+                e.preventDefault();
             } );
 
             $o.lp_make_post_free.on('click', function() {
-              $o.lp_global_price_section.hide();
-              $o.lp_global_revenue_section.hide();
-              $o.lp_js_form_buttons_section.css( 'float', 'right' );
-              return true;
+                $o.lp_global_price_section.hide();
+                $o.lp_global_revenue_section.hide();
+                $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                return true;
             });
 
             $o.lp_disable_individual_purchase.on('click', function() {
-              $o.lp_global_price_section.hide();
-              $o.lp_global_revenue_section.hide();
-              $o.lp_js_form_buttons_section.css( 'float', 'right' );
-              return true;
+                $o.lp_global_price_section.hide();
+                $o.lp_global_revenue_section.hide();
+                $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                return true;
             });
 
             $o.lp_set_inidvidual_price.on('click', function() {
-              $o.lp_global_price_section.show();
-              $o.lp_global_revenue_section.show();
-              $o.lp_js_form_buttons_section.css( 'float', 'none' );
-              return true;
+                $o.lp_global_price_section.show();
+                $o.lp_global_revenue_section.show();
+                $o.lp_js_form_buttons_section.css( 'float', 'none' );
+                return true;
             });
 
             // enabled post type change events.
@@ -609,7 +609,7 @@
             $o.editLaterPayEnabledContent
                 .on('mousedown', function() {
                     enterEditModeGlobalEnabledContent();
-            }).click(function(e) {e.preventDefault();});
+                }).click(function(e) {e.preventDefault();});
 
             // Voucher code edit.
             $o.body.on('paste keyup', $o.voucherCodeInput, function(e) {
@@ -647,7 +647,7 @@
             $o.editCustomizeOverlayOptions
                 .on('mousedown', function() {
                     enterEditOverlayOptions();
-            }).click(function(e) {e.preventDefault();});
+                }).click(function(e) {e.preventDefault();});
 
             $o.overlay_default_selection.on( 'change', function () {
                 var purchase_selection = $(this).val();
@@ -665,7 +665,7 @@
                 .on('keyup', $o.voucherPriceInputSingle, debounce(function() {
                         var price = validatePrice($(this).parents('form'), true, $(this));
                         $(this).parent().find('input.lp_voucher_form_data').val(price);
-                    }, 1500)
+                }, 1500)
                 );
 
             // generate voucher code for single purchase.
@@ -794,34 +794,34 @@
             var isSubscription = false;
 
             if ( 'subscription' === type ) {
-              isSubscription = true;
+                isSubscription = true;
             }
 
             if ( isSubscription ) {
-              if ( $entity.find($o.voucherPriceInputSingle).val() >
+                if ( $entity.find($o.voucherPriceInputSingle).val() >
                 $entity.find( $o.subscription.fields.price ).val() ) {
-                $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMaximumPrice );
-                $( $o.subscription.actions.save ).attr( 'disabled', 'disabled' );
-                $( $o.subscription.actions.save ).removeAttr( 'href' );
-                $entity.find('.lp_js_voucher_msg').css( 'display','block' );
-                return;
-              } else if ( $entity.find($o.voucherPriceInputSingle).val() < lpVars.currency.sis_min) {
-                $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMinimum );
-                $entity.find('.lp_js_voucher_msg').css( 'display','block' );
-                return;
-              }
-              $( $o.subscription.actions.save ).removeAttr( 'disabled' );
-              $( $o.subscription.actions.save ).attr( 'href', '#' );
+                    $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMaximumPrice );
+                    $( $o.subscription.actions.save ).attr( 'disabled', 'disabled' );
+                    $( $o.subscription.actions.save ).removeAttr( 'href' );
+                    $entity.find('.lp_js_voucher_msg').css( 'display','block' );
+                    return;
+                } else if ( $entity.find($o.voucherPriceInputSingle).val() < lpVars.currency.sis_min) {
+                    $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMinimum );
+                    $entity.find('.lp_js_voucher_msg').css( 'display','block' );
+                    return;
+                }
+                $( $o.subscription.actions.save ).removeAttr( 'disabled' );
+                $( $o.subscription.actions.save ).attr( 'href', '#' );
             } else {
-              if ( $entity.find($o.voucherPriceInputSingle).val() > $entity.find( $o.timepass.fields.price ).val() ) {
-                  $( $o.timepass.actions.save ).attr( 'disabled', 'disabled' );
-                  $( $o.timepass.actions.save ).removeAttr( 'href' );
-                  $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.tpVoucherMaximumPrice );
-                  $entity.find('.lp_js_voucher_msg').css( 'display','block' );
-                return;
-              }
-              $( $o.timepass.actions.save ).removeAttr( 'disabled' );
-              $( $o.timepass.actions.save ).attr( 'href', '#' );
+                if ( $entity.find($o.voucherPriceInputSingle).val() > $entity.find( $o.timepass.fields.price ).val() ) {
+                    $( $o.timepass.actions.save ).attr( 'disabled', 'disabled' );
+                    $( $o.timepass.actions.save ).removeAttr( 'href' );
+                    $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.tpVoucherMaximumPrice );
+                    $entity.find('.lp_js_voucher_msg').css( 'display','block' );
+                    return;
+                }
+                $( $o.timepass.actions.save ).removeAttr( 'disabled' );
+                $( $o.timepass.actions.save ).attr( 'href', '#' );
             }
 
             $entity.find('.lp_js_voucher_msg').hide();
@@ -979,26 +979,26 @@
 
             var currentPostPriceBehaviour = $o.lp_current_post_price_val.val();
             if ( '2' === currentPostPriceBehaviour ) {
-              $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
-              $o.lp_disable_individual_purchase.removeProp( 'checked' );
-              $o.lp_make_post_free.removeProp( 'checked' );
-              $o.lp_global_price_section.show();
-              $o.lp_global_revenue_section.show();
-              $o.lp_js_form_buttons_section.css( 'float', 'none' );
+                $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
+                $o.lp_disable_individual_purchase.removeProp( 'checked' );
+                $o.lp_make_post_free.removeProp( 'checked' );
+                $o.lp_global_price_section.show();
+                $o.lp_global_revenue_section.show();
+                $o.lp_js_form_buttons_section.css( 'float', 'none' );
             } else if ( '1' === currentPostPriceBehaviour ) {
-              $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
-              $o.lp_set_inidvidual_price.removeProp( 'checked' );
-              $o.lp_make_post_free.removeProp( 'checked' );
-              $o.lp_global_price_section.hide();
-              $o.lp_global_revenue_section.hide();
-              $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
+                $o.lp_set_inidvidual_price.removeProp( 'checked' );
+                $o.lp_make_post_free.removeProp( 'checked' );
+                $o.lp_global_price_section.hide();
+                $o.lp_global_revenue_section.hide();
+                $o.lp_js_form_buttons_section.css( 'float', 'right' );
             } else if ( '0' === currentPostPriceBehaviour ) {
-              $o.lp_make_post_free.attr( 'checked', 'checked' );
-              $o.lp_set_inidvidual_price.removeProp( 'checked' );
-              $o.lp_disable_individual_purchase.removeProp( 'checked' );
-              $o.lp_global_price_section.hide();
-              $o.lp_global_revenue_section.hide();
-              $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                $o.lp_make_post_free.attr( 'checked', 'checked' );
+                $o.lp_set_inidvidual_price.removeProp( 'checked' );
+                $o.lp_disable_individual_purchase.removeProp( 'checked' );
+                $o.lp_global_price_section.hide();
+                $o.lp_global_revenue_section.hide();
+                $o.lp_js_form_buttons_section.css( 'float', 'right' );
             }
         },
 
@@ -1028,93 +1028,93 @@
 
                         if ( 2 === r.post_price_behaviour ) {
 
-                          finalLabel   = commonLabel + 'Individual Article | ' + r.revenue_model_label;
-                          finalGAValue = Math.ceil( r.price * 100 );
+                            finalLabel   = commonLabel + 'Individual Article | ' + r.revenue_model_label;
+                            finalGAValue = Math.ceil( r.price * 100 );
 
                           // Send GA event for change.
-                          lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
+                            lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
 
                           // Change current selected radio and behaviour.
-                          $o.lp_current_post_price_val.val('2');
-                          $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
-                          $o.lp_disable_individual_purchase.removeProp( 'checked' );
-                          $o.lp_make_post_free.removeProp( 'checked' );
+                            $o.lp_current_post_price_val.val('2');
+                            $o.lp_set_inidvidual_price.attr( 'checked', 'checked' );
+                            $o.lp_disable_individual_purchase.removeProp( 'checked' );
+                            $o.lp_make_post_free.removeProp( 'checked' );
 
                           // Update price and revenue section.
-                          $o.lp_global_price_section.show();
-                          $o.lp_global_revenue_section.show();
-                          $o.lp_js_form_buttons_section.css( 'float', 'none' );
-                          $o.lp_js_globalPriceOptionTwo.show();
-                          $o.editGlobalDefaultPrice.css( 'padding', '14px' );
+                            $o.lp_global_price_section.show();
+                            $o.lp_global_revenue_section.show();
+                            $o.lp_js_form_buttons_section.css( 'float', 'none' );
+                            $o.lp_js_globalPriceOptionTwo.show();
+                            $o.editGlobalDefaultPrice.css( 'padding', '14px' );
 
                           // Update minimized section global pricing.
-                          $o.lp_js_globalPriceOptionOne.hide();
-                          $o.lp_js_globalPriceOptionZero.hide();
+                            $o.lp_js_globalPriceOptionOne.hide();
+                            $o.lp_js_globalPriceOptionZero.hide();
 
                           // Update category panel.
-                          $o.addCategory.removeAttr( 'disabled' );
-                          $o.categoryButtonContainer.removeClass('lp_tooltip');
-                          $o.categoryPanelWarning.hide();
+                            $o.addCategory.removeAttr( 'disabled' );
+                            $o.categoryButtonContainer.removeClass('lp_tooltip');
+                            $o.categoryPanelWarning.hide();
                         } else if ( 1 === r.post_price_behaviour ) {
 
-                          finalLabel   = commonLabel + 'Cannot Purchase Individually |';
-                          finalGAValue = 0;
+                            finalLabel   = commonLabel + 'Cannot Purchase Individually |';
+                            finalGAValue = 0;
 
                           // Send GA event for change.
-                          lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
+                            lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
 
                           // Change current selected radio and behaviour.
-                          $o.lp_current_post_price_val.val('1');
-                          $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
-                          $o.lp_set_inidvidual_price.removeProp( 'checked' );
-                          $o.lp_make_post_free.removeProp( 'checked' );
+                            $o.lp_current_post_price_val.val('1');
+                            $o.lp_disable_individual_purchase.attr( 'checked', 'checked' );
+                            $o.lp_set_inidvidual_price.removeProp( 'checked' );
+                            $o.lp_make_post_free.removeProp( 'checked' );
 
                           // Update price and revenue section.
-                          $o.lp_global_price_section.hide();
-                          $o.lp_global_revenue_section.hide();
-                          $o.lp_js_form_buttons_section.css( 'float', 'right' );
-                          $o.lp_js_globalPriceOptionOne.show();
-                          $o.editGlobalDefaultPrice.css( 'padding', '21px' );
+                            $o.lp_global_price_section.hide();
+                            $o.lp_global_revenue_section.hide();
+                            $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                            $o.lp_js_globalPriceOptionOne.show();
+                            $o.editGlobalDefaultPrice.css( 'padding', '21px' );
 
                           // Update minimized section global pricing.
-                          $o.lp_js_globalPriceOptionTwo.hide();
-                          $o.lp_js_globalPriceOptionZero.hide();
+                            $o.lp_js_globalPriceOptionTwo.hide();
+                            $o.lp_js_globalPriceOptionZero.hide();
 
                           // Update category panel.
-                          $o.addCategory.attr( 'disabled', 'disabled' );
-                          $o.categoryButtonContainer.addClass('lp_tooltip');
-                          if ( $($o.categoryDefaultPriceForm + ':visible').length > 0 ) {
-                            $o.categoryPanelWarning.show();
-                          }
+                            $o.addCategory.attr( 'disabled', 'disabled' );
+                            $o.categoryButtonContainer.addClass('lp_tooltip');
+                            if ( $($o.categoryDefaultPriceForm + ':visible').length > 0 ) {
+                                $o.categoryPanelWarning.show();
+                            }
                         } else if ( 0 === r.post_price_behaviour ) {
 
-                         finalLabel   = commonLabel + 'Free |';
-                         finalGAValue = 0;
+                            finalLabel   = commonLabel + 'Free |';
+                            finalGAValue = 0;
 
                          // Send GA event for change.
-                         lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
+                            lpGlobal.sendLPGAEvent( eveAction, eveCategory, finalLabel, finalGAValue );
 
                           // Change current selected radio and behaviour.
-                          $o.lp_current_post_price_val.val('0');
-                          $o.lp_make_post_free.attr( 'checked', 'checked' );
-                          $o.lp_set_inidvidual_price.removeProp( 'checked' );
-                          $o.lp_disable_individual_purchase.removeProp( 'checked' );
+                            $o.lp_current_post_price_val.val('0');
+                            $o.lp_make_post_free.attr( 'checked', 'checked' );
+                            $o.lp_set_inidvidual_price.removeProp( 'checked' );
+                            $o.lp_disable_individual_purchase.removeProp( 'checked' );
 
                           // Update price and revenue section.
-                          $o.lp_global_price_section.hide();
-                          $o.lp_global_revenue_section.hide();
-                          $o.lp_js_form_buttons_section.css( 'float', 'right' );
-                          $o.lp_js_globalPriceOptionZero.show();
-                          $o.editGlobalDefaultPrice.css( 'padding', '21px' );
+                            $o.lp_global_price_section.hide();
+                            $o.lp_global_revenue_section.hide();
+                            $o.lp_js_form_buttons_section.css( 'float', 'right' );
+                            $o.lp_js_globalPriceOptionZero.show();
+                            $o.editGlobalDefaultPrice.css( 'padding', '21px' );
 
                           // Update minimized section global pricing.
-                          $o.lp_js_globalPriceOptionTwo.hide();
-                          $o.lp_js_globalPriceOptionOne.hide();
+                            $o.lp_js_globalPriceOptionTwo.hide();
+                            $o.lp_js_globalPriceOptionOne.hide();
 
                           // Update category panel.
-                          $o.addCategory.removeAttr( 'disabled' );
-                          $o.categoryButtonContainer.removeClass('lp_tooltip');
-                          $o.categoryPanelWarning.hide();
+                            $o.addCategory.removeAttr( 'disabled' );
+                            $o.categoryButtonContainer.removeClass('lp_tooltip');
+                            $o.categoryPanelWarning.hide();
                         }
                     }
                     $o.navigation.showMessage(r);
@@ -1129,7 +1129,7 @@
             var currentGlobalBehaviour = $o.lp_current_post_price_val.val();
 
             if ( '1' === currentGlobalBehaviour ) {
-              return;
+                return;
             }
 
             $o.addCategory.velocity('fadeOut', { duration: 250 });
@@ -1355,58 +1355,58 @@
             $(selector, $form).select2({
                 allowClear      : true,
                 ajax            : {
-                                    url         : ajaxurl,
-                                    data        : function(term) {
-                                                    return {
-                                                        form    : form,
-                                                        term    : term,
-                                                        action  : 'laterpay_pricing'
-                                                    };
-                                                },
-                                    results     : function(data) {
-                                                    var return_data = [];
-
-                                                    $.each(data.categories, function(index) {
-                                                        var term = data.categories[ index ];
-                                                        return_data.push({
-                                                            id     : term.term_id,
-                                                            text   : term.name
-                                                        });
-                                                    });
-
-                                                    return {results: return_data};
-                                                },
-                                    dataType    : 'json',
-                                    type: 'POST'
-                                },
-                initSelection   : function(element, callback) {
-                        if ( '0' !== preSelectedCategoryData ) {
-                            $.post(
-                                ajaxurl,
-                                {
-                                    form    : form,
-                                    terms   : preSelectedCategoryData,
-                                    term    : '',
-                                    action  : 'laterpay_pricing'
-                                },
-                                function(data) {
-                                    if (data !== undefined) {
-
-                                        var selectedCategories = [];
-
-                                        $.each(data.categories, function(index) {
-                                            var term = data.categories[ index ];
-                                            selectedCategories.push({
-                                                id     : term.term_id,
-                                                text   : term.name
-                                            });
-                                        });
-                                        callback(selectedCategories);
-                                    }
-                                }
-                            );
-                        }
+                    url         : ajaxurl,
+                    data        : function(term) {
+                                    return {
+                                        form    : form,
+                                        term    : term,
+                                        action  : 'laterpay_pricing'
+                        };
                     },
+                    results     : function(data) {
+                                    var return_data = [];
+
+                                    $.each(data.categories, function(index) {
+                                        var term = data.categories[ index ];
+                                        return_data.push({
+                                            id     : term.term_id,
+                                            text   : term.name
+                                        });
+                                    });
+
+                                    return {results: return_data};
+                    },
+                    dataType    : 'json',
+                    type: 'POST'
+                },
+                initSelection   : function(element, callback) {
+                    if ( '0' !== preSelectedCategoryData ) {
+                        $.post(
+                            ajaxurl,
+                            {
+                                form    : form,
+                                terms   : preSelectedCategoryData,
+                                term    : '',
+                                action  : 'laterpay_pricing'
+                                },
+                            function(data) {
+                                if (data !== undefined) {
+
+                                    var selectedCategories = [];
+
+                                    $.each(data.categories, function(index) {
+                                        var term = data.categories[ index ];
+                                        selectedCategories.push({
+                                            id     : term.term_id,
+                                            text   : term.name
+                                            });
+                                    });
+                                    callback(selectedCategories);
+                                }
+                            }
+                        );
+                    }
+                },
                 formatResult    : function(data) {return data.text;},
                 formatSelection : format_func,
                 multiple        : true,
@@ -1482,6 +1482,8 @@
 
             // insert cloned form into current entity editor container
             var $form = $($entity.form, $entity.template).clone();
+            // Creating clone of an escaped template.
+            // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
             $($entity.editorContainer, $wrapper).empty().append($form);
 
             populateEntityForm(type, $wrapper);
@@ -1603,8 +1605,8 @@
                 });
                 small.text(lpVars.currency.code);
                 // update pass price in pass preview
-                $('.lp_js_purchaseLink', $wrapper)
-                .empty().append(text).append(small);
+                // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Safe HTML added here.
+                $('.lp_js_purchaseLink', $wrapper).empty().append(text).append(small);
                 $($entity.preview.price).text(text + ' ' + lpVars.currency.code);
             } else if ($input.hasClass($entity.classes.titleClass)) {
                 // update pass title in pass preview
@@ -1744,7 +1746,8 @@
                         // pass data to list
                         $entity.data.list[id] = r.data;
 
-                        // insert entity rendered on server
+                        // insert entity rendered on server, already escaped in views/backend/partials/time-pass.php
+                        // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
                         $($entity.preview.placeholder, $wrapper).empty().append(r.html);
 
                         // hide action links required when editing entity
@@ -1908,12 +1911,9 @@
                 options.push(option);
             }
 
-            $($entity.fields.duration, $form)
-                .find('option')
-                .remove()
-                .end()
-            .append(options)
-            .val(duration && duration <= limit ? duration : 1);
+            // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Safe HTML.
+            $($entity.fields.duration, $form).find('option').remove().end().append(options)
+                .val(duration && duration <= limit ? duration : 1);
         },
 
         regenerateVouchers = function($wrapper, $entity, id) {
@@ -2040,6 +2040,8 @@
                 'data-icon': 'g'
             }).css({'margin-left': '15px', 'position': 'absolute', 'padding': 0});
 
+            // Below HTML is safe, markup is created above for vouchers.
+            // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
             voucher.empty().append(voucherCode)
                 .append(voucherPrice)
                 .append(spanVoucherCode)
@@ -2065,6 +2067,7 @@
                     .last()
                     .velocity('slideDown', { duration: 250, easing: 'ease-out' });
             }
+            // phpcs:enable
         },
 
         addVoucherToList = function(code, voucherData, $timePass) {
@@ -2076,9 +2079,8 @@
                 'data-code': code,
             });
 
-            var voucherTitle = $('<span/>', {
-                class: 'lp_voucher__title',
-            }).append($('<b/>').text(title));
+            // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Safe Markup.
+            var voucherTitle = $('<span/>', { class: 'lp_voucher__title', }).append($('<b/>').text(title));
 
             var voucherCode = $('<span/>', {
                 class: 'lp_voucher__code',
@@ -2093,6 +2095,7 @@
             voucher.append(voucherTitle).append(redeemDetail);
 
             $timePass.find($o.voucherList).append(voucher);
+            // phpcs:enable
         },
 
         clearVouchersList = function($timePass) {
@@ -2141,6 +2144,7 @@
             if ( postTypeLabels.length ) {
                 allPostLabel = postTypeLabels.join(', ');
             }
+            // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Just a bold tag.
             $o.salableContentLabelInfo.empty().append( $( '<b/>' ).text( allPostLabel ) );
             exitEditModeGlobalEnabledContent();
         },
@@ -2197,17 +2201,17 @@
 
         // throttle the execution of a function by a given delay
         debounce = function(fn, delay) {
-          var timer;
-          return function () {
-            var context = this,
+            var timer;
+            return function () {
+                var context = this,
                 args    = arguments;
 
-            clearTimeout(timer);
+                clearTimeout(timer);
 
-            timer = setTimeout(function() {
-              fn.apply(context, args);
-            }, delay);
-          };
+                timer = setTimeout(function() {
+                    fn.apply(context, args);
+                }, delay);
+            };
         },
 
         initializePage = function() {

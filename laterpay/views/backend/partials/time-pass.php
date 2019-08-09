@@ -6,26 +6,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <?php
-    $title = sprintf(
-        '%s<small class="lp_purchase-link__currency">%s</small>',
-        LaterPay_Helper_View::format_number( $laterpay_pass['price'] ),
-        $laterpay['standard_currency']
-    );
-
-    $period = LaterPay_Helper_TimePass::get_period_options( $laterpay_pass['period'] );
-    if ( $laterpay_pass['duration'] > 1 ) {
-        $period = LaterPay_Helper_TimePass::get_period_options( $laterpay_pass['period'], true );
-    }
+$period = LaterPay_Helper_TimePass::get_period_options( $laterpay_pass['period'] );
+if ( $laterpay_pass['duration'] > 1 ) {
+    $period = LaterPay_Helper_TimePass::get_period_options( $laterpay_pass['period'], true );
+}
 
     $price = LaterPay_Helper_View::format_number( $laterpay_pass['price'] );
 
     $access_type = LaterPay_Helper_TimePass::get_access_options( $laterpay_pass['access_to'] );
     $access_dest = __( 'on this website', 'laterpay' );
     $category = get_category( $laterpay_pass['access_category'] );
-    if ( ! is_wp_error( $category ) && ! empty( $category ) && 0 !== $laterpay_pass['access_to'] ) {
-        $access_dest = $category->name;
-    }
-    ?>
+if ( ! is_wp_error( $category ) && ! empty( $category ) && 0 !== $laterpay_pass['access_to'] ) {
+    $access_dest = $category->name;
+}
+?>
 
 <div class="lp_js_timePass lp_time-pass lp_time-pass-<?php echo esc_attr( $laterpay_pass['pass_id'] ); ?>" data-pass-id="<?php echo esc_attr( $laterpay_pass['pass_id'] ); ?>">
 

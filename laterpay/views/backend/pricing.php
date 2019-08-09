@@ -667,7 +667,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <input type="hidden" name="form"    value="time_pass_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
                             <input type="hidden" name="pass_id" value="0" id="lp_js_timePassEditorHiddenPassId">
-                            <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                            <?php wp_nonce_field( 'laterpay_form' ); ?>
 
                             <table class="lp_time-pass-editor__column lp_1">
                                 <tr>

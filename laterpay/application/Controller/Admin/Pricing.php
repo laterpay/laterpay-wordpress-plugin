@@ -314,7 +314,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 break;
 
             case 'laterpay_get_category_prices':
-                $category_ids = filter_input( INPUT_POST, 'category_ids', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+                $category_ids = filter_input( INPUT_POST, 'category_ids', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
                 if ( null === $category_ids || ! is_array( $category_ids ) ) {
                     $category_ids = array();
                 }
