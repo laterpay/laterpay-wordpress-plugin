@@ -34,8 +34,7 @@ class LaterPay_Helper_Config {
                         'ppu_max'         => 5.00,
                         'sis_min'         => 1.49,
                         'sis_only_limit'  => 5.00,
-                        'sis_max'         => 1000.00,
-                        'sis_min_limit'   => 1.50,
+                        'sis_max'         => 1000.00
                     )
                 )
             ),
@@ -75,8 +74,7 @@ class LaterPay_Helper_Config {
                         'ppu_max'         => 5.00,
                         'sis_min'         => 1.99,
                         'sis_only_limit'  => 5.00,
-                        'sis_max'         => 1000.00,
-                        'sis_min_limit'   => 2.00,
+                        'sis_max'         => 1000.00
                     )
                 )
             ),

@@ -17,7 +17,7 @@
         var lp_excerpt_word_count_max = jQuery('input[name="laterpay_preview_excerpt_word_count_max"]').val();
         var lp_caching_enabled = jQuery('input[name="laterpay_caching_compatibility"]').prop('checked') ? 1 : 0;
         var lp_require_login = jQuery('input[name="laterpay_require_login"]').prop('checked') ? 1 :  0;
-        var lp_content_voucher_status = jQuery('input[name="laterpay_enable_content_voucher"]').prop('checked') ? 1 :  0;
+        var lp_content_voucher_status = jQuery('input[name="laterpay_enable_content_voucher"]').prop('checked') ? 1 : 0;
         var lp_ga_enabled  = laterpay_tracking_status.prop('checked') ? 1 : 0;
         var user_ga_enabled = user_tracking_status.prop('checked') ? 1 : 0;
         var lp_fallback_behaviour = jQuery('#lp_js_laterpayApiFallbackSelect :selected').text();
@@ -173,7 +173,7 @@
 
             jQuery.each( lpVars.gaData.custom_roles, function( i ) {
 
-                var roleBox = jQuery('input[name="laterpay_unlimited_access[' + lpVars.gaData.custom_roles[i] + '][]"]');
+               var roleBox = jQuery('input[name="laterpay_unlimited_access[' + lpVars.gaData.custom_roles[i] + '][]"]');
 
                 jQuery.each(roleBox, function(j){
                     if ( roleBox[j].checked && 'none' !== roleBox[j].value ) {
