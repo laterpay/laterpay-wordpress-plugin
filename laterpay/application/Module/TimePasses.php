@@ -368,6 +368,11 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
             return;
         }
 
+        // Check if access check is disabled and current page is home page.
+        if ( LaterPay_Helper_Pricing::is_access_check_disabled_on_home() ) {
+            return;
+        }
+
         $timepasses_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
         if ( $timepasses_positioned_manually ) {
             return;

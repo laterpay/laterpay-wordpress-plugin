@@ -445,6 +445,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
      * @return void
      */
     public function modify_post_content( LaterPay_Core_Event $event ) {
+
+        // Check if access check is disabled and current page is home page.
+        if ( LaterPay_Helper_Pricing::is_access_check_disabled_on_home() ) {
+            return;
+        }
+
         $content = $event->get_result();
 
         // Check if show_purchase_button_above_article is enabled or not.
