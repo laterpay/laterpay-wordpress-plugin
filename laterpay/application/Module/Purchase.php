@@ -64,6 +64,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             'laterpay_post_content' => array(
                 array( 'laterpay_on_view_purchased_post_as_visitor', 200 ),
                 array( 'is_purchasable', 100 ),
+                array( 'laterpay_on_valid_account_credential', 100 ),
                 array( 'modify_post_content', 5 ),
             ),
             'laterpay_check_user_access' => array(

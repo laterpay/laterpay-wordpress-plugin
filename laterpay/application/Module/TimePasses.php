@@ -22,6 +22,7 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
     public static function get_subscribed_events() {
         return array(
             'laterpay_post_content' => array(
+                array( 'laterpay_on_valid_account_credential', 100 ),
                 array( 'modify_post_content', 5 ),
             ),
             'laterpay_time_passes' => array(

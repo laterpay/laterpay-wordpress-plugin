@@ -16,6 +16,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         return array(
             'laterpay_post_content' => array(
                 array( 'laterpay_on_plugin_is_working', 250 ),
+                array( 'laterpay_on_valid_account_credential', 200 ),
                 array( 'modify_post_content' ),
             ),
             'laterpay_posts' => array(
