@@ -890,10 +890,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
             if ( ! empty( $ga_data['update_highlights']['version'] ) ) {
                 $version_update_number                        = $ga_data['update_highlights']['version'];
-                $ga_data['update_highlights']['version']      = sprintf( __( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
-                $ga_data['update_highlights']['notice']       = sprintf( __( 'Create an ad-free experience & much more with our newest shortcode. Check out the "Dynamic Access" section on the Advanced tab or ', 'laterpay' ) );
-                $ga_data['update_highlights']['notice_link']  = __( ' click here ', 'laterpay' );
-                $ga_data['update_highlights']['notice_extra'] = __( ' for more details.', 'laterpay' );
+                $ga_data['update_highlights']['version']      = '';
+                $ga_data['update_highlights']['notice']       = '';
+                $ga_data['update_highlights']['notice_link']  = '';
+                $ga_data['update_highlights']['notice_extra'] = '';
                 $ga_data['update_highlights_nonce']           = wp_create_nonce( 'update_highlights_nonce' );
             }
 
