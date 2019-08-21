@@ -512,4 +512,32 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
 
         return $client;
     }
+
+    /**
+     * Get a client instance based on current region and set plugin mode to test.
+     */
+    public static function validate_current_credentials() {
+
+        // Get current client options, and new client instance.
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client         = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        // Check if current config is valid or not.
+        $response = json_decode( $client->check_health( true ), true );
+
+        // Change plugin mode to test.
+        if ( false === $response['is_valid'] ) {
+            update_option( 'laterpay_plugin_is_in_live_mode', '0' );
+            return false;
+        }
+
+        return true;
+    }
+
 }

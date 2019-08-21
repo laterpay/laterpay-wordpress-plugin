@@ -6,45 +6,45 @@
     function laterPayPostEdit() {
         var $o = {
                 // post price inputs
-                priceInput              : $('#lp_js_postPriceInput'),
-                priceTypeInput          : $('#lp_js_postPriceTypeInput'),
-                revenueModel            : $('#lp_js_postPriceRevenueModel'),
-                categoryInput           : $('#lp_js_postDefaultCategoryInput'),
+            priceInput              : $('#lp_js_postPriceInput'),
+            priceTypeInput          : $('#lp_js_postPriceTypeInput'),
+            revenueModel            : $('#lp_js_postPriceRevenueModel'),
+            categoryInput           : $('#lp_js_postDefaultCategoryInput'),
 
                 // button group for choosing pricing type
-                priceSection            : $('#lp_js_priceType'),
-                pricingTypeButtonGroup  : $('#lp_js_priceTypeButtonGroup'),
-                pricingTypeButtons      : $('.lp_js_priceTypeButton'),
-                individualPriceButton   : $('#lp_js_useIndividualPrice').parent(),
-                categoryPriceSelector   : '#lp_js_useCategoryDefaultPrice',
-                categoryPriceButton     : $('#lp_js_useCategoryDefaultPrice').parent(),
-                globalPriceButton       : $('#lp_js_useGlobalDefaultPrice').parent(),
-                postEditTypeZero        : $('#lp_postEditTypeZero'),
-                priceEditSection        : $('#lp_js_priceEditSection').parent(),
-                setPostFreeButton       : $('#lp_js_setPostFree').parent(),
-                postFreeDescription     : $('#lp_js_free_postDescriptionSpan'),
-                postPriceInputInfo      : $('#lp_js_postPriceInputInfo').children(),
+            priceSection            : $('#lp_js_priceType'),
+            pricingTypeButtonGroup  : $('#lp_js_priceTypeButtonGroup'),
+            pricingTypeButtons      : $('.lp_js_priceTypeButton'),
+            individualPriceButton   : $('#lp_js_useIndividualPrice').parent(),
+            categoryPriceSelector   : '#lp_js_useCategoryDefaultPrice',
+            categoryPriceButton     : $('#lp_js_useCategoryDefaultPrice').parent(),
+            globalPriceButton       : $('#lp_js_useGlobalDefaultPrice').parent(),
+            postEditTypeZero        : $('#lp_postEditTypeZero'),
+            priceEditSection        : $('#lp_js_priceEditSection').parent(),
+            setPostFreeButton       : $('#lp_js_setPostFree').parent(),
+            postFreeDescription     : $('#lp_js_free_postDescriptionSpan'),
+            postPriceInputInfo      : $('#lp_js_postPriceInputInfo').children(),
 
                 // details sections for chosen pricing type
-                details                 : $('#lp_js_priceTypeDetails'),
-                detailsSections         : $('.lp_js_priceTypeDetailsSection'),
-                individualPriceDetails  : $('#lp_js_priceTypeDetailsIndividualPrice'),
-                categoryPriceDetails    : $('#lp_js_priceTypeDetailsCategoryDefaultPrice'),
-                categoriesList          : $('.lp_js_priceTypeDetailsCategoryDefaultPriceList'),
-                categories              : $('.lp_js_priceTypeDetailsCategoryDefaultPriceItem'),
-                dynamicPricingToggle    : $('#lp_js_toggleDynamicPricing'),
-                dynamicPricingContainer : '#lp_js_dynamicPricingWidgetContainer',
-                dynamicPricingResetDate : $('#lp_js_resetDynamicPricingStartDate'),
+            details                 : $('#lp_js_priceTypeDetails'),
+            detailsSections         : $('.lp_js_priceTypeDetailsSection'),
+            individualPriceDetails  : $('#lp_js_priceTypeDetailsIndividualPrice'),
+            categoryPriceDetails    : $('#lp_js_priceTypeDetailsCategoryDefaultPrice'),
+            categoriesList          : $('.lp_js_priceTypeDetailsCategoryDefaultPriceList'),
+            categories              : $('.lp_js_priceTypeDetailsCategoryDefaultPriceItem'),
+            dynamicPricingToggle    : $('#lp_js_toggleDynamicPricing'),
+            dynamicPricingContainer : '#lp_js_dynamicPricingWidgetContainer',
+            dynamicPricingResetDate : $('#lp_js_resetDynamicPricingStartDate'),
 
                 // strings cached for better compression
-                expanded                : 'lp_is-expanded',
-                selected                : 'lp_is-selected',
-                disabled                : 'lp_is-disabled',
-                dynamicPricingApplied   : 'lp_is-withDynamicPricing',
-                selectedCategory        : 'lp_is-selectedCategory',
-                payPerUse               : 'ppu',
-                singleSale              : 'sis'
-            },
+            expanded                : 'lp_is-expanded',
+            selected                : 'lp_is-selected',
+            disabled                : 'lp_is-disabled',
+            dynamicPricingApplied   : 'lp_is-withDynamicPricing',
+            selectedCategory        : 'lp_is-selectedCategory',
+            payPerUse               : 'ppu',
+            singleSale              : 'sis'
+        },
 
             /**
              * Category ids selected by the user from categories meta box.
@@ -394,7 +394,7 @@
                     $payPerUse.parent('label').addClass($o.disabled);
                 }
 
-                if (price >= lpVars.limits.sis_min_limit) {
+                if (price >= lpVars.limits.sis_min) {
                     // enable Single Sale for prices >= 1.50 Euro
                     // (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.parent('label').removeClass($o.disabled);
@@ -407,7 +407,7 @@
                 if (price > lpVars.limits.ppu_max && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
-                } else if (price < lpVars.limits.sis_min_limit && currentRevenueModel === $o.singleSale) {
+                } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $payPerUse.prop('checked', true);
                 }
@@ -476,12 +476,15 @@
                     function(data) {
                         // rebuild list of categories in category default pricing tab
                         if (data.success && data.prices) {
+                            $o.categoryPriceDetails.show();
+                            $o.categoryPriceDetails.css('opacity','unset');
                             data.prices.forEach(function(category) {
                                 var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
 
                                 var revenueModelText = 'ppu' === category.revenue_model ?
                                     lpVars.i18nPayLater : lpVars.i18nPayNow;
 
+                                // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
                                 var newCategory = $('<li/>',{
                                     'data-category': category.category_id,
                                     'calss': 'lp_price-type-categorized__item',
@@ -501,6 +504,7 @@
                                 categoriesList.push(newCategory);
                             });
                             $o.categoriesList.empty().append(categoriesList);
+                            // phpcs:enable
 
                             if (data.prices.length) {
                                 $o.categoryPriceButton.removeClass($o.disabled).removeClass($o.selected)
@@ -767,17 +771,17 @@
 
             // throttle the execution of a function by a given delay
             debounce = function(fn, delay) {
-              var timer;
-              return function() {
-                var context = this,
+                var timer;
+                return function() {
+                    var context = this,
                     args    = arguments;
 
-                clearTimeout(timer);
+                    clearTimeout(timer);
 
-                timer = setTimeout(function() {
-                  fn.apply(context, args);
-                }, delay);
-              };
+                    timer = setTimeout(function() {
+                        fn.apply(context, args);
+                    }, delay);
+                };
             },
 
             initializePage = function() {

@@ -34,6 +34,9 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
             'laterpay_on_enabled_post_type' => array(
                 array( 'on_enabled_post_type' ),
             ),
+            'laterpay_on_valid_account_credential' => array(
+                array( 'on_valid_account_credential' ),
+            ),
             'laterpay_on_ajax_user_can_activate_plugins' => array(
                 array( 'on_ajax_user_can_activate_plugins' ),
             ),
@@ -170,6 +173,17 @@ class LaterPay_Module_Appearance extends LaterPay_Core_View implements LaterPay_
         }
         $is_enabled_post_type = in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ), true );
         if ( ! $is_enabled_post_type  ) {
+            $event->stop_propagation();
+        }
+    }
+
+    /**
+     * Stops bubbling if account credentials are not valid.
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function on_valid_account_credential( LaterPay_Core_Event $event ) {
+        if ( true === (bool) get_option( 'laterpay_plugin_is_in_live_mode' ) && ! LaterPay_Controller_Admin_Account::validate_current_credentials() ) {
             $event->stop_propagation();
         }
     }

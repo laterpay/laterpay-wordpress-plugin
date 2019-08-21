@@ -4,65 +4,65 @@
     // encapsulate all LaterPay Javascript in function laterPayPostView
     function laterPayPostView() {
         var $o = {
-                body                            : $('body'),
+            body                            : $('body'),
 
                 // post preview mode
-                previewModePlaceholder          : $('#lp_js_previewModePlaceholder'),
-                previewModeContainer            : '#lp_js_previewModeContainer',
-                previewModeForm                 : '#lp_js_previewModeForm',
-                previewModeToggle               : '#lp_js_togglePreviewMode',
-                previewModeInput                : '#lp_js_previewModeInput',
+            previewModePlaceholder          : $('#lp_js_previewModePlaceholder'),
+            previewModeContainer            : '#lp_js_previewModeContainer',
+            previewModeForm                 : '#lp_js_previewModeForm',
+            previewModeToggle               : '#lp_js_togglePreviewMode',
+            previewModeInput                : '#lp_js_previewModeInput',
 
-                previewModeVisibilityForm       : '#lp_js_previewModeVisibilityForm',
-                previewModeVisibilityToggle     : '#lp_js_togglePreviewModeVisibility',
-                previewModeVisibilityInput      : '#lp_js_previewModeVisibilityInput',
+            previewModeVisibilityForm       : '#lp_js_previewModeVisibilityForm',
+            previewModeVisibilityToggle     : '#lp_js_togglePreviewModeVisibility',
+            previewModeVisibilityInput      : '#lp_js_previewModeVisibilityInput',
 
-                optionContainer                 : '.lp_purchase-overlay-option',
-                optionInput                     : '.lp_purchase-overlay-option__input',
-                submitButtonText                : '.lp_purchase-overlay__submit-text',
+            optionContainer                 : '.lp_purchase-overlay-option',
+            optionInput                     : '.lp_purchase-overlay-option__input',
+            submitButtonText                : '.lp_purchase-overlay__submit-text',
 
                 // time passes
-                timePass                        : '.lp_js_timePass',
-                flipTimePassLink                : '.lp_js_flipTimePass',
-                timePassPreviewPrice            : '.lp_js_timePassPreviewPrice',
-                voucherCodeWrapper              : '#lp_js_voucherCodeWrapper',
-                voucherCodeInput                : '.lp_js_voucherCodeInput',
-                voucherRedeemButton             : '.lp_js_voucherRedeemButton',
-                giftCardRedeemButton            : '.lp_js_giftCardRedeemButton',
-                giftCardCodeInput               : '.lp_js_giftCardCodeInput',
-                giftCardWrapper                 : '#lp_js_giftCardWrapper',
-                giftCardActionsPlaceholder      : '.lp_js_giftCardActionsPlaceholder',
-                giftsWrapper                    : $('.lp_js_giftsWrapper'),
+            timePass                        : '.lp_js_timePass',
+            flipTimePassLink                : '.lp_js_flipTimePass',
+            timePassPreviewPrice            : '.lp_js_timePassPreviewPrice',
+            voucherCodeWrapper              : '#lp_js_voucherCodeWrapper',
+            voucherCodeInput                : '.lp_js_voucherCodeInput',
+            voucherRedeemButton             : '.lp_js_voucherRedeemButton',
+            giftCardRedeemButton            : '.lp_js_giftCardRedeemButton',
+            giftCardCodeInput               : '.lp_js_giftCardCodeInput',
+            giftCardWrapper                 : '#lp_js_giftCardWrapper',
+            giftCardActionsPlaceholder      : '.lp_js_giftCardActionsPlaceholder',
+            giftsWrapper                    : $('.lp_js_giftsWrapper'),
 
                 // subscriptions
-                subscription                    : '.lp_js_subscription',
-                flipSubscriptionLink            : '.lp_js_flipSubscription',
+            subscription                    : '.lp_js_subscription',
+            flipSubscriptionLink            : '.lp_js_flipSubscription',
 
                 // placeholders for caching compatibility mode
-                postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
+            postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
 
                 // purchase buttons and purchase links
-                purchaseOverlay                 : '.lp_js_overlayPurchase',
-                currentOverlay                  : 'input[name="lp_purchase-overlay-option"]:checked',
+            purchaseOverlay                 : '.lp_js_overlayPurchase',
+            currentOverlay                  : 'input[name="lp_purchase-overlay-option"]:checked',
 
                 // strings cached for better compression
-                hidden                          : 'lp_is-hidden',
-                fadingOut                       : 'lp_is-fading-out',
+            hidden                          : 'lp_is-hidden',
+            fadingOut                       : 'lp_is-fading-out',
 
                 // premium content
-                premiumBox                      : '.lp_js_premium-file-box',
+            premiumBox                      : '.lp_js_premium-file-box',
 
                 // redeem voucher
-                redeemVoucherBlock              : $('.lp_purchase-overlay__voucher'),
-                notificationButtons             : $('.lp_js_notificationButtons'),
-                notificationCancel              : $('.lp_js_notificationCancel'),
-                voucherCancel                   : '.lp_js_voucherCancel',
-                redeemVoucherButton             : '.lp_js_redeemVoucher',
-                overlayMessageContainer         : '.lp_js_purchaseOverlayMessageContainer',
-                overlayTimePassPrice            : '.lp_js_timePassPrice',
+            redeemVoucherBlock              : $('.lp_purchase-overlay__voucher'),
+            notificationButtons             : $('.lp_js_notificationButtons'),
+            notificationCancel              : $('.lp_js_notificationCancel'),
+            voucherCancel                   : '.lp_js_voucherCancel',
+            redeemVoucherButton             : '.lp_js_redeemVoucher',
+            overlayMessageContainer         : '.lp_js_purchaseOverlayMessageContainer',
+            overlayTimePassPrice            : '.lp_js_timePassPrice',
 
-                lp_already_bought               : '.lp_bought_notification'
-            },
+            lp_already_bought               : '.lp_bought_notification'
+        },
 
             // Messages templates
 
@@ -142,6 +142,7 @@
                                 // Send GA Event On Click of Buy Button.
                                 lpGlobal.sendLPGAEvent( 'Paid Content Purchase', 'LaterPay WordPress Plugin',
                                     eventlabel );
+                                // phpcs:ignore WordPressVIPMinimum.JS.Window.location -- Safe value is assigned here.
                                 window.location.href = actionElement.data('laterpay');
                             }
                         }
@@ -167,7 +168,12 @@
                 $o.body
                     .on('click', $o.optionContainer, function (e) {
                         e.preventDefault();
-                        $(this).find($o.optionInput).attr('checked', 'checked');
+
+                        // Remove checked prop from previously selected option for overlay.
+                        $('input[name="lp_purchase-overlay-option"]').removeProp('checked');
+
+                        // Check the currently chosen option.
+                        $(this).find($o.optionInput).prop('checked', 'checked');
 
                         switch( $(this).data('revenue') ) {
                             // buy now
@@ -231,19 +237,21 @@
             },
             bindAlreadyPurchasedEvents = function() {
               // handle clicks on already bought link.
-              $o.body
-              .on('click', $o.lp_already_bought, function(e) {
-                e.preventDefault();
+                $o.body
+                .on('click', $o.lp_already_bought, function(e) {
+                    e.preventDefault();
 
-                var eventlabel = lpVars.gaData.postTitle + ',' + lpVars.gaData.blogName + ',' +
+                    var eventlabel = lpVars.gaData.postTitle + ',' + lpVars.gaData.blogName + ',' +
                     lpVars.gaData.postPermalink;
 
-                lpGlobal.sendLPGAEvent( 'Paid Content Identify', 'LaterPay WordPress Plugin', eventlabel );
-                window.location.href = $(this).attr( 'href' );
-              });
+                    lpGlobal.sendLPGAEvent( 'Paid Content Identify', 'LaterPay WordPress Plugin', eventlabel );
+                    // phpcs:ignore WordPressVIPMinimum.JS.Window.location -- Safe value is assigned here.
+                    window.location.href = $(this).attr( 'href' );
+                });
             },
             purchaseOverlaySubmit = function (action) {
                 if (action === 'buy') {
+                    // phpcs:ignore WordPressVIPMinimum.JS.Window.location -- Safe value is assigned here.
                     window.location.href = $($o.currentOverlay).val();
                 }
 
@@ -292,6 +300,7 @@
             redeemVoucherCode = function($wrapper, feedbackMessageTpl, input, type, is_gift) {
                 var code = $(input).val();
 
+                // Passed value to link is escaped before sent further for processing.
                 if (code.length === 6) {
                     $.ajax( {
                         url       : lpVars.ajaxUrl,
@@ -299,7 +308,7 @@
                         data      :{
                             action     : 'laterpay_redeem_voucher_code',
                             code       : code,
-                            link       : window.location.href,
+                            link       : window.location.href, // phpcs:ignore WordPressVIPMinimum.JS.Window.location
                             lp_post_id : typeof lpVars.post_id !== 'undefined' ? lpVars.post_id : ''
                         },
                         xhrFields : {
@@ -347,6 +356,7 @@
                                 if (has_matches) {
                                     // voucher is valid for at least one displayed time pass ->
                                     // forward to purchase dialog
+                                    // phpcs:ignore WordPressVIPMinimum.JS.Window.location -- Valid Purchase URL.
                                     window.location.href = r.url;
                                 } else {
                                     // voucher is invalid for all displayed time passes
@@ -382,6 +392,7 @@
                 var $feedbackMessage = tpl(message);
 
                 if (type === 'purchase-overlay') {
+                    // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- Safe Markup, Div with Text.
                     $wrapper.empty().append($feedbackMessage);
                 }
 
@@ -407,47 +418,6 @@
                 $feedbackMessage.fadeOut(250, function() {
                     $feedbackMessage.unbind().remove();
                 });
-            },
-
-            loadGiftCards = function() {
-                var ids     = [],
-                    cards   = $o.giftsWrapper;
-
-                // get all pass ids from wrappers
-                $.each(cards, function(i) {
-                    ids.push($(cards[i]).data('id'));
-                });
-
-                $.get(
-                    lpVars.ajaxUrl,
-                    {
-                        action  : 'laterpay_get_gift_card_actions',
-                        pass_id : ids,
-                        link    : window.location.href
-                    },
-                    function(r) {
-                        if (r.data) {
-                            $.each(r.data, function(i) {
-                                var gift    = r.data[i],
-                                    $elem   = $($o.giftCardActionsPlaceholder + '_' + gift.id);
-
-                                $elem.empty().append(gift.html);
-
-                                // add 'buy another gift card' after gift card
-                                if (gift.buy_more) {
-                                    // $elem.parent().after(gift.buy_more);
-                                    $(gift.buy_more)
-                                        .appendTo($elem.parent())
-                                        .attr('href', window.location.href);
-                                }
-                            });
-
-                            // remove gift code cookie if present
-                            delete_cookie('laterpay_purchased_gift_card');
-                        }
-                    },
-                    'json'
-                );
             },
 
             loadPremiumUrls = function() {
@@ -501,21 +471,21 @@
 
             loadPreviewModeContainer = function() {
                 $.ajax( {
-                  url       : lpVars.ajaxUrl,
-                  method    : 'GET',
-                  data      :{
-                    action  : 'laterpay_preview_mode_render',
-                    post_id : lpVars.post_id
-                  },
-                  xhrFields : {
-                    withCredentials : true
-                  }
+                    url       : lpVars.ajaxUrl,
+                    method    : 'GET',
+                    data      :{
+                        action  : 'laterpay_preview_mode_render',
+                        post_id : lpVars.post_id
+                    },
+                    xhrFields : {
+                        withCredentials : true
+                    }
                 } ).done( function ( data ) {
-                  if (data) {
-                    $o.previewModePlaceholder.before(data).remove();
-                    recachePreviewModeContainer();
-                    bindPreviewModeEvents();
-                  }
+                    if (data) {
+                        $o.previewModePlaceholder.before(data).remove();
+                        recachePreviewModeContainer();
+                        bindPreviewModeEvents();
+                    }
                 } );
             },
 
@@ -528,14 +498,14 @@
 
                 // save the state and reload the page in the new preview mode
                 $.ajax( {
-                  url       : lpVars.ajaxUrl,
-                  method    : 'POST',
-                  data      : $o.previewModeForm.serializeArray(),
-                  xhrFields : {
-                    withCredentials : true
-                  }
+                    url       : lpVars.ajaxUrl,
+                    method    : 'POST',
+                    data      : $o.previewModeForm.serializeArray(),
+                    xhrFields : {
+                        withCredentials : true
+                    }
                 } ).done( function () {
-                  window.location.reload();
+                    window.location.reload();
                 } );
             },
 
@@ -548,17 +518,17 @@
 
                 // save the state
                 $.ajax( {
-                  url       : lpVars.ajaxUrl,
-                  method    : 'POST',
-                  data      : $o.previewModeVisibilityForm.serializeArray(),
-                  xhrFields : {
-                    withCredentials : true
-                  }
+                    url       : lpVars.ajaxUrl,
+                    method    : 'POST',
+                    data      : $o.previewModeVisibilityForm.serializeArray(),
+                    xhrFields : {
+                        withCredentials : true
+                    }
                 } );
             },
 
             handlePurchaseInTestMode = function(trigger) {
-            var actionElement = $(trigger);
+                var actionElement = $(trigger);
                 if ( typeof $(trigger).data('content-type') !== 'undefined' &&
                     $(trigger).data('content-type').toString() === 'link' ) {
                     actionElement = $(this).find('span.lp_shortcode_link');
@@ -571,10 +541,10 @@
 
             initiateAttachmentDownload = function() {
                 var url = get_cookie('laterpay_download_attached');
-                // start attachment download, if requested
+                // start attachment download, if requested, url contains attachment url which is safe.
                 if ( url ) {
                     delete_cookie('laterpay_download_attached');
-                    window.location.href = url;
+                    window.location.href = url; // phpcs:ignore WordPressVIPMinimum.JS.Window.location
                 }
             },
 
@@ -595,10 +565,6 @@
 
                 if ($o.previewModePlaceholder.length === 1) {
                     loadPreviewModeContainer();
-                }
-
-                if ($o.giftsWrapper.length >= 1) {
-                    loadGiftCards();
                 }
 
                 if ($($o.premiumBox).length >= 1) {

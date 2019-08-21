@@ -41,6 +41,12 @@ class LaterPay_Helper_Pricing
      * @return null|bool true|false (null if post is free)
      */
     public static function is_purchasable( $post_id = null ) {
+
+        // Check if access check is disabled and current page is home page.
+        if ( LaterPay_Helper_Pricing::is_access_check_disabled_on_home() ) {
+            return false;
+        }
+
         if ( $post_id === null ) {
             $post_id = get_the_ID();
             if ( ! $post_id ) {
@@ -610,7 +616,7 @@ class LaterPay_Helper_Pricing
             return 'sis';
         }
 
-        if ($price >= $currency['sis_min_limit'] && $price <= $currency['sis_max']) {
+        if ($price >= $currency['sis_min'] && $price <= $currency['sis_max']) {
             return 'sis';
         }
 
@@ -1146,5 +1152,16 @@ class LaterPay_Helper_Pricing
         }
 
         return false;
+    }
+
+    /**
+     * Check if content access check is disabled on Home Page.
+     *
+     * @return bool
+     */
+    public static function is_access_check_disabled_on_home() {
+        $is_disabled_on_home_page = (bool) get_option( 'laterpay_disable_access_check_home', false );
+        $is_homepage              = is_front_page() || is_home();
+        return $is_homepage && $is_disabled_on_home_page;
     }
 }

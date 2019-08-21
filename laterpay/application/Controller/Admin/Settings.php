@@ -441,6 +441,20 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
             )
         );
 
+        // Add settings field to disable access checks on homepage.
+        add_settings_field(
+            'laterpay_disable_access_check_home',
+            __( 'Disable content access check queries on Home Page', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_technical',
+            array(
+                'name'  => 'laterpay_disable_access_check_home',
+                'value' => 1,
+                'type'  => 'checkbox',
+            )
+        );
+
         $value   = absint( get_option( 'laterpay_api_fallback_behavior' ) );
         $options = self::get_laterpay_api_options();
 
@@ -460,6 +474,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
         );
 
         register_setting( 'laterpay', 'laterpay_caching_compatibility' );
+        register_setting( 'laterpay', 'laterpay_disable_access_check_home' );
         register_setting( 'laterpay', 'laterpay_api_fallback_behavior' );
     }
 

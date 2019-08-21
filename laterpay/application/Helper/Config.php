@@ -34,8 +34,7 @@ class LaterPay_Helper_Config {
                         'ppu_max'         => 5.00,
                         'sis_min'         => 1.49,
                         'sis_only_limit'  => 5.00,
-                        'sis_max'         => 1000.00,
-                        'sis_min_limit'   => 1.50,
+                        'sis_max'         => 1000.00
                     )
                 )
             ),
@@ -75,8 +74,7 @@ class LaterPay_Helper_Config {
                         'ppu_max'         => 5.00,
                         'sis_min'         => 1.99,
                         'sis_only_limit'  => 5.00,
-                        'sis_max'         => 1000.00,
-                        'sis_min_limit'   => 2.00,
+                        'sis_max'         => 1000.00
                     )
                 )
             ),
@@ -252,6 +250,7 @@ class LaterPay_Helper_Config {
 
         global $wpdb;
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Not run on VIP-GO env, used to remove custom tables data.
         $table_terms_price   = $wpdb->prefix . 'laterpay_terms_price';
         $table_history       = $wpdb->prefix . 'laterpay_payment_history';
         $table_post_views    = $wpdb->prefix . 'laterpay_post_views';
@@ -306,6 +305,7 @@ class LaterPay_Helper_Config {
 
             $wpdb->query( $sql );
         }
+        // phpcs:enable
     }
 
     /**

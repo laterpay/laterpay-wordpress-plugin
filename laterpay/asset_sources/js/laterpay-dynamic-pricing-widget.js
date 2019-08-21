@@ -224,7 +224,7 @@ var DynamicPricingWidget = function (container) {
                 if (e.pageY === self.currentStartPricePosition) {
                     dynamicPricingWidget.toggleStartInput('show');
                 }
-        })
+            })
         // bind events to start price input
         .on('focusout',
         '.lp_dynamic-pricing__start-price-input',
@@ -264,7 +264,7 @@ var DynamicPricingWidget = function (container) {
                     self.currentEndPricePosition = e.pageY;
                     jQuery('body').off('mousemove', endPriceMoveHandler);
                 });
-        })
+            })
         .on('mouseup',
             '.lp_dynamic-pricing__end-price-handle, ' +
             '.lp_dynamic-pricing__end-price-value, ' +
@@ -273,7 +273,7 @@ var DynamicPricingWidget = function (container) {
                 if (e.pageY === self.currentEndPricePosition) {
                     dynamicPricingWidget.toggleEndInput('show');
                 }
-        })
+            })
         // bind events to end price input
         .on('focusout',
         '.lp_dynamic-pricing__end-price-input',
@@ -606,9 +606,9 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
             x: function () {
                 return -38;
             },
-            y: function (d) {
-                return self.scale.y(d.y) - 14.5;
-            }
+        y: function (d) {
+            return self.scale.y(d.y) - 14.5;
+        }
         });
     this.svg.select('.lp_dynamic-pricing__start-price-handle-triangle')
         .datum((this.data)[0])
@@ -628,9 +628,9 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
             x: function () {
                 return -7;
             },
-            y: function (d) {
-                return self.scale.y(d.y) - 0.5;
-            }
+        y: function (d) {
+            return self.scale.y(d.y) - 0.5;
+        }
         })
         .text(function (d) {
             return (lpVars.locale.indexOf( 'de_DE' ) !== -1) ? d.y.toFixed(2).replace('.', ',') : d.y.toFixed(2);
@@ -643,9 +643,9 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
             x: function () {
                 return -8;
             },
-            y: function (d) {
-                return self.scale.y(d.y) + 9.5;
-            }
+        y: function (d) {
+            return self.scale.y(d.y) + 9.5;
+        }
         });
     this.svg.select('.lp_dynamic-pricing__start-price-input-wrapper')
         .datum((this.data)[0])
@@ -655,9 +655,9 @@ DynamicPricingWidget.prototype._plotStartPriceHandle = function () {
             x: function () {
                 return -38;
             },
-            y: function (d) {
-                return self.scale.y(d.y) - 14;
-            }
+        y: function (d) {
+            return self.scale.y(d.y) - 14;
+        }
         });
 };
 
@@ -679,9 +679,9 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function () {
                     return self.dimensions.width + 16;
                 }
             },
-            y: function (d) {
-                return self.scale.y(d.y) - 15;
-            }
+        y: function (d) {
+            return self.scale.y(d.y) - 15;
+        }
         });
     this.svg.select('.lp_dynamic-pricing__end-price-value')
         .datum((this.data)[this.data.length - 1])
@@ -691,9 +691,9 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function () {
             x: function () {
                 return self.dimensions.width + 47;
             },
-            y: function (d) {
-                return self.scale.y(d.y) - 1;
-            }
+        y: function (d) {
+            return self.scale.y(d.y) - 1;
+        }
         })
         .text(function (d) {
             return (lpVars.locale.indexOf( 'de_DE' ) !== -1) ? d.y.toFixed(2).replace('.', ',') : d.y.toFixed(2);
@@ -706,9 +706,9 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function () {
             x: function () {
                 return self.dimensions.width + 47;
             },
-            y: function (d) {
-                return self.scale.y(d.y) + 9;
-            }
+        y: function (d) {
+            return self.scale.y(d.y) + 9;
+        }
         });
     this.svg.select('.lp_dynamic-pricing__end-price-handle-triangle')
         .datum((this.data)[this.data.length - 1])
@@ -758,13 +758,13 @@ DynamicPricingWidget.prototype._plotDaysHandle = function () {
             x: function (d) {
                 return self.scale.x(d.x) - 15;
             },
-            y: function () {
-                return -35;
-            },
-            width: 30,
-            rx: 3,
-            height: 30,
-            ry: 3
+        y: function () {
+            return -35;
+        },
+        width: 30,
+        rx: 3,
+        height: 30,
+        ry: 3
         });
 
     var daysHandleTriangle = this.svg.selectAll('.lp_dynamic-pricing__price-change-days-handle-triangle')
@@ -820,11 +820,11 @@ DynamicPricingWidget.prototype._plotDaysHandle = function () {
             x: function (d) {
                 return self.scale.x(d.x);
             },
-            y: function () {
-                return -21;
-            },
-            height: 30,
-            'text-anchor': 'middle'
+        y: function () {
+            return -21;
+        },
+        height: 30,
+        'text-anchor': 'middle'
         });
 
 
@@ -854,11 +854,11 @@ DynamicPricingWidget.prototype._plotDaysHandle = function () {
             x: function (d) {
                 return self.scale.x(d.x);
             },
-            y: function () {
-                return -11;
-            },
-            height: 30,
-            'text-anchor': 'middle'
+        y: function () {
+            return -11;
+        },
+        height: 30,
+        'text-anchor': 'middle'
         });
 };
 
@@ -889,15 +889,15 @@ DynamicPricingWidget.prototype._plotXMarker = function () {
             x1: function (d) {
                 return self.scale.x(d.x);
             },
-            y1: function () {
-                return 0;
-            },
-            x2: function (d) {
-                return self.scale.x(d.x);
-            },
-            y2: function (d) {
-                return self.scale.y(d.y) - 4.5;
-            } // subtract radius of price curve point to avoid overlap
+        y1: function () {
+            return 0;
+        },
+        x2: function (d) {
+            return self.scale.x(d.x);
+        },
+        y2: function (d) {
+            return self.scale.y(d.y) - 4.5;
+        } // subtract radius of price curve point to avoid overlap
         });
 };
 
@@ -925,9 +925,9 @@ DynamicPricingWidget.prototype._plotPriceCurvePoints = function () {
             cx: function (d) {
                 return self.scale.x(d.x);
             },
-            cy: function (d) {
-                return self.scale.y(d.y);
-            }
+        cy: function (d) {
+            return self.scale.y(d.y);
+        }
         });
 
     point.exit().remove();
@@ -951,15 +951,15 @@ DynamicPricingWidget.prototype._plotPriceMarker = function () {
                 x1: function () {
                     return self.scale.x(dynamicPricingWidget.pubDays);
                 },
-                y1: function () {
-                    return self.scale.y(0);
-                },
-                x2: function () {
-                    return self.scale.x(dynamicPricingWidget.pubDays);
-                },
-                y2: function () {
-                    return self.scale.y(dynamicPricingWidget.maxPrice);
-                }
+            y1: function () {
+                return self.scale.y(0);
+            },
+            x2: function () {
+                return self.scale.x(dynamicPricingWidget.pubDays);
+            },
+            y2: function () {
+                return self.scale.y(dynamicPricingWidget.maxPrice);
+            }
             });
         // #657: add label properly added and attach drag behavior
         // this.svg.append('text')

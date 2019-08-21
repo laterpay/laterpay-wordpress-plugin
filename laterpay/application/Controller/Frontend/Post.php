@@ -16,6 +16,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         return array(
             'laterpay_post_content' => array(
                 array( 'laterpay_on_plugin_is_working', 250 ),
+                array( 'laterpay_on_valid_account_credential', 200 ),
                 array( 'modify_post_content' ),
             ),
             'laterpay_posts' => array(
@@ -183,6 +184,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             return;
         }
 
+        // Check if attachment is enabled for sale.
+        if ( ! LaterPay_Helper_Post::is_enabled_type( $post->ID ) ) {
+            return;
+        }
+
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $post->ID );
         if ( $is_purchasable && $post->ID === get_the_ID() ) {
             $access         = LaterPay_Helper_Post::has_access_to_post( $post );
@@ -226,6 +232,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
 
         if ( $post === null ) {
+            return;
+        }
+
+        // Check if attachment is enabled for sale.
+        if ( ! LaterPay_Helper_Post::is_enabled_type( $post->ID ) ) {
             return;
         }
 
@@ -277,9 +288,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             return;
         }
 
+        // Check if attachment is enabled for sale.
+        if ( ! LaterPay_Helper_Post::is_enabled_type( $post->ID ) ) {
+            return;
+        }
+
         $is_purchasable          = LaterPay_Helper_Pricing::is_purchasable( $post->ID );
         $access                  = LaterPay_Helper_Post::has_access_to_post( $post );
-        $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );;
+        $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( $is_purchasable && ! $access || $preview_post_as_visitor ) {
             $event->set_result( '' );
             return;
@@ -314,6 +330,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
 
         if ( 1 === count( $posts ) && ! LaterPay_Helper_Post::is_enabled_type( $posts[0]->ID ) ) {
+            return;
+        }
+
+        // Check if access check is disabled and current page is home page.
+        if ( LaterPay_Helper_Pricing::is_access_check_disabled_on_home() ) {
             return;
         }
 
@@ -421,6 +442,12 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      */
     public function modify_post_content( LaterPay_Core_Event $event ) {
         global $wp_embed;
+
+        // Check if access check is disabled and current page is home page.
+        if ( LaterPay_Helper_Pricing::is_access_check_disabled_on_home() ) {
+            $event->stop_propagation();
+            return;
+        }
 
         $content = $event->get_result();
 

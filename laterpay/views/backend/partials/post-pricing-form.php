@@ -257,7 +257,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
                         LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE,
                         LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE
                     ), true ) ) : ?>
-                        <?php if ( $laterpay['price'] < $laterpay['currency']['sis_min_limit'] ) {
+                        <?php if ( $laterpay['price'] < $laterpay['currency']['sis_min'] ) {
                             echo 'lp_is-disabled';
                         } ?>
                     <?php else : ?>

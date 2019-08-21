@@ -4,81 +4,81 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendAppearance
     function laterPayBackendAppearance() {
         var $o = {
-                // appearance option
-                savePurchaseForm    : $('.lp_js_savePurchaseForm'),
-                cancelFormEdit      : $('.lp_js_cancelEditingPurchaseForm'),
-                restoreDefaults     : $('.lp_js_restoreDefaultPurchaseForm'),
-                buttonGroupButtons  : '.lp_js_buttonGroupButton',
-                buttonGroupHint     : '.lp_js_buttonGroupHint',
-                overlayOptions      : '.lp_js_overlayOptions',
-                overlayShowFooter   : '.lp_js_overlayShowFooter',
-                selected            : 'lp_is-selected',
-                showHintOnTrue      : 'lp_js_showHintOnTrue',
-                headerBgColor       : 'lp_js_purchaseHeaderBackgroundColor',
-                headerTitle         : 'lp_js_purchaseHeaderTitle',
-                purchaseBgColor     : 'lp_js_purchaseBackgroundColor',
-                purchaseMainText    : 'lp_js_purchaseMainTextColor',
-                purchaseDescription : 'lp_js_purchaseDescriptionTextColor',
-                buttonBgColor       : 'lp_js_purchaseButtonBackgroundColor',
-                buttonHoverColor    : 'lp_js_purchaseButtonHoverColor',
-                buttonTextColor     : 'lp_js_purchaseButtonTextColor',
-                linkMainColor       : 'lp_js_purchaseLinkMainColor',
-                linkHoverColor      : 'lp_js_purchaseLinkHoverColor',
-                footerBgColor       : 'lp_js_purchaseFooterBackgroundColor',
-                showFooter          : 'lp_js_overlayShowFooter',
+            // appearance option
+            savePurchaseForm    : $('.lp_js_savePurchaseForm'),
+            cancelFormEdit      : $('.lp_js_cancelEditingPurchaseForm'),
+            restoreDefaults     : $('.lp_js_restoreDefaultPurchaseForm'),
+            buttonGroupButtons  : '.lp_js_buttonGroupButton',
+            buttonGroupHint     : '.lp_js_buttonGroupHint',
+            overlayOptions      : '.lp_js_overlayOptions',
+            overlayShowFooter   : '.lp_js_overlayShowFooter',
+            selected            : 'lp_is-selected',
+            showHintOnTrue      : 'lp_js_showHintOnTrue',
+            headerBgColor       : 'lp_js_purchaseHeaderBackgroundColor',
+            headerTitle         : 'lp_js_purchaseHeaderTitle',
+            purchaseBgColor     : 'lp_js_purchaseBackgroundColor',
+            purchaseMainText    : 'lp_js_purchaseMainTextColor',
+            purchaseDescription : 'lp_js_purchaseDescriptionTextColor',
+            buttonBgColor       : 'lp_js_purchaseButtonBackgroundColor',
+            buttonHoverColor    : 'lp_js_purchaseButtonHoverColor',
+            buttonTextColor     : 'lp_js_purchaseButtonTextColor',
+            linkMainColor       : 'lp_js_purchaseLinkMainColor',
+            linkHoverColor      : 'lp_js_purchaseLinkHoverColor',
+            footerBgColor       : 'lp_js_purchaseFooterBackgroundColor',
+            showFooter          : 'lp_js_overlayShowFooter',
 
-                // overlay
-                overlayHeader       : '.lp_purchase-overlay__header',
-                overlayForm         : '.lp_purchase-overlay__form',
-                overlayOptionTitle  : '.lp_purchase-overlay-option__title',
-                overlayDescription  : '.lp_purchase-overlay-option__description',
-                overlayLink         : '.lp_purchase-overlay__notification',
-                overlayButton       : '.lp_purchase-overlay__submit',
-                overlayFooter       : '.lp_purchase-overlay__footer',
+            // overlay
+            overlayHeader       : '.lp_purchase-overlay__header',
+            overlayForm         : '.lp_purchase-overlay__form',
+            overlayOptionTitle  : '.lp_purchase-overlay-option__title',
+            overlayDescription  : '.lp_purchase-overlay-option__description',
+            overlayLink         : '.lp_purchase-overlay__notification',
+            overlayButton       : '.lp_purchase-overlay__submit',
+            overlayFooter       : '.lp_purchase-overlay__footer',
 
-                // forms
-                previewSwitch       : $('#lp_js_paidContentPreview').find('.lp_js_switchButtonGroup'),
-                purchaseForm        : $('#lp_js_purchaseForm'),
+            // forms
+            previewSwitch       : $('#lp_js_paidContentPreview').find('.lp_js_switchButtonGroup'),
+            purchaseForm        : $('#lp_js_purchaseForm'),
 
-                purchaseButtonForm  : $('#lp_js_purchaseButton'),
-                purchaseButtonSwitch: $('#lp_js_purchaseButton').find('.lp_js_switchButtonGroup'),
+            purchaseButtonForm  : $('#lp_js_purchaseButton'),
+            purchaseButtonSwitch: $('#lp_js_purchaseButton').find('.lp_js_switchButtonGroup'),
 
-                timePassesForm      : $('#lp_js_timePasses'),
-                timePassesSwitch    : $('#lp_js_timePasses').find('.lp_js_switchButtonGroup'),
+            timePassesForm      : $('#lp_js_timePasses'),
+            timePassesSwitch    : $('#lp_js_timePasses').find('.lp_js_switchButtonGroup'),
 
-                appearance_loading      : $('#lp_appearance_loading'),
-                appearance_preview      : $('#lp_appearance_preview'),
-                show_purchase_button    : $('#lp_show_purchase_button_above_article'),
-                purchase_button_custom  : $('#lp_purchase_button_custom_positioned'),
-                purchase_button_hint    : $('#lp_purchase_button_hint'),
-                backend_purchase_button : $('#lp_backend_purchase_button'),
-                show_purchase_overlay   : $('#lp_show_purchase_overlay'),
-                purchase_overlay        : $('#lp_purchase_overlay'),
-                overlay_body            : $('#lp_overlay_body'),
-                purchase_link           : $('#lp_purchase_link'),
-                explanatory_button      : $('#lp_explanatory_button'),
-                timePassWidget          : $('#lp_js_timePassWidget'),
-                timepass_widget_hint    : $('#lp_timepass_widget_hint'),
-                section_header_text     : $('#lp_header_text'),
-                purchase_header         : $('#lp_purchase_header'),
-                show_introduction       : $('#lp_show_introduction'),
-                benefits_section        : $('#lp_benefits'),
-                benefits_list           : $('#lp_benefits_list'),
-                show_tp_sub_below_modal : $('#lp_show_tp_sub_below_modal'),
-                tp_sub_custom_positioned: $('#lp_is_tp_sub_custom_positioned'),
-                show_body_text          : $('#lp_show_body_text'),
-                body_text_content       : $('#lp_body_text_content'),
-                body_text_content_holder: $('#lp_body_text_content_holder'),
-                show_footer             : $('#lp_show_footer'),
-                overlay_footer          : $('#lp_overlay_footer'),
-                savePurchaseFormColors  : $('.lp_js_savePurchaseFormColors'),
-                overlayLinkNotification : $('.lp_bought_notification'),
-                lp_purchase_button      : $('.lp_purchase_button'),
-                lp_purchase_button_tp   : $('.lp_purchase-button'),
-                navigation              : $('.lp_navigation'),
-                flip                    : $('a.lp_js_flipTimePass, a.lp_js_flipSubscription'),
-                config_disclaimer       : $('#lp_config_disclaimer'),
-            },
+            appearance_loading      : $('#lp_appearance_loading'),
+            appearance_preview      : $('#lp_appearance_preview'),
+            show_purchase_button    : $('#lp_show_purchase_button_above_article'),
+            purchase_button_custom  : $('#lp_purchase_button_custom_positioned'),
+            purchase_button_hint    : $('#lp_purchase_button_hint'),
+            backend_purchase_button : $('#lp_backend_purchase_button'),
+            show_purchase_overlay   : $('#lp_show_purchase_overlay'),
+            purchase_overlay        : $('#lp_purchase_overlay'),
+            overlay_body            : $('#lp_overlay_body'),
+            purchase_link           : $('#lp_purchase_link'),
+            explanatory_button      : $('#lp_explanatory_button'),
+            timePassWidget          : $('#lp_js_timePassWidget'),
+            timepass_widget_hint    : $('#lp_timepass_widget_hint'),
+            section_header_text     : $('#lp_header_text'),
+            purchase_header         : $('#lp_purchase_header'),
+            show_introduction       : $('#lp_show_introduction'),
+            benefits_section        : $('#lp_benefits'),
+            benefits_list           : $('#lp_benefits_list'),
+            show_tp_sub_below_modal : $('#lp_show_tp_sub_below_modal'),
+            tp_sub_custom_positioned: $('#lp_is_tp_sub_custom_positioned'),
+            show_body_text          : $('#lp_show_body_text'),
+            body_text_content       : $('#lp_body_text_content'),
+            body_text_content_holder: $('#lp_body_text_content_holder'),
+            show_footer             : $('#lp_show_footer'),
+            overlay_footer          : $('#lp_overlay_footer'),
+            savePurchaseFormColors  : $('.lp_js_savePurchaseFormColors'),
+            overlayLinkNotification : $('.lp_bought_notification'),
+            lp_purchase_button      : $('.lp_purchase_button'),
+            lp_purchase_button_tp   : $('.lp_purchase-button'),
+            navigation              : $('.lp_navigation'),
+            flip                    : $('a.lp_js_flipTimePass, a.lp_js_flipSubscription'),
+            config_disclaimer       : $('#lp_config_disclaimer'),
+        },
 
             bindEvents = function() {
 
@@ -275,6 +275,8 @@
                             $o.body_text_content_holder.hide();
                         } else {
                             $(this).val(1);
+                            // Custom HTML content for purchase overlay added via admin.
+                            // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
                             $o.body_text_content_holder.empty().append($o.body_text_content.val());
                             $o.body_text_content.show();
                             $o.body_text_content_holder.show();
@@ -282,6 +284,8 @@
                     });
 
                 $o.body_text_content.on('change paste keyup', function() {
+                    // Custom HTML content for purchase overlay added via admin.
+                    // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
                     $o.body_text_content_holder.empty().append($(this).val());
                 });
 
