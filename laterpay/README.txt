@@ -5,7 +5,7 @@ Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay, Payments, Content Monetization, Paywall, Paid Content, Publisher, Blogger, conversion, paygate, monetization
 Requires at least: 4.6
 Tested up to: 5.2.2
-Stable tag: 2.6.2
+Stable tag: 2.6.3
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -88,6 +88,13 @@ Yes!
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.6.3 ( August 21, 2019 ) =
+* Add option to disable LaterPay queries on home page under Settings > LaterPay > Technical.
+* Add a check to verify credentials before adding purchase dialog on content.
+* Fix issue with purchase overlay option selection.
+* Fix category list display and revenue model label UI issue in FireFox.
+* Fix Pay Now minimum price validation.
+
 = 2.6.2 ( August 8, 2019 ) =
 * Add [laterpay_check_access] shortcode and function so that merchant can show or hide content based on the level of access a user has purchased.
 * Add content_type="link" type to [laterpay_premium_download] shortcode.
@@ -657,8 +664,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.6.2 ( August 8, 2019 ) =
-New shortcode to check access based on various options to help merchant customize site experience, Premium Download shortcode adds support for link type, Added Wisdom Tracking Library for plugin usage stats and minor bug fixes with LaterPay functionality.
+= 2.6.3 ( August 21, 2019 ) =
+Add option to disable content access check on home page, Add a check to verify credentials before adding purchase dialog on content and minor bug fixes with LaterPay functionality.
 
 == Arbitrary section ==
 
