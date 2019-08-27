@@ -64,31 +64,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                 <label class="lp_step_label">
                     <?php
                     printf(
-                        esc_html__( '%sAsk%s For Contributions', 'laterpay' ),
-                        '<span class="lp_step_span">',
-                        '</span>'
-                    );
-                    ?>
-                </label>
-                <div class="lp_info_div">
-                    <div class="lp_advanced_info">
-                        <p>
-                            <?php
-                            esc_html_e( 'Using the LaterPay Button Generator, in just a couple of minutes you can create a custom contributions button that can be used on your website, in email, or social media posts.', 'laterpay' );
-                            ?>
-                        </p>
-                        <a id="lp_js_showButtonGenerator" href="#" target='_blank' data-href-eu='https://web.laterpay.net/merchant/admin/laterpaycontributions/button-generator/' data-href-us='https://web.uselaterpay.com/merchant/admin/<?php echo esc_attr( $laterpay['live_key'] ); ?>/button-generator/' data-href-default="https://www.laterpay.net/signup/merchant" class='lp_info_link'><?php esc_html_e( 'Click here to go to our Button Generator.', 'laterpay' ); ?></a>
-                    </div>
-                    <a id='lp_js_showButtonGeneratorImage' href="#" target='_blank' data-href-eu='https://web.laterpay.net/merchant/admin/laterpaycontributions/button-generator/' data-href-us='https://web.uselaterpay.com/merchant/admin/<?php echo esc_attr( $laterpay['live_key'] ); ?>/button-generator/' data-href-default="https://www.laterpay.net/signup/merchant">
-                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-contributions.png' ); ?>">
-                    </a>
-                </div>
-            </div>
-
-            <div class="lp_clearfix">
-                <label class="lp_step_label">
-                    <?php
-                    printf(
                         esc_html__( '%sCharge%s For Downloadable Content', 'laterpay' ),
                         '<span class="lp_step_span">',
                         '</span>'
