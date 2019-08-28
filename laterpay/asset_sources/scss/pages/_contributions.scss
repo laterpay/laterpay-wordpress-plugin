@@ -1,0 +1,42 @@
+// 'Contributions' tab in plugin backend
+
+.lp_pagewrap {
+    overflow-x: unset;
+}
+.lp_main_area {
+
+    .lp_layout {
+        max-height: 500px;
+    }
+
+    #lp_contributions_loading {
+        margin-top: 150px;
+        font-size: 28px;
+    }
+
+    width: 65% !important;
+
+    div.lp_clearfix:first-child {
+        padding: 40px 0 0 30px;
+        width: 50%;
+        float: left;
+    }
+
+    div.lp_clearfix:last-child {
+        padding-top: 40px;
+        display: table;
+    }
+
+    div.lp_contributions_preview {
+        h3 {
+            margin-top: 30px;
+            color: #000000;
+            font-size: 16px;
+        }
+    }
+
+}
+
+.lp_side_area {
+    width: 35% !important;
+}

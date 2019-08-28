@@ -158,6 +158,8 @@ class LaterPay_Core_Bootstrap
         $controller = self::get_controller( 'Admin_Advanced' );
         laterpay_event_dispatcher()->add_subscriber( $controller );
 
+        laterpay_event_dispatcher()->add_subscriber( self::get_controller( 'Admin_Contributions' ) );
+
         // register callbacks for adding meta_boxes
         $post_metabox_controller = self::get_controller( 'Admin_Post_Metabox' );
         laterpay_event_dispatcher()->add_subscriber( $post_metabox_controller );

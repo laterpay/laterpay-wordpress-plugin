@@ -208,6 +208,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 break;
 
             // render appearance tab
+            case 'contributions':
+                $contributions_controller = new LaterPay_Controller_Admin_Contributions( $this->config );
+                $contributions_controller->render_page();
+                break;
+
+            // render appearance tab
             case 'appearance':
                 $appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
                 $appearance_controller->render_page();
@@ -818,6 +824,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             'cap'   => 'activate_plugins',
         );
 
+        $menu['contributions'] = array(
+            'url'   => 'laterpay-contributions-tab',
+            'title' => esc_html__( 'Contributions', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
+
         $menu['appearance'] = array(
             'url'   => 'laterpay-appearance-tab',
             'title' => __( 'Appearance', 'laterpay' ),
@@ -881,7 +893,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         }
 
         // Allowed pages for notice and instruction.
-        $lp_update_notice_allowed_page = [ 'pricing', 'appearance', 'advanced', 'account' ];
+        $lp_update_notice_allowed_page = [ 'pricing', 'appearance', 'advanced', 'account', 'contributions' ];
 
         // Check if current page is in allowed page.
         if ( in_array( $page, $lp_update_notice_allowed_page, true ) ) {

@@ -291,7 +291,7 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
         <div class="lp_side_area">
             <div class="lp_clearfix lp_info">
                 <div class="lp_side_info">
-                    <h2><?php esc_html_e( 'Advanced Settings', 'laterpay' ); ?></h2>
+                    <h2><?php esc_html_e( 'TIPS & TRICKS', 'laterpay' ); ?></h2>
                     <p>
 
                         <?php
