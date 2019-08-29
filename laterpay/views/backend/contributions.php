@@ -71,7 +71,7 @@ $settings_url = admin_url( 'options-general.php?page=laterpay' );
                         <li>
                             <?php
                             printf(
-                                esc_html__( '%1$sOption 1: At the end of your posts for a post-read request%2$s %3$sUsers who reach the end of an article, video or interactive experience are much more likely to pay you for your hard work.', 'laterpay' ),
+                                esc_html__( '%sOption 1: At the end of your posts%s %sUsers who reach the end of an article, video or interactive experience are much more likely to pay you for your hard work.', 'laterpay' ),
                                 '<b>',
                                 '</b>',
                                 '<br/>'
@@ -80,7 +80,7 @@ $settings_url = admin_url( 'options-general.php?page=laterpay' );
                         <li>
                             <?php
                             printf(
-                                esc_html__( '%1$sOption 2: In the header or sidebar%2$s %3$sThe primary benefit of placing the contributions shortcode in your site header or sidebar is that you can copy and paste it once in your theme and it will be displayed throughout your site.', 'laterpay' ),
+                                esc_html__( '%sOption 2: In the header or sidebar%s %sThe primary benefit of placing the contributions shortcode in your site header or sidebar is that you can copy and paste it once in your theme and it will be displayed throughout your site.', 'laterpay' ),
                                 '<b>',
                                 '</b>',
                                 '<br/>'
@@ -89,19 +89,13 @@ $settings_url = admin_url( 'options-general.php?page=laterpay' );
                         <li>
                             <?php
                             printf(
-                                esc_html__( '%1$sOption 3: In a popup%2$s %3$sIf you want to provide multiple contribution options without cluttering your site, one common solution is to use add a button to your header or sidebar which, when clicked, will trigger a popup which contains the LaterPay contributions shortcode. %3$sThis option is a bit more involved than the others so %4$sclick here for detailed instructions%5$s.', 'laterpay' ),
+                                esc_html__( '%sOption 3: In a popup%s %sIf you want to provide multiple contribution options without cluttering your site, one common solution is to add a button to your header or sidebar which will trigger a popup containing the LaterPay contributions shortcode. This option is a bit more involved than the others so %sclick here for detailed instructions%s.', 'laterpay' ),
                                 '<b>',
                                 '</b>',
                                 '<br/>',
                                 '<a href="#" target="_blank" class="lp_info_link">',
                                 '</a>'
                             ); ?>
-                        </li>
-                        <li>
-                            <?php esc_html_e( 'OTHER LATERPAY SHORTCODES', 'laterpay' ); ?>
-                        </li>
-                        <li>
-                            <?php esc_html_e( 'Check out the Advanced tab for a list of available shortcodes and other advanced features.', 'laterpay' ); ?>
                         </li>
                     </ul>
                 </div>
