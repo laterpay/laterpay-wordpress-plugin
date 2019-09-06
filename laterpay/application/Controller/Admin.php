@@ -904,7 +904,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $tab_information = [
                 'appearance' => sprintf( __( '%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed.', 'laterpay' ), '<b>', '</b>' ),
                 'pricing'    => sprintf( __( '%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page.', 'laterpay' ), '<b>', '</b>' ),
-                'advanced'   => sprintf( __( '%sOptional%s Here we highlight advanced features & settings like contributions, selling downloadable content, and promoting your subscriptions. Scroll through to learn more!', 'laterpay' ), '<b>', '</b>' ),
+                'advanced'   => sprintf( __( '%sOptional%s Here we highlight advanced features & settings like selling downloadable content and promoting your subscriptions. Scroll through to learn more!', 'laterpay' ), '<b>', '</b>' ),
             ];
 
             $tab_information_status = get_option( 'lp_tabular_info' );
