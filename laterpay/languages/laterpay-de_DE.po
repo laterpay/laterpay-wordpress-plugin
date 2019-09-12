@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-09-06 11:52+0530\n"
-"PO-Revision-Date: 2019-09-06 11:56+0530\n"
+"POT-Creation-Date: 2019-09-12 10:57+0530\n"
+"PO-Revision-Date: 2019-09-12 10:57+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -668,8 +668,8 @@ msgid "Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s"
 msgstr ""
 
 #: application/Controller/Admin.php:817
-msgid "Pricing"
-msgstr "Preise"
+msgid "Paywall"
+msgstr ""
 
 #: application/Controller/Admin.php:823 views/backend/advanced.php:257
 msgid "Appearance"
@@ -3721,6 +3721,9 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#~ msgid "Pricing"
+#~ msgstr "Preise"
 
 #~ msgid "%sAsk%s For Contributions"
 #~ msgstr "%sSPENDEN%s UND BEITRÄGE FÖRDERN"
