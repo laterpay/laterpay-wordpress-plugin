@@ -368,7 +368,7 @@ msgid "Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s"
 msgstr ""
 
 #: laterpay/application/Controller/Admin.php:817
-msgid "Pricing"
+msgid "Paywall"
 msgstr ""
 
 #: laterpay/application/Controller/Admin.php:823, laterpay/views/backend/advanced.php:257
@@ -396,7 +396,7 @@ msgid "%sREQUIRED%s Use this tab to configure your default prices. Prices can al
 msgstr ""
 
 #: laterpay/application/Controller/Admin.php:907
-msgid "%sOptional%s Here we highlight advanced features & settings like contributions, selling downloadable content, and promoting your subscriptions. Scroll through to learn more!"
+msgid "%sOptional%s Here we highlight advanced features & settings like selling downloadable content and promoting your subscriptions. Scroll through to learn more!"
 msgstr ""
 
 #: laterpay/application/Controller/Install.php:76
