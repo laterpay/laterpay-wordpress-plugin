@@ -671,8 +671,10 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
             // Add article to combined purchase options.
             if ( ! empty( $article_individual_price ) ) {
-                $article_individual_price['type'] = 'article';
-                $final_purchase_options[]         = $article_individual_price;
+                if ( floatval( 0.00 ) !== floatval( $article_individual_price['actual_price'] ) ) {
+                    $article_individual_price['type'] = 'article';
+                    $final_purchase_options[]         = $article_individual_price;
+                }
             }
 
             // Add time pass to combined purchase options.

@@ -79,7 +79,6 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
                 $global_default_price = get_option( 'laterpay_global_price' );
                 $is_global_zero       = ( floatval( 0.00 ) === (float) $global_default_price );
 
-                $is_price_zero                        = floatval( 0.00 ) === floatval( $price );
                 $post_price_type_one                  = ( 1 === $post_price_behaviour );
                 $is_time_pass_subscription_count_zero = ( ( 0 === count( $time_passes_list ) ) && ( 0 === count( $subscriptions_list ) ) );
                 $is_post_type_not_supported           = ( ! in_array( get_post_type( $post_id ), (array) get_option( 'laterpay_enabled_post_types' ), true ) );
@@ -89,9 +88,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 
                     $is_global_price_type = LaterPay_Helper_Pricing::is_price_type_global( $post_price_type );
 
-                    $is_price_zero_and_type_not_global = ( $is_price_zero && LaterPay_Helper_Pricing::is_price_type_not_global( $post_price_type ) );
-
-                    if ( ( empty( $post_price_type ) || $is_global_price_type ) || ( $is_price_zero_and_type_not_global ) || ( $is_individual_free ) ) {
+                    if ( ( empty( $post_price_type ) || $is_global_price_type ) || ( $is_individual_free ) ) {
                         esc_html_e( 'FREE', 'laterpay' );
                     } else {
                         /* translators: %1$s post price, %2$s currency code */
