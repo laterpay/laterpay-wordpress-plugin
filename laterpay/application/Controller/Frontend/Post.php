@@ -500,15 +500,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             }
         } elseif ( 0 === $post_price_behaviour ) {
 
-            $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-            $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
-            $is_price_zero   = floatval( 0.00 ) === floatval(  $post_price );
-
+            // If Global Default Price is FREE, then allow access.
+            $post_price_type      = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
             $is_global_price_type = LaterPay_Helper_Pricing::is_price_type_global( $post_price_type );
 
-            $is_price_zero_and_type_not_global = ( $is_price_zero && LaterPay_Helper_Pricing::is_price_type_not_global( $post_price_type ) );
-
-            if ( ( empty( $post_price_type ) || $is_global_price_type ) || $is_price_zero_and_type_not_global ) {
+            if ( empty( $post_price_type ) || $is_global_price_type ) {
                 $access = true;
             }
         }

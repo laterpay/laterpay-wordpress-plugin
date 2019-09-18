@@ -90,9 +90,7 @@ class LaterPay_Helper_Pricing
 
             $is_global_price_type = LaterPay_Helper_Pricing::is_price_type_global( $post_price_type );
 
-            $is_price_zero_and_type_not_global = ( $is_price_zero && LaterPay_Helper_Pricing::is_price_type_not_global( $post_price_type ) );
-
-            if ( ( empty( $post_price_type ) || $is_global_price_type ) || ( $is_price_zero_and_type_not_global ) ) {
+            if ( empty( $post_price_type ) || $is_global_price_type ) {
                 return null;
             }
         } elseif ( $post_price_type_one ) {
