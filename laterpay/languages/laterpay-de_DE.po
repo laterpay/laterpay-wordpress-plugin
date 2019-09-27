@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-09-27 20:11+0530\n"
-"PO-Revision-Date: 2019-09-27 20:11+0530\n"
+"POT-Creation-Date: 2019-09-27 20:32+0530\n"
+"PO-Revision-Date: 2019-09-27 20:32+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -902,11 +902,11 @@ msgstr "Highlights der Version %s:"
 
 #: application/Controller/Admin.php:894
 msgid ""
-"Have you seen our Contextual Help? Click the \"Help\" box in the upper right "
+"Have you seen our Contextual Help? Click the Help box in the upper right "
 "corner of any page to get relevant information."
 msgstr ""
 "Haben Sie unsere kontextuelle Hilfe schon kennengelernt? Klicken Sie auf das "
-"Feld “Hilfe” in der oberen rechten Ecke der jeweiligen Seite, um weitere "
+"Feld Hilfe in der oberen rechten Ecke der jeweiligen Seite, um weitere "
 "nützliche Informationen zu erhalten."
 
 #: application/Controller/Admin.php:900
@@ -1177,7 +1177,7 @@ msgstr "Sofort zahlen"
 #: application/Controller/Admin/Post/Column.php:126
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
-#: application/Helper/Pricing.php:953 application/Module/Purchase.php:651
+#: application/Helper/Pricing.php:953 application/Module/Purchase.php:653
 #: views/backend/partials/post-pricing-form.php:168
 #: views/backend/partials/post-pricing-form.php:191
 #: views/backend/partials/post-pricing-form.php:250
@@ -1952,21 +1952,21 @@ msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
 #: application/Controller/Frontend/Post.php:652
 #: application/Controller/Frontend/Shortcode.php:577
-#: application/Module/Purchase.php:596
+#: application/Module/Purchase.php:598
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
 #: application/Controller/Frontend/Post.php:653
 #: application/Controller/Frontend/Shortcode.php:579
-#: application/Module/Purchase.php:589 application/Module/Purchase.php:628
-#: application/Module/Purchase.php:641
+#: application/Module/Purchase.php:591 application/Module/Purchase.php:630
+#: application/Module/Purchase.php:643
 #: views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
 #: application/Controller/Frontend/Post.php:654
 #: application/Controller/Frontend/Shortcode.php:585
-#: application/Module/Purchase.php:592
+#: application/Module/Purchase.php:594
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
@@ -2226,36 +2226,36 @@ msgstr "Alle Inhalte in Kategorie"
 msgid "k"
 msgstr "t"
 
-#: application/Module/Purchase.php:111 application/Module/Purchase.php:748
+#: application/Module/Purchase.php:111 application/Module/Purchase.php:750
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:617 application/Module/TimePasses.php:472
+#: application/Module/Purchase.php:619 application/Module/TimePasses.php:472
 #: application/Module/TimePasses.php:495 application/Module/TimePasses.php:513
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
-#: application/Module/Purchase.php:619
+#: application/Module/Purchase.php:621
 msgid "Read Now, Pay Later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: application/Module/Purchase.php:629
+#: application/Module/Purchase.php:631
 msgid ""
 "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie diesen Beitrag jetzt mit LaterPay und <br>bezahlen Sie mit einer "
 "Zahlungsmethode Ihres Vertrauens."
 
-#: application/Module/Purchase.php:633 application/Module/Purchase.php:646
+#: application/Module/Purchase.php:635 application/Module/Purchase.php:648
 #: application/Module/TimePasses.php:480
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
-#: application/Module/Purchase.php:634
+#: application/Module/Purchase.php:636
 msgid ""
 "Immediately access your purchase. <br>You only buy this post. No "
 "subscription, no fees."
@@ -2263,13 +2263,13 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:642
+#: application/Module/Purchase.php:644
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 "Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. "
 "Keine Vorauszahlung."
 
-#: application/Module/Purchase.php:647
+#: application/Module/Purchase.php:649
 msgid ""
 "Access your purchase immediately.<br> You are only buying this article, not "
 "a subscription."
@@ -2277,7 +2277,7 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:652
+#: application/Module/Purchase.php:654
 #, php-format
 msgid ""
 "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you "
