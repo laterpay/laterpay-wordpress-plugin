@@ -398,6 +398,12 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 $redirect_url = add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( $params ), $redirect_url );
             }
 
+            /**
+             * Action to allow Plugin/Theme to hook into and perform custom operations before user
+             * is redirected to purchased post.
+             */
+            do_action( 'laterpay_purchase_completed' );
+
             nocache_headers();
 
             wp_safe_redirect( $redirect_url );
