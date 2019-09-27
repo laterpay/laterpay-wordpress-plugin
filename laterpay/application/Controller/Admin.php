@@ -814,7 +814,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
         $menu['pricing'] = array(
             'url'   => 'laterpay-pricing-tab',
-            'title' => __( 'Paywall', 'laterpay' ),
+            'title' => __( 'Pricing', 'laterpay' ),
             'cap'   => 'activate_plugins',
         );
 
