@@ -244,14 +244,6 @@
                     class: 'version_info'
                 });
 
-                // Notice Inner Link.
-                var versionDescritpionExtraLink = $('<a/>', {
-                    text: lpCommonVar.update_highlights.notice_link,
-                    href: 'https://www.laterpay.net/academy/wordpress-dynamic-access',
-                    class: 'notice_inner_link',
-                    target: '_blank',
-                });
-
                 // Learn More CTA.
                 var updateDetailsCallToAction = $('<a/>', {
                     class : 'lp_purchase-overlay__submit',
@@ -270,8 +262,6 @@
                 // phpcs:disable WordPressVIPMinimum.JS.HTMLExecutingFunctions.append
                 versionDescritpion.prepend(version);
                 updateWrapper.append(versionDescritpion);
-                versionDescritpionExtra.append(versionDescritpionExtraLink);
-                versionDescritpionExtra.append(lpCommonVar.update_highlights.notice_extra);
                 versionDescritpionExtra.append(updateDetailsCallToAction);
                 versionDescritpionExtra.append(updateDetailsDismiss);
                 updateWrapper.append(versionDescritpionExtra);
