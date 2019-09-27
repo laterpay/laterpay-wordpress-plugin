@@ -401,6 +401,8 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             /**
              * Action to allow Plugin/Theme to hook into and perform custom operations before user
              * is redirected to purchased post.
+             *
+             * @since 2.4.0
              */
             do_action( 'laterpay_purchase_completed' );
 
