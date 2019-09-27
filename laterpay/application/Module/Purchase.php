@@ -204,9 +204,10 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
         // Get the value of purchase type.
         $post_price_behaviour = LaterPay_Helper_Pricing::get_post_price_behaviour();
-        $post_price_type_one  = ( 1 === $post_price_behaviour );
+        $post_price_type_one  = 1 === $post_price_behaviour;
+        $post_price           = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
-        if ( $post_price_type_one || LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() ) {
+        if ( $post_price_type_one || ( LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() && floatval( 0.00 ) === $post_price ) ) {
             return;
         }
 
@@ -557,13 +558,14 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             $back_url      = get_permalink( $post->ID );
             $content_ids   = LaterPay_Helper_Post::get_content_ids( $post->ID );
             $revenue_model = LaterPay_Helper_Pricing::get_post_revenue_model( $post->ID );
+            $post_price    = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
             // Get the value of purchase type.
             $post_price_behaviour = LaterPay_Helper_Pricing::get_post_price_behaviour();
             $post_price_type_one  = 1 === $post_price_behaviour;
 
             // If Individual purchase is turned off then select revenue model of time pass or subscription.
-            if ( $post_price_type_one || LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() ) {
+            if ( $post_price_type_one || ( LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() && floatval( 0.00 ) !== $post_price ) ) {
                 $content_data = (array) $overlay_content_event->get_result();
                 // Check if time pass(es) exist.
                 if ( ! empty( $content_data['timepasses'] ) ) {
@@ -671,10 +673,8 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
             // Add article to combined purchase options.
             if ( ! empty( $article_individual_price ) ) {
-                if ( floatval( 0.00 ) !== floatval( $article_individual_price['actual_price'] ) ) {
-                    $article_individual_price['type'] = 'article';
-                    $final_purchase_options[]         = $article_individual_price;
-                }
+                $article_individual_price['type'] = 'article';
+                $final_purchase_options[]         = $article_individual_price;
             }
 
             // Add time pass to combined purchase options.

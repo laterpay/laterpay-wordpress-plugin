@@ -575,8 +575,19 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // Get the value of purchase type.
         $post_price_behaviour = LaterPay_Helper_Pricing::get_post_price_behaviour();
         $post_price_type_one  = ( 1 === $post_price_behaviour );
+        $post_price           = 0;
 
-        if ( $post_price_type_one || LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() ) {
+        // Check if a post is available and get it's price.
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+            if ( ! empty( $post ) ) {
+                $post_price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+            }
+        }
+
+        if ( $post_price_type_one || ( LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() && floatval( 0.00 ) === $post_price ) ) {
             $event->stop_propagation();
         }
     }
