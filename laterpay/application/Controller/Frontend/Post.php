@@ -475,6 +475,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         // check, if user has admin rights
         $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
         $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $post_price                = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
         if ($user_has_unlimited_access && ! $preview_post_as_visitor ) {
@@ -490,7 +491,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $subscriptions_list = LaterPay_Helper_Subscription::get_subscriptions_list_by_post_id( $post->ID, null, true );
 
         // Check if no individual post type is allowed.
-        if ( $post_price_type_one || LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() ) {
+        if ( $post_price_type_one || ( LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() && floatval( 0.00 ) === $post_price ) ) {
 
             // Check if no timepass/subscription exists.
             if ( ( 0 === count( $time_passes_list ) ) && ( 0 === count( $subscriptions_list ) ) ) {
