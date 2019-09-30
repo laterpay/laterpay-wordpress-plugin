@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-09-27 20:32+0530\n"
-"PO-Revision-Date: 2019-09-27 20:32+0530\n"
+"POT-Creation-Date: 2019-09-30 13:47+0530\n"
+"PO-Revision-Date: 2019-09-30 13:49+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -509,12 +509,12 @@ msgstr ""
 
 #: application/Controller/Admin.php:484 application/Controller/Admin.php:694
 msgid "Need additional help?"
-msgstr ""
+msgstr "Benötigen Sie zusätzliche Hilfe?"
 
 #: application/Controller/Admin.php:485
 #, php-format
 msgid "For more instruction on setting up Pricing, %sclick here%s."
-msgstr ""
+msgstr "Für mehr Infos zum Einrichten von Preisen: %sBitte hier klicken%s."
 
 #: application/Controller/Admin.php:500
 msgid "Configure Appearance"
@@ -877,7 +877,7 @@ msgstr ""
 #: application/Controller/Admin.php:695
 #, php-format
 msgid "Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s"
-msgstr ""
+msgstr "%sHier geht es zur LaterPay WordPress Plugin Knowledge Base.%s"
 
 #: application/Controller/Admin.php:817
 msgid "Pricing"
