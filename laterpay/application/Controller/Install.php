@@ -535,7 +535,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             }
 
             delete_option( 'laterpay_only_time_pass_purchases_allowed' );
-        } else if ( false === get_option( 'laterpay_post_price_behaviour' ) && version_compare( $current_version, '2.6.3', '>' ) ) {
+        } elseif ( false === get_option( 'laterpay_post_price_behaviour' ) && version_compare( $current_version, '2.6.3', '>' ) ) {
             update_option( 'laterpay_post_price_behaviour', 0 );
         }
     }
