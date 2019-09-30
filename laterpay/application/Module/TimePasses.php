@@ -124,15 +124,10 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // If 'Make article free unless price is set on post page' is selected only show time pass or subscription
         // if the individual post price greater than 0.
         if ( 0 === $post_price_behaviour ) {
-            $post_price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-            $post_price_type = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
-            $is_price_zero   = floatval( 0.00 ) === floatval(  $post_price );
-
+            $post_price_type      = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
             $is_global_price_type = LaterPay_Helper_Pricing::is_price_type_global( $post_price_type );
 
-            $is_price_zero_and_type_not_global = ( $is_price_zero && LaterPay_Helper_Pricing::is_price_type_not_global( $post_price_type ) );
-
-            if ( ( empty( $post_price_type ) || $is_global_price_type ) || ( $is_price_zero_and_type_not_global ) ) {
+            if ( empty( $post_price_type ) || $is_global_price_type ) {
                 return;
             }
         }
@@ -580,8 +575,19 @@ class LaterPay_Module_TimePasses extends LaterPay_Core_View implements LaterPay_
         // Get the value of purchase type.
         $post_price_behaviour = LaterPay_Helper_Pricing::get_post_price_behaviour();
         $post_price_type_one  = ( 1 === $post_price_behaviour );
+        $post_price           = 0;
 
-        if ( $post_price_type_one || LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() ) {
+        // Check if a post is available and get it's price.
+        if ( $event->has_argument( 'post' ) ) {
+            $post = $event->get_argument( 'post' );
+        } else {
+            $post = get_post();
+            if ( ! empty( $post ) ) {
+                $post_price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+            }
+        }
+
+        if ( $post_price_type_one || ( LaterPay_Helper_Pricing::is_post_price_type_two_price_zero() && floatval( 0.00 ) === $post_price ) ) {
             $event->stop_propagation();
         }
     }

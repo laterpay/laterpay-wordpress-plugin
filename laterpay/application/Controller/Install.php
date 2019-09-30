@@ -522,7 +522,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             return;
         }
 
-        if ( false === get_option( 'laterpay_post_price_behaviour' ) ) {
+        if ( false === get_option( 'laterpay_post_price_behaviour' ) && version_compare( $current_version, '2.6.3', '<=' ) ) {
             $only_timepass        = (bool) get_option( 'laterpay_only_time_pass_purchases_allowed' );
             $current_global_price = ( float) get_option( 'laterpay_global_price' );
 
@@ -535,6 +535,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             }
 
             delete_option( 'laterpay_only_time_pass_purchases_allowed' );
+        } else {
+            update_option( 'laterpay_post_price_behaviour', 0 );
         }
     }
 
@@ -683,7 +685,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         if ( ! empty( $current_version ) ) {
 
-            $update_highlights = [];
+            $update_highlights = [
+                'version' => '2.6.4',
+            ];
 
             update_option( 'lp_update_highlights', $update_highlights );
             return;

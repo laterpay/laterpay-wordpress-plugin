@@ -7,7 +7,6 @@
                 // API credentials
             apiKeyInput                     : $('.lp_js_validateApiKey'),
             merchantIdInput                 : $('.lp_js_validateMerchantId'),
-            apiCredentialsInputs            : $('.lp_js_validateApiKey, .lp_js_validateMerchantId'),
             testMerchantId                  : $('#lp_js_sandboxMerchantId'),
             testApiKey                      : $('#lp_js_sandboxApiKey'),
             liveMerchantId                  : $('#lp_js_liveMerchantId'),
@@ -95,18 +94,6 @@
                         'json'
                     );
                 } );
-            },
-
-            autofocusEmptyInput = function() {
-                var i = 0,
-                    l = $o.apiCredentialsInputs.length;
-
-                for (; i < l; i++) {
-                    if ($o.apiCredentialsInputs.eq(i).val() === '') {
-                        $o.apiCredentialsInputs.eq(i).focus();
-                        return;
-                    }
-                }
             },
 
             toggleVisibilityInTestMode = function() {
@@ -344,7 +331,6 @@
 
             initializePage = function() {
                 bindEvents();
-                autofocusEmptyInput();
             };
 
         initializePage();

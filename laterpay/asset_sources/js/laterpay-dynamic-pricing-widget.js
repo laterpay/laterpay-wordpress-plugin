@@ -519,7 +519,7 @@ DynamicPricingWidget.prototype._setDragBehavior = function () {
                     cappedTargetDate = +d.x + dragDelta;
                     cappedTargetDate = Math.max(cappedTargetDate, this.data[i].x + 0.51);
                     cappedTargetDate = Math.max(cappedTargetDate, 29.51); // minimum: 30 days
-                    cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum: 60 days
+                    cappedTargetDate = Math.min(cappedTargetDate, 366.49); // maximum: 366 days
 
                     // update the scale.x value, as it could have changed
                     d.x = cappedTargetDate;
@@ -538,7 +538,7 @@ DynamicPricingWidget.prototype._setDragBehavior = function () {
         } else if (isDragHandler) {
             cappedTargetDate = targetDate;
             cappedTargetDate = Math.max(cappedTargetDate, this.data[i].x + 0.51);
-            cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum: 60 days
+            cappedTargetDate = Math.min(cappedTargetDate, 366.49); // maximum: 366 days
 
             if (cappedTargetDate >= 25) {
                 this.data[i + 2].x = cappedTargetDate + 5;
