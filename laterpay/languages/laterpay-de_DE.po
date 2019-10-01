@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-08-27 14:41+0530\n"
-"PO-Revision-Date: 2019-08-27 14:41+0530\n"
+"POT-Creation-Date: 2019-09-30 13:47+0530\n"
+"PO-Revision-Date: 2019-09-30 13:49+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -233,6 +233,16 @@ msgid ""
 "etc) remain free while you can monetize the majority of your other content "
 "(typically Posts).%2$s"
 msgstr ""
+"%1$sVerwenden Sie den Bereich LaterPay Inhalt, um auszuwählen, welche "
+"Kategorien von WordPress-Inhalten Sie mit LaterPay verkaufen möchten. %3$s\n"
+"Die gängigsten Kategorien sind Seiten, Beiträge und Medien,aber zusätzliche "
+"Optionen können gegebenenfalls verfügbar sein wenn Sie noch andere Plugins "
+"installiert haben.%2$s\n"
+" %1$s%4$sTIPP:%5$s Wenn Sie sich nicht sicher sind, welche Art von Inhalten "
+"Sie verkaufen möchten, empfehlen wir Ihnen, mit Beiträgen und Medien zu "
+"beginnen. Dies sollte sicherstellen, dass Ihre Seiten (etwa Ihre Homepage, "
+"Über uns Seite, etc.) frei verfügbar bleiben, während Sie den Großteil Ihrer "
+"anderen Inhalte (Beiträge usw.) monetarisieren können.%2$s"
 
 #: application/Controller/Admin.php:338 views/backend/pricing.php:208
 msgid "Global Default Price"
@@ -260,32 +270,34 @@ msgid ""
 "will be for sale at this price unless overridden.%3$s%3$s\n"
 "                    %7$s"
 msgstr ""
+"%1$sDie Festlegung des globalen Standardpreises bestimmt wie der "
+"Bezahldialog Ihrer monetarisierten Inhalte dargestellt wird. Es gibt drei "
+"Optionen zur Auswahl, und wir werden jede einzelne im Detail durchgehen und "
+"einige Beispiele geben, um festzustellen, welche die beste Option auf der "
+"Grundlage Ihrer Strategie ist:%2$s\n"
+" %6$s \n"
+"                    %8$s%4$sKOSTENLOS, es sei denn, der Preis ist auf der "
+"Beitragsseite oder nach Kategorie festgelegt%5$s%9$s\n"
+" %4$sBeschreibung:%5$s Alle Artikel sind standardmäßig kostenlos. Zeitpässe "
+"und Abonnements werden nur angezeigt, wenn der Artikel mit einem Kategorie-"
+"Standardpreis übereinstimmt oder ein individueller Artikelpreis auf der "
+"Beitragsseite festgelegt ist.%3$s%3$s\n"
+"%8$s%4$sPosts können nicht einzeln gekauft werden%5$s%9$s\n"
+"%4$sBeschreibung:%5$s Nur Zeitpässe und Abonnements werden im Kaufdialog "
+"angezeigt.%3$s%3$s\n"
+"%8$s%4$sIndividuellen Artikel-Standardpreis festlegen%5$s%9$s\n"
+"%4$sBeschreibung:%5$s Alle individuellen Inhalte werden zu diesem Preis "
+"verkauft, es sei denn, sie werden durch einen Kategorie-Standardpreis oder "
+"durch einen\n"
+"individuellen Artikelpreis auf der Beitragsseite überschrieben.%3$s%3$s\n"
+"%7$s"
 
 #: application/Controller/Admin.php:367 views/backend/pricing.php:366
 msgid "Category Default Prices"
 msgstr "Kategoriespezifische Standardpreise"
 
 #: application/Controller/Admin.php:369
-#, fuzzy, php-format
-#| msgid ""
-#| "\n"
-#| "            <p>\n"
-#| "                A category default price is applied to all posts in a "
-#| "given\n"
-#| "                category that don't have an individual price.<br>\n"
-#| "                A category default price overwrites the global default "
-#| "price.<br>\n"
-#| "                If a post belongs to multiple categories, you can choose "
-#| "on\n"
-#| "                the add / edit post page, which category default price "
-#| "should\n"
-#| "                be effective.<br>\n"
-#| "                For example, if you have set a global default price of "
-#| "0.15,\n"
-#| "                but a post belongs to a category with a category default "
-#| "price\n"
-#| "                of 0.30, that post will sell for 0.30.\n"
-#| "            </p>"
+#, php-format
 msgid ""
 "%1$sA category default price is applied to all posts in a given category "
 "that don't have an individual price assigned to them on the edit post page."
@@ -298,19 +310,17 @@ msgid ""
 "of 0.15, but a post belongs to a category with a category default price of "
 "0.30, that post will sell for 0.30.%2$s"
 msgstr ""
-"<p>\n"
-"                Ein Kategoriespezifischer-Standardpreis wird auf alle "
-"Beiträge in einer bestimmten Kategorie angewendet, die keinen individuellen "
-"Preis haben.<br>\n"
-"                Ein Kategoriespezifischer-Standardpreis überschreibt den "
-"Globalen Standardpreis.\n"
-"                Wenn ein Beitrag zu mehreren Kategorien gehört, können Sie "
-"auf der Beitragsseite hinzufügen / bearbeiten wählen, welcher Kategorie "
-"Standardpreis gültig sein soll.\n"
-"                Wenn Sie beispielsweise einen globalen Standardpreis von "
-"0,15 festgelegt haben, ein Beitrag aber zu einer Kategorie mit einem "
-"Standardpreis von 0,30 gehört, wird dieser Beitrag für 0,30 verkauft.\n"
-"            </p>"
+"%1$sEin Kategorie-Standardpreis wird auf alle Beiträge in einer bestimmten "
+"Kategorie angewendet, denen auf der Beitrag-Bearbeiten-Seite kein "
+"individueller Preis zugeordnet ist.%2$s\n"
+"%1$sEin Kategorie-Standardpreis überschreibt den globalen Standardpreis. "
+"Wenn ein Beitrag zu mehreren Kategorien gehört, können Sie auf der Seite "
+"Beitrag erstellen / bearbeiten auswählen, welcher Kategorie-Standardpreis "
+"gültig sein soll.%2$s\n"
+"%1$sEWenn Sie beispielsweise einen globalen Standardpreis von 0,15 Euro "
+"festgelegt haben, ein Beitrag aber zu einer Kategorie mit einem "
+"Standardpreis von 0,30 Euro gehört, dann wird dieser Beitrag für 0,30 Euro "
+"verkauft.%2$s"
 
 #: application/Controller/Admin.php:382 views/backend/pricing.php:609
 msgid "Time Passes"
@@ -339,6 +349,26 @@ msgid ""
 "this time pass will still have access to the covered content. Deleted time "
 "passes can't be restored.%2$s"
 msgstr ""
+"%1$sMit Zeitpässen können Sie Ihren Nutzern einen zeitlich begrenzten "
+"Zugriff auf Inhalte anbieten. Sie können festlegen, welche Inhalte ein "
+"Zeitpass umfassen soll und für welchen Zeitraum er gültig sein soll. Ein "
+"Zeitpass kann generell für alle LaterPay-Inhalte gültig sein:%2$s\n"
+"                     %6$s\n"
+"                        %8$sauf Ihrer gesamten Internetseite,%9$s\n"
+"                        %8$sin bestimmten Kategorien, oder%9$s\n"
+"                        %8$sauf Ihrer gesamten Internetseite mit Ausnahme "
+"bestimmter Kategorien.%9$s\n"
+"                    %7$s\n"
+"                    %1$sDer Gültigkeitszeitraum eines Zeitpasses beginnt mit "
+"dem Kauf und ist für eine fortlaufende Nutzung definiert - d.h. es spielt "
+"keine Rolle, ob ein Nutzer während der gesamten Gültigkeitsdauer auf Ihrer "
+"Internetseite ist. Nach Ablauf eines Zeitpasses wird der Zugriff auf den "
+"betroffenen Inhalt automatisch blockiert.%2$s\n"
+"                    %4$sLöschen von Zeitpässen%5$s\n"
+"                    %1$sWenn Sie einen Zeitpass löschen, haben Nutzer, die "
+"diesen Zeitpass gekauft haben, weiterhin Zugriff auf den betroffenen Inhalt. "
+"Bitte beachten Sie, gelöschte Zeitpässe können nicht wiederhergestellt "
+"werden.%2$s"
 
 #: application/Controller/Admin.php:410
 #: application/Controller/Admin/Pricing.php:51 views/backend/pricing.php:812
@@ -359,12 +389,22 @@ msgid ""
 "Existing subscribers will still have access to the content in their "
 "subscription. New users won't be able to buy the subscription anymore.%2$s"
 msgstr ""
+"%1$sAbonnements funktionieren genauso wie Zeitpässe, mit einem Unterschied: "
+"Sie verlängern sich automatisch.%2$s\n"
+"                    %1$sWenn ein Benutzer ein Abonnement kauft, hat er "
+"während der Gültigkeitsdauer Zugriff auf alle Inhalte, die von diesem "
+"Abonnement abgedeckt werden. Selbstverständlich können Sie Ihre Inhalte auch "
+"weiterhin einzeln verkaufen.%2$s\n"
+"                    %4$sAbonnement löschen%5$s\n"
+"                    %1$sWenn Sie ein Abonnement löschen, wird es für Nutzer, "
+"die ein aktives Abonnement haben, weiterhin so lange automatisch verlängert, "
+"bis der Nutzer es kündigt. Bestandsabonnenten haben folglich auch weiterhin "
+"Zugriff auf die Inhalte innerhalb des Abonnements. Neu hinzugekommene Nutzer "
+"können das Abonnement jedoch nicht mehr kaufen.%2$s"
 
 #: application/Controller/Admin.php:429
-#, fuzzy
-#| msgid "Time Pass Vouchers"
 msgid "Vouchers"
-msgstr "Zeitpass Gutscheine"
+msgstr "Gutscheine"
 
 #: application/Controller/Admin.php:431
 #, php-format
@@ -393,12 +433,39 @@ msgid ""
 "that subscription available for 5 per month, anyone who signs up for that "
 "subscription using the voucher code will pay 5 every month.%2$s"
 msgstr ""
+"%1$sFür Zeitpässe und Abonnements können Gutscheincodes generiert werden. Es "
+"gibt keine Begrenzung, Sie können somit eine beliebige Anzahl Gutscheincodes "
+"erstellen.\n"
+" Um einen Gutscheincode zu erstellen, klicken Sie einfach auf “+ "
+"Gutscheincode erstelleb” am unteren Rand des Zeitpasses oder des "
+"Abonnementfeldes. Es wird automatisch ein 6-stelliger Code generiert, der "
+"jedoch mit benutzerdefinierten 6 Zeichen überschrieben werden kann, wenn Sie "
+"dies vorziehen.%2$s\n"
+"                    %1$sEin Gutscheincode ermöglicht es einem (oder "
+"mehreren) Benutzer(n), einen Zeitpass oder ein Abonnement zu einem "
+"reduzierten Preis zu erwerben. Benutzer können den Gutscheincode direkt "
+"unterhalb der Zeitpässe eingeben, indem sie auf “Gutschein einlösen” "
+"klicken. Das System prüft automatisch ob es sich bei dem eingegebenen Code "
+"um einen gültigen Gutscheincode handelt, entsprechend wird der Preis des "
+"jeweiligen Angebots reduziert.%2$s\n"
+"                    %6$s\n"
+"                        Was Sie bei der Verwendung von Gutscheincodes "
+"beachten sollten:\n"
+"                        %8$sJeder aktive Gutschein kann beliebig oft "
+"eingelöst werden.%9$s\n"
+"                        %8$sWenn ein neuer Benutzer ein Abonnement mit einem "
+"Gutscheincode abschließt, reduziert der Gutscheincode den Preis für die "
+"gesamte Laufzeit des Abonnements.%9$s\n"
+"                    %7$s\n"
+"                    %1$sWenn Sie beispielsweise ein Abonnement für 10 Euro "
+"monatlich anbieten und einen Gutscheincode generieren, der dieses Abonnement "
+"für 5 Euro pro Monat verfügbar macht, wird jeder, der sich mit dem "
+"Gutscheincode für dieses Abonnement anmeldet, kontinuierlich 5 Euro "
+"monatlich bezahlen.%2$s"
 
 #: application/Controller/Admin.php:456
-#, fuzzy
-#| msgid "Additional Premium Content"
 msgid "Additional Ways to Monetize Content"
-msgstr "Zusätzlicher Premium-Inhalt"
+msgstr "Weitere Möglichkeiten zur Monetarisierung von Inhalten"
 
 #: application/Controller/Admin.php:458
 #, php-format
@@ -421,20 +488,37 @@ msgid ""
 "                    Check out other advanced pricing options on the "
 "%10$sAdvanced Tab%11$s"
 msgstr ""
+"%4$sIndividueller Artikelpreis%5$s\n"
+"                    %1$sWenn Sie einen Preis für einen bestimmten Artikel "
+"überschreiben möchten, können Sie dies auf der Seite WordPress Beitrag "
+"bearbeiten tun. Dazu gehen Sie bitte wie folgt vor:%2$s\n"
+"                    %6$s\n"
+"                        %8$sNavigieren Sie zum dem Artikel den Sie "
+"bearbeiten möchten%9$s\n"
+"                        %8$sBearbeiten Sie diesen Artikel als WordPress "
+"Administrator%9$s\n"
+"                        %8$sIm Beitrags-Bearbeitungsmodus sehen Sie auf der "
+"rechten Seitenleiste einen LaterPay-Abschnitt.  Dort können Sie wählen, ob "
+"Sie den Globalen Standardpreis, einen Kategorie Standardpreis (falls "
+"zutreffend) oder einen Individualpreis verwenden möchten.\n"
+"Wenn Sie den individuellen Preis auswählen, können Sie alle anderen "
+"Standardeinstellungen für diesen speziellen Beitrag überschreiben.%9$s\n"
+"                    %7$s\n"
+"                    Weitere Preisoptionen finden Sie auf der "
+"%10$sRegisterkarte Erweitert.%11$s"
 
 #: application/Controller/Admin.php:484 application/Controller/Admin.php:694
 msgid "Need additional help?"
-msgstr ""
+msgstr "Benötigen Sie zusätzliche Hilfe?"
 
 #: application/Controller/Admin.php:485
 #, php-format
 msgid "For more instruction on setting up Pricing, %sclick here%s."
-msgstr ""
+msgstr "Für mehr Infos zum Einrichten von Preisen: %sBitte hier klicken%s."
 
 #: application/Controller/Admin.php:500
-#, fuzzy
 msgid "Configure Appearance"
-msgstr "%s Darstellung %s"
+msgstr "Darstellung konfigurieren"
 
 #: application/Controller/Admin.php:502
 #, php-format
@@ -502,12 +586,73 @@ msgid ""
 "                     %5$s\n"
 "                    "
 msgstr ""
+"%1$sIm oberen Bereich dieser Seite können Sie die Darstellung Ihrer "
+"Preisoptionen anpassen. Wenn Sie die entsprechenden Kontrollkästchen "
+"aktivieren und deaktivieren, können Sie im Vorschaubereich auf der rechten "
+"Seite sehen, wie Ihr Kauf-Overlay (Bezahldialog) angezeigt wird.%2$s\n"
+" %1$sSobald Sie Ihre Anzeigeoptionen konfiguriert haben, klicken Sie unten "
+"im Abschnitt %6$sDarstellung konfigurieren%7$s auf Speichern, um diese "
+"Änderungen auf Ihre Website anzuwenden.%2$s\n"
+" Nachfolgend finden Sie die verschiedenen verfügbaren Optionen.\n"
+"%4$s\n"
+"                        %8$s\n"
+"                        %6$sKauf-Button über dem Artikel anzeigen%7$s - Wenn "
+"Sie diese Option aktivieren, wird oben rechts im Beitrag eine Schaltfläche "
+"mit dem Artikelkaufpreis angezeigt.\n"
+"                        %4$s\n"
+"                            %8$s\n"
+"                            %6$sPosition des Kauf-Buttons bearbeiten%7$s - "
+"Verwenden Sie den mitgelieferten WordPress-Code, um die Position des oben "
+"beschriebenen Knopfes anzupassen.\n"
+"                            %9$s\n"
+"                        %5$s\n"
+"                        %9$s\n"
+"%8$s\n"
+"                        %6$sKauf-Overlay anzeigen%7$s - Zeigen Sie ein "
+"Overlay mit den verfügbaren Kaufoptionen über Ihren kostenpflichtigen Inhalt "
+"an.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sÜberschrift%7$s - Bearbeiten Sie die "
+"Überschrift, die oben im Einkaufs-Overlay angezeigt wird.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sLaterPay-Einführung anzeigen%7$s - Zeigen Sie im "
+"Kauf-Overlay eine Beschreibung der LaterPay Bezahloptionen an.\n"
+"                        %9$s\n"
+"%8$s\n"
+"                        %6$sZeitpässe & Abonnements als Tickets anzeigen%7$s "
+"- Zeigen Sie die Optionen für Zeitpässe und/oder Abonnements als Tickets "
+"unten in Ihrem Inhalt an.\n"
+"                        %4$s\n"
+"                            %8$s\n"
+"                            %6$sPosition von Zeitpässen und Abonnements "
+"bearbeiten%7$s - Verwenden Sie den mitgelieferten WordPress-Code, um die "
+"Position von Zeitpässen und Abonnements anzupassen.\n"
+"                            %9$s\n"
+"                        %5$s\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sHinzufügen eines benutzerdefinierten HTML-"
+"Abschnitts unter dem Zahlungsbutton%7$s - In diesem Abschnitt können Sie "
+"wählen, ob Sie einen benutzerdefinierten HTML- oder Textinhalt am unteren "
+"Rand des Kauf-Overlays hinzufügen möchten.\n"
+"\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sGültige Zahlungsoptionen anzeigen%7$s - Zeigen "
+"Sie einen Fußzeilenbereich am unteren Rand des Kauf-Overlays mit Logos der "
+"verfügbaren Zahlungsoptionen an.\n"
+"                        %9$s\n"
+"                     %5$s "
 
 #: application/Controller/Admin.php:561
-#, fuzzy
-#| msgid "%sCustomize%s Colors"
 msgid "Customize Colors"
-msgstr "%sFARBEN%s ANPASSEN"
+msgstr "Farben anpassen"
 
 #: application/Controller/Admin.php:563
 #, php-format
@@ -579,10 +724,79 @@ msgid ""
 "                     %5$s\n"
 "                    "
 msgstr ""
+"%1$sIm unteren Abschnitt dieser Seite können Sie die Farben der angezeigten "
+"LaterPay-Elemente individuell anpassen. %3$s So können Sie sicherstellen "
+"dass das Farbschema mit Ihrem Firmen Styleguide oder Corporate Design "
+"übereinstimmt.Folgende Anpassungsoptionen sind verfügbar:%2$s\n"
+"                     %4$s\n"
+"                        %8$s\n"
+"                        %6$sHintergrundfarbe Kopfzeile%7$s - Wählen Sie die "
+"gewünschte Hintergrundfarbe für die Kopfzeile des Einkaufs-Overlays.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sHintergrundfarbe der Kaufoptionen%7$s - Hier "
+"können Sie die Hintergrundfarbe des Kauf-Overlays definieren.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sHaupttextfarbe%7$s - Die Haupttextfarbe "
+"definiert die Textfarbe für die Überschriften der Kaufoptionen innerhalb des "
+"Einkaufs-Overlays.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sBeschreibungstextfarbe%7$s - Diese Option legt "
+"die Textfarbe für alle Standard-Beschreibungstexte im Einkaufs-Overlay fest. "
+"Die Überschriften sind hiervon ausgeschlossen und können unter der Option "
+"Haupttextfarbe eingestellt werden.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sHintergrundfarbe der Kaufen-Schaltfläche%7$s - "
+"Hie stellen Sie eine benutzerdefinierte Hintergrundfarbe für den Kaufen-"
+"Schaltfläche ein.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sHover-Farbe der Kaufen-Schaltfläche%7$s - Dies "
+"ist die Farbe, die angezeigt wird, wenn ein Benutzer mit der Maus über die "
+"Kaufen-Schaltfläche fährt.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sTextfarbe der Kaufen-Schaltfläche%7$s - Hier "
+"können Sie die Farbe des Textes definieren, der in der Kaufen-Schaltfläche "
+"angezeigt wird.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sTextfarbe Links%7$s - Hie definieren Sie die "
+"Textfarbe für alle Links, die durch das LaterPay-Plugin hinzugefügt werden.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sLink-Hover Farbe%7$s - Dies ist die Farbe, die "
+"angezeigt wird, wenn ein Benutzer mit der Maus über die Links fährt.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sHintergrundfarbe der Fußzeile%7$s - Hier können "
+"Sie die Hintergrundfarbe der Fußzeile definieren. Der Abschnitt wo auch die "
+"Logos der verfügbaren Bezahlmethoden angezeigt werden.\n"
+"                        %9$s\n"
+"\n"
+"                        %8$s\n"
+"                        %6$sStandardwerte wiederherstellen%7$s - Durch "
+"Klicken auf “Standardwerte wiederherstellen” werden alle Farben auf die "
+"ursprünglichen LaterPay-Standardwerte zurückgesetzt.\n"
+"                        %9$s\n"
+"                     %5$s\n"
+"                    "
 
 #: application/Controller/Admin.php:636
 msgid "API Credentials"
-msgstr "API Zugangsdaten"
+msgstr "API-Anmeldeinformationen"
 
 #: application/Controller/Admin.php:638
 #, php-format
@@ -598,13 +812,23 @@ msgid ""
 "                    %4$sVisit our website to read more about how to become a "
 "content provider or to sign up with LaterPay.%5$s"
 msgstr ""
+"%1$sUm Zahlungen zu erhalten, benötigen Sie zunächst ein LaterPay-Konto."
+"%3$sSobald dies eingerichtet ist, verknüpfen Sie bitte Ihr WordPress-Plugin "
+"mit Ihrem LaterPay-Konto. %2$s\n"
+"%10$s\n"
+"Hierzu benötigen Sie Ihre \n"
+"%8$s %6$sMerchant-ID%7$s (eine 22-stellige Zeichenkette) und%9$s\n"
+"%8$s %6$sAPI-Schlüssel%7$s  (eine 32-stellige Zeichenkette).%9$s\n"
+"%11$s\n"
+"%4$sBesuchen Sie unsere Website, um mehr darüber zu erfahren, wie Sie "
+"Anbieter von Inhalten werden oder sich bei LaterPay anmelden können.%5$s"
 
 #: application/Controller/Admin.php:663
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
 #: application/Controller/Admin.php:665
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "%1$sYou can run the LaterPay plugin in two modes:%2$s\n"
 "                    %4$s\n"
@@ -628,44 +852,32 @@ msgid ""
 "and testing the LaterPay plugin on a test system before activating it on "
 "your production system.%2$s"
 msgstr ""
-"<p>Sie können das LaterPay-Plugin in drei Modi ausführen:</p>\n"
-"            <ul>\n"
-"                <li>\n"
-"                    <strong>Unsichtbarer Testmodus</strong> &ndash; Mit "
-"diesem Testmodus können Sie Ihre Plugin-Konfiguration testen.\n"
-"                    Während die volle Plugin-Funktionalität zur Verfügung "
-"steht, werden Zahlungen nur simuliert und nicht tatsächlich verarbeitet.\n"
-"                    Das Plugin wird <em>nur</em> für Admin-Benutzer sichtbar "
-"sein, nicht für Seitenbesucher.\n"
-"                    Dies ist die <strong>Standardeinstellung</strong> nach "
-"der ersten Aktivierung des Plugins.\n"
-"                </li>\n"
-"                <li>\n"
-"                    <strong>Sichtbarer Testmodus</strong> &ndash; Das Plugin "
-"wird <strong>sichtbar</strong> für regelmäßige Seitenbesucher und Nutzer "
-"sein,<br>\n"
-"                    aber Zahlungen werden trotzdem nur simuliert und nicht "
-"tatsächlich verarbeitet.\n"
-"                </li>\n"
-"                <li>\n"
-"                    <strong>Live-Modus</strong> &ndash; Im Live-Modus ist "
-"das Plugin öffentlich sichtbar und verwaltet den Zugriff auf "
-"kostenpflichtige Inhalte.\n"
-"                    Alle Zahlungen werden tatsächlich bearbeitet.\n"
-"                </li>\n"
-"            </ul>\n"
-"            <p>\n"
-"                Die Verwendung des LaterPay-Plugins erfordert in der Regel "
-"einige Anpassungen von Ihrem Webseiten Theme. <br>>\n"
-"                Daher empfehlen wir Ihnen, die Installation, Konfiguration "
-"und Tests vom LaterPay-Plugin auf einem Testsystem durchzuführen, bevor es "
-"auf Ihrem Produktionssystem aktiviert wird.\n"
-"            </p>"
+"%1$sSie können das LaterPay-Plugin in zwei Betriebsmodi ausführen:%2$s\n"
+"%4$s\n"
+"%8$s\n"
+"%6$sTestmodus%7$s - Dies ermöglicht es Ihnen, Ihre Plugin-Konfiguration zu "
+"testen.%3$s\n"
+"Während die volle Plugin-Funktionalität zur Verfügung steht, werden "
+"Zahlungen nur simuliert aber nicht tatsächlich abgewickelt. %3$s\n"
+"Das Plugin ist nur für Administratoren sichtbar, nicht für Website-Besucher."
+"%3$s\n"
+"Dies ist die Voreinstellung nach der ersten Aktivierung des Plugins.\n"
+"%9$s\n"
+"%8$s\n"
+"%6$sLive-Modus%7$s - Im Live-Modus ist das Plugin öffentlich sichtbar und "
+"verwaltet den Zugriff auf kostenpflichtige Inhalte.%3$s\n"
+"Alle Zahlungen werden tatsächlich abgewickelt.%3$s\n"
+"%9$s\n"
+"%5$s\n"
+" %1$s Die Verwendung des LaterPay-Plugins kann einige Anpassungen Ihres "
+"Designs erforderlich machen. Wir empfehlen daher, das LaterPay-Plugin erst "
+"auf einem Testsystem zu installieren, zu konfigurieren und ausgiebig zu "
+"testen, bevor Sie es auf Ihrem Live-System aktivieren.%2$s"
 
 #: application/Controller/Admin.php:695
 #, php-format
 msgid "Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s"
-msgstr ""
+msgstr "%sHier geht es zur LaterPay WordPress Plugin Knowledge Base.%s"
 
 #: application/Controller/Admin.php:817
 msgid "Pricing"
@@ -680,15 +892,28 @@ msgid "Account"
 msgstr "Konto"
 
 #: application/Controller/Admin.php:840
-#, fuzzy
 msgid "Advanced"
-msgstr "Erweitertes Beispiel"
+msgstr "Erweitert"
 
-#: application/Controller/Admin.php:902
+#: application/Controller/Admin.php:893
+#, php-format
+msgid "Version %s Highlights:"
+msgstr "Highlights der Version %s:"
+
+#: application/Controller/Admin.php:894
+msgid ""
+"Have you seen our Contextual Help? Click the Help box in the upper right "
+"corner of any page to get relevant information."
+msgstr ""
+"Haben Sie unsere kontextuelle Hilfe schon kennengelernt? Klicken Sie auf das "
+"Feld Hilfe in der oberen rechten Ecke der jeweiligen Seite, um weitere "
+"nützliche Informationen zu erhalten."
+
+#: application/Controller/Admin.php:900
 msgid "Learn More"
 msgstr "Erfahren Sie mehr"
 
-#: application/Controller/Admin.php:905
+#: application/Controller/Admin.php:903
 #, php-format
 msgid ""
 "%sOptional%s Use the appearance tab to configure your payment button colors "
@@ -697,7 +922,7 @@ msgstr ""
 "%sOptional%s Verwenden Sie die Registerkarte Aussehen, um die Farben Ihrer "
 "Zahlungstasten zu konfigurieren und wie Ihre Preisoptionen angezeigt werden."
 
-#: application/Controller/Admin.php:906
+#: application/Controller/Admin.php:904
 #, php-format
 msgid ""
 "%sREQUIRED%s Use this tab to configure your default prices. Prices can also "
@@ -707,16 +932,16 @@ msgstr ""
 "konfigurieren. Die Preise können auch für einen einzelnen Beitrag auf der "
 "Seite Beitrag bearbeiten festgelegt werden."
 
-#: application/Controller/Admin.php:907
+#: application/Controller/Admin.php:905
 #, php-format
 msgid ""
-"%sOptional%s Here we highlight advanced features & settings like "
-"contributions, selling downloadable content, and promoting your "
-"subscriptions. Scroll through to learn more!"
+"%sOptional%s Here we highlight advanced features & settings like selling "
+"downloadable content and promoting your subscriptions. Scroll through to "
+"learn more!"
 msgstr ""
-"%sOptional%s Hier heben wir erweiterte Funktionen und Einstellungen wie "
-"Beiträge, den Verkauf von herunterladbaren Inhalten und die Werbung für Ihre "
-"Abonnements hervor!"
+"%sOptional%s Hier heben wir erweiterte Funktionen und Einstellungen wie den "
+"Verkauf von herunterladbaren Inhalten und die Werbung für Ihre Abonnements "
+"hervor!"
 
 #: application/Controller/Admin/Account.php:67
 msgid "The API key you entered is not a valid LaterPay API key!"
@@ -930,17 +1155,17 @@ msgstr "Preis"
 msgid "Price Type"
 msgstr "Preistyp"
 
-#: application/Controller/Admin/Post/Column.php:95
-#: application/Controller/Admin/Post/Column.php:102
-#: application/Controller/Admin/Post/Column.php:108
+#: application/Controller/Admin/Post/Column.php:92
+#: application/Controller/Admin/Post/Column.php:99
+#: application/Controller/Admin/Post/Column.php:105
 #: views/backend/partials/post-pricing-form.php:97
 #: views/backend/partials/post-pricing-form.php:163
 msgid "FREE"
 msgstr "KOSTENLOS"
 
-#: application/Controller/Admin/Post/Column.php:128
+#: application/Controller/Admin/Post/Column.php:125
 #: application/Controller/Admin/Post/Metabox.php:155
-#: application/Helper/Pricing.php:952
+#: application/Helper/Pricing.php:950
 #: views/backend/partials/post-pricing-form.php:172
 #: views/backend/partials/post-pricing-form.php:195
 #: views/backend/partials/post-pricing-form.php:274
@@ -949,10 +1174,10 @@ msgstr "KOSTENLOS"
 msgid "Pay Now"
 msgstr "Sofort zahlen"
 
-#: application/Controller/Admin/Post/Column.php:129
+#: application/Controller/Admin/Post/Column.php:126
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
-#: application/Helper/Pricing.php:955 application/Module/Purchase.php:643
+#: application/Helper/Pricing.php:953 application/Module/Purchase.php:653
 #: views/backend/partials/post-pricing-form.php:168
 #: views/backend/partials/post-pricing-form.php:191
 #: views/backend/partials/post-pricing-form.php:250
@@ -962,26 +1187,26 @@ msgstr "Sofort zahlen"
 msgid "Pay Later"
 msgstr "Später zahlen"
 
-#: application/Controller/Admin/Post/Column.php:130
+#: application/Controller/Admin/Post/Column.php:127
 msgid "individual price"
 msgstr "Individueller Preis"
 
-#: application/Controller/Admin/Post/Column.php:134
+#: application/Controller/Admin/Post/Column.php:131
 msgid "dynamic individual price"
 msgstr "Individueller Preis (dynamisch)"
 
-#: application/Controller/Admin/Post/Column.php:138
+#: application/Controller/Admin/Post/Column.php:135
 msgid "category default price"
 msgstr "Kategorie-Standardpreis"
 
-#: application/Controller/Admin/Post/Column.php:142
+#: application/Controller/Admin/Post/Column.php:139
 #, fuzzy
 #| msgid "individual price"
 msgid "individual free"
 msgstr "Individueller Preis"
 
-#: application/Controller/Admin/Post/Column.php:146
-#: application/Controller/Admin/Post/Column.php:156
+#: application/Controller/Admin/Post/Column.php:143
+#: application/Controller/Admin/Post/Column.php:153
 msgid "global default price"
 msgstr "Standardpreis"
 
@@ -1180,7 +1405,7 @@ msgid "The voucher price must be less than or equal to the time pass price."
 msgstr "Der Gutscheinpreis muss kleiner oder gleich dem Zeitpass-Preis sein."
 
 #: application/Controller/Admin/Pricing.php:118
-#: application/Controller/Frontend/Post.php:652
+#: application/Controller/Frontend/Post.php:649
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
@@ -1693,7 +1918,7 @@ msgstr "Bezahlinhalte werden ausgeblendet, der Direktzugriff wird verweigert."
 msgid "auto detected"
 msgstr "automatisch ermittelt"
 
-#: application/Controller/Frontend/Post.php:649
+#: application/Controller/Frontend/Post.php:646
 msgid ""
 "Your site is in LIVE mode, your visitors would now see the LaterPay purchase "
 "dialog. \n"
@@ -1713,39 +1938,39 @@ msgstr ""
 "Hinweis: Für Einkäufe, die im LIVE-Modus getätigt werden, werden Ihnen "
 "Gebühren berechnet."
 
-#: application/Controller/Frontend/Post.php:650
+#: application/Controller/Frontend/Post.php:647
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: application/Controller/Frontend/Post.php:651
+#: application/Controller/Frontend/Post.php:648
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: application/Controller/Frontend/Post.php:653
+#: application/Controller/Frontend/Post.php:650
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:655
+#: application/Controller/Frontend/Post.php:652
 #: application/Controller/Frontend/Shortcode.php:577
-#: application/Module/Purchase.php:588
+#: application/Module/Purchase.php:598
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
-#: application/Controller/Frontend/Post.php:656
+#: application/Controller/Frontend/Post.php:653
 #: application/Controller/Frontend/Shortcode.php:579
-#: application/Module/Purchase.php:581 application/Module/Purchase.php:620
-#: application/Module/Purchase.php:633
+#: application/Module/Purchase.php:591 application/Module/Purchase.php:630
+#: application/Module/Purchase.php:643
 #: views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
-#: application/Controller/Frontend/Post.php:657
+#: application/Controller/Frontend/Post.php:654
 #: application/Controller/Frontend/Shortcode.php:585
-#: application/Module/Purchase.php:584
+#: application/Module/Purchase.php:594
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
-#: application/Controller/Frontend/Post.php:732
+#: application/Controller/Frontend/Post.php:729
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
 "&mdash; {teaser_content}"
@@ -2001,36 +2226,36 @@ msgstr "Alle Inhalte in Kategorie"
 msgid "k"
 msgstr "t"
 
-#: application/Module/Purchase.php:111 application/Module/Purchase.php:740
+#: application/Module/Purchase.php:111 application/Module/Purchase.php:750
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:609 application/Module/TimePasses.php:477
-#: application/Module/TimePasses.php:500 application/Module/TimePasses.php:518
+#: application/Module/Purchase.php:619 application/Module/TimePasses.php:472
+#: application/Module/TimePasses.php:495 application/Module/TimePasses.php:513
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
-#: application/Module/Purchase.php:611
+#: application/Module/Purchase.php:621
 msgid "Read Now, Pay Later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: application/Module/Purchase.php:621
+#: application/Module/Purchase.php:631
 msgid ""
 "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie diesen Beitrag jetzt mit LaterPay und <br>bezahlen Sie mit einer "
 "Zahlungsmethode Ihres Vertrauens."
 
-#: application/Module/Purchase.php:625 application/Module/Purchase.php:638
-#: application/Module/TimePasses.php:485
+#: application/Module/Purchase.php:635 application/Module/Purchase.php:648
+#: application/Module/TimePasses.php:480
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
-#: application/Module/Purchase.php:626
+#: application/Module/Purchase.php:636
 msgid ""
 "Immediately access your purchase. <br>You only buy this post. No "
 "subscription, no fees."
@@ -2038,13 +2263,13 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:634
+#: application/Module/Purchase.php:644
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 "Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. "
 "Keine Vorauszahlung."
 
-#: application/Module/Purchase.php:639
+#: application/Module/Purchase.php:649
 msgid ""
 "Access your purchase immediately.<br> You are only buying this article, not "
 "a subscription."
@@ -2052,7 +2277,7 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:644
+#: application/Module/Purchase.php:654
 #, php-format
 msgid ""
 "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you "
@@ -2061,21 +2286,21 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie %s %s erreicht haben. Erst dann müssen Sie "
 "sich registrieren und bezahlen."
 
-#: application/Module/TimePasses.php:421
+#: application/Module/TimePasses.php:416
 msgid "Wrong time pass id or no time passes specified."
 msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
 
-#: application/Module/TimePasses.php:480
+#: application/Module/TimePasses.php:475
 msgid "Buy Time Pass"
 msgstr "Zeitpass kaufen"
 
-#: application/Module/TimePasses.php:481
+#: application/Module/TimePasses.php:476
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
 "Ihres Vertrauens."
 
-#: application/Module/TimePasses.php:486
+#: application/Module/TimePasses.php:481
 msgid ""
 "Immediately access your content. <br>A time pass is not a subscription, it "
 "expires automatically."
@@ -2083,21 +2308,21 @@ msgstr ""
 "Greifen Sie sofort auf Ihre Inhalte zu.<br>\n"
 "Ein Zeitpass ist kein Abo, denn er läuft automatisch aus."
 
-#: application/Module/TimePasses.php:503
+#: application/Module/TimePasses.php:498
 msgid "Buy Subscription"
 msgstr "Abo kaufen"
 
-#: application/Module/TimePasses.php:504
+#: application/Module/TimePasses.php:499
 msgid "Buy a subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie ein Abo und bezahlen Sie mit einer Zahlungsmethode,  der Sie "
 "vertrauen."
 
-#: application/Module/TimePasses.php:521
+#: application/Module/TimePasses.php:516
 msgid "Buy a Time Pass or Subscription"
 msgstr "Kaufen Sie einen Zeitpass oder ein Abo"
 
-#: application/Module/TimePasses.php:522
+#: application/Module/TimePasses.php:517
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer "
@@ -2622,7 +2847,7 @@ msgstr ""
 
 #: views/backend/advanced.php:181 views/backend/appearance.php:294
 msgid "Advanced Settings"
-msgstr "Erweiterte Einstellungen"
+msgstr "Erweiterte Funktionen (Advanced)"
 
 #: views/backend/advanced.php:185
 msgid "Access"
@@ -2813,9 +3038,9 @@ msgstr ""
 "Later zu lesen."
 
 #: views/backend/appearance.php:56
-#, fuzzy, php-format
+#, php-format
 msgid "%sConfigure%s Appearance"
-msgstr "%s Darstellung %s"
+msgstr "%s Darstellung %s  konfigurieren"
 
 #: views/backend/appearance.php:69
 msgid "Show purchase button above article"
@@ -2941,7 +3166,7 @@ msgstr "Standardwerte wiederherstellen"
 
 #: views/backend/appearance.php:301
 msgid "Click here"
-msgstr "Hier"
+msgstr "Klicken Sie hier"
 
 #: views/backend/appearance.php:302
 msgid ""
@@ -3736,9 +3961,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 
 #~ msgid "Click here to go to our Button Generator."
 #~ msgstr "Klicken Sie hier, um zu unserem Button Generator zu gelangen."
-
-#~ msgid "Version %s Highlights:"
-#~ msgstr "Highlights der Version %s:"
 
 #~ msgid ""
 #~ "Create an ad-free experience & much more with our newest shortcode. Check "
