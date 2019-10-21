@@ -207,6 +207,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 $pricing_controller->render_page();
                 break;
 
+            // render contributions tab
+            case 'contributions':
+                $contributions_controller = new LaterPay_Controller_Admin_Contributions( $this->config );
+                $contributions_controller->render_page();
+                break;
+
             // render appearance tab
             case 'appearance':
                 $appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
@@ -818,6 +824,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             'cap'   => 'activate_plugins',
         );
 
+        $menu['contributions'] = array(
+            'url'   => 'laterpay-contributions-tab',
+            'title' => esc_html__( 'Contributions', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
+
         $menu['appearance'] = array(
             'url'   => 'laterpay-appearance-tab',
             'title' => __( 'Appearance', 'laterpay' ),
@@ -881,7 +893,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         }
 
         // Allowed pages for notice and instruction.
-        $lp_update_notice_allowed_page = [ 'pricing', 'appearance', 'advanced', 'account' ];
+        $lp_update_notice_allowed_page = [ 'pricing', 'appearance', 'advanced', 'account', 'contributions' ];
 
         // Check if current page is in allowed page.
         if ( in_array( $page, $lp_update_notice_allowed_page, true ) ) {
@@ -891,7 +903,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             if ( ! empty( $ga_data['update_highlights']['version'] ) ) {
                 $version_update_number                   = $ga_data['update_highlights']['version'];
                 $ga_data['update_highlights']['version'] = sprintf( esc_html__( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
-                $ga_data['update_highlights']['notice']  = sprintf( esc_html__( 'Have you seen our Contextual Help? Click the Help box in the upper right corner of any page to get relevant information.', 'laterpay' ) );
+                $ga_data['update_highlights']['notice']  = sprintf( esc_html__( 'At long last, one of our most highly requested features is here! Check out the new Contributions tab to explore our newest feature.', 'laterpay' ) );
                 $ga_data['update_highlights_nonce']      = wp_create_nonce( 'update_highlights_nonce' );
             }
 
@@ -900,15 +912,16 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $data_for_localize['learn_more']            = __( 'Learn More', 'laterpay' );
 
             $tab_information = [
-                'appearance' => sprintf( __( '%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed.', 'laterpay' ), '<b>', '</b>' ),
-                'pricing'    => sprintf( __( '%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page.', 'laterpay' ), '<b>', '</b>' ),
-                'advanced'   => sprintf( __( '%sOptional%s Here we highlight advanced features & settings like selling downloadable content and promoting your subscriptions. Scroll through to learn more!', 'laterpay' ), '<b>', '</b>' ),
+                'appearance'    => sprintf( __( '%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed.', 'laterpay' ), '<b>', '</b>' ),
+                'pricing'       => sprintf( __( '%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page.', 'laterpay' ), '<b>', '</b>' ),
+                'advanced'      => sprintf( __( '%sOptional%s Here we highlight advanced features & settings like selling downloadable content and promoting your subscriptions. Scroll through to learn more!', 'laterpay' ), '<b>', '</b>' ),
+                'contributions' => sprintf( __( '%sOptional%s To request contributions, use the editor below to configure your contributions request then copy the shortcode anywhere on your site.', 'laterpay' ), '<b>', '</b>' ),
             ];
 
             $tab_information_status = get_option( 'lp_tabular_info' );
 
             foreach ( $tab_information as $key => $value ) {
-                if ( 1 === absint( $tab_information_status[ $key ] ) ) {
+                if ( isset( $tab_information_status[ $key ]  ) && 1 === absint( $tab_information_status[ $key ] ) ) {
                     $data_for_localize['lp_instructional_info'][ $key ] = $value;
                 }
             }

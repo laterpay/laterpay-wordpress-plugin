@@ -38,6 +38,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_access_manage_content', 200 ),
             ),
+            'laterpay_shortcode_contribution' => array(
+                array( 'laterpay_on_plugin_is_working', 200 ),
+                array( 'render_contribution_dialog', 200 ),
+            ),
             'wp_ajax_laterpay_get_premium_shortcode_link' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'ajax_get_premium_shortcode_link' ),
@@ -669,5 +673,234 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         // If user has no access then show content.
         $event->set_result( $content );
+    }
+
+    /**
+     * Generate the shortcode string based on provide attributes and their values.
+     *
+     * @param $config_array array Shortcode attribute and value data.
+     *
+     * @return mixed
+     */
+    private static function  get_shortcode_string( $config_array ) {
+        return array_reduce(
+            array_keys( $config_array ),
+            function ( $carry, $key ) use ( $config_array ) {
+                $value = $config_array[ $key ];
+                if ( in_array( $key, ['all_amounts', 'all_revenues'], true ) ) {
+                    $value = implode( ',', $config_array[ $key ] );
+                }
+                return $carry . ' ' . $key . '="' . $value . '"';
+            },
+            ''
+        );
+    }
+
+    /**
+     * Generate shortcode based on provided config.
+     *
+     * @param $type         string Type of shortcode.
+     * @param $config_array array  Shortcode configuration data.
+     *
+     * @return array|bool
+     */
+    public static function generator( $type, $config_array ) {
+        // Handle contribution shortcode generation.
+        if ( 'contribution' === $type ) {
+            // Validate the configuration.
+            $result = self::is_contribution_config_valid( $config_array );
+            if ( false === $result['success'] ) {
+                return $result;
+            } else {
+                if ( 'multiple' === $config_array['type'] && 'none' === $config_array['custom_amount'] ) {
+                    unset( $config_array['custom_amount'] );
+                }
+                // Create the shortcode string.
+                $built_shortcode = sprintf( '[laterpay_contribution %s]', self::get_shortcode_string( $config_array ) );
+                return [
+                    'success' => true,
+                    'code'    => $built_shortcode
+                ];
+            }
+        }
+
+        return [
+            'success' => false,
+            'message' => esc_html__( 'Something went wrong.', 'laterpay' )
+        ];
+    }
+
+    /**
+     * Check if the provided shortcode configuration for Contribution is valid or now.
+     *
+     * @param $config_array array Contribution configuration data.
+     *
+     * @return array|bool
+     */
+    private static function is_contribution_config_valid( $config_array ) {
+
+        // Check if campaign name is set.
+        if ( empty( $config_array['name'] ) ) {
+            return [
+                'success' => false,
+                'message' => esc_html__( 'Please enter a Campaign Name above.', 'laterpay' ),
+            ];
+        }
+
+        // Check if campaign amount is empty.
+        if ( 'single' === $config_array['type'] ) {
+            if ( floatval( $config_array['single_amount'] ) === floatval(0.0) ) {
+                return [
+                    'success' => false,
+                    'message' => esc_html__( 'Please enter a valid contribution amount above.', 'laterpay' ),
+                ];
+            }
+            return true;
+        }
+
+        return true;
+    }
+
+    /**
+     * Display Contribution dialog for multiple amounts and Contribution amount button for single amount shortcode.
+     *
+     * The shortcode [laterpay_contribution] accepts these parameters:
+     * - type: Type of the Contribution, i.e Single / Multiple.
+     * - name: Name of the Campaign.
+     * - thank_you: URL to which the user has to be redirected to, if empty redirect to shortcode page.
+     * - single_amount: Amount of Contribution, value in cents..
+     * - single_revenue: Revenue of the single amount, i.e Pay Now / Pay Later.
+     * - custom_amount: Custom Amount for Contribution dialog, if set amount will be pre-filled else empty.
+     * - all_amounts: A comma separated string containing configured amounts.
+     * - all_revenues: A comma separated string containing configured revenues.
+     * - selected_amount: Indicates default selected amount in the Contribution Dialog for Multiple Contributions.
+     *
+     * Basic example:
+     * [laterpay_contribution  name="Kerala Floods Relief" thank_you="" type="single" single_amount="400" single_revenue="ppu"]
+     * or:
+     * [laterpay_contribution  name="Dharamsala Animal Rescue" thank_you="" type="multiple" all_amounts="300,500,800" all_revenues="ppu,sis,sis" selected_amount="1"]
+     * or:
+     * [laterpay_contribution  name="Dharamsala Animal Rescue" thank_you="https://dharamsalaanimalrescue.org/" type="multiple" custom_amount="1000" all_amounts="300,500" all_revenues="ppu,sis" selected_amount="1"]
+     *
+     * @param LaterPay_Core_Event $event
+     */
+    public function render_contribution_dialog( LaterPay_Core_Event $event ) {
+        list( $atts) = $event->get_arguments() + array( array() );
+
+        $config_data = shortcode_atts( array(
+            'type'            => 'multiple',
+            'name'            => null,
+            'thank_you'       => null,
+            'single_amount'   => null,
+            'single_revenue'  => null,
+            'custom_amount'   => null,
+            'all_amounts'     => null,
+            'all_revenues'    => null,
+            'selected_amount' => null,
+        ), $atts );
+
+        // Show error to current user?
+        $show_error = is_user_logged_in() && current_user_can( 'manage_options' );
+
+        // Template for error message.
+        $template = '<div class="lp_shortcode-error">%s</div>';
+
+        // Validate shortcode attributes.
+        $validation_result = self::is_contribution_config_valid( $config_data );
+
+        // Display error if something went wrong.
+        if ( $show_error && false === $validation_result['success'] ) {
+            $error_message = sprintf(
+                $template,
+                sprintf( esc_html__( '%1$s', 'laterpay' ), $validation_result['message'] )
+            );
+            $event->set_result( $error_message );
+            return;
+        }
+
+        // Set redirect URL, if empty use current page where shortcode resides.
+        if ( ! empty( $config_data['thank_you'] ) ) {
+            $current_url = $config_data['thank_you'];
+        } else {
+            global $wp;
+            $current_url = trailingslashit( home_url( add_query_arg( [], $wp->request ) ) );
+        }
+
+        // Configure contribution values.
+        $payment_config    = [];
+        $contribution_urls = '';
+        $currency_config   = LaterPay_Helper_Config::get_currency_config();
+        $campaign_name     = $config_data['name'];
+        $campaign_id       = str_replace( ' ', '-', strtolower( $campaign_name ) ) . '-' . (string) time();
+        $client_options    = LaterPay_Helper_Config::get_php_client_options();
+        $client            = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        if ( 'single' === $config_data['type'] ) {
+            // Configure single amount contribution.
+            $lp_revenue     = empty( $config_data['single_revenue'] ) ? 'ppu' : $config_data['single_revenue'];
+            $payment_config = [
+                'amount'  => $config_data['single_amount'],
+                'revenue' => $lp_revenue,
+                'url'     => $client->get_single_contribution_url( [
+                    'revenue'        => $lp_revenue,
+                    'campaign_id'    => $campaign_id,
+                    'title'          => $campaign_name,
+                    'url'            => $current_url,
+                ] )
+            ];
+        } else {
+            // Get all amounts and revenues from shortcode.
+            $multiple_amounts  = explode( ',', $config_data['all_amounts'] );
+            $multiple_revenues = explode( ',', $config_data['all_revenues'] );
+
+            // Loop through each amount  and configure amount attributes.
+            foreach ( $multiple_amounts as $key => $value ) {
+                $contribute_url = $client->get_single_contribution_url( [
+                    'revenue'     => $multiple_revenues[ $key ],
+                    'campaign_id' => $campaign_id,
+                    'title'       => $campaign_name,
+                    'url'         => $current_url
+                ] );
+
+                $payment_config['amounts'][ $key ]['amount']   = $multiple_amounts[ $key ];
+                $payment_config['amounts'][ $key ]['revenue']  = $multiple_revenues[ $key ];
+                $payment_config['amounts'][ $key ]['selected'] = absint( $config_data['selected_amount'] ) === $key + 1;
+                $payment_config['amounts'][ $key ]['url']      = $contribute_url . '&custom_pricing=' . $currency_config['code'] .  $multiple_amounts[ $key ];
+            }
+
+            // Only add custom amount if it was checked in backend.
+            if ( isset( $config_data['custom_amount'] ) ) {
+                $payment_config['custom_amount'] = $config_data['custom_amount'];
+
+                // Generate contribution URL's for Pay Now and Pay Later revenue to handle custom amount.
+                $contribution_urls = $client->get_contribution_urls( [
+                    'campaign_id' => $campaign_id,
+                    'title'       => $campaign_name,
+                    'url'         => $current_url
+                ] );
+            }
+        }
+
+        // View data for laterpay/views/frontend/partials/widget/contribution-dialog.php.
+        $view_args = array(
+            'symbol'            => 'USD' === $currency_config['code'] ? '$' : '€',
+            'id'                => $campaign_id,
+            'type'              => $config_data['type'],
+            'name'              => $campaign_name,
+            'thank_you'         => empty( $config_data['thank_you'] ) ? '' : $config_data['thank_you'],
+            'contribution_urls' => $contribution_urls,
+            'payment_config'    => $payment_config,
+        );
+
+        // Load the contributions dialog for User.
+        $this->assign( 'contribution', $view_args );
+        $html = $this->get_text_view( 'frontend/partials/widget/contribution-dialog' );
+        $event->set_result( $html );
     }
 }
