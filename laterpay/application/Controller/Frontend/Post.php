@@ -648,6 +648,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                     'invalidVoucher'    => __( ' is not a valid voucher code!', 'laterpay' ),
                     'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),
                     'generalAjaxError'  => __( 'An error occurred. Please try again.', 'laterpay' ),
+                    'contribute'        => esc_html__( 'Contribute', 'laterpay' ),
+                    'now'               => esc_html__( 'now', 'laterpay' ),
+                    'nowOrPayLater'     => esc_html__( 'now, pay later', 'laterpay' ),
                     'revenue'           => array(
                         'ppu'           => __( 'Buy Now, Pay Later', 'laterpay'),
                         'sis'           => __( 'Buy Now', 'laterpay' ),

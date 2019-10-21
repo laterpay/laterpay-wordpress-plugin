@@ -61,7 +61,14 @@
             overlayMessageContainer         : '.lp_js_purchaseOverlayMessageContainer',
             overlayTimePassPrice            : '.lp_js_timePassPrice',
 
-            lp_already_bought               : '.lp_bought_notification'
+            lp_already_bought               : '.lp_bought_notification',
+
+            // Contribution elements.
+            lp_preset_buttons               : '.lp-amount-preset-button',
+            lp_link                         : $('.lp-dialog-wrapper .lp-link'),
+            lp_custom_amount                : $('.lp-custom-amount-input'),
+            lp_custom_amount_wrapper        : $('.lp-custom-input-wrapper'),
+            lp_singleContribution           : $('.lp-link-single'),
         },
 
             // Messages templates
@@ -235,6 +242,7 @@
                         flipTimePass(this);
                     });
             },
+
             bindAlreadyPurchasedEvents = function() {
               // handle clicks on already bought link.
                 $o.body
@@ -249,6 +257,133 @@
                     window.location.href = $(this).attr( 'href' );
                 });
             },
+
+            // Binding events for contribution dialog.
+            bindContributionEvents = function () {
+
+                // Event handler for clicking on the amounts in contribution dialog.
+                $($o.lp_preset_buttons).click(function () {
+                    $(this).parents('.lp-amount-presets').find('.lp-amount-preset-button')
+                        .removeClass('lp-amount-preset-button-selected');
+                    $(this).addClass('lp-amount-preset-button-selected');
+                    changeButtonText(null, null, $(this).data('revenue'));
+                });
+
+                //  Event handler for custom amount.
+                $o.lp_custom_amount.on('focus', function () {
+                    $(this).parents('.lp-body-wrapper').find('.lp-amount-preset-button')
+                        .removeClass('lp-amount-preset-button-selected');
+
+                    var validatedPrice = validatePrice($(this).val());
+                    $(this).val(validatedPrice);
+
+                    var customAmount = $(this).val() * 100;
+                    changeButtonText('custom', customAmount);
+                });
+
+                // Handle custom amount input.
+                $o.lp_custom_amount.keyup(
+                    debounce(function () {
+                        var validatedPrice = validatePrice($(this).val());
+                        $(this).val(validatedPrice);
+                        /*
+                         * get selected amount. Value needs to be in cents,
+                         * so multiply by 100 and round to avoid floating point errors
+                         */
+                        var lp_amount = Math.round($(this).val() * 100);
+                        changeButtonText('custom', lp_amount);
+                    }, 800)
+                );
+
+                // Handle multiple contribution button click.
+                $('.lp-contribution-button').click(function () {
+                    var currentAmount = $(this).parents('.lp-body-wrapper').find('.lp-amount-preset-button-selected'),
+                        payurl;
+                    if (currentAmount.length) {
+                        payurl = currentAmount.data('url');
+                    } else {
+                        var customAmount = $o.lp_custom_amount.val() * 100;
+                        if (customAmount > 300) {
+                            payurl = $o.lp_custom_amount_wrapper.data('sis-url') + '&custom_pricing=' +
+                                lpVars.default_currency + customAmount;
+                        } else {
+                            payurl = $o.lp_custom_amount_wrapper.data('ppu-url') + '&custom_pricing=' +
+                                lpVars.default_currency + customAmount;
+                        }
+                    }
+                    // Open payment url in new tab.
+                    window.open(payurl);
+                });
+
+                // Handle multiple contribution button click.
+                $o.lp_singleContribution.click(function () {
+                    window.open($(this).data('url') + '&custom_pricing=' +
+                        lpVars.default_currency + $(this).data('amount'));
+                });
+
+                // Show contribution dialog.
+                $('.lp-contribute').on('click', function () {
+                    $(this).parents('.lp-multiple-wrapper').find('.lp-dialog-wrapper').show();
+                    $(this).hide();
+                });
+
+                // Close contribution dialog.
+                $('.lp-modal-close').on('click', function () {
+                    $(this).parents('.lp-multiple-wrapper').find('.lp-dialog-wrapper').hide();
+                    $(this).parents('.lp-multiple-wrapper').find('.lp-contribute').show();
+                });
+            },
+
+            // Change the contribution button text based on selection.
+            changeButtonText = function (type, lp_amount, revenue) {
+                if ('custom' === type) {
+                    if (lp_amount > 300) {
+                        revenue = 'sis';
+                    } else {
+                        revenue = 'ppu';
+                    }
+                }
+
+                if ('sis' === revenue) {
+                    $o.lp_link.text(lpVars.i18n.contribute + ' ' + lpVars.i18n.now);
+                } else {
+                    $o.lp_link.text(lpVars.i18n.contribute + ' ' + lpVars.i18n.nowOrPayLater);
+                }
+            },
+
+            // Validate custom input price.
+            validatePrice = function (price) {
+                // strip non-number characters
+                price = price.toString().replace(/[^0-9\,\.]/g, '');
+
+                // convert price to proper float value
+                if (typeof price === 'string' && price.indexOf(',') > -1) {
+                    price = parseFloat(price.replace(',', '.')).toFixed(2);
+                } else {
+                    price = parseFloat(price).toFixed(2);
+                }
+
+                // prevent non-number prices
+                if (isNaN(price)) {
+                    price = 0.05;
+                }
+
+                // prevent negative prices
+                price = Math.abs(price);
+
+                // correct prices outside the allowed range of 0.05 - 1000.00
+                if (price > 1000.00) {
+                    price = 1000.00;
+                } else if (price < 0.05) {
+                    price = 0.05;
+                }
+
+                // format price with two digits
+                price = price.toFixed(2);
+
+                return price;
+            },
+
             purchaseOverlaySubmit = function (action) {
                 if (action === 'buy') {
                     // phpcs:ignore WordPressVIPMinimum.JS.Window.location -- Safe value is assigned here.
@@ -561,6 +696,22 @@
                     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
                 return matches ? decodeURIComponent(matches[1]) : undefined;
             },
+
+            // Throttle the execution of a function by a given delay.
+            debounce = function(fn, delay) {
+                var timer;
+                return function() {
+                    var context = this,
+                        args    = arguments;
+
+                    clearTimeout(timer);
+
+                    timer = setTimeout(function() {
+                        fn.apply(context, args);
+                    }, delay);
+                };
+            },
+
             initializePage = function() {
 
                 if ($o.previewModePlaceholder.length === 1) {
@@ -574,6 +725,7 @@
                 bindPurchaseEvents();
                 bindTimePassesEvents();
                 bindAlreadyPurchasedEvents();
+                bindContributionEvents();
             };
 
         initializePage();
