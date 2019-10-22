@@ -48,6 +48,7 @@
                     // validate price and revenue model when entering a price
                     // (function is only triggered 1500ms after the keyup)
                     $o.body.on('keyup', $o.priceInput, debounce(function () {
+                            resetGenerateButton();
                             var formId = $(this).parents('form').attr('id');
                             var contribType = 'single';
                             if ('lp_multiple_contribution_form' === formId) {
@@ -61,6 +62,7 @@
 
                     // Event handler for default amount selection in multiple contribution.
                     $($o.presetButtonAmount).on('click', function () {
+                        resetGenerateButton();
                         var presetId = $(this).parent().attr('id').slice(-1);
                         $('#lp_js_multiple_amounts .lp-amount-preset-button')
                             .removeClass('lp-amount-preset-button-selected');
@@ -71,6 +73,7 @@
 
                     // validate choice of revenue model (validating the price switches the revenue model if required)
                     $('input:radio', $o.singleRevenueModel).add($o.revenueMultipleRadio).change(function () {
+                        resetGenerateButton();
                         var formId = $(this).parents('form').attr('id');
                         var inputElement = $(this);
                         var contribType = 'single';
@@ -85,6 +88,7 @@
 
                     // Event handler for contribution type check.
                     $o.contributionAllowMultiple.change(function () {
+                        resetGenerateButton();
                         $($o.contributionCustomErrorMessage).hide();
                         if ($(this).prop('checked')) {
                             $(this).val(1);
@@ -105,6 +109,7 @@
 
                     // Event handler for custom amount checkbox.
                     $o.contributionCustom.change(function () {
+                        resetGenerateButton();
                         if ($(this).prop('checked')) {
                             if ($o.contributionAllowMultiple.prop('checked')) {
                                 $(this).val(1);
@@ -124,11 +129,30 @@
 
                     // Event handler for campaign name.
                     $o.contributionName.on('keyup', debounce(function () {
+                        resetGenerateButton();
                         validateContributionConfig();
+                    }, 1000));
+
+                    // Event handler for campaign thank you page.
+                    $o.thankYouPage.on('keyup', debounce(function () {
+                        resetGenerateButton();
+                        if ($(this).val().trim().length) {
+                            if (!isValidURL($(this).val())) {
+                                $(this).next($o.contributionErrorMessage).text(lpVars.i18n.errorCampaignThanks);
+                                $(this).next($o.contributionErrorMessage).show();
+                            } else {
+                                $(this).next($o.contributionErrorMessage).text('');
+                                $(this).next($o.contributionErrorMessage).hide();
+                            }
+                        } else {
+                            $(this).next($o.contributionErrorMessage).text('');
+                            $(this).next($o.contributionErrorMessage).hide();
+                        }
                     }, 1000));
 
                     //Event handler for custom amount.
                     $o.customAmountInput.on('focus input', debounce(function () {
+                        resetGenerateButton();
                         var price = validatePrice($(this).parents('form'), false,
                             'multiple', $(this));
                         $(this).val(price);
@@ -486,6 +510,18 @@
                                 commonLabel, customAmount);
                         }
                     });
+                },
+
+                // Reset the Generate and Copy Code button.
+                resetGenerateButton = function () {
+                    $o.contributionGenerateCode.removeAttr('data-icon');
+                    $o.contributionGenerateCode.css('opacity', '1');
+                },
+
+                // Check if provided URL is valid or not.
+                isValidURL = function (string) {
+                    var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g); // jshint ignore:line
+                    return (res !== null);
                 },
 
                 // Copy provided text to clipboard.

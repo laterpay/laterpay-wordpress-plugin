@@ -22,7 +22,7 @@ $contribution_urls = $contribution['contribution_urls'];
             <div class="lp-button">
                 <div class="lp-cart"></div>
                 <?php
-                $amount = LaterPay_Helper_View::format_number( floatval( $payment_config['amount'] / 100 ), 2 );
+                $amount = $currency_symbol . LaterPay_Helper_View::format_number( floatval( $payment_config['amount'] / 100 ), 2 );
                 if ( 'ppu' === $payment_config['revenue'] ) {
                     $button_text = sprintf( '%s %s %s', __( 'Contribute', 'laterpay' ), $amount, __( 'now, Pay Later' ) );
                 } else {
@@ -85,7 +85,7 @@ $contribution_urls = $contribution['contribution_urls'];
                                     <span class="lp-custom-amount-text">Custom Amount:</span>
                                 </label>
                                 <div class="lp-custom-input-wrapper" data-ppu-url="<?php echo esc_url( $contribution_urls['ppu'] ) ?>" data-sis-url="<?php echo esc_url( $contribution_urls['sis'] ) ?>">
-                                    <input class="lp-custom-amount-input" type="number" step="0.10" placeholder="" value="<?php echo esc_attr( LaterPay_Helper_View::format_number( floatval( $payment_config['custom_amount'] / 100 ), 2 ) ); ?>" />
+                                    <input class="lp-custom-amount-input" type="number" step="0.10" value="<?php echo ! empty( $payment_config['custom_amount'] ) ? esc_attr( LaterPay_Helper_View::format_number( floatval( $payment_config['custom_amount'] / 100 ), 2 ) ) : ''; ?>" />
                                     <i><?php echo esc_html( $currency_symbol ); ?></i>
                                 </div>
                             </div>
