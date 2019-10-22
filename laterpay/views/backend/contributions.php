@@ -55,6 +55,7 @@ $currency_symbol = 'USD' === $laterpay['currency']['code'] ? '$' : '€';
                                 <span data-icon="m"></span>
                             </p><br />
                             <input type="text" id="lp_thank_you_page" class="lp_input" name="contribution_thank_you_page" placeholder="<?php esc_attr_e( 'http://www...', '' ); ?>" value="" />
+                            <p data-icon="n" class="lp-contribution-error-message"></p>
                         </div>
                     </div>
                     <div class="lp_contributions_single_amount_options">

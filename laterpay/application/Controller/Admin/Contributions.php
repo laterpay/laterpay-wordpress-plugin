@@ -61,6 +61,7 @@ class LaterPay_Controller_Admin_Contributions extends LaterPay_Controller_Admin_
                     'now'                   => esc_html__( 'now', 'laterpay' ),
                     'nowOrPayLater'         => esc_html__( 'now, pay later', 'laterpay' ),
                     'errorCampaignName'     => esc_html__( 'Please enter a Campaign Name above.', 'laterpay' ),
+                    'errorCampaignThanks'   => esc_html__( 'Please enter a valid URL.', 'laterpay' ),
                     'errorCustomAmount'     => esc_html__( 'Custom contribution amounts are only available when Show multiple contribution amounts is enabled.', 'laterpay' ),
                     'errorNoAmount'         => esc_html__( 'Please enter a valid contribution amount above.', 'laterpay' ),
                     'errorNoAmountMultiple' => esc_html__( 'Please enter at least two valid contribution amounts above. If you would like to only allow one amount, simply un-check Show multiple contribution amounts.', 'laterpay' ),

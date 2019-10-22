@@ -269,18 +269,6 @@
                     changeButtonText(null, null, $(this).data('revenue'));
                 });
 
-                //  Event handler for custom amount.
-                $o.lp_custom_amount.on('focus', function () {
-                    $(this).parents('.lp-body-wrapper').find('.lp-amount-preset-button')
-                        .removeClass('lp-amount-preset-button-selected');
-
-                    var validatedPrice = validatePrice($(this).val());
-                    $(this).val(validatedPrice);
-
-                    var customAmount = $(this).val() * 100;
-                    changeButtonText('custom', customAmount);
-                });
-
                 // Handle custom amount input.
                 $o.lp_custom_amount.keyup(
                     debounce(function () {
