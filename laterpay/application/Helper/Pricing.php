@@ -99,8 +99,7 @@ class LaterPay_Helper_Pricing
                 return null;
             }
         } elseif ( 2 === $post_price_behaviour ) {
-            if ( ( self::is_post_price_type_two_price_zero()
-                   && $is_time_pass_subscription_count_zero ) || $is_post_type_not_supported || ( $is_price_zero && $is_time_pass_subscription_count_zero ) ) {
+            if ( $is_post_type_not_supported || ( $is_price_zero && $is_time_pass_subscription_count_zero ) ) {
                 // returns null for this case
                 return null;
             }

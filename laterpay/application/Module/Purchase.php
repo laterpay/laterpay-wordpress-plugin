@@ -715,26 +715,31 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             // Make default purchase option selection.
             if ( ! empty( $final_purchase_options ) ) {
                 $purchase_options_order = $final_purchase_options;
-                $found_selection        = false;
+            } elseif ( empty( $article_time_passes ) && empty( $article_subscriptions ) && ! empty( $article_individual_price ) ) {
+                $purchase_options_order           = [];
+                $article_individual_price['type'] = 'article';
+                $purchase_options_order[]         = $article_individual_price;
+            }
 
-                // Check all options and add 'selected' if conditions match.
-                foreach ( $purchase_options_order as $key => $single_purchase_option ) {
-                    if (
-                        ( 1 === $purchase_option_selection && 'article' === $single_purchase_option['type'] ) ||
-                        ( 2 === $purchase_option_selection && 'timepass' === $single_purchase_option['type'] ) ||
-                        ( 3 === $purchase_option_selection && 'subscription' === $single_purchase_option['type'] )
-                    ) {
-                        $purchase_options_order[ $key ]['selected'] = true;
-                        $found_selection                            = true;
-                        break;
-                    }
+            // Set default selection to false initially.
+            $found_selection = false;
 
+            // Check all options and add 'selected' if conditions match.
+            foreach ( $purchase_options_order as $key => $single_purchase_option ) {
+                if (
+                    ( 1 === $purchase_option_selection && 'article' === $single_purchase_option['type'] ) ||
+                    ( 2 === $purchase_option_selection && 'timepass' === $single_purchase_option['type'] ) ||
+                    ( 3 === $purchase_option_selection && 'subscription' === $single_purchase_option['type'] )
+                ) {
+                    $purchase_options_order[ $key ]['selected'] = true;
+                    $found_selection                            = true;
+                    break;
                 }
+            }
 
-                // Select the first option if that is the chosen option or no conditions matched above.
-                if ( 0 === $purchase_option_selection || ! $found_selection ) {
-                    $purchase_options_order[0]['selected'] = true;
-                }
+            // Select the first option if that is the chosen option or no conditions matched above.
+            if ( 0 === $purchase_option_selection || ! $found_selection ) {
+                $purchase_options_order[0]['selected'] = true;
             }
 
             $view_args['title']               = ! empty( $overlay_title ) ? $overlay_title : LaterPay_Helper_Appearance::get_current_options( 'header_title' );
