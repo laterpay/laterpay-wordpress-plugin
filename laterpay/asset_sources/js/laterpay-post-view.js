@@ -272,6 +272,8 @@
                 // Handle custom amount input.
                 $o.lp_custom_amount.keyup(
                     debounce(function () {
+                        $(this).parents('.lp-body-wrapper').find('.lp-amount-preset-button')
+                            .removeClass('lp-amount-preset-button-selected');
                         var validatedPrice = validatePrice($(this).val());
                         $(this).val(validatedPrice);
                         /*
@@ -307,18 +309,6 @@
                 $o.lp_singleContribution.click(function () {
                     window.open($(this).data('url') + '&custom_pricing=' +
                         lpVars.default_currency + $(this).data('amount'));
-                });
-
-                // Show contribution dialog.
-                $('.lp-contribute').on('click', function () {
-                    $(this).parents('.lp-multiple-wrapper').find('.lp-dialog-wrapper').show();
-                    $(this).hide();
-                });
-
-                // Close contribution dialog.
-                $('.lp-modal-close').on('click', function () {
-                    $(this).parents('.lp-multiple-wrapper').find('.lp-dialog-wrapper').hide();
-                    $(this).parents('.lp-multiple-wrapper').find('.lp-contribute').show();
                 });
             },
 

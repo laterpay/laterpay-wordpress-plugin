@@ -35,18 +35,10 @@ $contribution_urls = $contribution['contribution_urls'];
     </div>
 <?php } else { ?>
     <div class="lp-multiple-wrapper">
-        <div class="lp-button-wrapper">
-            <div class="lp-button lp-contribute">
-                <div class="lp-cart"></div>
-                <div class="lp-link"><?php esc_html_e( 'Support the author', 'laterpay' ); ?></div>
-            </div>
-        </div>
-
         <div class="lp-dialog-wrapper">
             <div class="lp-dialog">
                 <div class="lp-header-wrapper">
                     <div class="lp-header-padding"></div>
-                    <div class="lp-modal-close"><strong>&cross;</strong></div>
                     <div class="lp-header-text"><span><?php esc_html_e( 'Support the author', 'laterpay' ); ?></span>
                     </div>
                 </div>

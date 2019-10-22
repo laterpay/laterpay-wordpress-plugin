@@ -232,7 +232,6 @@
                 width: 90%;
 
                 .lp-dialog-wrapper {
-                    //display:none;
                     z-index: 2;
                     -webkit-font-smoothing: antialiased;
                     font-size: 16px;
@@ -270,19 +269,6 @@
                                 margin-right: auto;
                                 box-sizing: inherit;
                                 font-family: inherit;
-                            }
-
-                            .lp-modal-close {
-                                border-radius: 8px;
-                                background-color: rgb(255, 255, 255);
-                                width: 30px;
-                                line-height: 30px;
-                                top: -10px;
-                                position: relative;
-                                right: 0;
-                                float: right;
-                                color: rgb(34, 34, 34);
-                                cursor: pointer;
                             }
 
                             .lp-header-text {

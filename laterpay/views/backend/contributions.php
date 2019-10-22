@@ -206,8 +206,6 @@ $currency_symbol = 'USD' === $laterpay['currency']['code'] ? '$' : '€';
                                     <div class="lp-dialog">
                                         <div class="lp-header-wrapper">
                                             <div class="lp-header-padding"></div>
-                                            <div class="lp-modal-close">
-                                                <strong>&cross;</strong></div>
                                             <div class="lp-header-text">
                                                 <span><?php esc_html_e( 'Support the author', 'laterpay' ); ?></span>
                                             </div>
