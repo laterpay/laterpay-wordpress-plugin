@@ -54,7 +54,7 @@ $currency_symbol = 'USD' === $laterpay['currency']['code'] ? '$' : '€';
                             <p class="lp_tooltip lp_tooltip_p lp_tooltip_contribution" data-tooltip="<?php esc_attr_e( 'Optional. After the button is clicked, we can redirect the visitor to a page of your choice (for example, a dedicated "thank you" page on your website).', 'laterpay' ); ?>">
                                 <span data-icon="m"></span>
                             </p><br />
-                            <input type="text" id="lp_thank_you_page" class="lp_input" name="contribution_thank_you_page" placeholder="<?php esc_attr_e( 'http://www...', '' ); ?>" value="" />
+                            <input type="text" id="lp_thank_you_page" class="lp_input" name="contribution_thank_you_page" placeholder="http://www..." value="" />
                             <p data-icon="n" class="lp-contribution-error-message"></p>
                         </div>
                     </div>
@@ -241,7 +241,7 @@ $currency_symbol = 'USD' === $laterpay['currency']['code'] ? '$' : '€';
                                                         <span class="lp-custom-amount-text">Custom Amount:</span>
                                                     </label>
                                                     <div class="lp-custom-input-wrapper">
-                                                        <input id="lp_custom_amount_input" class="lp-custom-amount-input" type="text" placeholder="0.00" value="0.00" />
+                                                        <input id="lp_custom_amount_input" class="lp-custom-amount-input" type="text" />
                                                         <i><?php echo esc_html( $currency_symbol ); ?></i>
                                                     </div>
                                                 </div>
