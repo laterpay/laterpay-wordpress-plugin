@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-10-22 19:11+0530\n"
-"PO-Revision-Date: 2019-10-22 19:21+0530\n"
+"POT-Creation-Date: 2019-10-23 17:46+0530\n"
+"PO-Revision-Date: 2019-10-23 17:46+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1112,20 +1112,17 @@ msgid "Color scheme saved successfully."
 msgstr "Kauf-Overlay Einstellungen erfolgreich gespeichert."
 
 #: application/Controller/Admin/Contributions.php:60
-#: application/Controller/Frontend/Post.php:651
-#: views/frontend/partials/widget/contribution-dialog.php:27
-#: views/frontend/partials/widget/contribution-dialog.php:29
+#: views/frontend/partials/widget/contribution-dialog.php:26
+#: views/frontend/partials/widget/contribution-dialog.php:28
 msgid "Contribute"
 msgstr "Jetzt"
 
 #: application/Controller/Admin/Contributions.php:61
-#: application/Controller/Frontend/Post.php:652
-#: views/frontend/partials/widget/contribution-dialog.php:29
+#: views/frontend/partials/widget/contribution-dialog.php:28
 msgid "now"
 msgstr "spenden"
 
 #: application/Controller/Admin/Contributions.php:62
-#: application/Controller/Frontend/Post.php:653
 msgid "now, pay later"
 msgstr "spenden, später zahlen"
 
@@ -1245,7 +1242,7 @@ msgstr "KOSTENLOS"
 
 #: application/Controller/Admin/Post/Column.php:125
 #: application/Controller/Admin/Post/Metabox.php:155
-#: application/Helper/Pricing.php:950 views/backend/contributions.php:76
+#: application/Helper/Pricing.php:949 views/backend/contributions.php:76
 #: views/backend/contributions.php:108 views/backend/contributions.php:125
 #: views/backend/contributions.php:142 views/backend/contributions.php:159
 #: views/backend/contributions.php:176
@@ -1260,7 +1257,7 @@ msgstr "Sofort zahlen"
 #: application/Controller/Admin/Post/Column.php:126
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
-#: application/Helper/Pricing.php:953 application/Module/Purchase.php:653
+#: application/Helper/Pricing.php:952 application/Module/Purchase.php:653
 #: views/backend/contributions.php:71 views/backend/contributions.php:103
 #: views/backend/contributions.php:120 views/backend/contributions.php:137
 #: views/backend/contributions.php:154 views/backend/contributions.php:171
@@ -2036,13 +2033,13 @@ msgstr " ist kein gültiger Gutschein-Code!"
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:655
+#: application/Controller/Frontend/Post.php:652
 #: application/Controller/Frontend/Shortcode.php:581
 #: application/Module/Purchase.php:598
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
-#: application/Controller/Frontend/Post.php:656
+#: application/Controller/Frontend/Post.php:653
 #: application/Controller/Frontend/Shortcode.php:583
 #: application/Module/Purchase.php:591 application/Module/Purchase.php:630
 #: application/Module/Purchase.php:643
@@ -2050,13 +2047,13 @@ msgstr "Jetzt kaufen, später zahlen"
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
-#: application/Controller/Frontend/Post.php:657
+#: application/Controller/Frontend/Post.php:654
 #: application/Controller/Frontend/Shortcode.php:589
 #: application/Module/Purchase.php:594
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
-#: application/Controller/Frontend/Post.php:732
+#: application/Controller/Frontend/Post.php:729
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
 "&mdash; {teaser_content}"
@@ -2321,7 +2318,7 @@ msgstr "Alle Inhalte in Kategorie"
 msgid "k"
 msgstr "t"
 
-#: application/Module/Purchase.php:111 application/Module/Purchase.php:750
+#: application/Module/Purchase.php:111 application/Module/Purchase.php:757
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
@@ -3304,8 +3301,8 @@ msgstr ""
 "Ihrer Website) weiterleiten."
 
 #: views/backend/contributions.php:62
-msgid "Contribution Amount"
-msgstr "Beitragsbetrag"
+msgid "Amount"
+msgstr "Betrag"
 
 #: views/backend/contributions.php:88
 msgid "Show multiple contribution amounts"
@@ -3336,29 +3333,33 @@ msgstr ""
 "Ihrem Contributions-Dialog wird ein Eingabefeld hinzugefügt, in dem Nutzer "
 "benutzerdefinierte Beträge eingeben können."
 
-#: views/backend/contributions.php:200 views/backend/contributions.php:253
+#: views/backend/contributions.php:200
 msgid "Contribute Now, Pay Later"
 msgstr "Jetzt spenden, später zahlen"
 
-#: views/backend/contributions.php:212
+#: views/backend/contributions.php:210
 #: views/frontend/partials/widget/contribution-dialog.php:41
-#: views/frontend/partials/widget/contribution-dialog.php:50
 msgid "Support the author"
 msgstr ""
 
-#: views/backend/contributions.php:217
-#: views/frontend/partials/widget/contribution-dialog.php:55
+#: views/backend/contributions.php:215
+#: views/frontend/partials/widget/contribution-dialog.php:46
 msgid "How much would you like to contribute?"
 msgstr ""
 
-#: views/backend/contributions.php:259
+#: views/backend/contributions.php:251
+#: views/frontend/partials/widget/contribution-dialog.php:89
+msgid "Contribute now"
+msgstr "Jetzt spenden"
+
+#: views/backend/contributions.php:257
 #: views/backend/partials/purchase-overlay.php:139
-#: views/frontend/partials/widget/contribution-dialog.php:112
+#: views/frontend/partials/widget/contribution-dialog.php:96
 #: views/frontend/partials/widget/purchase-overlay.php:176
 msgid "Powered by"
 msgstr "Powered by"
 
-#: views/backend/contributions.php:266
+#: views/backend/contributions.php:264
 msgid ""
 "To include this on your site, click the button below and paste the code "
 "where you would like it to appear."
@@ -3366,7 +3367,7 @@ msgstr ""
 "Um dies auf Ihrer Website einzubinden, klicken Sie auf die Schaltfläche "
 "unten und fügen Sie den Code an der Stelle ein, an der er erscheinen soll."
 
-#: views/backend/contributions.php:269
+#: views/backend/contributions.php:267
 msgid "Generate and Copy Code"
 msgstr "Code generieren und kopieren"
 
@@ -4081,17 +4082,9 @@ msgstr "Besucher"
 msgid "View"
 msgstr "Anzeigen"
 
-#: views/frontend/partials/widget/contribution-dialog.php:27
+#: views/frontend/partials/widget/contribution-dialog.php:26
 msgid "now, Pay Later"
 msgstr "spenden, später zahlen"
-
-#: views/frontend/partials/widget/contribution-dialog.php:101
-msgid "Contribute now"
-msgstr "Jetzt spenden"
-
-#: views/frontend/partials/widget/contribution-dialog.php:103
-msgid "Contribute now, pay later"
-msgstr "Jetzt $/€ spenden, später zahlen"
 
 #: views/frontend/partials/widget/purchase-link.php:33
 #: views/frontend/partials/widget/purchase-link.php:36
@@ -4146,6 +4139,12 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#~ msgid "Contribute now, pay later"
+#~ msgstr "Jetzt $/€ spenden, später zahlen"
+
+#~ msgid "Contribution Amount"
+#~ msgstr "Beitragsbetrag"
 
 #~ msgid "Pricing"
 #~ msgstr "Preise"

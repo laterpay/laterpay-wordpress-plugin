@@ -65,7 +65,6 @@
 
             // Contribution elements.
             lp_preset_buttons               : '.lp-amount-preset-button',
-            lp_link                         : $('.lp-dialog-wrapper .lp-link'),
             lp_custom_amount                : $('.lp-custom-amount-input'),
             lp_custom_amount_wrapper        : $('.lp-custom-input-wrapper'),
             lp_singleContribution           : $('.lp-link-single'),
@@ -320,12 +319,6 @@
                     } else {
                         revenue = 'ppu';
                     }
-                }
-
-                if ('sis' === revenue) {
-                    $o.lp_link.text(lpVars.i18n.contribute + ' ' + lpVars.i18n.now);
-                } else {
-                    $o.lp_link.text(lpVars.i18n.contribute + ' ' + lpVars.i18n.nowOrPayLater);
                 }
             },
 

@@ -10,7 +10,6 @@ $currency_symbol   = $contribution['symbol'];
 $thank_you         = $contribution['thank_you'];
 $payment_config    = $contribution['payment_config'];
 $selected_button   = false;
-$initial_revenue   = 'ppu';
 $campaign_id       = $contribution['id'];
 $contribution_urls = $contribution['contribution_urls'];
 
@@ -24,9 +23,9 @@ $contribution_urls = $contribution['contribution_urls'];
                 <?php
                 $amount = $currency_symbol . LaterPay_Helper_View::format_number( floatval( $payment_config['amount'] / 100 ), 2 );
                 if ( 'ppu' === $payment_config['revenue'] ) {
-                    $button_text = sprintf( '%s %s %s', __( 'Contribute', 'laterpay' ), $amount, __( 'now, Pay Later' ) );
+                    $button_text = sprintf( '%s %s %s', __( 'Contribute', 'laterpay' ), $amount, __( 'now, Pay Later', 'laterpay' ) );
                 } else {
-                    $button_text = sprintf( '%s %s %s', __( 'Contribute', 'laterpay' ), $amount, __( 'now' ) );
+                    $button_text = sprintf( '%s %s %s', __( 'Contribute', 'laterpay' ), $amount, __( 'now', 'laterpay' ) );
                 }
                 ?>
                 <div class="lp-link lp-link-single" data-amount="<?php echo esc_attr( $payment_config['amount'] ); ?>" data-url="<?php echo esc_url( $payment_config['url'] ); ?>"><?php echo esc_html( $button_text ) ?></div>
@@ -52,7 +51,6 @@ $contribution_urls = $contribution['contribution_urls'];
                             foreach ( $payment_config['amounts'] as $amount_info ) {
                                 if ( true === $amount_info['selected'] ) {
                                     $selected_button = true;
-                                    $initial_revenue = $amount_info['revenue'];
                                 } else {
                                     $selected_button = false;
                                 }
@@ -88,13 +86,7 @@ $contribution_urls = $contribution['contribution_urls'];
                             <div data-url="" class="lp-button lp-contribution-button">
                                 <div class="lp-cart"></div>
                                 <div class="lp-link">
-                                    <?php
-                                    if ( 'sis' === $initial_revenue ) {
-                                        esc_html_e( 'Contribute now', 'laterpay' );
-                                    } else {
-                                        esc_html_e( 'Contribute now, pay later', 'laterpay' );
-                                    }
-                                    ?>
+                                    <?php esc_html_e( 'Contribute now', 'laterpay' ); ?>
                                 </div>
                             </div>
                         </div>
