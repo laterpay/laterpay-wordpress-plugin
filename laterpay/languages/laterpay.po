@@ -1197,6 +1197,10 @@ msgstr ""
 msgid "How much would you like to contribute?"
 msgstr ""
 
+#: laterpay/views/backend/contributions.php:239, laterpay/views/frontend/partials/widget/contribution-dialog.php:75
+msgid "Custom Amount"
+msgstr ""
+
 #: laterpay/views/backend/contributions.php:251, laterpay/views/frontend/partials/widget/contribution-dialog.php:89
 msgid "Contribute now"
 msgstr ""

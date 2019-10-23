@@ -72,7 +72,7 @@ $contribution_urls = $contribution['contribution_urls'];
                         <div class="lp-custom-amount-wrapper">
                             <div class="lp-custom-amount">
                                 <label for="lp_custom_amount_input" class="lp-custom-amount-label">
-                                    <span class="lp-custom-amount-text">Custom Amount:</span>
+                                    <span class="lp-custom-amount-text"><?php esc_html_e( 'Custom Amount', 'laterpay' ); ?>:</span>
                                 </label>
                                 <div class="lp-custom-input-wrapper" data-ppu-url="<?php echo esc_url( $contribution_urls['ppu'] ) ?>" data-sis-url="<?php echo esc_url( $contribution_urls['sis'] ) ?>">
                                     <input class="lp-custom-amount-input" type="number" step="0.10" value="<?php echo ! empty( $payment_config['custom_amount'] ) ? esc_attr( LaterPay_Helper_View::format_number( floatval( $payment_config['custom_amount'] / 100 ), 2 ) ) : ''; ?>" />

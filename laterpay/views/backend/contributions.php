@@ -236,7 +236,7 @@ $currency_symbol = 'USD' === $laterpay['currency']['code'] ? '$' : '€';
                                             <div class="lp-custom-amount-wrapper">
                                                 <div class="lp-custom-amount">
                                                     <label for="lp_custom_amount_input" class="lp-custom-amount-label">
-                                                        <span class="lp-custom-amount-text">Custom Amount:</span>
+                                                        <span class="lp-custom-amount-text"><?php esc_html_e( 'Custom Amount', 'laterpay' ); ?>:</span>
                                                     </label>
                                                     <div class="lp-custom-input-wrapper">
                                                         <input id="lp_custom_amount_input" class="lp-custom-amount-input" type="text" />
