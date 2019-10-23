@@ -4,8 +4,9 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay, Payments, Content Monetization, Paywall, Paid Content, Publisher, Blogger, conversion, paygate, monetization
 Requires at least: 4.6
-Tested up to: 5.2.3
-Stable tag: 2.6.5
+Tested up to: 5.3
+Requires PHP: 5.6
+Stable tag: 2.7.0
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -88,6 +89,11 @@ Yes!
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.7.0 ( October 24, 2019 ) =
+* Add `[laterpay_contribution]` shortcode for publishers to accept Contributions.
+* Add Contributions tab, to allow publishers to generate Contribution shortcode dynamically.
+* Remove Free Items from Purchase Overlay.
+
 = 2.6.5 ( September 30, 2019 ) Hotfix Release =
 * Fix issue with Global Pricing behaviour override.
 
@@ -672,8 +678,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.6.5 ( September 30, 2019 ) =
-Fix issue with Global Pricing behaviour override.
+= 2.7.0 ( October 24, 2019 ) =
+New shortocde that allows publishers to accept Contributions, brand new Contributions tab to generate Contributions shortcode and minor bug fix in Purchase Overlay.
 
 == Arbitrary section ==
 
