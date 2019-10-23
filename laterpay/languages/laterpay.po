@@ -451,11 +451,11 @@ msgstr ""
 msgid "Read now, pay later"
 msgstr ""
 
-#: laterpay/application/Helper/Pricing.php:950, laterpay/views/backend/contributions.php:76, laterpay/views/backend/contributions.php:108, laterpay/views/backend/contributions.php:125, laterpay/views/backend/contributions.php:142, laterpay/views/backend/contributions.php:159, laterpay/views/backend/contributions.php:176, laterpay/views/backend/pricing.php:316, laterpay/views/backend/pricing.php:465, laterpay/views/backend/pricing.php:585, laterpay/views/backend/pricing.php:744, laterpay/views/backend/partials/post-pricing-form.php:172, laterpay/views/backend/partials/post-pricing-form.php:195, laterpay/views/backend/partials/post-pricing-form.php:274, laterpay/application/Controller/Admin/Post/Column.php:125, laterpay/application/Controller/Admin/Post/Metabox.php:155
+#: laterpay/application/Helper/Pricing.php:949, laterpay/views/backend/contributions.php:76, laterpay/views/backend/contributions.php:108, laterpay/views/backend/contributions.php:125, laterpay/views/backend/contributions.php:142, laterpay/views/backend/contributions.php:159, laterpay/views/backend/contributions.php:176, laterpay/views/backend/pricing.php:316, laterpay/views/backend/pricing.php:465, laterpay/views/backend/pricing.php:585, laterpay/views/backend/pricing.php:744, laterpay/views/backend/partials/post-pricing-form.php:172, laterpay/views/backend/partials/post-pricing-form.php:195, laterpay/views/backend/partials/post-pricing-form.php:274, laterpay/application/Controller/Admin/Post/Column.php:125, laterpay/application/Controller/Admin/Post/Metabox.php:155
 msgid "Pay Now"
 msgstr ""
 
-#: laterpay/application/Helper/Pricing.php:953, laterpay/application/Module/Purchase.php:653, laterpay/views/backend/contributions.php:71, laterpay/views/backend/contributions.php:103, laterpay/views/backend/contributions.php:120, laterpay/views/backend/contributions.php:137, laterpay/views/backend/contributions.php:154, laterpay/views/backend/contributions.php:171, laterpay/views/backend/pricing.php:311, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:580, laterpay/views/backend/pricing.php:739, laterpay/views/backend/partials/post-pricing-form.php:168, laterpay/views/backend/partials/post-pricing-form.php:191, laterpay/views/backend/partials/post-pricing-form.php:250, laterpay/views/backend/partials/purchase-overlay.php:44, laterpay/application/Controller/Admin/Post/Column.php:126, laterpay/application/Controller/Admin/Post/Metabox.php:154, laterpay/application/Controller/Admin/Post/Metabox.php:166
+#: laterpay/application/Helper/Pricing.php:952, laterpay/application/Module/Purchase.php:653, laterpay/views/backend/contributions.php:71, laterpay/views/backend/contributions.php:103, laterpay/views/backend/contributions.php:120, laterpay/views/backend/contributions.php:137, laterpay/views/backend/contributions.php:154, laterpay/views/backend/contributions.php:171, laterpay/views/backend/pricing.php:311, laterpay/views/backend/pricing.php:460, laterpay/views/backend/pricing.php:580, laterpay/views/backend/pricing.php:739, laterpay/views/backend/partials/post-pricing-form.php:168, laterpay/views/backend/partials/post-pricing-form.php:191, laterpay/views/backend/partials/post-pricing-form.php:250, laterpay/views/backend/partials/purchase-overlay.php:44, laterpay/application/Controller/Admin/Post/Column.php:126, laterpay/application/Controller/Admin/Post/Metabox.php:154, laterpay/application/Controller/Admin/Post/Metabox.php:166
 msgid "Pay Later"
 msgstr ""
 
@@ -555,19 +555,19 @@ msgstr ""
 msgid "You don't have sufficient user capabilities to do this."
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:111, laterpay/application/Module/Purchase.php:750, laterpay/views/backend/partials/purchase-overlay.php:56, laterpay/views/backend/partials/purchase-overlay.php:121, laterpay/views/frontend/partials/widget/purchase-identity-url.php:12
+#: laterpay/application/Module/Purchase.php:111, laterpay/application/Module/Purchase.php:757, laterpay/views/backend/partials/purchase-overlay.php:56, laterpay/views/backend/partials/purchase-overlay.php:121, laterpay/views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:591, laterpay/application/Module/Purchase.php:630, laterpay/application/Module/Purchase.php:643, laterpay/application/Controller/Frontend/Post.php:656, laterpay/application/Controller/Frontend/Shortcode.php:583, laterpay/views/backend/partials/purchase-overlay.php:32
+#: laterpay/application/Module/Purchase.php:591, laterpay/application/Module/Purchase.php:630, laterpay/application/Module/Purchase.php:643, laterpay/application/Controller/Frontend/Post.php:653, laterpay/application/Controller/Frontend/Shortcode.php:583, laterpay/views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:594, laterpay/application/Controller/Frontend/Post.php:657, laterpay/application/Controller/Frontend/Shortcode.php:589
+#: laterpay/application/Module/Purchase.php:594, laterpay/application/Controller/Frontend/Post.php:654, laterpay/application/Controller/Frontend/Shortcode.php:589
 msgid "Subscribe Now"
 msgstr ""
 
-#: laterpay/application/Module/Purchase.php:598, laterpay/application/Controller/Frontend/Post.php:655, laterpay/application/Controller/Frontend/Shortcode.php:581
+#: laterpay/application/Module/Purchase.php:598, laterpay/application/Controller/Frontend/Post.php:652, laterpay/application/Controller/Frontend/Shortcode.php:581
 msgid "Buy Now, Pay Later"
 msgstr ""
 
@@ -1162,7 +1162,7 @@ msgid "Optional. After the button is clicked, we can redirect the visitor to a p
 msgstr ""
 
 #: laterpay/views/backend/contributions.php:62
-msgid "Contribution Amount"
+msgid "Amount"
 msgstr ""
 
 #: laterpay/views/backend/contributions.php:88
@@ -1185,27 +1185,31 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: laterpay/views/backend/contributions.php:200, laterpay/views/backend/contributions.php:253
+#: laterpay/views/backend/contributions.php:200
 msgid "Contribute Now, Pay Later"
 msgstr ""
 
-#: laterpay/views/backend/contributions.php:212, laterpay/views/frontend/partials/widget/contribution-dialog.php:41, laterpay/views/frontend/partials/widget/contribution-dialog.php:50
+#: laterpay/views/backend/contributions.php:210, laterpay/views/frontend/partials/widget/contribution-dialog.php:41
 msgid "Support the author"
 msgstr ""
 
-#: laterpay/views/backend/contributions.php:217, laterpay/views/frontend/partials/widget/contribution-dialog.php:55
+#: laterpay/views/backend/contributions.php:215, laterpay/views/frontend/partials/widget/contribution-dialog.php:46
 msgid "How much would you like to contribute?"
 msgstr ""
 
-#: laterpay/views/backend/contributions.php:259, laterpay/views/backend/partials/purchase-overlay.php:139, laterpay/views/frontend/partials/widget/contribution-dialog.php:112, laterpay/views/frontend/partials/widget/purchase-overlay.php:176
+#: laterpay/views/backend/contributions.php:251, laterpay/views/frontend/partials/widget/contribution-dialog.php:89
+msgid "Contribute now"
+msgstr ""
+
+#: laterpay/views/backend/contributions.php:257, laterpay/views/backend/partials/purchase-overlay.php:139, laterpay/views/frontend/partials/widget/contribution-dialog.php:96, laterpay/views/frontend/partials/widget/purchase-overlay.php:176
 msgid "Powered by"
 msgstr ""
 
-#: laterpay/views/backend/contributions.php:266
+#: laterpay/views/backend/contributions.php:264
 msgid "To include this on your site, click the button below and paste the code where you would like it to appear."
 msgstr ""
 
-#: laterpay/views/backend/contributions.php:269
+#: laterpay/views/backend/contributions.php:267
 msgid "Generate and Copy Code"
 msgstr ""
 
@@ -1595,15 +1599,15 @@ msgstr ""
 msgid "Color scheme saved successfully."
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Contributions.php:60, laterpay/application/Controller/Frontend/Post.php:651, laterpay/views/frontend/partials/widget/contribution-dialog.php:27, laterpay/views/frontend/partials/widget/contribution-dialog.php:29
+#: laterpay/application/Controller/Admin/Contributions.php:60, laterpay/views/frontend/partials/widget/contribution-dialog.php:26, laterpay/views/frontend/partials/widget/contribution-dialog.php:28
 msgid "Contribute"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Contributions.php:61, laterpay/application/Controller/Frontend/Post.php:652
+#: laterpay/application/Controller/Admin/Contributions.php:61, laterpay/views/frontend/partials/widget/contribution-dialog.php:28
 msgid "now"
 msgstr ""
 
-#: laterpay/application/Controller/Admin/Contributions.php:62, laterpay/application/Controller/Frontend/Post.php:653
+#: laterpay/application/Controller/Admin/Contributions.php:62
 msgid "now, pay later"
 msgstr ""
 
@@ -2073,7 +2077,7 @@ msgstr ""
 msgid "An error occurred. Please try again."
 msgstr ""
 
-#: laterpay/application/Controller/Frontend/Post.php:732
+#: laterpay/application/Controller/Frontend/Post.php:729
 msgid "&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}"
 msgstr ""
 
@@ -2513,12 +2517,8 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: laterpay/views/frontend/partials/widget/contribution-dialog.php:101
-msgid "Contribute now"
-msgstr ""
-
-#: laterpay/views/frontend/partials/widget/contribution-dialog.php:103
-msgid "Contribute now, pay later"
+#: laterpay/views/frontend/partials/widget/contribution-dialog.php:26
+msgid "now, Pay Later"
 msgstr ""
 
 #. translators: %1$s purchase text, %2$s formatted price, %3$s currency tpye

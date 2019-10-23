@@ -59,7 +59,7 @@ $currency_symbol = 'USD' === $laterpay['currency']['code'] ? '$' : '€';
                         </div>
                     </div>
                     <div class="lp_contributions_single_amount_options">
-                        <label class="lp_contribution_label"><?php esc_html_e( 'Contribution Amount', 'laterpay' ); ?></label>
+                        <label class="lp_contribution_label"><?php esc_html_e( 'Amount', 'laterpay' ); ?></label>
                         <div class="lp_single_contribution_dialog_options" style="display: none;">
                             <div class="input-icon">
                                 <input type="text" class="lp_js_priceInput lp_input lp_ml-" id="lp_single_contribution_price" value="" placeholder="0.00" />
@@ -248,7 +248,7 @@ $currency_symbol = 'USD' === $laterpay['currency']['code'] ? '$' : '€';
                                                 <div class="lp-button-wrapper">
                                                     <div class="lp-button">
                                                         <div class="lp-cart"></div>
-                                                        <div class="lp-link" id="lp_jsLink"><?php esc_html_e( 'Contribute Now, Pay Later', 'laterpay' ); ?></div>
+                                                        <div class="lp-link"><?php esc_html_e( 'Contribute now', 'laterpay' ); ?></div>
                                                     </div>
                                                 </div>
                                             </div>

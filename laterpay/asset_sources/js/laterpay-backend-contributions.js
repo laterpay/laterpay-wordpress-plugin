@@ -27,7 +27,6 @@
                     contributionSingleButtonWrapper    : $('.lp-dialog-single-button-wrapper'),
                     contributionSinglePreviewButton    : $('#lp_jsLinkSingle'),
                     contributionMultipleWrapper        : $('.lp-dialog-multiple-contribution-wrapper'),
-                    contributionMultiplePreviewButton  : $('#lp_jsLink'),
                     contributionGenerateCode           : $('#lp_js_contributionGenerateCode'),
                     customAmountInput                  : $('#lp_custom_amount_input'),
                     contributionName                   : $('#lp_contribution_name'),
@@ -156,7 +155,6 @@
                         var price = validatePrice($(this).parents('form'), false,
                             'multiple', $(this));
                         $(this).val(price);
-                        updateLivePreview(price, $(this).parents('form'), 'custom');
                     }, 1500));
 
                     // Handle Generate Shortcode Button.
@@ -421,32 +419,7 @@
                                     $amountPreset.hide();
                                 }
                             }
-
-                            // Update multiple preview button.
-                            var $currentButton = $('.lp-amount-presets-wrapper').find($o.selectedButton);
-                            var presetId = $currentButton.parent().attr('id').slice(-1);
-                            var revenueModel = $('#post_price_revenue_model_' + presetId).find('input:checked').val();
-
-                            // Check current revenue and update preview accordingly.
-                            if ('ppu' === revenueModel) {
-                                buttonText = lpVars.i18n.contribute + ' ' + lpVars.i18n.nowOrPayLater;
-                            } else {
-                                buttonText = lpVars.i18n.contribute + ' ' + lpVars.i18n.now;
-                            }
-
-                            // Update the contribution button text in preview.
-                            $o.contributionMultiplePreviewButton.text(buttonText);
                         });
-                    } else if ('custom' === contributionType) {
-                        // Check current revenue and update preview accordingly.
-                        if (price < 5.00) {
-                            buttonText = lpVars.i18n.contribute + ' ' + lpVars.i18n.nowOrPayLater;
-                        } else {
-                            buttonText = lpVars.i18n.contribute + ' ' + lpVars.i18n.now;
-                        }
-
-                        // Update the contribution button text in preview.
-                        $o.contributionMultiplePreviewButton.text(buttonText);
                     } else {
                         var revenue = $('input:radio:checked', $form).val();
 
