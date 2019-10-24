@@ -123,6 +123,7 @@ class LaterPay_Core_Bootstrap
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_time_pass_purchase', 'laterpay_shortcode_time_pass_purchase' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_subscription_purchase', 'laterpay_shortcode_subsription_purchase' );
         LaterPay_Hooks::add_wp_shortcode( 'laterpay_check_access', 'laterpay_shortcode_check_access' );
+        LaterPay_Hooks::add_wp_shortcode( 'laterpay_contribution', 'laterpay_shortcode_contribution' );
 
         laterpay_event_dispatcher()->add_subscriber( $shortcode_controller );
     }
@@ -157,6 +158,8 @@ class LaterPay_Core_Bootstrap
 
         $controller = self::get_controller( 'Admin_Advanced' );
         laterpay_event_dispatcher()->add_subscriber( $controller );
+
+        laterpay_event_dispatcher()->add_subscriber( self::get_controller( 'Admin_Contributions' ) );
 
         // register callbacks for adding meta_boxes
         $post_metabox_controller = self::get_controller( 'Admin_Post_Metabox' );

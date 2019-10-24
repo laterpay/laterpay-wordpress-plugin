@@ -1,0 +1,14 @@
+/**
+ * Heart SVG for Contribution buttons.
+ */
+
+.lp-cart {
+	height: 19px;
+	width: 19px;
+	z-index: 1;
+	transform: translate(16px, 19.5px);
+	float: left;
+	position: relative;
+	top: -6px;
+	background-image: url('../img/laterpay-icon-contribute.svg') !important;
+}

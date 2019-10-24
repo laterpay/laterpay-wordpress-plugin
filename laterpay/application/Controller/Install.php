@@ -686,7 +686,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         if ( ! empty( $current_version ) ) {
 
             $update_highlights = [
-                'version' => '2.6.4',
+                'version' => '2.7.0',
             ];
 
             update_option( 'lp_update_highlights', $update_highlights );
@@ -706,11 +706,24 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             // If `1` then show notice.
             update_option( 'lp_tabular_info',
                 [
-                    'appearance' => 1,
-                    'pricing'    => 1,
-                    'advanced'   => 1,
+                    'appearance'    => 1,
+                    'pricing'       => 1,
+                    'advanced'      => 1,
+                    'contributions' => 1,
                 ]
             );
+        } else {
+            $all_lp_tabs = [ 'appearance', 'pricing', 'advanced', 'contributions' ];
+            // For adding new data, if option exists already, check if all tab option exists, if not add it.
+            $current_lp_tab_info = get_option( 'lp_tabular_info', [] );
+            if ( ! empty( $current_lp_tab_info ) ) {
+                foreach ( $all_lp_tabs as $lp_tab ) {
+                    if ( ! isset( $current_lp_tab_info[$lp_tab] ) ) {
+                        $current_lp_tab_info[$lp_tab] = 1;
+                    }
+                }
+            }
+            update_option( 'lp_tabular_info', $current_lp_tab_info );
         }
     }
 
