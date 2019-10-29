@@ -529,13 +529,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
         global $wp_roles;
         $custom_roles = array();
 
-        $default_roles = array(
-            'administrator',
-            'editor',
-            'contributor',
-            'author',
-            'subscriber',
-        );
+        // Roles that should not be shown in Settings > LaterPay > Access > Unlimited Access section.
+        $default_roles = [ 'administrator' ];
 
         $categories = array(
             'none' => esc_html__( 'none', 'laterpay' ),
