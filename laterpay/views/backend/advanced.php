@@ -353,45 +353,25 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                     </a>
                 </div>
             </div>
-            <br/>
-        </div>
-        <div class="lp_side_area">
-            <div class="lp_clearfix lp_info">
-                <div class="lp_side_info">
-                    <h2><?php esc_html_e( 'TIPS & TRICKS', 'laterpay' ); ?></h2>
-                    <ul>
-                        <li>
-                            <?php
-                            printf(
-                                esc_html__( '%sHELP!%s The new version of the plugin is not compatible with my site. How can I rollback? %sClick here for step by step instructions.%s', 'laterpay' ),
-                                '<b>',
-                                '</b>',
-                                '<a href="https://support.laterpay.net/rollback-wordpress-plugin" target="_blank" class="lp_info_link">',
-                                "</a>"
-                            ); ?>
-                        </li>
-                        <li>
-                            <?php
-                            printf(
-                                "%s <a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
-                                esc_html__( 'Have you found all of our Advanced Settings?', 'laterpay' ),
-                                esc_url( $settings_url ),
-                                esc_html__( 'Click here to see even more LaterPay configurations.', 'laterpay' ),
-                                esc_html__( 'including:', 'laterpay' )
-                            );
-                            ?>
-                        </li>
-                        <li>
-                            <?php printf(
-                                esc_html__( 'Pay Later can be counter-intuitive at first. %sClick here%s to learn more and see our recommendations on when to use Pay Now versus Pay Later.', 'laterpay' ),
-                                '<a href="https://www.laterpay.net/academy/getting-started-with-laterpay-the-difference-between-pay-now-pay-later" target="_blank" class="lp_info_link">',
-                                "</a>"
-                            ); ?>
-                        </li>
-                    </ul>
-                </div>
-                <?php $this->render_faq_support(); ?>
-            </div>
+
+			<h2><?php esc_html_e( 'Support', 'laterpay' ); ?></h2>
+
+			<div class="lp_clearfix">
+				<p><?php printf( esc_html__( 'Having Trouble with Page Cache? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/wordpress-cache" target="_blank" class="lp_info_link">', '</a>' ); ?></p>
+
+                <?php
+                // Only show info if on WPEngine environment.
+                if ( function_exists( 'is_wpe' ) && is_wpe() ) {
+                    ?>
+					<p><?php printf( esc_html__( 'Having Trouble on WPEngine? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/i-am-having-trouble-with-wordpress-engine" target="_blank" class="lp_info_link">', '</a>' ); ?></p>
+                    <?php
+                }
+                ?>
+				<p>
+                    <?php printf( esc_html__( 'The new version of the plugin is not compatible with my site. How can I rollback? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/rollback-wordpress-plugin" target="_blank" class="lp_info_link">', '</a>' ); ?>
+				</p>
+			</div>
+			<br/>
         </div>
     </div>
 </div>

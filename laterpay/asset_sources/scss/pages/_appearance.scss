@@ -14,11 +14,11 @@
         font-size: 28px;
     }
 
-    width: 65% !important;
+    width: 100% !important;
 
     div.lp_clearfix:first-child {
-        padding: 40px 0 0 30px;
-        width: 50%;
+        padding: 40px 30px 0 15px;
+        width: 45%;
         float: left;
     }
 
@@ -60,6 +60,7 @@
     }
 
     div.lp_appearance_preview {
+        max-width: 450px;
         h3 {
             margin-top: 30px;
             color: #000000;
@@ -197,7 +198,7 @@
     }
 
     .lp_customize_colors {
-        padding: 0 0 0 30px;
+        padding: 0 0 0 15px;
         width: 50%;
 
         table {
@@ -210,10 +211,11 @@
             }
         }
     }
-}
 
-.lp_side_area {
-    width: 35% !important;
+    .lp-advanced-settings {
+        margin: 15px 0;
+        font-size: 14px;
+    }
 }
 
 // purchase button position images

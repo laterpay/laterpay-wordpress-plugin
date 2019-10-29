@@ -4,10 +4,10 @@
     width: 60%;
 
     div.lp_clearfix:last-child {
-        margin-bottom: 0px;
+        margin-bottom: 0;
 
         .lp_info_div {
-            padding-bottom: 0px;
+            padding-bottom: 0;
         }
     }
 
@@ -21,8 +21,11 @@
     }
 
     .lp_advanced_info {
-        width: 70%;
+        width: 65%;
         float: left;
+        p {
+            width: 85%;
+        }
     }
 
     .lp_advanced_info_dynamic {
@@ -55,7 +58,7 @@
 
     div.lp_info_list_div {
         position: absolute;
-        right: 36%;
+        right: 16%;
 
         ul.lp_info_list {
             list-style: none !important;
@@ -77,13 +80,6 @@
         .lp_toggle__label {
             width: 7.5em;
         }
-    }
-}
-
-.lp_side_area {
-    ul {
-        list-style: disc;
-        color: #737373;
     }
 }
 
