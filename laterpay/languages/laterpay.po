@@ -447,7 +447,7 @@ msgstr ""
 msgid "%s: <code>%s</code> not found"
 msgstr ""
 
-#: laterpay/application/Helper/Appearance.php:25, laterpay/application/Helper/Appearance.php:56, laterpay/views/backend/appearance.php:17, laterpay/views/backend/appearance.php:92, laterpay/application/Controller/Admin/Appearance.php:173
+#: laterpay/application/Helper/Appearance.php:25, laterpay/application/Helper/Appearance.php:56, laterpay/views/backend/appearance.php:17, laterpay/views/backend/appearance.php:94, laterpay/application/Controller/Admin/Appearance.php:173
 msgid "Read now, pay later"
 msgstr ""
 
@@ -635,18 +635,18 @@ msgstr ""
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 
-#: laterpay/views/backend/account.php:24, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:38, laterpay/views/backend/contributions.php:24, laterpay/views/backend/pricing.php:19, laterpay/views/backend/partials/post-pricing-form.php:67, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:23
+#: laterpay/views/backend/account.php:24, laterpay/views/backend/advanced.php:29, laterpay/views/backend/appearance.php:40, laterpay/views/backend/contributions.php:24, laterpay/views/backend/pricing.php:19, laterpay/views/backend/partials/post-pricing-form.php:67, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:23
 msgid "Test mode"
 msgstr ""
 
 #. translators: %1$s info text1, %2$s info text2
 #. translators: %1$s info text1, %2$s info text2
 #. translators: %1$s info text1, %2$s info text2
-#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:30, laterpay/views/backend/appearance.php:39, laterpay/views/backend/contributions.php:25, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:71, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:27
+#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:30, laterpay/views/backend/appearance.php:41, laterpay/views/backend/contributions.php:25, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:71, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "Earn money in"
 msgstr ""
 
-#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:30, laterpay/views/backend/appearance.php:39, laterpay/views/backend/contributions.php:25, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:71, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:27
+#: laterpay/views/backend/account.php:25, laterpay/views/backend/advanced.php:30, laterpay/views/backend/appearance.php:41, laterpay/views/backend/contributions.php:25, laterpay/views/backend/pricing.php:23, laterpay/views/backend/partials/post-pricing-form.php:71, laterpay/views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "live mode"
 msgstr ""
 
@@ -873,7 +873,7 @@ msgstr ""
 msgid "Dynamic pricing is a feature available on the Edit Post page. Once there, simply choose “Individual Price” in the Pricing for this Post section then click “+ Add dynamic pricing” at the bottom. Once you’ve completed this, you can drag and drop the points on the graph to adjust pricing based on the days since the article was originally published."
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:181
+#: laterpay/views/backend/advanced.php:181, laterpay/views/backend/appearance.php:149
 msgid "Advanced Settings"
 msgstr ""
 
@@ -933,7 +933,7 @@ msgstr ""
 msgid "Click here to access additional appearance configurations,"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:267, laterpay/views/backend/advanced.php:342, laterpay/views/backend/advanced.php:380
+#: laterpay/views/backend/advanced.php:267, laterpay/views/backend/advanced.php:342
 msgid "including:"
 msgstr ""
 
@@ -977,7 +977,7 @@ msgstr ""
 msgid "Deactivate LaterPay Plugin"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:323, laterpay/views/backend/appearance.php:148, laterpay/views/backend/appearance.php:281, laterpay/views/backend/pricing.php:113, laterpay/views/backend/pricing.php:196, laterpay/views/backend/pricing.php:356, laterpay/views/backend/pricing.php:476, laterpay/views/backend/pricing.php:596, laterpay/views/backend/pricing.php:628, laterpay/views/backend/pricing.php:790, laterpay/views/backend/pricing.php:843, laterpay/views/backend/pricing.php:990, laterpay/application/Controller/Admin/Settings.php:263, laterpay/views/frontend/partials/widget/purchase-overlay.php:146
+#: laterpay/views/backend/advanced.php:323, laterpay/views/backend/appearance.php:154, laterpay/views/backend/appearance.php:287, laterpay/views/backend/pricing.php:113, laterpay/views/backend/pricing.php:196, laterpay/views/backend/pricing.php:356, laterpay/views/backend/pricing.php:476, laterpay/views/backend/pricing.php:596, laterpay/views/backend/pricing.php:628, laterpay/views/backend/pricing.php:790, laterpay/views/backend/pricing.php:843, laterpay/views/backend/pricing.php:990, laterpay/application/Controller/Admin/Settings.php:263, laterpay/views/frontend/partials/widget/purchase-overlay.php:146
 msgid "Cancel"
 msgstr ""
 
@@ -1005,140 +1005,128 @@ msgstr ""
 msgid "Define fallback behavior in case LaterPay API is not responding"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:361, laterpay/views/backend/appearance.php:294
-msgid "TIPS & TRICKS"
+#: laterpay/views/backend/advanced.php:357, laterpay/views/backend/partials/faq-support.php:25
+msgid "Support"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:366
-msgid "%sHELP!%s The new version of the plugin is not compatible with my site. How can I rollback? %sClick here for step by step instructions.%s"
+#: laterpay/views/backend/advanced.php:360, laterpay/views/backend/partials/faq-support.php:10
+msgid "Having Trouble with Page Cache? %sClick here.%s"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:377
-msgid "Have you found all of our Advanced Settings?"
+#: laterpay/views/backend/advanced.php:366, laterpay/views/backend/partials/faq-support.php:16
+msgid "Having Trouble on WPEngine? %sClick here.%s"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:379
-msgid "Click here to see even more LaterPay configurations."
+#: laterpay/views/backend/advanced.php:371, laterpay/views/backend/partials/faq-support.php:21
+msgid "The new version of the plugin is not compatible with my site. How can I rollback? %sClick here.%s"
 msgstr ""
 
-#: laterpay/views/backend/advanced.php:386
-msgid "Pay Later can be counter-intuitive at first. %sClick here%s to learn more and see our recommendations on when to use Pay Now versus Pay Later."
-msgstr ""
-
-#: laterpay/views/backend/appearance.php:56
+#: laterpay/views/backend/appearance.php:58
 msgid "%sConfigure%s Appearance"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:69
+#: laterpay/views/backend/appearance.php:71
 msgid "Show purchase button above article"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:72
+#: laterpay/views/backend/appearance.php:74
 msgid "Customize position of purchase button"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:77
+#: laterpay/views/backend/appearance.php:79
 msgid "Call action 'laterpay_purchase_button' in your theme to render the LaterPay purchase button at that position."
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:86
+#: laterpay/views/backend/appearance.php:88
 msgid "Show Purchase Overlay"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:91
+#: laterpay/views/backend/appearance.php:93
 msgid "Header"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:96
+#: laterpay/views/backend/appearance.php:98
 msgid "Show LaterPay Introduction"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:101
+#: laterpay/views/backend/appearance.php:103
 msgid "Show Time Passes & Subscriptions below modal"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:104
+#: laterpay/views/backend/appearance.php:106
 msgid "Customize position of Time Passes & Subscriptions"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:109
+#: laterpay/views/backend/appearance.php:111
 msgid "Call action 'laterpay_time_passes' in your theme or use the shortcode '[laterpay_time_passes]' to show your users the available time passes."
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:136
+#: laterpay/views/backend/appearance.php:138
 msgid "Add custom HTML section below payment button"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:142
+#: laterpay/views/backend/appearance.php:144
 msgid "Show valid payment options"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:147, laterpay/views/backend/appearance.php:280, laterpay/views/backend/pricing.php:112, laterpay/views/backend/pricing.php:195, laterpay/views/backend/pricing.php:355, laterpay/views/backend/pricing.php:475, laterpay/views/backend/pricing.php:595, laterpay/views/backend/pricing.php:627, laterpay/views/backend/pricing.php:789, laterpay/views/backend/pricing.php:842, laterpay/views/backend/pricing.php:989
+#: laterpay/views/backend/appearance.php:153, laterpay/views/backend/appearance.php:286, laterpay/views/backend/pricing.php:112, laterpay/views/backend/pricing.php:195, laterpay/views/backend/pricing.php:355, laterpay/views/backend/pricing.php:475, laterpay/views/backend/pricing.php:595, laterpay/views/backend/pricing.php:627, laterpay/views/backend/pricing.php:789, laterpay/views/backend/pricing.php:842, laterpay/views/backend/pricing.php:989
 msgid "Save"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:149, laterpay/application/Controller/Admin/Appearance.php:76
+#: laterpay/views/backend/appearance.php:155, laterpay/application/Controller/Admin/Appearance.php:76
 msgid "Please select one of the recommended options above to ensure that your users can purchase all content types."
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:160
+#: laterpay/views/backend/appearance.php:166
 msgid "Loading..."
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:184
+#: laterpay/views/backend/appearance.php:190
 msgid "%sCustomize%s Colors"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:198
+#: laterpay/views/backend/appearance.php:204
 msgid "Header background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:206
+#: laterpay/views/backend/appearance.php:212
 msgid "Purchase option background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:214
+#: laterpay/views/backend/appearance.php:220
 msgid "Main text color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:222
+#: laterpay/views/backend/appearance.php:228
 msgid "Description text color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:230
+#: laterpay/views/backend/appearance.php:236
 msgid "Purchase button background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:238
+#: laterpay/views/backend/appearance.php:244
 msgid "Purchase button hover color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:246
+#: laterpay/views/backend/appearance.php:252
 msgid "Purchase button text color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:254
+#: laterpay/views/backend/appearance.php:260
 msgid "Link main color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:262
+#: laterpay/views/backend/appearance.php:268
 msgid "Link hover color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:270
+#: laterpay/views/backend/appearance.php:276
 msgid "Footer background color"
 msgstr ""
 
-#: laterpay/views/backend/appearance.php:285
+#: laterpay/views/backend/appearance.php:288
 msgid "Restore Default Values"
-msgstr ""
-
-#: laterpay/views/backend/appearance.php:301
-msgid "Click here"
-msgstr ""
-
-#: laterpay/views/backend/appearance.php:302
-msgid "to adjust the number of characters automatically generated as your teaser content or the length of the content preview blurred behind our paywall."
 msgstr ""
 
 #: laterpay/views/backend/contributions.php:46
@@ -2163,22 +2151,6 @@ msgstr ""
 
 #: laterpay/views/backend/partials/faq-support.php:9
 msgid "FAQ's"
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:10
-msgid "Having Trouble with Page Cache? %sClick here.%s"
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:16
-msgid "Having Trouble on WPEngine? %sClick here.%s"
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:21
-msgid "The new version of the plugin is not compatible with my site. How can I rollback? %sClick here.%s"
-msgstr ""
-
-#: laterpay/views/backend/partials/faq-support.php:25
-msgid "Support"
 msgstr ""
 
 #: laterpay/views/backend/partials/faq-support.php:29
