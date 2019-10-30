@@ -7,6 +7,7 @@
             var $o = {
                     // Elements on the current page.
                 showMerchantDashboard     : $('#lp_js_showMerchantDashboard, #lp_js_showMerchantDashboardImage'),
+                openLaterPaySupport       : $('#lp_js_openSupportPage'),
                 navigation                : $('.lp_navigation'),
                 pluginDelete              : $('.lp_js_disablePlugin'),
                 pluginDeleteConfirm       : $('.lp_js_disablePluginConfirm'),
@@ -20,6 +21,12 @@
 
                     // Add href to dashboard based on location.
                     $o.showMerchantDashboard.bind('click', function () {
+                        $(this).attr('href', $(this).data('href-' + lpVars.region));
+                        return true;
+                    });
+
+                    // Add href to support based on current region.
+                    $o.openLaterPaySupport.bind('click', function () {
                         $(this).attr('href', $(this).data('href-' + lpVars.region));
                         return true;
                     });
