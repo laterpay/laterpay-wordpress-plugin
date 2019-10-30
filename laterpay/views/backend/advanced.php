@@ -354,24 +354,34 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                 </div>
             </div>
 
-			<h2><?php esc_html_e( 'Support', 'laterpay' ); ?></h2>
+            <h2><?php esc_html_e( 'Support', 'laterpay' ); ?></h2>
 
-			<div class="lp_clearfix">
-				<p><?php printf( esc_html__( 'Having Trouble with Page Cache? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/wordpress-cache" target="_blank" class="lp_info_link">', '</a>' ); ?></p>
+            <div class="lp_clearfix">
+                <p><?php printf( esc_html__( 'Having Trouble with Page Cache? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/wordpress-cache" target="_blank" class="lp_info_link">', '</a>' ); ?></p>
 
                 <?php
                 // Only show info if on WPEngine environment.
                 if ( function_exists( 'is_wpe' ) && is_wpe() ) {
                     ?>
-					<p><?php printf( esc_html__( 'Having Trouble on WPEngine? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/i-am-having-trouble-with-wordpress-engine" target="_blank" class="lp_info_link">', '</a>' ); ?></p>
+                    <p><?php printf( esc_html__( 'Having Trouble on WPEngine? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/i-am-having-trouble-with-wordpress-engine" target="_blank" class="lp_info_link">', '</a>' ); ?></p>
                     <?php
                 }
                 ?>
-				<p>
+                <p>
                     <?php printf( esc_html__( 'The new version of the plugin is not compatible with my site. How can I rollback? %sClick here.%s', 'laterpay' ), '<a href="https://support.laterpay.net/rollback-wordpress-plugin" target="_blank" class="lp_info_link">', '</a>' ); ?>
-				</p>
-			</div>
-			<br/>
+                </p>
+                <p>
+                    <?php
+                    printf(
+                        esc_html__( '%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback or to reach our customer service team.', 'laterpay' ),
+                        "<a href='#' id='lp_js_openSupportPage' data-href-eu='https://www.laterpay.net/de/contact-support' data-href-us='https://www.laterpay.net/contact-support' target='_blank' class='lp_info_link'>",
+                        "<a href='mailto:support@laterpay.net' class='lp_info_link'>",
+                        '</a>'
+                    );
+                    ?>
+                </p>
+            </div>
+            <br />
         </div>
     </div>
 </div>

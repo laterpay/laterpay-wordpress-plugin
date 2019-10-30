@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-10-29 19:08+0530\n"
-"PO-Revision-Date: 2019-10-29 19:09+0530\n"
+"POT-Creation-Date: 2019-10-30 16:04+0530\n"
+"PO-Revision-Date: 2019-10-30 16:13+0530\n"
 "Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1938,48 +1938,48 @@ msgstr ""
 "Haben Sie Fragen oder vermissen eine Funktion? %1$sKlicken Sie hier um den "
 "LaterPay Support zu kontatkieren%2$s"
 
-#: application/Controller/Admin/Settings.php:541
+#: application/Controller/Admin/Settings.php:536
 msgid "none"
 msgstr "keine"
 
-#: application/Controller/Admin/Settings.php:542
+#: application/Controller/Admin/Settings.php:537
 msgid "all"
 msgstr "alle"
 
-#: application/Controller/Admin/Settings.php:599
+#: application/Controller/Admin/Settings.php:594
 #, fuzzy
 msgid "WordPress User Role"
 msgstr "Nutzerrolle"
 
-#: application/Controller/Admin/Settings.php:601
+#: application/Controller/Admin/Settings.php:596
 #, fuzzy
 msgid "Receives unlimited access to:"
 msgstr "Zeitbasierten Zugriff auf Inhalte verkaufen"
 
-#: application/Controller/Admin/Settings.php:606
+#: application/Controller/Admin/Settings.php:601
 msgid "Please add a custom role first."
 msgstr "Bitte erstellen Sie erst eine eigene Nutzerrolle."
 
-#: application/Controller/Admin/Settings.php:688
+#: application/Controller/Admin/Settings.php:683
 msgid "Close"
 msgstr "Schließen"
 
-#: application/Controller/Admin/Settings.php:876
+#: application/Controller/Admin/Settings.php:871
 msgid "Do nothing"
 msgstr "Nichts tun"
 
-#: application/Controller/Admin/Settings.php:877
+#: application/Controller/Admin/Settings.php:872
 msgid ""
 "No user can access premium content while the LaterPay API is not responding."
 msgstr ""
 "Kein Nutzer hat Zugriff auf Premium-Inhalte, während die LaterPay API nicht "
 "erreichbar ist."
 
-#: application/Controller/Admin/Settings.php:881
+#: application/Controller/Admin/Settings.php:876
 msgid "Give full access"
 msgstr "Vollzugriff gewähren"
 
-#: application/Controller/Admin/Settings.php:882
+#: application/Controller/Admin/Settings.php:877
 msgid ""
 "All users have full access to premium content in order to not disappoint "
 "paying users."
@@ -1987,15 +1987,15 @@ msgstr ""
 "Alle Nutzer haben vollen Zugriff auf Bezahlinhalte (z. B. Nützlich, um "
 "bisherige Käufer nicht zu verärgern)."
 
-#: application/Controller/Admin/Settings.php:886
+#: application/Controller/Admin/Settings.php:881
 msgid "Hide premium content"
 msgstr "Bezahlinhalte ausblenden"
 
-#: application/Controller/Admin/Settings.php:887
+#: application/Controller/Admin/Settings.php:882
 msgid "Premium content is hidden from users. Direct access would be blocked."
 msgstr "Bezahlinhalte werden ausgeblendet, der Direktzugriff wird verweigert."
 
-#: application/Controller/Admin/Settings.php:967
+#: application/Controller/Admin/Settings.php:962
 msgid "auto detected"
 msgstr "automatisch ermittelt"
 
@@ -3117,6 +3117,16 @@ msgstr ""
 "Die neue Version des Plugins ist nicht kompatibel mit meiner Website. Wie "
 "kann ich einen Rollback durchführen? %sKlicken Sie hier.%s"
 
+#: views/backend/advanced.php:376 views/backend/partials/faq-support.php:29
+#, php-format
+msgid ""
+"%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback "
+"or to reach our customer service team."
+msgstr ""
+"%1$sKlicken Sie hier%3$s oder schreiben Sie eine Email an "
+"%2$ssupport@laterpay.net%3$s, um Feedback zu geben oder mit unserem "
+"Kundensupport Kontakt aufzunehmen."
+
 #: views/backend/appearance.php:58
 #, php-format
 msgid "%sConfigure%s Appearance"
@@ -3256,7 +3266,7 @@ msgid ""
 msgstr ""
 "Geben Sie die Beschreibung ein, die auf der Rechnung Ihrer Kunden erscheinen "
 "soll. Wir empfehlen Ihnen, den Namen Ihrer Organisation anzugeben und etwas, "
-"das sie an diese individuelle Spende erinnert."
+"das sie an diese individuelle Beitragszahlung erinnert."
 
 #: views/backend/contributions.php:50
 msgid "Contributions for..."
@@ -3362,16 +3372,6 @@ msgstr ""
 #: views/backend/partials/faq-support.php:9
 msgid "FAQ's"
 msgstr "FAQs"
-
-#: views/backend/partials/faq-support.php:29
-#, php-format
-msgid ""
-"%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback "
-"or to reach our customer service team."
-msgstr ""
-"%1$sKlicken Sie hier%3$s oder schreiben Sie eine Email an "
-"%2$ssupport@laterpay.net%3$s, um Feedback zu geben oder mit unserem "
-"Kundensupport Kontakt aufzunehmen."
 
 #: views/backend/partials/pointer-scripts.php:12
 msgid "Welcome to LaterPay"
