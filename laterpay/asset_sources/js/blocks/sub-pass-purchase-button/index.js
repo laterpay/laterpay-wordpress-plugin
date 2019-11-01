@@ -1,44 +1,45 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 
+import Icons from '../icons';
 import Edit from './edit';
 
 /**
  * Register Purchase Button Block.
  */
-registerBlockType('laterpay/sub-pass-purchase-button', {
-	title     : __('LaterPay Purchase Button', 'laterpay'),
-	icon      : 'cart',
-	category  : 'widgets',
+registerBlockType( 'laterpay/sub-pass-purchase-button', {
+	title: __( 'LaterPay Purchase Button', 'laterpay' ),
+	icon: Icons.logo,
+	category: 'laterpay-blocks',
 	keywords: [
-		__("TimePass Button", "laterpay"),
-		__("Subscription Button", "laterpay"),
+		__( 'TimePass Button', 'laterpay' ),
+		__( 'Subscription Button', 'laterpay' ),
 	],
 	attributes: {
-		alignment            : {
+		alignment: {
 			type: 'string',
 		},
-		purchaseType         : {
-			type   : 'string', // Select type of Purchase i.e Subscription / Time Pass.
+		purchaseType: {
+			type: 'string', // Select type of Purchase i.e Subscription / Time Pass.
 			default: 'tp',
 		},
-		purchaseId           : {
+		purchaseId: {
 			type: 'string', // Subscription / Time Pass ID.
 		},
 		buttonBackgroundColor: {
-			type   : 'string', // Button background color.
+			type: 'string', // Button background color.
 			default: '#00aaa2',
 		},
-		buttonTextColor      : {
-			type   : 'string', // Button text color.
+		buttonTextColor: {
+			type: 'string', // Button text color.
 			default: '#ffffff',
 		},
-		buttonText           : {
+		buttonText: {
 			type: 'string', // Button text.
 		},
 	},
-	edit      : Edit,
+	edit: Edit,
 	save() {
 		return null;
 	},
-});
+} );

@@ -14,8 +14,11 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
      */
     public static function get_subscribed_events() {
         return array(
-            'laterpay_register_blocks' => array(
+            'laterpay_register_blocks'      => array(
                 array( 'lp_register_blocks' ),
+            ),
+            'laterpay_add_block_categories' => array(
+                array( 'lp_add_block_categories' ),
             ),
         );
     }
@@ -154,5 +157,29 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
                 $this->config->get( 'languages_dir' )
             );
         }
+    }
+
+    /**
+     * Add a category for LaterPay Blocks.
+     *
+     * @wp-hook block_categories
+     *
+     * @param LaterPay_Core_Event $event
+     *
+     * @return void
+     */
+    public function lp_add_block_categories( LaterPay_Core_Event $event ) {
+
+        list( $block_categories ) = $event->get_arguments() + array( '' );
+
+        $event->set_result( array_merge(
+            $block_categories,
+            [
+                [
+                    'slug'  => 'laterpay-blocks',
+                    'title' => __( 'LaterPay Blocks', 'laterpay' ),
+                ],
+            ]
+        ) );
     }
 }
