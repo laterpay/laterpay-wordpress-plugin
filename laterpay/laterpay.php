@@ -105,6 +105,7 @@ function laterpay_get_plugin_config() {
     $config->set( 'cache_dir',          plugin_dir_path( __FILE__ ) . 'cache/' );
     $config->set( 'block_build_dir',    plugin_dir_path( __FILE__ ) . 'built_assets/block_build/' );
     $config->set( 'css_dir',            plugin_dir_path( __FILE__ ) . 'built_assets/css/' );
+    $config->set( 'languages_dir',      plugin_dir_path( __FILE__ ) . 'languages' );
 
     $upload_dir = wp_upload_dir();
     $config->set( 'log_dir',            $upload_dir['basedir'] . '/laterpay_log/' );
