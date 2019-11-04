@@ -37,14 +37,23 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             return $this->maybe_return_error_message( __( 'We couldn\'t find a timepass with id="0" on this site.', 'laterpay' ) );
         }
 
-        // Set all required values and defaults.
-        $lpEntityId            = empty( $attributes['purchaseId'] ) ? 0 : $attributes['purchaseId'];
-        $lpPurchaseType        = empty( $attributes['purchaseType'] ) ? 'tp' : $attributes['purchaseType'];
+        // Default values for attributes.
+        $lp_sub_pass_defaults  = [
+            'purchaseId'            => 0,
+            'purchaseType'          => 'tp',
+            'buttonText'            => '',
+            'alignment'             => 'left',
+            'buttonBackgroundColor' => '#00aaa2',
+            'buttonTextColor'       => '#fffff',
+        ];
+        $attributes            = wp_parse_args( $attributes, $lp_sub_pass_defaults );
+        $lpEntityId            = $attributes['purchaseId'];
+        $lpPurchaseType        = $attributes['purchaseType'];
         $is_subscription       = 'sub' === $lpPurchaseType ? true : false;
         $entity_text           = $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' );
-        $buttonText            = empty( $attributes['buttonText'] ) ? '' : $attributes['buttonText'];
-        $buttonAlignment       = empty( $attributes['alignment'] ) ? 'left' : $attributes['alignment'];
-        $buttonBackgroundColor = empty( $attributes['buttonBackgroundColor'] ) ? '#00aaa2' : $attributes['buttonBackgroundColor'];
+        $buttonText            = $attributes['buttonText'];
+        $buttonAlignment       = $attributes['alignment'];
+        $buttonBackgroundColor = $attributes['buttonBackgroundColor'];
         $buttonTextColor       = empty( $attributes['buttonTextColor'] ) ? '#fffff' : $attributes['buttonTextColor'];
 
         if ( empty( $lpEntityId ) ) {
@@ -90,6 +99,17 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
 
             return $lp_purchaseButton;
         }
+    }
+
+    /**
+     * Render Purchase Button Block.
+     *
+     * @param array $attributes Purchase button block data.
+     *
+     * @return string
+     */
+    public function dynamic_access_render_callback( $attributes, $content ) {
+        // Render function for dynamic access block.
     }
 
     /**
@@ -146,6 +166,13 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             'style'           => 'laterpay-block-editor-assets',
             'editor_script'   => 'laterpay-block-editor-assets',
             'render_callback' => array( $this, 'purchase_button_render_callback' ) // For Dynamic rendering of content.
+        ) );
+
+        // Register Dynamic Access Block.
+        register_block_type( 'laterpay/dynamic-access', array(
+            'style'           => 'laterpay-block-editor-assets',
+            'editor_script'   => 'laterpay-block-editor-assets',
+            'render_callback' => array( $this, 'dynamic_access_render_callback' ) // For Dynamic rendering of content.
         ) );
 
         // Sets translated strings for a script.

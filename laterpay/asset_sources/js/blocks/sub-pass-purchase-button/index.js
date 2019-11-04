@@ -18,6 +18,7 @@ registerBlockType( 'laterpay/sub-pass-purchase-button', {
 	attributes: {
 		alignment: {
 			type: 'string',
+			default: 'left',
 		},
 		purchaseType: {
 			type: 'string', // Select type of Purchase i.e Subscription / Time Pass.
