@@ -1,9 +1,6 @@
 import { Component } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import {
-	InspectorControls,
-	RichText,
-} from '@wordpress/block-editor';
+import { InspectorControls, RichText } from '@wordpress/block-editor';
 import { PanelBody, RadioControl, SelectControl, TextControl } from '@wordpress/components';
 import { showNotice } from '../helpers';
 
@@ -50,13 +47,11 @@ class Edit extends Component {
 						'multiple' === timePassSelectionType ? (
 							<TextControl
 								label={ __( "Enter TimePass ID's manually separated by comma", 'laterpay' ) }
-								help={ __( 'Ex: 13,42 will check access for TimePass with ID 13 and 42', 'laterpay' ) }
+								help={ __( 'Ex: 13,42 will check if user has access too TimePass with ID 13 or 42', 'laterpay' ) }
 								value={ timePassIds }
 								onChange={ ( newTimePassIds ) => setAttributes( { timePassIds: newTimePassIds } ) }
 							/>
-						) : (
-							''
-						)
+						) : ( '' )
 					}
 					<SelectControl
 						label={ __( 'Subscriptions to select', 'laterpay' ) }
@@ -72,7 +67,7 @@ class Edit extends Component {
 						'multiple' === subscriptionSelectionType ? (
 							<TextControl
 								label={ __( "Enter TimePass ID's manually separated by comma", 'laterpay' ) }
-								help={ __( 'Ex: 13,42 will check access for TimePass with ID 13 and 42', 'laterpay' ) }
+								help={ __( 'Ex: 13,42 will check if user has access to Subscription with ID 13 or 42', 'laterpay' ) }
 								value={ subscriptionIds }
 								onChange={ ( newSubscriptionIds ) => setAttributes( { subscriptionIds: newSubscriptionIds } ) }
 							/>

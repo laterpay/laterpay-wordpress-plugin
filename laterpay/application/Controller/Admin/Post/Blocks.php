@@ -34,7 +34,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
 
         // Maybe display error if nothing set.
         if ( empty( $attributes ) ) {
-            return $this->maybe_return_error_message( __( 'We couldn\'t find a timepass with id="0" on this site.', 'laterpay' ) );
+            return $this->maybe_return_error_message( __( 'We couldn\'t find a TimePass with id="0" on this site.', 'laterpay' ) );
         }
 
         // Default values for attributes.
@@ -50,7 +50,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         $lpEntityId            = $attributes['purchaseId'];
         $lpPurchaseType        = $attributes['purchaseType'];
         $is_subscription       = 'sub' === $lpPurchaseType ? true : false;
-        $entity_text           = $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' );
+        $entity_text           = $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'TimePass', 'laterpay' );
         $buttonText            = $attributes['buttonText'];
         $buttonAlignment       = $attributes['alignment'];
         $buttonBackgroundColor = $attributes['buttonBackgroundColor'];
@@ -102,14 +102,79 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
     }
 
     /**
-     * Render Purchase Button Block.
+     * Render for Dynamic Access Content Block.
      *
-     * @param array $attributes Purchase button block data.
+     * @param array $attributes Dynamic access block data.
      *
      * @return string
      */
-    public function dynamic_access_render_callback( $attributes, $content ) {
-        // Render function for dynamic access block.
+    public function dynamic_access_render_callback( $attributes ) {
+
+        // Default values for attributes.
+        $lp_dynamic_access_defaults = [
+            'accessBehaviour'           => 'show',
+            'content'                   => '',
+            'subscriptionSelectionType' => 'none',
+            'subscriptionIds'           => '',
+            'timePassSelectionType'     => 'none',
+            'timePassIds'               => '',
+        ];
+
+        // Store reused values in variables.
+        $attributes          = wp_parse_args( $attributes, $lp_dynamic_access_defaults );
+        $accessBehaviour     = $attributes['accessBehaviour'];
+        $accessContent       = $attributes['content'];
+        $accessSubSelection  = $attributes['subscriptionSelectionType'];
+        $accessPassSelection = $attributes['timePassSelectionType'];
+
+        // Set subscription Ids.
+        if ( 'multiple' === $accessSubSelection ) {
+            $accessSubIds = $attributes['subscriptionIds'];
+        } elseif ( 'all' === $accessSubSelection ) {
+            $accessSubIds = $accessSubSelection;
+        } else {
+            $accessSubIds = '';
+        }
+
+        // Set time pass Ids.
+        if ( 'multiple' === $accessPassSelection ) {
+            $accessPassIds = $attributes['timePassIds'];
+        } elseif ( 'all' === $accessPassSelection ) {
+            $accessPassIds = $accessPassSelection;
+        } else {
+            $accessPassIds = '';
+        }
+
+        // Display error if all is selected for both TimePas and Subscription at the same time.
+        if ( 'all' === $accessPassIds && 'all' === $accessSubIds ) {
+            return $this->maybe_return_error_message(
+                __( "All cannot be used for both 'timepasses' and 'subscriptions' at the same time.", 'laterpay' )
+            );
+        }
+
+        // Check if user has access to provided time passes / subscriptions.
+        $has_access = LaterPay_Helper_Pricing::check_time_pass_subscription_access( $accessPassIds, $accessSubIds );
+
+        /**
+         * If user has access to any of the given content display/hide based on selected behaviour else
+         * do the opposite of selected behaviour.
+         */
+        if ( $has_access ) {
+            if ( 'show' === $accessBehaviour ) {
+                return wp_kses_post( $accessContent );
+            } elseif ( 'hide' === $accessBehaviour ) {
+                return '';
+            }
+        } else {
+            if ( 'show' === $accessBehaviour ) {
+                return '';
+            } elseif ( 'hide' === $accessBehaviour ) {
+                return wp_kses_post( $accessContent );
+            }
+        }
+
+        return '';
+
     }
 
     /**
