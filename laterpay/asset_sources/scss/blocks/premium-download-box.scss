@@ -1,0 +1,123 @@
+// shortcodes for linked premium files in free to read posts -----------------------------------------------------------
+.wp-block-laterpay-premium-download-box.lp_premium-file-box {
+	background: $background--darker url('../img/premium-text.png') 50% 50% no-repeat;
+	background-size: cover !important;
+	border-radius: $border-radius !important;
+	box-shadow: 1px 1px 2px hsla(0, 0%, 0%, 0.34) !important;
+	height: 300px !important;
+	margin: 0 $fs $fs--2 $fs !important;
+	padding: $fs--05 $fs--05 0 0!important;
+	position: relative !important;
+	width: 300px !important;
+
+	.lp_button,
+	.lp_purchase-button,
+	.lp_purchase-button.lp_purchase-button--shortcode {
+		font-size: $fs--15 !important;
+		margin: 0 !important;
+		position: relative !important;
+		padding: 4px 7px 4px 34px!important;
+
+		&:before {
+			font-size: round($fs * 2.5) !important;
+			left: -2px !important;
+			top: 10px !important;
+		}
+	}
+	.lp_purchase-button-wrapper {
+		margin: 0px 0 28px !important;
+	}
+	.lp_button {
+		padding-right: $fs--05 !important;
+		padding-left: $fs--05 !important;
+		text-decoration: none !important;
+	}
+}
+
+.lp_is-text {
+	background-image: url('../img/premium-text.png') !important;
+}
+
+.lp_is-audio, .lp_is-music {
+	background-image: url('../img/premium-audio.png') !important;
+}
+
+.lp_is-video {
+	background-image: url('../img/premium-video.png') !important;
+}
+
+.lp_is-gallery {
+	background-image: url('../img/premium-gallery.png') !important;
+}
+
+.lp_is-file {
+	background-image: url('../img/premium-download.png') !important;
+}
+
+.lp_premium-file-box__details {
+	background-color: hsla(0, 0%, 90%, 0.89) !important;
+	border-radius: 0 0 2px 2px !important;
+	bottom: 0 !important;
+	box-sizing: border-box !important;
+	color: lighten($text, 20%) !important;
+	font-size: $fs !important;
+	font-style: normal !important;
+	line-height: 1.2 !important;
+	padding: 10px !important;
+	position: absolute !important;
+	width: 100% !important;
+
+	.lp_premium-file-box__title {
+		color: $text !important;
+		font-size: $fs !important;
+		font-weight: bold !important;
+		margin: 0 !important;
+		overflow: hidden !important;
+		text-overflow: ellipsis !important;
+		white-space: nowrap !important;
+	}
+
+	.lp_premium-file-box__text {
+		margin: 0.375em 0 0 !important;
+		max-height: 3.6em !important;
+		overflow: hidden !important;
+		text-overflow: ellipsis !important;
+	}
+}
+
+.lp_premium-file-box__wrapper .lp_premium-file-box {
+	float: left !important;
+}
+
+.lp-premium-preview-img {
+	padding-top: 5%;
+}
+.lp-premium-preview-info{
+	margin: 15px 0;
+	display: block;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	.wp-block-laterpay-premium-download-box {
+		// serve retina images for hires displays
+		.lp_is-text {
+			background-image: url('../img/premium-text_2x.png');
+		}
+
+		.lp_is-audio, .lp_is-music {
+			background-image: url('../img/premium-audio_2x.png');
+		}
+
+		.lp_is-video {
+			background-image: url('../img/premium-video_2x.png');
+		}
+
+		.lp_is-gallery {
+			background-image: url('../img/premium-gallery_2x.png');
+		}
+
+		.lp_is-file {
+			background-image: url('../img/premium-download_2x.png');
+		}
+	}
+}

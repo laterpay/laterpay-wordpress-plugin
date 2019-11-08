@@ -178,6 +178,129 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
     }
 
     /**
+     * Render for Premium Download Box Block.
+     *
+     * @param array $attributes Premium download box block data.
+     *
+     * @return string
+     */
+    public function premium_download_box_render_callback( $attributes ) {
+
+        // Default values for attributes.
+        $lp_premium_box_defaults = [
+            'mediaID'          => '',
+            'mediaIcon'        => '',
+            'mediaName'        => '',
+            'mediaHeading'     => __( 'Additional Premium Content', 'laterpay' ),
+            'mediaDescription' => '',
+            'mediaType'        => '',
+            'mediaTeaserID'    => '',
+            'mediaTeaserImage' => '',
+        ];
+
+        // Store reused values in variables.
+        $attributes       = wp_parse_args( $attributes, $lp_premium_box_defaults );
+        $mediaID          = absint( $attributes['mediaID'] );
+        $mediaType        = $attributes['mediaType'];
+        $mediaTitle       = $attributes['mediaHeading'];
+        $mediaDescription = $attributes['mediaDescription'];
+        $mediaTeaserImage = $attributes['mediaTeaserImage'];
+
+        if ( empty( $mediaID ) ) {
+            return $this->maybe_return_error_message(
+                __( 'Please select Downloadable Media', 'laterpay' )
+            );
+        }
+
+        // Get post info and URL.
+        $lpMedia  = get_post( $mediaID );
+        $page_url = get_permalink( $mediaID );
+
+        // Media was selected but doesn't exist now.
+        if ( null === $lpMedia ) {
+            return $this->maybe_return_error_message( sprintf(
+                esc_html__( 'We couldn\'t find selected media with id="%s" on this site.', 'laterpay' ),
+                absint( $lpMedia )
+            ) );
+        } else {
+            // Don't render the shortcode, if the target page has a post type for which LaterPay is disabled.
+            if ( ! in_array( $lpMedia->post_type, $this->config->get( 'content.enabled_post_types' ), true ) ) {
+                return $this->maybe_return_error_message( sprintf(
+                    esc_html__( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' ),
+                    absint( $lpMedia )
+                ) );
+            }
+
+            // Supported content data types.
+            $content_types = [ 'file', 'gallery', 'audio', 'video', 'text' ];
+
+            // If media type is set to auto then identify automatically.
+            if ( empty( $mediaType ) ) {
+                // determine $content_type from MIME type of files attached to post
+                $page_mime_type = get_post_mime_type( $mediaID );
+                switch ( $page_mime_type ) {
+                    case 'application/zip':
+                    case 'application/x-rar-compressed':
+                    case 'application/pdf':
+                        $content_type = 'file';
+                        break;
+                    case 'image/jpeg':
+                    case 'image/png':
+                    case 'image/gif':
+                        $content_type = 'gallery';
+                        break;
+                    case 'audio/vnd.wav':
+                    case 'audio/mpeg':
+                    case 'audio/mp4':
+                    case 'audio/ogg':
+                    case 'audio/aac':
+                    case 'audio/aacp':
+                        $content_type = 'audio';
+                        break;
+                    case 'video/mpeg':
+                    case 'video/mp4':
+                    case 'video/quicktime':
+                        $content_type = 'video';
+                        break;
+                    default:
+                        $content_type = 'text';
+                }
+            } elseif ( in_array( $mediaType, $content_types, true ) ) {
+                $content_type = $mediaType;
+            } else {
+                $content_type = 'text';
+            }
+
+            // If teaser image is not set add class based on content type.
+            if ( empty( $mediaTeaserImage ) ) {
+                $lp_premiumBox = '<div class="lp_js_premium-file-box lp_premium-file-box lp_is-' . esc_attr( $content_type )
+                                 . '" data-post-id="' . esc_attr( $mediaID )
+                                 . '" data-content-type="' . esc_attr( $content_type )
+                                 . '" data-page-url="' . esc_url( $page_url )
+                                 . '">';
+            } else {
+                $lp_premiumBox = '<div class="lp_js_premium-file-box lp_premium-file-box" '
+                                 . 'style="background-image:url(' . esc_url( $mediaTeaserImage ) . ')'
+                                 . '" data-post-id="' . esc_attr( $mediaID )
+                                 . '" data-content-type="' . esc_attr( $content_type )
+                                 . '" data-page-url="' . esc_url( $page_url )
+                                 . '">';
+            }
+
+            // Create a premium box
+            $lp_premiumBox .= '<div class="lp_premium-file-box__details">';
+            $lp_premiumBox .= '<h3 class="lp_premium-file-box__title">' . esc_attr( $mediaTitle ) . '</h3>';
+            if ( ! empty( $mediaDescription ) ) {
+                $lp_premiumBox .= '<p class="lp_premium-file-box__text">' . esc_attr( $mediaDescription ) . '</p>';
+            }
+            $lp_premiumBox .= '</div>';
+            $lp_premiumBox .= '</div>';
+
+            return $lp_premiumBox;
+        }
+    }
+
+    /**
      * Wrapper function to return error message, to be displayed only to logged in user with privileges.
      *
      * @param string $error_message Error message to be displayed.
@@ -189,7 +312,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         $template   = '<div class="lp_shortcode-error">%s</div>';
         $show_error = is_user_logged_in() && current_user_can( 'manage_options' );
 
-        // Only show error if user is looged in and has privileges.
+        // Only show error if user is logged in and has privileges.
         if ( $show_error ) {
             return sprintf( $template, esc_html( $error_message ) );
         } else {
@@ -238,6 +361,13 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             'style'           => 'laterpay-block-editor-assets',
             'editor_script'   => 'laterpay-block-editor-assets',
             'render_callback' => array( $this, 'dynamic_access_render_callback' ) // For Dynamic rendering of content.
+        ) );
+
+        // Register Premium Download Box Block.
+        register_block_type( 'laterpay/premium-download-box', array(
+            'style'           => 'laterpay-block-editor-assets',
+            'editor_script'   => 'laterpay-block-editor-assets',
+            'render_callback' => array( $this, 'premium_download_box_render_callback' )
         ) );
 
         // Sets translated strings for a script.
