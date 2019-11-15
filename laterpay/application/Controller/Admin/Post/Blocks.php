@@ -301,6 +301,156 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
     }
 
     /**
+     * Render for Contribution Block.
+     *
+     * @param array $attributes Contribution block data.
+     *
+     * @return string
+     */
+    public function contribution_render_callback( $attributes ) {
+
+        // Default values for attributes.
+        $lp_contribution_defaults = [
+            'campaignName'         => '',
+            'campaignThankYouPage' => '',
+            'contributionType'     => 'multiple',
+            'allowCustomAmount'    => true,
+            'singleContribution'   => '',
+            'multipleContribution' => '',
+            'selectedAmount'       => 1
+        ];
+
+        // Store reused values in variables.
+        $attributes           = wp_parse_args( $attributes, $lp_contribution_defaults );
+        $campaignName         = $attributes['campaignName'];
+        $campaignThankYouPage = $attributes['campaignThankYouPage'];
+        $contributionType     = $attributes['contributionType'];
+        $allowCustomAmount    = $attributes['allowCustomAmount'];
+        $singleContribution   = $attributes['singleContribution'];
+        $multipleContribution = $attributes['multipleContribution'];
+        $selectedAmount       = $attributes['selectedAmount'];
+
+        // Get currency config.
+        $currency_config = LaterPay_Helper_Config::get_currency_config();
+
+        // Check if campaign name is empty.
+        if ( empty( $campaignName ) ) {
+            return $this->maybe_return_error_message( __( 'Please enter a Campaign Name.', 'laterpay' ) );
+        }
+
+        // Set redirect URL, if empty use current page where block resides.
+        if ( ! empty( $campaignThankYouPage ) ) {
+            $current_url = esc_url( $campaignThankYouPage );
+        } else {
+            global $wp;
+            $current_url = trailingslashit( home_url( add_query_arg( [], $wp->request ) ) );
+        }
+
+        // Client Library Insctance for purchase URL creation.
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client         = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        $payment_config    = [];
+        $contribution_urls = '';
+        $campaign_id       = str_replace( ' ', '-', strtolower( $campaignName ) ) . '-' . (string) time();
+
+        if ( 'single' === $contributionType ) {
+            if ( floatval( $singleContribution['amount'] ) === floatval( 0.0 ) ) {
+                return $this->maybe_return_error_message( __( 'Please enter a valid contribution amount.', 'laterpay' ) );
+            } else {
+                $singleAmount  = (float) $singleContribution['amount'] * 100;
+                $singleRevenue = empty( $singleContribution['revenue'] ) ? 'ppu' : $singleContribution['revenue'];
+
+                $payment_config = [
+                    'amount'  => $singleAmount,
+                    'revenue' => $singleRevenue,
+                    'url'     => $client->get_single_contribution_url( [
+                        'revenue'     => $singleRevenue,
+                        'campaign_id' => $campaign_id,
+                        'title'       => $campaignName,
+                        'url'         => $current_url,
+                    ] )
+                ];
+            }
+        } else {
+            $allContributionConfig = array_filter( $multipleContribution, function ( $key ) {
+                return 0 !== strpos( $key, 'revenueDisable' );
+            }, ARRAY_FILTER_USE_KEY );
+
+            $allAmounts = array_filter( $allContributionConfig, function ( $key ) use ( $allContributionConfig ) {
+                if ( 0 === strpos( $key, 'amount' ) && floatval( $allContributionConfig[ $key ] ) !== floatval( 0.00 ) ) {
+                    return $allContributionConfig[ $key ];
+                }
+            }, ARRAY_FILTER_USE_KEY );
+
+            $allRevenues = array_filter( $allContributionConfig, function ( $key ) use ( $allContributionConfig ) {
+                if ( 0 === strpos( $key, 'revenue' ) ) {
+                    return $allContributionConfig[ $key ];
+                }
+            }, ARRAY_FILTER_USE_KEY );
+
+            $allAmounts  = array_values( $allAmounts );
+            $allRevenues = array_values( $allRevenues );
+
+            // Loop through each amount  and configure amount attributes.
+            foreach ( $allAmounts as $key => $value ) {
+                $contribute_url = $client->get_single_contribution_url( [
+                    'revenue'     => $allRevenues[ $key ],
+                    'campaign_id' => $campaign_id,
+                    'title'       => $campaignName,
+                    'url'         => $current_url
+                ] );
+
+                $isSelected                                    = absint( $selectedAmount ) === $key + 1;
+                $currentAmount                                 = (float) $allAmounts[ $key ] * 100;
+                $payment_config['amounts'][ $key ]['amount']   = $currentAmount;
+                $payment_config['amounts'][ $key ]['revenue']  = $allRevenues[ $key ];
+                $payment_config['amounts'][ $key ]['selected'] = $isSelected;
+                $payment_config['amounts'][ $key ]['url']      = $contribute_url . '&custom_pricing=' . $currency_config['code'] . $currentAmount;
+            }
+
+            // Handle edge case of no selected default button.
+            if ( ! in_array( true, array_column( $payment_config['amounts'], 'selected' ) ) ) {
+                $payment_config['amounts'][0]['selected'] = true;
+            }
+
+            // Only add custom amount if it was checked.
+            if ( $allowCustomAmount ) {
+                $payment_config['custom_amount'] = 500;
+                // Generate contribution URL's for Pay Now and Pay Later revenue to handle custom amount.
+                $contribution_urls = $client->get_contribution_urls( [
+                    'campaign_id' => $campaign_id,
+                    'title'       => $campaignName,
+                    'url'         => $current_url
+                ] );
+            }
+        }
+
+        // View data for laterpay/views/frontend/partials/widget/contribution-dialog.php.
+        $view_args = array(
+            'symbol'            => 'USD' === $currency_config['code'] ? '$' : '€',
+            'id'                => $campaign_id,
+            'type'              => $contributionType,
+            'name'              => $campaignName,
+            'thank_you'         => $campaignThankYouPage,
+            'contribution_urls' => $contribution_urls,
+            'payment_config'    => $payment_config,
+        );
+
+        // Load the contributions dialog for User.
+        $this->assign( 'contribution', $view_args );
+        $html = $this->get_text_view( 'frontend/partials/widget/contribution-dialog' );
+
+        return $html;
+    }
+
+    /**
      * Wrapper function to return error message, to be displayed only to logged in user with privileges.
      *
      * @param string $error_message Error message to be displayed.
@@ -341,6 +491,22 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             $asset_file['version']
         );
 
+        $currency_config = LaterPay_Helper_Config::get_currency_config();
+
+        // Data to be used in blocks.
+        $lp_data = [
+            'currency' => $currency_config,
+            'locale'   => get_locale(),
+            'symbol'   => 'USD' === $currency_config['code'] ? '$' : '€'
+        ];
+
+        // Pass data to block script.
+        wp_localize_script(
+            'laterpay-block-editor-assets',
+            'laterPayBlockData',
+            $lp_data
+        );
+
         // Register main style for all blocks.
         wp_register_style(
             'laterpay-block-editor-assets',
@@ -368,6 +534,13 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             'style'           => 'laterpay-block-editor-assets',
             'editor_script'   => 'laterpay-block-editor-assets',
             'render_callback' => array( $this, 'premium_download_box_render_callback' )
+        ) );
+
+        // Register Contribution Block.
+        register_block_type( 'laterpay/contribution', array(
+            'style'           => 'laterpay-block-editor-assets',
+            'editor_script'   => 'laterpay-block-editor-assets',
+            'render_callback' => array( $this, 'contribution_render_callback' )
         ) );
 
         // Sets translated strings for a script.

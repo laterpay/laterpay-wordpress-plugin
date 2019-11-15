@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
+import Icon from '../icons';
 import Edit from './edit';
 
 /**
@@ -8,7 +9,7 @@ import Edit from './edit';
  */
 registerBlockType( 'laterpay/dynamic-access', {
 	title: __( 'LaterPay Dynamic Access', 'laterpay' ),
-	icon: 'unlock',
+	icon: Icon.dynamicAccess,
 	category: 'laterpay-blocks',
 	keywords: [
 		__( 'TimePass Access', 'laterpay' ),

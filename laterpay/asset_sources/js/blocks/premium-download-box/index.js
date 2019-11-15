@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
+import Icon from '../icons';
 import Edit from './edit';
 
 /**
@@ -8,7 +9,7 @@ import Edit from './edit';
  */
 registerBlockType( 'laterpay/premium-download-box', {
 	title: __( 'LaterPay Premium Download Box', 'laterpay' ),
-	icon: 'download',
+	icon: Icon.premiumBox,
 	category: 'laterpay-blocks',
 	keywords: [
 		__( 'Premium Download Box', 'laterpay' ),
