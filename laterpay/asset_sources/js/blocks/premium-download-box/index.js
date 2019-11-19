@@ -1,5 +1,9 @@
-import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
+/**
+ * Premium Download Box Block Registration.
+ */
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
 
 import Icon from '../icons';
 import Edit from './edit';
@@ -16,32 +20,32 @@ registerBlockType( 'laterpay/premium-download-box', {
 	],
 	attributes: {
 		mediaID: {
-			type: 'integer',
+			type: 'integer', // Selected Media ID.
 			default: 0,
 		},
 		mediaIcon: {
-			type: 'string',
+			type: 'string', // Preview of selected media if image.
 		},
 		mediaName: {
-			type: 'string',
+			type: 'string', // Selected media name.
 		},
 		mediaHeading: {
-			type: 'string',
+			type: 'string', // Premium Download Box Heading.
 			default: __( 'Additional Premium Content', 'laterpay' ),
 		},
 		mediaDescription: {
-			type: 'string',
+			type: 'string', // Premium Download Box Description.
 		},
 		mediaType: {
-			type: 'string',
+			type: 'string', // Type of downloadable content.
 			default: 'auto',
 		},
 		mediaTeaserID: {
-			type: 'integer',
+			type: 'integer', // Teaser media ID if selected.
 			default: 0,
 		},
 		mediaTeaserImage: {
-			type: 'string',
+			type: 'string', // Preview for selected Teaser media.
 		},
 	},
 	edit: Edit,

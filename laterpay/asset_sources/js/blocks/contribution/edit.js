@@ -1,9 +1,13 @@
 /* globals laterPayBlockData */
 
-import { __, sprintf } from '@wordpress/i18n';
-import { Component, Fragment } from '@wordpress/element';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl, CheckboxControl } from '@wordpress/components';
+/**
+ * This file adds editing feature for Contribution Dialog.
+ */
+
+const { __, sprintf } = wp.i18n;
+const { Component, Fragment } = wp.element;
+const { InspectorControls } = wp.blockEditor;
+const { PanelBody, SelectControl, TextControl, CheckboxControl } = wp.components;
 import { showNotice } from '../helpers';
 import { PresetButton } from '../components/multi-contribution-button';
 
@@ -115,7 +119,7 @@ class Edit extends Component {
 					newAmount = {
 						amountOne: price,
 						revenueOne: newRevenueSettings.revenue,
-						revenueDisableOne: newRevenueSettings.disable
+						revenueDisableOne: newRevenueSettings.disable,
 					};
 					newData = Object.assign( {}, multipleContribution, newAmount );
 					setAttributes( { multipleContribution: newData } );
@@ -125,7 +129,7 @@ class Edit extends Component {
 					newAmount = {
 						amountTwo: price,
 						revenueTwo: newRevenueSettings.revenue,
-						revenueDisableTwo: newRevenueSettings.disable
+						revenueDisableTwo: newRevenueSettings.disable,
 					};
 					newData = Object.assign( {}, multipleContribution, newAmount );
 					setAttributes( { multipleContribution: newData } );
@@ -135,7 +139,7 @@ class Edit extends Component {
 					newAmount = {
 						amountThree: price,
 						revenueThree: newRevenueSettings.revenue,
-						revenueDisableThree: newRevenueSettings.disable
+						revenueDisableThree: newRevenueSettings.disable,
 					};
 					newData = Object.assign( {}, multipleContribution, newAmount );
 					setAttributes( { multipleContribution: newData } );
@@ -145,7 +149,7 @@ class Edit extends Component {
 					newAmount = {
 						amountFour: price,
 						revenueFour: newRevenueSettings.revenue,
-						revenueDisableFour: newRevenueSettings.disable
+						revenueDisableFour: newRevenueSettings.disable,
 					};
 					newData = Object.assign( {}, multipleContribution, newAmount );
 					setAttributes( { multipleContribution: newData } );
@@ -155,7 +159,7 @@ class Edit extends Component {
 					newAmount = {
 						amountFive: price,
 						revenueFive: newRevenueSettings.revenue,
-						revenueDisableFive: newRevenueSettings.disable
+						revenueDisableFive: newRevenueSettings.disable,
 					};
 					newData = Object.assign( {}, multipleContribution, newAmount );
 					setAttributes( { multipleContribution: newData } );

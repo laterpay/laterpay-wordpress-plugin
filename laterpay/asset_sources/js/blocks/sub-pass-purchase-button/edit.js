@@ -1,13 +1,17 @@
-import { Component } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import {
+/**
+ * This file adds editing feature for Purchase Button.
+ */
+
+const { Component } = wp.element;
+const { __ } = wp.i18n;
+const {
 	AlignmentToolbar,
 	BlockControls,
 	InspectorControls,
 	PanelColorSettings,
 	ContrastChecker,
-} from '@wordpress/block-editor';
-import { PanelBody, RadioControl, TextControl } from '@wordpress/components';
+} = wp.blockEditor;
+const { PanelBody, RadioControl, TextControl } = wp.components;
 
 // Edit Component Class.
 class Edit extends Component {

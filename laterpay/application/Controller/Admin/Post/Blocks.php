@@ -34,7 +34,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
 
         // Maybe display error if nothing set.
         if ( empty( $attributes ) ) {
-            return $this->maybe_return_error_message( __( 'We couldn\'t find a TimePass with id="0" on this site.', 'laterpay' ) );
+            return $this->maybe_return_error_message( __( 'Please provide valid Time Pass / Subscription ID.', 'laterpay' ) );
         }
 
         // Default values for attributes.
@@ -49,7 +49,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         $attributes            = wp_parse_args( $attributes, $lp_sub_pass_defaults );
         $lpEntityId            = $attributes['purchaseId'];
         $lpPurchaseType        = $attributes['purchaseType'];
-        $is_subscription       = 'sub' === $lpPurchaseType ? true : false;
+        $is_subscription       = ( 'sub' === $lpPurchaseType ) ? true : false;
         $entity_text           = $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'TimePass', 'laterpay' );
         $buttonText            = $attributes['buttonText'];
         $buttonAlignment       = $attributes['alignment'];
@@ -218,17 +218,11 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
 
         // Media was selected but doesn't exist now.
         if ( null === $lpMedia ) {
-            return $this->maybe_return_error_message( sprintf(
-                esc_html__( 'We couldn\'t find selected media with id="%s" on this site.', 'laterpay' ),
-                absint( $lpMedia )
-            ) );
+            return $this->maybe_return_error_message( esc_html__( 'Selected content doesn\'t exist now', 'laterpay' ) );
         } else {
             // Don't render the shortcode, if the target page has a post type for which LaterPay is disabled.
             if ( ! in_array( $lpMedia->post_type, $this->config->get( 'content.enabled_post_types' ), true ) ) {
-                return $this->maybe_return_error_message( sprintf(
-                    esc_html__( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' ),
-                    absint( $lpMedia )
-                ) );
+                return $this->maybe_return_error_message( esc_html__( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' ) );
             }
 
             // Supported content data types.
@@ -346,7 +340,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             $current_url = trailingslashit( home_url( add_query_arg( [], $wp->request ) ) );
         }
 
-        // Client Library Insctance for purchase URL creation.
+        // Client Library Instance for purchase URL creation.
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client         = new LaterPay_Client(
             $client_options['cp_key'],
@@ -481,7 +475,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
      */
     public function lp_register_blocks( LaterPay_Core_Event $event ) {
         // Load dependencies and version from build file.
-        $asset_file = include( $this->config->get( 'block_build_dir' ) . 'laterpay-blocks.asset.php' );
+        $asset_file = require $this->config->get( 'block_build_dir' ) . 'laterpay-blocks.asset.php';
 
         // Register main script to load all blocks.
         wp_register_script(
@@ -497,7 +491,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         $lp_data = [
             'currency' => $currency_config,
             'locale'   => get_locale(),
-            'symbol'   => 'USD' === $currency_config['code'] ? '$' : '€'
+            'symbol'   => ( 'USD' === $currency_config['code'] ) ? '$' : '€'
         ];
 
         // Pass data to block script.

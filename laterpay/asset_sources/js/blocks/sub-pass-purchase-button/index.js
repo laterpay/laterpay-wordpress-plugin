@@ -1,5 +1,9 @@
-import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
+/**
+ * Purchase Button Block Registration.
+ */
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
 
 import Icons from '../icons';
 import Edit from './edit';
@@ -17,7 +21,7 @@ registerBlockType( 'laterpay/sub-pass-purchase-button', {
 	],
 	attributes: {
 		alignment: {
-			type: 'string',
+			type: 'string', // Select button alignment type..
 			default: 'left',
 		},
 		purchaseType: {

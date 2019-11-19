@@ -1,7 +1,11 @@
-import { Component } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import { InspectorControls, RichText } from '@wordpress/block-editor';
-import { PanelBody, RadioControl, SelectControl, TextControl } from '@wordpress/components';
+/**
+ * This file adds editing feature for Dynamic Access Block.
+ */
+
+const { Component } = wp.element;
+const { __ } = wp.i18n;
+const { InspectorControls, RichText } = wp.blockEditor;
+const { PanelBody, RadioControl, SelectControl, TextControl } = wp.components;
 import { showNotice } from '../helpers';
 
 // Edit Component Class.
@@ -20,6 +24,7 @@ class Edit extends Component {
 			className,
 		} = this.props;
 
+		// Block specific settings to handle Dynamic Access Content.
 		const inspectorControls = (
 			<InspectorControls>
 				<PanelBody title={ __( 'Dynamic Access Settings', 'laterpay' ) }>

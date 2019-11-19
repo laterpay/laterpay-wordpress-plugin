@@ -1,3 +1,4 @@
+// Used to add contribution payment button in Contribution dialog.
 export const PresetButton = ( props ) => {
 	const selectedClass = props.isSelected ? 'lp-amount-preset-button-selected' : '';
 	return (

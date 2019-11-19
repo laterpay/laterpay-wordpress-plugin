@@ -1,5 +1,9 @@
-import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
+/**
+ * Contribution Block Registration.
+ */
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
 
 import Icon from '../icons';
 import Edit from './edit';
@@ -16,21 +20,21 @@ registerBlockType( 'laterpay/contribution', {
 	],
 	attributes: {
 		campaignName: {
-			type: 'string',
+			type: 'string', // Name of Campaign.
 		},
 		campaignThankYouPage: {
-			type: 'string',
+			type: 'string', // Redirection page after purchase.
 		},
 		contributionType: {
-			type: 'string',
+			type: 'string', // Type of Contribution dialog.
 			default: 'multiple',
 		},
 		allowCustomAmount: {
-			type: 'boolean',
+			type: 'boolean', // If multiple contribution, allow custom?.
 			default: true,
 		},
 		singleContribution: {
-			type: 'object',
+			type: 'object', // Single contribution configuration.
 			default: {
 				amount: '0.00',
 				revenue: 'ppu',
@@ -38,7 +42,7 @@ registerBlockType( 'laterpay/contribution', {
 			},
 		},
 		multipleContribution: {
-			type: 'object',
+			type: 'object', // Multiple contribution configuration.
 			default: {
 				amountOne: '0.00',
 				revenueOne: 'ppu',
@@ -58,7 +62,7 @@ registerBlockType( 'laterpay/contribution', {
 			},
 		},
 		selectedAmount: {
-			type: 'integer',
+			type: 'integer', // If Multiple contribution is selected, default button selection..
 			default: 1,
 		},
 	},
