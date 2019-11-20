@@ -4,10 +4,10 @@
  * This file adds editing feature for Contribution Dialog.
  */
 
-const { __, sprintf } = wp.i18n;
-const { Component, Fragment } = wp.element;
-const { InspectorControls } = wp.blockEditor;
-const { PanelBody, SelectControl, TextControl, CheckboxControl } = wp.components;
+import { __, sprintf } from '@wordpress/i18n';
+import { Component, Fragment } from '@wordpress/element';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, SelectControl, TextControl, CheckboxControl } from '@wordpress/components';
 import { showNotice } from '../helpers';
 import { PresetButton } from '../components/multi-contribution-button';
 

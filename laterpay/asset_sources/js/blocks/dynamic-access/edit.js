@@ -2,10 +2,10 @@
  * This file adds editing feature for Dynamic Access Block.
  */
 
-const { Component } = wp.element;
-const { __ } = wp.i18n;
-const { InspectorControls, RichText } = wp.blockEditor;
-const { PanelBody, RadioControl, SelectControl, TextControl } = wp.components;
+import { Component } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { InspectorControls, RichText } from '@wordpress/block-editor';
+import { PanelBody, RadioControl, SelectControl, TextControl } from '@wordpress/components';
 import { showNotice } from '../helpers';
 
 // Edit Component Class.

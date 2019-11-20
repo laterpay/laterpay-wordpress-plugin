@@ -2,9 +2,8 @@
  * Dynamic Access Block Registration.
  */
 
-const { __ } = wp.i18n;
-const { registerBlockType } = wp.blocks;
-
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import Icon from '../icons';
 import Edit from './edit';
 
