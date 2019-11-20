@@ -2,11 +2,11 @@
  * This file adds editing feature for Premium Download Box.
  */
 
-const { __, sprintf } = wp.i18n;
-const { Component, Fragment } = wp.element;
-const { InspectorControls, MediaUploadCheck, MediaUpload } = wp.blockEditor;
-const { Button, PanelBody, ResponsiveWrapper, SelectControl, TextControl } = wp.components;
-const { apiFetch } = wp;
+import { __, sprintf } from '@wordpress/i18n';
+import { Component, Fragment } from '@wordpress/element';
+import { InspectorControls, MediaUploadCheck, MediaUpload } from '@wordpress/block-editor';
+import { Button, PanelBody, ResponsiveWrapper, SelectControl, TextControl } from '@wordpress/components';
+import apiFetch from '@wordpress/api-fetch';
 
 // Allowed type for Downloadable content.
 const ALLOWED_MEDIA_TYPES = [
