@@ -2,10 +2,11 @@
  * This file adds editing feature for Premium Download Box.
  */
 
-const { __ } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 const { Component, Fragment } = wp.element;
 const { InspectorControls, MediaUploadCheck, MediaUpload } = wp.blockEditor;
 const { Button, PanelBody, ResponsiveWrapper, SelectControl, TextControl } = wp.components;
+const { apiFetch } = wp;
 
 // Allowed type for Downloadable content.
 const ALLOWED_MEDIA_TYPES = [
@@ -28,6 +29,22 @@ const ALLOWED_MEDIA_TYPES = [
 
 // Edit Component Class.
 class Edit extends Component {
+	// Get media price for merchant info.
+	fetchMediaPrice( mediaId ) {
+		const { setAttributes } = this.props;
+
+		if ( ! mediaId ) {
+			return;
+		}
+
+		// Fetch pricing info and set in attributes.
+		apiFetch( {
+			path: '/laterpay/v1/media-price?media_id=' + mediaId,
+		} ).then( ( data ) => {
+			setAttributes( { mediaPrice: data.price } );
+		} );
+	}
+
 	render() {
 		const {
 			attributes: {
@@ -39,18 +56,24 @@ class Edit extends Component {
 				mediaType,
 				mediaTeaserID,
 				mediaTeaserImage,
+				mediaPrice,
 			},
 			setAttributes,
 			className,
 		} = this.props;
 
+		// Fetch current media price.
+		this.fetchMediaPrice( mediaID );
+
 		// Block specific settings to handle display attributes of Premium Download Box.
 		const inspectorControls = (
 			<InspectorControls>
 				<PanelBody title={ __( 'Premium Download Box Settings', 'laterpay' ) }>
+
 					<MediaUploadCheck>
 						<MediaUpload
 							onSelect={ ( media ) => {
+								this.fetchMediaPrice( media.id );
 								setAttributes( {
 									mediaID: media.id,
 									mediaIcon: media.type === 'image' ? media.sizes.thumbnail.url : '',
@@ -66,6 +89,7 @@ class Edit extends Component {
 							) }
 						/>
 					</MediaUploadCheck>
+
 					{ mediaIcon && (
 						<ResponsiveWrapper
 							naturalWidth={ 150 }
@@ -79,6 +103,16 @@ class Edit extends Component {
 							<span className="lp-premium-preview-info">
 								{ __( 'File Name: ', 'laterpay' ) + mediaName }
 							</span>
+						)
+					}
+					{
+						mediaPrice && (
+							<Fragment>
+								<span className="lp_current-price">{ __( 'Current price:', 'laterpay' ) + mediaPrice }</span>
+								<p className="lp_price-info">
+									{ __( 'To adjust this price, navigate to the edit media page and configure the price.', 'laterpay' ) }
+								</p>
+							</Fragment>
 						)
 					}
 
@@ -101,33 +135,38 @@ class Edit extends Component {
 						value={ mediaType }
 						options={ [
 							{ value: 'auto', label: __( 'Auto Identify', 'laterpay' ) },
-							{ value: 'text', label: __( 'Text', 'laterpay' ) },
 							{ value: 'audio', label: __( 'Audio', 'laterpay' ) },
 							{ value: 'file', label: __( 'File', 'laterpay' ) },
-							{ value: 'video', label: __( 'Video', 'laterpay' ) },
 							{ value: 'gallery', label: __( 'Gallery', 'laterpay' ) },
+							{ value: 'link', label: __( 'Link', 'laterpay' ) },
+							{ value: 'text', label: __( 'Text', 'laterpay' ) },
+							{ value: 'video', label: __( 'Video', 'laterpay' ) },
 						] }
 						onChange={ ( newMediaType ) => setAttributes( { mediaType: newMediaType } ) }
 					/>
 
-					<MediaUploadCheck>
-						<MediaUpload
-							onSelect={ ( media ) => {
-								setAttributes( {
-									mediaTeaserID: media.id,
-									mediaTeaserImage: media.url,
-								} );
-							} }
-							allowedTypes={ [ 'image' ] }
-							value={ mediaTeaserID }
-							render={ ( { open } ) => (
-								<Button onClick={ open } className="is-button is-default is-large">
-									{ __( 'Select Teaser Image', 'laterpay' ) }
-								</Button>
-							) }
-						/>
-					</MediaUploadCheck>
-					{ mediaTeaserImage && (
+					{
+						( 'link' !== mediaType ) && (
+							<MediaUploadCheck>
+								<MediaUpload
+									onSelect={ ( media ) => {
+										setAttributes( {
+											mediaTeaserID: media.id,
+											mediaTeaserImage: media.url,
+										} );
+									} }
+									allowedTypes={ [ 'image' ] }
+									value={ mediaTeaserID }
+									render={ ( { open } ) => (
+										<Button onClick={ open } className="is-button is-default is-large">
+											{ __( 'Select Teaser Image', 'laterpay' ) }
+										</Button>
+									) }
+								/>
+							</MediaUploadCheck>
+						)
+					}
+					{ ( 'link' !== mediaType && mediaTeaserImage ) && (
 						<Fragment>
 							<ResponsiveWrapper
 								naturalWidth={ 150 }
@@ -150,7 +189,9 @@ class Edit extends Component {
 		const backgroundStyles = mediaTeaserID ? { backgroundImage: `url(${ mediaTeaserImage })` } : {};
 		const mediaClass = ( mediaTeaserID && 'auto' !== mediaType ) ? '' : `lp_is-${ mediaType }`;
 
-		const blockOutput = (
+		const linkTitle = mediaHeading ? mediaHeading : __( 'Additional Premium Content', 'laterpay' );
+		const linkAnchorText = ! mediaDescription ? linkTitle : sprintf( '%s - %s', linkTitle, mediaDescription );
+		const blockOutput = ( 'link' !== mediaType ) ? (
 			<div
 				className={ [ className, 'lp_js_premium-file-box lp_premium-file-box', mediaClass ].join( ' ' ) }
 				style={ backgroundStyles }>
@@ -161,6 +202,10 @@ class Edit extends Component {
 					<p className="lp_premium-file-box__text">{ mediaDescription }</p>
 				</div>
 			</div>
+		) : (
+			<button className="lp_js_premium-file-box lp_premium_link lp_premium_link_anchor" title={ __( 'Buy now with LaterPay', 'laterpay' ) } >
+				{ linkAnchorText }
+			</button>
 		);
 
 		return [

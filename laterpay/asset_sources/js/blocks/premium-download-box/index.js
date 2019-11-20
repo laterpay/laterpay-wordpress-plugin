@@ -47,6 +47,9 @@ registerBlockType( 'laterpay/premium-download-box', {
 		mediaTeaserImage: {
 			type: 'string', // Preview for selected Teaser media.
 		},
+		mediaPrice: {
+			type: 'string', // Media Pricing.
+		},
 	},
 	edit: Edit,
 	save() {

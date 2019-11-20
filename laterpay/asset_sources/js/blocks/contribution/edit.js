@@ -86,7 +86,7 @@ class Edit extends Component {
 				};
 			}
 
-			if ( price > currencySettings.sis_min && price < currencySettings.sis_only_limit ) {
+			if ( price >= currencySettings.sis_min && price < currencySettings.sis_only_limit ) {
 				revenueSettings = {
 					revenue: 'ppu',
 					disable: false,
@@ -344,7 +344,7 @@ class Edit extends Component {
 								/>
 
 								<SelectControl
-									label={ __( 'Revenue', 'laterpay' ) }
+									label={ __( 'Revenue Model', 'laterpay' ) }
 									value={ multipleContribution.revenueFive }
 									disabled={ multipleContribution.revenueDisableFive }
 									options={ [

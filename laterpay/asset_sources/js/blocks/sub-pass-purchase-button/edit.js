@@ -38,15 +38,15 @@ class Edit extends Component {
 						label={ __( 'Type Of Purchase', 'laterpay' ) }
 						selected={ purchaseType }
 						options={ [
-							{ label: __( 'TimePass', 'laterpay' ), value: 'tp' },
+							{ label: __( 'Time Pass', 'laterpay' ), value: 'tp' },
 							{ label: __( 'Subscription', 'laterpay' ), value: 'sub' },
 						] }
 						onChange={ ( newPurchaseType ) => setAttributes( { purchaseType: newPurchaseType } ) }
 					/>
 
 					<TextControl
-						label={ __( 'TimePass / Subscription ID', 'laterpay' ) }
-						help={ __( 'Enter ID for selected purchase type.', 'laterpay' ) }
+						label={ __( 'Time Pass / Subscription ID', 'laterpay' ) }
+						help={ __( 'To find the Time Pass or Subscription ID, navigate to the Paywall tab. The ID is the number located to the left of the Time Pass or Subscription.', 'laterpay' ) }
 						value={ purchaseId }
 						onChange={ ( newPurchaseId ) => setAttributes( { purchaseId: newPurchaseId } ) }
 					/>

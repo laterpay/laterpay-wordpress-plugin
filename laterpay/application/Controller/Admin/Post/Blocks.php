@@ -14,11 +14,14 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
      */
     public static function get_subscribed_events() {
         return array(
-            'laterpay_register_blocks'      => array(
+            'laterpay_register_blocks'       => array(
                 array( 'lp_register_blocks' ),
             ),
-            'laterpay_add_block_categories' => array(
+            'laterpay_add_block_categories'  => array(
                 array( 'lp_add_block_categories' ),
+            ),
+            'laterpay_register_block_routes' => array(
+                array( 'lp_register_routes' ),
             ),
         );
     }
@@ -50,7 +53,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         $lpEntityId            = $attributes['purchaseId'];
         $lpPurchaseType        = $attributes['purchaseType'];
         $is_subscription       = ( 'sub' === $lpPurchaseType ) ? true : false;
-        $entity_text           = $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'TimePass', 'laterpay' );
+        $entity_text           = $is_subscription ? __( 'Subscription', 'laterpay' ) : __( 'Time Pass', 'laterpay' );
         $buttonText            = $attributes['buttonText'];
         $buttonAlignment       = $attributes['alignment'];
         $buttonBackgroundColor = $attributes['buttonBackgroundColor'];
@@ -113,6 +116,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         // Default values for attributes.
         $lp_dynamic_access_defaults = [
             'accessBehaviour'           => 'show',
+            'purchaseRequirement'       => 'any',
             'content'                   => '',
             'subscriptionSelectionType' => 'none',
             'subscriptionIds'           => '',
@@ -126,34 +130,40 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         $accessContent       = $attributes['content'];
         $accessSubSelection  = $attributes['subscriptionSelectionType'];
         $accessPassSelection = $attributes['timePassSelectionType'];
+        $purchaseRequirement = $attributes['purchaseRequirement'];
 
-        // Set subscription Ids.
-        if ( 'multiple' === $accessSubSelection ) {
-            $accessSubIds = $attributes['subscriptionIds'];
-        } elseif ( 'all' === $accessSubSelection ) {
-            $accessSubIds = $accessSubSelection;
+        if ( 'any' === $purchaseRequirement ) {
+            // Check if user has access to current post by any method of purchase.
+            $has_access = LaterPay_Helper_Pricing::check_current_post_access();
         } else {
-            $accessSubIds = '';
-        }
+            // Set subscription Ids.
+            if ( 'multiple' === $accessSubSelection ) {
+                $accessSubIds = $attributes['subscriptionIds'];
+            } elseif ( 'all' === $accessSubSelection ) {
+                $accessSubIds = $accessSubSelection;
+            } else {
+                $accessSubIds = '';
+            }
 
-        // Set time pass Ids.
-        if ( 'multiple' === $accessPassSelection ) {
-            $accessPassIds = $attributes['timePassIds'];
-        } elseif ( 'all' === $accessPassSelection ) {
-            $accessPassIds = $accessPassSelection;
-        } else {
-            $accessPassIds = '';
-        }
+            // Set time pass Ids.
+            if ( 'multiple' === $accessPassSelection ) {
+                $accessPassIds = $attributes['timePassIds'];
+            } elseif ( 'all' === $accessPassSelection ) {
+                $accessPassIds = $accessPassSelection;
+            } else {
+                $accessPassIds = '';
+            }
 
-        // Display error if all is selected for both TimePas and Subscription at the same time.
-        if ( 'all' === $accessPassIds && 'all' === $accessSubIds ) {
-            return $this->maybe_return_error_message(
-                __( "All cannot be used for both 'timepasses' and 'subscriptions' at the same time.", 'laterpay' )
-            );
-        }
+            // Display error if all is selected for both Time Pass and Subscription at the same time.
+            if ( 'all' === $accessPassIds && 'all' === $accessSubIds ) {
+                return $this->maybe_return_error_message(
+                    __( "All cannot be used for both 'Time Passes' and 'Subscriptions' at the same time.", 'laterpay' )
+                );
+            }
 
-        // Check if user has access to provided time passes / subscriptions.
-        $has_access = LaterPay_Helper_Pricing::check_time_pass_subscription_access( $accessPassIds, $accessSubIds );
+            // Check if user has access to provided time passes / subscriptions.
+            $has_access = LaterPay_Helper_Pricing::check_time_pass_subscription_access( $accessPassIds, $accessSubIds );
+        }
 
         /**
          * If user has access to any of the given content display/hide based on selected behaviour else
@@ -226,7 +236,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             }
 
             // Supported content data types.
-            $content_types = [ 'file', 'gallery', 'audio', 'video', 'text' ];
+            $content_types = [ 'file', 'gallery', 'audio', 'video', 'text', 'link' ];
 
             // If media type is set to auto then identify automatically.
             if ( empty( $mediaType ) ) {
@@ -265,30 +275,45 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
                 $content_type = 'text';
             }
 
-            // If teaser image is not set add class based on content type.
-            if ( empty( $mediaTeaserImage ) ) {
-                $lp_premiumBox = '<div class="lp_js_premium-file-box lp_premium-file-box lp_is-' . esc_attr( $content_type )
-                                 . '" data-post-id="' . esc_attr( $mediaID )
-                                 . '" data-content-type="' . esc_attr( $content_type )
-                                 . '" data-page-url="' . esc_url( $page_url )
+            if ( 'link' === $content_type ) {
+                // Build anchor text for premium link.
+                $anchor_text   = empty( $mediaDescription ) ? $mediaTitle : sprintf( '%s - %s', $mediaTitle, $mediaDescription );
+                $lp_premiumBox = '<a class="lp_js_premium-file-box lp_premium_link lp_premium_link_anchor" title="'
+                                 . esc_html__( 'Buy now with LaterPay', 'laterpay' )
+                                 . '" data-content-type="'
+                                 . esc_attr( $content_type )
+                                 . '" data-post-id="'
+                                 . esc_attr( $mediaID )
+                                 . '" data-page-url="'
+                                 . esc_url( $page_url )
                                  . '">';
+                $lp_premiumBox .= esc_html( $anchor_text ) . '</a>';
             } else {
-                $lp_premiumBox = '<div class="lp_js_premium-file-box lp_premium-file-box" '
-                                 . 'style="background-image:url(' . esc_url( $mediaTeaserImage ) . ')'
-                                 . '" data-post-id="' . esc_attr( $mediaID )
-                                 . '" data-content-type="' . esc_attr( $content_type )
-                                 . '" data-page-url="' . esc_url( $page_url )
-                                 . '">';
-            }
+                // If teaser image is not set add class based on content type.
+                if ( empty( $mediaTeaserImage ) ) {
+                    $lp_premiumBox = '<div class="lp_js_premium-file-box lp_premium-file-box lp_is-' . esc_attr( $content_type )
+                                     . '" data-post-id="' . esc_attr( $mediaID )
+                                     . '" data-content-type="' . esc_attr( $content_type )
+                                     . '" data-page-url="' . esc_url( $page_url )
+                                     . '">';
+                } else {
+                    $lp_premiumBox = '<div class="lp_js_premium-file-box lp_premium-file-box" '
+                                     . 'style="background-image:url(' . esc_url( $mediaTeaserImage ) . ')'
+                                     . '" data-post-id="' . esc_attr( $mediaID )
+                                     . '" data-content-type="' . esc_attr( $content_type )
+                                     . '" data-page-url="' . esc_url( $page_url )
+                                     . '">';
+                }
 
-            // Create a premium box
-            $lp_premiumBox .= '<div class="lp_premium-file-box__details">';
-            $lp_premiumBox .= '<h3 class="lp_premium-file-box__title">' . esc_attr( $mediaTitle ) . '</h3>';
-            if ( ! empty( $mediaDescription ) ) {
-                $lp_premiumBox .= '<p class="lp_premium-file-box__text">' . esc_attr( $mediaDescription ) . '</p>';
+                // Create a premium box
+                $lp_premiumBox .= '<div class="lp_premium-file-box__details">';
+                $lp_premiumBox .= '<h3 class="lp_premium-file-box__title">' . esc_attr( $mediaTitle ) . '</h3>';
+                if ( ! empty( $mediaDescription ) ) {
+                    $lp_premiumBox .= '<p class="lp_premium-file-box__text">' . esc_attr( $mediaDescription ) . '</p>';
+                }
+                $lp_premiumBox .= '</div>';
+                $lp_premiumBox .= '</div>';
             }
-            $lp_premiumBox .= '</div>';
-            $lp_premiumBox .= '</div>';
 
             return $lp_premiumBox;
         }
@@ -509,7 +534,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             filemtime( $this->config->get( 'css_dir' ) . 'laterpay-blocks.css' )
         );
 
-        // Register Subscription / TimePass Purchase Button Block.
+        // Register Subscription / Time Pass Purchase Button Block.
         register_block_type( 'laterpay/sub-pass-purchase-button', array(
             'style'           => 'laterpay-block-editor-assets',
             'editor_script'   => 'laterpay-block-editor-assets',
@@ -570,5 +595,15 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
                 ],
             ]
         ) );
+    }
+
+    /**
+     * Initialize the controller and hook action to register routes.
+     */
+    public function lp_register_routes() {
+        $rest_file_path = $this->config->get( 'plugin_dir_path' ) . 'application/Controller/Rest.php';
+        include_once $rest_file_path;
+        $restObject = new LaterPay_Controller_Admin_Rest();
+        add_action( 'rest_api_init', array( $restObject, 'register_routes' ) );
     }
 }

@@ -16,7 +16,7 @@ registerBlockType( 'laterpay/sub-pass-purchase-button', {
 	icon: Icons.logo,
 	category: 'laterpay-blocks',
 	keywords: [
-		__( 'TimePass Button', 'laterpay' ),
+		__( 'Time Pass Button', 'laterpay' ),
 		__( 'Subscription Button', 'laterpay' ),
 	],
 	attributes: {

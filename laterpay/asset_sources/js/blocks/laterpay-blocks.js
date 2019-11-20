@@ -3,7 +3,7 @@
  *
  * This file includes all the custom blocks added by LaterPay WordPress Plugin.
  *
- * 01 - Subscription / TimePass Purchase Block.
+ * 01 - Subscription / Time Pass Purchase Block.
  * 02 - Dynamic Content Access Block.
  * 03 - Premium Download Content Block.
  * 04 - Contribution Block.
