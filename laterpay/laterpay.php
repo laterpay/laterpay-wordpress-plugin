@@ -103,6 +103,9 @@ function laterpay_get_plugin_config() {
     $config->set( 'plugin_url',         plugins_url( '/', __FILE__ ) );
     $config->set( 'view_dir',           plugin_dir_path( __FILE__ ) . 'views/' );
     $config->set( 'cache_dir',          plugin_dir_path( __FILE__ ) . 'cache/' );
+    $config->set( 'block_build_dir',    plugin_dir_path( __FILE__ ) . 'built_assets/block_build/' );
+    $config->set( 'css_dir',            plugin_dir_path( __FILE__ ) . 'built_assets/css/' );
+    $config->set( 'languages_dir',      plugin_dir_path( __FILE__ ) . 'languages' );
 
     $upload_dir = wp_upload_dir();
     $config->set( 'log_dir',            $upload_dir['basedir'] . '/laterpay_log/' );
@@ -112,6 +115,7 @@ function laterpay_get_plugin_config() {
     $config->set( 'css_url',            $plugin_url . 'built_assets/css/' );
     $config->set( 'js_url',             $plugin_url . 'built_assets/js/' );
     $config->set( 'image_url',          $plugin_url . 'built_assets/img/' );
+    $config->set( 'block_build_url',    $plugin_url . 'built_assets/block_build/' );
 
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
