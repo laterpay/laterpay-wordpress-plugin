@@ -395,7 +395,7 @@ class Edit extends Component {
 								/>
 
 								<SelectControl
-									label={ __( 'Revenue', 'laterpay' ) }
+									label={ __( 'Revenue Model', 'laterpay' ) }
 									value={ singleContribution.revenue }
 									disabled={ singleContribution.revenueDisable }
 									options={ [
