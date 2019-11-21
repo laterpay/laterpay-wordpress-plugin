@@ -336,7 +336,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
             'allowCustomAmount'    => true,
             'singleContribution'   => '',
             'multipleContribution' => '',
-            'selectedAmount'       => 1
+            'selectedAmount'       => 3
         ];
 
         // Store reused values in variables.
@@ -398,6 +398,28 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
                 ];
             }
         } else {
+
+            // Handle default values for multiple contribution.
+            if ( empty( $multipleContribution ) ) {
+                $multipleContribution = [
+                    'amountOne'           => '1.00',
+                    'revenueOne'          => 'ppu',
+                    'revenueDisableOne'   => true,
+                    'amountTwo'           => '2.00',
+                    'revenueTwo'          => 'ppu',
+                    'revenueDisableTwo'   => true,
+                    'amountThree'         => '5.00',
+                    'revenueThree'        => 'sis',
+                    'revenueDisableThree' => true,
+                    'amountFour'          => '0.00',
+                    'revenueFour'         => 'ppu',
+                    'revenueDisableFour'  => true,
+                    'amountFive'          => '0.00',
+                    'revenueFive'         => 'ppu',
+                    'revenueDisableFive'  => true,
+                ];
+            }
+
             $allContributionConfig = array_filter( $multipleContribution, function ( $key ) {
                 return 0 !== strpos( $key, 'revenueDisable' );
             }, ARRAY_FILTER_USE_KEY );

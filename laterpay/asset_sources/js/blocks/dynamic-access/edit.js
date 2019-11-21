@@ -32,7 +32,6 @@ class Edit extends Component {
 					<RadioControl
 						label={ __( 'Access Behaviour', 'laterpay' ) }
 						selected={ accessBehaviour }
-						help={ __( 'Show/Hide content based on User access', 'laterpay' ) }
 						options={ [
 							{ label: __( 'Show contents after purchase', 'laterpay' ), value: 'show' },
 							{ label: __( 'Hide contents after purchase', 'laterpay' ), value: 'hide' },
