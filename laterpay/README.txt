@@ -2,7 +2,7 @@
 
 Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
-Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay, Payments, Content Monetization, Paywall, Paid Content, Publisher, Blogger, conversion, paygate, monetization
+Tags: Contribution, Conversion, Earn Money, Micropayment, Monetization, Monetize Content, Paid Content, Payment, Paywall, Sell Article, Sell Content, Subscription
 Requires at least: 4.6
 Tested up to: 5.3
 Requires PHP: 5.6
