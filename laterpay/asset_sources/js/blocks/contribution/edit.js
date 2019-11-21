@@ -248,7 +248,7 @@ class Edit extends Component {
 								/>
 
 								<SelectControl
-									label={ __( 'Revenue', 'laterpay' ) }
+									label={ __( 'Revenue Model', 'laterpay' ) }
 									value={ multipleContribution.revenueOne }
 									disabled={ multipleContribution.revenueDisableOne }
 									options={ [
@@ -272,7 +272,7 @@ class Edit extends Component {
 								/>
 
 								<SelectControl
-									label={ __( 'Revenue', 'laterpay' ) }
+									label={ __( 'Revenue Model', 'laterpay' ) }
 									value={ multipleContribution.revenueTwo }
 									disabled={ multipleContribution.revenueDisableTwo }
 									options={ [
@@ -296,7 +296,7 @@ class Edit extends Component {
 								/>
 
 								<SelectControl
-									label={ __( 'Revenue', 'laterpay' ) }
+									label={ __( 'Revenue Model', 'laterpay' ) }
 									value={ multipleContribution.revenueThree }
 									disabled={ multipleContribution.revenueDisableThree }
 									options={ [
@@ -320,7 +320,7 @@ class Edit extends Component {
 								/>
 
 								<SelectControl
-									label={ __( 'Revenue', 'laterpay' ) }
+									label={ __( 'Revenue Model', 'laterpay' ) }
 									value={ multipleContribution.revenueFour }
 									disabled={ multipleContribution.revenueDisableFour }
 									options={ [
@@ -457,7 +457,7 @@ class Edit extends Component {
 													<PresetButton amount={ currencySymbol + validatePrice( multipleContribution.amountTwo ) } isSelected={ currentSelectedAmount === 2 } />
 												}
 												{
-													( '0.00' !== multipleContribution.amountThree && '0' !== multipleContribution.amountThree && multipleContribution.amountThree ) &&
+													multipleContribution.amountThree &&
 													<PresetButton amount={ currencySymbol + validatePrice( multipleContribution.amountThree ) } isSelected={ currentSelectedAmount === 3 } />
 												}
 												{

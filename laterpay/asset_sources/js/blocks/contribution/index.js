@@ -44,14 +44,14 @@ registerBlockType( 'laterpay/contribution', {
 		multipleContribution: {
 			type: 'object', // Multiple contribution configuration.
 			default: {
-				amountOne: '0.00',
+				amountOne: '1.00',
 				revenueOne: 'ppu',
 				revenueDisableOne: true,
-				amountTwo: '0.00',
+				amountTwo: '2.00',
 				revenueTwo: 'ppu',
 				revenueDisableTwo: true,
-				amountThree: '0.00',
-				revenueThree: 'ppu',
+				amountThree: '5.00',
+				revenueThree: 'sis',
 				revenueDisableThree: true,
 				amountFour: '0.00',
 				revenueFour: 'ppu',
@@ -63,7 +63,7 @@ registerBlockType( 'laterpay/contribution', {
 		},
 		selectedAmount: {
 			type: 'integer', // If Multiple contribution is selected, default button selection..
-			default: 1,
+			default: 3,
 		},
 	},
 	edit: Edit,
