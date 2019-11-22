@@ -585,20 +585,6 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 }
             }
 
-            // Purchase button text based on revenue model.
-            switch ( $revenue_model ) {
-                case 'sis':
-                    $submit_text = esc_html__( 'Buy Now', 'laterpay' );
-                    break;
-                case 'sub':
-                    $submit_text = esc_html__( 'Subscribe Now', 'laterpay' );
-                    break;
-                case 'ppu':
-                default:
-                    $submit_text = esc_html__( 'Buy Now, Pay Later', 'laterpay' );
-                    break;
-            }
-
             // Create account links URL with passed parameters.
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $client         = new LaterPay_Client(
@@ -723,6 +709,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
 
             // Set default selection to false initially.
             $found_selection = false;
+            $selected_key    = 0;
 
             // Check all options and add 'selected' if conditions match.
             foreach ( $purchase_options_order as $key => $single_purchase_option ) {
@@ -733,6 +720,7 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
                 ) {
                     $purchase_options_order[ $key ]['selected'] = true;
                     $found_selection                            = true;
+                    $selected_key                               = $key;
                     break;
                 }
             }
@@ -740,6 +728,21 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
             // Select the first option if that is the chosen option or no conditions matched above.
             if ( 0 === $purchase_option_selection || ! $found_selection ) {
                 $purchase_options_order[0]['selected'] = true;
+                $selected_key                          = 0;
+            }
+
+            // Purchase button text based on revenue model.
+            switch ( $purchase_options_order[ $selected_key ]['revenue'] ) {
+                case 'sis':
+                    $submit_text = esc_html__( 'Buy Now', 'laterpay' );
+                    break;
+                case 'sub':
+                    $submit_text = esc_html__( 'Subscribe Now', 'laterpay' );
+                    break;
+                case 'ppu':
+                default:
+                    $submit_text = esc_html__( 'Buy Now, Pay Later', 'laterpay' );
+                    break;
             }
 
             $view_args['title']               = ! empty( $overlay_title ) ? $overlay_title : LaterPay_Helper_Appearance::get_current_options( 'header_title' );
