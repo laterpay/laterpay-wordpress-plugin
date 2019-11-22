@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-11-21 16:19+0530\n"
-"PO-Revision-Date: 2019-11-21 16:30+0530\n"
-"Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
+"POT-Creation-Date: 2019-11-22 23:06+0530\n"
+"PO-Revision-Date: 2019-11-22 23:24+0530\n"
+"Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
@@ -1245,7 +1245,7 @@ msgstr "Zeitpass"
 #: application/Controller/Admin/Post/Blocks.php:63
 #, php-format
 msgid "We couldn't find a %s with id=\"0\" on this site."
-msgstr ""
+msgstr "Wir konnten kein %s mit der id=“0” auf der Seite finden."
 
 #: application/Controller/Admin/Post/Blocks.php:68
 #: application/Controller/Frontend/Shortcode.php:569
@@ -1256,7 +1256,7 @@ msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
 #: application/Controller/Admin/Post/Blocks.php:74
 #: application/Controller/Frontend/Post.php:652
 #: application/Controller/Frontend/Shortcode.php:581
-#: application/Module/Purchase.php:598
+#: application/Module/Purchase.php:744
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:117
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
@@ -1264,8 +1264,8 @@ msgstr "Jetzt kaufen, später zahlen"
 #: application/Controller/Admin/Post/Blocks.php:76
 #: application/Controller/Frontend/Post.php:653
 #: application/Controller/Frontend/Shortcode.php:583
-#: application/Module/Purchase.php:591 application/Module/Purchase.php:630
-#: application/Module/Purchase.php:643
+#: application/Module/Purchase.php:616 application/Module/Purchase.php:629
+#: application/Module/Purchase.php:737
 #: views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
@@ -1273,7 +1273,7 @@ msgstr "Jetzt kaufen"
 #: application/Controller/Admin/Post/Blocks.php:82
 #: application/Controller/Frontend/Post.php:654
 #: application/Controller/Frontend/Shortcode.php:589
-#: application/Module/Purchase.php:594
+#: application/Module/Purchase.php:740
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
@@ -1282,7 +1282,7 @@ msgstr "Jetzt abonnieren"
 msgid ""
 "All cannot be used for both 'Time Passes' and 'Subscriptions' at the same "
 "time."
-msgstr ""
+msgstr "“Alle” kann nicht zeitgleich für Zeitpässe und Abos genutzt werden."
 
 #: application/Controller/Admin/Post/Blocks.php:204
 #: application/Controller/Frontend/Shortcode.php:102
@@ -1314,11 +1314,11 @@ msgstr "Jetzt mit LaterPay kaufen"
 
 #: application/Controller/Admin/Post/Blocks.php:357
 msgid "Please enter a Campaign Name."
-msgstr ""
+msgstr "Kampagnennamen eingeben."
 
 #: application/Controller/Admin/Post/Blocks.php:384
 msgid "Please enter a valid contribution amount."
-msgstr ""
+msgstr "Bitte einen gültigen Contribution-Betrag eingeben."
 
 #: application/Controller/Admin/Post/Blocks.php:616
 msgid "LaterPay Blocks"
@@ -1366,7 +1366,7 @@ msgstr "Sofort zahlen"
 #: application/Controller/Admin/Post/Column.php:126
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
-#: application/Helper/Pricing.php:952 application/Module/Purchase.php:653
+#: application/Helper/Pricing.php:952 application/Module/Purchase.php:639
 #: asset_sources/js/blocks/contribution/edit.js:255
 #: asset_sources/js/blocks/contribution/edit.js:279
 #: asset_sources/js/blocks/contribution/edit.js:303
@@ -2379,36 +2379,36 @@ msgstr "Alle Inhalte in Kategorie"
 msgid "k"
 msgstr "t"
 
-#: application/Module/Purchase.php:111 application/Module/Purchase.php:757
+#: application/Module/Purchase.php:111 application/Module/Purchase.php:760
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:619 application/Module/TimePasses.php:472
+#: application/Module/Purchase.php:605 application/Module/TimePasses.php:472
 #: application/Module/TimePasses.php:495 application/Module/TimePasses.php:513
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
-#: application/Module/Purchase.php:621
+#: application/Module/Purchase.php:607
 msgid "Read Now, Pay Later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: application/Module/Purchase.php:631
+#: application/Module/Purchase.php:617
 msgid ""
 "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie diesen Beitrag jetzt mit LaterPay und <br>bezahlen Sie mit einer "
 "Zahlungsmethode Ihres Vertrauens."
 
-#: application/Module/Purchase.php:635 application/Module/Purchase.php:648
+#: application/Module/Purchase.php:621 application/Module/Purchase.php:634
 #: application/Module/TimePasses.php:480
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
-#: application/Module/Purchase.php:636
+#: application/Module/Purchase.php:622
 msgid ""
 "Immediately access your purchase. <br>You only buy this post. No "
 "subscription, no fees."
@@ -2416,13 +2416,13 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:644
+#: application/Module/Purchase.php:630
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 "Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. "
 "Keine Vorauszahlung."
 
-#: application/Module/Purchase.php:649
+#: application/Module/Purchase.php:635
 msgid ""
 "Access your purchase immediately.<br> You are only buying this article, not "
 "a subscription."
@@ -2430,7 +2430,7 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:654
+#: application/Module/Purchase.php:640
 #, php-format
 msgid ""
 "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you "
@@ -2483,15 +2483,15 @@ msgstr ""
 
 #: asset_sources/js/blocks/contribution/edit.js:208
 msgid "Contribution Settings"
-msgstr ""
+msgstr "Contribution-Einstellungen"
 
 #: asset_sources/js/blocks/contribution/edit.js:210
 msgid "Campaign Name"
-msgstr "Name des Rechnungspostens"
+msgstr "Kampagnen Name"
 
 #: asset_sources/js/blocks/contribution/edit.js:211
 msgid "Enter Campaign name."
-msgstr ""
+msgstr "Kampangnenname eingeben."
 
 #: asset_sources/js/blocks/contribution/edit.js:222
 #: views/backend/contributions.php:53
@@ -2500,66 +2500,68 @@ msgstr "Dankeschön-Seite (optional)"
 
 #: asset_sources/js/blocks/contribution/edit.js:223
 msgid "Enter Thank you page."
-msgstr ""
+msgstr "Dankeschön-Seite eintragen."
 
 #: asset_sources/js/blocks/contribution/edit.js:229
 msgid "Contribution Type"
-msgstr ""
+msgstr "Art der Contribution"
 
 #: asset_sources/js/blocks/contribution/edit.js:232
 msgid "Multiple"
-msgstr ""
+msgstr "Mehrere"
 
 #: asset_sources/js/blocks/contribution/edit.js:233
 msgid "Single"
-msgstr ""
+msgstr "Einzelne"
 
 #: asset_sources/js/blocks/contribution/edit.js:242
 #: asset_sources/js/blocks/contribution/edit.js:365
 msgid "Amount One"
-msgstr ""
+msgstr "Betrag 1"
 
 #: asset_sources/js/blocks/contribution/edit.js:251
 #: asset_sources/js/blocks/contribution/edit.js:275
 #: asset_sources/js/blocks/contribution/edit.js:299
 #: asset_sources/js/blocks/contribution/edit.js:323
 #: asset_sources/js/blocks/contribution/edit.js:347
+#: asset_sources/js/blocks/contribution/edit.js:398
 #: views/backend/pricing.php:304 views/backend/pricing.php:453
 #: views/backend/pricing.php:573
 msgid "Revenue Model"
-msgstr "Erlösmodell"
+msgstr "Umsatz-Modell"
 
 #: asset_sources/js/blocks/contribution/edit.js:266
 #: asset_sources/js/blocks/contribution/edit.js:366
 msgid "Amount Two"
-msgstr ""
+msgstr "Betrag 2"
 
 #: asset_sources/js/blocks/contribution/edit.js:290
 #: asset_sources/js/blocks/contribution/edit.js:367
 msgid "Amount Three"
-msgstr ""
+msgstr "Betrag 3"
 
 #: asset_sources/js/blocks/contribution/edit.js:314
 #: asset_sources/js/blocks/contribution/edit.js:368
 msgid "Amount Four"
-msgstr ""
+msgstr "Betrag 4"
 
 #: asset_sources/js/blocks/contribution/edit.js:338
 #: asset_sources/js/blocks/contribution/edit.js:369
 msgid "Amount Five"
-msgstr ""
+msgstr "Betrag 5"
 
 #: asset_sources/js/blocks/contribution/edit.js:362
 msgid "Default Selected Amount"
-msgstr ""
+msgstr "Standardbetrag"
 
 #: asset_sources/js/blocks/contribution/edit.js:379
 msgid " Allow custom contribution amount"
-msgstr ""
+msgstr " Benutzerdefinierten Contribution-Betrag erlauben"
 
 #: asset_sources/js/blocks/contribution/edit.js:380
 msgid "Check to allow custom contribution"
 msgstr ""
+"Auswählen, um (vom Nutzer) frei wählbare Contribution-Beträge zu erlauben"
 
 #: asset_sources/js/blocks/contribution/edit.js:388
 #: views/backend/contributions.php:62
@@ -2568,11 +2570,7 @@ msgstr "Betrag"
 
 #: asset_sources/js/blocks/contribution/edit.js:389
 msgid "Enter Contribution amount."
-msgstr ""
-
-#: asset_sources/js/blocks/contribution/edit.js:398
-msgid "Revenue"
-msgstr "Erlösmodell"
+msgstr "Contribution-Betrag eingeben."
 
 #: asset_sources/js/blocks/contribution/edit.js:427
 #: views/frontend/partials/widget/contribution-dialog.php:26
@@ -2617,40 +2615,40 @@ msgstr "Contributions"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:31
 msgid "Dynamic Access Settings"
-msgstr ""
+msgstr "Dynamischer Zugriff Einstellungen"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:33
 msgid "Access Behaviour"
-msgstr ""
+msgstr "Zugriffs-Verhalten"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:36
 msgid "Show contents after purchase"
-msgstr ""
+msgstr "Inhalt nach dem Kauf anzeigen"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:37
 msgid "Hide contents after purchase"
-msgstr ""
+msgstr "Inhalt nach dem Kauf verbergen"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:43
 msgid "Purchase requirement"
-msgstr ""
+msgstr "Kauf als Voraussetzung"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:46
 msgid "Any Purchase"
-msgstr ""
+msgstr "Jeder Kauf"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:47
 msgid "Specific Time Passes or Subscriptions"
-msgstr ""
+msgstr "bestimmte Zeitpässe oder Abos"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:55
 msgid "Time Passes to select"
-msgstr ""
+msgstr "Zeitpässe auswählen"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:58
 #: asset_sources/js/blocks/dynamic-access/edit.js:83
 msgid "None"
-msgstr ""
+msgstr "Keine"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:59
 #: asset_sources/js/blocks/dynamic-access/edit.js:84
@@ -2660,11 +2658,11 @@ msgstr "alle"
 #: asset_sources/js/blocks/dynamic-access/edit.js:60
 #: asset_sources/js/blocks/dynamic-access/edit.js:85
 msgid "Specific"
-msgstr ""
+msgstr "Bestimmte"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:69
 msgid "Enter Time Pass ID's manually separated by comma"
-msgstr ""
+msgstr "Zeitpass-ID(s) manuell eingeben. (mehrere durch Komma getrennt)"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:70
 #: asset_sources/js/blocks/dynamic-access/edit.js:95
@@ -2673,24 +2671,28 @@ msgid ""
 "To find the Time Pass or Subscription ID, navigate to the Paywall tab. The "
 "ID is the number located to the left of the Time Pass or Subscription."
 msgstr ""
+"Um die ID eines Zeitpasses oder Abos herauszufinden, navigiere zum “Paywall” "
+"Tab. Die ID findet sich dort links neben dem jew. Zeitpass oder Abo."
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:80
 msgid "Subscriptions to select"
-msgstr ""
+msgstr "Abos auswählen"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:94
 msgid "Enter Subscription ID's manually separated by comma"
-msgstr ""
+msgstr "Abo-ID(s) manuell eingeben. (mehrere durch Komma getrennt)"
 
 #: asset_sources/js/blocks/dynamic-access/edit.js:120
 msgid "Add content for Dynamic Access"
-msgstr ""
+msgstr "Inhalt zu Dynamic Access hinzufügen"
 
 #: asset_sources/js/blocks/dynamic-access/index.js:15
 msgid ""
 "Use this block to show or hide the content in the block based on which "
 "LaterPay product the user has purchased."
 msgstr ""
+"Benutze diesen Block, um den Inhalt basierend auf dem vom Nutzer gekauften "
+"LaterPay-Produkt anzuzeigen, oder zu verstecken."
 
 #: asset_sources/js/blocks/dynamic-access/index.js:18
 msgid ""
@@ -2698,153 +2700,156 @@ msgid ""
 "the paywall. That will be done automatically once you have set a price for "
 "this article."
 msgstr ""
+"WICHTIG: Nicht zum verstecken des Inhalts hinter der Paywall verwenden. Das "
+"geschieht automatisch, sobald Du einen Preis für den verknüpften Beitrag "
+"festlegst."
 
 #: asset_sources/js/blocks/dynamic-access/index.js:27
 msgid "LaterPay Dynamic Access"
-msgstr ""
+msgstr "LaterPay Dynamischer Zugriff"
 
 #: asset_sources/js/blocks/dynamic-access/index.js:32
 msgid "Time Pass Access"
-msgstr ""
+msgstr "Zeitpass-Zugriff"
 
 #: asset_sources/js/blocks/dynamic-access/index.js:33
 msgid "Subscription Access"
-msgstr ""
+msgstr "Abo-Zugriff"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:71
 msgid "Premium Download Box Settings"
-msgstr ""
+msgstr "Premium Download-Box Einstellungen"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:87
 msgid "Select Downloadable Media"
-msgstr ""
+msgstr "Herunterladbare Inhalte/Medien auswählen"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:104
 msgid "File Name: "
-msgstr ""
+msgstr "Dateiname:"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:111
 msgid "Current price:"
-msgstr ""
+msgstr "Aktueller Preis:"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:113
 msgid ""
 "To adjust this price, navigate to the edit media page and configure the "
 "price."
-msgstr ""
+msgstr "Bearbeite die betreffenden Medien, um diesen Preis anzupassen."
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:120
 msgid "Heading text"
-msgstr ""
+msgstr "Überschrift"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:121
 msgid "Enter heading text for download box."
-msgstr ""
+msgstr "Gebe die Überschrift für die Download-Box ein."
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:127
 msgid "Description text"
-msgstr ""
+msgstr "Beschreibung"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:128
-#| msgid "Description text color"
 msgid "Enter description text for download box."
-msgstr ""
+msgstr "Gebe die Beschreibung für die Download-Box ein."
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:134
 msgid "Content Type"
-msgstr ""
+msgstr "Inhalts-Typ"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:137
 msgid "Auto Identify"
-msgstr ""
+msgstr "Automatisch erkennen"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:138
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:139
 msgid "File"
-msgstr ""
+msgstr "Datei"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:140
 msgid "Gallery"
-msgstr ""
+msgstr "Bildergalerie"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:141
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:142
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:143
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:162
 msgid "Select Teaser Image"
-msgstr ""
+msgstr "Vorschaubild auswählen"
 
 #: asset_sources/js/blocks/premium-download-box/edit.js:180
 msgid "Clear Teaser Image"
-msgstr ""
+msgstr "Vorschaubild entfernen"
 
 #: asset_sources/js/blocks/premium-download-box/index.js:15
 msgid "LaterPay Premium Download Box"
-msgstr ""
+msgstr "LaterPay Premium Download-Box"
 
 #: asset_sources/js/blocks/premium-download-box/index.js:19
 msgid "Premium Download Box"
-msgstr ""
+msgstr "Premium Download-Box"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:36
 msgid "Purchase Button Settings"
-msgstr ""
+msgstr "Kauf-Button Einstellungen"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:38
 msgid "Type Of Purchase"
-msgstr ""
+msgstr "Art des Angebots"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:48
 msgid "Time Pass / Subscription ID"
-msgstr ""
+msgstr "Zeitpass- / Abo-ID"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:55
 msgid "Purchase Button Text"
-msgstr ""
+msgstr "Beschriftung des Kauf-Buttons"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:56
 msgid "Enter purchase button text, defaults to item revenue."
 msgstr ""
+"Beschriftung für den Kauf-Button hier eingeben. (standardmäßig: Kaufpreis)"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:62
 msgid "Button Color"
-msgstr ""
+msgstr "Button-Farbe"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:69
 msgid "Background Color"
-msgstr ""
+msgstr "Hintergrundfarbe"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:75
 msgid "Button Text Color"
-msgstr ""
+msgstr "Button-Textfarbe"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:82
 msgid "Text Color"
-msgstr ""
+msgstr "Textfarbe"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/index.js:15
 msgid "LaterPay Purchase Button"
-msgstr ""
+msgstr "LaterPay Kauf-Button"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/index.js:19
 msgid "Time Pass Button"
-msgstr ""
+msgstr "Zeitpass-Button"
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/index.js:20
 msgid "Subscription Button"
-msgstr ""
+msgstr "Abo-Button"
 
 #: built_assets/js/vendor/velocity.min.js:3
 msgid "translateX"
@@ -4485,6 +4490,9 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#~ msgid "Revenue"
+#~ msgstr "Erlösmodell"
 
 #~ msgid ""
 #~ "At long last, one of our most highly requested features is here! Check "
