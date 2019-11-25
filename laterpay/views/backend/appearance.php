@@ -22,6 +22,8 @@ $laterpay_show_footer                         = get_option( 'laterpay_overlay_sh
 $laterpay_show_purchase_button_custom_option = 1 === $laterpay_show_purchase_button_above_article ? '' : 'display:none';
 $laterpay_show_tp_sub_custom_option          = 1 === $laterpay_show_tp_sub_below_modal ? '' : 'display:none';
 $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enabled'] ? '' : 'display:none';
+
+$settings_url = admin_url( 'options-general.php?page=laterpay#lpappearance' );
 ?>
 
 <div class="lp_page wp-core-ui">
@@ -60,7 +62,7 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                         ?>
                     </label>
 
-                    <form method="post" class="lp_mb++ lp_inline-block lp_purchase-form">
+                    <form method="post" class="lp_mb++ lp_purchase-form">
                         <input type="hidden" name="form" value="appearance_config">
                         <input type="hidden" name="action" value="laterpay_appearance">
                         <?php wp_nonce_field( 'laterpay_form' ); ?>
@@ -143,6 +145,10 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                                 <input type="checkbox" id="lp_show_footer" name="show_footer" value="<?php echo esc_attr( $laterpay_show_footer ); ?>" <?php if ( '1' === $laterpay_show_footer ) : echo 'checked'; endif; ?>>
                             </div>
 
+                            <div class="lp-advanced-settings">
+                                <a class="lp_info_link" href="<?php echo esc_url( $settings_url ); ?>" target="_blank"><?php esc_html_e( 'Advanced Settings', 'laterpay' ); ?></a>
+                            </div>
+
                             <div class="appearance_actions">
                                 <a href="#" class="lp_js_savePurchaseForm button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
                                 <a href="#" class="lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
@@ -187,7 +193,7 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                     );
                     ?>
                 </label>
-                <form method="post" class="lp_mb++ lp_inline-block lp_purchase-form">
+                <form method="post" class="lp_mb++ lp_purchase-form">
                     <input type="hidden" name="form" value="overlay_settings">
                     <input type="hidden" name="action" value="laterpay_appearance">
                     <?php wp_nonce_field( 'laterpay_form' ); ?>
@@ -276,35 +282,13 @@ $laterpay_show_body_text_area                = 1 === $laterpay_body_text['enable
                         </tbody>
                     </table>
                     <div class="lp_purchase-form__buttons lp_1">
-                        <div class="lp_1/2 lp_inline-block">
+                        <div>
                             <a href="#" class="lp_js_savePurchaseFormColors button button-primary"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
                             <a href="#" class="lp_js_cancelEditingPurchaseForm lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
-                        </div><!--
-                             -->
-                        <div class="lp_1/2 lp_inline-block lp_text-align--right">
                             <a href="#" class="lp_js_restoreDefaultPurchaseForm lp_inline-block lp_pd--05-1"><?php esc_html_e( 'Restore Default Values', 'laterpay' ); ?></a>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-        <div class="lp_side_area">
-            <div class="lp_clearfix lp_info">
-                <div class="lp_side_info">
-                    <h2><?php esc_html_e( 'TIPS & TRICKS', 'laterpay' ); ?></h2>
-                    <p>
-
-                        <?php
-                        printf(
-                            "<a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
-                            esc_url( admin_url( 'options-general.php?page=laterpay#lpappearance' ) ),
-                            esc_html__( 'Click here', 'laterpay' ),
-                            esc_html__( 'to adjust the number of characters automatically generated as your teaser content or the length of the content preview blurred behind our paywall.', 'laterpay' )
-                        );
-                        ?>
-                    </p>
-                </div>
-                <?php $this->render_faq_support(); ?>
             </div>
         </div>
     </div>

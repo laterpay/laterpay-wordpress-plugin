@@ -2,6 +2,7 @@
 var gulp                        = require('gulp'),
     plugins                     = require('gulp-load-plugins')(),
     del                         = require('del'),
+    exec                        = require('child_process').exec,
     runSequence                 = require('run-sequence'),
     Github                      = require('github'),
     minimist                    = require('minimist'),
@@ -38,7 +39,7 @@ var gulp                        = require('gulp'),
 // OPTIONS -------------------------------------------------------------------------------------------------------------
 var gulpKnownOptions = {
     string: 'version',
-    default: { version: '2.7.0' }
+    default: { version: '2.8.0' }
 };
 var gulpOptions = minimist(process.argv.slice(2), gulpKnownOptions);
 gulpOptions.svn = {};
@@ -249,10 +250,19 @@ gulp.task('precommit', ['sniffphp', 'js-format'], function() {
     return deferred.promise;
 });
 
+// Task to run wp-scripts.
+gulp.task('compile-blocks', function (cb) {
+    exec('npm run build', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+});
+
 // build project for release
 gulp.task('build', ['clean'], function() {
     var deferred = Q.defer();
-    runSequence(['img-build','css-build','js-build','composer'], function(error){
+    runSequence(['img-build','css-build','js-build', 'compile-blocks', 'composer'], function(error){
         if (error) {
             deferred.reject(error.message);
             console.log(error.message);

@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-10-23 19:23+0530\n"
-"PO-Revision-Date: 2019-10-23 19:24+0530\n"
-"Last-Translator: Sample Blogger <kmoore@laterpay.net>\n"
+"POT-Creation-Date: 2019-11-22 23:06+0530\n"
+"PO-Revision-Date: 2019-11-22 23:24+0530\n"
+"Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
@@ -906,12 +906,8 @@ msgstr "Highlights der Version %s:"
 
 #: application/Controller/Admin.php:906
 msgid ""
-"At long last, one of our most highly requested features is here! Check out "
-"the new Contributions tab to explore our newest feature."
+"Try the all new LaterPay Blocks now in your WordPress Post or Page editor!"
 msgstr ""
-"Endlich ist eines unserer meist angefragten Features live! Schauen Sie sich "
-"die neue Registerkarte Contributions an und entdecken Sie die "
-"Funktionsmöglichkeiten der Freiwilligen Beitragszahlungen (Contributions)."
 
 #: application/Controller/Admin.php:912
 msgid "Learn More"
@@ -1083,7 +1079,7 @@ msgid "Updated LaterPay tracking mode."
 msgstr ""
 
 #: application/Controller/Admin/Appearance.php:76
-#: views/backend/appearance.php:149
+#: views/backend/appearance.php:155
 msgid ""
 "Please select one of the recommended options above to ensure that your users "
 "can purchase all content types."
@@ -1097,7 +1093,7 @@ msgstr "Benutzerdefiniertes HTML hier eingeben"
 
 #: application/Controller/Admin/Appearance.php:173
 #: application/Helper/Appearance.php:25 application/Helper/Appearance.php:56
-#: views/backend/appearance.php:17 views/backend/appearance.php:92
+#: views/backend/appearance.php:17 views/backend/appearance.php:94
 msgid "Read now, pay later"
 msgstr "Jetzt lesen, später zahlen"
 
@@ -1112,12 +1108,15 @@ msgid "Color scheme saved successfully."
 msgstr "Kauf-Overlay Einstellungen erfolgreich gespeichert."
 
 #: application/Controller/Admin/Contributions.php:60
+#: asset_sources/js/blocks/contribution/edit.js:427
+#: asset_sources/js/blocks/contribution/edit.js:428
 #: views/frontend/partials/widget/contribution-dialog.php:26
 #: views/frontend/partials/widget/contribution-dialog.php:28
 msgid "Contribute"
 msgstr "Jetzt"
 
 #: application/Controller/Admin/Contributions.php:61
+#: asset_sources/js/blocks/contribution/edit.js:428
 #: views/frontend/partials/widget/contribution-dialog.php:28
 msgid "now"
 msgstr "spenden"
@@ -1128,6 +1127,7 @@ msgstr "spenden, später zahlen"
 
 #: application/Controller/Admin/Contributions.php:63
 #: application/Controller/Frontend/Shortcode.php:746
+#: asset_sources/js/blocks/contribution/edit.js:218
 msgid "Please enter a Campaign Name above."
 msgstr "Bitte geben Sie oben einen Kampagnennamen ein."
 
@@ -1219,6 +1219,111 @@ msgid ""
 "or request feedback?"
 msgstr ""
 
+#: application/Controller/Admin/Post/Blocks.php:40
+#, fuzzy
+#| msgid "Get a Time Pass or Subscription"
+msgid "Please provide valid Time Pass / Subscription ID."
+msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#: application/Controller/Admin/Post/Blocks.php:56
+#: application/Controller/Admin/Pricing.php:52
+#: application/Controller/Admin/Pricing.php:135
+#: application/Controller/Frontend/Shortcode.php:569
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:42
+#: views/backend/pricing.php:182
+msgid "Subscription"
+msgstr "Abo"
+
+#: application/Controller/Admin/Post/Blocks.php:56
+#: application/Controller/Admin/Pricing.php:134
+#: application/Controller/Frontend/Shortcode.php:569
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:41
+#: views/backend/pricing.php:177
+msgid "Time Pass"
+msgstr "Zeitpass"
+
+#: application/Controller/Admin/Post/Blocks.php:63
+#, php-format
+msgid "We couldn't find a %s with id=\"0\" on this site."
+msgstr "Wir konnten kein %s mit der id=“0” auf der Seite finden."
+
+#: application/Controller/Admin/Post/Blocks.php:68
+#: application/Controller/Frontend/Shortcode.php:569
+#, php-format
+msgid "We couldn't find a %s with id=\"%s\" on this site."
+msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
+
+#: application/Controller/Admin/Post/Blocks.php:74
+#: application/Controller/Frontend/Post.php:652
+#: application/Controller/Frontend/Shortcode.php:581
+#: application/Module/Purchase.php:744
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:117
+msgid "Buy Now, Pay Later"
+msgstr "Jetzt kaufen, später zahlen"
+
+#: application/Controller/Admin/Post/Blocks.php:76
+#: application/Controller/Frontend/Post.php:653
+#: application/Controller/Frontend/Shortcode.php:583
+#: application/Module/Purchase.php:616 application/Module/Purchase.php:629
+#: application/Module/Purchase.php:737
+#: views/backend/partials/purchase-overlay.php:32
+msgid "Buy Now"
+msgstr "Jetzt kaufen"
+
+#: application/Controller/Admin/Post/Blocks.php:82
+#: application/Controller/Frontend/Post.php:654
+#: application/Controller/Frontend/Shortcode.php:589
+#: application/Module/Purchase.php:740
+msgid "Subscribe Now"
+msgstr "Jetzt abonnieren"
+
+#: application/Controller/Admin/Post/Blocks.php:160
+#: asset_sources/js/blocks/dynamic-access/edit.js:107
+msgid ""
+"All cannot be used for both 'Time Passes' and 'Subscriptions' at the same "
+"time."
+msgstr "“Alle” kann nicht zeitgleich für Zeitpässe und Abos genutzt werden."
+
+#: application/Controller/Admin/Post/Blocks.php:204
+#: application/Controller/Frontend/Shortcode.php:102
+#: asset_sources/js/blocks/premium-download-box/index.js:34
+msgid "Additional Premium Content"
+msgstr "Zusätzlicher Premium-Inhalt"
+
+#: application/Controller/Admin/Post/Blocks.php:221
+msgid "Please select Downloadable Media"
+msgstr ""
+
+#: application/Controller/Admin/Post/Blocks.php:231
+msgid "Selected content doesn't exist now"
+msgstr ""
+
+#: application/Controller/Admin/Post/Blocks.php:235
+#: application/Controller/Frontend/Shortcode.php:154
+msgid "LaterPay has been disabled for the post type of the target page."
+msgstr "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
+
+#: application/Controller/Admin/Post/Blocks.php:282
+#: application/Controller/Frontend/Shortcode.php:224
+#: views/backend/partials/subscription.php:32
+#: views/backend/partials/time-pass.php:31
+#: views/frontend/partials/widget/purchase-button.php:18
+#: views/frontend/partials/widget/purchase-link.php:14
+msgid "Buy now with LaterPay"
+msgstr "Jetzt mit LaterPay kaufen"
+
+#: application/Controller/Admin/Post/Blocks.php:357
+msgid "Please enter a Campaign Name."
+msgstr "Kampagnennamen eingeben."
+
+#: application/Controller/Admin/Post/Blocks.php:384
+msgid "Please enter a valid contribution amount."
+msgstr "Bitte einen gültigen Contribution-Betrag eingeben."
+
+#: application/Controller/Admin/Post/Blocks.php:616
+msgid "LaterPay Blocks"
+msgstr "LaterPay Blocks"
+
 #: application/Controller/Admin/Post/Column.php:42
 #: views/backend/partials/subscription.php:62
 #: views/backend/partials/time-pass.php:64 views/backend/pricing.php:290
@@ -1240,10 +1345,16 @@ msgstr "KOSTENLOS"
 
 #: application/Controller/Admin/Post/Column.php:125
 #: application/Controller/Admin/Post/Metabox.php:155
-#: application/Helper/Pricing.php:949 views/backend/contributions.php:76
-#: views/backend/contributions.php:108 views/backend/contributions.php:125
-#: views/backend/contributions.php:142 views/backend/contributions.php:159
-#: views/backend/contributions.php:176
+#: application/Helper/Pricing.php:949
+#: asset_sources/js/blocks/contribution/edit.js:256
+#: asset_sources/js/blocks/contribution/edit.js:280
+#: asset_sources/js/blocks/contribution/edit.js:304
+#: asset_sources/js/blocks/contribution/edit.js:328
+#: asset_sources/js/blocks/contribution/edit.js:352
+#: asset_sources/js/blocks/contribution/edit.js:403
+#: views/backend/contributions.php:76 views/backend/contributions.php:108
+#: views/backend/contributions.php:125 views/backend/contributions.php:142
+#: views/backend/contributions.php:159 views/backend/contributions.php:176
 #: views/backend/partials/post-pricing-form.php:172
 #: views/backend/partials/post-pricing-form.php:195
 #: views/backend/partials/post-pricing-form.php:274
@@ -1255,7 +1366,13 @@ msgstr "Sofort zahlen"
 #: application/Controller/Admin/Post/Column.php:126
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
-#: application/Helper/Pricing.php:952 application/Module/Purchase.php:653
+#: application/Helper/Pricing.php:952 application/Module/Purchase.php:639
+#: asset_sources/js/blocks/contribution/edit.js:255
+#: asset_sources/js/blocks/contribution/edit.js:279
+#: asset_sources/js/blocks/contribution/edit.js:303
+#: asset_sources/js/blocks/contribution/edit.js:327
+#: asset_sources/js/blocks/contribution/edit.js:351
+#: asset_sources/js/blocks/contribution/edit.js:402
 #: views/backend/contributions.php:71 views/backend/contributions.php:103
 #: views/backend/contributions.php:120 views/backend/contributions.php:137
 #: views/backend/contributions.php:154 views/backend/contributions.php:171
@@ -1380,13 +1497,6 @@ msgid ""
 msgstr ""
 "Wir empfehlen jedoch, für jeden Beitrag einen separaten Teaser zu erstellen, "
 "um die Attraktivität des Beitrags zu steigern."
-
-#: application/Controller/Admin/Pricing.php:52
-#: application/Controller/Admin/Pricing.php:135
-#: application/Controller/Frontend/Shortcode.php:569
-#: views/backend/pricing.php:182
-msgid "Subscription"
-msgstr "Abo"
 
 #: application/Controller/Admin/Pricing.php:100
 msgid "After"
@@ -1521,12 +1631,6 @@ msgstr ""
 #: application/Controller/Admin/Pricing.php:133 views/backend/pricing.php:172
 msgid "Single Purchase"
 msgstr "Einzelkauf"
-
-#: application/Controller/Admin/Pricing.php:134
-#: application/Controller/Frontend/Shortcode.php:569
-#: views/backend/pricing.php:177
-msgid "Time Pass"
-msgstr "Zeitpass"
 
 #: application/Controller/Admin/Pricing.php:162
 msgid "All posts in category"
@@ -1752,7 +1856,7 @@ msgid "Yes, Disable Tracking"
 msgstr "Ja, Tracking deaktivieren"
 
 #: application/Controller/Admin/Settings.php:263 views/backend/advanced.php:323
-#: views/backend/appearance.php:148 views/backend/appearance.php:281
+#: views/backend/appearance.php:154 views/backend/appearance.php:287
 #: views/backend/pricing.php:113 views/backend/pricing.php:196
 #: views/backend/pricing.php:356 views/backend/pricing.php:476
 #: views/backend/pricing.php:596 views/backend/pricing.php:628
@@ -1938,48 +2042,48 @@ msgstr ""
 "Haben Sie Fragen oder vermissen eine Funktion? %1$sKlicken Sie hier um den "
 "LaterPay Support zu kontatkieren%2$s"
 
-#: application/Controller/Admin/Settings.php:541
+#: application/Controller/Admin/Settings.php:536
 msgid "none"
 msgstr "keine"
 
-#: application/Controller/Admin/Settings.php:542
+#: application/Controller/Admin/Settings.php:537
 msgid "all"
 msgstr "alle"
 
-#: application/Controller/Admin/Settings.php:599
+#: application/Controller/Admin/Settings.php:594
 #, fuzzy
 msgid "WordPress User Role"
 msgstr "Nutzerrolle"
 
-#: application/Controller/Admin/Settings.php:601
+#: application/Controller/Admin/Settings.php:596
 #, fuzzy
 msgid "Receives unlimited access to:"
 msgstr "Zeitbasierten Zugriff auf Inhalte verkaufen"
 
-#: application/Controller/Admin/Settings.php:606
+#: application/Controller/Admin/Settings.php:601
 msgid "Please add a custom role first."
 msgstr "Bitte erstellen Sie erst eine eigene Nutzerrolle."
 
-#: application/Controller/Admin/Settings.php:688
+#: application/Controller/Admin/Settings.php:683
 msgid "Close"
 msgstr "Schließen"
 
-#: application/Controller/Admin/Settings.php:876
+#: application/Controller/Admin/Settings.php:871
 msgid "Do nothing"
 msgstr "Nichts tun"
 
-#: application/Controller/Admin/Settings.php:877
+#: application/Controller/Admin/Settings.php:872
 msgid ""
 "No user can access premium content while the LaterPay API is not responding."
 msgstr ""
 "Kein Nutzer hat Zugriff auf Premium-Inhalte, während die LaterPay API nicht "
 "erreichbar ist."
 
-#: application/Controller/Admin/Settings.php:881
+#: application/Controller/Admin/Settings.php:876
 msgid "Give full access"
 msgstr "Vollzugriff gewähren"
 
-#: application/Controller/Admin/Settings.php:882
+#: application/Controller/Admin/Settings.php:877
 msgid ""
 "All users have full access to premium content in order to not disappoint "
 "paying users."
@@ -1987,15 +2091,15 @@ msgstr ""
 "Alle Nutzer haben vollen Zugriff auf Bezahlinhalte (z. B. Nützlich, um "
 "bisherige Käufer nicht zu verärgern)."
 
-#: application/Controller/Admin/Settings.php:886
+#: application/Controller/Admin/Settings.php:881
 msgid "Hide premium content"
 msgstr "Bezahlinhalte ausblenden"
 
-#: application/Controller/Admin/Settings.php:887
+#: application/Controller/Admin/Settings.php:882
 msgid "Premium content is hidden from users. Direct access would be blocked."
 msgstr "Bezahlinhalte werden ausgeblendet, der Direktzugriff wird verweigert."
 
-#: application/Controller/Admin/Settings.php:967
+#: application/Controller/Admin/Settings.php:962
 msgid "auto detected"
 msgstr "automatisch ermittelt"
 
@@ -2031,26 +2135,6 @@ msgstr " ist kein gültiger Gutschein-Code!"
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:652
-#: application/Controller/Frontend/Shortcode.php:581
-#: application/Module/Purchase.php:598
-msgid "Buy Now, Pay Later"
-msgstr "Jetzt kaufen, später zahlen"
-
-#: application/Controller/Frontend/Post.php:653
-#: application/Controller/Frontend/Shortcode.php:583
-#: application/Module/Purchase.php:591 application/Module/Purchase.php:630
-#: application/Module/Purchase.php:643
-#: views/backend/partials/purchase-overlay.php:32
-msgid "Buy Now"
-msgstr "Jetzt kaufen"
-
-#: application/Controller/Frontend/Post.php:654
-#: application/Controller/Frontend/Shortcode.php:589
-#: application/Module/Purchase.php:594
-msgid "Subscribe Now"
-msgstr "Jetzt abonnieren"
-
 #: application/Controller/Frontend/Post.php:729
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
@@ -2068,10 +2152,6 @@ msgstr "Aktualisiert."
 #: application/Module/Appearance.php:227
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
-
-#: application/Controller/Frontend/Shortcode.php:102
-msgid "Additional Premium Content"
-msgstr "Zusätzlicher Premium-Inhalt"
 
 #: application/Controller/Frontend/Shortcode.php:123
 #, php-format
@@ -2091,18 +2171,6 @@ msgstr ""
 #: application/Helper/View.php:249
 msgid "Problem with inserted shortcode:"
 msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
-
-#: application/Controller/Frontend/Shortcode.php:154
-msgid "LaterPay has been disabled for the post type of the target page."
-msgstr "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
-
-#: application/Controller/Frontend/Shortcode.php:224
-#: views/backend/partials/subscription.php:32
-#: views/backend/partials/time-pass.php:31
-#: views/frontend/partials/widget/purchase-button.php:18
-#: views/frontend/partials/widget/purchase-link.php:14
-msgid "Buy now with LaterPay"
-msgstr "Jetzt mit LaterPay kaufen"
 
 #: application/Controller/Frontend/Shortcode.php:320
 msgid "Download now"
@@ -2127,11 +2195,6 @@ msgstr "Jetzt lesen"
 #: application/Controller/Frontend/Shortcode.php:428
 msgid "Wrong time pass id."
 msgstr "Ungültige Zeitpass-ID."
-
-#: application/Controller/Frontend/Shortcode.php:569
-#, php-format
-msgid "We couldn't find a %s with id=\"%s\" on this site."
-msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
 
 #: application/Controller/Frontend/Shortcode.php:659
 #, php-format
@@ -2316,36 +2379,36 @@ msgstr "Alle Inhalte in Kategorie"
 msgid "k"
 msgstr "t"
 
-#: application/Module/Purchase.php:111 application/Module/Purchase.php:757
+#: application/Module/Purchase.php:111 application/Module/Purchase.php:760
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:619 application/Module/TimePasses.php:472
+#: application/Module/Purchase.php:605 application/Module/TimePasses.php:472
 #: application/Module/TimePasses.php:495 application/Module/TimePasses.php:513
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
-#: application/Module/Purchase.php:621
+#: application/Module/Purchase.php:607
 msgid "Read Now, Pay Later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: application/Module/Purchase.php:631
+#: application/Module/Purchase.php:617
 msgid ""
 "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie diesen Beitrag jetzt mit LaterPay und <br>bezahlen Sie mit einer "
 "Zahlungsmethode Ihres Vertrauens."
 
-#: application/Module/Purchase.php:635 application/Module/Purchase.php:648
+#: application/Module/Purchase.php:621 application/Module/Purchase.php:634
 #: application/Module/TimePasses.php:480
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
-#: application/Module/Purchase.php:636
+#: application/Module/Purchase.php:622
 msgid ""
 "Immediately access your purchase. <br>You only buy this post. No "
 "subscription, no fees."
@@ -2353,13 +2416,13 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:644
+#: application/Module/Purchase.php:630
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 "Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. "
 "Keine Vorauszahlung."
 
-#: application/Module/Purchase.php:649
+#: application/Module/Purchase.php:635
 msgid ""
 "Access your purchase immediately.<br> You are only buying this article, not "
 "a subscription."
@@ -2367,7 +2430,7 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:654
+#: application/Module/Purchase.php:640
 #, php-format
 msgid ""
 "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you "
@@ -2417,6 +2480,376 @@ msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer "
 "Zahlungsmethode, der Sie vertrauen."
+
+#: asset_sources/js/blocks/contribution/edit.js:208
+msgid "Contribution Settings"
+msgstr "Contribution-Einstellungen"
+
+#: asset_sources/js/blocks/contribution/edit.js:210
+msgid "Campaign Name"
+msgstr "Kampagnen Name"
+
+#: asset_sources/js/blocks/contribution/edit.js:211
+msgid "Enter Campaign name."
+msgstr "Kampangnenname eingeben."
+
+#: asset_sources/js/blocks/contribution/edit.js:222
+#: views/backend/contributions.php:53
+msgid "Thank you page (optional)"
+msgstr "Dankeschön-Seite (optional)"
+
+#: asset_sources/js/blocks/contribution/edit.js:223
+msgid "Enter Thank you page."
+msgstr "Dankeschön-Seite eintragen."
+
+#: asset_sources/js/blocks/contribution/edit.js:229
+msgid "Contribution Type"
+msgstr "Art der Contribution"
+
+#: asset_sources/js/blocks/contribution/edit.js:232
+msgid "Multiple"
+msgstr "Mehrere"
+
+#: asset_sources/js/blocks/contribution/edit.js:233
+msgid "Single"
+msgstr "Einzelne"
+
+#: asset_sources/js/blocks/contribution/edit.js:242
+#: asset_sources/js/blocks/contribution/edit.js:365
+msgid "Amount One"
+msgstr "Betrag 1"
+
+#: asset_sources/js/blocks/contribution/edit.js:251
+#: asset_sources/js/blocks/contribution/edit.js:275
+#: asset_sources/js/blocks/contribution/edit.js:299
+#: asset_sources/js/blocks/contribution/edit.js:323
+#: asset_sources/js/blocks/contribution/edit.js:347
+#: asset_sources/js/blocks/contribution/edit.js:398
+#: views/backend/pricing.php:304 views/backend/pricing.php:453
+#: views/backend/pricing.php:573
+msgid "Revenue Model"
+msgstr "Umsatz-Modell"
+
+#: asset_sources/js/blocks/contribution/edit.js:266
+#: asset_sources/js/blocks/contribution/edit.js:366
+msgid "Amount Two"
+msgstr "Betrag 2"
+
+#: asset_sources/js/blocks/contribution/edit.js:290
+#: asset_sources/js/blocks/contribution/edit.js:367
+msgid "Amount Three"
+msgstr "Betrag 3"
+
+#: asset_sources/js/blocks/contribution/edit.js:314
+#: asset_sources/js/blocks/contribution/edit.js:368
+msgid "Amount Four"
+msgstr "Betrag 4"
+
+#: asset_sources/js/blocks/contribution/edit.js:338
+#: asset_sources/js/blocks/contribution/edit.js:369
+msgid "Amount Five"
+msgstr "Betrag 5"
+
+#: asset_sources/js/blocks/contribution/edit.js:362
+msgid "Default Selected Amount"
+msgstr "Standardbetrag"
+
+#: asset_sources/js/blocks/contribution/edit.js:379
+msgid " Allow custom contribution amount"
+msgstr " Benutzerdefinierten Contribution-Betrag erlauben"
+
+#: asset_sources/js/blocks/contribution/edit.js:380
+msgid "Check to allow custom contribution"
+msgstr ""
+"Auswählen, um (vom Nutzer) frei wählbare Contribution-Beträge zu erlauben"
+
+#: asset_sources/js/blocks/contribution/edit.js:388
+#: views/backend/contributions.php:62
+msgid "Amount"
+msgstr "Betrag"
+
+#: asset_sources/js/blocks/contribution/edit.js:389
+msgid "Enter Contribution amount."
+msgstr "Contribution-Betrag eingeben."
+
+#: asset_sources/js/blocks/contribution/edit.js:427
+#: views/frontend/partials/widget/contribution-dialog.php:26
+msgid "now, Pay Later"
+msgstr "spenden, später zahlen"
+
+#: asset_sources/js/blocks/contribution/edit.js:448
+#: views/backend/contributions.php:215
+#: views/frontend/partials/widget/contribution-dialog.php:46
+msgid "How much would you like to contribute?"
+msgstr ""
+"Wie viel möchten Sie als Contribution (freiwillige Beitragszahlung) "
+"beitragen?"
+
+#: asset_sources/js/blocks/contribution/edit.js:477
+#: views/backend/contributions.php:239
+#: views/frontend/partials/widget/contribution-dialog.php:75
+msgid "Custom Amount"
+msgstr "Ihr Beitrag"
+
+#: asset_sources/js/blocks/contribution/edit.js:491
+#: views/backend/contributions.php:251
+#: views/frontend/partials/widget/contribution-dialog.php:89
+msgid "Contribute now"
+msgstr "Jetzt spenden"
+
+#: asset_sources/js/blocks/contribution/edit.js:498
+#: views/backend/contributions.php:257
+#: views/backend/partials/purchase-overlay.php:139
+#: views/frontend/partials/widget/contribution-dialog.php:96
+#: views/frontend/partials/widget/purchase-overlay.php:176
+msgid "Powered by"
+msgstr "Powered by"
+
+#: asset_sources/js/blocks/contribution/index.js:15
+msgid "LaterPay Contribution"
+msgstr "LaterPay Contribution"
+
+#: asset_sources/js/blocks/contribution/index.js:19
+msgid "Contribution"
+msgstr "Contributions"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:31
+msgid "Dynamic Access Settings"
+msgstr "Dynamischer Zugriff Einstellungen"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:33
+msgid "Access Behaviour"
+msgstr "Zugriffs-Verhalten"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:36
+msgid "Show contents after purchase"
+msgstr "Inhalt nach dem Kauf anzeigen"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:37
+msgid "Hide contents after purchase"
+msgstr "Inhalt nach dem Kauf verbergen"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:43
+msgid "Purchase requirement"
+msgstr "Kauf als Voraussetzung"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:46
+msgid "Any Purchase"
+msgstr "Jeder Kauf"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:47
+msgid "Specific Time Passes or Subscriptions"
+msgstr "bestimmte Zeitpässe oder Abos"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:55
+msgid "Time Passes to select"
+msgstr "Zeitpässe auswählen"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:58
+#: asset_sources/js/blocks/dynamic-access/edit.js:83
+msgid "None"
+msgstr "Keine"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:59
+#: asset_sources/js/blocks/dynamic-access/edit.js:84
+msgid "All"
+msgstr "alle"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:60
+#: asset_sources/js/blocks/dynamic-access/edit.js:85
+msgid "Specific"
+msgstr "Bestimmte"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:69
+msgid "Enter Time Pass ID's manually separated by comma"
+msgstr "Zeitpass-ID(s) manuell eingeben. (mehrere durch Komma getrennt)"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:70
+#: asset_sources/js/blocks/dynamic-access/edit.js:95
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:49
+msgid ""
+"To find the Time Pass or Subscription ID, navigate to the Paywall tab. The "
+"ID is the number located to the left of the Time Pass or Subscription."
+msgstr ""
+"Um die ID eines Zeitpasses oder Abos herauszufinden, navigiere zum “Paywall” "
+"Tab. Die ID findet sich dort links neben dem jew. Zeitpass oder Abo."
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:80
+msgid "Subscriptions to select"
+msgstr "Abos auswählen"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:94
+msgid "Enter Subscription ID's manually separated by comma"
+msgstr "Abo-ID(s) manuell eingeben. (mehrere durch Komma getrennt)"
+
+#: asset_sources/js/blocks/dynamic-access/edit.js:120
+msgid "Add content for Dynamic Access"
+msgstr "Inhalt zu Dynamic Access hinzufügen"
+
+#: asset_sources/js/blocks/dynamic-access/index.js:15
+msgid ""
+"Use this block to show or hide the content in the block based on which "
+"LaterPay product the user has purchased."
+msgstr ""
+"Benutze diesen Block, um den Inhalt basierend auf dem vom Nutzer gekauften "
+"LaterPay-Produkt anzuzeigen, oder zu verstecken."
+
+#: asset_sources/js/blocks/dynamic-access/index.js:18
+msgid ""
+"IMPORTANT: This should not be used to hide the content you would like behind "
+"the paywall. That will be done automatically once you have set a price for "
+"this article."
+msgstr ""
+"WICHTIG: Nicht zum verstecken des Inhalts hinter der Paywall verwenden. Das "
+"geschieht automatisch, sobald Du einen Preis für den verknüpften Beitrag "
+"festlegst."
+
+#: asset_sources/js/blocks/dynamic-access/index.js:27
+msgid "LaterPay Dynamic Access"
+msgstr "LaterPay Dynamischer Zugriff"
+
+#: asset_sources/js/blocks/dynamic-access/index.js:32
+msgid "Time Pass Access"
+msgstr "Zeitpass-Zugriff"
+
+#: asset_sources/js/blocks/dynamic-access/index.js:33
+msgid "Subscription Access"
+msgstr "Abo-Zugriff"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:71
+msgid "Premium Download Box Settings"
+msgstr "Premium Download-Box Einstellungen"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:87
+msgid "Select Downloadable Media"
+msgstr "Herunterladbare Inhalte/Medien auswählen"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:104
+msgid "File Name: "
+msgstr "Dateiname:"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:111
+msgid "Current price:"
+msgstr "Aktueller Preis:"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:113
+msgid ""
+"To adjust this price, navigate to the edit media page and configure the "
+"price."
+msgstr "Bearbeite die betreffenden Medien, um diesen Preis anzupassen."
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:120
+msgid "Heading text"
+msgstr "Überschrift"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:121
+msgid "Enter heading text for download box."
+msgstr "Gebe die Überschrift für die Download-Box ein."
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:127
+msgid "Description text"
+msgstr "Beschreibung"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:128
+msgid "Enter description text for download box."
+msgstr "Gebe die Beschreibung für die Download-Box ein."
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:134
+msgid "Content Type"
+msgstr "Inhalts-Typ"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:137
+msgid "Auto Identify"
+msgstr "Automatisch erkennen"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:138
+msgid "Audio"
+msgstr "Audio"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:139
+msgid "File"
+msgstr "Datei"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:140
+msgid "Gallery"
+msgstr "Bildergalerie"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:141
+msgid "Link"
+msgstr "Link"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:142
+msgid "Text"
+msgstr "Text"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:143
+msgid "Video"
+msgstr "Video"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:162
+msgid "Select Teaser Image"
+msgstr "Vorschaubild auswählen"
+
+#: asset_sources/js/blocks/premium-download-box/edit.js:180
+msgid "Clear Teaser Image"
+msgstr "Vorschaubild entfernen"
+
+#: asset_sources/js/blocks/premium-download-box/index.js:15
+msgid "LaterPay Premium Download Box"
+msgstr "LaterPay Premium Download-Box"
+
+#: asset_sources/js/blocks/premium-download-box/index.js:19
+msgid "Premium Download Box"
+msgstr "Premium Download-Box"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:36
+msgid "Purchase Button Settings"
+msgstr "Kauf-Button Einstellungen"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:38
+msgid "Type Of Purchase"
+msgstr "Art des Angebots"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:48
+msgid "Time Pass / Subscription ID"
+msgstr "Zeitpass- / Abo-ID"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:55
+msgid "Purchase Button Text"
+msgstr "Beschriftung des Kauf-Buttons"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:56
+msgid "Enter purchase button text, defaults to item revenue."
+msgstr ""
+"Beschriftung für den Kauf-Button hier eingeben. (standardmäßig: Kaufpreis)"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:62
+msgid "Button Color"
+msgstr "Button-Farbe"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:69
+msgid "Background Color"
+msgstr "Hintergrundfarbe"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:75
+msgid "Button Text Color"
+msgstr "Button-Textfarbe"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:82
+msgid "Text Color"
+msgstr "Textfarbe"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/index.js:15
+msgid "LaterPay Purchase Button"
+msgstr "LaterPay Kauf-Button"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/index.js:19
+msgid "Time Pass Button"
+msgstr "Zeitpass-Button"
+
+#: asset_sources/js/blocks/sub-pass-purchase-button/index.js:20
+msgid "Subscription Button"
+msgstr "Abo-Button"
 
 #: built_assets/js/vendor/velocity.min.js:3
 msgid "translateX"
@@ -2561,21 +2994,21 @@ msgid "Just Deactivate"
 msgstr ""
 
 #: views/backend/account.php:24 views/backend/advanced.php:29
-#: views/backend/appearance.php:38 views/backend/contributions.php:24
+#: views/backend/appearance.php:40 views/backend/contributions.php:24
 #: views/backend/partials/post-pricing-form.php:67 views/backend/pricing.php:19
 #: views/frontend/partials/post/select-preview-mode-tab.php:23
 msgid "Test mode"
 msgstr "Test-Modus"
 
 #: views/backend/account.php:25 views/backend/advanced.php:30
-#: views/backend/appearance.php:39 views/backend/contributions.php:25
+#: views/backend/appearance.php:41 views/backend/contributions.php:25
 #: views/backend/partials/post-pricing-form.php:71 views/backend/pricing.php:23
 #: views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "Earn money in"
 msgstr "Geld verdienen im"
 
 #: views/backend/account.php:25 views/backend/advanced.php:30
-#: views/backend/appearance.php:39 views/backend/contributions.php:25
+#: views/backend/appearance.php:41 views/backend/contributions.php:25
 #: views/backend/partials/post-pricing-form.php:71 views/backend/pricing.php:23
 #: views/frontend/partials/post/select-preview-mode-tab.php:27
 msgid "live mode"
@@ -2935,7 +3368,7 @@ msgstr ""
 "Preisgestaltung hinzufügen\". Nun können Sie die Punkte in der Grafik "
 "verschieben, um die Preise anzupassen."
 
-#: views/backend/advanced.php:181
+#: views/backend/advanced.php:181 views/backend/appearance.php:149
 msgid "Advanced Settings"
 msgstr "Erweiterte Funktionen (Advanced)"
 
@@ -3008,7 +3441,6 @@ msgid "Click here to access additional appearance configurations,"
 msgstr "Klicken Sie hier für weitere Design Einstellungen,"
 
 #: views/backend/advanced.php:267 views/backend/advanced.php:342
-#: views/backend/advanced.php:380
 msgid "including:"
 msgstr "zum Beispiel:"
 
@@ -3095,52 +3527,53 @@ msgstr ""
 "Wählen Sie ein Fallback-Verhalten für den Fall, dass die LaterPay-API nicht "
 "antwortet"
 
-#: views/backend/advanced.php:361 views/backend/appearance.php:294
-msgid "TIPS & TRICKS"
-msgstr "TIPPS & TRICKS"
+#: views/backend/advanced.php:357 views/backend/partials/faq-support.php:25
+msgid "Support"
+msgstr "KUNDENSUPPORT"
 
-#: views/backend/advanced.php:366
+#: views/backend/advanced.php:360 views/backend/partials/faq-support.php:10
+#, php-format
+msgid "Having Trouble with Page Cache? %sClick here.%s"
+msgstr "Probleme mit dem Page Cache? %sKlicken Sie hier.%s"
+
+#: views/backend/advanced.php:366 views/backend/partials/faq-support.php:16
+#, php-format
+msgid "Having Trouble on WPEngine? %sClick here.%s"
+msgstr "Probleme mit dem Seiten-Cache? %sKlicken Sie hier.%s"
+
+#: views/backend/advanced.php:371 views/backend/partials/faq-support.php:21
 #, php-format
 msgid ""
-"%sHELP!%s The new version of the plugin is not compatible with my site. How "
-"can I rollback? %sClick here for step by step instructions.%s"
+"The new version of the plugin is not compatible with my site. How can I "
+"rollback? %sClick here.%s"
 msgstr ""
-"%sHILFE!%s Die neue Version des Plugins ist mit meiner Web Seite nicht "
-"kompatibel. Wie kann ich einen Rollback durchführen? %sKlicken Sie hier für "
-"eine Schritt-für-Schritt-Anleitung.%s"
+"Die neue Version des Plugins ist nicht kompatibel mit meiner Website. Wie "
+"kann ich einen Rollback durchführen? %sKlicken Sie hier.%s"
 
-#: views/backend/advanced.php:377
-msgid "Have you found all of our Advanced Settings?"
-msgstr "Haben Sie alle unsere erweiterten Einstellungen gefunden?"
-
-#: views/backend/advanced.php:379
-msgid "Click here to see even more LaterPay configurations."
-msgstr "Klicken Sie hier, um noch mehr LaterPay-Konfigurationen zu sehen."
-
-#: views/backend/advanced.php:386
+#: views/backend/advanced.php:376 views/backend/partials/faq-support.php:29
 #, php-format
 msgid ""
-"Pay Later can be counter-intuitive at first. %sClick here%s to learn more "
-"and see our recommendations on when to use Pay Now versus Pay Later."
+"%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback "
+"or to reach our customer service team."
 msgstr ""
-"Pay Later kann zunächst kontraintuitiv sein. %sKlicken Sie hier%s, um mehr "
-"zu erfahren und unsere Empfehlungen zum Verwenden von Pay Now versus Pay "
-"Later zu lesen."
+"%1$sKlicken Sie hier%3$s oder schreiben Sie eine Email an "
+"%2$ssupport@laterpay.net%3$s, um Feedback zu geben oder mit unserem "
+"Kundensupport Kontakt aufzunehmen."
 
-#: views/backend/appearance.php:56
+#: views/backend/appearance.php:58
 #, php-format
 msgid "%sConfigure%s Appearance"
 msgstr "%s Darstellung %s  konfigurieren"
 
-#: views/backend/appearance.php:69
+#: views/backend/appearance.php:71
 msgid "Show purchase button above article"
 msgstr "Zeige Kauf-Button über dem Artikel"
 
-#: views/backend/appearance.php:72
+#: views/backend/appearance.php:74
 msgid "Customize position of purchase button"
 msgstr "Anpassen der Position des Kauf-Buttons"
 
-#: views/backend/appearance.php:77
+#: views/backend/appearance.php:79
 msgid ""
 "Call action 'laterpay_purchase_button' in your theme to render the LaterPay "
 "purchase button at that position."
@@ -3148,42 +3581,42 @@ msgstr ""
 "Rufen Sie die Action 'laterpay_purchase_button' in Ihrem Theme auf, um den "
 "LaterPay Button an einer Position Ihrer Wahl anzuzeigen."
 
-#: views/backend/appearance.php:86
+#: views/backend/appearance.php:88
 msgid "Show Purchase Overlay"
 msgstr "Kauf-Overlay anzeigen"
 
-#: views/backend/appearance.php:91
+#: views/backend/appearance.php:93
 msgid "Header"
 msgstr "Überschrift"
 
-#: views/backend/appearance.php:96
+#: views/backend/appearance.php:98
 msgid "Show LaterPay Introduction"
 msgstr "LaterPay Einführung anzeigen"
 
-#: views/backend/appearance.php:101
+#: views/backend/appearance.php:103
 msgid "Show Time Passes & Subscriptions below modal"
 msgstr "Zeigen Sie Zeitabläufe und Abonnements unter modal an"
 
-#: views/backend/appearance.php:104
+#: views/backend/appearance.php:106
 msgid "Customize position of Time Passes & Subscriptions"
 msgstr "Anpassen der Position von Zeitabläufen und Abonnements"
 
-#: views/backend/appearance.php:109
+#: views/backend/appearance.php:111
 msgid ""
 "Call action 'laterpay_time_passes' in your theme or use the shortcode "
 "'[laterpay_time_passes]' to show your users the available time passes."
 msgstr ""
 
-#: views/backend/appearance.php:136
+#: views/backend/appearance.php:138
 msgid "Add custom HTML section below payment button"
 msgstr ""
 "Hinzufügen eines benutzerdefinierten HTML-Abschnitts unter dem Zahlungsbutton"
 
-#: views/backend/appearance.php:142
+#: views/backend/appearance.php:144
 msgid "Show valid payment options"
 msgstr "Gültige Zahlungsoptionen anzeigen"
 
-#: views/backend/appearance.php:147 views/backend/appearance.php:280
+#: views/backend/appearance.php:153 views/backend/appearance.php:286
 #: views/backend/pricing.php:112 views/backend/pricing.php:195
 #: views/backend/pricing.php:355 views/backend/pricing.php:475
 #: views/backend/pricing.php:595 views/backend/pricing.php:627
@@ -3192,80 +3625,67 @@ msgstr "Gültige Zahlungsoptionen anzeigen"
 msgid "Save"
 msgstr "Speichern"
 
-#: views/backend/appearance.php:156 views/backend/contributions.php:194
+#: views/backend/appearance.php:162 views/backend/contributions.php:194
 msgid "Preview"
 msgstr "Vorschau"
 
-#: views/backend/appearance.php:160
+#: views/backend/appearance.php:166
 msgid "Loading..."
 msgstr "Lädt..."
 
-#: views/backend/appearance.php:164
+#: views/backend/appearance.php:170
 #, fuzzy
 msgid "Sample Post Title"
 msgstr "Aktivierte Post-Types"
 
-#: views/backend/appearance.php:184
+#: views/backend/appearance.php:190
 #, php-format
 msgid "%sCustomize%s Colors"
 msgstr "%sFARBEN%s ANPASSEN"
 
-#: views/backend/appearance.php:198
+#: views/backend/appearance.php:204
 msgid "Header background color"
 msgstr "Hintergrundfarbe Header"
 
-#: views/backend/appearance.php:206
+#: views/backend/appearance.php:212
 msgid "Purchase option background color"
 msgstr "Hintergrundfarbe Kaufoptionen"
 
-#: views/backend/appearance.php:214
+#: views/backend/appearance.php:220
 msgid "Main text color"
 msgstr "Schriftfarbe Text"
 
-#: views/backend/appearance.php:222
+#: views/backend/appearance.php:228
 msgid "Description text color"
 msgstr "Schriftfarbe Beschreibungen"
 
-#: views/backend/appearance.php:230
+#: views/backend/appearance.php:236
 msgid "Purchase button background color"
 msgstr "Hintergrundfarbe Kaufbutton"
 
-#: views/backend/appearance.php:238
+#: views/backend/appearance.php:244
 msgid "Purchase button hover color"
 msgstr "Kaufen-Taste schweben Farbe"
 
-#: views/backend/appearance.php:246
+#: views/backend/appearance.php:252
 msgid "Purchase button text color"
 msgstr "Schriftfarbe Kaufbutton"
 
-#: views/backend/appearance.php:254
+#: views/backend/appearance.php:260
 msgid "Link main color"
 msgstr "Schriftfarbe Links"
 
-#: views/backend/appearance.php:262
+#: views/backend/appearance.php:268
 msgid "Link hover color"
 msgstr "Hover-Schriftfarbe Links"
 
-#: views/backend/appearance.php:270
+#: views/backend/appearance.php:276
 msgid "Footer background color"
 msgstr "Hintergrundfarbe Footer"
 
-#: views/backend/appearance.php:285
+#: views/backend/appearance.php:288
 msgid "Restore Default Values"
 msgstr "Standardwerte wiederherstellen"
-
-#: views/backend/appearance.php:301
-msgid "Click here"
-msgstr "Klicken Sie hier"
-
-#: views/backend/appearance.php:302
-msgid ""
-"to adjust the number of characters automatically generated as your teaser "
-"content or the length of the content preview blurred behind our paywall."
-msgstr ""
-"um die Anzahl der Zeichen anzupassen, die automatisch als Teaserinhalt "
-"generiert werden, oder die Länge der Inhaltsvorschau, die hinter unserer "
-"Paywall verschwimmt."
 
 #: views/backend/contributions.php:46
 msgid "Campaign name"
@@ -3279,15 +3699,11 @@ msgid ""
 msgstr ""
 "Geben Sie die Beschreibung ein, die auf der Rechnung Ihrer Kunden erscheinen "
 "soll. Wir empfehlen Ihnen, den Namen Ihrer Organisation anzugeben und etwas, "
-"das sie an diese individuelle Spende erinnert."
+"das sie an diese individuelle Beitragszahlung erinnert."
 
 #: views/backend/contributions.php:50
 msgid "Contributions for..."
 msgstr "Spenden für…"
-
-#: views/backend/contributions.php:53
-msgid "Thank you page (optional)"
-msgstr "Dankeschön-Seite (optional)"
 
 #: views/backend/contributions.php:54
 msgid ""
@@ -3297,10 +3713,6 @@ msgstr ""
 "Optional. Nachdem der Button geklickt wurde, können wir den Besucher auf "
 "eine Seite Ihrer Wahl (beispielsweise eine dedizierte “Dankeschön-Seite” auf "
 "Ihrer Website) weiterleiten."
-
-#: views/backend/contributions.php:62
-msgid "Amount"
-msgstr "Betrag"
 
 #: views/backend/contributions.php:88
 msgid "Show multiple contribution amounts"
@@ -3340,30 +3752,6 @@ msgstr "Jetzt spenden, später zahlen"
 msgid "Support the author"
 msgstr "Unterstützen Sie den Autor"
 
-#: views/backend/contributions.php:215
-#: views/frontend/partials/widget/contribution-dialog.php:46
-msgid "How much would you like to contribute?"
-msgstr ""
-"Wie viel möchten Sie als Contribution (freiwillige Beitragszahlung) "
-"beitragen?"
-
-#: views/backend/contributions.php:239
-#: views/frontend/partials/widget/contribution-dialog.php:75
-msgid "Custom Amount"
-msgstr "Ihr Beitrag"
-
-#: views/backend/contributions.php:251
-#: views/frontend/partials/widget/contribution-dialog.php:89
-msgid "Contribute now"
-msgstr "Jetzt spenden"
-
-#: views/backend/contributions.php:257
-#: views/backend/partials/purchase-overlay.php:139
-#: views/frontend/partials/widget/contribution-dialog.php:96
-#: views/frontend/partials/widget/purchase-overlay.php:176
-msgid "Powered by"
-msgstr "Powered by"
-
 #: views/backend/contributions.php:264
 msgid ""
 "To include this on your site, click the button below and paste the code "
@@ -3385,39 +3773,6 @@ msgstr ""
 #: views/backend/partials/faq-support.php:9
 msgid "FAQ's"
 msgstr "FAQs"
-
-#: views/backend/partials/faq-support.php:10
-#, php-format
-msgid "Having Trouble with Page Cache? %sClick here.%s"
-msgstr "Probleme mit dem Page Cache? %sKlicken Sie hier.%s"
-
-#: views/backend/partials/faq-support.php:16
-#, php-format
-msgid "Having Trouble on WPEngine? %sClick here.%s"
-msgstr "Probleme mit dem Seiten-Cache? %sKlicken Sie hier.%s"
-
-#: views/backend/partials/faq-support.php:21
-#, php-format
-msgid ""
-"The new version of the plugin is not compatible with my site. How can I "
-"rollback? %sClick here.%s"
-msgstr ""
-"Die neue Version des Plugins ist nicht kompatibel mit meiner Website. Wie "
-"kann ich einen Rollback durchführen? %sKlicken Sie hier.%s"
-
-#: views/backend/partials/faq-support.php:25
-msgid "Support"
-msgstr "KUNDENSUPPORT"
-
-#: views/backend/partials/faq-support.php:29
-#, php-format
-msgid ""
-"%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback "
-"or to reach our customer service team."
-msgstr ""
-"%1$sKlicken Sie hier%3$s oder schreiben Sie eine Email an "
-"%2$ssupport@laterpay.net%3$s, um Feedback zu geben oder mit unserem "
-"Kundensupport Kontakt aufzunehmen."
 
 #: views/backend/partials/pointer-scripts.php:12
 msgid "Welcome to LaterPay"
@@ -3709,7 +4064,7 @@ msgstr "Verlängert sich"
 #: views/backend/partials/subscription.php:58
 #, php-format
 msgid "After %s %s"
-msgstr "Nach %s %s "
+msgstr "Nach %s %s"
 
 #: views/backend/partials/subscription.php:68
 msgid "Cancellation"
@@ -3851,11 +4206,6 @@ msgstr ""
 #: views/backend/pricing.php:281
 msgid "Set individual article default price"
 msgstr "Individuellen Artikel-Standardpreis definieren"
-
-#: views/backend/pricing.php:304 views/backend/pricing.php:453
-#: views/backend/pricing.php:573
-msgid "Revenue Model"
-msgstr "Erlösmodell"
 
 #: views/backend/pricing.php:324
 #, php-format
@@ -4087,10 +4437,6 @@ msgstr "Besucher"
 msgid "View"
 msgstr "Anzeigen"
 
-#: views/frontend/partials/widget/contribution-dialog.php:26
-msgid "now, Pay Later"
-msgstr "spenden, später zahlen"
-
 #: views/frontend/partials/widget/purchase-link.php:33
 #: views/frontend/partials/widget/purchase-link.php:36
 msgid "Buy now for"
@@ -4144,6 +4490,55 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#~ msgid "Revenue"
+#~ msgstr "Erlösmodell"
+
+#~ msgid ""
+#~ "At long last, one of our most highly requested features is here! Check "
+#~ "out the new Contributions tab to explore our newest feature."
+#~ msgstr ""
+#~ "Endlich ist eines unserer meist angefragten Features live! Schauen Sie "
+#~ "sich die neue Registerkarte Contributions an und entdecken Sie die "
+#~ "Funktionsmöglichkeiten der Freiwilligen Beitragszahlungen (Contributions)."
+
+#~ msgid "TIPS & TRICKS"
+#~ msgstr "TIPPS & TRICKS"
+
+#, php-format
+#~ msgid ""
+#~ "%sHELP!%s The new version of the plugin is not compatible with my site. "
+#~ "How can I rollback? %sClick here for step by step instructions.%s"
+#~ msgstr ""
+#~ "%sHILFE!%s Die neue Version des Plugins ist mit meiner Web Seite nicht "
+#~ "kompatibel. Wie kann ich einen Rollback durchführen? %sKlicken Sie hier "
+#~ "für eine Schritt-für-Schritt-Anleitung.%s"
+
+#~ msgid "Have you found all of our Advanced Settings?"
+#~ msgstr "Haben Sie alle unsere erweiterten Einstellungen gefunden?"
+
+#~ msgid "Click here to see even more LaterPay configurations."
+#~ msgstr "Klicken Sie hier, um noch mehr LaterPay-Konfigurationen zu sehen."
+
+#, php-format
+#~ msgid ""
+#~ "Pay Later can be counter-intuitive at first. %sClick here%s to learn more "
+#~ "and see our recommendations on when to use Pay Now versus Pay Later."
+#~ msgstr ""
+#~ "Pay Later kann zunächst kontraintuitiv sein. %sKlicken Sie hier%s, um "
+#~ "mehr zu erfahren und unsere Empfehlungen zum Verwenden von Pay Now versus "
+#~ "Pay Later zu lesen."
+
+#~ msgid "Click here"
+#~ msgstr "Klicken Sie hier"
+
+#~ msgid ""
+#~ "to adjust the number of characters automatically generated as your teaser "
+#~ "content or the length of the content preview blurred behind our paywall."
+#~ msgstr ""
+#~ "um die Anzahl der Zeichen anzupassen, die automatisch als Teaserinhalt "
+#~ "generiert werden, oder die Länge der Inhaltsvorschau, die hinter unserer "
+#~ "Paywall verschwimmt."
 
 #~ msgid "Contribute now, pay later"
 #~ msgstr "Jetzt $/€ spenden, später zahlen"
@@ -4218,9 +4613,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #~ "Standardpreises auf 0,00 alle Artikel kostenfrei, für die kein "
 #~ "Kategoriespezifischer-Standardpreis oder Einzelpreis festgelegt wurde.\n"
 #~ "            </p>\n"
-
-#~ msgid "Currency"
-#~ msgstr "Währung"
 
 #~ msgid ""
 #~ "\n"
@@ -4469,9 +4861,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #~ "                </li>\n"
 #~ "            </ul>"
 
-#~ msgid "Purchase Button Position"
-#~ msgstr "Position des LaterPay Buttons"
-
 #~ msgid ""
 #~ "\n"
 #~ "            <p>\n"
@@ -4506,9 +4895,6 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #~ "WordPress-Aktion verwenden.\n"
 #~ "                </li>\n"
 #~ "            </ul>"
-
-#~ msgid "Time Pass Position"
-#~ msgstr "Positionierung von Zeitpässen"
 
 #~ msgid ""
 #~ "\n"

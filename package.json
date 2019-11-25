@@ -1,10 +1,11 @@
 {
   "name": "laterpay-wordpress-plugin",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "LaterPay WordPress plugin",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "@wordpress/scripts": "5.1.0",
     "dateformat": "^1.0.11",
     "del": "^0.1.3",
     "github": "^0.2.4",
@@ -15,6 +16,7 @@
     "gulp-composer": "^0.1.0",
     "gulp-csslint": "^0.1.5",
     "gulp-csso": "^1.0.0",
+    "gulp-exec": "^4.0.0",
     "gulp-git": "^1.2.4",
     "gulp-jsbeautifier": "0.0.3",
     "gulp-jshint": "^1.8.5",
@@ -38,14 +40,20 @@
     "gulp-wp-pot": "^2.3.2",
     "gulp-zip": "^4.1.0",
     "jshint-stylish": "^1.0.0",
+    "lodash": ">=4.17.11",
     "minimist": "^1.1.3",
     "prompt": "^0.2.14",
     "q": "^1.4.1",
-    "run-sequence": "^1.1.2",
-    "lodash": ">=4.17.11"
+    "run-sequence": "^1.1.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run start:custom",
+    "start:custom": "wp-scripts start laterpay/asset_sources/js/blocks/laterpay-blocks.js --output-path=laterpay/built_assets/block_build",
+    "build": "npm run build:custom",
+    "build:custom": "wp-scripts build laterpay/asset_sources/js/blocks/laterpay-blocks.js --output-path=laterpay/built_assets/block_build",
+    "lint:js": "npm run lint:js:src",
+    "lint:js:src": "wp-scripts lint-js laterpay/asset_sources/js/blocks",
+    "lint:js:fix": "wp-scripts lint-js laterpay/asset_sources/js/blocks --fix"
   },
   "repository": {
     "type": "git",

@@ -167,6 +167,12 @@ class LaterPay_Core_Bootstrap
 
         $column_controller = self::get_controller( 'Admin_Post_Column' );
         laterpay_event_dispatcher()->add_subscriber( $column_controller );
+
+        // Make sure block registration is possible.
+        if ( function_exists( 'register_block_type' ) ) {
+            // register block editor blocks.
+            laterpay_event_dispatcher()->add_subscriber( self::get_controller( 'Admin_Post_Blocks' ) );
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ laterpay/built_assets/img/*
 # Allow PNG files inside img folder
 !laterpay/built_assets/img/*.png
 laterpay/built_assets/js
+laterpay/built_assets/block_build
 laterpay/sftp-config.json
 nbproject/
 node_modules/

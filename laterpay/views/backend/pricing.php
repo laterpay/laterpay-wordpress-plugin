@@ -785,11 +785,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                         </form>
                     </div>
-
+                    <br/>
                     <a href="#" class="lp_js_saveTimePass button button-primary lp_mt- lp_mb-"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
                     <a href="#" class="lp_js_cancelEditingTimePass lp_inline-block lp_pd-"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
 
-                    <a href="#" class="lp_js_editTimePass lp_edit-link--bold lp_rounded--topright lp_inline-block lp_hidden" data-icon="d"></a><br>
+                    <a href="#" class="lp_js_editTimePass lp_edit-link--bold lp_rounded--topright lp_inline-block lp_hidden" data-icon="d"></a>
                     <a href="#" class="lp_js_deleteTimePass lp_edit-link--bold lp_inline-block lp_hidden" data-icon="g"></a>
 
                     <div class="lp_js_voucherList lp_vouchers"></div>

@@ -120,6 +120,9 @@ class LaterPay_Hooks {
         }
 
         add_action( 'init', array( $this, self::$wp_action_prefix . 'laterpay_register_passes_cpt' ) );
+        add_action( 'init', array( $this, self::$wp_action_prefix . 'laterpay_register_blocks' ) );
+        add_action( 'init', array( $this, self::$wp_filter_prefix . 'laterpay_register_block_routes' ) );
+        add_filter( 'block_categories', array( $this, self::$wp_filter_prefix . 'laterpay_add_block_categories' ) );
     }
 
     /**

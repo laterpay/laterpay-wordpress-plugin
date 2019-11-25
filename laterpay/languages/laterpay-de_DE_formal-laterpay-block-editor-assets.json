@@ -1,0 +1,2010 @@
+{
+   "domain": "messages",
+   "locale_data": {
+      "messages": {
+         "": {
+            "domain": "messages",
+            "plural_forms": "nplurals=2; plural=n != 1;",
+            "lang": "de_DE"
+         },
+         "LaterPay has updated their plugin to remove dependencies on custom tables. Please": [
+            "LaterPay hat sein Plugin aktualisiert, um Abhängigkeiten von benutzerdefinierten Tabellen zu entfernen. Bitte"
+         ],
+         "migrate your data": [
+            "Migration Ihrer Daten"
+         ],
+         "today.": [
+            "Heute."
+         ],
+         "This will be required before you can update to future versions of LaterPay and will not result in any visible changes to your site or your plugin set up.": [
+            "Dies ist erforderlich, bevor Sie auf zukünftige Versionen von LaterPay aktualisieren können und führt nicht zu sichtbaren Änderungen an Ihrer Website oder Ihrem Plugin-Setup."
+         ],
+         "Click": [
+            "Klick"
+         ],
+         "here": [
+            "hier"
+         ],
+         "to migrate data.": [
+            "um Daten zu migrieren."
+         ],
+         "Migrating Data": [
+            "Datenmigration"
+         ],
+         "Migrating Subscriptions": [
+            "Abonnements migrieren"
+         ],
+         "Migrating Category Prices.": [
+            "Kategoriepreise migrieren."
+         ],
+         "Migration Completed.": [
+            "Migration abgeschlossen."
+         ],
+         "Migration Cleanup Started": [
+            "Migrationsbereinigung gestartet"
+         ],
+         "Migration Cleanup Completed": [
+            "Migrationsbereinigung abgeschlossen"
+         ],
+         "LaterPay Plugin Settings": [
+            "LaterPay-Plugin-Einstellungen"
+         ],
+         "LaterPay": [
+            "LaterPay"
+         ],
+         "\n            <p>\n                <strong>Setting Prices</strong><br>\n                You can set an individual price for each post.<br>\n                Possible prices are either 0.00 (free) or any value between 0.05 (inclusive) and 149.99 (inclusive).<br>\n                If you set an individual price, category default prices you might have set for the post's category(s)\n                won't apply anymore, unless you make the post use a category default price.\n            </p>\n            <p>\n                <strong>Dynamic Pricing Options</strong><br>\n                You can define dynamic price settings for each post to adjust prices automatically over time.<br>\n                <br>\n                For example, you could sell a \"breaking news\" post for 0.49 (high interest within the first 24 hours)\n                and automatically reduce the price to 0.05 on the second day.\n            </p>\n            <p>\n                <strong>Teaser</strong><br>\n                The teaser should give your visitors a first impression of the content you want to sell.<br>\n                You don't have to provide a teaser for every single post on your site:<br>\n                by default, the LaterPay plugin uses the first 60 words of each post as teaser content.\n                <br>\n                Nevertheless, we highly recommend manually creating the teaser for each post, to increase your sales.\n            </p>\n            <p>\n                <strong>Pay Later</strong><br>\n                If you choose to sell your content as <strong>Pay Later</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 (EUR or USD).<br>\n                LaterPay <strong>recommends</strong> Pay Later for all prices up to 5.00 as they deliver the <strong>best purchase experience</strong> for your users.<br>\n                PPU is possible for prices between (including) <strong>0.05</strong> and (including) <strong>5.00</strong>.\n            </p>\n            <p>\n                <strong>Pay Now</strong><br>\n                If you sell your content as <strong>Pay Now</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>\n                Pay Now are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>\n                Pay Now are possible for prices between (including) <strong>1.49 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.\n            </p>": [
+            "\n<p> <strong>Preisgestaltung</strong><br><br>\n                Sie können für jeden Beitrag einen individuellen Preis festlegen.\n                Mögliche Preise sind entweder 0,00 (kostenlos) oder ein Wert zwischen 0,05 (inklusive) und 149,99 (inklusive).\n                Wenn Sie einen individuellen Preis festlegen, können Sie die Standardpreise für die Kategorie(n) des Beitrags festlegen.\n                gilt nicht mehr, es sei denn, Sie verwenden für den Beitrag einen Standardpreis der Kategorie.\n            </p>\n            <p>\n                <strong>Dynamische Preisfindungsoptionen</strong><br><br>\n                Sie können für jeden Beitrag dynamische Preiseinstellungen definieren, um die Preise im Laufe der Zeit automatisch anzupassen.\n                <br>Zum Beispiel könnten Sie einen \"Breaking News\"-Post für 0,49 verkaufen (hohes Interesse innerhalb der ersten 24 Stunden) und der Preis wird am zweiten Tag automatisch auf 0,05 reduziert.\n            </p>\n            <p>\n                <strong>Teaser</strong><br><br>\n                Der Teaser sollte Ihren Besuchern einen ersten Eindruck davon vermitteln, welche Inhalte Sie verkaufen möchten.\n                Sie müssen nicht für jeden einzelnen Beitrag auf deiner Seite einen Teaser zur Verfügung stellen:<br>br>\n                Standardmäßig verwendet das LaterPay-Plugin die ersten 60 Wörter jedes Beitrags als Teaserinhalt.\n                <br>\n                Dennoch empfehlen wir dringend, den Teaser für jeden Beitrag manuell zu erstellen, um Ihren Umsatz zu steigern.\n            </p>\n            <p>\n                <strong>PayLater</strong><br><br>\n                Wenn Sie sich dafür entscheiden, Ihre Inhalte als <strong>PayLater</strong> zu verkaufen, bezahlt der Nutzer die gekauften Inhalte <strong>später</strong>. Der Kauf wird auf seine LaterPay-Rechnung gebucht und er muss sich bei LaterPay anmelden und bezahlen, sobald seine Rechnung 5,00 (EUR oder USD) erreicht hat.\n                LaterPay <strong>empfiehlt</strong> PayLater für alle Preise bis zu 5,00, da sie das <strong>beste Einkaufserlebnis</strong> für Ihre Nutzer liefern.\n                PPU ist möglich für Preise zwischen (einschließlich) <strong>0,05</strong> und (einschließlich) <strong>5,00</strong>.\n            </p>\n            <p>\n                <strong>Jetzt bezahlen</strong><br><br>\n                Wenn Sie Ihren Inhalt als <strong>PayNow</strong> verkaufen, muss sich ein Benutzer bei LaterPay <strong>einloggen</strong> und <strong>sofort</strong> für den Inhalt <strong>bezahlen</strong>.<br>.\n                PayNow eignet sich besonders für höherwertige Inhalte und / oder Inhalte, die sofort Kosten verursachen (z. B. Lizenzgebühren für einen Videostream).\n                PayNow ist möglich für Preise zwischen (einschließlich) <strong>1,49 € (in Europa) / $ 1,99 (in den USA)</strong> und (einschließlich) <strong>149,99</strong>.\n            </p>"
+         ],
+         "LaterPay Content": [
+            "LaterPay Inhalt"
+         ],
+         "%1$sUse the LaterPay Content section to select what types of WordPress content you would like to sell using LaterPay. %3$s The most common types are Pages, Posts, and Media but additional options may be available depending on the other plugins that you have installed.%2$s\n                    %1$s%4$sTIP:%5$s If you are not sure what kind of content you would like to sell, we recommend starting with Posts & Media. This should ensure that your Pages (typically your Home Page, About Us Page, etc) remain free while you can monetize the majority of your other content (typically Posts).%2$s": [
+            "%1$sVerwenden Sie den Bereich LaterPay Inhalt, um auszuwählen, welche Kategorien von WordPress-Inhalten Sie mit LaterPay verkaufen möchten. %3$s\nDie gängigsten Kategorien sind Seiten, Beiträge und Medien,aber zusätzliche Optionen können gegebenenfalls verfügbar sein wenn Sie noch andere Plugins installiert haben.%2$s\n %1$s%4$sTIPP:%5$s Wenn Sie sich nicht sicher sind, welche Art von Inhalten Sie verkaufen möchten, empfehlen wir Ihnen, mit Beiträgen und Medien zu beginnen. Dies sollte sicherstellen, dass Ihre Seiten (etwa Ihre Homepage, Über uns Seite, etc.) frei verfügbar bleiben, während Sie den Großteil Ihrer anderen Inhalte (Beiträge usw.) monetarisieren können.%2$s"
+         ],
+         "Global Default Price": [
+            "Globaler Standardpreis"
+         ],
+         "%1$sSetting the Global Default Price will determine the standard behavior of your monetized content. There are three options to choose from and we will go through each one in detail and provide a few examples to help determine which is the best option based on your strategy:%2$s\n                    %6$s \n                    %8$s%4$sFREE unless price is set on post page or by category%5$s%9$s\n                        %4$sDescription:%5$s All articles will be free by default. Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post Page.%3$s%3$s\n                    %8$s%4$sPosts cannot be purchased individually%5$s%9$s\n                        %4$sDescription:%5$s Only Time Passes & Subscriptions will be displayed in the purchase dialog.%3$s%3$s\n                    %8$s%4$sSet individual article default price%5$s%9$s\n                        %4$sDescription:%5$s All single pieces of content will be for sale at this price unless overridden.%3$s%3$s\n                    %7$s": [
+            "%1$sDie Festlegung des globalen Standardpreises bestimmt wie der Bezahldialog Ihrer monetarisierten Inhalte dargestellt wird. Es gibt drei Optionen zur Auswahl, und wir werden jede einzelne im Detail durchgehen und einige Beispiele geben, um festzustellen, welche die beste Option auf der Grundlage Ihrer Strategie ist:%2$s\n %6$s \n                    %8$s%4$sKOSTENLOS, es sei denn, der Preis ist auf der Beitragsseite oder nach Kategorie festgelegt%5$s%9$s\n %4$sBeschreibung:%5$s Alle Artikel sind standardmäßig kostenlos. Zeitpässe und Abonnements werden nur angezeigt, wenn der Artikel mit einem Kategorie-Standardpreis übereinstimmt oder ein individueller Artikelpreis auf der Beitragsseite festgelegt ist.%3$s%3$s\n%8$s%4$sPosts können nicht einzeln gekauft werden%5$s%9$s\n%4$sBeschreibung:%5$s Nur Zeitpässe und Abonnements werden im Kaufdialog angezeigt.%3$s%3$s\n%8$s%4$sIndividuellen Artikel-Standardpreis festlegen%5$s%9$s\n%4$sBeschreibung:%5$s Alle individuellen Inhalte werden zu diesem Preis verkauft, es sei denn, sie werden durch einen Kategorie-Standardpreis oder durch einen\nindividuellen Artikelpreis auf der Beitragsseite überschrieben.%3$s%3$s\n%7$s"
+         ],
+         "Category Default Prices": [
+            "Kategoriespezifische Standardpreise"
+         ],
+         "%1$sA category default price is applied to all posts in a given category that don't have an individual price assigned to them on the edit post page.%2$s\n                    %1$sA category default price overwrites the global default price. If a post belongs to multiple categories, you can choose on the add / edit post page, which category default price should be effective.%2$s\n                    %1$sFor example, if you have set a global default price of 0.15, but a post belongs to a category with a category default price of 0.30, that post will sell for 0.30.%2$s": [
+            "%1$sEin Kategorie-Standardpreis wird auf alle Beiträge in einer bestimmten Kategorie angewendet, denen auf der Beitrag-Bearbeiten-Seite kein individueller Preis zugeordnet ist.%2$s\n%1$sEin Kategorie-Standardpreis überschreibt den globalen Standardpreis. Wenn ein Beitrag zu mehreren Kategorien gehört, können Sie auf der Seite Beitrag erstellen / bearbeiten auswählen, welcher Kategorie-Standardpreis gültig sein soll.%2$s\n%1$sEWenn Sie beispielsweise einen globalen Standardpreis von 0,15 Euro festgelegt haben, ein Beitrag aber zu einer Kategorie mit einem Standardpreis von 0,30 Euro gehört, dann wird dieser Beitrag für 0,30 Euro verkauft.%2$s"
+         ],
+         "Time Passes": [
+            "Zeitpässe"
+         ],
+         "%1$sWith time passes, you can offer your users time-limited access to your content. You can define which content a time pass should cover and for which period of time it should be valid. A time pass can be valid for all LaterPay content%2$s\n                    %6$s\n                        %8$son your entire website,%9$s\n                        %8$sin specific category/ies, or%9$s\n                        %8$son your entire website except from a specific category/ies.%9$s\n                    %7$s\n                    %1$sThe validity period of a time pass starts with the purchase and is defined for a continuous use – i.e. it doesn't matter, if a user is on your website during the entire validity period. After a time pass has expired, the access to the covered content is automatically refused. %2$s\n                    %4$sDeleting Time Passes%5$s\n                    %1$sIf you delete a time pass, users who have bought this time pass will still have access to the covered content. Deleted time passes can't be restored.%2$s": [
+            "%1$sMit Zeitpässen können Sie Ihren Nutzern einen zeitlich begrenzten Zugriff auf Inhalte anbieten. Sie können festlegen, welche Inhalte ein Zeitpass umfassen soll und für welchen Zeitraum er gültig sein soll. Ein Zeitpass kann generell für alle LaterPay-Inhalte gültig sein:%2$s\n                     %6$s\n                        %8$sauf Ihrer gesamten Internetseite,%9$s\n                        %8$sin bestimmten Kategorien, oder%9$s\n                        %8$sauf Ihrer gesamten Internetseite mit Ausnahme bestimmter Kategorien.%9$s\n                    %7$s\n                    %1$sDer Gültigkeitszeitraum eines Zeitpasses beginnt mit dem Kauf und ist für eine fortlaufende Nutzung definiert - d.h. es spielt keine Rolle, ob ein Nutzer während der gesamten Gültigkeitsdauer auf Ihrer Internetseite ist. Nach Ablauf eines Zeitpasses wird der Zugriff auf den betroffenen Inhalt automatisch blockiert.%2$s\n                    %4$sLöschen von Zeitpässen%5$s\n                    %1$sWenn Sie einen Zeitpass löschen, haben Nutzer, die diesen Zeitpass gekauft haben, weiterhin Zugriff auf den betroffenen Inhalt. Bitte beachten Sie, gelöschte Zeitpässe können nicht wiederhergestellt werden.%2$s"
+         ],
+         "Subscriptions": [
+            "Abos"
+         ],
+         "%1$sSubscriptions work exactly like time passes, with a simple difference: They renew automatically.%2$s\n                    %1$sWhen a user purchases a subscription, they have access to all the content covered by this subscription during the validity period. Of course, you can still sell your content individually.%2$s\n                    %4$sDeleting a Subscription%5$s\n                    %1$sIf you delete a subscription it, it will continue to renew for users who have an active subscription until the user cancels it. Existing subscribers will still have access to the content in their subscription. New users won't be able to buy the subscription anymore.%2$s": [
+            "%1$sAbonnements funktionieren genauso wie Zeitpässe, mit einem Unterschied: Sie verlängern sich automatisch.%2$s\n                    %1$sWenn ein Benutzer ein Abonnement kauft, hat er während der Gültigkeitsdauer Zugriff auf alle Inhalte, die von diesem Abonnement abgedeckt werden. Selbstverständlich können Sie Ihre Inhalte auch weiterhin einzeln verkaufen.%2$s\n                    %4$sAbonnement löschen%5$s\n                    %1$sWenn Sie ein Abonnement löschen, wird es für Nutzer, die ein aktives Abonnement haben, weiterhin so lange automatisch verlängert, bis der Nutzer es kündigt. Bestandsabonnenten haben folglich auch weiterhin Zugriff auf die Inhalte innerhalb des Abonnements. Neu hinzugekommene Nutzer können das Abonnement jedoch nicht mehr kaufen.%2$s"
+         ],
+         "Vouchers": [
+            "Gutscheine"
+         ],
+         "%1$sVoucher codes can be generated for time passes and subscriptions. To create a voucher code, simply click “+ Generate Voucher Code” at the bottom of the time pass or subscription box. A random 6 character code will be generated but this can be overridden with a custom 6 characters if you choose.%2$s\n                    %1$sYou can create any number of voucher codes. A voucher code allows one (or multiple) user(s) to purchase a time pass or subscription for a reduced price. A user can enter a voucher code right below the time passes by clicking \"I have a voucher\". If the entered code is a valid voucher code, the price of the respective offer will be reduced.%2$s\n                    %6$s\n                        A few key things to note when using voucher codes:\n                        %8$sEach active voucher can be redeemed an unlimited number of times%9$s\n                        %8$sIf a new user signs up for a subscription using a voucher code, the voucher code will reduce the price for the entirety of the subscription%9$s\n                    %7$s\n                    %1$sFor example, if you have a monthly subscription regularly priced at 10 per month and generate a voucher code which makes that subscription available for 5 per month, anyone who signs up for that subscription using the voucher code will pay 5 every month.%2$s": [
+            "%1$sFür Zeitpässe und Abonnements können Gutscheincodes generiert werden. Es gibt keine Begrenzung, Sie können somit eine beliebige Anzahl Gutscheincodes erstellen.\n Um einen Gutscheincode zu erstellen, klicken Sie einfach auf “+ Gutscheincode erstelleb” am unteren Rand des Zeitpasses oder des Abonnementfeldes. Es wird automatisch ein 6-stelliger Code generiert, der jedoch mit benutzerdefinierten 6 Zeichen überschrieben werden kann, wenn Sie dies vorziehen.%2$s\n                    %1$sEin Gutscheincode ermöglicht es einem (oder mehreren) Benutzer(n), einen Zeitpass oder ein Abonnement zu einem reduzierten Preis zu erwerben. Benutzer können den Gutscheincode direkt unterhalb der Zeitpässe eingeben, indem sie auf “Gutschein einlösen” klicken. Das System prüft automatisch ob es sich bei dem eingegebenen Code um einen gültigen Gutscheincode handelt, entsprechend wird der Preis des jeweiligen Angebots reduziert.%2$s\n                    %6$s\n                        Was Sie bei der Verwendung von Gutscheincodes beachten sollten:\n                        %8$sJeder aktive Gutschein kann beliebig oft eingelöst werden.%9$s\n                        %8$sWenn ein neuer Benutzer ein Abonnement mit einem Gutscheincode abschließt, reduziert der Gutscheincode den Preis für die gesamte Laufzeit des Abonnements.%9$s\n                    %7$s\n                    %1$sWenn Sie beispielsweise ein Abonnement für 10 Euro monatlich anbieten und einen Gutscheincode generieren, der dieses Abonnement für 5 Euro pro Monat verfügbar macht, wird jeder, der sich mit dem Gutscheincode für dieses Abonnement anmeldet, kontinuierlich 5 Euro monatlich bezahlen.%2$s"
+         ],
+         "Additional Ways to Monetize Content": [
+            "Weitere Möglichkeiten zur Monetarisierung von Inhalten"
+         ],
+         "%4$sIndividual Article Price%5$s\n                    %1$sIf you ever need to override a price for a specific article, you may do so on the WordPress Edit Post page. To do this simply:%2$s\n                    %6$s\n                        %8$sNavigate to the post you would like to override%9$s\n                        %8$sChoose to Edit that post using the WordPress Admin%9$s\n                        %8$sIn the right sidebar you should see a LaterPay section where you can select to use the Global Default Price, a Category Default Price (when applicable), or to set an Individual Price. By selecting the Individual Price, you will be able to override any other defaults for this specific post.%9$s\n                    %7$s\n                    Check out other advanced pricing options on the %10$sAdvanced Tab%11$s": [
+            "%4$sIndividueller Artikelpreis%5$s\n                    %1$sWenn Sie einen Preis für einen bestimmten Artikel überschreiben möchten, können Sie dies auf der Seite WordPress Beitrag bearbeiten tun. Dazu gehen Sie bitte wie folgt vor:%2$s\n                    %6$s\n                        %8$sNavigieren Sie zum dem Artikel den Sie bearbeiten möchten%9$s\n                        %8$sBearbeiten Sie diesen Artikel als WordPress Administrator%9$s\n                        %8$sIm Beitrags-Bearbeitungsmodus sehen Sie auf der rechten Seitenleiste einen LaterPay-Abschnitt.  Dort können Sie wählen, ob Sie den Globalen Standardpreis, einen Kategorie Standardpreis (falls zutreffend) oder einen Individualpreis verwenden möchten.\nWenn Sie den individuellen Preis auswählen, können Sie alle anderen Standardeinstellungen für diesen speziellen Beitrag überschreiben.%9$s\n                    %7$s\n                    Weitere Preisoptionen finden Sie auf der %10$sRegisterkarte Erweitert.%11$s"
+         ],
+         "Need additional help?": [
+            "Benötigen Sie zusätzliche Hilfe?"
+         ],
+         "For more instruction on setting up Pricing, %sclick here%s.": [
+            "Für mehr Infos zum Einrichten von Preisen: %sBitte hier klicken%s."
+         ],
+         "Configure Appearance": [
+            "Darstellung konfigurieren"
+         ],
+         "%1$sThe top portion of this page allows you to customize how your pricing options are displayed. Below are the different options available. By checking & un-checking the corresponding checkboxes, you can easily see how the overlay will be displayed using the preview section to the right.%2$s\n                    %1$sOnce you have your display options configured, %6$sbe sure to click save%7$s at the bottom of the Configure Appearance section to apply these changes to your site.%2$s\n                     %4$s\n                        %8$s\n                        %6$sShow purchase button above article%7$s - By enabling this option, a button displaying the article purchase price will be displayed at the top right of the post.\n                        %4$s\n                            %8$s\n                            %6$sCustomize position of purchase button%7$s - Use the provided WordPress code to customize the position of the button described above.\n                            %9$s\n                        %5$s\n                        %9$s\n\n                        %8$s\n                        %6$sShow Purchase Overlay%7$s - Display an overlay with the available purchase options over your paid content.\n                        %9$s\n\n                        %8$s\n                        %6$sHeader%7$s - Adjust the header text that is displayed at the top of the Purchase Overlay.\n                        %9$s\n\n                        %8$s\n                        %6$sShow LaterPay Introduction%7$s - In the Purchase Overlay, provide information describing LaterPay to your customers.\n                        %9$s\n\n                        %8$s\n                        %6$sShow Time Passes & Subscriptions below modal%7$s - Display Time Pass &/or Subscription options as tickets at the bottom of your content.\n                        %4$s\n                            %8$s\n                            %6$sCustomize position of Time Passes & Subscriptions%7$s - Use the provided WordPress code to customize the position of the items described above.\n                            %9$s\n                        %5$s\n                        %9$s\n\n                        %8$s\n                        %6$sAdd custom HTML section below payment button%7$s - In this section you can choose to add custom HTML or text content at the bottom of the Purchase Overlay.\n                        %9$s\n\n                        %8$s\n                        %6$sShow valid payment options%7$s - Display a footer section at the bottom of the Purchase Overlay with images of the various payment options available.\n                        %9$s\n                     %5$s\n                    ": [
+            "%1$sIm oberen Bereich dieser Seite können Sie die Darstellung Ihrer Preisoptionen anpassen. Wenn Sie die entsprechenden Kontrollkästchen aktivieren und deaktivieren, können Sie im Vorschaubereich auf der rechten Seite sehen, wie Ihr Kauf-Overlay (Bezahldialog) angezeigt wird.%2$s\n %1$sSobald Sie Ihre Anzeigeoptionen konfiguriert haben, klicken Sie unten im Abschnitt %6$sDarstellung konfigurieren%7$s auf Speichern, um diese Änderungen auf Ihre Website anzuwenden.%2$s\n Nachfolgend finden Sie die verschiedenen verfügbaren Optionen.\n%4$s\n                        %8$s\n                        %6$sKauf-Button über dem Artikel anzeigen%7$s - Wenn Sie diese Option aktivieren, wird oben rechts im Beitrag eine Schaltfläche mit dem Artikelkaufpreis angezeigt.\n                        %4$s\n                            %8$s\n                            %6$sPosition des Kauf-Buttons bearbeiten%7$s - Verwenden Sie den mitgelieferten WordPress-Code, um die Position des oben beschriebenen Knopfes anzupassen.\n                            %9$s\n                        %5$s\n                        %9$s\n%8$s\n                        %6$sKauf-Overlay anzeigen%7$s - Zeigen Sie ein Overlay mit den verfügbaren Kaufoptionen über Ihren kostenpflichtigen Inhalt an.\n                        %9$s\n\n                        %8$s\n                        %6$sÜberschrift%7$s - Bearbeiten Sie die Überschrift, die oben im Einkaufs-Overlay angezeigt wird.\n                        %9$s\n\n                        %8$s\n                        %6$sLaterPay-Einführung anzeigen%7$s - Zeigen Sie im Kauf-Overlay eine Beschreibung der LaterPay Bezahloptionen an.\n                        %9$s\n%8$s\n                        %6$sZeitpässe & Abonnements als Tickets anzeigen%7$s - Zeigen Sie die Optionen für Zeitpässe und/oder Abonnements als Tickets unten in Ihrem Inhalt an.\n                        %4$s\n                            %8$s\n                            %6$sPosition von Zeitpässen und Abonnements bearbeiten%7$s - Verwenden Sie den mitgelieferten WordPress-Code, um die Position von Zeitpässen und Abonnements anzupassen.\n                            %9$s\n                        %5$s\n                        %9$s\n\n                        %8$s\n                        %6$sHinzufügen eines benutzerdefinierten HTML-Abschnitts unter dem Zahlungsbutton%7$s - In diesem Abschnitt können Sie wählen, ob Sie einen benutzerdefinierten HTML- oder Textinhalt am unteren Rand des Kauf-Overlays hinzufügen möchten.\n\n                        %9$s\n\n                        %8$s\n                        %6$sGültige Zahlungsoptionen anzeigen%7$s - Zeigen Sie einen Fußzeilenbereich am unteren Rand des Kauf-Overlays mit Logos der verfügbaren Zahlungsoptionen an.\n                        %9$s\n                     %5$s "
+         ],
+         "Customize Colors": [
+            "Farben anpassen"
+         ],
+         "%1$sUse the lower half of this page to customize the colors of the LaterPay elements. This section can be used to ensure that the color scheme matches your %3$s theme and brand. The following customizations are available:%2$s\n                     %4$s\n                        %8$s\n                        %6$sHeader background color%7$s - The header background color defines a custom color used as the background of the Purchase Overlay header.\n                        %9$s\n\n                        %8$s\n                        %6$sPurchase option background color%7$s - This option defines a custom color for the background of the Purchase Overlay.\n                        %9$s\n\n                        %8$s\n                        %6$sMain text color%7$s - The main text color defines the text color for the sub-headers (purchase options) within the Purchase Overlay.\n                        %9$s\n\n                        %8$s\n                        %6$sDescription text color%7$s - This option sets the text color for all standard, non-bolded text within the Purchase Overlay.\n                        %9$s\n\n                        %8$s\n                        %6$sPurchase button background color%7$s - The purchase button color allows you to define a custom background color for the purchase button.\n                        %9$s\n\n                        %8$s\n                        %6$sPurchase button hover color%7$s - This is the color displayed when a user hovers their mouse over the purchase button.\n                        %9$s\n\n                        %8$s\n                        %6$sPurchase button text color%7$s - Here you may define the color of the text displayed in the purchase button.\n                        %9$s\n\n                        %8$s\n                        %6$sLink main color%7$s - The link main color defines the text color for all links added by the LaterPay plugin.\n                        %9$s\n\n                        %8$s\n                        %6$sLink hover color%7$s - This is the color displayed when a user hovers their mouse over links.\n                        %9$s\n\n                        %8$s\n                        %6$sFooter background color%7$s - The footer background color defines the background color of the footer, payment options section.\n                        %9$s\n\n                        %8$s\n                        %6$sRestore default values%7$s - By clicking \"Restore default values,\" all colors will be restored to the original LaterPay default values.\n                        %9$s\n                     %5$s\n                    ": [
+            "%1$sIm unteren Abschnitt dieser Seite können Sie die Farben der angezeigten LaterPay-Elemente individuell anpassen. %3$s So können Sie sicherstellen dass das Farbschema mit Ihrem Firmen Styleguide oder Corporate Design übereinstimmt.Folgende Anpassungsoptionen sind verfügbar:%2$s\n                     %4$s\n                        %8$s\n                        %6$sHintergrundfarbe Kopfzeile%7$s - Wählen Sie die gewünschte Hintergrundfarbe für die Kopfzeile des Einkaufs-Overlays.\n                        %9$s\n\n                        %8$s\n                        %6$sHintergrundfarbe der Kaufoptionen%7$s - Hier können Sie die Hintergrundfarbe des Kauf-Overlays definieren.\n                        %9$s\n\n                        %8$s\n                        %6$sHaupttextfarbe%7$s - Die Haupttextfarbe definiert die Textfarbe für die Überschriften der Kaufoptionen innerhalb des Einkaufs-Overlays.\n                        %9$s\n\n                        %8$s\n                        %6$sBeschreibungstextfarbe%7$s - Diese Option legt die Textfarbe für alle Standard-Beschreibungstexte im Einkaufs-Overlay fest. Die Überschriften sind hiervon ausgeschlossen und können unter der Option Haupttextfarbe eingestellt werden.\n                        %9$s\n\n                        %8$s\n                        %6$sHintergrundfarbe der Kaufen-Schaltfläche%7$s - Hie stellen Sie eine benutzerdefinierte Hintergrundfarbe für den Kaufen-Schaltfläche ein.\n                        %9$s\n\n                        %8$s\n                        %6$sHover-Farbe der Kaufen-Schaltfläche%7$s - Dies ist die Farbe, die angezeigt wird, wenn ein Benutzer mit der Maus über die Kaufen-Schaltfläche fährt.\n                        %9$s\n\n                        %8$s\n                        %6$sTextfarbe der Kaufen-Schaltfläche%7$s - Hier können Sie die Farbe des Textes definieren, der in der Kaufen-Schaltfläche angezeigt wird.\n                        %9$s\n\n                        %8$s\n                        %6$sTextfarbe Links%7$s - Hie definieren Sie die Textfarbe für alle Links, die durch das LaterPay-Plugin hinzugefügt werden.\n                        %9$s\n\n                        %8$s\n                        %6$sLink-Hover Farbe%7$s - Dies ist die Farbe, die angezeigt wird, wenn ein Benutzer mit der Maus über die Links fährt.\n                        %9$s\n\n                        %8$s\n                        %6$sHintergrundfarbe der Fußzeile%7$s - Hier können Sie die Hintergrundfarbe der Fußzeile definieren. Der Abschnitt wo auch die Logos der verfügbaren Bezahlmethoden angezeigt werden.\n                        %9$s\n\n                        %8$s\n                        %6$sStandardwerte wiederherstellen%7$s - Durch Klicken auf “Standardwerte wiederherstellen” werden alle Farben auf die ursprünglichen LaterPay-Standardwerte zurückgesetzt.\n                        %9$s\n                     %5$s\n                    "
+         ],
+         "API Credentials": [
+            "API-Anmeldeinformationen"
+         ],
+         "%1$sIn order to receive payments, you first need a LaterPay account. %3$sOnce this is set up, you need LaterPay API credentials, consisting of the following to link your WordPress plugin to your LaterPay account.%2$s\n                    %10$s\n                    %8$s %6$sMerchant ID%7$s (a 22-character string) and%9$s\n                    %8$s %6$sAPI Key%7$s (a 32-character string).%9$s\n                    %11$s\n                    %4$sVisit our website to read more about how to become a content provider or to sign up with LaterPay.%5$s": [
+            "%1$sUm Zahlungen zu erhalten, benötigen Sie zunächst ein LaterPay-Konto.%3$sSobald dies eingerichtet ist, verknüpfen Sie bitte Ihr WordPress-Plugin mit Ihrem LaterPay-Konto. %2$s\n%10$s\nHierzu benötigen Sie Ihre \n%8$s %6$sMerchant-ID%7$s (eine 22-stellige Zeichenkette) und%9$s\n%8$s %6$sAPI-Schlüssel%7$s  (eine 32-stellige Zeichenkette).%9$s\n%11$s\n%4$sBesuchen Sie unsere Website, um mehr darüber zu erfahren, wie Sie Anbieter von Inhalten werden oder sich bei LaterPay anmelden können.%5$s"
+         ],
+         "Plugin Mode": [
+            "Plugin-Modus"
+         ],
+         "%1$sYou can run the LaterPay plugin in two modes:%2$s\n                    %4$s\n                        %8$s\n                        %6$sTest Mode%7$s - This allows you to test your plugin configuration.%3$s\n                        While providing the full plugin functionality, payments are only simulated and not actually processed. %3$sThe plugin will only be visible to admin users, not to visitors.%3$s\n                        This is the default setting after activating the plugin for the first time.\n                        %9$s\n                        %8$s\n                        %6$sLive Mode%7$s - In live mode, the plugin is publicly visible and manages access to paid content.%3$s\n                        All payments are actually processed.%3$s\n                        %9$s\n                    %5$s\n                        %1$s Using the LaterPay plugin usually requires some adjustments of your theme. Therefore, we recommend installing, configuring, and testing the LaterPay plugin on a test system before activating it on your production system.%2$s": [
+            "%1$sSie können das LaterPay-Plugin in zwei Betriebsmodi ausführen:%2$s\n%4$s\n%8$s\n%6$sTestmodus%7$s - Dies ermöglicht es Ihnen, Ihre Plugin-Konfiguration zu testen.%3$s\nWährend die volle Plugin-Funktionalität zur Verfügung steht, werden Zahlungen nur simuliert aber nicht tatsächlich abgewickelt. %3$s\nDas Plugin ist nur für Administratoren sichtbar, nicht für Website-Besucher.%3$s\nDies ist die Voreinstellung nach der ersten Aktivierung des Plugins.\n%9$s\n%8$s\n%6$sLive-Modus%7$s - Im Live-Modus ist das Plugin öffentlich sichtbar und verwaltet den Zugriff auf kostenpflichtige Inhalte.%3$s\nAlle Zahlungen werden tatsächlich abgewickelt.%3$s\n%9$s\n%5$s\n %1$s Die Verwendung des LaterPay-Plugins kann einige Anpassungen Ihres Designs erforderlich machen. Wir empfehlen daher, das LaterPay-Plugin erst auf einem Testsystem zu installieren, zu konfigurieren und ausgiebig zu testen, bevor Sie es auf Ihrem Live-System aktivieren.%2$s"
+         ],
+         "Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s": [
+            "%sHier geht es zur LaterPay WordPress Plugin Knowledge Base.%s"
+         ],
+         "Paywall": [
+            ""
+         ],
+         "Contributions": [
+            "Contributions"
+         ],
+         "Appearance": [
+            "Darstellung"
+         ],
+         "Account": [
+            "Konto"
+         ],
+         "Advanced": [
+            "Erweitert"
+         ],
+         "Version %s Highlights:": [
+            "Highlights der Version %s:"
+         ],
+         "Try the all new LaterPay Blocks now in your WordPress Post or Page editor!": [
+            ""
+         ],
+         "Learn More": [
+            "Erfahren Sie mehr"
+         ],
+         "%sOptional%s Use the appearance tab to configure your payment button colors and how your pricing options are displayed.": [
+            "%sOptional%s Verwenden Sie die Registerkarte Aussehen, um die Farben Ihrer Zahlungstasten zu konfigurieren und wie Ihre Preisoptionen angezeigt werden."
+         ],
+         "%sREQUIRED%s Use this tab to configure your default prices. Prices can also be set for an individual post on the edit post page.": [
+            "%sERFORDERLICH%s Auf dieser Registerkarte können Sie Ihre Standardpreise konfigurieren. Die Preise können auch für einen einzelnen Beitrag auf der Seite Beitrag bearbeiten festgelegt werden."
+         ],
+         "%sOptional%s Here we highlight advanced features & settings like selling downloadable content and promoting your subscriptions. Scroll through to learn more!": [
+            "%sOptional%s Hier heben wir erweiterte Funktionen und Einstellungen wie den Verkauf von herunterladbaren Inhalten und die Werbung für Ihre Abonnements hervor!"
+         ],
+         "%sOptional%s To request contributions, use the editor below to configure your contributions request then copy the shortcode anywhere on your site.": [
+            "%sOptional.%s Um Contributions anzulegen, verwenden Sie den untenstehenden Editor, um Ihre Contributions-Aufforderung zu konfigurieren und kopieren Sie dann den Shortcode an eine beliebige Stelle auf Ihrer Website."
+         ],
+         "The API key you entered is not a valid LaterPay API key!": [
+            "Der eingegebene API Key ist kein gültiger LaterPay API Key!"
+         ],
+         "The Merchant ID you entered is not a valid LaterPay Merchant ID!": [
+            "Die eingegebene Merchant ID ist keine gültige LaterPay Merchant ID!"
+         ],
+         "LaterPay does not work properly with invalid API credentials.": [
+            "LaterPay funktioniert nicht ohne gültige API Zugangsdaten."
+         ],
+         "An error occurred when trying to save your settings. Please try again.": [
+            "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+         ],
+         "The Merchant ID you entered is not a valid LaterPay %s Merchant ID!": [
+            "Die eingegebene Merchant ID ist keine kültige LaterPay %s Merchant ID!"
+         ],
+         "The %s Merchant ID has been removed.": [
+            "Die %s Merchant ID wurde entfernt."
+         ],
+         "%s Merchant ID verified and saved.": [
+            "%s Merchant ID überprüft und gespeichert."
+         ],
+         "The %s API key has been removed.": [
+            "Der %s API Key wurde entfernt."
+         ],
+         "Your %s API key is valid. You can now make %s transactions.": [
+            "Ihr %s API-Key ist gültig. Sie können nun %s Transaktionen durchführen."
+         ],
+         "Error occurred. Incorrect data provided.": [
+            "Ein Fehler ist aufgetreten. Falsche Daten wurden übergeben."
+         ],
+         "The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.": [
+            "Das LaterPay Plugin ist jetzt im LIVE-Modus. Alle Zahlungen werden tatsächlich gebucht und Ihrem Händlerkonto gutgeschrieben."
+         ],
+         "The LaterPay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked.": [
+            "Das LaterPay Plugin ist jetzt im TEST-Modus und für Besucher nicht sichtbar. Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
+         ],
+         "The LaterPay plugin needs valid API credentials to work.": [
+            "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
+         ],
+         "Failed to change region settings.": [
+            "Die Einstellungen für Ländergruppe und Währung konnten nicht geändert werden."
+         ],
+         "The LaterPay region was changed successfully.": [
+            "Die Ländergruppe und Währung des LaterPay Plugins wurden erfolgreich geändert."
+         ],
+         "LaterPay has been successfully uninstalled. It can be re-activated from the plugins page.": [
+            "LaterPay wurde erfolgreich deinstalliert. Es kann auf der Plugin-Seite erneut aktiviert werden."
+         ],
+         "LaterPay data has been erased successfully.": [
+            "Alle LaterPay Daten wurden erfolgreich gelöscht."
+         ],
+         "Your LaterPay account is restricted to sell content in %s. Please update your currency or contact sales@laterpay.net.": [
+            "Ihr LaterPay-Konto ist darauf beschränkt, Inhalte in %s zu verkaufen. Bitte aktualisieren Sie Ihre Währung oder kontaktieren Sie sales@laterpay.net."
+         ],
+         "Delete Plugin Data": [
+            "Plugin Daten löschen"
+         ],
+         "Deactivate Plugin & Delete Data": [
+            "Plugin & Daten deaktivieren"
+         ],
+         "Updated LaterPay tracking mode.": [
+            ""
+         ],
+         "Please select one of the recommended options above to ensure that your users can purchase all content types.": [
+            "Bitte wählen Sie eine der oben empfohlenen Optionen aus, um sicherzustellen, dass Ihre Benutzer alle Arten von Inhalten erwerben können."
+         ],
+         "Enter custom HTML here": [
+            "Benutzerdefiniertes HTML hier eingeben"
+         ],
+         "Read now, pay later": [
+            "Jetzt lesen, später zahlen"
+         ],
+         "Contribute": [
+            "Jetzt"
+         ],
+         "now": [
+            "spenden"
+         ],
+         "now, pay later": [
+            "spenden, später zahlen"
+         ],
+         "Please enter a Campaign Name above.": [
+            "Bitte geben Sie oben einen Kampagnennamen ein."
+         ],
+         "Please enter a valid URL.": [
+            "Bitte geben Sie eine gültige URL ein."
+         ],
+         "Custom contribution amounts are only available when Show multiple contribution amounts is enabled.": [
+            "Benutzerdefinierte Contribution-Beträge sind nur verfügbar, wenn “Mehrere Contribution-Beträge anzeigen” aktiviert ist."
+         ],
+         "Please enter a valid contribution amount above.": [
+            "Bitte geben Sie oben einen gültigen Contribution-Betrag ein."
+         ],
+         "Please enter at least two valid contribution amounts above. If you would like to only allow one amount, simply un-check Show multiple contribution amounts.": [
+            "Bitte geben Sie oben mindestens zwei gültige Contribution-Beträge ein. Wenn Sie nur einen Betrag zulassen möchten, deaktivieren Sie einfach das Kontrollkästchen Mehrere Contribution-Beträge anzeigen."
+         ],
+         "An error occurred when trying to generate the shortcode. Please try again.": [
+            "Beim Versuch, den Shortcode zu generieren, ist ein Fehler aufgetreten. Bitte versuche es erneut."
+         ],
+         "Successfully generated code, please paste at desired location.": [
+            ""
+         ],
+         "Please contact WPEngine customer service to bypass the required cookies": [
+            "Bitte kontaktieren Sie den WPEngine Kundenservice, um die erforderlichen Cookies zu umgehen."
+         ],
+         "laterpay_token, laterpay_purchased_gift_card and laterpay_tracking_code": [
+            "laterpay_token, laterpay_purchased_gift_card und laterpay_tracking_code"
+         ],
+         "in order for the plugin to work properly with page-cache.": [
+            "damit das Plugin mit dem Page-Cache richtig funktioniert."
+         ],
+         "Done": [
+            "Erledigt"
+         ],
+         "Saving Settings ": [
+            "Einstellungen speichern "
+         ],
+         "Settings Saved ": [
+            "Einstellungen gespeichert "
+         ],
+         "Error saving data": [
+            "Fehler beim Speichern von Daten"
+         ],
+         "Thank you for opting in to tracking! May we contact you to provide updates or request feedback?": [
+            ""
+         ],
+         "Subscription": [
+            "Abo"
+         ],
+         "Time Pass": [
+            "Zeitpass"
+         ],
+         "We couldn't find a %s with id=\"0\" on this site.": [
+            "Wir konnten kein %s mit der id=“0” auf der Seite finden."
+         ],
+         "We couldn't find a %s with id=\"%s\" on this site.": [
+            "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
+         ],
+         "Buy Now, Pay Later": [
+            "Jetzt kaufen, später zahlen"
+         ],
+         "Buy Now": [
+            "Jetzt kaufen"
+         ],
+         "Subscribe Now": [
+            "Jetzt abonnieren"
+         ],
+         "All cannot be used for both 'Time Passes' and 'Subscriptions' at the same time.": [
+            "“Alle” kann nicht zeitgleich für Zeitpässe und Abos genutzt werden."
+         ],
+         "Additional Premium Content": [
+            "Zusätzlicher Premium-Inhalt"
+         ],
+         "Please select Downloadable Media": [
+            ""
+         ],
+         "Selected content doesn't exist now": [
+            ""
+         ],
+         "LaterPay has been disabled for the post type of the target page.": [
+            "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
+         ],
+         "Buy now with LaterPay": [
+            "Jetzt mit LaterPay kaufen"
+         ],
+         "Please enter a Campaign Name.": [
+            "Kampagnennamen eingeben."
+         ],
+         "Please enter a valid contribution amount.": [
+            "Bitte einen gültigen Contribution-Betrag eingeben."
+         ],
+         "LaterPay Blocks": [
+            "LaterPay Blocks"
+         ],
+         "Price": [
+            "Preis"
+         ],
+         "Price Type": [
+            "Preistyp"
+         ],
+         "FREE": [
+            "KOSTENLOS"
+         ],
+         "Pay Now": [
+            "Sofort zahlen"
+         ],
+         "Pay Later": [
+            "Später zahlen"
+         ],
+         "individual price": [
+            "Individueller Preis"
+         ],
+         "dynamic individual price": [
+            "Individueller Preis (dynamisch)"
+         ],
+         "category default price": [
+            "Kategorie-Standardpreis"
+         ],
+         "global default price": [
+            "Standardpreis"
+         ],
+         "Paid posts require some teaser content. Please fill in the Teaser Content field.": [
+            "Kostenpflichtige Inhalte benötigen einen Teaser. Bitte geben Sie einen Teaser an."
+         ],
+         "Add dynamic pricing": [
+            "Dynamische Preissetzung hinzufügen"
+         ],
+         "Remove dynamic pricing": [
+            "Dynamische Preissetzung entfernen"
+         ],
+         "Global Default Pricing is not available to Posts which have a Category Default Price.": [
+            "Die globale Standardpreisgestaltung ist für Beiträge mit einem Kategorie-Standardpreis nicht verfügbar."
+         ],
+         "It looks like you have not set up a Category Default Price. Go to the LaterPay > Pricing page to set up Category Default Prices.": [
+            "Es sieht so aus, als hätten Sie keinen Kategorie-Standardpreis eingerichtet. Gehen Sie auf die Seite LaterPay > Preise, um die Standardpreise für die Kategorie einzurichten."
+         ],
+         "Please select a category from the \"Categories\" panel below to enable Category Default Pricing.": [
+            "Bitte wählen Sie eine Kategorie aus dem unteren Bereich \"Kategorien\" aus, um die Kategorie Standardpreisgestaltung zu aktivieren."
+         ],
+         "default price": [
+            "Standardpreis"
+         ],
+         "days": [
+            "Tage"
+         ],
+         "Today": [
+            "Heute"
+         ],
+         "Pricing for this Post": [
+            "Preis des Beitrags"
+         ],
+         "Visitors will see the teaser content %s instead of the full content %s before purchase.": [
+            "Besucher werden den Teaser %s anstatt des gesamten Artikels sehen. %s"
+         ],
+         "If you do not enter any teaser content, the plugin will use an excerpt of the full content as teaser content.": [
+            "Wenn Sie keinen Teaser angeben, verwendet das Plugin automatisch einen Auszug aus dem Volltext als Teaser."
+         ],
+         "We do recommend to write dedicated teaser content to increase your sales though.": [
+            "Wir empfehlen jedoch, für jeden Beitrag einen separaten Teaser zu erstellen, um die Attraktivität des Beitrags zu steigern."
+         ],
+         "After": [
+            "Nach"
+         ],
+         "Make": [
+            "Mache"
+         ],
+         "free": [
+            "kostenlos"
+         ],
+         "to": [
+            "auf"
+         ],
+         "by": [
+            "um"
+         ],
+         "to global default price of": [
+            "auf den allgemeinen Standardpreis"
+         ],
+         "to category default price of": [
+            "auf den Kategorie-Standardpreis"
+         ],
+         "Update Prices": [
+            "Preise aktualisieren"
+         ],
+         "Delete": [
+            "Löschen"
+         ],
+         "Are you sure?": [
+            "Sind Sie sicher?"
+         ],
+         "Do you really want to discontinue this subscription? If you delete it, it will continue to renew for users who have an active subscription until the user cancels it. Existing subscribers will still have access to the content in their subscription. New users won't be able to buy the subscription anymore. Do you want to delete this subscription?": [
+            "Möchten Sie dieses Abo wirklich löschen? Wenn Sie es löschen, wird es sich für bestehende Abonnenten weiterhin verlängern, bis es vom Nutzer gekündigt wird. Bestehende Abonnenten werden weiterhin Zugriff auf die Inhalte des Abos haben. Neue Nutzer werden das Abo nicht mehr kaufen können. Möchten Sie dieses Abo wirklich löschen?"
+         ],
+         "reduces the price to": [
+            "reduziert den Preis auf"
+         ],
+         "Pay Later allows users to gain access now by committing to pay once their invoice reaches $5 or 5€; it is available for posts with pricing between 0.05 and 5.00": [
+            "PayLater ermöglicht es nun Nutzern Zugang zu erhalten, indem sie sich verpflichten, zu bezahlen, sobald ihre Rechnung 5USD oder 5€ erreicht. Diese Option ist für Beiträge mit Preisen zwischen 0,05 und 5,00€ verfügbar."
+         ],
+         "Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.49€": [
+            "PayNow erfordert, dass Benutzer für gekaufte Inhalte sofort bezahlen und ist verfügbar für Beiträge mit Preisen über $1,99 oder 1,49€."
+         ],
+         "Subscriptions, like other Pay Now content, must have pricing above $1.99 or 1.49€": [
+            "Abonnements müssen, wie andere PayNow-Inhalte, einen Preis von über $1,99 oder 1,49€ haben."
+         ],
+         "The voucher price must be less than or equal to the subscription price.": [
+            "Der Gutscheinpreis muss kleiner oder gleich dem Abonnementpreis sein."
+         ],
+         "The voucher price must be less than or equal to the time pass price.": [
+            "Der Gutscheinpreis muss kleiner oder gleich dem Zeitpass-Preis sein."
+         ],
+         "Please enter a six-digit voucher code.": [
+            "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
+         ],
+         "This voucher code is already in use, please choose a different name.": [
+            "Dieser Gutscheincode wird bereits verwendet, bitte wählen Sie einen anderen Namen."
+         ],
+         "No Items!": [
+            ""
+         ],
+         "ascending order": [
+            ""
+         ],
+         "descending order": [
+            ""
+         ],
+         "First option": [
+            ""
+         ],
+         "Single Purchase": [
+            "Einzelkauf"
+         ],
+         "All posts in category": [
+            "aller Beiträge in Kategorie"
+         ],
+         "Description": [
+            "Beschreibung"
+         ],
+         "An error occurred. Incorrect data provided.": [
+            "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
+         ],
+         "All articles will be free by default; Time Passes & Subscriptions will only be\n            displayed if an Individual Article Price greater than 0.00 is manually set on the Post page.": [
+            "Alle Artikel sind standardmäßig kostenlos. Zeitpässe & Abonnements werden nur angezeigt, wenn auf der Seite Beitrag ein individueller Artikelpreis größer als 0,00 manuell eingestellt wurde."
+         ],
+         "Only Time Passes & Subscriptions will be displayed in the purchase dialog.": [
+            "Nur Zeitpässe und Abos werden im Kaufdialog angezeigt."
+         ],
+         "The global default price for all posts is %s %s now.": [
+            "Der allgemeine Standardpreis für alle Beiträge ist jetzt %s %s."
+         ],
+         "There is no such category on this website.": [
+            "Diese Kategorie existiert nicht."
+         ],
+         "All posts in category %s have a default price of %s %s now.": [
+            "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
+         ],
+         "The default price for category %s was deleted.": [
+            "Der Standardpreis für die Kategorie %s wurde entfernt."
+         ],
+         "An error occurred when trying to save the time pass. Please try again.": [
+            "Beim Speichern des Zeitpasses ist ein Fehler aufgetreten. Bitte versuchen Sie es noch einmal."
+         ],
+         "Pass saved.": [
+            "Pass gespeichert."
+         ],
+         "Time pass deleted.": [
+            "Zeitpass gelöscht."
+         ],
+         "The selected pass was deleted already.": [
+            "Der ausgewählte Pass wurde bereits gelöscht."
+         ],
+         "An error occurred when trying to save the subscription. Please try again.": [
+            "Während des Speicherns des Abos ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+         ],
+         "Subscription saved.": [
+            "Abo gespeichert."
+         ],
+         "Subscription deleted.": [
+            "Abo gelöscht."
+         ],
+         "The selected subscription was deleted already.": [
+            "Dieses Abo wurde bereits gelöscht."
+         ],
+         "Incorrect voucher price.": [
+            "Ungültiger Gutschein-Preis."
+         ],
+         "Passes": [
+            "Zeitpässe"
+         ],
+         "Pass": [
+            "Pass"
+         ],
+         "Laterpay Passes Post type Registration issue.": [
+            "LaterPay durchläuft ein Post-Type Registrierungsproblem."
+         ],
+         "Disable Tracking": [
+            "Tracking deaktivieren"
+         ],
+         "Please enter UA-ID to enable Personal Analytics!": [
+            "Bitte geben Sie die UA-ID ein, um Personal Analytics zu aktivieren!"
+         ],
+         "LaterPay Advanced Settings": [
+            "LaterPay – Erweiterte Einstellungen"
+         ],
+         "%s Access %s": [
+            "%s Zugriff %s"
+         ],
+         "Require User Login before Purchase": [
+            "Benutzer müssen sich einloggen um bezahlen zu können"
+         ],
+         "Please choose if you want to require a login for \"Pay Later\" purchases.": [
+            "Bitte wählen Sie, ob ein Login vor \"Später zahlen\"-Käufen erforderlich sein soll."
+         ],
+         "Enable Vouchers for Single Article Purchases": [
+            ""
+         ],
+         "While most content access is controlled by LaterPay, in this section you can require users to log in prior to purchase or allow unlimited access to specific WordPress user roles (this feature can be useful for giving free access to existing subscribers or other stakeholders). We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.": [
+            "Während der größte Teil des Inhaltezugriffs von LaterPay kontrolliert wird, können Sie Ihre User in diesem Abschnitt auffordern, sich vor dem Kauf anzumelden oder können Ihnen unbegrenzten Zugriff auf bestimmte WordPress-Benutzerrollen gewähren (diese Funktion eignet sich besonders für den kostenlosen Zugriff für bestehende Abonnenten oder andere Nutzer, die besondere Rechte haben sollen). Wir empfehlen das Plugin ‘User Role Editor’, um Ihrem WordPress eigene Rollen hinzuzufügen."
+         ],
+         "%s Analytics %s": [
+            "%s Analytics %s"
+         ],
+         "LaterPay Google Analytics:": [
+            "LaterPay Google Analytics:"
+         ],
+         "LaterPay collects this information to improve our products and\n                                        services and also so that you can determine the effectiveness of your pricing\n                                        strategy using our Merchant Analytics dashboard.": [
+            "LaterPay sammelt diese Informationen, um unsere Produkte und Dienstleistungen zu verbessern und damit Sie die Wirksamkeit Ihrer Preisstrategie über unser Merchant Analytics Dashboard messen können."
+         ],
+         "Are you sure you would like to disable this feature?": [
+            "Sind Sie sicher, dass Sie diese Funktion deaktivieren möchten?"
+         ],
+         "Yes, Disable Tracking": [
+            "Ja, Tracking deaktivieren"
+         ],
+         "Cancel": [
+            "Abbrechen"
+         ],
+         "LaterPay is not in the business of selling data. This tracking information is for your benefit so that you can determine the effectiveness of your pricing strategy. %s\n            To view your analytics, log in to your LaterPay account at %slaterpay.net%s to view your Merchant Analytics dashboard.": [
+            "LaterPay verkauft keine Daten an Dritte. Diese Tracking-Daten werden für Ihren Vorteil erhoben und Dienen der Optimierung Ihrer Preisstrategie. %s \nUm Ihre Analytics auf dem Händler-Dashboard zu betrachten, loggen Sie sich bitte in Ihr LaterPay Händlerkonto auf %slaterpay.net%s ein."
+         ],
+         "Enabled": [
+            "Aktiviert"
+         ],
+         "Google Analytics \"UA-ID\"": [
+            "Google Analytics \"UA-ID\""
+         ],
+         "%s Appearance %s": [
+            "%s Darstellung %s"
+         ],
+         "Default Teaser Content Word Count": [
+            "Teaser-Länge"
+         ],
+         "Teaser Content Word Count": [
+            "Teaser-Länge"
+         ],
+         "Percentage of Post Blurred behind Overlay": [
+            "Prozent, wie viel des Inhalts verschwommen hinter der Bezahlschranke erscheinen soll"
+         ],
+         "Percentage of Post Content": [
+            "Anteil des Volltextes"
+         ],
+         "Percentage of content to be extracted; 20 means \"extract 20% of the total number of words of the post\".": [
+            "Prozentsatz des Volltextes, der angezeigt werden soll; 20 bedeutet \"zeige die ersten 20% des Volltextes unter dem Overlay an.\""
+         ],
+         "Minimum Number of Words Blurred behind Overlay": [
+            "Minimale Wortanzahl, die verschwommen hinter der Bezahlschranke erscheinen soll"
+         ],
+         "Minimum Number of Words": [
+            "Mindestanzahl Wörter"
+         ],
+         "Applied if number of words as percentage of the total number of words is less than this value.": [
+            "Wird verwendet, wenn der oben angegebene Prozentsatz weniger Wörter ergibt als dieser Wert."
+         ],
+         "Maximum Number of Words Blurred behind Overlay": [
+            "Maximale Wortanzahl, die verschwommen hinter der Bezahlschranke erscheinen soll"
+         ],
+         "Maximum Number of Words": [
+            "Höchstanzahl Wörter"
+         ],
+         "Applied if number of words as percentage of the total number of words exceeds this value.": [
+            "Wird verwendet, wenn der oben angegebene Prozentsatz mehr Wörter ergibt als dieser Wert."
+         ],
+         "%s Technical %s": [
+            "%s Technische Einstellungen %s"
+         ],
+         "I am using a caching plugin (e.g. WP Super Cache or Cachify)": [
+            "Ich verwende ein Caching-Plugin (z. B. WP Super Cache oder Cachify)"
+         ],
+         "Disable content access check queries on Home Page": [
+            ""
+         ],
+         "In the case that the LaterPay API becomes unresponsive:": [
+            "Im Falle, dass die LaterPay API nicht erreichbar ist:"
+         ],
+         "%s Contact LaterPay Support %s": [
+            "%s Kontaktieren Sie den LaterPay Support %s"
+         ],
+         "Have questions or feature requests? %1$sClick here to contact LaterPay support%2$s": [
+            "Haben Sie Fragen oder vermissen eine Funktion? %1$sKlicken Sie hier um den LaterPay Support zu kontatkieren%2$s"
+         ],
+         "none": [
+            "keine"
+         ],
+         "all": [
+            "alle"
+         ],
+         "Please add a custom role first.": [
+            "Bitte erstellen Sie erst eine eigene Nutzerrolle."
+         ],
+         "Close": [
+            "Schließen"
+         ],
+         "Do nothing": [
+            "Nichts tun"
+         ],
+         "No user can access premium content while the LaterPay API is not responding.": [
+            "Kein Nutzer hat Zugriff auf Premium-Inhalte, während die LaterPay API nicht erreichbar ist."
+         ],
+         "Give full access": [
+            "Vollzugriff gewähren"
+         ],
+         "All users have full access to premium content in order to not disappoint paying users.": [
+            "Alle Nutzer haben vollen Zugriff auf Bezahlinhalte (z. B. Nützlich, um bisherige Käufer nicht zu verärgern)."
+         ],
+         "Hide premium content": [
+            "Bezahlinhalte ausblenden"
+         ],
+         "Premium content is hidden from users. Direct access would be blocked.": [
+            "Bezahlinhalte werden ausgeblendet, der Direktzugriff wird verweigert."
+         ],
+         "auto detected": [
+            "automatisch ermittelt"
+         ],
+         "Your site is in LIVE mode, your visitors would now see the LaterPay purchase dialog. \n\nTo experience this behavior, view this page either by logging out of WordPress or using an user account with non-admin privileges. \n\nNote: You will be charged for purchases made while in LIVE mode.": [
+            "Ihre Website befindet sich im LIVE-Modus, Ihre Besucher sehen nun den LaterPay-Kaufdialog. \n\nUm dies aus Besucher-Sicht zu überprüfen, rufen Sie diese Seite entweder erneut nach Abmeldung von WordPress oder über ein Benutzerkonto mit Non-Admin-Rechten auf. \n\nHinweis: Für Einkäufe, die im LIVE-Modus getätigt werden, werden Ihnen Gebühren berechnet."
+         ],
+         "Voucher code accepted.": [
+            "Gutschein-Code akzeptiert."
+         ],
+         " is not a valid voucher code!": [
+            " ist kein gültiger Gutschein-Code!"
+         ],
+         "An error occurred. Please try again.": [
+            "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+         ],
+         "&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}": [
+            "&mdash; Kaufen Sie den vollständigen Inhalt für {price} {currency} &mdash; {teaser_content}"
+         ],
+         "Updated.": [
+            "Aktualisiert."
+         ],
+         "You don't have sufficient user capabilities to do this.": [
+            "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
+         ],
+         "We couldn't find a page for target_post_id=\"%s\" on this site.": [
+            "Wir konnten keine Seite für target_post_id=\"%s\" auf dieser Webseite finden."
+         ],
+         "We couldn't find a page for target_post_title=\"%s\" on this site.": [
+            "Wir konnten keine Seite für target_post_title=\"%s\" auf dieser Webseite finden."
+         ],
+         "Problem with inserted shortcode:": [
+            "Es gibt ein Problem mit dem eingefügten Shortcode:"
+         ],
+         "Download now": [
+            "Jetzt herunterladen"
+         ],
+         "Watch now": [
+            "Jetzt ansehen"
+         ],
+         "View now": [
+            "Jetzt ansehen"
+         ],
+         "Listen now": [
+            "Jetzt anhören"
+         ],
+         "Read now": [
+            "Jetzt lesen"
+         ],
+         "Wrong time pass id.": [
+            "Ungültige Zeitpass-ID."
+         ],
+         "%1$s\"all\"%2$s cannot be used for both %1$s\"timepasses\"%2$s and %1$s\"subscriptions\"%2$s at the same time.": [
+            ""
+         ],
+         "Something went wrong.": [
+            ""
+         ],
+         "%1$s": [
+            ""
+         ],
+         "<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>": [
+            "<p>LaterPay: Ihr Server <strong>erfüllt nicht die Mindestanforderung</strong> von %s-Version %s oder neuer. Sie verwenden %s-Version %s.</p>"
+         ],
+         "WARNING! Your LaterPay plugin has been disabled.": [
+            "WARNHINWEIS! Ihr LaterPay-Plugin wurde deaktiviert."
+         ],
+         "LaterPay has updated their plugin to remove dependencies on custom tables. You must migrate your data before you can re-activate your plugin.": [
+            "LaterPay hat sein Plugin aktualisiert, um Abhängigkeiten von benutzerdefinierten Tabellen zu entfernen. Sie müssen Ihre Daten migrieren, bevor Sie Ihr Plugin wieder aktivieren können."
+         ],
+         "To complete this process, please Rollback your plugin to v.2.3.0 and click the header to migrate your data. Once this is complete you will be free to successfully update and re-activate your plugin.": [
+            "Um diesen Prozess abzuschließen, setzen Sie bitte Ihr Plugin auf v.2.3.0 zurück und klicken Sie auf den Header, um Ihre Daten zu migrieren. Sobald dies abgeschlossen ist, können Sie Ihr Plugin erfolgreich aktualisieren und reaktivieren."
+         ],
+         "If you do not have a preferred Rollback method, we recommend": [
+            "Wenn Sie keine bevorzugte Rollback-Methode haben, empfehlen wir Ihnen, diese zu verwenden."
+         ],
+         "Please contact support@laterpay.net if you have any questions or concerns.": [
+            "Bitte kontaktieren Sie support@laterpay.net, wenn Sie Fragen oder Bedenken haben."
+         ],
+         "The LaterPay plugin could not be installed. Please fix the reported issues and try again.": [
+            "Das LaterPay Plugin konnte nicht installiert werden. Bitte beheben Sie die genannten Probleme und versuchen Sie es erneut."
+         ],
+         "%s: <code>%s</code> not found": [
+            "%s: <code>%s</code> nicht gefunden"
+         ],
+         "Form \"%s\" validation failed.": [
+            "Formatvalidierung \"%s\" fehlgeschlagen."
+         ],
+         "\"%s\" param missed or has incorrect value": [
+            "Der Parameter \"%s\" fehlt oder hat einen ungültigen Wert."
+         ],
+         "Post with id \"%s\" not exist": [
+            "Es existiert kein Beitrag mit der ID \"%s\"."
+         ],
+         "(more&hellip;)": [
+            ""
+         ],
+         "1 Month Subscription": [
+            "Monatsabo"
+         ],
+         "1 month access to all content on this website (cancellable anytime)": [
+            "1 Monat Zugriff auf alle Inhalte dieser Website (jederzeit kündbar)"
+         ],
+         "access to": [
+            "Zugriff auf"
+         ],
+         "for": [
+            "für"
+         ],
+         "24-Hour Pass": [
+            "24-Stunden-Pass"
+         ],
+         "24 hours access to all content on this website": [
+            "24 Stunden Zugang zu allen Inhalten dieser Website"
+         ],
+         "Hour": [
+            "Stunde"
+         ],
+         "Day": [
+            "Tag"
+         ],
+         "Week": [
+            "Woche"
+         ],
+         "Month": [
+            "Monat"
+         ],
+         "Year": [
+            "Jahr"
+         ],
+         "Hours": [
+            "Stunden"
+         ],
+         "Days": [
+            "Tage"
+         ],
+         "Weeks": [
+            "Wochen"
+         ],
+         "Months": [
+            "Monate"
+         ],
+         "Years": [
+            "Jahre"
+         ],
+         "later": [
+            "später"
+         ],
+         "immediately": [
+            "sofort"
+         ],
+         "All content": [
+            "Alle Inhalte"
+         ],
+         "All content except for category": [
+            "Alle Inhalte außer in Kategorie"
+         ],
+         "All content in category": [
+            "Alle Inhalte in Kategorie"
+         ],
+         "k": [
+            "t"
+         ],
+         "I already bought this": [
+            "Bereits gekauft?"
+         ],
+         "Read Now": [
+            "Jetzt lesen"
+         ],
+         "Read Now, Pay Later": [
+            "Jetzt lesen, später zahlen"
+         ],
+         "Buy this post now with LaterPay and <br>pay with a payment method you trust.": [
+            "Kaufen Sie diesen Beitrag jetzt mit LaterPay und <br>bezahlen Sie mit einer Zahlungsmethode Ihres Vertrauens."
+         ],
+         "Read Immediately": [
+            "Sofort lesen"
+         ],
+         "Immediately access your purchase. <br>You only buy this post. No subscription, no fees.": [
+            "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein Abo, keine Gebühren."
+         ],
+         "Just agree to pay later.<br> No upfront registration and payment.": [
+            "Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. Keine Vorauszahlung."
+         ],
+         "Access your purchase immediately.<br> You are only buying this article, not a subscription.": [
+            "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein Abo, keine Gebühren."
+         ],
+         "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay.": [
+            "Kaufen Sie mit LaterPay, bis Sie %s %s erreicht haben. Erst dann müssen Sie sich registrieren und bezahlen."
+         ],
+         "Wrong time pass id or no time passes specified.": [
+            "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
+         ],
+         "Buy Time Pass": [
+            "Zeitpass kaufen"
+         ],
+         "Buy a LaterPay time pass and pay with a payment method you trust.": [
+            "Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode Ihres Vertrauens."
+         ],
+         "Immediately access your content. <br>A time pass is not a subscription, it expires automatically.": [
+            "Greifen Sie sofort auf Ihre Inhalte zu.<br>\nEin Zeitpass ist kein Abo, denn er läuft automatisch aus."
+         ],
+         "Buy Subscription": [
+            "Abo kaufen"
+         ],
+         "Buy a subscription and pay with a payment method you trust.": [
+            "Kaufen Sie ein Abo und bezahlen Sie mit einer Zahlungsmethode,  der Sie vertrauen."
+         ],
+         "Buy a Time Pass or Subscription": [
+            "Kaufen Sie einen Zeitpass oder ein Abo"
+         ],
+         "Buy a timepass or subscription and pay with a payment method you trust.": [
+            "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer Zahlungsmethode, der Sie vertrauen."
+         ],
+         "Contribution Settings": [
+            "Contribution-Einstellungen"
+         ],
+         "Campaign Name": [
+            "Kampagnen Name"
+         ],
+         "Enter Campaign name.": [
+            "Kampangnenname eingeben."
+         ],
+         "Thank you page (optional)": [
+            "Dankeschön-Seite (optional)"
+         ],
+         "Enter Thank you page.": [
+            "Dankeschön-Seite eintragen."
+         ],
+         "Contribution Type": [
+            "Art der Contribution"
+         ],
+         "Multiple": [
+            "Mehrere"
+         ],
+         "Single": [
+            "Einzelne"
+         ],
+         "Amount One": [
+            "Betrag 1"
+         ],
+         "Revenue Model": [
+            "Umsatz-Modell"
+         ],
+         "Amount Two": [
+            "Betrag 2"
+         ],
+         "Amount Three": [
+            "Betrag 3"
+         ],
+         "Amount Four": [
+            "Betrag 4"
+         ],
+         "Amount Five": [
+            "Betrag 5"
+         ],
+         "Default Selected Amount": [
+            "Standardbetrag"
+         ],
+         " Allow custom contribution amount": [
+            " Benutzerdefinierten Contribution-Betrag erlauben"
+         ],
+         "Check to allow custom contribution": [
+            "Auswählen, um (vom Nutzer) frei wählbare Contribution-Beträge zu erlauben"
+         ],
+         "Amount": [
+            "Betrag"
+         ],
+         "Enter Contribution amount.": [
+            "Contribution-Betrag eingeben."
+         ],
+         "now, Pay Later": [
+            "spenden, später zahlen"
+         ],
+         "How much would you like to contribute?": [
+            "Wie viel möchten Sie als Contribution (freiwillige Beitragszahlung) beitragen?"
+         ],
+         "Custom Amount": [
+            "Ihr Beitrag"
+         ],
+         "Contribute now": [
+            "Jetzt spenden"
+         ],
+         "Powered by": [
+            "Powered by"
+         ],
+         "LaterPay Contribution": [
+            "LaterPay Contribution"
+         ],
+         "Contribution": [
+            "Contributions"
+         ],
+         "Dynamic Access Settings": [
+            "Dynamischer Zugriff Einstellungen"
+         ],
+         "Access Behaviour": [
+            "Zugriffs-Verhalten"
+         ],
+         "Show contents after purchase": [
+            "Inhalt nach dem Kauf anzeigen"
+         ],
+         "Hide contents after purchase": [
+            "Inhalt nach dem Kauf verbergen"
+         ],
+         "Purchase requirement": [
+            "Kauf als Voraussetzung"
+         ],
+         "Any Purchase": [
+            "Jeder Kauf"
+         ],
+         "Specific Time Passes or Subscriptions": [
+            "bestimmte Zeitpässe oder Abos"
+         ],
+         "Time Passes to select": [
+            "Zeitpässe auswählen"
+         ],
+         "None": [
+            "Keine"
+         ],
+         "All": [
+            "alle"
+         ],
+         "Specific": [
+            "Bestimmte"
+         ],
+         "Enter Time Pass ID's manually separated by comma": [
+            "Zeitpass-ID(s) manuell eingeben. (mehrere durch Komma getrennt)"
+         ],
+         "To find the Time Pass or Subscription ID, navigate to the Paywall tab. The ID is the number located to the left of the Time Pass or Subscription.": [
+            "Um die ID eines Zeitpasses oder Abos herauszufinden, navigiere zum “Paywall” Tab. Die ID findet sich dort links neben dem jew. Zeitpass oder Abo."
+         ],
+         "Subscriptions to select": [
+            "Abos auswählen"
+         ],
+         "Enter Subscription ID's manually separated by comma": [
+            "Abo-ID(s) manuell eingeben. (mehrere durch Komma getrennt)"
+         ],
+         "Add content for Dynamic Access": [
+            "Inhalt zu Dynamic Access hinzufügen"
+         ],
+         "Use this block to show or hide the content in the block based on which LaterPay product the user has purchased.": [
+            "Benutze diesen Block, um den Inhalt basierend auf dem vom Nutzer gekauften LaterPay-Produkt anzuzeigen, oder zu verstecken."
+         ],
+         "IMPORTANT: This should not be used to hide the content you would like behind the paywall. That will be done automatically once you have set a price for this article.": [
+            "WICHTIG: Nicht zum verstecken des Inhalts hinter der Paywall verwenden. Das geschieht automatisch, sobald Du einen Preis für den verknüpften Beitrag festlegst."
+         ],
+         "LaterPay Dynamic Access": [
+            "LaterPay Dynamischer Zugriff"
+         ],
+         "Time Pass Access": [
+            "Zeitpass-Zugriff"
+         ],
+         "Subscription Access": [
+            "Abo-Zugriff"
+         ],
+         "Premium Download Box Settings": [
+            "Premium Download-Box Einstellungen"
+         ],
+         "Select Downloadable Media": [
+            "Herunterladbare Inhalte/Medien auswählen"
+         ],
+         "File Name: ": [
+            "Dateiname:"
+         ],
+         "Current price:": [
+            "Aktueller Preis:"
+         ],
+         "To adjust this price, navigate to the edit media page and configure the price.": [
+            "Bearbeite die betreffenden Medien, um diesen Preis anzupassen."
+         ],
+         "Heading text": [
+            "Überschrift"
+         ],
+         "Enter heading text for download box.": [
+            "Gebe die Überschrift für die Download-Box ein."
+         ],
+         "Description text": [
+            "Beschreibung"
+         ],
+         "Enter description text for download box.": [
+            "Gebe die Beschreibung für die Download-Box ein."
+         ],
+         "Content Type": [
+            "Inhalts-Typ"
+         ],
+         "Auto Identify": [
+            "Automatisch erkennen"
+         ],
+         "Audio": [
+            "Audio"
+         ],
+         "File": [
+            "Datei"
+         ],
+         "Gallery": [
+            "Bildergalerie"
+         ],
+         "Link": [
+            "Link"
+         ],
+         "Text": [
+            "Text"
+         ],
+         "Video": [
+            "Video"
+         ],
+         "Select Teaser Image": [
+            "Vorschaubild auswählen"
+         ],
+         "Clear Teaser Image": [
+            "Vorschaubild entfernen"
+         ],
+         "LaterPay Premium Download Box": [
+            "LaterPay Premium Download-Box"
+         ],
+         "Premium Download Box": [
+            "Premium Download-Box"
+         ],
+         "Purchase Button Settings": [
+            "Kauf-Button Einstellungen"
+         ],
+         "Type Of Purchase": [
+            "Art des Angebots"
+         ],
+         "Time Pass / Subscription ID": [
+            "Zeitpass- / Abo-ID"
+         ],
+         "Purchase Button Text": [
+            "Beschriftung des Kauf-Buttons"
+         ],
+         "Enter purchase button text, defaults to item revenue.": [
+            "Beschriftung für den Kauf-Button hier eingeben. (standardmäßig: Kaufpreis)"
+         ],
+         "Button Color": [
+            "Button-Farbe"
+         ],
+         "Background Color": [
+            "Hintergrundfarbe"
+         ],
+         "Button Text Color": [
+            "Button-Textfarbe"
+         ],
+         "Text Color": [
+            "Textfarbe"
+         ],
+         "LaterPay Purchase Button": [
+            "LaterPay Kauf-Button"
+         ],
+         "Time Pass Button": [
+            "Zeitpass-Button"
+         ],
+         "Subscription Button": [
+            "Abo-Button"
+         ],
+         "translateX": [
+            ""
+         ],
+         "translateY": [
+            ""
+         ],
+         "skewX": [
+            ""
+         ],
+         "skewY": [
+            ""
+         ],
+         "scale": [
+            ""
+         ],
+         "scaleX": [
+            ""
+         ],
+         "scaleY": [
+            ""
+         ],
+         "rotateZ": [
+            ""
+         ],
+         "Once Weekly": [
+            ""
+         ],
+         "Once Monthly": [
+            ""
+         ],
+         "We can't detect any product information. This is most probably because you have not included the code snippet.": [
+            ""
+         ],
+         "Thank you for installing our %1$s. We would like to track its usage on your site. We don't record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.": [
+            ""
+         ],
+         "Thank you for installing our %1$s. We'd like your permission to track its usage on your site and subscribe you to our newsletter. We won't record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.": [
+            ""
+         ],
+         "Allow": [
+            ""
+         ],
+         "Do Not Allow": [
+            ""
+         ],
+         "Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?": [
+            ""
+         ],
+         "Yes Please": [
+            ""
+         ],
+         "No Thank You": [
+            ""
+         ],
+         "Sorry to see you go": [
+            ""
+         ],
+         "Before you deactivate the plugin, would you quickly give us your reason for doing so?": [
+            ""
+         ],
+         "Set up is too difficult": [
+            ""
+         ],
+         "Lack of documentation": [
+            ""
+         ],
+         "Not the features I wanted": [
+            ""
+         ],
+         "Found a better plugin": [
+            ""
+         ],
+         "Installed by mistake": [
+            ""
+         ],
+         "Only required temporarily": [
+            ""
+         ],
+         "Didn't work": [
+            ""
+         ],
+         "Details (optional)": [
+            ""
+         ],
+         "Submitting form": [
+            ""
+         ],
+         "Submit and Deactivate": [
+            ""
+         ],
+         "Just Deactivate": [
+            ""
+         ],
+         "Test mode": [
+            "Test-Modus"
+         ],
+         "Earn money in": [
+            "Geld verdienen im"
+         ],
+         "live mode": [
+            "Live-Modus"
+         ],
+         "The LaterPay plugin is in": [
+            "Das LaterPay Plugin ist im"
+         ],
+         "mode.": [
+            "Modus."
+         ],
+         "In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 3 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments.": [
+            "Im Testmodus können nur WordPress-Administratoren die LaterPay Paywall sehen. Sie müssen Schritt 4 unten ausführen, um den Live-Modus zu aktivieren. Dadurch wird die Paywall Ihren Anhängern angezeigt und Sie können mit der Annahme von Zahlungen beginnen."
+         ],
+         "Congratulations, you are now accepting payments through LaterPay!": [
+            "Herzlichen Glückwunsch, Sie akzeptieren jetzt Zahlungen über LaterPay!"
+         ],
+         "We recommend %sclearing your cache%s in order to ensure that the paywall is visible everyone.": [
+            "Wir empfehlen %sIhren Cache zu leeren%s, um sicherzustellen, dass die Paywall für alle sichtbar ist."
+         ],
+         "Hide message.": [
+            "Nachricht verstecken."
+         ],
+         "Step 1": [
+            "SCHRITT 1"
+         ],
+         "Select Currency": [
+            "WÄHRUNG AUSWÄHLEN"
+         ],
+         "EURO (€)": [
+            "EURO (€)"
+         ],
+         "USD ($)": [
+            "USD ($)"
+         ],
+         "%1$sImportant:%2$s The minimum value for \"Pay Now\" prices in the U.S. region is %1$s$1.99.%2$s %3$sIf you previously set \"Pay Now\" prices lower than 1.99, these will need to be adjusted accordingly. %3$s": [
+            "%1$sWichtig:%2$s Der Mindestwert für “Pay Now”-Preise in der Region USA beträgt %1$s1,99 $.%2$s\n%3$sWenn Sie zuvor “Pay Now” Preise unter 1,99 festgelegt haben, müssen diese entsprechend angepasst werden. %3$s"
+         ],
+         "Step 2": [
+            "SCHRITT 2"
+         ],
+         "Get Started": [
+            "ERSTE SCHRITTE"
+         ],
+         "Click through the remaining tabs from left to right. We will provide tips and instructions at the top of each page or click here to read our %sGetting Started Guide%s for step by step instructions.": [
+            "Klicken Sie von links nach rechts durch die verbleibenden Registerkarten. Wir werden Ihnen oben auf jeder Seite Tipps und Anleitungen geben oder klicken Sie hier, um unseren %s”Getting Started Guide”%s für eine Schritt-für-Schritt-Anleitung zu lesen."
+         ],
+         "Step 3": [
+            "SCHRITT 3"
+         ],
+         "Link to LaterPay": [
+            "MIT LATERPAY VERKNÜPFEN"
+         ],
+         "A LaterPay Account is required to process financial transaction (so that we can pay you).": [
+            "Ein LaterPay Konto ist erforderlich um Auszahlungen zu erhalten."
+         ],
+         "Login": [
+            "Anmelden"
+         ],
+         "or": [
+            "oder"
+         ],
+         "Sign Up": [
+            "Registrieren"
+         ],
+         "Once you have created your account, you will be instructed to copy and paste your Merchant ID & API Key into the boxes below. This ensures that your plugin is linked to your account.": [
+            "Sobald Sie Ihr Konto erstellt haben, werden Sie angewiesen, Ihren Merchant ID & API Key zu kopieren und in die untenstehenden Felder einzufügen. Dadurch wird sichergestellt, dass Ihr Plugin mit Ihrem Konto verknüpft ist."
+         ],
+         "Paste Live Merchant ID here": [
+            "Live Merchant ID hier einfügen"
+         ],
+         "Merchant ID": [
+            "Händler ID (Merchant ID)"
+         ],
+         "This is required in order to ensure that you receive payments. Log in to your LaterPay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes.": [
+            "Dies ist erforderlich, um sicherzustellen, dass Sie Zahlungen erhalten. Melden Sie sich bei Ihrem LaterPay-Konto an, navigieren Sie zur Registerkarte Entwickler, kopieren Sie die Informationen und fügen Sie diese in die entsprechenden Felder ein."
+         ],
+         "Paste Live API Key here": [
+            "Live API Key hier einfügen"
+         ],
+         "API Key": [
+            "API Key (Secret)"
+         ],
+         "Step 4": [
+            "SCHRITT 4"
+         ],
+         "Go Live": [
+            "GO-LIVE"
+         ],
+         "How can I be sure that I am ready to go live?": [
+            "Wie kann ich sicher sein, dass ich bereit bin, live zu gehen?"
+         ],
+         "Set up your Pricing": [
+            "Legen Sie Ihre Preise fest"
+         ],
+         "Preview your site while logged into WordPress to ensure everything is displayed as expected": [
+            "Überprüfen Sie ihre Webseite, während Sie bei WordPress angemeldet sind, um sicherzustellen, dass alles korrekt angezeigt wird"
+         ],
+         "Create and link to your LaterPay account so that all revenue can be sent to your bank account": [
+            "Erstellen und verlinken Sie Ihr LaterPay-Konto, so dass alle Einnahmen auf Ihr Bankkonto überwiesen werden können"
+         ],
+         "Optional Configurations:": [
+            "Optionale Konfigurationen:"
+         ],
+         "Adjust the Appearance to match your brand colors": [
+            "Passen Sie das Erscheinungsbild an Ihre Unternehmensfarben an"
+         ],
+         "Explore the Advanced tab to learn about additional features available": [
+            "Erkunden Sie die Registerkarte “Erweitert”, um mehr über weitere verfügbare Funktionen zu erfahren"
+         ],
+         "Click the toggle at the top of the page to switch to \"LIVE\" mode and start generating revenue!": [
+            "Klicken Sie auf den Kippschalter oben auf der Seite, um in den “LIVE”-Modus zu wechseln. Beginnen Sie Umsätze zu generieren!"
+         ],
+         "Who is LaterPay?": [
+            "Wer ist LaterPay?"
+         ],
+         "Meet the online payment system that cares about the user experience as much as you do %1$s %1$s\n                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s\n                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. LaterPay's patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. Only then, once your content’s value is firmly established, is the customer asked to register and pay. This results in shopping cart conversion rates of over 80%%. LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.": [
+            "LaterPay ist das nutzer-zentrische Bezahlsystem im Netz. %1$s %1$s \nMit LaterPay können Ihre Nutzer digitale Inhalte und Dienste erwerben, oder Unterstützung und Spenden mit einem einfachen Klick ausführen. Eine reibungslose Benutzererfahrung, die Traffic in Transaktionen umwandelt.%1$s %1$s\nErzwungene Vorab-Registrierung und unmittelbare Zahlung, wie in klassischen Modellen üblich, können Absprungraten von bis zu 98%% bedeuten. LaterPay’s patentiertes “”Pay Later”” Modell verschiebt den Registrierungs- und Zahlungsprozess, Kunden werden erst nach dem Überschreiten der 5,00€-Grenze zur Kasse und Registrierung gebeten. Erst wenn Kunden von der Qualität Ihrer Inhalte überzeugt sind, führen wir diese zur Registrierung und Zahlung. Das resultiert in einer Warenkorb-Konversionsrate von über 80%%. LaterPay’s reibungsloses Onboarding hilft Ihnen dabei, Umsätze aus Ihrem Traffic zu machen."
+         ],
+         "Advanced Features": [
+            "Erweiterte Funktionen"
+         ],
+         "Analytics": [
+            "Analytics"
+         ],
+         "LaterPay's Analytics Dashboard helps track your sales over time so that you can easily see how your content is performing and which posts are driving the highest revenues.": [
+            "Das Analytics Dashboard von LaterPay hilft Ihnen, Ihre Verkäufe im Laufe der Zeit zu verfolgen, so dass Sie sehen können, wie Ihre Inhalte funktionieren und welche Beiträge die höchsten Einnahmen bringen."
+         ],
+         "Click here to view your dashboard.": [
+            "Klicken Sie hier, um Ihr Dashboard zu sehen."
+         ],
+         "%sCharge%s For Downloadable Content": [
+            "%sGEBÜHR%s FÜR HERUNTERLADBARE INHALTE"
+         ],
+         "Using a custom %sshortcode%s, you can easily charge for downloadable content (such as PDFs). This short code allows you to customize the content, heading, description, and background image.": [
+            "Mithilfe von einem benutzerdefinierten %sShortcode%s können Sie für herunterladbare Inhalte (z.B. PDFs) Gebühren erheben. Der Shortcode erlaubt Ihnen, den Inhalt, die Überschrift, die Beschreibung und das Hintergrundbild anzupassen."
+         ],
+         "Click here for detailed instructions.": [
+            "Klicken Sie hier für eine detaillierte Anleitung."
+         ],
+         "%sCreate%s Subscription Button": [
+            "%sABONNEMENT%s ERSTELLEN"
+         ],
+         "With this %sshortcode%s, you can create a button to promote a subscription or time pass anywhere on your site. The button background color, font color, and text can be easily customized or you can upload an image to use for the button.": [
+            "Mit diesem %sShortcode%s können Sie einen Button erstellen, um Abonnements oder Zeitpässe auf Ihrer Website zu fördern. Die Hintergrundfarbe, Schriftfarbe und der Text des Buttons können leicht angepasst werden. Alternativ können Sie ein Bild hochladen, das für den Button verwendet werden soll."
+         ],
+         "%sDYNAMIC%s ACCESS": [
+            "%sDYNAMISCHER%s ZUGRIFF"
+         ],
+         "Create a customized experience with our newest %1$sshortcode%2$s & %3$sfunction%2$s. Using LaterPay's Dynamic Access feature, you can show or hide content - ads, promotional pop-ups, bonus features, virtually anything you can imagine - based on the level of access a user has purchased.": [
+            "Erstellen Sie ein benutzerdefiniertes Erlebnis mit unserem neuesten %1$sShortcode%2$s und der neuen %3$sFunktion%2$s. Mit der LaterPay Dynamic Access-Funktion können Sie Inhalte - Anzeigen, Werbe-Popups, Bonus-Features, praktisch alles, was Sie sich vorstellen können - ein- oder ausblenden, abhängig von der Zugriffsebene, die ein Benutzer erworben hat."
+         ],
+         "Ad-Free Experience": [
+            "Werbefreies Erlebnis"
+         ],
+         "Hide Promotions after Purchase": [
+            "Promotionen nach dem Kauf ausblenden"
+         ],
+         "Restrict Bonus Features to Subscribers": [
+            "Beschränkung der Bonus-Features auf Abonnenten"
+         ],
+         "Much More!": [
+            "Und noch mehr!"
+         ],
+         "%sDynamic%s Pricing": [
+            "%sDYNAMISCHE%s PREISSETZUNG"
+         ],
+         "Dynamic pricing is a feature available on the Edit Post page. Once there, simply choose “Individual Price” in the Pricing for this Post section then click “+ Add dynamic pricing” at the bottom. Once you’ve completed this, you can drag and drop the points on the graph to adjust pricing based on the days since the article was originally published.": [
+            "Dynamische Preisgestaltung ist eine Funktion, die auf der Seite \"Beitrag Bearbeiten\" verfügbar ist. Wählen Sie \"Individueller Preis\" im Abschnitt \"Preise\" für den Beitrag und klicken Sie dann unten auf \"+ Dynamische Preisgestaltung hinzufügen\". Nun können Sie die Punkte in der Grafik verschieben, um die Preise anzupassen."
+         ],
+         "Advanced Settings": [
+            "Erweiterte Funktionen (Advanced)"
+         ],
+         "Access": [
+            "ZUGRIFF"
+         ],
+         "Click here to adjust your LaterPay user access settings.": [
+            "Klicken Sie hier, um Ihre LaterPay-Benutzereinstellungen anzupassen."
+         ],
+         "Within these setting you can:": [
+            "Innerhalb dieser Einstellung können Sie:"
+         ],
+         "Require end-users to login prior to purchase": [
+            "Endbenutzer auffordern, sich vor dem Kauf einzuloggen"
+         ],
+         "Give unrestricted access to specific user roles": [
+            "Bestimmten Nutzerrollen uneingeschränkten Zugriff geben"
+         ],
+         "Analytics & Usage Data": [
+            "Analytik & Nutzungsdaten"
+         ],
+         "In order to make informed decisions about improvements to our plugin, we would like to gather information on a few of your WordPress settings. We do not record any sensitive information; only data points in regards to your WordPress environment and plugin settings.": [
+            "Um fundierte Entscheidungen über Verbesserungen an unserem Plugin zu treffen, möchten wir Informationen über einige Ihrer WordPress-Einstellungen sammeln. Wir erfassen keine sensiblen Informationen, sondern nur Datenpunkte in Bezug auf Ihre WordPress-Umgebung und Plugin-Einstellungen."
+         ],
+         "ALLOW": [
+            "JA"
+         ],
+         "DISALLOW": [
+            "NEIN"
+         ],
+         "LaterPay to view my settings.": [
+            "LaterPay kann meine Einstellungen einsehen."
+         ],
+         "If you are also interested in making data informed decisions, additional analytics available through LaterPay include:": [
+            "Wenn Sie auch daran interessiert sind, datenbasierte Entscheidungen zu treffen, sind zusätzliche Analysen über LaterPay verfügbar:"
+         ],
+         "Google Analytics Events": [
+            "Google Analytics Veranstaltungen"
+         ],
+         "LaterPay's Analytics Dashboard": [
+            "LaterPay’s Analytics Dashboard für Analysen"
+         ],
+         "Click here to access additional appearance configurations,": [
+            "Klicken Sie hier für weitere Design Einstellungen,"
+         ],
+         "including:": [
+            "zum Beispiel:"
+         ],
+         "Length of default teaser content": [
+            "Standard Teaser-Länge"
+         ],
+         "Length of blurred content displayed behind paywall": [
+            "Wie viel des Inhalts verschwommen hinter der Bezahlschranke erscheinen soll"
+         ],
+         "%sDelete%s Account": [
+            "%sPLUGIN%s & DATEN DEAKTIVIEREN"
+         ],
+         "%sWarning!%s This operation deletes ALL LaterPay plugin data.": [
+            "%sAchtung!%s Diese Operation löscht alle LaterPay Plugin Daten unwiderruflich."
+         ],
+         "%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL its data.": [
+            "%sAchtung!%s Diese Operation deaktivieren das LaterPay Plugin und löscht alle Daten unwiderruflich. Sie verlieren hierbei alle Layout- und Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
+         ],
+         "You will lose all appearance settings and pricing configurations. This cannot be undone.": [
+            "Sie verlieren hierbei alle Layout- und Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
+         ],
+         "Are you sure you want to delete ALL LaterPay Plugin data? You will loose all pricing configurations. This cannot be undone.": [
+            "Sind Sie sicher, dass Sie alle LaterPay Daten löschen möchten? Sie verlieren alle Preiskonfigurationen. Diese Aktion kann nicht rückgängig gemacht werden."
+         ],
+         "Delete LaterPay Plugin Data": [
+            "Plugin Daten löschen"
+         ],
+         "Technical": [
+            "TECHNISCHE EINSTELLUNGEN"
+         ],
+         "Click here for more technical configuration options,": [
+            "Klicken Sie hier für weitere technische Einstellungen,"
+         ],
+         "Enable caching compatibility mode": [
+            "Aktivieren Sie den Caching-Kompatibilitätsmodus"
+         ],
+         "Define fallback behavior in case LaterPay API is not responding": [
+            "Wählen Sie ein Fallback-Verhalten für den Fall, dass die LaterPay-API nicht antwortet"
+         ],
+         "Support": [
+            "KUNDENSUPPORT"
+         ],
+         "Having Trouble with Page Cache? %sClick here.%s": [
+            "Probleme mit dem Page Cache? %sKlicken Sie hier.%s"
+         ],
+         "Having Trouble on WPEngine? %sClick here.%s": [
+            "Probleme mit dem Seiten-Cache? %sKlicken Sie hier.%s"
+         ],
+         "The new version of the plugin is not compatible with my site. How can I rollback? %sClick here.%s": [
+            "Die neue Version des Plugins ist nicht kompatibel mit meiner Website. Wie kann ich einen Rollback durchführen? %sKlicken Sie hier.%s"
+         ],
+         "%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback or to reach our customer service team.": [
+            "%1$sKlicken Sie hier%3$s oder schreiben Sie eine Email an %2$ssupport@laterpay.net%3$s, um Feedback zu geben oder mit unserem Kundensupport Kontakt aufzunehmen."
+         ],
+         "%sConfigure%s Appearance": [
+            "%s Darstellung %s  konfigurieren"
+         ],
+         "Show purchase button above article": [
+            "Zeige Kauf-Button über dem Artikel"
+         ],
+         "Customize position of purchase button": [
+            "Anpassen der Position des Kauf-Buttons"
+         ],
+         "Call action 'laterpay_purchase_button' in your theme to render the LaterPay purchase button at that position.": [
+            "Rufen Sie die Action 'laterpay_purchase_button' in Ihrem Theme auf, um den LaterPay Button an einer Position Ihrer Wahl anzuzeigen."
+         ],
+         "Show Purchase Overlay": [
+            "Kauf-Overlay anzeigen"
+         ],
+         "Header": [
+            "Überschrift"
+         ],
+         "Show LaterPay Introduction": [
+            "LaterPay Einführung anzeigen"
+         ],
+         "Show Time Passes & Subscriptions below modal": [
+            "Zeigen Sie Zeitabläufe und Abonnements unter modal an"
+         ],
+         "Customize position of Time Passes & Subscriptions": [
+            "Anpassen der Position von Zeitabläufen und Abonnements"
+         ],
+         "Call action 'laterpay_time_passes' in your theme or use the shortcode '[laterpay_time_passes]' to show your users the available time passes.": [
+            ""
+         ],
+         "Add custom HTML section below payment button": [
+            "Hinzufügen eines benutzerdefinierten HTML-Abschnitts unter dem Zahlungsbutton"
+         ],
+         "Show valid payment options": [
+            "Gültige Zahlungsoptionen anzeigen"
+         ],
+         "Save": [
+            "Speichern"
+         ],
+         "Preview": [
+            "Vorschau"
+         ],
+         "Loading...": [
+            "Lädt..."
+         ],
+         "%sCustomize%s Colors": [
+            "%sFARBEN%s ANPASSEN"
+         ],
+         "Header background color": [
+            "Hintergrundfarbe Header"
+         ],
+         "Purchase option background color": [
+            "Hintergrundfarbe Kaufoptionen"
+         ],
+         "Main text color": [
+            "Schriftfarbe Text"
+         ],
+         "Description text color": [
+            "Schriftfarbe Beschreibungen"
+         ],
+         "Purchase button background color": [
+            "Hintergrundfarbe Kaufbutton"
+         ],
+         "Purchase button hover color": [
+            "Kaufen-Taste schweben Farbe"
+         ],
+         "Purchase button text color": [
+            "Schriftfarbe Kaufbutton"
+         ],
+         "Link main color": [
+            "Schriftfarbe Links"
+         ],
+         "Link hover color": [
+            "Hover-Schriftfarbe Links"
+         ],
+         "Footer background color": [
+            "Hintergrundfarbe Footer"
+         ],
+         "Restore Default Values": [
+            "Standardwerte wiederherstellen"
+         ],
+         "Campaign name": [
+            "Name des Rechnungspostens"
+         ],
+         "Enter the name you would like to appear on your customers' invoice. We recommend including your organization's name as well as something to remind them of this specific contribution.": [
+            "Geben Sie die Beschreibung ein, die auf der Rechnung Ihrer Kunden erscheinen soll. Wir empfehlen Ihnen, den Namen Ihrer Organisation anzugeben und etwas, das sie an diese individuelle Beitragszahlung erinnert."
+         ],
+         "Contributions for...": [
+            "Spenden für…"
+         ],
+         "Optional. After the button is clicked, we can redirect the visitor to a page of your choice (for example, a dedicated \"thank you\" page on your website).": [
+            "Optional. Nachdem der Button geklickt wurde, können wir den Besucher auf eine Seite Ihrer Wahl (beispielsweise eine dedizierte “Dankeschön-Seite” auf Ihrer Website) weiterleiten."
+         ],
+         "Show multiple contribution amounts": [
+            "Mehrere Contribution-Beträge anzeigen"
+         ],
+         "Use this checkbox to toggle between a contributions button which allows one static contribution amount or a dialog which allows users to choose between several contribution amounts.": [
+            "Verwenden Sie dieses Kontrollkästchen, um zwischen einem Contribution-Button, der einen fixen Betrag erlaubt, und einem Dialog, der es dem Benutzer ermöglicht, zwischen mehreren Contributions-Beträgen zu wählen, umzuschalten."
+         ],
+         "Allow custom contribution amount": [
+            "Benutzerdefinierten Contribution-Betrag erlauben"
+         ],
+         "Only available if \"Show multiple contribution amounts\" is checked, this feature will add an input box to your contribution dialog allowing users to contribute custom amounts.": [
+            "Nur verfügbar, wenn “Mehrere Contribution-Beträge anzeigen” aktiviert ist. Ihrem Contribution-Dialog wird ein Eingabefeld hinzugefügt, in dem Nutzer benutzerdefinierte Beträge eingeben können."
+         ],
+         "Contribute Now, Pay Later": [
+            "Jetzt spenden, später zahlen"
+         ],
+         "Support the author": [
+            "Unterstützen Sie den Autor"
+         ],
+         "To include this on your site, click the button below and paste the code where you would like it to appear.": [
+            "Um dies auf Ihrer Website einzubinden, klicken Sie auf die Schaltfläche unten und fügen Sie den Code an der Stelle ein, an der er erscheinen soll."
+         ],
+         "Generate and Copy Code": [
+            "Code generieren und kopieren"
+         ],
+         "You don't have sufficient permissions to manage options for this site.": [
+            "Sie haben nicht die notwendigen Berechtigungen, um die Einstellungen für diese Seite zu verwalten."
+         ],
+         "FAQ's": [
+            "FAQs"
+         ],
+         "Welcome to LaterPay": [
+            "Willkommen bei LaterPay"
+         ],
+         "Set the most appropriate settings for you.": [
+            "Passen Sie das LaterPay Plugin Ihren Bedürfnissen an."
+         ],
+         "Set a Price for this Post": [
+            "Preis für den Beitrag setzen"
+         ],
+         "Set an": [
+            "Setzt "
+         ],
+         " individual price ": [
+            "Einzelpreis"
+         ],
+         "for this post here. ": [
+            "für diesen Beitrag hier."
+         ],
+         "You can also apply": [
+            ""
+         ],
+         " advanced pricing ": [
+            ""
+         ],
+         "by defining how the price changes over time.": [
+            ""
+         ],
+         "Add Teaser Content": [
+            "Teaser zum Beitrag hinzufügen"
+         ],
+         "You´ll give your users a better impression of what they´ll buy, if you preview some text, images, or video from the actual post.": [
+            "Um Ihren Nutzern eine bessere Vorstellung davon zu geben, was sie kaufen, sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
+         ],
+         "Click here to finish your account set up": [
+            "Klicken Sie hier, um die Kontoeinrichtung abzuschließen."
+         ],
+         "Your LaterPay Plugin is currently invisible to viewers. Click": [
+            "Ihr LaterPay-Plugin ist derzeit für Webseitenbesucher nicht sichtbar. Klicken"
+         ],
+         "to toggle visibility.": [
+            "um die Sichtbarkeit umzuschalten."
+         ],
+         "All articles are free by default; Time Passes & Subscriptions will only be displayed if an Individual Article Price greater than 0.00 is manually set by selecting “Individual Price” below.": [
+            "Alle Artikel sind standardmäßig kostenlos; Zeitpässe und Abos werden nur angezeigt, wenn ein Einzelpreis größer 0.00 manuell über “Individueller Preis” eingestellt wurde."
+         ],
+         "Posts cannot be purchased individually": [
+            "Beiträge können nicht einzeln gekauft werden"
+         ],
+         "If you would like to allow articles to be purchased individually,": [
+            "Wenn Sie Artikel auch einzeln verkaufen möchten,"
+         ],
+         "click here to adjust your Global Default Price.": [
+            "klicken Sie hier um Ihren globalen Standardpreis anzupassen."
+         ],
+         "Global %sDefault Price": [
+            "Globaler %sStandardpreis"
+         ],
+         "To allow articles to be purchased individually, visit the LaterPay Pricing tab & adjust your Global Default Price.": [
+            "Um zu ermöglichen, dass Artikel einzeln gekauft werden können, besuchen Sie die Registerkarte LaterPay Preise und passen Sie Ihren Globalen Standardpreis an."
+         ],
+         "Category Default Price": [
+            "Kategorie- preis"
+         ],
+         "In order to make this article free, simply select the \"Global Default Price\" option above.": [
+            "Um diesen Artikel kostenlos zu machen, wählen Sie einfach die Option “Globaler Standardpreis” oben."
+         ],
+         "Make Article Free": [
+            ""
+         ],
+         "Individual Price": [
+            "Individueller Preis"
+         ],
+         "0.00": [
+            "0,00"
+         ],
+         "The dynamic pricing will": [
+            "Die dynamische Preisgestaltung wird"
+         ],
+         "start": [
+            "Start"
+         ],
+         ", once you have": [
+            ", once you have"
+         ],
+         "published": [
+            "veröffentlicht"
+         ],
+         "this post.": [
+            "dieser Beitrag."
+         ],
+         "Restart dynamic pricing": [
+            "Dynamische Preissetzung neu starten"
+         ],
+         "This article": [
+            "Diesen Artikel"
+         ],
+         "An Amazing Article": [
+            "Ein herausragender Artikel"
+         ],
+         "Week Pass": [
+            "Wochenpass"
+         ],
+         "7 days access to all paid content on this website (no subscription)": [
+            "7 Tage Zugriff auf alle Inhalte dieser Website (kein Abo)"
+         ],
+         "Month subscription": [
+            "Monatsabo"
+         ],
+         "30 days access to all paid content (cancellable anytime)": [
+            "1 Monat Zugriff auf alle Inhalte dieser Website (jederzeit kündbar)"
+         ],
+         "Buy now, pay later": [
+            "Jetzt kaufen, später zahlen"
+         ],
+         "Redeem voucher": [
+            "Gutschein einlösen"
+         ],
+         "on this website": [
+            "dieser Website"
+         ],
+         "Terms": [
+            "Details"
+         ],
+         "Back": [
+            "Zurück"
+         ],
+         "Validity": [
+            "Gültigkeit"
+         ],
+         "Access to": [
+            "Zugriff auf"
+         ],
+         "Renewal": [
+            "Verlängert sich"
+         ],
+         "After %s %s": [
+            "Nach %s %s"
+         ],
+         "Cancellation": [
+            "Kündigung"
+         ],
+         "Cancellable anytime": [
+            "Jederzeit kündbar"
+         ],
+         "No automatic renewal": [
+            "Keine automatische Verlängerung"
+         ],
+         "are currently available to be sold with LaterPay": [
+            "sind derzeit verfügbar, um mit LaterPay verkauft zu werden"
+         ],
+         "Which content would you like to sell with LaterPay?": [
+            "Welchen Inhalt möchten Sie mit LaterPay verkaufen?"
+         ],
+         "Customize Overlay": [
+            "Overlay anpassen"
+         ],
+         "(optional)": [
+            "(optional)"
+         ],
+         "Pricing options displayed in": [
+            "Die Preisoptionen werden in"
+         ],
+         "is selected by default": [
+            "ist standardmäßig ausgewählt"
+         ],
+         "In what order should the purchase options be displayed?": [
+            "In welcher Reihenfolge sollen die Kaufoptionen angezeigt werden?"
+         ],
+         "Default Order": [
+            "Standardbestellung"
+         ],
+         "Single Purchase followed by Time Passes and Subscriptions in the order they were created.": [
+            "Einzelbestellung, gefolgt von Zeitpässen und Abonnements in der Reihenfolge ihrer Erstellung."
+         ],
+         "By Price (Ascending)": [
+            "Nach Preis (Aufsteigend)"
+         ],
+         "Least expensive option listed first": [
+            "Günstigste Option zuerst aufgeführt"
+         ],
+         "By Price (Descending)": [
+            "Nach Preis (Absteigend)"
+         ],
+         "Most expensive option listed first": [
+            "Teuerste Option zuerst aufgeführt"
+         ],
+         "Which purchase option should be selected by default?": [
+            "Welche Kaufoption soll als Standard eingestellt werden?"
+         ],
+         "First Option (as defined above)": [
+            "Erste Option (wie oben definiert)"
+         ],
+         "If there are multiple Time Passes available, the first option (as defined above) will be selected by default.": [
+            "Wenn mehrere Zeitpässe verfügbar sind, wird automatisch die erste Option (wie oben definiert) ausgewählt."
+         ],
+         "If there are multiple Subscriptions available, the first option (as defined above) will be selected by default.": [
+            "Wenn mehrere Abonnements verfügbar sind, wird automatisch die erste Option (wie oben definiert) ausgewählt."
+         ],
+         "Every post costs": [
+            "Jeder Artikel kostet"
+         ],
+         "Posts cannot be purchased individually;%s only Time Passes & Subscriptions will be displayed.": [
+            "Beiträge können nicht einzeln gekauft werden; %s Nur Zeitpässe und Abos werden angezeigt."
+         ],
+         "%1$sEvery post is FREE%2$s unless they match a Category Default Price %3$s\n                                or have an Individual Article Price set on the Post page.": [
+            "%1$sJeder Beitrag ist KOSTENLOS%2$s, es sei denn ein Kategoriestandardpreis trifft zu, %3$s\noder ein individueller Artikelpreis wurde im Beitragseditor vergeben."
+         ],
+         "Edit Global Default Price": [
+            "Allgemeinen Standardpreis bearbeiten"
+         ],
+         "FREE unless price is set on post page or by category": [
+            "KOSTENLOS, es sei denn der Preis wurde im Beitragseditor oder per Kategorie vergeben"
+         ],
+         "All articles will be free by default; Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post page.": [
+            "Alle Artikel werden standardmäßig kostenlos angeboten; Zeitpässe und Abos werden nur angezeigt, wenn der Artikel einem Kategoriestandardpreis zugewiesen wurde, oder einen individuellen Artikelpreis erhielt."
+         ],
+         "Set individual article default price": [
+            "Individuellen Artikel-Standardpreis definieren"
+         ],
+         "%sTIP:%s \"Pay Later\" is LaterPay's patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice. %sClick here to learn more.%s": [
+            "%sEmpfehlung:%s “Später zahlen” ist LaterPay’s patentiertes Erlösmodell, welches Ihren Kunden erlaubt Inhalte mit einem einzelnen Klick zu erwerben, was die Einstiegsbarriere erheblich senkt. Sobald Kunden die Schwelle von $5 oder 5€ an Inhalten erreicht haben, werden sie zur Registrierung und Zahlung aufgefordert. %sKlicken Sie hier, um mehr zu erfahren.%s"
+         ],
+         "Generate voucher code": [
+            "Gutschein-Code erstellen"
+         ],
+         "This voucher will provide discounted access to all Articles, even those with a Category Default or Single Article Price.": [
+            ""
+         ],
+         "To allow articles to be purchased individually, adjust your Global Default Price.": [
+            "Damit Artikel einzeln gekauft werden können, passen Sie bitte Ihren Globalen Standardpreis an."
+         ],
+         "Create": [
+            "Erstellen"
+         ],
+         "Every post in": [
+            "Jeder Beitrag in"
+         ],
+         "costs": [
+            "kostet"
+         ],
+         "Edit Category Default Price": [
+            "Kategoriespezifischen Standardpreis bearbeiten"
+         ],
+         "Category": [
+            "Kategorie"
+         ],
+         "Set prices by category": [
+            "Kategoriespezifische Standardpreise setzen"
+         ],
+         "Not familiar with WordPress categories? %s\n                                %sClick here to learn more.%s": [
+            "Nicht mit WordPress-Kategorien vertraut?%s\n%sKlicken Sie hier, um mehr zu erfahren.%s"
+         ],
+         "Category default prices are convenient for selling different categories of content at different standard prices. %s\n                                Individual prices can be set when editing a post.": [
+            "Kategoriestandardpreise sind praktisch, um viele Inhalte in mehreren Kategorien zu verschiedenen Standardpreisen zu verkaufen. %s\nEinzelne Preise können auf Beitragsebene nach Wunsch überschrieben werden."
+         ],
+         "Click the \"Create\" button to set a default price for a category.": [
+            "Klicken Sie auf den \"Erstellen\" Button, um einen Standardpreis für eine Kategorie zu setzen."
+         ],
+         "Add a Category Default Price": [
+            "Kategoriespezifischen Standardpreis hinzufügen"
+         ],
+         "The pass is valid for ": [
+            "Dieser Pass gilt für "
+         ],
+         "and grants": [
+            "und gibt"
+         ],
+         "This pass costs": [
+            "Dieser Pass kostet"
+         ],
+         "and the user has to": [
+            "und Nutzer müssen"
+         ],
+         "Title": [
+            "Titel"
+         ],
+         "The voucher price must be less than or equal to the ": [
+            "Der Gutscheinpreis muss kleiner oder gleich sein zum"
+         ],
+         "time pass price.": [
+            "Zeitpass Preis."
+         ],
+         "Sell time-limited access to content": [
+            "Zeitbasierten Zugriff auf Inhalte verkaufen"
+         ],
+         "With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically and are a great option for readers who are not quite ready to commit to a subscription.": [
+            "Mit Zeitpässen können Sie zeitbasierten Zugriff auf gesamte Kategorien Ihrer Website verkaufen. Zeitpässe verlängern sich nicht automatisch und sind eine großartige Option für Leser, die noch nicht bereit sind ein Abo abzuschließen."
+         ],
+         "Click the \"Create\" button to add a Time Pass.": [
+            "Klicken Sie auf den \"Erstellen\" Button, um einen Zeitpass hinzuzufügen."
+         ],
+         "Important: The minimum value for \"Pay Now\" prices in the US is $1.99. Please be sure to update your subscriptions so that your users to not receive an error when they try to purchase.": [
+            "Wichtig: Der Mindestwert für \"PayNow\"-Preise in den USA beträgt 1,99 $. Bitte aktualisieren Sie Ihre Abonnements, damit Ihre Benutzer beim Kauf keinen Fehler erhalten."
+         ],
+         "Sub": [
+            "Abo"
+         ],
+         "The subscription costs": [
+            "Das Abo kostet"
+         ],
+         ", grants ": [
+            ", gibt"
+         ],
+         "and renews every": [
+            "und verlängert sich nach"
+         ],
+         "subscription price.": [
+            "Abonnementpreis."
+         ],
+         "This will reduce the price for the entirety of the subscription.": [
+            "Der Gutschein bezieht sich auf die gesamte Laufzeit des Abos."
+         ],
+         "Sell subscriptions": [
+            "Abos verkaufen"
+         ],
+         "Subscriptions work exactly like time passes, with a simple difference: They renew automatically.": [
+            "Abos funktionieren genau wie Zeitpässe, mit einem einfachen Unterschied: Sie verlängern sich automatisch."
+         ],
+         "Click the \"Create\" button to add a Subscription.": [
+            "Klicken Sie auf den \"Erstellen\" Button, um ein Abo hinzuzufügen."
+         ],
+         "Code": [
+            "Code"
+         ],
+         "Redeem": [
+            "Einlösen"
+         ],
+         "Post Preview Mode": [
+            "Vorschau-Modus"
+         ],
+         "Complete the steps on the": [
+            "Führen Sie die Schritte auf der"
+         ],
+         "account tab": [
+            "Registerkarte Konto"
+         ],
+         "to make this visible to visitors": [
+            "aus, um dies für Besucher sichtbar zu machen"
+         ],
+         "Preview post as": [
+            "Vorschau für"
+         ],
+         "Admin": [
+            "Admin"
+         ],
+         "Visitor": [
+            "Besucher"
+         ],
+         "View": [
+            "Anzeigen"
+         ],
+         "Buy now for": [
+            "Jetzt kaufen für"
+         ],
+         "and pay later": [
+            "und später bezahlen"
+         ],
+         "Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?": [
+            "Danke, dass Sie diesen Auszug aus dem kostenpflichtigen Beitrag gelesen haben. Sie können den vollständigen Beitrag lesen, nachdem Sie ihn gekauft haben."
+         ],
+         "Enter Voucher Code": [
+            "Code eingeben"
+         ],
+         "Redeem Voucher Code": [
+            "Gutschein-Code einlösen"
+         ],
+         "View available Subscriptions": [
+            "Verfügbare Abos anzeigen"
+         ],
+         "Get a Subscription": [
+            "Abo kaufen"
+         ],
+         "View available LaterPay Time Passes": [
+            "Verfügbare LaterPay Zeitpässe anzeigen"
+         ],
+         "Get a Time Pass": [
+            "Zeitpass kaufen"
+         ],
+         "Redeem Voucher >": [
+            "Gutschein einlösen >"
+         ],
+         "View available Time Passes and Subscriptions": [
+            "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
+         ],
+         "Get a Time Pass or Subscription": [
+            "Holen Sie sich einen Zeitpass oder ein Abo"
+         ]
+      }
+   }
+}
