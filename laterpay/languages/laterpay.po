@@ -4,10 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 2.7.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/laterpay\n"
+"Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-11-21T16:19:28+05:30\n"
+"POT-Creation-Date: 2019-11-22T23:23:01+05:30\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: laterpay\n"
@@ -687,7 +688,7 @@ msgstr ""
 #: application/Controller/Admin/Post/Blocks.php:74
 #: application/Controller/Frontend/Post.php:652
 #: application/Controller/Frontend/Shortcode.php:581
-#: application/Module/Purchase.php:598
+#: application/Module/Purchase.php:744
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:117
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Buy Now, Pay Later"
@@ -696,9 +697,9 @@ msgstr ""
 #: application/Controller/Admin/Post/Blocks.php:76
 #: application/Controller/Frontend/Post.php:653
 #: application/Controller/Frontend/Shortcode.php:583
-#: application/Module/Purchase.php:591
-#: application/Module/Purchase.php:630
-#: application/Module/Purchase.php:643
+#: application/Module/Purchase.php:616
+#: application/Module/Purchase.php:629
+#: application/Module/Purchase.php:737
 #: views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr ""
@@ -706,7 +707,7 @@ msgstr ""
 #: application/Controller/Admin/Post/Blocks.php:82
 #: application/Controller/Frontend/Post.php:654
 #: application/Controller/Frontend/Shortcode.php:589
-#: application/Module/Purchase.php:594
+#: application/Module/Purchase.php:740
 msgid "Subscribe Now"
 msgstr ""
 
@@ -812,7 +813,7 @@ msgstr ""
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
 #: application/Helper/Pricing.php:952
-#: application/Module/Purchase.php:653
+#: application/Module/Purchase.php:639
 #: views/backend/contributions.php:71
 #: views/backend/contributions.php:103
 #: views/backend/contributions.php:120
@@ -1598,48 +1599,48 @@ msgid "k"
 msgstr ""
 
 #: application/Module/Purchase.php:111
-#: application/Module/Purchase.php:757
+#: application/Module/Purchase.php:760
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr ""
 
-#: application/Module/Purchase.php:619
+#: application/Module/Purchase.php:605
 #: application/Module/TimePasses.php:472
 #: application/Module/TimePasses.php:495
 #: application/Module/TimePasses.php:513
 msgid "Read Now"
 msgstr ""
 
-#: application/Module/Purchase.php:621
+#: application/Module/Purchase.php:607
 msgid "Read Now, Pay Later"
 msgstr ""
 
-#: application/Module/Purchase.php:631
+#: application/Module/Purchase.php:617
 msgid "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 
-#: application/Module/Purchase.php:635
-#: application/Module/Purchase.php:648
+#: application/Module/Purchase.php:621
+#: application/Module/Purchase.php:634
 #: application/Module/TimePasses.php:480
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr ""
 
-#: application/Module/Purchase.php:636
+#: application/Module/Purchase.php:622
 msgid "Immediately access your purchase. <br>You only buy this post. No subscription, no fees."
 msgstr ""
 
-#: application/Module/Purchase.php:644
+#: application/Module/Purchase.php:630
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 
-#: application/Module/Purchase.php:649
+#: application/Module/Purchase.php:635
 msgid "Access your purchase immediately.<br> You are only buying this article, not a subscription."
 msgstr ""
 
-#: application/Module/Purchase.php:654
+#: application/Module/Purchase.php:640
 msgid "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay."
 msgstr ""
 
@@ -2645,6 +2646,7 @@ msgstr ""
 #: asset_sources/js/blocks/contribution/edit.js:299
 #: asset_sources/js/blocks/contribution/edit.js:323
 #: asset_sources/js/blocks/contribution/edit.js:347
+#: asset_sources/js/blocks/contribution/edit.js:398
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Revenue Model"
 msgstr ""
@@ -2983,11 +2985,6 @@ msgstr ""
 #: asset_sources/js/blocks/contribution/edit.js:389
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Enter Contribution amount."
-msgstr ""
-
-#: asset_sources/js/blocks/contribution/edit.js:398
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Revenue"
 msgstr ""
 
 #: asset_sources/js/blocks/contribution/index.js:15

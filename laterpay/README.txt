@@ -6,7 +6,7 @@ Tags: Contribution, Conversion, Earn Money, Micropayment, Monetization, Monetize
 Requires at least: 4.6
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 2.7.0
+Stable tag: 2.8.0
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -89,6 +89,14 @@ Yes!
 6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.8.0 ( November 25, 2019 ) =
+* Add Purchase Button Block.
+* Add Dynamic Access Block.
+* Add Premium Download Box Block.
+* Add Contribution Dialog/Button Block.
+* Add default roles except Administrator to Settings > LaterPay > Access.
+* Fix Purchase Overlay default button selection.
+
 = 2.7.0 ( October 24, 2019 ) =
 * Add `[laterpay_contribution]` shortcode for publishers to accept Contributions.
 * Add Contributions tab, to allow publishers to generate Contribution shortcode dynamically.
@@ -678,8 +686,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.7.0 ( October 24, 2019 ) =
-New shortocde that allows publishers to accept Contributions, brand new Contributions tab to generate Contributions shortcode and minor bug fix in Purchase Overlay.
+= 2.8.0 ( November 25, 2019 ) =
+Introduces LaterPay Gutenberg Blocks to take advantage of LaterPay Functionality in Block Editor and minor bug fixes.
 
 == Arbitrary section ==
 
