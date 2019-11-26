@@ -81,12 +81,13 @@ Yes!
 
 == Screenshots ==
 
-1. The LaterPay WordPress plugin lets you easily define a teaser text for your paid content and set an individual price...
-2. ...or a dynamic price for your posts, pages and other content types.
-3. In the *Pricing tab*, you can set default prices for the entire website or specific categories. You can create time passes to offer time-limited access to all your content or a category, or even offer subscriptions.
-4. In the *Appearance tab*, you can choose between three preview modes and customize the appearance of all LaterPay elements on your website.
-5. In the *Account tab*, you can manage your API credentials, switch between test and live mode, choose if LaterPay should be visible for your users in test mode, and set the region (U.S. or Europe) and currency ($ or €) for your LaterPay account.
-6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
+1. The LaterPay WordPress plugin lets you easily configure a paywall to monetize content on your site.
+2. In the WordPress editor, you can set a static or dynamic price for your posts, pages and other content types as well as utilize our custom blocks to take advantage of additional features.
+3. On the Paywall tab, you can set default prices for the entire website or specific categories. You can create time passes to offer time-limited access to all your content or a category, or even offer subscriptions.
+4. Visit the Appearance tab to customize the layout of your paywall or customize colors to ensure that your product offerings blend seamlessly with your brand.
+5. Use the Contributions tab to create a contributions dialog or button to request support from your followers in just a few clicks.
+6. Use the Account tab to link the plugin to your LaterPay account, switch between test and live mode, and choose your currency ($ or €).
+7. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
 = 2.8.0 ( November 25, 2019 ) =
