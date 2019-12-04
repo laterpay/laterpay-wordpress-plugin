@@ -172,9 +172,7 @@
 
                 // select radio input by clicking on a container
                 $o.body
-                    .on('click', $o.optionContainer, function (e) {
-                        e.preventDefault();
-
+                    .on('click', $o.optionContainer, function () {
                         // Remove checked prop from previously selected option for overlay.
                         $('input[name="lp_purchase-overlay-option"]').removeProp('checked');
 
