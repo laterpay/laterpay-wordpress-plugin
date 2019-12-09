@@ -126,17 +126,15 @@ class LaterPay_Controller_Admin_TinyMCE extends LaterPay_Controller_Admin_Base {
                 'premium_download'             => array(
                     'title'             => esc_html__( 'LaterPay Premium Download Box', 'laterpay' ),
                     'target_post_id'    => array(
-                        'label' => esc_html__( 'Post ID', 'laterpay' ),
-                    ),
-                    'target_post_title' => array(
-                        'label' => esc_html__( 'Post Title', 'laterpay' ),
+                        'label' => esc_html__( 'Premium Content', 'laterpay' ),
+                        'text'  => esc_html__( 'Select Downloadable Media', 'laterpay' ),
                     ),
                     'heading_text'      => array(
-                        'label' => esc_html__( 'Heading Title', 'laterpay' ),
+                        'label' => esc_html__( 'Heading Text', 'laterpay' ),
                         'value' => esc_html__( 'Additional Premium Content', 'laterpay' ),
                     ),
                     'description_text'  => array(
-                        'label' => esc_html__( 'Description text', 'laterpay' ),
+                        'label' => esc_html__( 'Description Text', 'laterpay' ),
                     ),
                     'content_type'      => array(
                         'label'  => esc_html__( 'Content Type', 'laterpay' ),
@@ -172,52 +170,54 @@ class LaterPay_Controller_Admin_TinyMCE extends LaterPay_Controller_Admin_Base {
                         ),
                     ),
                     'teaser_image_path' => array(
-                        'label' => esc_html__( 'Teaser Image Path', 'laterpay' ),
-                        'text'  => esc_html__( 'Select Media', 'laterpay' ),
+                        'label' => esc_html__( 'Custom Image', 'laterpay' ),
+                        'text'  => esc_html__( 'Select Teaser Image (optional)', 'laterpay' ),
                     ),
                 ),
                 'time_pass_purchase_button'    => array(
-                    'title'                   => esc_html__( 'Time Pass purchase button', 'laterpay' ),
+                    'title'                   => esc_html__( 'Time Pass Purchase Button', 'laterpay' ),
                     'no_item_text'            => esc_html__( 'No Time-pass Available.', 'laterpay' ),
+                    'or_text'                 => esc_html__( 'or', 'laterpay' ),
                     'id'                      => array(
-                        'label'  => esc_html__( 'ID', 'laterpay' ),
+                        'label'  => esc_html__( 'Subscription', 'laterpay' ),
                         'values' => $time_passes_ids,
+                    ),
+                    'custom_image_path'       => array(
+                        'label' => esc_html__( 'Custom Button Image', 'laterpay' ),
+                        'text'  => esc_html__( 'Select Image (optional)', 'laterpay' ),
                     ),
                     'button_text'             => array(
                         'label' => esc_html__( 'Button Text', 'laterpay' ),
                     ),
                     'button_background_color' => array(
-                        'label' => esc_html__( 'Button background color', 'laterpay' ),
+                        'label' => esc_html__( 'Button Background Color', 'laterpay' ),
                         'value' => get_option( 'laterpay_main_color', '#01a99d' ),
                     ),
                     'button_text_color'       => array(
-                        'label' => esc_html__( 'Button text color', 'laterpay' ),
-                    ),
-                    'custom_image_path'       => array(
-                        'label' => esc_html__( 'Custom image path', 'laterpay' ),
-                        'text'  => esc_html__( 'Select Image', 'laterpay' ),
+                        'label' => esc_html__( 'Button Text Color', 'laterpay' ),
                     ),
                 ),
                 'subscription_purchase_button' => array(
-                    'title'                   => esc_html__( 'Subscription purchase button', 'laterpay' ),
+                    'title'                   => esc_html__( 'Subscription Purchase Button', 'laterpay' ),
                     'no_item_text'            => esc_html__( 'No Subscription Available.', 'laterpay' ),
+                    'or_text'                 => esc_html__( 'or', 'laterpay' ),
                     'id'                      => array(
-                        'label'  => esc_html__( 'ID', 'laterpay' ),
+                        'label'  => esc_html__( 'Subscription', 'laterpay' ),
                         'values' => $subscriptions_ids,
+                    ),
+                    'custom_image_path'       => array(
+                        'label' => esc_html__( 'Custom Button Image', 'laterpay' ),
+                        'text'  => esc_html__( 'Select Image (optional)', 'laterpay' ),
                     ),
                     'button_text'             => array(
                         'label' => esc_html__( 'Button Text', 'laterpay' ),
                     ),
                     'button_background_color' => array(
-                        'label' => esc_html__( 'Button background color', 'laterpay' ),
+                        'label' => esc_html__( 'Button Background Color', 'laterpay' ),
                         'value' => get_option( 'laterpay_main_color', '#01a99d' ),
                     ),
                     'button_text_color'       => array(
-                        'label' => esc_html__( 'Button text color', 'laterpay' ),
-                    ),
-                    'custom_image_path'       => array(
-                        'label' => esc_html__( 'Custom image path', 'laterpay' ),
-                        'text'  => esc_html__( 'Select Image', 'laterpay' ),
+                        'label' => esc_html__( 'Button Text Color', 'laterpay' ),
                     ),
                 ),
             )

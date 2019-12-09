@@ -164,14 +164,11 @@
                                         height  : 430,
                                         body    : [
                                             {
-                                                type : 'textbox',
+                                                type : 'button',
                                                 name : 'target_post_id',
                                                 label: modal_data.target_post_id.label,
-                                        },
-                                            {
-                                                type : 'textbox',
-                                                name : 'target_post_title',
-                                                label: modal_data.target_post_title.label,
+                                                text: modal_data.target_post_id.text,
+                                                onclick: self.onclick_media_button,
                                         },
                                             {
                                                 type : 'textbox',
@@ -235,6 +232,20 @@
                                                 values: modal_data.id.values,
                                         },
                                             {
+                                                type   : 'button',
+                                                name   : 'custom_image_path',
+                                                label  : modal_data.custom_image_path.label,
+                                                text   : modal_data.custom_image_path.text,
+                                                onclick: self.onclick_media_button,
+                                        },
+                                            {
+                                                type: 'container',
+                                                // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
+                                                html: '<div style="text-align: center;letter-spacing: 5px;"> ' +
+                                                    '-------- <span style="letter-spacing: 0;">' + modal_data.or_text +
+                                                    '</span> --------</div>',
+                                        },
+                                            {
                                                 type : 'textbox',
                                                 name : 'button_text',
                                                 label: modal_data.button_text.label,
@@ -252,13 +263,6 @@
                                                 label   : modal_data.button_text_color.label,
                                                 value   : '#ffffff',
                                                 onaction: self.colorbox_on_action,
-                                        },
-                                            {
-                                                type   : 'button',
-                                                name   : 'custom_image_path',
-                                                label  : modal_data.custom_image_path.label,
-                                                text   : modal_data.custom_image_path.text,
-                                                onclick: self.onclick_media_button,
                                         },
                                         ];
                                     }
@@ -311,6 +315,20 @@
                                                 values: modal_data.id.values,
                                         },
                                             {
+                                                type   : 'button',
+                                                name   : 'custom_image_path',
+                                                label  : modal_data.custom_image_path.label,
+                                                text   : modal_data.custom_image_path.text,
+                                                onclick: self.onclick_media_button,
+                                        },
+                                            {
+                                                type: 'container',
+                                                // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
+                                                html: '<div style="text-align: center;letter-spacing: 5px;"> ' +
+                                                    '--------<span style="letter-spacing: 0;">' + modal_data.or_text +
+                                                    '</span>--------</div>',
+                                        },
+                                            {
                                                 type : 'textbox',
                                                 name : 'button_text',
                                                 label: modal_data.button_text.label,
@@ -328,13 +346,6 @@
                                                 label   : modal_data.button_text_color.label,
                                                 value   : '#ffffff',
                                                 onaction: self.colorbox_on_action,
-                                        },
-                                            {
-                                                type   : 'button',
-                                                name   : 'custom_image_path',
-                                                label  : modal_data.custom_image_path.label,
-                                                text   : modal_data.custom_image_path.text,
-                                                onclick: self.onclick_media_button,
                                         },
                                         ];
                                     }
