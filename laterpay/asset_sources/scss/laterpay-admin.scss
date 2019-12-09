@@ -7,6 +7,7 @@
 
 
 // display the LaterPay logo from the LaterPay icon font in the admin menu
+i.mce-i-laterpay-logo:before,
 #adminmenu div.wp-menu-image.dashicons-laterpay-logo:before { // WordPress selector
     content: 'b' !important;
     font-family: laterpay-wordpress-icons !important;

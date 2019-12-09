@@ -159,6 +159,8 @@ class LaterPay_Core_Bootstrap
         $controller = self::get_controller( 'Admin_Advanced' );
         laterpay_event_dispatcher()->add_subscriber( $controller );
 
+        laterpay_event_dispatcher()->add_subscriber( self::get_controller( 'Admin_TinyMCE' ) );
+
         laterpay_event_dispatcher()->add_subscriber( self::get_controller( 'Admin_Contributions' ) );
 
         // register callbacks for adding meta_boxes
