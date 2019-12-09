@@ -188,26 +188,7 @@
                                                 type  : 'listbox',
                                                 name  : 'content_type',
                                                 label : modal_data.content_type.label,
-                                                values: [
-                                                    {text: 'application/zip', value: 'application/zip'},
-                                                    {
-                                                        text : 'application/x-rar-compressed',
-                                                        value: 'application/x-rar-compressed'
-                                                },
-                                                    {text: 'application/pdf', value: 'application/pdf'},
-                                                    {text: 'image/jpeg', value: 'image/jpeg'},
-                                                    {text: 'image/png', value: 'image/png'},
-                                                    {text: 'image/gif', value: 'image/gif'},
-                                                    {text: 'audio/vnd.wav', value: 'audio/vnd.wav'},
-                                                    {text: 'audio/mpeg', value: 'audio/mpeg'},
-                                                    {text: 'audio/mp4', value: 'audio/mp4'},
-                                                    {text: 'audio/ogg', value: 'audio/ogg'},
-                                                    {text: 'audio/aac', value: 'audio/aac'},
-                                                    {text: 'audio/aacp', value: 'audio/aacp'},
-                                                    {text: 'video/mpeg', value: 'video/mpeg'},
-                                                    {text: 'video/mp4', value: 'video/mp4'},
-                                                    {text: 'video/quicktime', value: 'video/quicktime'},
-                                                ]
+                                                values: modal_data.content_type.values,
                                         },
                                             {
                                                 type   : 'button',
