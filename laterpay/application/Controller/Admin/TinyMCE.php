@@ -139,7 +139,37 @@ class LaterPay_Controller_Admin_TinyMCE extends LaterPay_Controller_Admin_Base {
                         'label' => esc_html__( 'Description text', 'laterpay' ),
                     ),
                     'content_type'      => array(
-                        'label' => esc_html__( 'Content Type', 'laterpay' ),
+                        'label'  => esc_html__( 'Content Type', 'laterpay' ),
+                        'values' => array(
+                            array(
+                                'text'  => esc_html__( 'Auto Identify', 'laterpay' ),
+                                'value' => '',
+                            ),
+                            array(
+                                'text'  => esc_html__( 'Link', 'laterpay' ),
+                                'value' => 'link',
+                            ),
+                            array(
+                                'text'  => esc_html__( 'File', 'laterpay' ),
+                                'value' => 'file',
+                            ),
+                            array(
+                                'text'  => esc_html__( 'Gallery', 'laterpay' ),
+                                'value' => 'gallery',
+                            ),
+                            array(
+                                'text'  => esc_html__( 'Audio', 'laterpay' ),
+                                'value' => 'audio',
+                            ),
+                            array(
+                                'text'  => esc_html__( 'Video', 'laterpay' ),
+                                'value' => 'video',
+                            ),
+                            array(
+                                'text'  => esc_html__( 'Text', 'laterpay' ),
+                                'value' => 'text',
+                            ),
+                        ),
                     ),
                     'teaser_image_path' => array(
                         'label' => esc_html__( 'Teaser Image Path', 'laterpay' ),
