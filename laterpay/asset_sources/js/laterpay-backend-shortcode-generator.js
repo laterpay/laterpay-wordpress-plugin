@@ -104,28 +104,19 @@
                         return;
                     }
 
-                    var image_element_id = 'image_' + field._name;
-                    var image_element = $('#' + image_element_id, this.$el);
+                    var value_to_save = attachment.url;
 
-                    field.state.data.value = attachment.url;
+                    if ( 'undefined' !== typeof field.settings.save_id && true === field.settings.save_id ) {
+                        value_to_save = attachment.id;
+                    }
 
-                    if (!image_element || 0 === image_element.length) {
+                    field.state.data.value = value_to_save;
 
-                        // Create element.
-                        image_element = document.createElement('IMG');
+                    var image_element_id = field.settings.preview_element_id || '';
+                    var image_element = $('#' + image_element_id);
 
-                        image_element.setAttribute('id', image_element_id);
-                        image_element.setAttribute('src', attachment.url);
-                        image_element.setAttribute(
-                            'style',
-                            'display: block; width: 150px; height: 150px; margin: 20px;'
-                        );
-
-                        // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.append -- <img> element is safe.
-                        field.$el.append(image_element);
-
-                    } else {
-                        $(image_element).attr('src', attachment.url);
+                    if ( 0 !== image_element.length ) {
+                        $( image_element ).attr( 'src', attachment.url );
                     }
 
                 });
@@ -161,14 +152,24 @@
                                     editor.windowManager.open({
                                         title   : modal_data.title,
                                         width   : 512,
-                                        height  : 430,
+                                        height  : 480,
                                         body    : [
                                             {
                                                 type : 'button',
                                                 name : 'target_post_id',
                                                 label: modal_data.target_post_id.label,
                                                 text: modal_data.target_post_id.text,
+                                                save_id: true,
+                                                preview_element_id:'preview_target_post_id',
                                                 onclick: self.onclick_media_button,
+                                        },
+                                            {
+                                                type: 'container',
+                                                label: ' ',
+                                                // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
+                                                html: '<img id="preview_target_post_id" src="' +
+                                                    laterpay_shortcode_generator_labels.preview_image +
+                                                    '" style="width: 100px; height: 100px; margin: 10px;"/>',
                                         },
                                             {
                                                 type : 'textbox',
@@ -192,7 +193,16 @@
                                                 name   : 'teaser_image_path',
                                                 label  : modal_data.teaser_image_path.label,
                                                 text   : modal_data.teaser_image_path.text,
+                                                preview_element_id:'preview_teaser_image_path',
                                                 onclick: self.onclick_media_button,
+                                        },
+                                        {
+                                            type: 'container',
+                                            label: ' ',
+                                                // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
+                                            html: '<img id="preview_teaser_image_path" src="' +
+                                                    laterpay_shortcode_generator_labels.preview_image +
+                                                    '" style="width: 100px; height: 100px; margin: 10px;"/>',
                                         },
                                         ],
                                         onsubmit: function (e) {
@@ -210,7 +220,7 @@
 
                                     var modal_data = laterpay_shortcode_generator_labels.time_pass_purchase_button,
                                         body = [],
-                                        height = 400;
+                                        height = 380;
 
                                     if (0 >= modal_data.id.values.length) {
                                         // We don't have any item to show.
@@ -236,14 +246,21 @@
                                                 name   : 'custom_image_path',
                                                 label  : modal_data.custom_image_path.label,
                                                 text   : modal_data.custom_image_path.text,
+                                                preview_element_id:'preview_custom_image_path',
                                                 onclick: self.onclick_media_button,
                                         },
                                             {
                                                 type: 'container',
+                                                label: ' ',
                                                 // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
-                                                html: '<div style="text-align: center;letter-spacing: 5px;"> ' +
-                                                    '-------- <span style="letter-spacing: 0;">' + modal_data.or_text +
-                                                    '</span> --------</div>',
+                                                html: '<img id="preview_custom_image_path" src="' +
+                                                    laterpay_shortcode_generator_labels.preview_image +
+                                                    '" style="width: 100px; height: 100px; margin: 10px;"/>',
+                                        },
+                                            {
+                                                type: 'container',
+                                                // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
+                                                html: '<div style="text-align: center;letter-spacing: 5px;"> ' + '-------- <span style="letter-spacing: 0;">' + modal_data.or_text + '</span> --------</div>', // jshint ignore:line
                                         },
                                             {
                                                 type : 'textbox',
@@ -293,7 +310,7 @@
 
                                     var modal_data = laterpay_shortcode_generator_labels.subscription_purchase_button,
                                         body = [],
-                                        height = 400;
+                                        height = 380;
 
                                     if (0 >= modal_data.id.values.length) {
                                         // We don't have any item to show.
@@ -323,10 +340,14 @@
                                         },
                                             {
                                                 type: 'container',
+                                                label: ' ',
                                                 // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
-                                                html: '<div style="text-align: center;letter-spacing: 5px;"> ' +
-                                                    '--------<span style="letter-spacing: 0;">' + modal_data.or_text +
-                                                    '</span>--------</div>',
+                                                html: '<img id="preview_custom_image_path" src="' + laterpay_shortcode_generator_labels.preview_image + '" style="width: 100px; height: 100px; margin: 10px;"/>', // jshint ignore:line
+                                        },
+                                            {
+                                                type: 'container',
+                                                // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
+                                                html: '<div style="text-align: center;letter-spacing: 5px;"> ' + '--------<span style="letter-spacing: 0;">' + modal_data.or_text + '</span>--------</div>', // jshint ignore:line
                                         },
                                             {
                                                 type : 'textbox',

@@ -123,6 +123,7 @@ class LaterPay_Controller_Admin_TinyMCE extends LaterPay_Controller_Admin_Base {
                 'button'                       => array(
                     'text' => esc_html__( 'LaterPay ShortCodes', 'laterpay' ),
                 ),
+                'preview_image'                => sprintf( '%spremium-text.png', $this->config->image_url ),
                 'premium_download'             => array(
                     'title'             => esc_html__( 'LaterPay Premium Download Box', 'laterpay' ),
                     'target_post_id'    => array(

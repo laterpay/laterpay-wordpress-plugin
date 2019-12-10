@@ -400,7 +400,7 @@
 
                 saveData($form);
             },
-            updateOverlayOptions = function($trigger) {
+            updateOverlayOptions = function($trigger) { // jshint ignore:line, ignore cyclomatic complexity
                 var style;
                 var textColorValue;
 

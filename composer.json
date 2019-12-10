@@ -39,7 +39,7 @@
     "scripts": {
         "post-install-cmd": "find laterpay/vendor/ -type d -name \".git\" | xargs rm -rf",
         "post-update-cmd": "find laterpay/vendor/ -type d -name \".git\" | xargs rm -rf",
-        "phpcs": "\"laterpay/vendor/bin/phpcs\" --standard=ruleset.xml",
+        "phpcs": "\"laterpay/vendor/bin/phpcs\" -s --standard=ruleset.xml",
         "phpcbf": "\"laterpay/vendor/bin/phpcbf\" --standard=ruleset.xml",
         "phpcompat": "\"laterpay/vendor/bin/phpcs\" -p --standard=PHPCompatibilityWP laterpay/application laterpay/views laterpay/laterpay-load.php laterpay/laterpay.php laterpay/vendor/laterpay/laterpay-client-php  --runtime-set testVersion 5.6- --extensions=php"
     }
