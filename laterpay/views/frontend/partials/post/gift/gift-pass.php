@@ -22,9 +22,12 @@ $category    = get_category( $gift_pass['access_category'] );
 if ( 0 !== absint( $gift_pass['access_to'] ) ) {
     $access_dest = $category->name;
 }
+
+$pass_id = ( ! empty( $gift_pass['pass_id'] ) ) ? $gift_pass['pass_id'] : '';
+$pass_id = ( empty( $pass_id ) && ! empty( $gift_pass['id'] ) ) ? $gift_pass['id'] : '';
 ?>
 
-<div class="lp_js_giftCard lp_gift-card lp_gift-card-<?php echo esc_attr( $gift_pass['pass_id'] ); ?>">
+<div class="lp_js_giftCard lp_gift-card lp_gift-card-<?php echo esc_attr( $pass_id ); ?>">
     <h4 class="lp_gift-card__title"><?php echo esc_html( $gift_pass['title'] ); ?></h4>
     <p class="lp_gift-card__description"><?php echo wp_kses_post( $gift_pass['description'] ); ?></p>
     <table class="lp_gift-card___conditions">
