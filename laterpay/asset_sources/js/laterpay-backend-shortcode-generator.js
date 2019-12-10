@@ -94,7 +94,8 @@
              */
             onclick_media_button: function () {
                 var field = this;
-                var frame = wp.media();
+                var wp_media_args = field.settings.wp_media_args || {};
+                var frame = wp.media( wp_media_args );
 
                 frame.on('select', function () {
 
@@ -198,6 +199,11 @@
                                                 label  : modal_data.teaser_image_path.label,
                                                 text   : modal_data.teaser_image_path.text,
                                                 preview_element_id:'preview_teaser_image_path',
+                                                wp_media_args: {
+                                                    library: {
+                                                        type: 'image',
+                                                    }
+                                                },
                                                 onclick: self.onclick_media_button,
                                         },
                                         {
@@ -249,6 +255,11 @@
                                                 label  : modal_data.custom_image_path.label,
                                                 text   : modal_data.custom_image_path.text,
                                                 preview_element_id:'preview_custom_image_path',
+                                                wp_media_args: {
+                                                    library: {
+                                                        type: 'image',
+                                                    }
+                                                },
                                                 onclick: self.onclick_media_button,
                                         },
                                             {
@@ -336,6 +347,11 @@
                                                 name   : 'custom_image_path',
                                                 label  : modal_data.custom_image_path.label,
                                                 text   : modal_data.custom_image_path.text,
+                                                wp_media_args: {
+                                                    library: {
+                                                        type: 'image',
+                                                    }
+                                                },
                                                 onclick: self.onclick_media_button,
                                         },
                                             {
