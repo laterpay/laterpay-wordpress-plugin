@@ -48,7 +48,7 @@
                     index = 0;
 
                 for (index in object) {
-                    if (object.hasOwnProperty(index)) {
+                    if ( object.hasOwnProperty( index ) && object[ index ] && '' !== object[ index ] ) {
                         string += index + '="' + object[index] + '" ';
                     }
                 }
@@ -116,7 +116,13 @@
                     var image_element = $('#' + image_element_id);
 
                     if ( 0 !== image_element.length ) {
-                        $( image_element ).attr( 'src', attachment.url );
+                        var preview_image = attachment.url;
+
+                        if ( 'image' !== attachment.type ) {
+                            preview_image = laterpay_shortcode_generator_labels.no_preview_image;
+                        }
+
+                        $( image_element ).attr( 'src', preview_image );
                     }
 
                 });
@@ -167,9 +173,7 @@
                                                 type: 'container',
                                                 label: ' ',
                                                 // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
-                                                html: '<img id="preview_target_post_id" src="' +
-                                                    laterpay_shortcode_generator_labels.preview_image +
-                                                    '" style="width: 100px; height: 100px; margin: 10px;"/>',
+                                                html: '<img id="preview_target_post_id" src="' + laterpay_shortcode_generator_labels.preview_image + '" style="width: 100px; height: 100px; margin: 10px;"/>', // jshint ignore:line
                                         },
                                             {
                                                 type : 'textbox',
@@ -200,9 +204,7 @@
                                             type: 'container',
                                             label: ' ',
                                                 // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
-                                            html: '<img id="preview_teaser_image_path" src="' +
-                                                    laterpay_shortcode_generator_labels.preview_image +
-                                                    '" style="width: 100px; height: 100px; margin: 10px;"/>',
+                                            html: '<img id="preview_teaser_image_path" src="' + laterpay_shortcode_generator_labels.preview_image + '" style="width: 100px; height: 100px; margin: 10px;"/>', // jshint ignore:line
                                         },
                                         ],
                                         onsubmit: function (e) {
@@ -253,14 +255,12 @@
                                                 type: 'container',
                                                 label: ' ',
                                                 // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
-                                                html: '<img id="preview_custom_image_path" src="' +
-                                                    laterpay_shortcode_generator_labels.preview_image +
-                                                    '" style="width: 100px; height: 100px; margin: 10px;"/>',
+                                                html: '<img id="preview_custom_image_path" src="' + laterpay_shortcode_generator_labels.preview_image + '" style="width: 100px; height: 100px; margin: 10px;"/>', // jshint ignore:line
                                         },
                                             {
                                                 type: 'container',
                                                 // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
-                                                html: '<div style="text-align: center;letter-spacing: 5px;"> ' + '-------- <span style="letter-spacing: 0;">' + modal_data.or_text + '</span> --------</div>', // jshint ignore:line
+                                                html: '<div style="text-align: center;letter-spacing: 5px;">-------- <span style="letter-spacing: 0;">' + modal_data.or_text + '</span> --------</div>', // jshint ignore:line
                                         },
                                             {
                                                 type : 'textbox',
@@ -347,7 +347,7 @@
                                             {
                                                 type: 'container',
                                                 // phpcs:ignore WordPressVIPMinimum.JS.StringConcat.Found
-                                                html: '<div style="text-align: center;letter-spacing: 5px;"> ' + '--------<span style="letter-spacing: 0;">' + modal_data.or_text + '</span>--------</div>', // jshint ignore:line
+                                                html: '<div style="text-align: center;letter-spacing: 5px;">--------<span style="letter-spacing: 0;">' + modal_data.or_text + '</span>--------</div>', // jshint ignore:line
                                         },
                                             {
                                                 type : 'textbox',
