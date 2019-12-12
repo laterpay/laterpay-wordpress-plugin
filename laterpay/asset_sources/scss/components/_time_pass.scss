@@ -206,7 +206,7 @@
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
         font-size: $fs--15 !important;
         font-style: normal !important;
-        margin: $fs--05 0 $fs !important;
+        margin: $fs--05 0 $fs--05 !important;
         overflow: hidden !important; /* 1 */
         text-overflow: ellipsis !important; /* 1 */
         white-space: nowrap !important; /* 1 */
@@ -216,7 +216,7 @@
      * 1. Cut off too long texts
      */
     .lp_gift-card__description {
-        margin: 0 0 $fs !important;
+        margin: 0 0 $fs--05 !important;
         max-height: $fs--3 !important; /* 1 */
         overflow: hidden !important; /* 1 */
         text-overflow: ellipsis !important; /* 1 */
