@@ -55,3 +55,28 @@ dfn.lp_region_notice {
 .lp_wpengn_nbtn:link,.lp_wpengn_nbtn:hover,.lp_wpengn_nbtn:hover {
   color:#fff;
 }
+
+
+.mce-container {
+    .lp-media-preview {
+        padding: 10px;
+
+        .preview-image {
+            height: 100px;
+            width: 100px;
+            margin-right: 10px;
+            display: block;
+            float: left;
+        }
+
+        .media-name {
+            display: block;
+            overflow: hidden;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+    }
+
+}
