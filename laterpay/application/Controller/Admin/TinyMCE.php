@@ -121,10 +121,17 @@ class LaterPay_Controller_Admin_TinyMCE extends LaterPay_Controller_Admin_Base {
             'laterpay_shortcode_generator_labels',
             array(
                 'button'                       => array(
-                    'text' => esc_html__( 'LaterPay ShortCodes', 'laterpay' ),
+                    'text'  => esc_html__( 'LaterPay ShortCodes', 'laterpay' ),
+                    'clear' => esc_html__( 'Clear', 'laterpay' ),
                 ),
-                'preview_image'                => sprintf( '%spremium-text.png', $this->config->image_url ),
-                'no_preview_image'             => sprintf( '%sno-preview.png', $this->config->image_url ),
+                'preview_images'               => array(
+                    'text'             => sprintf( '%spremium-text.png', $this->config->image_url ),
+                    'audio'            => sprintf( '%spremium-audio.png', $this->config->image_url ),
+                    'download'         => sprintf( '%spremium-download.png', $this->config->image_url ),
+                    'gallery'          => sprintf( '%spremium-gallery.png', $this->config->image_url ),
+                    'video'            => sprintf( '%spremium-video.png', $this->config->image_url ),
+                    'no_preview_image' => sprintf( '%sno-preview.png', $this->config->image_url ),
+                ),
                 'premium_download'             => array(
                     'title'             => esc_html__( 'LaterPay Premium Download Box', 'laterpay' ),
                     'target_post_id'    => array(
