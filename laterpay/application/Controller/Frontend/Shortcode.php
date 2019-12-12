@@ -415,29 +415,50 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * @return string
      */
     public function render_redeem_gift_code( LaterPay_Core_Event $event ) {
-        list( $atts) = $event->get_arguments() + array( array() );
+
+        list( $atts ) = $event->get_arguments() + array( array() );
 
         $data = shortcode_atts( array(
-            'id' => null,
+            'id'   => null,
+            'type' => 'timepass',
         ), $atts );
+
+        $allowed_types = [ 'timepass', 'subscription' ];
+        $data['type']  = strtolower( trim( $data['type'] ) );
+        $data['type']  = in_array( $data['type'], $allowed_types, true ) ? $data['type'] : 'timepass';
+
+        $pass_data = array();
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true );
-            if ( ! $time_pass ) {
-                $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
+
+            if ( 'subscription' === $data['type'] ) {
+                $pass_data = LaterPay_Helper_Subscription::get_subscription_by_id( $data['id'], true );
+            } else {
+                $pass_data = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true );
+            }
+
+            if ( ! $pass_data ) {
+
+                if ( 'subscription' === $data['type'] ) {
+                    $error_message = esc_html__( 'Wrong Subscription ID.', 'laterpay' );
+                } else {
+                    $error_message = esc_html__( 'Wrong Time Pass ID.', 'laterpay' );
+                }
+
+                $error_message = LaterPay_Helper_View::get_error_message( $error_message, $atts );
                 $event->set_result( $error_message );
                 throw new LaterPay_Core_Exception( $error_message );
             }
-        } else {
-            $time_pass = array();
         }
 
         $view_args = array(
-            'pass_data'               => $time_pass,
+            'pass_data'               => $pass_data,
+            'type'                    => $data['type'],
             'standard_currency'       => $this->config->get( 'currency.code' ),
             'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
         );
+
         $this->assign( 'laterpay', $view_args );
 
         $html = $this->get_text_view( 'frontend/partials/post/gift/gift-redeem' );
