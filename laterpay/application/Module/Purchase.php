@@ -415,33 +415,39 @@ class LaterPay_Module_Purchase extends LaterPay_Core_View implements LaterPay_Co
     }
 
     /**
-     * Set Laterpay token if it was provided after redirect and not processed by purchase functions.
+     * Set LaterPay token if it was provided after redirect and not processed by purchase functions.
      */
     public function set_token() {
-	    $get_request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
-        $request_method = $get_request_method ? $get_request_method : '';
-        $request           = new LaterPay_Core_Request();
+        $get_request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( $_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore
+        $request_method     = $get_request_method ? $get_request_method : '';
+        $request            = new LaterPay_Core_Request();
 
-        $client_options    = LaterPay_Helper_Config::get_php_client_options();
-        $laterpay_client   = new LaterPay_Client(
-            $client_options['cp_key'],
-            $client_options['api_key'],
-            $client_options['api_root'],
-            $client_options['web_root'],
-            $client_options['token_name']
-        );
+        /**
+         * Skip lptoken verification if `_lpc_ad` param is found in the request.
+         * This is done to avoid conflict with LaterPay Connector Integration.
+         */
+        if ( ! $request->get_param( '_lpc_ad' ) ) {
+            $client_options  = LaterPay_Helper_Config::get_php_client_options();
+            $laterpay_client = new LaterPay_Client(
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
+            );
 
-        // check token and set if necessary
-        $lptoken = $request->get_param('lptoken');
-        if ( $lptoken ) {
-            if ( LaterPay_Client_Signing::verify( $request->get_param( 'hmac' ), $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
-                // set token
-                $laterpay_client->set_token($lptoken);
+            // check token and set if necessary
+            $lptoken = $request->get_param( 'lptoken' );
+            if ( $lptoken ) {
+                if ( LaterPay_Client_Signing::verify( $request->get_param( 'hmac' ), $laterpay_client->get_api_key(), $request->get_data( 'get' ), get_permalink(), $request_method ) ) {
+                    // set token
+                    $laterpay_client->set_token( $lptoken );
+                }
+
+                wp_safe_redirect( get_permalink( $request->get_param( 'post_id' ) ) );
+                // exit script after redirect was set
+                exit;
             }
-
-            wp_safe_redirect( get_permalink( $request->get_param( 'post_id' ) ) );
-            // exit script after redirect was set
-            exit;
         }
     }
 
