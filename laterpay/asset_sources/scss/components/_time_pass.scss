@@ -242,6 +242,7 @@
             font-weight: normal !important;
             padding: 0 $fs--05 $fs--025 0 !important;
             text-transform: none !important;
+            min-width: 60px;
         }
 
         .lp_gift-card___conditions-value {
@@ -262,6 +263,13 @@
 .lp_gift-card__buy-another {
     margin-left: $fs * 12;
     padding: $fs;
+}
+
+.lp_gift-card {
+    &.lp_gift-card-subscription {
+        padding-top: $fs--05 !important;
+        padding-bottom: $fs--05 !important;
+    }
 }
 
 
