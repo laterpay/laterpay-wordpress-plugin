@@ -420,12 +420,12 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         $data = shortcode_atts( array(
             'id'   => null,
-            'type' => 'timepass',
+            'type' => '',
         ), $atts );
 
         $allowed_types = [ 'timepass', 'subscription' ];
         $data['type']  = strtolower( trim( $data['type'] ) );
-        $data['type']  = in_array( $data['type'], $allowed_types, true ) ? $data['type'] : 'timepass';
+        $data['type']  = in_array( $data['type'], $allowed_types, true ) ? $data['type'] : '';
 
         $pass_data = array();
 

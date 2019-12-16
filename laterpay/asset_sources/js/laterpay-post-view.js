@@ -378,31 +378,42 @@
                 // redeem voucher code
                 $($o.voucherRedeemButton)
                     .on('mousedown', function() {
+
+                        var type = $( this ).data( 'type' );
+                        var pass_id = $( this ).data( 'id' );
+
                         redeemVoucherCode(
                             $(this).parent(),
                             timePassFeedbackMessage,
                             $o.voucherCodeInput,
-                            'time-pass',
-                            false
+                            type,
+                            false,
+                            pass_id
                         );
                     })
                     .on('click', function(e) {e.preventDefault();});
 
                 $($o.giftCardRedeemButton)
                     .on('mousedown', function() {
+
+                        var type = $( this ).data( 'type' );
+                        var pass_id = $( this ).data( 'id' );
+
                         redeemVoucherCode(
                             $(this).parent(),
                             timePassFeedbackMessage,
                             $o.giftCardCodeInput,
-                            'time-pass',
-                            true
+                            type,
+                            true,
+                            pass_id
                         );
                     })
                     .on('click', function(e) {e.preventDefault();});
             },
 
-            redeemVoucherCode = function($wrapper, feedbackMessageTpl, input, type, is_gift) {
+            redeemVoucherCode = function($wrapper, feedbackMessageTpl, input, type, is_gift, pass_id) {
                 var code = $(input).val();
+                pass_id = ( 'number' === typeof pass_id ) ? pass_id : 0;
 
                 // Passed value to link is escaped before sent further for processing.
                 if (code.length === 6) {
@@ -412,6 +423,8 @@
                         data      :{
                             action     : 'laterpay_redeem_voucher_code',
                             code       : code,
+                            type       : type,
+                            pass_id    : pass_id,
                             link       : window.location.href, // phpcs:ignore WordPressVIPMinimum.JS.Window.location
                             lp_post_id : typeof lpVars.post_id !== 'undefined' ? lpVars.post_id : ''
                         },
@@ -500,7 +513,7 @@
                     $wrapper.empty().append($feedbackMessage);
                 }
 
-                if (type === 'time-pass') {
+                if ( '' === type || 'timepass' === type || 'subscription' === type ) {
                     $wrapper.prepend($feedbackMessage);
 
                     $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
