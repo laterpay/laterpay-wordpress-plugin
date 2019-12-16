@@ -5,13 +5,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Store all data needed for the Contribution dialog/button.
-$name              = $contribution['name'];
-$currency_symbol   = $contribution['symbol'];
-$thank_you         = $contribution['thank_you'];
-$payment_config    = $contribution['payment_config'];
-$selected_button   = false;
-$campaign_id       = $contribution['id'];
-$contribution_urls = $contribution['contribution_urls'];
+$name               = $contribution['name'];
+$currency_symbol    = $contribution['symbol'];
+$thank_you          = $contribution['thank_you'];
+$payment_config     = $contribution['payment_config'];
+$selected_button    = false;
+$campaign_id        = $contribution['id'];
+$contribution_urls  = $contribution['contribution_urls'];
+$dialog_header      = $contribution['dialog_header'];
+$dialog_description = $contribution['dialog_description'];
 
 ?>
 
@@ -38,12 +40,13 @@ $contribution_urls = $contribution['contribution_urls'];
             <div class="lp-dialog">
                 <div class="lp-header-wrapper">
                     <div class="lp-header-padding"></div>
-                    <div class="lp-header-text"><span><?php esc_html_e( 'Support the author', 'laterpay' ); ?></span>
+                    <div class="lp-header-text">
+                        <span><?php echo esc_html( $dialog_header ); ?></span>
                     </div>
                 </div>
                 <div class="lp-body-wrapper">
                     <div>
-                        <span class="lp-amount-text"><?php esc_html_e( 'How much would you like to contribute?', 'laterpay' ); ?></span>
+                        <span class="lp-amount-text"><?php echo esc_html( $dialog_description ); ?></span>
                     </div>
                     <div class="lp-amount-presets-wrapper">
                         <div class="lp-amount-presets">
