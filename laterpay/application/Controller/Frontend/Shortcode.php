@@ -809,15 +809,17 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         list( $atts) = $event->get_arguments() + array( array() );
 
         $config_data = shortcode_atts( array(
-            'type'            => 'multiple',
-            'name'            => null,
-            'thank_you'       => null,
-            'single_amount'   => null,
-            'single_revenue'  => null,
-            'custom_amount'   => null,
-            'all_amounts'     => null,
-            'all_revenues'    => null,
-            'selected_amount' => null,
+            'type'               => 'multiple',
+            'name'               => null,
+            'dialog_header'      => __( 'Support the author', 'laterpay' ),
+            'dialog_description' => __( 'How much would you like to contribute?', 'laterpay' ),
+            'thank_you'          => null,
+            'single_amount'      => null,
+            'single_revenue'     => null,
+            'custom_amount'      => null,
+            'all_amounts'        => null,
+            'all_revenues'       => null,
+            'selected_amount'    => null,
         ), $atts );
 
         // Show error to current user?
@@ -910,13 +912,15 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         // View data for laterpay/views/frontend/partials/widget/contribution-dialog.php.
         $view_args = array(
-            'symbol'            => 'USD' === $currency_config['code'] ? '$' : '€',
-            'id'                => $campaign_id,
-            'type'              => $config_data['type'],
-            'name'              => $campaign_name,
-            'thank_you'         => empty( $config_data['thank_you'] ) ? '' : $config_data['thank_you'],
-            'contribution_urls' => $contribution_urls,
-            'payment_config'    => $payment_config,
+            'symbol'             => 'USD' === $currency_config['code'] ? '$' : '€',
+            'id'                 => $campaign_id,
+            'dialog_header'      => $config_data['dialog_header'],
+            'dialog_description' => $config_data['dialog_description'],
+            'type'               => $config_data['type'],
+            'name'               => $campaign_name,
+            'thank_you'          => empty( $config_data['thank_you'] ) ? '' : $config_data['thank_you'],
+            'contribution_urls'  => $contribution_urls,
+            'payment_config'     => $payment_config,
         );
 
         // Load the contributions dialog for User.

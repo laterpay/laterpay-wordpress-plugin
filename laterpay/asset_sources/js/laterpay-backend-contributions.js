@@ -20,6 +20,7 @@
 
                     // Elements on the current page.
                     navigation                         : $('.lp_navigation'),
+                    hideOnSinglePurchase               : $('.hide-on-single-purchase'),
                     contributionAllowMultiple          : $('#lp_contribution_allow_multiple_amount'),
                     contributionMultiplePurchaseOptions: $('.all_purchase_options'),
                     contributionSinglePurchaseOption   : $('.lp_single_contribution_dialog_options'),
@@ -31,6 +32,10 @@
                     customAmountInput                  : $('#lp_custom_amount_input'),
                     contributionName                   : $('#lp_contribution_name'),
                     thankYouPage                       : $('#lp_thank_you_page'),
+                    dialogHeader                       : $('#lp_dialog_header'),
+                    dialogDescription                  : $('#lp_dialog_description'),
+                    previewDialogHeader                : $('.lp_contribution_preview .lp-header-text span'),
+                    previewDialogDescription           : $('.lp_contribution_preview .lp-amount-text'),
                     singleContributionPrice            : $('#lp_single_contribution_price'),
                     singleContributionForm             : $('#lp_single_contribution_form'),
                     contributionErrorMessageWrapper    : $('.lp-contribution-error-wrapper'),
@@ -58,6 +63,13 @@
                         }, 1500)
                     );
 
+                    var onchangeCallback = function () {
+                        resetGenerateButton();
+                        updateLivePreview( undefined, undefined, 'multiple' );
+                    };
+
+                    $o.dialogHeader.on( 'keyup', debounce( onchangeCallback, 500 ) );
+                    $o.dialogDescription.on( 'keyup', debounce( onchangeCallback, 500 ) );
 
                     // Event handler for default amount selection in multiple contribution.
                     $($o.presetButtonAmount).on('click', function () {
@@ -91,6 +103,7 @@
                         $($o.contributionCustomErrorMessage).hide();
                         if ($(this).prop('checked')) {
                             $(this).val(1);
+                            $o.hideOnSinglePurchase.show();
                             $o.contributionMultiplePurchaseOptions.show();
                             $o.contributionMultipleWrapper.show();
                             $o.contributionSinglePurchaseOption.hide();
@@ -100,6 +113,7 @@
                             $(this).val(0);
                             $o.contributionSinglePurchaseOption.show();
                             $o.contributionSingleButtonWrapper.show();
+                            $o.hideOnSinglePurchase.hide();
                             $o.contributionMultiplePurchaseOptions.hide();
                             $o.contributionMultipleWrapper.hide();
                             $o.contributionCustom.attr('disabled', true);
@@ -166,12 +180,14 @@
 
                             var contributionName, thankYouPage, contributionType, singleAmount, countOfAmounts = 1,
                                 singleRevenue, customAmount = '0.00', amountsArray = [], formData = {}, presetId,
-                                isCustomAllowed = 1;
+                                isCustomAllowed = 1, dialogDescription, dialogHeader;
 
                             // Common data to process submission.
                             contributionName = $o.contributionName.val().length ? $o.contributionName.val() : '';
                             thankYouPage = $o.thankYouPage.val().length ? $o.thankYouPage.val() : '';
                             contributionType = $o.contributionAllowMultiple.val() === '1' ? 'multiple' : 'single';
+                            dialogHeader = $o.dialogHeader.val();
+                            dialogDescription = $o.dialogDescription.val();
 
                             if (!contributionName.trim().length) {
                                 $o.contributionErrorMessageWrapper.find($o.contributionErrorMessage)
@@ -245,6 +261,8 @@
                                 formData
                                     .push(
                                         {name: 'contribution_name', value: contributionName},
+                                        {name: 'dialog_header', value: dialogHeader},
+                                        {name: 'dialog_description', value: dialogDescription},
                                         {name: 'thank_you_page', value: thankYouPage},
                                         {name: 'all_amounts', value: JSON.stringify(amountsArray)}
                                     );
@@ -391,6 +409,21 @@
                     currencySymbol = 'USD' === lpVars.currency.code ? ' $' : ' €';
 
                     if ('multiple' === contributionType) {
+
+                        var dialogHeader = $o.dialogHeader.val();
+                        var dialogDescription = $o.dialogDescription.val();
+
+                        if ( ! dialogHeader ) {
+                            dialogHeader = $o.dialogHeader.attr( 'placeholder' );
+                        }
+
+                        if ( ! dialogDescription ) {
+                            dialogDescription = $o.dialogDescription.attr( 'placeholder' );
+                        }
+
+                        $o.previewDialogHeader.text( dialogHeader );
+                        $o.previewDialogDescription.text( dialogDescription );
+
                         $($o.revenueModelMultipleItems).each(function (idx) {
                             // Get next id to work with hidden elements mainly.
                             var inputId = idx + 1;

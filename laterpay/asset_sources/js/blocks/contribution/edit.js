@@ -21,6 +21,8 @@ class Edit extends Component {
 		const {
 			attributes: {
 				campaignName,
+				dialogHeader,
+				dialogDescription,
 				campaignThankYouPage,
 				contributionType,
 				allowCustomAmount,
@@ -239,6 +241,24 @@ class Edit extends Component {
 						'multiple' === contributionType ? (
 							<Fragment>
 								<TextControl
+									label={ __( 'Dialog Header (optional)', 'laterpay' ) }
+									placeholder={ __( 'Support the author', 'laterpay' ) }
+									value={ dialogHeader }
+									onChange={ ( newValue ) => {
+										setAttributes( { dialogHeader: newValue } );
+									} }
+								/>
+
+								<TextControl
+									label={ __( 'Dialog Description (optional)', 'laterpay' ) }
+									placeholder={ __( 'How much would you like to contribute?', 'laterpay' ) }
+									value={ dialogDescription }
+									onChange={ ( newValue ) => {
+										setAttributes( { dialogDescription: newValue } );
+									} }
+								/>
+
+								<TextControl
 									label={ __( 'Amount One', 'laterpay' ) }
 									placeholder={ 0.0 }
 									value={ multipleContribution.amountOne }
@@ -440,12 +460,12 @@ class Edit extends Component {
 										<div className="lp-header-wrapper">
 											<div className="lp-header-padding" />
 											<div className="lp-header-text">
-												<span>{ __( 'Support the author', 'laterpay' ) }</span>
+												<span>{ dialogHeader }</span>
 											</div>
 										</div>
 										<div className="lp-body-wrapper">
 											<div>
-												<span className="lp-amount-text">{ __( 'How much would you like to contribute?', 'laterpay' ) }</span>
+												<span className="lp-amount-text">{ dialogDescription }</span>
 											</div>
 											<div className="lp-amount-presets-wrapper">
 												{

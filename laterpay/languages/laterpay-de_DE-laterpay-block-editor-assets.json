@@ -331,6 +331,12 @@
          "Buy now with LaterPay": [
             "Jetzt mit LaterPay kaufen"
          ],
+         "Support the author": [
+            "Unterstützen Sie den Autor"
+         ],
+         "How much would you like to contribute?": [
+            "Wie viel möchten Sie als Contribution (freiwillige Beitragszahlung) beitragen?"
+         ],
          "Please enter a Campaign Name.": [
             "Kampagnennamen eingeben."
          ],
@@ -679,6 +685,51 @@
          "auto detected": [
             "automatisch ermittelt"
          ],
+         "Clear": [
+            ""
+         ],
+         "LaterPay Premium Download Box": [
+            "LaterPay Premium Download-Box"
+         ],
+         "Select Downloadable Media": [
+            "Herunterladbare Inhalte/Medien auswählen"
+         ],
+         "Content Type": [
+            "Inhalts-Typ"
+         ],
+         "Auto Identify": [
+            "Automatisch erkennen"
+         ],
+         "Link": [
+            "Link"
+         ],
+         "File": [
+            "Datei"
+         ],
+         "Gallery": [
+            "Bildergalerie"
+         ],
+         "Audio": [
+            "Audio"
+         ],
+         "Video": [
+            "Video"
+         ],
+         "Text": [
+            "Text"
+         ],
+         "No Time-pass Available.": [
+            ""
+         ],
+         "or": [
+            "oder"
+         ],
+         "Custom Button Image": [
+            ""
+         ],
+         "Button Text Color": [
+            "Button-Textfarbe"
+         ],
          "Your site is in LIVE mode, your visitors would now see the LaterPay purchase dialog. \n\nTo experience this behavior, view this page either by logging out of WordPress or using an user account with non-admin privileges. \n\nNote: You will be charged for purchases made while in LIVE mode.": [
             "Ihre Website befindet sich im LIVE-Modus, Ihre Besucher sehen nun den LaterPay-Kaufdialog. \n\nUm dies aus Besucher-Sicht zu überprüfen, rufen Sie diese Seite entweder erneut nach Abmeldung von WordPress oder über ein Benutzerkonto mit Non-Admin-Rechten auf. \n\nHinweis: Für Einkäufe, die im LIVE-Modus getätigt werden, werden Ihnen Gebühren berechnet."
          ],
@@ -723,9 +774,6 @@
          ],
          "Read now": [
             "Jetzt lesen"
-         ],
-         "Wrong time pass id.": [
-            "Ungültige Zeitpass-ID."
          ],
          "%1$s\"all\"%2$s cannot be used for both %1$s\"timepasses\"%2$s and %1$s\"subscriptions\"%2$s at the same time.": [
             ""
@@ -913,6 +961,12 @@
          "Single": [
             "Einzelne"
          ],
+         "Dialog Header (optional)": [
+            "Dialog-Titel (optional)"
+         ],
+         "Dialog Description (optional)": [
+            "Dialog-Beschreibungstext (optional)"
+         ],
          "Amount One": [
             "Betrag 1"
          ],
@@ -948,9 +1002,6 @@
          ],
          "now, Pay Later": [
             "spenden, später zahlen"
-         ],
-         "How much would you like to contribute?": [
-            "Wie viel möchten Sie als Contribution (freiwillige Beitragszahlung) beitragen?"
          ],
          "Custom Amount": [
             "Ihr Beitrag"
@@ -1033,9 +1084,6 @@
          "Premium Download Box Settings": [
             "Premium Download-Box Einstellungen"
          ],
-         "Select Downloadable Media": [
-            "Herunterladbare Inhalte/Medien auswählen"
-         ],
          "File Name: ": [
             "Dateiname:"
          ],
@@ -1057,38 +1105,11 @@
          "Enter description text for download box.": [
             "Gebe die Beschreibung für die Download-Box ein."
          ],
-         "Content Type": [
-            "Inhalts-Typ"
-         ],
-         "Auto Identify": [
-            "Automatisch erkennen"
-         ],
-         "Audio": [
-            "Audio"
-         ],
-         "File": [
-            "Datei"
-         ],
-         "Gallery": [
-            "Bildergalerie"
-         ],
-         "Link": [
-            "Link"
-         ],
-         "Text": [
-            "Text"
-         ],
-         "Video": [
-            "Video"
-         ],
          "Select Teaser Image": [
             "Vorschaubild auswählen"
          ],
          "Clear Teaser Image": [
             "Vorschaubild entfernen"
-         ],
-         "LaterPay Premium Download Box": [
-            "LaterPay Premium Download-Box"
          ],
          "Premium Download Box": [
             "Premium Download-Box"
@@ -1113,9 +1134,6 @@
          ],
          "Background Color": [
             "Hintergrundfarbe"
-         ],
-         "Button Text Color": [
-            "Button-Textfarbe"
          ],
          "Text Color": [
             "Textfarbe"
@@ -1284,9 +1302,6 @@
          ],
          "Login": [
             "Anmelden"
-         ],
-         "or": [
-            "oder"
          ],
          "Sign Up": [
             "Registrieren"
@@ -1602,9 +1617,6 @@
          ],
          "Contribute Now, Pay Later": [
             "Jetzt spenden, später zahlen"
-         ],
-         "Support the author": [
-            "Unterstützen Sie den Autor"
          ],
          "To include this on your site, click the button below and paste the code where you would like it to appear.": [
             "Um dies auf Ihrer Website einzubinden, klicken Sie auf die Schaltfläche unten und fügen Sie den Code an der Stelle ein, an der er erscheinen soll."

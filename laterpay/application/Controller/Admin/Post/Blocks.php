@@ -332,11 +332,13 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         $lp_contribution_defaults = [
             'campaignName'         => '',
             'campaignThankYouPage' => '',
+            'dialogHeader'         => __( 'Support the author', 'laterpay' ),
+            'dialogDescription'    => __( 'How much would you like to contribute?', 'laterpay' ),
             'contributionType'     => 'multiple',
             'allowCustomAmount'    => true,
             'singleContribution'   => '',
             'multipleContribution' => '',
-            'selectedAmount'       => 3
+            'selectedAmount'       => 3,
         ];
 
         // Store reused values in variables.
@@ -348,6 +350,8 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         $singleContribution   = $attributes['singleContribution'];
         $multipleContribution = $attributes['multipleContribution'];
         $selectedAmount       = $attributes['selectedAmount'];
+        $dialog_header        = $attributes['dialogHeader'];
+        $dialog_description   = $attributes['dialogDescription'];
 
         // Get currency config.
         $currency_config = LaterPay_Helper_Config::get_currency_config();
@@ -475,13 +479,15 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
 
         // View data for laterpay/views/frontend/partials/widget/contribution-dialog.php.
         $view_args = array(
-            'symbol'            => 'USD' === $currency_config['code'] ? '$' : '€',
-            'id'                => $campaign_id,
-            'type'              => $contributionType,
-            'name'              => $campaignName,
-            'thank_you'         => $campaignThankYouPage,
-            'contribution_urls' => $contribution_urls,
-            'payment_config'    => $payment_config,
+            'symbol'             => 'USD' === $currency_config['code'] ? '$' : '€',
+            'id'                 => $campaign_id,
+            'type'               => $contributionType,
+            'name'               => $campaignName,
+            'thank_you'          => $campaignThankYouPage,
+            'contribution_urls'  => $contribution_urls,
+            'payment_config'     => $payment_config,
+            'dialog_header'      => $dialog_header,
+            'dialog_description' => $dialog_description,
         );
 
         // Load the contributions dialog for User.
