@@ -415,6 +415,10 @@
                 var code = $(input).val();
                 pass_id = ( 'number' === typeof pass_id ) ? pass_id : 0;
 
+                if ( 'string' !== typeof type ) {
+                    type = 'global';
+                }
+
                 // Passed value to link is escaped before sent further for processing.
                 if (code.length === 6) {
                     $.ajax( {
@@ -513,7 +517,7 @@
                     $wrapper.empty().append($feedbackMessage);
                 }
 
-                if ( '' === type || 'timepass' === type || 'subscription' === type ) {
+                if ( '' === type || 'global' === type || 'timepass' === type || 'subscription' === type ) {
                     $wrapper.prepend($feedbackMessage);
 
                     $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
