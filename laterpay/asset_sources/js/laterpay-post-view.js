@@ -365,7 +365,7 @@
                     redeemVoucherCode(
                         $($o.overlayMessageContainer),
                         purchaseOverlayFeedbackMessage,
-                        $o.voucherCodeInput,
+                        $( $o.voucherCodeInput, $o.redeemVoucherBlock ),
                         'purchase-overlay',
                         false
                     );
@@ -381,11 +381,12 @@
 
                         var type = $( this ).data( 'type' );
                         var pass_id = $( this ).data( 'id' );
+                        var parent = $(this).parent();
 
                         redeemVoucherCode(
-                            $(this).parent(),
+                            parent,
                             timePassFeedbackMessage,
-                            $o.voucherCodeInput,
+                            $($o.voucherCodeInput, parent),
                             type,
                             false,
                             pass_id
@@ -398,11 +399,12 @@
 
                         var type = $( this ).data( 'type' );
                         var pass_id = $( this ).data( 'id' );
+                        var parent = $(this).parent();
 
                         redeemVoucherCode(
-                            $(this).parent(),
+                            parent,
                             timePassFeedbackMessage,
-                            $o.giftCardCodeInput,
+                            $( $o.giftCardCodeInput, parent ),
                             type,
                             true,
                             pass_id
@@ -411,8 +413,22 @@
                     .on('click', function(e) {e.preventDefault();});
             },
 
+            /**
+             * To validate voucher code, and Redirect to paywall if it's valid.
+             * If voucher code is invalid then show appropriate error message.
+             *
+             * @param {object}  $wrapper           jQuery Element where any error message will render
+             * @param {object}  feedbackMessageTpl Template for error message.
+             * @param {string}  input              jQuery element for input control where user entered coupon code.
+             * @param {string}  type               Type of coupon code that is allowed.
+             *                                     timepass, subscription, global, purchase-overlay
+             * @param {boolean} is_gift
+             * @param {int}     pass_id            Pass ID that is allowed.
+             *
+             * @return void
+             */
             redeemVoucherCode = function($wrapper, feedbackMessageTpl, input, type, is_gift, pass_id) {
-                var code = $(input).val();
+                var code = $( input ).val();
                 pass_id = ( 'number' === typeof pass_id ) ? pass_id : 0;
 
                 if ( 'string' !== typeof type ) {
@@ -438,7 +454,7 @@
                         dataType  : 'json',
                     } ).done( function ( r ) {
                         // clear input
-                        $(input).val('');
+                        $( input ).val( '' );
 
                         if (r.success) {
                             if (!is_gift) {
