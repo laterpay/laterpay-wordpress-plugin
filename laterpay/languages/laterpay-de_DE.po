@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-12-16 20:52+0530\n"
-"PO-Revision-Date: 2019-12-16 20:55+0530\n"
+"POT-Creation-Date: 2019-12-18 20:14+0530\n"
+"PO-Revision-Date: 2019-12-18 20:14+0530\n"
 "Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1126,7 +1126,7 @@ msgid "now, pay later"
 msgstr "spenden, später zahlen"
 
 #: application/Controller/Admin/Contributions.php:63
-#: application/Controller/Frontend/Shortcode.php:767
+#: application/Controller/Frontend/Shortcode.php:764
 #: asset_sources/js/blocks/contribution/edit.js:220
 msgid "Please enter a Campaign Name above."
 msgstr "Bitte geben Sie oben einen Kampagnennamen ein."
@@ -1144,7 +1144,7 @@ msgstr ""
 "Contribution-Beträge anzeigen” aktiviert ist."
 
 #: application/Controller/Admin/Contributions.php:66
-#: application/Controller/Frontend/Shortcode.php:776
+#: application/Controller/Frontend/Shortcode.php:773
 msgid "Please enter a valid contribution amount above."
 msgstr "Bitte geben Sie oben einen gültigen Contribution-Betrag ein."
 
@@ -1230,7 +1230,7 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #: application/Controller/Admin/Pricing.php:135
 #: application/Controller/Admin/TinyMCE.php:191
 #: application/Controller/Admin/TinyMCE.php:214
-#: application/Controller/Frontend/Shortcode.php:590
+#: application/Controller/Frontend/Shortcode.php:587
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:42
 #: views/backend/pricing.php:182
 msgid "Subscription"
@@ -1238,7 +1238,7 @@ msgstr "Abo"
 
 #: application/Controller/Admin/Post/Blocks.php:56
 #: application/Controller/Admin/Pricing.php:134
-#: application/Controller/Frontend/Shortcode.php:590
+#: application/Controller/Frontend/Shortcode.php:587
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:41
 #: views/backend/pricing.php:177
 msgid "Time Pass"
@@ -1250,22 +1250,22 @@ msgid "We couldn't find a %s with id=\"0\" on this site."
 msgstr "Wir konnten kein %s mit der id=“0” auf der Seite finden."
 
 #: application/Controller/Admin/Post/Blocks.php:68
-#: application/Controller/Frontend/Shortcode.php:590
+#: application/Controller/Frontend/Shortcode.php:587
 #, php-format
 msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
 
 #: application/Controller/Admin/Post/Blocks.php:74
-#: application/Controller/Frontend/Post.php:652
-#: application/Controller/Frontend/Shortcode.php:602
+#: application/Controller/Frontend/Post.php:700
+#: application/Controller/Frontend/Shortcode.php:599
 #: application/Module/Purchase.php:750
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:117
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
 #: application/Controller/Admin/Post/Blocks.php:76
-#: application/Controller/Frontend/Post.php:653
-#: application/Controller/Frontend/Shortcode.php:604
+#: application/Controller/Frontend/Post.php:701
+#: application/Controller/Frontend/Shortcode.php:601
 #: application/Module/Purchase.php:622 application/Module/Purchase.php:635
 #: application/Module/Purchase.php:743
 #: views/backend/partials/purchase-overlay.php:32
@@ -1273,8 +1273,8 @@ msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
 #: application/Controller/Admin/Post/Blocks.php:82
-#: application/Controller/Frontend/Post.php:654
-#: application/Controller/Frontend/Shortcode.php:610
+#: application/Controller/Frontend/Post.php:702
+#: application/Controller/Frontend/Shortcode.php:607
 #: application/Module/Purchase.php:746
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
@@ -1316,7 +1316,7 @@ msgid "Buy now with LaterPay"
 msgstr "Jetzt mit LaterPay kaufen"
 
 #: application/Controller/Admin/Post/Blocks.php:335
-#: application/Controller/Frontend/Shortcode.php:814
+#: application/Controller/Frontend/Shortcode.php:811
 #: asset_sources/js/blocks/contribution/edit.js:245
 #: asset_sources/js/blocks/contribution/index.js:27
 #: views/backend/contributions.php:64 views/backend/contributions.php:225
@@ -1324,7 +1324,7 @@ msgid "Support the author"
 msgstr "Unterstützen Sie den Autor"
 
 #: application/Controller/Admin/Post/Blocks.php:336
-#: application/Controller/Frontend/Shortcode.php:815
+#: application/Controller/Frontend/Shortcode.php:812
 #: asset_sources/js/blocks/contribution/edit.js:254
 #: asset_sources/js/blocks/contribution/index.js:31
 #: views/backend/contributions.php:71 views/backend/contributions.php:230
@@ -1617,7 +1617,7 @@ msgid "The voucher price must be less than or equal to the time pass price."
 msgstr "Der Gutscheinpreis muss kleiner oder gleich dem Zeitpass-Preis sein."
 
 #: application/Controller/Admin/Pricing.php:118
-#: application/Controller/Frontend/Post.php:649
+#: application/Controller/Frontend/Post.php:697
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
@@ -2125,14 +2125,12 @@ msgid "auto detected"
 msgstr "automatisch ermittelt"
 
 #: application/Controller/Admin/TinyMCE.php:124
-#, fuzzy
-#| msgid "LaterPay Content"
 msgid "LaterPay ShortCodes"
-msgstr "LaterPay Inhalt"
+msgstr "LaterPay ShortCodes"
 
 #: application/Controller/Admin/TinyMCE.php:125
 msgid "Clear"
-msgstr ""
+msgstr "Leeren"
 
 #: application/Controller/Admin/TinyMCE.php:136
 #: asset_sources/js/blocks/premium-download-box/index.js:15
@@ -2140,10 +2138,8 @@ msgid "LaterPay Premium Download Box"
 msgstr "LaterPay Premium Download-Box"
 
 #: application/Controller/Admin/TinyMCE.php:138
-#, fuzzy
-#| msgid "Hide premium content"
 msgid "Premium Content"
-msgstr "Bezahlinhalte ausblenden"
+msgstr "Premium Inhalte"
 
 #: application/Controller/Admin/TinyMCE.php:139
 #: asset_sources/js/blocks/premium-download-box/edit.js:87
@@ -2151,14 +2147,10 @@ msgid "Select Downloadable Media"
 msgstr "Herunterladbare Inhalte/Medien auswählen"
 
 #: application/Controller/Admin/TinyMCE.php:142
-#, fuzzy
-#| msgid "Heading text"
 msgid "Heading Text"
 msgstr "Überschrift"
 
 #: application/Controller/Admin/TinyMCE.php:146
-#, fuzzy
-#| msgid "Description text"
 msgid "Description Text"
 msgstr "Beschreibung"
 
@@ -2209,20 +2201,16 @@ msgid "Custom Image"
 msgstr "Ihr Beitrag"
 
 #: application/Controller/Admin/TinyMCE.php:183
-#, fuzzy
-#| msgid "Select Teaser Image"
 msgid "Select Teaser Image (optional)"
-msgstr "Vorschaubild auswählen"
+msgstr "Vorschaubild auswählen (optional)"
 
 #: application/Controller/Admin/TinyMCE.php:187
-#, fuzzy
-#| msgid "Time Pass Button"
 msgid "Time Pass Purchase Button"
-msgstr "Zeitpass-Button"
+msgstr "Zeitpass Kauftaste"
 
 #: application/Controller/Admin/TinyMCE.php:188
 msgid "No Time-pass Available."
-msgstr ""
+msgstr "Kein Zeitpass verfügbar."
 
 #: application/Controller/Admin/TinyMCE.php:189
 #: application/Controller/Admin/TinyMCE.php:212 views/backend/account.php:137
@@ -2232,26 +2220,20 @@ msgstr "oder"
 #: application/Controller/Admin/TinyMCE.php:195
 #: application/Controller/Admin/TinyMCE.php:218
 msgid "Custom Button Image"
-msgstr ""
+msgstr "Benutzerdefiniertes Tastenbild"
 
 #: application/Controller/Admin/TinyMCE.php:196
 #: application/Controller/Admin/TinyMCE.php:219
-#, fuzzy
-#| msgid "Thank you page (optional)"
 msgid "Select Image (optional)"
-msgstr "Dankeschön-Seite (optional)"
+msgstr "Bild auswählen (optional)"
 
 #: application/Controller/Admin/TinyMCE.php:199
 #: application/Controller/Admin/TinyMCE.php:222
-#, fuzzy
-#| msgid "Button Text Color"
 msgid "Button Text"
-msgstr "Button-Textfarbe"
+msgstr "Beschriftung des Kauf-Buttons"
 
 #: application/Controller/Admin/TinyMCE.php:202
 #: application/Controller/Admin/TinyMCE.php:225
-#, fuzzy
-#| msgid "Background Color"
 msgid "Button Background Color"
 msgstr "Hintergrundfarbe"
 
@@ -2262,18 +2244,14 @@ msgid "Button Text Color"
 msgstr "Button-Textfarbe"
 
 #: application/Controller/Admin/TinyMCE.php:210
-#, fuzzy
-#| msgid "Subscription Button"
 msgid "Subscription Purchase Button"
-msgstr "Abo-Button"
+msgstr "Schaltfläche Abonnement kaufen"
 
 #: application/Controller/Admin/TinyMCE.php:211
-#, fuzzy
-#| msgid "Subscription saved."
 msgid "No Subscription Available."
-msgstr "Abo gespeichert."
+msgstr "Kein Abonnement verfügbar"
 
-#: application/Controller/Frontend/Post.php:646
+#: application/Controller/Frontend/Post.php:694
 msgid ""
 "Your site is in LIVE mode, your visitors would now see the LaterPay purchase "
 "dialog. \n"
@@ -2293,19 +2271,19 @@ msgstr ""
 "Hinweis: Für Einkäufe, die im LIVE-Modus getätigt werden, werden Ihnen "
 "Gebühren berechnet."
 
-#: application/Controller/Frontend/Post.php:647
+#: application/Controller/Frontend/Post.php:695
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: application/Controller/Frontend/Post.php:648
+#: application/Controller/Frontend/Post.php:696
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: application/Controller/Frontend/Post.php:650
+#: application/Controller/Frontend/Post.php:698
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:729
+#: application/Controller/Frontend/Post.php:777
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
 "&mdash; {teaser_content}"
@@ -2363,29 +2341,25 @@ msgid "Read now"
 msgstr "Jetzt lesen"
 
 #: application/Controller/Frontend/Shortcode.php:444
-#, fuzzy
-#| msgid "1 Month Subscription"
 msgid "Wrong Subscription ID."
-msgstr "Monatsabo"
+msgstr "Fehlerhafte Abonnement-ID."
 
 #: application/Controller/Frontend/Shortcode.php:446
-#, fuzzy
-#| msgid "Wrong time pass id."
 msgid "Wrong Time Pass ID."
-msgstr "Ungültige Zeitpass-ID."
+msgstr "Fehlerhafte Zeitpass-ID."
 
-#: application/Controller/Frontend/Shortcode.php:680
+#: application/Controller/Frontend/Shortcode.php:677
 #, php-format
 msgid ""
 "%1$s\"all\"%2$s cannot be used for both %1$s\"timepasses\"%2$s and %1$s"
 "\"subscriptions\"%2$s at the same time."
 msgstr ""
 
-#: application/Controller/Frontend/Shortcode.php:750
+#: application/Controller/Frontend/Shortcode.php:747
 msgid "Something went wrong."
 msgstr ""
 
-#: application/Controller/Frontend/Shortcode.php:838
+#: application/Controller/Frontend/Shortcode.php:835
 #, php-format
 msgid "%1$s"
 msgstr ""
@@ -4172,19 +4146,19 @@ msgstr "Zurück"
 
 #: views/backend/partials/subscription.php:44
 #: views/backend/partials/time-pass.php:46
-#: views/frontend/partials/post/gift/gift-pass.php:40
+#: views/frontend/partials/post/gift/gift-pass.php:44
 msgid "Validity"
 msgstr "Gültigkeit"
 
 #: views/backend/partials/subscription.php:50
 #: views/backend/partials/time-pass.php:52
-#: views/frontend/partials/post/gift/gift-pass.php:46
+#: views/frontend/partials/post/gift/gift-pass.php:66
 msgid "Access to"
 msgstr "Zugriff auf"
 
 #: views/backend/partials/subscription.php:56
 #: views/backend/partials/time-pass.php:58
-#: views/frontend/partials/post/gift/gift-pass.php:52
+#: views/frontend/partials/post/gift/gift-pass.php:72
 msgid "Renewal"
 msgstr "Verlängert sich"
 
@@ -4202,7 +4176,7 @@ msgid "Cancellable anytime"
 msgstr "Jederzeit kündbar"
 
 #: views/backend/partials/time-pass.php:60
-#: views/frontend/partials/post/gift/gift-pass.php:54
+#: views/frontend/partials/post/gift/gift-pass.php:78
 msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
@@ -4522,12 +4496,21 @@ msgstr ""
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr "Klicken Sie auf den \"Erstellen\" Button, um ein Abo hinzuzufügen."
 
-#: views/frontend/partials/post/gift/redeem-form.php:10
+#: views/frontend/partials/post/gift/gift-pass.php:49
+#, php-format
+msgid "Subscription (Renews in a %s, cancellable anytime)"
+msgstr "Abonnement (Verlängert sich nach %s, jederzeit kündbar)"
+
+#: views/frontend/partials/post/gift/gift-pass.php:76
+msgid "Automatically renewed."
+msgstr "Automatische Verlängerung."
+
+#: views/frontend/partials/post/gift/redeem-form.php:24
 #: views/frontend/partials/widget/time-passes.php:38
 msgid "Code"
 msgstr "Code"
 
-#: views/frontend/partials/post/gift/redeem-form.php:11
+#: views/frontend/partials/post/gift/redeem-form.php:26
 #: views/frontend/partials/widget/time-passes.php:39
 msgid "Redeem"
 msgstr "Einlösen"

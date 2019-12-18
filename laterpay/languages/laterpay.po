@@ -1,20 +1,21 @@
-# Copyright (C) 2019 LaterPay GmbH
+# Copyright (C) 2019 LaterPay
 # This file is distributed under the same license as the LaterPay plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LaterPay 2.8.0\n"
+"Project-Id-Version: LaterPay 2.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/laterpay\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-12-17T15:58:51+05:30\n"
+"POT-Creation-Date: 2019-12-18T20:14:15+05:30\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: laterpay\n"
 
 #. Plugin Name of the plugin
+#. Author of the plugin
 #: application/Controller/Admin.php:276
 msgid "LaterPay"
 msgstr ""
@@ -25,10 +26,6 @@ msgstr ""
 
 #. Description of the plugin
 msgid "Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs."
-msgstr ""
-
-#. Author of the plugin
-msgid "LaterPay GmbH"
 msgstr ""
 
 #. Author URI of the plugin
