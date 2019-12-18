@@ -4,9 +4,9 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: Contribution, Conversion, Earn Money, Micropayment, Monetization, Monetize Content, Paid Content, Payment, Paywall, Sell Article, Sell Content, Subscription
 Requires at least: 4.6
-Tested up to: 5.3
+Tested up to: 5.3.1
 Requires PHP: 5.6
-Stable tag: 2.8.0
+Stable tag: 2.9.0
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -90,6 +90,13 @@ Yes!
 7. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.9.0 ( December 19, 2019 ) =
+* Add Shortcode Generator to allow creation of Purchase Button Shortcode in Classic Editor.
+* Add Shortcode Generator to allow creation of Premium Download Box Shortcode in Classic Editor.
+* Add support for Subscriptions in `[laterpay_redeem_voucher]`.
+* Update Contribution Shortcode Generator and Contribution Block to allow customization of Dialog Header and Description.
+* Fix issue with usage of custom links in purchase option on Purchase Overlay.
+
 = 2.8.0 ( November 25, 2019 ) =
 * Add Purchase Button Block.
 * Add Dynamic Access Block.
@@ -687,8 +694,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.8.0 ( November 25, 2019 ) =
-Introduces LaterPay Gutenberg Blocks to take advantage of LaterPay Functionality in Block Editor and minor bug fixes.
+= 2.9.0 ( December 19, 2019 ) =
+Introduces Shortcode Generator to take advantage of LaterPay Functionality in Classic Editor, updates `laterpay_redeem_voucher` to support Subscriptions and minor updates to enhance merchant experience.
 
 == Arbitrary section ==
 
