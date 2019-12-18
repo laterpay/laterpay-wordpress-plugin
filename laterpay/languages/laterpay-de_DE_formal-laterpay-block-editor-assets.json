@@ -685,14 +685,26 @@
          "auto detected": [
             "automatisch ermittelt"
          ],
+         "LaterPay ShortCodes": [
+            "LaterPay ShortCodes"
+         ],
          "Clear": [
-            ""
+            "Leeren"
          ],
          "LaterPay Premium Download Box": [
             "LaterPay Premium Download-Box"
          ],
+         "Premium Content": [
+            "Premium Inhalte"
+         ],
          "Select Downloadable Media": [
             "Herunterladbare Inhalte/Medien auswählen"
+         ],
+         "Heading Text": [
+            "Überschrift"
+         ],
+         "Description Text": [
+            "Beschreibung"
          ],
          "Content Type": [
             "Inhalts-Typ"
@@ -718,17 +730,38 @@
          "Text": [
             "Text"
          ],
+         "Select Teaser Image (optional)": [
+            "Vorschaubild auswählen (optional)"
+         ],
+         "Time Pass Purchase Button": [
+            "Zeitpass Kauftaste"
+         ],
          "No Time-pass Available.": [
-            ""
+            "Kein Zeitpass verfügbar."
          ],
          "or": [
             "oder"
          ],
          "Custom Button Image": [
-            ""
+            "Benutzerdefiniertes Tastenbild"
+         ],
+         "Select Image (optional)": [
+            "Bild auswählen (optional)"
+         ],
+         "Button Text": [
+            "Beschriftung des Kauf-Buttons"
+         ],
+         "Button Background Color": [
+            "Hintergrundfarbe"
          ],
          "Button Text Color": [
             "Button-Textfarbe"
+         ],
+         "Subscription Purchase Button": [
+            "Schaltfläche Abonnement kaufen"
+         ],
+         "No Subscription Available.": [
+            "Kein Abonnement verfügbar"
          ],
          "Your site is in LIVE mode, your visitors would now see the LaterPay purchase dialog. \n\nTo experience this behavior, view this page either by logging out of WordPress or using an user account with non-admin privileges. \n\nNote: You will be charged for purchases made while in LIVE mode.": [
             "Ihre Website befindet sich im LIVE-Modus, Ihre Besucher sehen nun den LaterPay-Kaufdialog. \n\nUm dies aus Besucher-Sicht zu überprüfen, rufen Sie diese Seite entweder erneut nach Abmeldung von WordPress oder über ein Benutzerkonto mit Non-Admin-Rechten auf. \n\nHinweis: Für Einkäufe, die im LIVE-Modus getätigt werden, werden Ihnen Gebühren berechnet."
@@ -774,6 +807,12 @@
          ],
          "Read now": [
             "Jetzt lesen"
+         ],
+         "Wrong Subscription ID.": [
+            "Fehlerhafte Abonnement-ID."
+         ],
+         "Wrong Time Pass ID.": [
+            "Fehlerhafte Zeitpass-ID."
          ],
          "%1$s\"all\"%2$s cannot be used for both %1$s\"timepasses\"%2$s and %1$s\"subscriptions\"%2$s at the same time.": [
             ""
@@ -1950,6 +1989,12 @@
          ],
          "Click the \"Create\" button to add a Subscription.": [
             "Klicken Sie auf den \"Erstellen\" Button, um ein Abo hinzuzufügen."
+         ],
+         "Subscription (Renews in a %s, cancellable anytime)": [
+            "Abonnement (Verlängert sich nach %s, jederzeit kündbar)"
+         ],
+         "Automatically renewed.": [
+            "Automatische Verlängerung."
          ],
          "Code": [
             "Code"
