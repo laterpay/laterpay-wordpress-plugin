@@ -694,8 +694,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.9.0 ( December 19, 2019 ) =
-Introduces Shortcode Generator to take advantage of LaterPay Functionality in Classic Editor, updates `laterpay_redeem_voucher` to support Subscriptions and minor updates to enhance merchant experience.
+= 2.9.0 =
+Introduces Shortcode Generator to take in Classic Editor.
 
 == Arbitrary section ==
 
