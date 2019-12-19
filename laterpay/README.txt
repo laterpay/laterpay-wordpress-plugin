@@ -4,9 +4,9 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: Contribution, Conversion, Earn Money, Micropayment, Monetization, Monetize Content, Paid Content, Payment, Paywall, Sell Article, Sell Content, Subscription
 Requires at least: 4.6
-Tested up to: 5.3
+Tested up to: 5.3.1
 Requires PHP: 5.6
-Stable tag: 2.8.0
+Stable tag: 2.9.0
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -81,14 +81,22 @@ Yes!
 
 == Screenshots ==
 
-1. The LaterPay WordPress plugin lets you easily define a teaser text for your paid content and set an individual price...
-2. ...or a dynamic price for your posts, pages and other content types.
-3. In the *Pricing tab*, you can set default prices for the entire website or specific categories. You can create time passes to offer time-limited access to all your content or a category, or even offer subscriptions.
-4. In the *Appearance tab*, you can choose between three preview modes and customize the appearance of all LaterPay elements on your website.
-5. In the *Account tab*, you can manage your API credentials, switch between test and live mode, choose if LaterPay should be visible for your users in test mode, and set the region (U.S. or Europe) and currency ($ or €) for your LaterPay account.
-6. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
+1. The LaterPay WordPress plugin lets you easily configure a paywall to monetize content on your site.
+2. In the WordPress editor, you can set a static or dynamic price for your posts, pages and other content types as well as utilize our custom blocks to take advantage of additional features.
+3. On the Paywall tab, you can set default prices for the entire website or specific categories. You can create time passes to offer time-limited access to all your content or a category, or even offer subscriptions.
+4. Visit the Appearance tab to customize the layout of your paywall or customize colors to ensure that your product offerings blend seamlessly with your brand.
+5. Use the Contributions tab to create a contributions dialog or button to request support from your followers in just a few clicks.
+6. Use the Account tab to link the plugin to your LaterPay account, switch between test and live mode, and choose your currency ($ or €).
+7. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.9.0 ( December 19, 2019 ) =
+* Add Shortcode Generator to allow creation of Purchase Button Shortcode in Classic Editor.
+* Add Shortcode Generator to allow creation of Premium Download Box Shortcode in Classic Editor.
+* Add support for Subscriptions in `[laterpay_redeem_voucher]`.
+* Update Contribution Shortcode Generator and Contribution Block to allow customization of Dialog Header and Description.
+* Fix issue with usage of custom links in purchase option on Purchase Overlay.
+
 = 2.8.0 ( November 25, 2019 ) =
 * Add Purchase Button Block.
 * Add Dynamic Access Block.
@@ -686,8 +694,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.8.0 ( November 25, 2019 ) =
-Introduces LaterPay Gutenberg Blocks to take advantage of LaterPay Functionality in Block Editor and minor bug fixes.
+= 2.9.0 =
+Introduces Shortcode Generator to take in Classic Editor.
 
 == Arbitrary section ==
 

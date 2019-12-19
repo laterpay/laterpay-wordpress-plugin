@@ -172,9 +172,7 @@
 
                 // select radio input by clicking on a container
                 $o.body
-                    .on('click', $o.optionContainer, function (e) {
-                        e.preventDefault();
-
+                    .on('click', $o.optionContainer, function () {
                         // Remove checked prop from previously selected option for overlay.
                         $('input[name="lp_purchase-overlay-option"]').removeProp('checked');
 
@@ -367,7 +365,7 @@
                     redeemVoucherCode(
                         $($o.overlayMessageContainer),
                         purchaseOverlayFeedbackMessage,
-                        $o.voucherCodeInput,
+                        $( $o.voucherCodeInput, $o.redeemVoucherBlock ),
                         'purchase-overlay',
                         false
                     );
@@ -380,31 +378,62 @@
                 // redeem voucher code
                 $($o.voucherRedeemButton)
                     .on('mousedown', function() {
+
+                        var type = $( this ).data( 'type' );
+                        var pass_id = $( this ).data( 'id' );
+                        var parent = $(this).parent();
+
                         redeemVoucherCode(
-                            $(this).parent(),
+                            parent,
                             timePassFeedbackMessage,
-                            $o.voucherCodeInput,
-                            'time-pass',
-                            false
+                            $($o.voucherCodeInput, parent),
+                            type,
+                            false,
+                            pass_id
                         );
                     })
                     .on('click', function(e) {e.preventDefault();});
 
                 $($o.giftCardRedeemButton)
                     .on('mousedown', function() {
+
+                        var type = $( this ).data( 'type' );
+                        var pass_id = $( this ).data( 'id' );
+                        var parent = $(this).parent();
+
                         redeemVoucherCode(
-                            $(this).parent(),
+                            parent,
                             timePassFeedbackMessage,
-                            $o.giftCardCodeInput,
-                            'time-pass',
-                            true
+                            $( $o.giftCardCodeInput, parent ),
+                            type,
+                            true,
+                            pass_id
                         );
                     })
                     .on('click', function(e) {e.preventDefault();});
             },
 
-            redeemVoucherCode = function($wrapper, feedbackMessageTpl, input, type, is_gift) {
-                var code = $(input).val();
+            /**
+             * To validate voucher code, and Redirect to paywall if it's valid.
+             * If voucher code is invalid then show appropriate error message.
+             *
+             * @param {object}  $wrapper           jQuery Element where any error message will render
+             * @param {object}  feedbackMessageTpl Template for error message.
+             * @param {string}  input              jQuery element for input control where user entered coupon code.
+             * @param {string}  type               Type of coupon code that is allowed.
+             *                                     timepass, subscription, global, purchase-overlay
+             * @param {boolean} is_gift
+             * @param {int}     pass_id            Pass ID that is allowed.
+             *
+             * @return void
+             */
+            redeemVoucherCode = function($wrapper, feedbackMessageTpl, input, type, is_gift, pass_id) {
+                var code = $( input ).val();
+                pass_id = ( 'number' === typeof pass_id ) ? pass_id : 0;
+
+                if ( 'string' !== typeof type ) {
+                    type = 'global';
+                }
 
                 // Passed value to link is escaped before sent further for processing.
                 if (code.length === 6) {
@@ -414,6 +443,8 @@
                         data      :{
                             action     : 'laterpay_redeem_voucher_code',
                             code       : code,
+                            type       : type,
+                            pass_id    : pass_id,
                             link       : window.location.href, // phpcs:ignore WordPressVIPMinimum.JS.Window.location
                             lp_post_id : typeof lpVars.post_id !== 'undefined' ? lpVars.post_id : ''
                         },
@@ -423,7 +454,7 @@
                         dataType  : 'json',
                     } ).done( function ( r ) {
                         // clear input
-                        $(input).val('');
+                        $( input ).val( '' );
 
                         if (r.success) {
                             if (!is_gift) {
@@ -502,7 +533,7 @@
                     $wrapper.empty().append($feedbackMessage);
                 }
 
-                if (type === 'time-pass') {
+                if ( '' === type || 'global' === type || 'timepass' === type || 'subscription' === type ) {
                     $wrapper.prepend($feedbackMessage);
 
                     $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);

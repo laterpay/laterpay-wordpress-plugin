@@ -218,16 +218,29 @@ class LaterPay_Controller_Admin_Contributions extends LaterPay_Controller_Admin_
                     }
                 }
 
+                $dialog_header      = filter_input( INPUT_POST, 'dialog_header', FILTER_SANITIZE_STRING );
+                $dialog_description = filter_input( INPUT_POST, 'dialog_description', FILTER_SANITIZE_STRING );
+
                 // Generate the shortcode.
-                $result  = LaterPay_Controller_Frontend_Shortcode::generator( 'contribution', [
+                $shortcode_data = [
                     'name'            => sanitize_text_field( $form_data['contribution_name'] ),
                     'thank_you'       => esc_url_raw( $form_data['thank_you_page'] ),
                     'type'            => 'multiple',
                     'custom_amount'   => isset ( $_POST['custom_amount'] ) ? (float) $form_data['custom_amount'] * 100 : 'none',
                     'all_amounts'     => array_column( $filtered_prices, 'price' ),
                     'all_revenues'    => array_column( $filtered_prices, 'revenue' ),
-                    'selected_amount' => $selected_amount
-                ] );
+                    'selected_amount' => $selected_amount,
+                ];
+
+                if ( ! empty( $dialog_header ) ) {
+                    $shortcode_data['dialog_header'] = wp_strip_all_tags( $dialog_header );
+                }
+
+                if ( ! empty( $dialog_description ) ) {
+                    $shortcode_data['dialog_description'] = wp_strip_all_tags( $dialog_description );
+                }
+
+                $result = LaterPay_Controller_Frontend_Shortcode::generator( 'contribution', $shortcode_data );
                 $message = __( 'Successfully generated code, please paste at desired location.', 'laterpay' );
 
                 // Send response.

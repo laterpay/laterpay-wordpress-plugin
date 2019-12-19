@@ -186,7 +186,7 @@
 
 // time pass gift cards ------------------------------------------------------------------------------------------------
 .lp_gift-card {
-    background: $background--lightest url('../img/gift-card-background.png') 0 0/100% no-repeat !important;
+    background: transparent url('../img/gift-card-background.png') 0 0/100% no-repeat !important;
     box-sizing: border-box !important;
     color: $text--lighter !important;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
@@ -206,7 +206,7 @@
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
         font-size: $fs--15 !important;
         font-style: normal !important;
-        margin: $fs--05 0 $fs !important;
+        margin: $fs--05 0 $fs--05 !important;
         overflow: hidden !important; /* 1 */
         text-overflow: ellipsis !important; /* 1 */
         white-space: nowrap !important; /* 1 */
@@ -216,7 +216,7 @@
      * 1. Cut off too long texts
      */
     .lp_gift-card__description {
-        margin: 0 0 $fs !important;
+        margin: 0 0 $fs--05 !important;
         max-height: $fs--3 !important; /* 1 */
         overflow: hidden !important; /* 1 */
         text-overflow: ellipsis !important; /* 1 */
@@ -242,6 +242,7 @@
             font-weight: normal !important;
             padding: 0 $fs--05 $fs--025 0 !important;
             text-transform: none !important;
+            min-width: 60px;
         }
 
         .lp_gift-card___conditions-value {
@@ -262,6 +263,13 @@
 .lp_gift-card__buy-another {
     margin-left: $fs * 12;
     padding: $fs;
+}
+
+.lp_gift-card {
+    &.lp_gift-card-subscription {
+        padding-top: $fs--05 !important;
+        padding-bottom: $fs--05 !important;
+    }
 }
 
 

@@ -57,6 +57,21 @@ $currency_symbol = 'USD' === $laterpay['currency']['code'] ? '$' : '€';
                             <input type="text" id="lp_thank_you_page" class="lp_input" name="contribution_thank_you_page" placeholder="http://www..." value="" />
                             <p data-icon="n" class="lp-contribution-error-message"></p>
                         </div>
+
+                        <div class="contributions_option_single hide-on-single-purchase">
+                            <label class="lp_contribution_label" for="lp_dialog_header"><?php esc_html_e( 'Dialog Header (optional)', 'laterpay' ); ?></label>
+                            <br />
+                            <input type="text" id="lp_dialog_header" class="lp_input" name="dialog_header" placeholder="<?php esc_attr_e( 'Support the author', 'laterpay' ); ?>" value=""/>
+                            <p data-icon="n" class="lp-contribution-error-message"></p>
+                        </div>
+
+                        <div class="contributions_option_single hide-on-single-purchase">
+                            <label class="lp_contribution_label" for="lp_dialog_description"><?php esc_html_e( 'Dialog Description (optional)', 'laterpay' ); ?></label>
+                            <br />
+                            <input type="text" id="lp_dialog_description" class="lp_input" name="dialog_description" placeholder="<?php esc_attr_e( 'How much would you like to contribute?', 'laterpay' ); ?>" value=""/>
+                            <p data-icon="n" class="lp-contribution-error-message"></p>
+                        </div>
+
                     </div>
                     <div class="lp_contributions_single_amount_options">
                         <label class="lp_contribution_label"><?php esc_html_e( 'Amount', 'laterpay' ); ?></label>

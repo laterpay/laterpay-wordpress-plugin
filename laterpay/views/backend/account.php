@@ -208,9 +208,9 @@ $is_vip = laterpay_check_is_vip();
                         ?>
                     </p>
                     <ul class="lp_go_live">
-                        <li data-icon="f"><?php esc_html_e( 'Set up your Pricing', 'laterpay' ); ?></li>
-                        <li data-icon="f"><?php esc_html_e( 'Preview your site while logged into WordPress to ensure everything is displayed as expected', 'laterpay' ); ?></li>
-                        <li data-icon="f"><?php esc_html_e( 'Create and link to your LaterPay account so that all revenue can be sent to your bank account', 'laterpay' ); ?></li>
+                        <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Set up your Pricing', 'laterpay' ); ?></li>
+                        <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Preview your site while logged into WordPress to ensure everything is displayed as expected', 'laterpay' ); ?></li>
+                        <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Create and link to your LaterPay account so that all revenue can be sent to your bank account', 'laterpay' ); ?></li>
                     </ul>
                     <p>
                         <?php
@@ -218,8 +218,8 @@ $is_vip = laterpay_check_is_vip();
                         ?>
                     </p>
                     <ul class="lp_go_live">
-                        <li data-icon="f"><?php esc_html_e( 'Adjust the Appearance to match your brand colors', 'laterpay' ); ?></li>
-                        <li data-icon="f"><?php esc_html_e( 'Explore the Advanced tab to learn about additional features available', 'laterpay' ); ?></li>
+                        <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Adjust the Appearance to match your brand colors', 'laterpay' ); ?></li>
+                        <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Explore the Advanced tab to learn about additional features available', 'laterpay' ); ?></li>
                     </ul>
                     <br />
                     <b><?php esc_html_e( 'Click the toggle at the top of the page to switch to "LIVE" mode and start generating revenue!', 'laterpay' ); ?></b>

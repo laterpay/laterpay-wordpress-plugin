@@ -405,39 +405,75 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
     }
 
     /**
-     * Render a form to redeem a gift code for a time pass from shortcode [laterpay_redeem_voucher].
+     * Render a form to redeem a gift code from shortcode [laterpay_redeem_voucher].
      * The shortcode renders an input and a button.
      * If the user enters his gift code and clicks the 'Redeem' button, a purchase dialog is opened,
      * where the user has to confirm the purchase of the associated time pass for a price of 0.00 Euro.
      * This step is done to ensure that this user accepts the LaterPay terms of use.
+     *
+     * Parameters
+     * - id   : (Optional) Time Pass ID or Subscription ID. When passed, it will accept voucher code only for that Time Pass or Subscription.
+     * - type : (Optional) Type of voucher code to be accepted. Expected values "timepass", "subscription".
+     *
+     * Basic example:
+     * - [laterpay_redeem_voucher]
+     * - [laterpay_redeem_voucher type="subscription"]
+     *
+     * Advanced example:
+     * - [laterpay_redeem_voucher id="1" type="timepass"]
+     * - [laterpay_redeem_voucher id="2" type="subscription"]
+     *
      * @param LaterPay_Core_Event $event
+     *
+     * @throws LaterPay_Core_Exception
      *
      * @return string
      */
     public function render_redeem_gift_code( LaterPay_Core_Event $event ) {
-        list( $atts) = $event->get_arguments() + array( array() );
+
+        list( $atts ) = $event->get_arguments() + array( array() );
 
         $data = shortcode_atts( array(
-            'id' => null,
+            'id'   => null,
+            'type' => '',
         ), $atts );
+
+        $allowed_types = [ 'timepass', 'subscription' ];
+        $data['type']  = strtolower( trim( $data['type'] ) );
+        $data['type']  = in_array( $data['type'], $allowed_types, true ) ? $data['type'] : '';
+
+        $pass_data = array();
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true );
-            if ( ! $time_pass ) {
-                $error_message = LaterPay_Helper_View::get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
+
+            if ( 'subscription' === $data['type'] ) {
+                $pass_data = LaterPay_Helper_Subscription::get_subscription_by_id( $data['id'], true );
+            } else {
+                $pass_data = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true );
+            }
+
+            if ( ! $pass_data ) {
+
+                if ( 'subscription' === $data['type'] ) {
+                    $error_message = esc_html__( 'Wrong Subscription ID.', 'laterpay' );
+                } else {
+                    $error_message = esc_html__( 'Wrong Time Pass ID.', 'laterpay' );
+                }
+
+                $error_message = LaterPay_Helper_View::get_error_message( $error_message, $atts );
                 $event->set_result( $error_message );
                 throw new LaterPay_Core_Exception( $error_message );
             }
-        } else {
-            $time_pass = array();
         }
 
         $view_args = array(
-            'pass_data'               => $time_pass,
+            'pass_data'               => $pass_data,
+            'type'                    => $data['type'],
             'standard_currency'       => $this->config->get( 'currency.code' ),
             'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
         );
+
         $this->assign( 'laterpay', $view_args );
 
         $html = $this->get_text_view( 'frontend/partials/post/gift/gift-redeem' );
@@ -453,7 +489,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      *
      * @return string
      */
-    public function render_gift_pass( $gift_pass, $show_redeem = false, $is_loop = false ) {
+    public function render_gift_pass( $gift_pass, $show_redeem = false ) {
         // check if gift_pass is not empty and is array
         if ( ! $gift_pass || ! is_array( $gift_pass ) ) {
             return '';
@@ -465,11 +501,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         );
         $this->assign( 'laterpay_gift', $view_args );
 
-        if ( true === $is_loop ) {
-            $this->render( 'frontend/partials/post/gift/gift-pass', null, true );
-        } else {
-            $this->render( 'frontend/partials/post/gift/gift-pass' );
-        }
+        $this->render( 'frontend/partials/post/gift/gift-pass', null, true );
 
     }
 
@@ -479,7 +511,8 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
      * @return void
      */
     public function render_redeem_form() {
-        $this->render( 'frontend/partials/post/gift/redeem-form' );
+
+        $this->render( 'frontend/partials/post/gift/redeem-form', null, true );
     }
 
     /**
@@ -788,15 +821,17 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         list( $atts) = $event->get_arguments() + array( array() );
 
         $config_data = shortcode_atts( array(
-            'type'            => 'multiple',
-            'name'            => null,
-            'thank_you'       => null,
-            'single_amount'   => null,
-            'single_revenue'  => null,
-            'custom_amount'   => null,
-            'all_amounts'     => null,
-            'all_revenues'    => null,
-            'selected_amount' => null,
+            'type'               => 'multiple',
+            'name'               => null,
+            'dialog_header'      => __( 'Support the author', 'laterpay' ),
+            'dialog_description' => __( 'How much would you like to contribute?', 'laterpay' ),
+            'thank_you'          => null,
+            'single_amount'      => null,
+            'single_revenue'     => null,
+            'custom_amount'      => null,
+            'all_amounts'        => null,
+            'all_revenues'       => null,
+            'selected_amount'    => null,
         ), $atts );
 
         // Show error to current user?
@@ -889,13 +924,15 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         // View data for laterpay/views/frontend/partials/widget/contribution-dialog.php.
         $view_args = array(
-            'symbol'            => 'USD' === $currency_config['code'] ? '$' : '€',
-            'id'                => $campaign_id,
-            'type'              => $config_data['type'],
-            'name'              => $campaign_name,
-            'thank_you'         => empty( $config_data['thank_you'] ) ? '' : $config_data['thank_you'],
-            'contribution_urls' => $contribution_urls,
-            'payment_config'    => $payment_config,
+            'symbol'             => 'USD' === $currency_config['code'] ? '$' : '€',
+            'id'                 => $campaign_id,
+            'dialog_header'      => $config_data['dialog_header'],
+            'dialog_description' => $config_data['dialog_description'],
+            'type'               => $config_data['type'],
+            'name'               => $campaign_name,
+            'thank_you'          => empty( $config_data['thank_you'] ) ? '' : $config_data['thank_you'],
+            'contribution_urls'  => $contribution_urls,
+            'payment_config'     => $payment_config,
         );
 
         // Load the contributions dialog for User.

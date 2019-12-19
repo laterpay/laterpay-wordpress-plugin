@@ -1,19 +1,21 @@
-# Copyright (C) 2019 LaterPay GmbH
+# Copyright (C) 2019 LaterPay
 # This file is distributed under the same license as the LaterPay plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LaterPay 2.7.0\n"
+"Project-Id-Version: LaterPay 2.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/laterpay\n"
-"Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-11-22T23:23:01+05:30\n"
+"POT-Creation-Date: 2019-12-18T20:14:15+05:30\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: laterpay\n"
 
 #. Plugin Name of the plugin
+#. Author of the plugin
 #: application/Controller/Admin.php:276
 msgid "LaterPay"
 msgstr ""
@@ -24,10 +26,6 @@ msgstr ""
 
 #. Description of the plugin
 msgid "Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs."
-msgstr ""
-
-#. Author of the plugin
-msgid "LaterPay GmbH"
 msgstr ""
 
 #. Author URI of the plugin
@@ -568,17 +566,17 @@ msgid "Color scheme saved successfully."
 msgstr ""
 
 #: application/Controller/Admin/Contributions.php:60
-#: views/frontend/partials/widget/contribution-dialog.php:26
 #: views/frontend/partials/widget/contribution-dialog.php:28
-#: asset_sources/js/blocks/contribution/edit.js:427
-#: asset_sources/js/blocks/contribution/edit.js:428
+#: views/frontend/partials/widget/contribution-dialog.php:30
+#: asset_sources/js/blocks/contribution/edit.js:447
+#: asset_sources/js/blocks/contribution/edit.js:448
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Contribute"
 msgstr ""
 
 #: application/Controller/Admin/Contributions.php:61
-#: views/frontend/partials/widget/contribution-dialog.php:28
-#: asset_sources/js/blocks/contribution/edit.js:428
+#: views/frontend/partials/widget/contribution-dialog.php:30
+#: asset_sources/js/blocks/contribution/edit.js:448
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "now"
 msgstr ""
@@ -588,8 +586,8 @@ msgid "now, pay later"
 msgstr ""
 
 #: application/Controller/Admin/Contributions.php:63
-#: application/Controller/Frontend/Shortcode.php:746
-#: asset_sources/js/blocks/contribution/edit.js:218
+#: application/Controller/Frontend/Shortcode.php:764
+#: asset_sources/js/blocks/contribution/edit.js:220
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Please enter a Campaign Name above."
 msgstr ""
@@ -603,7 +601,7 @@ msgid "Custom contribution amounts are only available when Show multiple contrib
 msgstr ""
 
 #: application/Controller/Admin/Contributions.php:66
-#: application/Controller/Frontend/Shortcode.php:755
+#: application/Controller/Frontend/Shortcode.php:773
 msgid "Please enter a valid contribution amount above."
 msgstr ""
 
@@ -617,7 +615,7 @@ msgid "An error occurred when trying to generate the shortcode. Please try again
 msgstr ""
 
 #: application/Controller/Admin/Contributions.php:151
-#: application/Controller/Admin/Contributions.php:231
+#: application/Controller/Admin/Contributions.php:244
 msgid "Successfully generated code, please paste at desired location."
 msgstr ""
 
@@ -660,7 +658,9 @@ msgstr ""
 #: application/Controller/Admin/Post/Blocks.php:56
 #: application/Controller/Admin/Pricing.php:52
 #: application/Controller/Admin/Pricing.php:135
-#: application/Controller/Frontend/Shortcode.php:569
+#: application/Controller/Admin/TinyMCE.php:191
+#: application/Controller/Admin/TinyMCE.php:214
+#: application/Controller/Frontend/Shortcode.php:587
 #: views/backend/pricing.php:182
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:42
 #: built_assets/block_build/laterpay-blocks.js:1
@@ -669,7 +669,7 @@ msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:56
 #: application/Controller/Admin/Pricing.php:134
-#: application/Controller/Frontend/Shortcode.php:569
+#: application/Controller/Frontend/Shortcode.php:587
 #: views/backend/pricing.php:177
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:41
 #: built_assets/block_build/laterpay-blocks.js:1
@@ -681,33 +681,33 @@ msgid "We couldn't find a %s with id=\"0\" on this site."
 msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:68
-#: application/Controller/Frontend/Shortcode.php:569
+#: application/Controller/Frontend/Shortcode.php:587
 msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:74
-#: application/Controller/Frontend/Post.php:652
-#: application/Controller/Frontend/Shortcode.php:581
-#: application/Module/Purchase.php:744
+#: application/Controller/Frontend/Post.php:700
+#: application/Controller/Frontend/Shortcode.php:599
+#: application/Module/Purchase.php:750
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:117
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Buy Now, Pay Later"
 msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:76
-#: application/Controller/Frontend/Post.php:653
-#: application/Controller/Frontend/Shortcode.php:583
-#: application/Module/Purchase.php:616
-#: application/Module/Purchase.php:629
-#: application/Module/Purchase.php:737
+#: application/Controller/Frontend/Post.php:701
+#: application/Controller/Frontend/Shortcode.php:601
+#: application/Module/Purchase.php:622
+#: application/Module/Purchase.php:635
+#: application/Module/Purchase.php:743
 #: views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:82
-#: application/Controller/Frontend/Post.php:654
-#: application/Controller/Frontend/Shortcode.php:589
-#: application/Module/Purchase.php:740
+#: application/Controller/Frontend/Post.php:702
+#: application/Controller/Frontend/Shortcode.php:607
+#: application/Module/Purchase.php:746
 msgid "Subscribe Now"
 msgstr ""
 
@@ -718,6 +718,7 @@ msgid "All cannot be used for both 'Time Passes' and 'Subscriptions' at the same
 msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:204
+#: application/Controller/Admin/TinyMCE.php:143
 #: application/Controller/Frontend/Shortcode.php:102
 #: asset_sources/js/blocks/premium-download-box/edit.js:192
 #: asset_sources/js/blocks/premium-download-box/edit.js:200
@@ -750,15 +751,35 @@ msgstr ""
 msgid "Buy now with LaterPay"
 msgstr ""
 
-#: application/Controller/Admin/Post/Blocks.php:357
+#: application/Controller/Admin/Post/Blocks.php:335
+#: application/Controller/Frontend/Shortcode.php:811
+#: views/backend/contributions.php:64
+#: views/backend/contributions.php:225
+#: asset_sources/js/blocks/contribution/edit.js:245
+#: asset_sources/js/blocks/contribution/index.js:27
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Support the author"
+msgstr ""
+
+#: application/Controller/Admin/Post/Blocks.php:336
+#: application/Controller/Frontend/Shortcode.php:812
+#: views/backend/contributions.php:71
+#: views/backend/contributions.php:230
+#: asset_sources/js/blocks/contribution/edit.js:254
+#: asset_sources/js/blocks/contribution/index.js:31
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "How much would you like to contribute?"
+msgstr ""
+
+#: application/Controller/Admin/Post/Blocks.php:361
 msgid "Please enter a Campaign Name."
 msgstr ""
 
-#: application/Controller/Admin/Post/Blocks.php:384
+#: application/Controller/Admin/Post/Blocks.php:388
 msgid "Please enter a valid contribution amount."
 msgstr ""
 
-#: application/Controller/Admin/Post/Blocks.php:616
+#: application/Controller/Admin/Post/Blocks.php:622
 msgid "LaterPay Blocks"
 msgstr ""
 
@@ -786,12 +807,12 @@ msgstr ""
 #: application/Controller/Admin/Post/Column.php:125
 #: application/Controller/Admin/Post/Metabox.php:155
 #: application/Helper/Pricing.php:949
-#: views/backend/contributions.php:76
-#: views/backend/contributions.php:108
-#: views/backend/contributions.php:125
-#: views/backend/contributions.php:142
-#: views/backend/contributions.php:159
-#: views/backend/contributions.php:176
+#: views/backend/contributions.php:91
+#: views/backend/contributions.php:123
+#: views/backend/contributions.php:140
+#: views/backend/contributions.php:157
+#: views/backend/contributions.php:174
+#: views/backend/contributions.php:191
 #: views/backend/partials/post-pricing-form.php:172
 #: views/backend/partials/post-pricing-form.php:195
 #: views/backend/partials/post-pricing-form.php:274
@@ -799,12 +820,12 @@ msgstr ""
 #: views/backend/pricing.php:465
 #: views/backend/pricing.php:585
 #: views/backend/pricing.php:744
-#: asset_sources/js/blocks/contribution/edit.js:256
-#: asset_sources/js/blocks/contribution/edit.js:280
-#: asset_sources/js/blocks/contribution/edit.js:304
-#: asset_sources/js/blocks/contribution/edit.js:328
-#: asset_sources/js/blocks/contribution/edit.js:352
-#: asset_sources/js/blocks/contribution/edit.js:403
+#: asset_sources/js/blocks/contribution/edit.js:276
+#: asset_sources/js/blocks/contribution/edit.js:300
+#: asset_sources/js/blocks/contribution/edit.js:324
+#: asset_sources/js/blocks/contribution/edit.js:348
+#: asset_sources/js/blocks/contribution/edit.js:372
+#: asset_sources/js/blocks/contribution/edit.js:423
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Pay Now"
 msgstr ""
@@ -813,13 +834,13 @@ msgstr ""
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
 #: application/Helper/Pricing.php:952
-#: application/Module/Purchase.php:639
-#: views/backend/contributions.php:71
-#: views/backend/contributions.php:103
-#: views/backend/contributions.php:120
-#: views/backend/contributions.php:137
-#: views/backend/contributions.php:154
-#: views/backend/contributions.php:171
+#: application/Module/Purchase.php:645
+#: views/backend/contributions.php:86
+#: views/backend/contributions.php:118
+#: views/backend/contributions.php:135
+#: views/backend/contributions.php:152
+#: views/backend/contributions.php:169
+#: views/backend/contributions.php:186
 #: views/backend/partials/post-pricing-form.php:168
 #: views/backend/partials/post-pricing-form.php:191
 #: views/backend/partials/post-pricing-form.php:250
@@ -828,12 +849,12 @@ msgstr ""
 #: views/backend/pricing.php:460
 #: views/backend/pricing.php:580
 #: views/backend/pricing.php:739
-#: asset_sources/js/blocks/contribution/edit.js:255
-#: asset_sources/js/blocks/contribution/edit.js:279
-#: asset_sources/js/blocks/contribution/edit.js:303
-#: asset_sources/js/blocks/contribution/edit.js:327
-#: asset_sources/js/blocks/contribution/edit.js:351
-#: asset_sources/js/blocks/contribution/edit.js:402
+#: asset_sources/js/blocks/contribution/edit.js:275
+#: asset_sources/js/blocks/contribution/edit.js:299
+#: asset_sources/js/blocks/contribution/edit.js:323
+#: asset_sources/js/blocks/contribution/edit.js:347
+#: asset_sources/js/blocks/contribution/edit.js:371
+#: asset_sources/js/blocks/contribution/edit.js:422
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Pay Later"
 msgstr ""
@@ -995,7 +1016,7 @@ msgid "The voucher price must be less than or equal to the time pass price."
 msgstr ""
 
 #: application/Controller/Admin/Pricing.php:118
-#: application/Controller/Frontend/Post.php:649
+#: application/Controller/Frontend/Post.php:697
 msgid "Please enter a six-digit voucher code."
 msgstr ""
 
@@ -1377,7 +1398,144 @@ msgstr ""
 msgid "auto detected"
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:646
+#: application/Controller/Admin/TinyMCE.php:124
+msgid "LaterPay ShortCodes"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:125
+msgid "Clear"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:136
+#: asset_sources/js/blocks/premium-download-box/index.js:15
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "LaterPay Premium Download Box"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:138
+msgid "Premium Content"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:139
+#: asset_sources/js/blocks/premium-download-box/edit.js:87
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Select Downloadable Media"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:142
+msgid "Heading Text"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:146
+msgid "Description Text"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:149
+#: asset_sources/js/blocks/premium-download-box/edit.js:134
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Content Type"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:152
+#: asset_sources/js/blocks/premium-download-box/edit.js:137
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Auto Identify"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:156
+#: asset_sources/js/blocks/premium-download-box/edit.js:141
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Link"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:160
+#: asset_sources/js/blocks/premium-download-box/edit.js:139
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "File"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:164
+#: asset_sources/js/blocks/premium-download-box/edit.js:140
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Gallery"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:168
+#: asset_sources/js/blocks/premium-download-box/edit.js:138
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Audio"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:172
+#: asset_sources/js/blocks/premium-download-box/edit.js:143
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Video"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:176
+#: asset_sources/js/blocks/premium-download-box/edit.js:142
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Text"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:182
+msgid "Custom Image"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:183
+msgid "Select Teaser Image (optional)"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:187
+msgid "Time Pass Purchase Button"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:188
+msgid "No Time-pass Available."
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:189
+#: application/Controller/Admin/TinyMCE.php:212
+#: views/backend/account.php:137
+msgid "or"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:195
+#: application/Controller/Admin/TinyMCE.php:218
+msgid "Custom Button Image"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:196
+#: application/Controller/Admin/TinyMCE.php:219
+msgid "Select Image (optional)"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:199
+#: application/Controller/Admin/TinyMCE.php:222
+msgid "Button Text"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:202
+#: application/Controller/Admin/TinyMCE.php:225
+msgid "Button Background Color"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:206
+#: application/Controller/Admin/TinyMCE.php:229
+#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:75
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Button Text Color"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:210
+msgid "Subscription Purchase Button"
+msgstr ""
+
+#: application/Controller/Admin/TinyMCE.php:211
+msgid "No Subscription Available."
+msgstr ""
+
+#: application/Controller/Frontend/Post.php:694
 msgid ""
 "Your site is in LIVE mode, your visitors would now see the LaterPay purchase dialog. \n"
 "\n"
@@ -1386,19 +1544,19 @@ msgid ""
 "Note: You will be charged for purchases made while in LIVE mode."
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:647
+#: application/Controller/Frontend/Post.php:695
 msgid "Voucher code accepted."
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:648
+#: application/Controller/Frontend/Post.php:696
 msgid " is not a valid voucher code!"
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:650
+#: application/Controller/Frontend/Post.php:698
 msgid "An error occurred. Please try again."
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:729
+#: application/Controller/Frontend/Post.php:777
 msgid "&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}"
 msgstr ""
 
@@ -1446,19 +1604,23 @@ msgstr ""
 msgid "Read now"
 msgstr ""
 
-#: application/Controller/Frontend/Shortcode.php:428
-msgid "Wrong time pass id."
+#: application/Controller/Frontend/Shortcode.php:444
+msgid "Wrong Subscription ID."
 msgstr ""
 
-#: application/Controller/Frontend/Shortcode.php:659
+#: application/Controller/Frontend/Shortcode.php:446
+msgid "Wrong Time Pass ID."
+msgstr ""
+
+#: application/Controller/Frontend/Shortcode.php:677
 msgid "%1$s\"all\"%2$s cannot be used for both %1$s\"timepasses\"%2$s and %1$s\"subscriptions\"%2$s at the same time."
 msgstr ""
 
-#: application/Controller/Frontend/Shortcode.php:729
+#: application/Controller/Frontend/Shortcode.php:747
 msgid "Something went wrong."
 msgstr ""
 
-#: application/Controller/Frontend/Shortcode.php:815
+#: application/Controller/Frontend/Shortcode.php:835
 msgid "%1$s"
 msgstr ""
 
@@ -1599,48 +1761,48 @@ msgid "k"
 msgstr ""
 
 #: application/Module/Purchase.php:111
-#: application/Module/Purchase.php:760
+#: application/Module/Purchase.php:766
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr ""
 
-#: application/Module/Purchase.php:605
+#: application/Module/Purchase.php:611
 #: application/Module/TimePasses.php:472
 #: application/Module/TimePasses.php:495
 #: application/Module/TimePasses.php:513
 msgid "Read Now"
 msgstr ""
 
-#: application/Module/Purchase.php:607
+#: application/Module/Purchase.php:613
 msgid "Read Now, Pay Later"
 msgstr ""
 
-#: application/Module/Purchase.php:617
+#: application/Module/Purchase.php:623
 msgid "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 
-#: application/Module/Purchase.php:621
-#: application/Module/Purchase.php:634
+#: application/Module/Purchase.php:627
+#: application/Module/Purchase.php:640
 #: application/Module/TimePasses.php:480
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr ""
 
-#: application/Module/Purchase.php:622
+#: application/Module/Purchase.php:628
 msgid "Immediately access your purchase. <br>You only buy this post. No subscription, no fees."
 msgstr ""
 
-#: application/Module/Purchase.php:630
+#: application/Module/Purchase.php:636
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 
-#: application/Module/Purchase.php:635
+#: application/Module/Purchase.php:641
 msgid "Access your purchase immediately.<br> You are only buying this article, not a subscription."
 msgstr ""
 
-#: application/Module/Purchase.php:640
+#: application/Module/Purchase.php:646
 msgid "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay."
 msgstr ""
 
@@ -1778,10 +1940,6 @@ msgstr ""
 
 #: views/backend/account.php:135
 msgid "Login"
-msgstr ""
-
-#: views/backend/account.php:137
-msgid "or"
 msgstr ""
 
 #: views/backend/account.php:139
@@ -2208,7 +2366,7 @@ msgid "Contributions for..."
 msgstr ""
 
 #: views/backend/contributions.php:53
-#: asset_sources/js/blocks/contribution/edit.js:222
+#: asset_sources/js/blocks/contribution/edit.js:224
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Thank you page (optional)"
 msgstr ""
@@ -2218,77 +2376,75 @@ msgid "Optional. After the button is clicked, we can redirect the visitor to a p
 msgstr ""
 
 #: views/backend/contributions.php:62
-#: asset_sources/js/blocks/contribution/edit.js:388
+#: asset_sources/js/blocks/contribution/edit.js:244
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Dialog Header (optional)"
+msgstr ""
+
+#: views/backend/contributions.php:69
+#: asset_sources/js/blocks/contribution/edit.js:253
+#: built_assets/block_build/laterpay-blocks.js:1
+msgid "Dialog Description (optional)"
+msgstr ""
+
+#: views/backend/contributions.php:77
+#: asset_sources/js/blocks/contribution/edit.js:408
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Amount"
 msgstr ""
 
-#: views/backend/contributions.php:88
+#: views/backend/contributions.php:103
 msgid "Show multiple contribution amounts"
 msgstr ""
 
-#: views/backend/contributions.php:89
+#: views/backend/contributions.php:104
 msgid "Use this checkbox to toggle between a contributions button which allows one static contribution amount or a dialog which allows users to choose between several contribution amounts."
 msgstr ""
 
-#: views/backend/contributions.php:185
+#: views/backend/contributions.php:200
 msgid "Allow custom contribution amount"
 msgstr ""
 
-#: views/backend/contributions.php:186
+#: views/backend/contributions.php:201
 msgid "Only available if \"Show multiple contribution amounts\" is checked, this feature will add an input box to your contribution dialog allowing users to contribute custom amounts."
 msgstr ""
 
-#: views/backend/contributions.php:194
+#: views/backend/contributions.php:209
 msgid "Preview"
 msgstr ""
 
-#: views/backend/contributions.php:200
+#: views/backend/contributions.php:215
 msgid "Contribute Now, Pay Later"
 msgstr ""
 
-#: views/backend/contributions.php:210
-#: views/frontend/partials/widget/contribution-dialog.php:41
-#: asset_sources/js/blocks/contribution/edit.js:443
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Support the author"
-msgstr ""
-
-#: views/backend/contributions.php:215
-#: views/frontend/partials/widget/contribution-dialog.php:46
-#: asset_sources/js/blocks/contribution/edit.js:448
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "How much would you like to contribute?"
-msgstr ""
-
-#: views/backend/contributions.php:239
-#: views/frontend/partials/widget/contribution-dialog.php:75
-#: asset_sources/js/blocks/contribution/edit.js:477
+#: views/backend/contributions.php:254
+#: views/frontend/partials/widget/contribution-dialog.php:78
+#: asset_sources/js/blocks/contribution/edit.js:497
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Custom Amount"
 msgstr ""
 
-#: views/backend/contributions.php:251
-#: views/frontend/partials/widget/contribution-dialog.php:89
-#: asset_sources/js/blocks/contribution/edit.js:491
+#: views/backend/contributions.php:266
+#: views/frontend/partials/widget/contribution-dialog.php:92
+#: asset_sources/js/blocks/contribution/edit.js:511
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Contribute now"
 msgstr ""
 
-#: views/backend/contributions.php:257
+#: views/backend/contributions.php:272
 #: views/backend/partials/purchase-overlay.php:139
-#: views/frontend/partials/widget/contribution-dialog.php:96
+#: views/frontend/partials/widget/contribution-dialog.php:99
 #: views/frontend/partials/widget/purchase-overlay.php:176
-#: asset_sources/js/blocks/contribution/edit.js:498
+#: asset_sources/js/blocks/contribution/edit.js:518
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Powered by"
 msgstr ""
 
-#: views/backend/contributions.php:264
+#: views/backend/contributions.php:279
 msgid "To include this on your site, click the button below and paste the code where you would like it to appear."
 msgstr ""
 
-#: views/backend/contributions.php:267
+#: views/backend/contributions.php:282
 msgid "Generate and Copy Code"
 msgstr ""
 
@@ -2507,19 +2663,19 @@ msgstr ""
 
 #: views/backend/partials/subscription.php:44
 #: views/backend/partials/time-pass.php:46
-#: views/frontend/partials/post/gift/gift-pass.php:32
+#: views/frontend/partials/post/gift/gift-pass.php:44
 msgid "Validity"
 msgstr ""
 
 #: views/backend/partials/subscription.php:50
 #: views/backend/partials/time-pass.php:52
-#: views/frontend/partials/post/gift/gift-pass.php:38
+#: views/frontend/partials/post/gift/gift-pass.php:66
 msgid "Access to"
 msgstr ""
 
 #: views/backend/partials/subscription.php:56
 #: views/backend/partials/time-pass.php:58
-#: views/frontend/partials/post/gift/gift-pass.php:44
+#: views/frontend/partials/post/gift/gift-pass.php:72
 msgid "Renewal"
 msgstr ""
 
@@ -2536,7 +2692,7 @@ msgid "Cancellable anytime"
 msgstr ""
 
 #: views/backend/partials/time-pass.php:60
-#: views/frontend/partials/post/gift/gift-pass.php:46
+#: views/frontend/partials/post/gift/gift-pass.php:78
 msgid "No automatic renewal"
 msgstr ""
 
@@ -2641,12 +2797,12 @@ msgstr ""
 #: views/backend/pricing.php:304
 #: views/backend/pricing.php:453
 #: views/backend/pricing.php:573
-#: asset_sources/js/blocks/contribution/edit.js:251
-#: asset_sources/js/blocks/contribution/edit.js:275
-#: asset_sources/js/blocks/contribution/edit.js:299
-#: asset_sources/js/blocks/contribution/edit.js:323
-#: asset_sources/js/blocks/contribution/edit.js:347
-#: asset_sources/js/blocks/contribution/edit.js:398
+#: asset_sources/js/blocks/contribution/edit.js:271
+#: asset_sources/js/blocks/contribution/edit.js:295
+#: asset_sources/js/blocks/contribution/edit.js:319
+#: asset_sources/js/blocks/contribution/edit.js:343
+#: asset_sources/js/blocks/contribution/edit.js:367
+#: asset_sources/js/blocks/contribution/edit.js:418
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Revenue Model"
 msgstr ""
@@ -2802,12 +2958,21 @@ msgstr ""
 msgid "Click the \"Create\" button to add a Subscription."
 msgstr ""
 
-#: views/frontend/partials/post/gift/redeem-form.php:10
+#. translators: %s: Subscription Period
+#: views/frontend/partials/post/gift/gift-pass.php:49
+msgid "Subscription (Renews in a %s, cancellable anytime)"
+msgstr ""
+
+#: views/frontend/partials/post/gift/gift-pass.php:76
+msgid "Automatically renewed."
+msgstr ""
+
+#: views/frontend/partials/post/gift/redeem-form.php:24
 #: views/frontend/partials/widget/time-passes.php:38
 msgid "Code"
 msgstr ""
 
-#: views/frontend/partials/post/gift/redeem-form.php:11
+#: views/frontend/partials/post/gift/redeem-form.php:26
 #: views/frontend/partials/widget/time-passes.php:39
 msgid "Redeem"
 msgstr ""
@@ -2844,8 +3009,8 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: views/frontend/partials/widget/contribution-dialog.php:26
-#: asset_sources/js/blocks/contribution/edit.js:427
+#: views/frontend/partials/widget/contribution-dialog.php:28
+#: asset_sources/js/blocks/contribution/edit.js:447
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "now, Pay Later"
 msgstr ""
@@ -2902,87 +3067,87 @@ msgstr ""
 msgid "Get a Time Pass or Subscription"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:208
+#: asset_sources/js/blocks/contribution/edit.js:210
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Contribution Settings"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:210
+#: asset_sources/js/blocks/contribution/edit.js:212
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Campaign Name"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:211
+#: asset_sources/js/blocks/contribution/edit.js:213
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Enter Campaign name."
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:223
+#: asset_sources/js/blocks/contribution/edit.js:225
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Enter Thank you page."
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:229
+#: asset_sources/js/blocks/contribution/edit.js:231
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Contribution Type"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:232
+#: asset_sources/js/blocks/contribution/edit.js:234
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Multiple"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:233
+#: asset_sources/js/blocks/contribution/edit.js:235
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Single"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:242
-#: asset_sources/js/blocks/contribution/edit.js:365
+#: asset_sources/js/blocks/contribution/edit.js:262
+#: asset_sources/js/blocks/contribution/edit.js:385
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Amount One"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:266
-#: asset_sources/js/blocks/contribution/edit.js:366
+#: asset_sources/js/blocks/contribution/edit.js:286
+#: asset_sources/js/blocks/contribution/edit.js:386
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Amount Two"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:290
-#: asset_sources/js/blocks/contribution/edit.js:367
+#: asset_sources/js/blocks/contribution/edit.js:310
+#: asset_sources/js/blocks/contribution/edit.js:387
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Amount Three"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:314
-#: asset_sources/js/blocks/contribution/edit.js:368
+#: asset_sources/js/blocks/contribution/edit.js:334
+#: asset_sources/js/blocks/contribution/edit.js:388
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Amount Four"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:338
-#: asset_sources/js/blocks/contribution/edit.js:369
+#: asset_sources/js/blocks/contribution/edit.js:358
+#: asset_sources/js/blocks/contribution/edit.js:389
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Amount Five"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:362
+#: asset_sources/js/blocks/contribution/edit.js:382
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Default Selected Amount"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:379
+#: asset_sources/js/blocks/contribution/edit.js:399
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid " Allow custom contribution amount"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:380
+#: asset_sources/js/blocks/contribution/edit.js:400
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Check to allow custom contribution"
 msgstr ""
 
-#: asset_sources/js/blocks/contribution/edit.js:389
+#: asset_sources/js/blocks/contribution/edit.js:409
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Enter Contribution amount."
 msgstr ""
@@ -3112,11 +3277,6 @@ msgstr ""
 msgid "Premium Download Box Settings"
 msgstr ""
 
-#: asset_sources/js/blocks/premium-download-box/edit.js:87
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Select Downloadable Media"
-msgstr ""
-
 #: asset_sources/js/blocks/premium-download-box/edit.js:104
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "File Name: "
@@ -3152,46 +3312,6 @@ msgstr ""
 msgid "Enter description text for download box."
 msgstr ""
 
-#: asset_sources/js/blocks/premium-download-box/edit.js:134
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Content Type"
-msgstr ""
-
-#: asset_sources/js/blocks/premium-download-box/edit.js:137
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Auto Identify"
-msgstr ""
-
-#: asset_sources/js/blocks/premium-download-box/edit.js:138
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Audio"
-msgstr ""
-
-#: asset_sources/js/blocks/premium-download-box/edit.js:139
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "File"
-msgstr ""
-
-#: asset_sources/js/blocks/premium-download-box/edit.js:140
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Gallery"
-msgstr ""
-
-#: asset_sources/js/blocks/premium-download-box/edit.js:141
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Link"
-msgstr ""
-
-#: asset_sources/js/blocks/premium-download-box/edit.js:142
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Text"
-msgstr ""
-
-#: asset_sources/js/blocks/premium-download-box/edit.js:143
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Video"
-msgstr ""
-
 #: asset_sources/js/blocks/premium-download-box/edit.js:162
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Select Teaser Image"
@@ -3200,11 +3320,6 @@ msgstr ""
 #: asset_sources/js/blocks/premium-download-box/edit.js:180
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Clear Teaser Image"
-msgstr ""
-
-#: asset_sources/js/blocks/premium-download-box/index.js:15
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "LaterPay Premium Download Box"
 msgstr ""
 
 #: asset_sources/js/blocks/premium-download-box/index.js:19
@@ -3240,11 +3355,6 @@ msgstr ""
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:62
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Button Color"
-msgstr ""
-
-#: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:75
-#: built_assets/block_build/laterpay-blocks.js:1
-msgid "Button Text Color"
 msgstr ""
 
 #: asset_sources/js/blocks/sub-pass-purchase-button/index.js:15
