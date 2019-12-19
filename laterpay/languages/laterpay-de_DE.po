@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2019-12-18 20:14+0530\n"
-"PO-Revision-Date: 2019-12-18 20:14+0530\n"
+"POT-Creation-Date: 2019-12-19 11:26+0530\n"
+"PO-Revision-Date: 2019-12-19 11:27+0530\n"
 "Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -905,8 +905,7 @@ msgid "Version %s Highlights:"
 msgstr "Highlights der Version %s:"
 
 #: application/Controller/Admin.php:906
-msgid ""
-"Try the all new LaterPay Blocks now in your WordPress Post or Page editor!"
+msgid "Introduces LaterPay Shortcode Generator for Classic Editor!"
 msgstr ""
 
 #: application/Controller/Admin.php:912
@@ -1126,7 +1125,7 @@ msgid "now, pay later"
 msgstr "spenden, später zahlen"
 
 #: application/Controller/Admin/Contributions.php:63
-#: application/Controller/Frontend/Shortcode.php:764
+#: application/Controller/Frontend/Shortcode.php:779
 #: asset_sources/js/blocks/contribution/edit.js:220
 msgid "Please enter a Campaign Name above."
 msgstr "Bitte geben Sie oben einen Kampagnennamen ein."
@@ -1144,7 +1143,7 @@ msgstr ""
 "Contribution-Beträge anzeigen” aktiviert ist."
 
 #: application/Controller/Admin/Contributions.php:66
-#: application/Controller/Frontend/Shortcode.php:773
+#: application/Controller/Frontend/Shortcode.php:788
 msgid "Please enter a valid contribution amount above."
 msgstr "Bitte geben Sie oben einen gültigen Contribution-Betrag ein."
 
@@ -1230,7 +1229,7 @@ msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
 #: application/Controller/Admin/Pricing.php:135
 #: application/Controller/Admin/TinyMCE.php:191
 #: application/Controller/Admin/TinyMCE.php:214
-#: application/Controller/Frontend/Shortcode.php:587
+#: application/Controller/Frontend/Shortcode.php:602
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:42
 #: views/backend/pricing.php:182
 msgid "Subscription"
@@ -1238,7 +1237,7 @@ msgstr "Abo"
 
 #: application/Controller/Admin/Post/Blocks.php:56
 #: application/Controller/Admin/Pricing.php:134
-#: application/Controller/Frontend/Shortcode.php:587
+#: application/Controller/Frontend/Shortcode.php:602
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:41
 #: views/backend/pricing.php:177
 msgid "Time Pass"
@@ -1250,14 +1249,14 @@ msgid "We couldn't find a %s with id=\"0\" on this site."
 msgstr "Wir konnten kein %s mit der id=“0” auf der Seite finden."
 
 #: application/Controller/Admin/Post/Blocks.php:68
-#: application/Controller/Frontend/Shortcode.php:587
+#: application/Controller/Frontend/Shortcode.php:602
 #, php-format
 msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
 
 #: application/Controller/Admin/Post/Blocks.php:74
 #: application/Controller/Frontend/Post.php:700
-#: application/Controller/Frontend/Shortcode.php:599
+#: application/Controller/Frontend/Shortcode.php:614
 #: application/Module/Purchase.php:750
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:117
 msgid "Buy Now, Pay Later"
@@ -1265,7 +1264,7 @@ msgstr "Jetzt kaufen, später zahlen"
 
 #: application/Controller/Admin/Post/Blocks.php:76
 #: application/Controller/Frontend/Post.php:701
-#: application/Controller/Frontend/Shortcode.php:601
+#: application/Controller/Frontend/Shortcode.php:616
 #: application/Module/Purchase.php:622 application/Module/Purchase.php:635
 #: application/Module/Purchase.php:743
 #: views/backend/partials/purchase-overlay.php:32
@@ -1274,7 +1273,7 @@ msgstr "Jetzt kaufen"
 
 #: application/Controller/Admin/Post/Blocks.php:82
 #: application/Controller/Frontend/Post.php:702
-#: application/Controller/Frontend/Shortcode.php:607
+#: application/Controller/Frontend/Shortcode.php:622
 #: application/Module/Purchase.php:746
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
@@ -1316,7 +1315,7 @@ msgid "Buy now with LaterPay"
 msgstr "Jetzt mit LaterPay kaufen"
 
 #: application/Controller/Admin/Post/Blocks.php:335
-#: application/Controller/Frontend/Shortcode.php:811
+#: application/Controller/Frontend/Shortcode.php:826
 #: asset_sources/js/blocks/contribution/edit.js:245
 #: asset_sources/js/blocks/contribution/index.js:27
 #: views/backend/contributions.php:64 views/backend/contributions.php:225
@@ -1324,7 +1323,7 @@ msgid "Support the author"
 msgstr "Unterstützen Sie den Autor"
 
 #: application/Controller/Admin/Post/Blocks.php:336
-#: application/Controller/Frontend/Shortcode.php:812
+#: application/Controller/Frontend/Shortcode.php:827
 #: asset_sources/js/blocks/contribution/edit.js:254
 #: asset_sources/js/blocks/contribution/index.js:31
 #: views/backend/contributions.php:71 views/backend/contributions.php:230
@@ -2340,26 +2339,26 @@ msgstr "Jetzt anhören"
 msgid "Read now"
 msgstr "Jetzt lesen"
 
-#: application/Controller/Frontend/Shortcode.php:444
+#: application/Controller/Frontend/Shortcode.php:459
 msgid "Wrong Subscription ID."
 msgstr "Fehlerhafte Abonnement-ID."
 
-#: application/Controller/Frontend/Shortcode.php:446
+#: application/Controller/Frontend/Shortcode.php:461
 msgid "Wrong Time Pass ID."
 msgstr "Fehlerhafte Zeitpass-ID."
 
-#: application/Controller/Frontend/Shortcode.php:677
+#: application/Controller/Frontend/Shortcode.php:692
 #, php-format
 msgid ""
 "%1$s\"all\"%2$s cannot be used for both %1$s\"timepasses\"%2$s and %1$s"
 "\"subscriptions\"%2$s at the same time."
 msgstr ""
 
-#: application/Controller/Frontend/Shortcode.php:747
+#: application/Controller/Frontend/Shortcode.php:762
 msgid "Something went wrong."
 msgstr ""
 
-#: application/Controller/Frontend/Shortcode.php:835
+#: application/Controller/Frontend/Shortcode.php:850
 #, php-format
 msgid "%1$s"
 msgstr ""
