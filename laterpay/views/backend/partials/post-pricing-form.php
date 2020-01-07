@@ -52,7 +52,7 @@ if ( ! empty( $laterpay['category_prices'] ) ) {
     $global_disabled_class = ' lp_is-disabled lp_tooltip';
 }
 
-if ( 0 === $post_price_behaviour || 1 === $post_price_behaviour ) {
+if ( 1 === $post_price_behaviour ) {
     $individual_free_disabled_class = 'lp_is-disabled lp_tooltip';
 }
 
