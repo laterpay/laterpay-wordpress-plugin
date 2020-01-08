@@ -438,13 +438,18 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             'type' => '',
         ), $atts );
 
+        // If ID is not empty and type is empty then default type should be 'timepass'.
+        if ( ! empty( $data['id'] ) && empty( $data['type'] ) ) {
+            $data['type'] = 'timepass';
+        }
+
         $allowed_types = [ 'timepass', 'subscription' ];
         $data['type']  = strtolower( trim( $data['type'] ) );
         $data['type']  = in_array( $data['type'], $allowed_types, true ) ? $data['type'] : '';
 
         $pass_data = array();
 
-        // get a specific time pass, if an ID was provided; otherwise get all time passes
+        // Get a specific time pass, if an ID was provided; otherwise get all time passes.
         if ( $data['id'] ) {
 
             if ( 'subscription' === $data['type'] ) {
