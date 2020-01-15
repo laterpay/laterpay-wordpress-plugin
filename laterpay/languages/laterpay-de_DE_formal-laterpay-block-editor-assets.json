@@ -1612,11 +1612,14 @@
          "Purchase button background color": [
             "Hintergrundfarbe Kaufbutton"
          ],
+         "Purchase button text color": [
+            "Schriftfarbe Kaufbutton"
+         ],
          "Purchase button hover color": [
             "Kaufen-Taste schweben Farbe"
          ],
-         "Purchase button text color": [
-            "Schriftfarbe Kaufbutton"
+         "Purchase button hover text color": [
+            "Hover-Schriftfarbe Kaufbutton"
          ],
          "Link main color": [
             "Schriftfarbe Links"
