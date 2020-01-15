@@ -241,6 +241,14 @@ $settings_url = admin_url( 'options-general.php?page=laterpay#lpappearance' );
                         </tr>
                         <tr>
                             <td>
+                                <?php esc_html_e( 'Purchase button text color', 'laterpay' ); ?>
+                            </td>
+                            <td>
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseButtonTextColor lp_input" name="button_text_color" value="<?php echo esc_attr( $laterpay['overlay']['button_text_color'] ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <?php esc_html_e( 'Purchase button hover color', 'laterpay' ); ?>
                             </td>
                             <td>
@@ -249,10 +257,10 @@ $settings_url = admin_url( 'options-general.php?page=laterpay#lpappearance' );
                         </tr>
                         <tr>
                             <td>
-                                <?php esc_html_e( 'Purchase button text color', 'laterpay' ); ?>
+                                <?php esc_html_e( 'Purchase button hover text color', 'laterpay' ); ?>
                             </td>
                             <td>
-                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseButtonTextColor lp_input" name="button_text_color" value="<?php echo esc_attr( $laterpay['overlay']['button_text_color'] ); ?>">
+                                <input type="color" class="lp_js_overlayOptions lp_js_purchaseButtonHoverTextColor lp_input" name="button_hover_text_color" value="<?php echo esc_attr( $laterpay['overlay']['button_hover_text_color'] ); ?>">
                             </td>
                         </tr>
                         <tr>
