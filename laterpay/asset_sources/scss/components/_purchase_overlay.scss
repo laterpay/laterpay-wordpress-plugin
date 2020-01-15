@@ -191,6 +191,7 @@ html body .lp_purchase-overlay {
     font-size: $fs--085 !important;
     line-height: 2 !important;
     padding: 0 $fs !important;
+    text-decoration: none;
 
     &:hover {
       text-decoration: none !important;
@@ -422,6 +423,7 @@ html body .lp_paid-content {
 
     &__submit {
       font-size: $fs--125 !important;
+      text-decoration: none;
 
       & span:before {
         top: $fs--04 !important;

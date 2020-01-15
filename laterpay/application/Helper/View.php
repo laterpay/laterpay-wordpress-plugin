@@ -264,6 +264,9 @@ class LaterPay_Helper_View
         $main_color  = get_option( 'laterpay_main_color' );
         $hover_color = get_option( 'laterpay_hover_color' );
 
+        // Button text hover color.
+        $text_hover_color = get_option( 'laterpay_overlay_button_hover_text_color', '#FFFFFF' );
+
         $custom_css = '';
 
         if ( $main_color ) {
@@ -282,6 +285,9 @@ class LaterPay_Helper_View
 
         if ( $hover_color ) {
             $custom_css .= "
+                .lp_purchase-overlay__submit:hover, .lp_purchase_button:hover, .lp_purchase-button:hover {
+                    color: {$text_hover_color} !important;
+                }
                 .lp_purchase-button:hover, .lp_purchase-overlay__submit:hover {
                     background-color: {$hover_color} !important;
                 }

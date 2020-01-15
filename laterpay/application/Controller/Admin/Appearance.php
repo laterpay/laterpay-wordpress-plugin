@@ -205,21 +205,23 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 $description_text_color  = filter_input( INPUT_POST, 'description_text_color', FILTER_SANITIZE_STRING );
                 $button_background_color = filter_input( INPUT_POST, 'button_background_color', FILTER_SANITIZE_STRING );
                 $button_hover_color      = filter_input( INPUT_POST, 'button_hover_color', FILTER_SANITIZE_STRING );
+                $button_hover_text_color = filter_input( INPUT_POST, 'button_hover_text_color', FILTER_SANITIZE_STRING );
                 $button_text_color       = filter_input( INPUT_POST, 'button_text_color', FILTER_SANITIZE_STRING );
                 $link_main_color         = filter_input( INPUT_POST, 'link_main_color', FILTER_SANITIZE_STRING );
                 $link_hover_color        = filter_input( INPUT_POST, 'link_hover_color', FILTER_SANITIZE_STRING );
                 $footer_background_color = filter_input( INPUT_POST, 'footer_background_color', FILTER_SANITIZE_STRING );
 
-                update_option( 'laterpay_overlay_header_bg_color',   $header_background_color );
-                update_option( 'laterpay_overlay_main_bg_color',     $background_color );
-                update_option( 'laterpay_overlay_main_text_color',   $main_text_color );
+                update_option( 'laterpay_overlay_header_bg_color', $header_background_color );
+                update_option( 'laterpay_overlay_main_bg_color', $background_color );
+                update_option( 'laterpay_overlay_main_text_color', $main_text_color );
                 update_option( 'laterpay_overlay_description_color', $description_text_color );
-                update_option( 'laterpay_main_color',                $button_background_color );
-                update_option( 'laterpay_hover_color',               $button_hover_color );
+                update_option( 'laterpay_main_color', $button_background_color );
+                update_option( 'laterpay_hover_color', $button_hover_color );
+                update_option( 'laterpay_overlay_button_hover_text_color', $button_hover_text_color );
                 update_option( 'laterpay_overlay_button_text_color', $button_text_color );
-                update_option( 'laterpay_overlay_link_main_color',   $link_main_color );
-                update_option( 'laterpay_overlay_link_hover_color',  $link_hover_color );
-                update_option( 'laterpay_overlay_footer_bg_color',   $footer_background_color );
+                update_option( 'laterpay_overlay_link_main_color', $link_main_color );
+                update_option( 'laterpay_overlay_link_hover_color', $link_hover_color );
+                update_option( 'laterpay_overlay_footer_bg_color', $footer_background_color );
 
                 $event->set_result(
                     array(

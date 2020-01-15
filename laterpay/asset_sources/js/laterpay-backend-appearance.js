@@ -5,27 +5,28 @@
     function laterPayBackendAppearance() {
         var $o = {
             // appearance option
-            savePurchaseForm    : $('.lp_js_savePurchaseForm'),
-            cancelFormEdit      : $('.lp_js_cancelEditingPurchaseForm'),
-            restoreDefaults     : $('.lp_js_restoreDefaultPurchaseForm'),
-            buttonGroupButtons  : '.lp_js_buttonGroupButton',
-            buttonGroupHint     : '.lp_js_buttonGroupHint',
-            overlayOptions      : '.lp_js_overlayOptions',
-            overlayShowFooter   : '.lp_js_overlayShowFooter',
-            selected            : 'lp_is-selected',
-            showHintOnTrue      : 'lp_js_showHintOnTrue',
-            headerBgColor       : 'lp_js_purchaseHeaderBackgroundColor',
-            headerTitle         : 'lp_js_purchaseHeaderTitle',
-            purchaseBgColor     : 'lp_js_purchaseBackgroundColor',
-            purchaseMainText    : 'lp_js_purchaseMainTextColor',
-            purchaseDescription : 'lp_js_purchaseDescriptionTextColor',
-            buttonBgColor       : 'lp_js_purchaseButtonBackgroundColor',
-            buttonHoverColor    : 'lp_js_purchaseButtonHoverColor',
-            buttonTextColor     : 'lp_js_purchaseButtonTextColor',
-            linkMainColor       : 'lp_js_purchaseLinkMainColor',
-            linkHoverColor      : 'lp_js_purchaseLinkHoverColor',
-            footerBgColor       : 'lp_js_purchaseFooterBackgroundColor',
-            showFooter          : 'lp_js_overlayShowFooter',
+            savePurchaseForm     : $('.lp_js_savePurchaseForm'),
+            cancelFormEdit       : $('.lp_js_cancelEditingPurchaseForm'),
+            restoreDefaults      : $('.lp_js_restoreDefaultPurchaseForm'),
+            buttonGroupButtons   : '.lp_js_buttonGroupButton',
+            buttonGroupHint      : '.lp_js_buttonGroupHint',
+            overlayOptions       : '.lp_js_overlayOptions',
+            overlayShowFooter    : '.lp_js_overlayShowFooter',
+            selected             : 'lp_is-selected',
+            showHintOnTrue       : 'lp_js_showHintOnTrue',
+            headerBgColor        : 'lp_js_purchaseHeaderBackgroundColor',
+            headerTitle          : 'lp_js_purchaseHeaderTitle',
+            purchaseBgColor      : 'lp_js_purchaseBackgroundColor',
+            purchaseMainText     : 'lp_js_purchaseMainTextColor',
+            purchaseDescription  : 'lp_js_purchaseDescriptionTextColor',
+            buttonBgColor        : 'lp_js_purchaseButtonBackgroundColor',
+            buttonHoverColor     : 'lp_js_purchaseButtonHoverColor',
+            buttonHoverTextColor : 'lp_js_purchaseButtonHoverTextColor',
+            buttonTextColor      : 'lp_js_purchaseButtonTextColor',
+            linkMainColor        : 'lp_js_purchaseLinkMainColor',
+            linkHoverColor       : 'lp_js_purchaseLinkHoverColor',
+            footerBgColor        : 'lp_js_purchaseFooterBackgroundColor',
+            showFooter           : 'lp_js_overlayShowFooter',
 
             // overlay
             overlayHeader       : '.lp_purchase-overlay__header',
@@ -462,7 +463,7 @@
 
                     $($o.overlayButton).hover(
                         function() {
-                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
+                            textColorValue = 'color:' + $('.' + $o.buttonHoverTextColor).val() + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
                             setStyle($($o.overlayButton), style + textColorValue);
                         },
@@ -475,7 +476,7 @@
 
                     $($o.lp_purchase_button).hover(
                         function() {
-                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
+                            textColorValue = 'color:' + $('.' + $o.buttonHoverTextColor).val() + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
                             setStyle($($o.lp_purchase_button), style + textColorValue);
                         },
@@ -488,7 +489,50 @@
 
                     $($o.lp_purchase_button_tp).hover(
                         function() {
+                            textColorValue = 'color:' + $('.' + $o.buttonHoverTextColor).val() + ' !important;';
+                            style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
+                            setStyle($($o.lp_purchase_button_tp), style + textColorValue);
+                        },
+                        function() {
                             textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
+                            style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
+                            setStyle($($o.lp_purchase_button_tp), style + textColorValue);
+                        }
+                    );
+                }
+
+                // change button text hover color
+                if ($trigger.hasClass($o.buttonHoverTextColor)) {
+
+                    $($o.overlayButton).hover(
+                        function() {
+                            textColorValue = 'color:' + $('.' + $o.buttonHoverTextColor).val() + ' !important;';
+                            style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
+                            setStyle($($o.overlayButton), style + textColorValue);
+                        },
+                        function() {
+                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
+                            style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
+                            setStyle($($o.overlayButton), style + textColorValue);
+                        }
+                    );
+
+                    $($o.lp_purchase_button).hover(
+                        function() {
+                            textColorValue = 'color:' + $('.' + $o.buttonHoverTextColor).val() + ' !important;';
+                            style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
+                            setStyle($($o.lp_purchase_button), style + textColorValue);
+                        },
+                        function() {
+                            textColorValue = 'color:' + $('.' + $o.buttonTextColor).val() + ' !important;';
+                            style = 'background-color: ' + $('.' + $o.buttonBgColor).val() + ' !important;';
+                            setStyle($($o.lp_purchase_button), style + textColorValue);
+                        }
+                    );
+
+                    $($o.lp_purchase_button_tp).hover(
+                        function() {
+                            textColorValue = 'color:' + $('.' + $o.buttonHoverTextColor).val() + ' !important;';
                             style = 'background-color: ' + $('.' + $o.buttonHoverColor).val() + ' !important;';
                             setStyle($($o.lp_purchase_button_tp), style + textColorValue);
                         },
@@ -583,6 +627,7 @@
                 $('.' + $o.purchaseDescription).val(settings.description_color).change();
                 $('.' + $o.buttonBgColor).val(settings.button_bg_color).change();
                 $('.' + $o.buttonHoverColor).val(settings.button_hover_color).change();
+                $('.' + $o.buttonHoverTextColor).val(settings.button_hover_text_color).change();
                 $('.' + $o.buttonTextColor).val(settings.button_text_color).change();
                 $('.' + $o.linkMainColor).val(settings.link_main_color).change();
                 $('.' + $o.linkHoverColor).val(settings.link_hover_color).change();
