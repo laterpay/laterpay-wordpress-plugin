@@ -2,7 +2,7 @@
 
 Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
-Tags: Contribution, Conversion, Earn Money, Micropayment, Monetization, Monetize Content, Paid Content, Payment, Paywall, Sell Article, Sell Content, Subscription
+Tags: contribution, conversion, earn-money, micropayment, monetization, monetize-content, paid-content, payment, paywall, sell-article, sell-content, subscription
 Requires at least: 4.6
 Tested up to: 5.3.1
 Requires PHP: 5.6
