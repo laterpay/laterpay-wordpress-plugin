@@ -4,9 +4,9 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: contribution, conversion, earn-money, micropayment, monetization, monetize-content, paid-content, payment, paywall, sell-article, sell-content, subscription
 Requires at least: 4.6
-Tested up to: 5.3.1
+Tested up to: 5.3.2
 Requires PHP: 5.6
-Stable tag: 2.9.0
+Stable tag: 2.9.1
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -90,6 +90,11 @@ Yes!
 7. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.9.1 ( January 21, 2020 ) =
+* Allow customization of Purchase button text hover color in "LaterPay > Appearance" tab.
+* Allow merchant to make a Post FREE, for post's having premium categories.
+* Default the type to TimePass in `[laterpay_redeem_voucher]` shortcode.
+
 = 2.9.0 ( December 19, 2019 ) =
 * Add Shortcode Generator to allow creation of Purchase Button Shortcode in Classic Editor.
 * Add Shortcode Generator to allow creation of Premium Download Box Shortcode in Classic Editor.
@@ -694,8 +699,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.9.0 =
-Introduces Shortcode Generator to take in Classic Editor.
+= 2.9.1 =
+Add support for customization of Purchase Button Text Hover Color in "LaterPay > Appearance" tab, other minor bug fixes in LaterPay functionality.
 
 == Arbitrary section ==
 
