@@ -902,8 +902,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
             if ( ! empty( $ga_data['update_highlights']['version'] ) ) {
                 $version_update_number                   = $ga_data['update_highlights']['version'];
-                $ga_data['update_highlights']['version'] = sprintf( esc_html__( 'Version %s Highlights:', 'laterpay' ), $version_update_number );
-                $ga_data['update_highlights']['notice']  = esc_html__( 'Introduces LaterPay Shortcode Generator for Classic Editor!', 'laterpay' );
+                $ga_data['update_highlights']['version'] = '';
+                $ga_data['update_highlights']['notice']  = '';
                 $ga_data['update_highlights_nonce']      = wp_create_nonce( 'update_highlights_nonce' );
             }
 
