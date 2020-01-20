@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2020-01-15 21:03+0530\n"
-"PO-Revision-Date: 2020-01-15 21:04+0530\n"
+"POT-Creation-Date: 2020-01-20 17:26+0530\n"
+"PO-Revision-Date: 2020-01-20 17:26+0530\n"
 "Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -898,15 +898,6 @@ msgstr "Konto"
 #: application/Controller/Admin.php:852
 msgid "Advanced"
 msgstr "Erweitert"
-
-#: application/Controller/Admin.php:905
-#, php-format
-msgid "Version %s Highlights:"
-msgstr "Highlights der Version %s:"
-
-#: application/Controller/Admin.php:906
-msgid "Introduces LaterPay Shortcode Generator for Classic Editor!"
-msgstr ""
 
 #: application/Controller/Admin.php:912
 msgid "Learn More"
@@ -4603,6 +4594,10 @@ msgstr "Sehen Sie sich die verfügbaren LaterPay Zeitpässe und Abos an"
 #: views/frontend/partials/widget/timepass-subscription-link.php:8
 msgid "Get a Time Pass or Subscription"
 msgstr "Holen Sie sich einen Zeitpass oder ein Abo"
+
+#, php-format
+#~ msgid "Version %s Highlights:"
+#~ msgstr "Highlights der Version %s:"
 
 #~ msgid "Revenue"
 #~ msgstr "Erlösmodell"
