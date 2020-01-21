@@ -389,6 +389,15 @@ class LaterPay_Helper_Config {
 
         delete_option( 'laterpay_main_color' );
         delete_option( 'laterpay_hover_color' );
+        delete_option( 'laterpay_overlay_header_bg_color' );
+        delete_option( 'laterpay_overlay_main_bg_color' );
+        delete_option( 'laterpay_overlay_main_text_color' );
+        delete_option( 'laterpay_overlay_description_color' );
+        delete_option( 'laterpay_overlay_button_hover_text_color' );
+        delete_option( 'laterpay_overlay_button_text_color' );
+        delete_option( 'laterpay_overlay_link_main_color' );
+        delete_option( 'laterpay_overlay_link_hover_color' );
+        delete_option( 'laterpay_overlay_footer_bg_color' );
         delete_option( 'laterpay_require_login' );
         delete_option( 'laterpay_region' );
         delete_option( 'lp_body_text' );

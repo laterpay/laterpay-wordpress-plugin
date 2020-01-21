@@ -70,6 +70,21 @@ class LaterPay_Helper_Cache
         } elseif ( class_exists( 'Cachify' ) && method_exists( 'Cachify', 'flush_total_cache' ) ) { // Cachify
             Cachify::flush_total_cache();
         }
+
+        // Clear WPEngine specific cache.
+        if ( class_exists( 'WpeCommon' ) ) {
+            if ( method_exists('WpeCommon', 'purge_memcached') ) {
+                WpeCommon::purge_memcached();
+            }
+
+            if ( method_exists('WpeCommon', 'clear_maxcdn_cache') ) {
+                WpeCommon::clear_maxcdn_cache();
+            }
+
+            if ( method_exists('WpeCommon', 'purge_varnish_cache') ) {
+                WpeCommon::purge_varnish_cache();
+            }
+        }
     }
 
 }

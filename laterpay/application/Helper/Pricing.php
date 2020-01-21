@@ -869,7 +869,14 @@ class LaterPay_Helper_Pricing
                 }
 
                 if ( ! $has_price ) {
-                    $parent_id = get_category( $category_id )->parent;
+                    $parent_id       = false;
+                    $category_object = get_category( $category_id );
+
+                    // Verify the category exists before accessing the parent info.
+                    if ( ! is_wp_error( $category_object ) && ! empty( $category_object ) && isset( $category_object->parent ) ) {
+                        $parent_id = $category_object->parent;
+                    }
+
                     while ( $parent_id ) {
                         $parent_data = $laterpay_category_model->get_category_price_data_by_category_ids( $parent_id );
                         if ( ! $parent_data ) {
