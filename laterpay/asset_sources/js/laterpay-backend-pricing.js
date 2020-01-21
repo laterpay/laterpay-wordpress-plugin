@@ -792,20 +792,22 @@
         validateVoucherPrice = function(type, $entity) {
 
             var isSubscription = false;
+            var voucherPrice = parseFloat( $entity.find($o.voucherPriceInputSingle).val() );
+            var voucherParentPrice = parseFloat( $entity.find( $o.timepass.fields.price ).val() );
 
             if ( 'subscription' === type ) {
                 isSubscription = true;
+                voucherParentPrice = parseFloat( $entity.find( $o.subscription.fields.price ).val() );
             }
 
             if ( isSubscription ) {
-                if ( $entity.find($o.voucherPriceInputSingle).val() >
-                $entity.find( $o.subscription.fields.price ).val() ) {
+                if ( voucherPrice > voucherParentPrice ) {
                     $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMaximumPrice );
                     $( $o.subscription.actions.save ).attr( 'disabled', 'disabled' );
                     $( $o.subscription.actions.save ).removeAttr( 'href' );
                     $entity.find('.lp_js_voucher_msg').css( 'display','block' );
                     return;
-                } else if ( $entity.find($o.voucherPriceInputSingle).val() < lpVars.currency.sis_min) {
+                } else if ( voucherPrice < parseFloat( lpVars.currency.sis_min ) ) {
                     $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.subVoucherMinimum );
                     $entity.find('.lp_js_voucher_msg').css( 'display','block' );
                     return;
@@ -813,7 +815,7 @@
                 $( $o.subscription.actions.save ).removeAttr( 'disabled' );
                 $( $o.subscription.actions.save ).attr( 'href', '#' );
             } else {
-                if ( $entity.find($o.voucherPriceInputSingle).val() > $entity.find( $o.timepass.fields.price ).val() ) {
+                if ( voucherPrice > voucherParentPrice ) {
                     $( $o.timepass.actions.save ).attr( 'disabled', 'disabled' );
                     $( $o.timepass.actions.save ).removeAttr( 'href' );
                     $entity.find('.lp_js_voucher_msg').text( lpVars.i18n.tpVoucherMaximumPrice );
