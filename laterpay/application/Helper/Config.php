@@ -387,12 +387,20 @@ class LaterPay_Helper_Config {
         delete_option( 'laterpay_api_fallback_behavior' );
         delete_option( 'laterpay_api_enabled_on_homepage' );
 
+        // Delete GA related configurations.
+        delete_option( 'laterpay_user_tracking_data' );
+        delete_option( 'laterpay_tracking_data' );
+
+        // Delete appearance config.
         delete_option( 'laterpay_main_color' );
         delete_option( 'laterpay_hover_color' );
         delete_option( 'laterpay_overlay_header_bg_color' );
+        delete_option( 'laterpay_overlay_header_title' );
         delete_option( 'laterpay_overlay_main_bg_color' );
         delete_option( 'laterpay_overlay_main_text_color' );
         delete_option( 'laterpay_overlay_description_color' );
+        delete_option( 'laterpay_overlay_button_bg_color' );
+        delete_option( 'laterpay_overlay_button_hover_color' );
         delete_option( 'laterpay_overlay_button_hover_text_color' );
         delete_option( 'laterpay_overlay_button_text_color' );
         delete_option( 'laterpay_overlay_link_main_color' );
@@ -406,10 +414,15 @@ class LaterPay_Helper_Config {
         delete_option( 'laterpay_show_cache_msg' );
         delete_option( 'lp_tabular_info' );
         delete_option( 'lp_custom_overlay_options' );
+        delete_option( 'laterpay_overlay_show_footer' );
         delete_option( 'laterpay_global_voucher_codes' );
         delete_option( 'laterpay_plugin_version' );
         delete_option( 'lp_custom_overlay_options' );
         delete_option( 'lp_wisdom_tracking_info' );
+
+        // Delete internal counters for time pass and subscription.
+        delete_option( 'lp_pass_count' );
+        delete_option( 'lp_sub_count' );
 
         // unset wisdom tracking data.
         LaterPay_Controller_Admin_Advanced::unset_wisdom_tracking_info();
