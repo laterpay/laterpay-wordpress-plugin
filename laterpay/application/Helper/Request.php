@@ -154,8 +154,24 @@ class LaterPay_Helper_Request {
 
             $result = $client->get_access($article_ids, $product_key);
 
+            // Check if current config is valid or not.
+            $health_check = json_decode( $client->check_health( true ), true );
+
+            // Change plugin mode to test, if invalid account configuration.
+            if ( false === $health_check['is_valid'] ) {
+                // Activate test mode.
+                update_option( 'laterpay_plugin_is_in_live_mode', '0' );
+
+                // Recheck plugin is working, to disable the paywall.
+                $event = new LaterPay_Core_Event();
+                $event->set_echo( false );
+                laterpay_event_dispatcher()->dispatch( 'laterpay_on_plugin_is_working', $event );
+
+                return false;
+            }
+
             // Possible value of status is ok or error in case of wrong params which means api is working.
-            if ( ( is_array( $result ) && array_key_exists( 'status', $result ) ) ||  ( empty( $result ) && $client->check_health() ) ) {
+            if ( ( is_array( $result ) && array_key_exists( 'status', $result ) ) ||  ( empty( $result ) && array_key_exists( 'status', $health_check ) ) ) {
                 self::$lp_api_availability = true;
             } else {
                 throw new Exception( 'Unable to reach LaterPay API' );
