@@ -30,9 +30,9 @@ class LaterPay_Helper_Config {
                 'limits' => array(
                     'default' => array(
                         'ppu_min'         => 0.05,
-                        'ppu_only_limit'  => 1.48,
+                        'ppu_only_limit'  => 0.99,
                         'ppu_max'         => 5.00,
-                        'sis_min'         => 1.49,
+                        'sis_min'         => 1.00,
                         'sis_only_limit'  => 5.00,
                         'sis_max'         => 1000.00
                     )
