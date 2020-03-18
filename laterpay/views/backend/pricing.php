@@ -312,7 +312,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             </label><!--
                                             --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/2
                                                 <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo 'lp_is-selected'; } ?>
-                                                <?php if ( $laterpay['global_default_price'] < $laterpay['currency']['sis_min'] ) { echo 'lp_is-disabled lp_tooltip'; } ?>" <?php if ( $laterpay['global_default_price'] < $laterpay['currency']['sis_min'] ) { printf( '%1$s="%2$s"', 'data-tooltip',  esc_html__( 'Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.49€', 'laterpay' ) ); } ?>>
+                                                <?php if ( $laterpay['global_default_price'] < $laterpay['currency']['sis_min'] ) { echo 'lp_is-disabled lp_tooltip'; } ?>" <?php if ( $laterpay['global_default_price'] < $laterpay['currency']['sis_min'] ) { printf( '%1$s="%2$s"', 'data-tooltip',  esc_html__( 'Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.00€', 'laterpay' ) ); } ?>>
                                                 <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="sis" <?php if ( $laterpay['global_default_price_revenue_model'] === 'sis' ) { echo ' checked'; } ?>><?php esc_html_e( 'Pay Now', 'laterpay' ); ?>
                                             </label>
                                         </div>

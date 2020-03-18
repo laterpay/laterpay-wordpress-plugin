@@ -265,7 +265,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
                             echo 'lp_is-disabled';
                         } ?>
                     <?php endif; ?>"
-                           data-tooltip="<?php echo esc_attr( __( 'Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.49€', 'laterpay' ) ); ?>">
+                           data-tooltip="<?php echo esc_attr( __( 'Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.00€', 'laterpay' ) ); ?>">
                         <input type="radio"
                                name="post_revenue_model"
                                value="sis"

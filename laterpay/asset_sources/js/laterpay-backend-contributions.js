@@ -388,7 +388,7 @@
                         // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                         $singleSale.prop('checked', 'checked');
                     } else if (price < lpVars.currency.sis_min && currentRevenueModel === $o.singleSale) {
-                        // Single Sale purchases are not allowed for prices < 1.49 Euro
+                        // Single Sale purchases are not allowed for prices < 1.00 Euro
                         $payPerUse.prop('checked', 'checked');
                     }
 

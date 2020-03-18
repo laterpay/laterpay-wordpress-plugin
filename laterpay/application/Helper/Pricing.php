@@ -656,7 +656,7 @@ class LaterPay_Helper_Pricing
                 // Single Sale (sis), if price >= 5.01
                 $end_price = $currency['sis_only_limit'];
             } elseif ( $post_price >= $currency['sis_min'] ) {
-                // Single Sale or Pay-per-Use, if 1.49 >= price <= 5.00
+                // Single Sale or Pay-per-Use, if 1.00 >= price <= 5.00
                 $end_price = $currency['sis_min'];
             } else {
                 // Pay-per-Use (ppu), if price <= 1.48
