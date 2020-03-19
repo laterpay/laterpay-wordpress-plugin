@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2020-01-22 11:15+0530\n"
-"PO-Revision-Date: 2020-01-22 11:15+0530\n"
+"POT-Creation-Date: 2020-03-18 22:13+0530\n"
+"PO-Revision-Date: 2020-03-18 22:13+0530\n"
 "Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -155,7 +155,7 @@ msgid ""
 "and / or content that immediately occasions costs (e. g. license fees for a "
 "video stream).<br>\n"
 "                Pay Now are possible for prices between (including) "
-"<strong>1.49 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) "
+"<strong>1.00 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) "
 "<strong>149.99</strong>.\n"
 "            </p>"
 msgstr ""
@@ -212,7 +212,7 @@ msgstr ""
 "oder Inhalte, die sofort Kosten verursachen (z. B. Lizenzgebühren für einen "
 "Videostream).\n"
 "                PayNow ist möglich für Preise zwischen (einschließlich) "
-"<strong>1,49 € (in Europa) / $ 1,99 (in den USA)</strong> und "
+"<strong>1,00 € (in Europa) / $ 1,99 (in den USA)</strong> und "
 "(einschließlich) <strong>149,99</strong>.\n"
 "            </p>"
 
@@ -1246,26 +1246,26 @@ msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr "Wir konnten kein %s mit id=“%s” auf dieser Seite finden."
 
 #: application/Controller/Admin/Post/Blocks.php:74
-#: application/Controller/Frontend/Post.php:700
+#: application/Controller/Frontend/Post.php:699
 #: application/Controller/Frontend/Shortcode.php:619
-#: application/Module/Purchase.php:750
+#: application/Module/Purchase.php:749
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:117
 msgid "Buy Now, Pay Later"
 msgstr "Jetzt kaufen, später zahlen"
 
 #: application/Controller/Admin/Post/Blocks.php:76
-#: application/Controller/Frontend/Post.php:701
+#: application/Controller/Frontend/Post.php:700
 #: application/Controller/Frontend/Shortcode.php:621
-#: application/Module/Purchase.php:622 application/Module/Purchase.php:635
-#: application/Module/Purchase.php:743
+#: application/Module/Purchase.php:621 application/Module/Purchase.php:634
+#: application/Module/Purchase.php:742
 #: views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
 #: application/Controller/Admin/Post/Blocks.php:82
-#: application/Controller/Frontend/Post.php:702
+#: application/Controller/Frontend/Post.php:701
 #: application/Controller/Frontend/Shortcode.php:627
-#: application/Module/Purchase.php:746
+#: application/Module/Purchase.php:745
 msgid "Subscribe Now"
 msgstr "Jetzt abonnieren"
 
@@ -1377,7 +1377,7 @@ msgstr "Sofort zahlen"
 #: application/Controller/Admin/Post/Column.php:126
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
-#: application/Helper/Pricing.php:959 application/Module/Purchase.php:645
+#: application/Helper/Pricing.php:959 application/Module/Purchase.php:644
 #: asset_sources/js/blocks/contribution/edit.js:275
 #: asset_sources/js/blocks/contribution/edit.js:299
 #: asset_sources/js/blocks/contribution/edit.js:323
@@ -1585,18 +1585,18 @@ msgstr ""
 #: views/backend/pricing.php:315
 msgid ""
 "Pay Now requires users pay for purchased content immediately; available for "
-"posts with pricing above $1.99 or 1.49€"
+"posts with pricing above $1.99 or 1.00€"
 msgstr ""
 "PayNow erfordert, dass Benutzer für gekaufte Inhalte sofort bezahlen und ist "
-"verfügbar für Beiträge mit Preisen über $1,99 oder 1,49€."
+"verfügbar für Beiträge mit Preisen über $1,99 oder 1,00€."
 
 #: application/Controller/Admin/Pricing.php:115
 msgid ""
 "Subscriptions, like other Pay Now content, must have pricing above $1.99 or "
-"1.49€"
+"1.00€"
 msgstr ""
 "Abonnements müssen, wie andere PayNow-Inhalte, einen Preis von über $1,99 "
-"oder 1,49€ haben."
+"oder 1,00€ haben."
 
 #: application/Controller/Admin/Pricing.php:116
 msgid "The voucher price must be less than or equal to the subscription price."
@@ -1607,7 +1607,7 @@ msgid "The voucher price must be less than or equal to the time pass price."
 msgstr "Der Gutscheinpreis muss kleiner oder gleich dem Zeitpass-Preis sein."
 
 #: application/Controller/Admin/Pricing.php:118
-#: application/Controller/Frontend/Post.php:697
+#: application/Controller/Frontend/Post.php:696
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
@@ -2241,7 +2241,7 @@ msgstr "Schaltfläche Abonnement kaufen"
 msgid "No Subscription Available."
 msgstr "Kein Abonnement verfügbar"
 
-#: application/Controller/Frontend/Post.php:694
+#: application/Controller/Frontend/Post.php:693
 msgid ""
 "Your site is in LIVE mode, your visitors would now see the LaterPay purchase "
 "dialog. \n"
@@ -2261,19 +2261,19 @@ msgstr ""
 "Hinweis: Für Einkäufe, die im LIVE-Modus getätigt werden, werden Ihnen "
 "Gebühren berechnet."
 
-#: application/Controller/Frontend/Post.php:695
+#: application/Controller/Frontend/Post.php:694
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: application/Controller/Frontend/Post.php:696
+#: application/Controller/Frontend/Post.php:695
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: application/Controller/Frontend/Post.php:698
+#: application/Controller/Frontend/Post.php:697
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
-#: application/Controller/Frontend/Post.php:777
+#: application/Controller/Frontend/Post.php:776
 msgid ""
 "&mdash; Visit the post to buy its full content for {price} {currency} "
 "&mdash; {teaser_content}"
@@ -2287,7 +2287,7 @@ msgid "Updated."
 msgstr "Aktualisiert."
 
 #: application/Controller/Frontend/PreviewMode.php:178
-#: application/Module/Appearance.php:227
+#: application/Module/Appearance.php:213
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
@@ -2521,36 +2521,36 @@ msgstr "Alle Inhalte in Kategorie"
 msgid "k"
 msgstr "t"
 
-#: application/Module/Purchase.php:111 application/Module/Purchase.php:766
+#: application/Module/Purchase.php:110 application/Module/Purchase.php:765
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr "Bereits gekauft?"
 
-#: application/Module/Purchase.php:611 application/Module/TimePasses.php:472
-#: application/Module/TimePasses.php:495 application/Module/TimePasses.php:513
+#: application/Module/Purchase.php:610 application/Module/TimePasses.php:471
+#: application/Module/TimePasses.php:494 application/Module/TimePasses.php:512
 msgid "Read Now"
 msgstr "Jetzt lesen"
 
-#: application/Module/Purchase.php:613
+#: application/Module/Purchase.php:612
 msgid "Read Now, Pay Later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: application/Module/Purchase.php:623
+#: application/Module/Purchase.php:622
 msgid ""
 "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie diesen Beitrag jetzt mit LaterPay und <br>bezahlen Sie mit einer "
 "Zahlungsmethode Ihres Vertrauens."
 
-#: application/Module/Purchase.php:627 application/Module/Purchase.php:640
-#: application/Module/TimePasses.php:480
+#: application/Module/Purchase.php:626 application/Module/Purchase.php:639
+#: application/Module/TimePasses.php:479
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
-#: application/Module/Purchase.php:628
+#: application/Module/Purchase.php:627
 msgid ""
 "Immediately access your purchase. <br>You only buy this post. No "
 "subscription, no fees."
@@ -2558,13 +2558,13 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:636
+#: application/Module/Purchase.php:635
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 "Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. "
 "Keine Vorauszahlung."
 
-#: application/Module/Purchase.php:641
+#: application/Module/Purchase.php:640
 msgid ""
 "Access your purchase immediately.<br> You are only buying this article, not "
 "a subscription."
@@ -2572,7 +2572,7 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag. Kein "
 "Abo, keine Gebühren."
 
-#: application/Module/Purchase.php:646
+#: application/Module/Purchase.php:645
 #, php-format
 msgid ""
 "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you "
@@ -2581,21 +2581,21 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie %s %s erreicht haben. Erst dann müssen Sie "
 "sich registrieren und bezahlen."
 
-#: application/Module/TimePasses.php:416
+#: application/Module/TimePasses.php:415
 msgid "Wrong time pass id or no time passes specified."
 msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
 
-#: application/Module/TimePasses.php:475
+#: application/Module/TimePasses.php:474
 msgid "Buy Time Pass"
 msgstr "Zeitpass kaufen"
 
-#: application/Module/TimePasses.php:476
+#: application/Module/TimePasses.php:475
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen LaterPay Zeitpass und zahlen Sie mit einer Zahlungsmethode "
 "Ihres Vertrauens."
 
-#: application/Module/TimePasses.php:481
+#: application/Module/TimePasses.php:480
 msgid ""
 "Immediately access your content. <br>A time pass is not a subscription, it "
 "expires automatically."
@@ -2603,21 +2603,21 @@ msgstr ""
 "Greifen Sie sofort auf Ihre Inhalte zu.<br>\n"
 "Ein Zeitpass ist kein Abo, denn er läuft automatisch aus."
 
-#: application/Module/TimePasses.php:498
+#: application/Module/TimePasses.php:497
 msgid "Buy Subscription"
 msgstr "Abo kaufen"
 
-#: application/Module/TimePasses.php:499
+#: application/Module/TimePasses.php:498
 msgid "Buy a subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie ein Abo und bezahlen Sie mit einer Zahlungsmethode,  der Sie "
 "vertrauen."
 
-#: application/Module/TimePasses.php:516
+#: application/Module/TimePasses.php:515
 msgid "Buy a Time Pass or Subscription"
 msgstr "Kaufen Sie einen Zeitpass oder ein Abo"
 
-#: application/Module/TimePasses.php:517
+#: application/Module/TimePasses.php:516
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 "Kaufen Sie einen Zeitpass oder ein Abo und zahlen Sie mit einer "

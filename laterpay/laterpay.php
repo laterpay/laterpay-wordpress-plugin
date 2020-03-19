@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
  * Author: LaterPay
- * Version: 2.9.2
+ * Version: 2.9.3
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay
  * Domain Path: /languages

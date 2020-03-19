@@ -307,7 +307,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 <strong>Pay Now</strong><br>
                 If you sell your content as <strong>Pay Now</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
                 Pay Now are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
-                Pay Now are possible for prices between (including) <strong>1.49 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.
+                Pay Now are possible for prices between (including) <strong>1.00 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.
             </p>', 'laterpay'
             ),
         ) );

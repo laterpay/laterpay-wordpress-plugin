@@ -17,7 +17,7 @@ var DynamicPricingWidget = function (container) {
     this.minPrice = 0;
     this.maxPrice = 5;
     this.defaultPrice = 0.49;
-    this.payLaterPrice = ( lpVars.currency === 'USD' ) ? 1.99 : 1.49;
+    this.payLaterPrice = ( lpVars.currency === 'USD' ) ? 1.99 : 1.00;
     this.currentPrice = 0;
     this.pubDays = 0;
     this.currency = lpVars.currency;
