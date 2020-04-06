@@ -41,7 +41,7 @@
     "gulp-zip": "^4.1.0",
     "jshint-stylish": "^1.0.0",
     "lodash": ">=4.17.11",
-    "minimist": "^1.2.2",
+    "minimist": "^1.2.3",
     "prompt": "^0.2.14",
     "q": "^1.4.1",
     "run-sequence": "^1.1.2"
