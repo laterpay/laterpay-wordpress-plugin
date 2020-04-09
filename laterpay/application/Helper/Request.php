@@ -162,8 +162,6 @@ class LaterPay_Helper_Request {
                 $client_options['token_name']
             );
 
-            $result = $client->get_access($article_ids, $product_key);
-
             // Check if current config is valid or not.
             $health_check = json_decode( $client->check_health( true ), true );
 
@@ -179,6 +177,8 @@ class LaterPay_Helper_Request {
 
                 return false;
             }
+
+            $result = $client->get_access($article_ids, $product_key);
 
             // Possible value of status is ok or error in case of wrong params which means api is working.
             if (
