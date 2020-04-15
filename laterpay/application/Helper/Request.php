@@ -22,6 +22,11 @@ class LaterPay_Helper_Request {
      */
     public static function isLpApiAvailability()
     {
+        // Check if access check is disabled and current page is home page.
+        if ( LaterPay_Helper_Pricing::is_access_check_disabled_on_home() ) {
+            return false;
+        }
+
         if ( null === self::$lp_api_availability ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $action         = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
@@ -142,6 +147,11 @@ class LaterPay_Helper_Request {
         $result = array();
         $action = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
 
+        // Check if access check is disabled and current page is home page.
+        if ( LaterPay_Helper_Pricing::is_access_check_disabled_on_home() ) {
+            return $result;
+        }
+
         try {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $client = new LaterPay_Client(
@@ -151,8 +161,6 @@ class LaterPay_Helper_Request {
                 $client_options['web_root'],
                 $client_options['token_name']
             );
-
-            $result = $client->get_access($article_ids, $product_key);
 
             // Check if current config is valid or not.
             $health_check = json_decode( $client->check_health( true ), true );
@@ -170,8 +178,13 @@ class LaterPay_Helper_Request {
                 return false;
             }
 
+            $result = $client->get_access($article_ids, $product_key);
+
             // Possible value of status is ok or error in case of wrong params which means api is working.
-            if ( ( is_array( $result ) && array_key_exists( 'status', $result ) ) ||  ( empty( $result ) && array_key_exists( 'status', $health_check ) ) ) {
+            if (
+                ( is_array( $result ) && array_key_exists( 'status', $result ) ) ||
+                ( empty( $result ) && ( ! empty( $health_check ) && array_key_exists( 'status', $health_check ) ) )
+            ) {
                 self::$lp_api_availability = true;
             } else {
                 throw new Exception( 'Unable to reach LaterPay API' );
