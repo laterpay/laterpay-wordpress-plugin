@@ -4,9 +4,9 @@ Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
 Tags: contribution, conversion, earn-money, micropayment, monetization, monetize-content, paid-content, payment, paywall, sell-article, sell-content, subscription
 Requires at least: 4.6
-Tested up to: 5.3.2
+Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.9.3
+Stable tag: 2.9.4
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -90,6 +90,10 @@ Yes!
 7. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.9.4 ( April 16, 2020 ) =
+* Disable additional requests on home page if disabled by merchant.
+* Validate account status before `/access` check to avoid unnecessary request.
+
 = 2.9.3 ( March 19, 2020 ) =
 * Lower Pay Now limit from 1.49€ to 1.00€ for EU region.
 * Reduce unnecessary API request to `validatesignature` endpoint.
@@ -706,8 +710,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.9.3 =
-Reduces unnecessary API call to `validatesignature` endpoint.
+= 2.9.4 =
+Reduces unnecessary API calls to `/validatesignature` and `/access` endpoint.
 
 == Arbitrary section ==
 
