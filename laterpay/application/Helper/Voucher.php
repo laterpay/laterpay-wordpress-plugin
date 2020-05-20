@@ -327,7 +327,7 @@ class LaterPay_Helper_Voucher
         $vouchers = get_option( self::GLOBAL_VOUCHER_CODES_OPTION );
         if ( ! $vouchers || ! is_array( $vouchers ) ) {
             update_option( self::GLOBAL_VOUCHER_CODES_OPTION, '' );
-            $vouchers = [];
+            $vouchers = [ [] ]; // Ticket #1397.
         }
 
         // format prices.
