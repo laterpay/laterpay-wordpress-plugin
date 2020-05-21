@@ -692,8 +692,8 @@
         validateVoucherCode = function( voucherInput, $wrapper, type ) {
             var voucherCode = voucherInput.val();
 
-            if (voucherCode.length === 6) {
-
+             // Allows less than 6 Characters #1397
+             if (voucherCode.length <= 6) {
                 var globalVouchers = $o.globalVouchers.data.vouchers;
                 if ( typeof $o.globalVouchers.data.vouchers === 'string' ) {
                     globalVouchers = JSON.parse($o.globalVouchers.data.vouchers);
