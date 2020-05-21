@@ -66,7 +66,7 @@ $is_vip = laterpay_check_is_vip();
                 <p data-icon="n" class="live-cache-warning">
                     <?php
                     printf(
-                        esc_html__( 'We recommend %sclearing your cache%s in order to ensure that the paywall is visible everyone.', 'laterpay' ),
+                        esc_html__( 'We recommend %sclearing your cache%s in order to ensure that the paywall is visible to everyone.', 'laterpay' ),
                         '<a href="https://www.wpbeginner.com/beginners-guide/how-to-clear-your-cache-in-wordpress" target="_blank">',
                         '</a>'
                     );
