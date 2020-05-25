@@ -342,7 +342,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 <span class="lp_js_voucher_msg" data-icon="n"><?php esc_html_e( 'This voucher code is already in use, please choose a different name.', 'laterpay' ); ?></span>
 
                                                 <div class="lp_js_voucherPlaceholder"></div>
-                                                <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link lp_single_voucher_button" data-icon="c">
+                                                <a href="javascript:void(0);" class="lp_js_generateVoucherCode lp_edit-link lp_add-link lp_single_voucher_button" data-icon="c">
                                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                                 </a>
                                                 <span data-icon="n" class="lp_single_voucher_disclaimer"><?php esc_html_e( 'This voucher will provide discounted access to all Articles, even those with a Category Default or Single Article Price.', 'laterpay' ); ?></span>
@@ -624,8 +624,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                         <div class="lp_js_timePassEditorContainer lp_time-pass-editor"></div>
 
-                        <a href="#" class="lp_js_saveTimePass button button-primary lp_mt- lp_mb- lp_hidden"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_js_cancelEditingTimePass lp_inline-block lp_pd- lp_hidden"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                        <a href="javascript:void(0);" class="lp_js_saveTimePass button button-primary lp_mt- lp_mb- lp_hidden"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                        <a href="javascript:void(0);" class="lp_js_cancelEditingTimePass lp_inline-block lp_pd- lp_hidden"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_editTimePass lp_edit-link--bold lp_rounded--topright lp_inline-block" data-icon="d"></a>
                         <a href="#" class="lp_js_deleteTimePass lp_edit-link--bold lp_inline-block" data-icon="g"></a>
 
@@ -778,7 +778,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'time pass price.', 'laterpay' )  ); ?></span>
 
                                 <div class="lp_js_voucherPlaceholder"></div>
-                                <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
+                                <a href="javascript:void(0);" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
                             </div>
@@ -839,8 +839,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                         <div class="lp_js_subscriptionEditorContainer lp_subscription-editor"></div>
 
-                        <a href="#" class="lp_js_saveSubscription button button-primary lp_mt- lp_mb- lp_hidden"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_js_cancelEditingSubscription lp_inline-block lp_pd- lp_hidden"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                        <a href="javascript:void(0);" class="lp_js_saveSubscription button button-primary lp_mt- lp_mb- lp_hidden"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                        <a href="javascript:void(0);" class="lp_js_cancelEditingSubscription lp_inline-block lp_pd- lp_hidden"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_editSubscription lp_edit-link--bold lp_rounded--topright lp_inline-block" data-icon="d"></a>
                         <a href="#" class="lp_js_deleteSubscription lp_edit-link--bold lp_inline-block" data-icon="g"></a>
 
@@ -977,7 +977,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <span class="lp_js_voucher_msg" data-icon="n"><?php printf( '%1$s<br/>%2$s', esc_html__( 'The voucher price must be less than or equal to the ', 'laterpay'), esc_html__( 'subscription price.', 'laterpay' )  ); ?></span>
 
                                 <div class="lp_js_voucherPlaceholder"></div>
-                                <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link lp_sub_voucher_button" data-icon="c">
+                                <a href="javascript:void(0);" class="lp_js_generateVoucherCode lp_edit-link lp_add-link lp_sub_voucher_button" data-icon="c">
                                     <?php esc_html_e( 'Generate voucher code', 'laterpay' ); ?>
                                 </a>
                                 <span data-icon="n" class="lp_sub_voucher_disclaimer"><?php esc_html_e( 'This will reduce the price for the entirety of the subscription.', 'laterpay' ); ?></span>
@@ -986,8 +986,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </form>
                     </div>
 
-                    <a href="#" class="lp_js_saveSubscription button button-primary lp_mt- lp_mb-"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_js_cancelEditingSubscription lp_inline-block lp_pd-"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
+                    <a href="javascript:void(0);" class="lp_js_saveSubscription button button-primary lp_mt- lp_mb-"><?php esc_html_e( 'Save', 'laterpay' ); ?></a>
+                    <a href="javascript:void(0);" class="lp_js_cancelEditingSubscription lp_inline-block lp_pd-"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></a>
 
                     <a href="#" class="lp_js_editSubscription lp_edit-link--bold lp_rounded--topright lp_inline-block lp_hidden" data-icon="d"></a><br>
                     <a href="#" class="lp_js_deleteSubscription lp_edit-link--bold lp_inline-block lp_hidden" data-icon="g"></a>
