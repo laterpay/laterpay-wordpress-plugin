@@ -758,7 +758,7 @@
                         return;
                     }
                     $($o.subscription.actions.save).removeAttr('disabled');
-		   $wrapper.find($o.generateVoucherCode).removeAttr('disabled');
+                    $wrapper.find($o.generateVoucherCode).removeAttr('disabled');
                     $($o.subscription.actions.save).attr('href', 'javascript:void(0);');
                 } else if ( isGlobal ) {
                     if (true === voucherExists) {
@@ -780,7 +780,7 @@
                         return;
                     }
                     $($o.timepass.actions.save).removeAttr('disabled');
-		   $wrapper.find($o.generateVoucherCode).removeAttr('disabled');
+                    $wrapper.find($o.generateVoucherCode).removeAttr('disabled');
                     $($o.timepass.actions.save).attr('href', 'javascript:void(0);');
                 }
 
