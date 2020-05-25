@@ -692,8 +692,7 @@
         validateVoucherCode = function( voucherInput, $wrapper, type ) {
             var voucherCode = voucherInput.val();
 
-             // Allows less than 6 Characters #1397
-             if (voucherCode.length <= 6) {
+             if (voucherCode.length === 6 ) {
                 var globalVouchers = $o.globalVouchers.data.vouchers;
                 if ( typeof $o.globalVouchers.data.vouchers === 'string' ) {
                     globalVouchers = JSON.parse($o.globalVouchers.data.vouchers);
@@ -779,6 +778,8 @@
             } else {
                 $wrapper.find('.lp_js_voucher_msg').text(lpVars.i18n.codeTooShort);
                 $wrapper.find('.lp_js_voucher_msg').css('display', 'block');
+                // Disabled save button if there are less than 6 characters. #1397
+                $wrapper.find('.button-primary').attr('disabled', 'disabled');
                 return;
             }
 
