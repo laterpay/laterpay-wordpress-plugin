@@ -433,11 +433,11 @@
             // generate voucher code
             $o.timepass.editor
             .on('mousedown', $o.generateVoucherCode, function(e) {
-		if ( $(this).is('[disabled=disabled]') ) {
-		    e.preventDefault();
-		    return false;
-		}
-		generateVoucherCode($(this).parents($o.timepass.wrapper));
+                 if ( $(this).is('[disabled=disabled]') ) {
+                     e.preventDefault();
+                     return false;
+                 }
+                 generateVoucherCode($(this).parents($o.timepass.wrapper));
             })
             .on('click', $o.generateVoucherCode, function(e) {
                 e.preventDefault();
@@ -556,11 +556,11 @@
             // Generate voucher code.
             $o.subscription.editor
                 .on('mousedown', $o.generateVoucherCode, function(e) {
-		    if ( $(this).is('[disabled=disabled]') ) {
-			e.preventDefault();
-			return false;
-		    }
-		    generateVoucherCode($(this).parents($o.subscription.wrapper));
+                     if ( $(this).is('[disabled=disabled]') ) {
+                          e.preventDefault();
+                          return false;
+                     }
+                     generateVoucherCode($(this).parents($o.subscription.wrapper));
                 })
                 .on('click', $o.generateVoucherCode, function(e) {
                     e.preventDefault();
@@ -769,7 +769,7 @@
                         return;
                     }
                     $o.saveGlobalDefaultPrice.removeAttr('disabled');
-		   $wrapper.find($o.generateVoucherCode).removeAttr('disabled');
+                    $wrapper.find($o.generateVoucherCode).removeAttr('disabled');
                     $o.saveGlobalDefaultPrice.attr('href', 'javascript:void(0);');
                 } else {
                     if (true === voucherExists) {
