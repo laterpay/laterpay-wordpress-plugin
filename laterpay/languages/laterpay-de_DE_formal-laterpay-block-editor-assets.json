@@ -1294,7 +1294,7 @@
          "Congratulations, you are now accepting payments through LaterPay!": [
             "Herzlichen Glückwunsch, Sie akzeptieren jetzt Zahlungen über LaterPay!"
          ],
-         "We recommend %sclearing your cache%s in order to ensure that the paywall is visible everyone.": [
+         "We recommend %sclearing your cache%s in order to ensure that the paywall is visible to everyone.": [
             "Wir empfehlen %sIhren Cache zu leeren%s, um sicherzustellen, dass die Paywall für alle sichtbar ist."
          ],
          "Hide message.": [
