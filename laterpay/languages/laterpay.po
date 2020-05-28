@@ -2,13 +2,14 @@
 # This file is distributed under the same license as the LaterPay plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LaterPay 2.9.4\n"
+"Project-Id-Version: LaterPay 2.9.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/laterpay\n"
 "Last-Translator: Kimberly Moore <kmoore@laterpay.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-01-22T11:14:54+05:30\n"
+"POT-Creation-Date: 2020-05-28T09:52:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: laterpay\n"
@@ -129,7 +130,7 @@ msgid ""
 "                <strong>Pay Now</strong><br>\n"
 "                If you sell your content as <strong>Pay Now</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>\n"
 "                Pay Now are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>\n"
-"                Pay Now are possible for prices between (including) <strong>1.49 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.\n"
+"                Pay Now are possible for prices between (including) <strong>1.00 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.\n"
 "            </p>"
 msgstr ""
 
@@ -677,28 +678,28 @@ msgid "We couldn't find a %s with id=\"%s\" on this site."
 msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:74
-#: application/Controller/Frontend/Post.php:700
+#: application/Controller/Frontend/Post.php:699
 #: application/Controller/Frontend/Shortcode.php:619
-#: application/Module/Purchase.php:750
+#: application/Module/Purchase.php:749
 #: asset_sources/js/blocks/sub-pass-purchase-button/edit.js:117
 #: built_assets/block_build/laterpay-blocks.js:1
 msgid "Buy Now, Pay Later"
 msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:76
-#: application/Controller/Frontend/Post.php:701
+#: application/Controller/Frontend/Post.php:700
 #: application/Controller/Frontend/Shortcode.php:621
-#: application/Module/Purchase.php:622
-#: application/Module/Purchase.php:635
-#: application/Module/Purchase.php:743
+#: application/Module/Purchase.php:621
+#: application/Module/Purchase.php:634
+#: application/Module/Purchase.php:742
 #: views/backend/partials/purchase-overlay.php:32
 msgid "Buy Now"
 msgstr ""
 
 #: application/Controller/Admin/Post/Blocks.php:82
-#: application/Controller/Frontend/Post.php:702
+#: application/Controller/Frontend/Post.php:701
 #: application/Controller/Frontend/Shortcode.php:627
-#: application/Module/Purchase.php:746
+#: application/Module/Purchase.php:745
 msgid "Subscribe Now"
 msgstr ""
 
@@ -825,7 +826,7 @@ msgstr ""
 #: application/Controller/Admin/Post/Metabox.php:154
 #: application/Controller/Admin/Post/Metabox.php:166
 #: application/Helper/Pricing.php:959
-#: application/Module/Purchase.php:645
+#: application/Module/Purchase.php:644
 #: views/backend/contributions.php:86
 #: views/backend/contributions.php:118
 #: views/backend/contributions.php:135
@@ -991,11 +992,11 @@ msgstr ""
 #: application/Controller/Admin/Pricing.php:114
 #: views/backend/partials/post-pricing-form.php:268
 #: views/backend/pricing.php:315
-msgid "Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.49€"
+msgid "Pay Now requires users pay for purchased content immediately; available for posts with pricing above $1.99 or 1.00€"
 msgstr ""
 
 #: application/Controller/Admin/Pricing.php:115
-msgid "Subscriptions, like other Pay Now content, must have pricing above $1.99 or 1.49€"
+msgid "Subscriptions, like other Pay Now content, must have pricing above $1.99 or 1.00€"
 msgstr ""
 
 #: application/Controller/Admin/Pricing.php:116
@@ -1007,7 +1008,7 @@ msgid "The voucher price must be less than or equal to the time pass price."
 msgstr ""
 
 #: application/Controller/Admin/Pricing.php:118
-#: application/Controller/Frontend/Post.php:697
+#: application/Controller/Frontend/Post.php:696
 msgid "Please enter a six-digit voucher code."
 msgstr ""
 
@@ -1526,7 +1527,7 @@ msgstr ""
 msgid "No Subscription Available."
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:694
+#: application/Controller/Frontend/Post.php:693
 msgid ""
 "Your site is in LIVE mode, your visitors would now see the LaterPay purchase dialog. \n"
 "\n"
@@ -1535,19 +1536,19 @@ msgid ""
 "Note: You will be charged for purchases made while in LIVE mode."
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:695
+#: application/Controller/Frontend/Post.php:694
 msgid "Voucher code accepted."
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:696
+#: application/Controller/Frontend/Post.php:695
 msgid " is not a valid voucher code!"
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:698
+#: application/Controller/Frontend/Post.php:697
 msgid "An error occurred. Please try again."
 msgstr ""
 
-#: application/Controller/Frontend/Post.php:777
+#: application/Controller/Frontend/Post.php:776
 msgid "&mdash; Visit the post to buy its full content for {price} {currency} &mdash; {teaser_content}"
 msgstr ""
 
@@ -1557,7 +1558,7 @@ msgid "Updated."
 msgstr ""
 
 #: application/Controller/Frontend/PreviewMode.php:178
-#: application/Module/Appearance.php:227
+#: application/Module/Appearance.php:213
 msgid "You don't have sufficient user capabilities to do this."
 msgstr ""
 
@@ -1751,81 +1752,81 @@ msgstr ""
 msgid "k"
 msgstr ""
 
-#: application/Module/Purchase.php:111
-#: application/Module/Purchase.php:766
+#: application/Module/Purchase.php:110
+#: application/Module/Purchase.php:765
 #: views/backend/partials/purchase-overlay.php:56
 #: views/backend/partials/purchase-overlay.php:121
 #: views/frontend/partials/widget/purchase-identity-url.php:12
 msgid "I already bought this"
 msgstr ""
 
-#: application/Module/Purchase.php:611
-#: application/Module/TimePasses.php:472
-#: application/Module/TimePasses.php:495
-#: application/Module/TimePasses.php:513
+#: application/Module/Purchase.php:610
+#: application/Module/TimePasses.php:471
+#: application/Module/TimePasses.php:494
+#: application/Module/TimePasses.php:512
 msgid "Read Now"
 msgstr ""
 
-#: application/Module/Purchase.php:613
+#: application/Module/Purchase.php:612
 msgid "Read Now, Pay Later"
 msgstr ""
 
-#: application/Module/Purchase.php:623
+#: application/Module/Purchase.php:622
 msgid "Buy this post now with LaterPay and <br>pay with a payment method you trust."
 msgstr ""
 
-#: application/Module/Purchase.php:627
-#: application/Module/Purchase.php:640
-#: application/Module/TimePasses.php:480
+#: application/Module/Purchase.php:626
+#: application/Module/Purchase.php:639
+#: application/Module/TimePasses.php:479
 #: views/backend/partials/purchase-overlay.php:38
 msgid "Read Immediately"
 msgstr ""
 
-#: application/Module/Purchase.php:628
+#: application/Module/Purchase.php:627
 msgid "Immediately access your purchase. <br>You only buy this post. No subscription, no fees."
 msgstr ""
 
-#: application/Module/Purchase.php:636
+#: application/Module/Purchase.php:635
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 
-#: application/Module/Purchase.php:641
+#: application/Module/Purchase.php:640
 msgid "Access your purchase immediately.<br> You are only buying this article, not a subscription."
 msgstr ""
 
-#: application/Module/Purchase.php:646
+#: application/Module/Purchase.php:645
 msgid "Buy with LaterPay until you reach a total of %s %s.<br> Only then do you have to register and pay."
 msgstr ""
 
-#: application/Module/TimePasses.php:416
+#: application/Module/TimePasses.php:415
 msgid "Wrong time pass id or no time passes specified."
 msgstr ""
 
-#: application/Module/TimePasses.php:475
+#: application/Module/TimePasses.php:474
 msgid "Buy Time Pass"
 msgstr ""
 
-#: application/Module/TimePasses.php:476
+#: application/Module/TimePasses.php:475
 msgid "Buy a LaterPay time pass and pay with a payment method you trust."
 msgstr ""
 
-#: application/Module/TimePasses.php:481
+#: application/Module/TimePasses.php:480
 msgid "Immediately access your content. <br>A time pass is not a subscription, it expires automatically."
 msgstr ""
 
-#: application/Module/TimePasses.php:498
+#: application/Module/TimePasses.php:497
 msgid "Buy Subscription"
 msgstr ""
 
-#: application/Module/TimePasses.php:499
+#: application/Module/TimePasses.php:498
 msgid "Buy a subscription and pay with a payment method you trust."
 msgstr ""
 
-#: application/Module/TimePasses.php:516
+#: application/Module/TimePasses.php:515
 msgid "Buy a Time Pass or Subscription"
 msgstr ""
 
-#: application/Module/TimePasses.php:517
+#: application/Module/TimePasses.php:516
 msgid "Buy a timepass or subscription and pay with a payment method you trust."
 msgstr ""
 
@@ -1878,7 +1879,7 @@ msgid "Congratulations, you are now accepting payments through LaterPay!"
 msgstr ""
 
 #: views/backend/account.php:69
-msgid "We recommend %sclearing your cache%s in order to ensure that the paywall is visible everyone."
+msgid "We recommend %sclearing your cache%s in order to ensure that the paywall is visible to everyone."
 msgstr ""
 
 #: views/backend/account.php:74
