@@ -6,7 +6,7 @@ Tags: contribution, conversion, earn-money, micropayment, monetization, monetize
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.9.4
+Stable tag: 2.9.5
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
