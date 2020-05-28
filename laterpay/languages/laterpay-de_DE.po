@@ -3142,7 +3142,7 @@ msgstr "Herzlichen Glückwunsch, Sie akzeptieren jetzt Zahlungen über LaterPay!
 #, php-format
 msgid ""
 "We recommend %sclearing your cache%s in order to ensure that the paywall is "
-"visible everyone."
+"visible to everyone."
 msgstr ""
 "Wir empfehlen %sIhren Cache zu leeren%s, um sicherzustellen, dass die "
 "Paywall für alle sichtbar ist."

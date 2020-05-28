@@ -90,6 +90,10 @@ Yes!
 7. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.9.5 ( May 28, 2020 ) =
+* Added proper validation for custom voucher codes.
+* Fixes minor issue with cache validation message.
+
 = 2.9.4 ( April 16, 2020 ) =
 * Disable additional requests on home page if disabled by merchant.
 * Validate account status before `/access` check to avoid unnecessary request.
@@ -710,8 +714,8 @@ KNOWN BUGS:
 
 == Upgrade notice ==
 
-= 2.9.4 =
-Reduces unnecessary API calls to `/validatesignature` and `/access` endpoint.
+= 2.9.5 =
+Added proper validation for custom voucher codes.
 
 == Arbitrary section ==
 
