@@ -3,7 +3,7 @@ var gulp                        = require('gulp'),
     plugins                     = require('gulp-load-plugins')(),
     del                         = require('del'),
     exec                        = require('child_process').exec,
-    runSequence                 = require('run-sequence'),
+    runSequence                 = require('gulp4-run-sequence'),
     Github                      = require('github'),
     minimist                    = require('minimist'),
     Q                           = require('q'),
@@ -217,12 +217,12 @@ gulp.task('sniffphp', function() {
 
 
 // COMMANDS ------------------------------------------------------------------------------------------------------------
-gulp.task('default', ['clean', 'img-build', 'css-watch', 'js-watch'], function() {
+gulp.task('default', gulp.series( 'clean', 'img-build', 'css-watch', 'js-watch', function() {
     // watch for changes
     gulp.watch(p.allfiles,          ['fileformat']);
     gulp.watch(p.srcSCSS,           ['css-watch']);
     gulp.watch(p.srcJS + '*.js',    ['js-watch']);
-});
+}));
 
 // check code quality before git commit
 gulp.task('precommit-css', function() {
@@ -237,7 +237,7 @@ gulp.task('precommit-js', function() {
         .pipe(plugins.jshint.reporter(plugins.stylish));
 });
 
-gulp.task('precommit', ['sniffphp', 'js-format'], function() {
+gulp.task('precommit', gulp.series( 'sniffphp', 'js-format', function() {
     var deferred = Q.defer();
     runSequence(['precommit-css','precommit-js'], function(error){
         if (error) {
@@ -248,7 +248,7 @@ gulp.task('precommit', ['sniffphp', 'js-format'], function() {
         }
     });
     return deferred.promise;
-});
+}));
 
 // Task to run wp-scripts.
 gulp.task('compile-blocks', function (cb) {
@@ -260,7 +260,7 @@ gulp.task('compile-blocks', function (cb) {
 });
 
 // build project for release
-gulp.task('build', ['clean'], function() {
+gulp.task('build', gulp.series('clean', function() {
     var deferred = Q.defer();
     runSequence(['img-build','css-build','js-build', 'compile-blocks', 'composer'], function(error){
         if (error) {
@@ -271,7 +271,7 @@ gulp.task('build', ['clean'], function() {
         }
     });
     return deferred.promise;
-});
+}));
 
 // RELEASE -------------------------------------------------------------------------------------------------------------
 
@@ -574,8 +574,14 @@ gulp.task('svn-add', function(){
 
 });
 
+gulp.task('svn-prompt-credentials', function(){
+    if(!gulpOptions.svn.username || !gulpOptions.svn.password) {
+        return promptUsernamePassword('svn');
+    }
+});
+
 // Run svn commit
-gulp.task('svn-commit', ['svn-prompt-credentials'], function(){
+gulp.task('svn-commit', gulp.series('svn-prompt-credentials', function(){
     var deferred = Q.defer();
     plugins.svn2.commit('Release ' + gulpOptions.version, {
         cwd: p.distSVN,
@@ -590,10 +596,10 @@ gulp.task('svn-commit', ['svn-prompt-credentials'], function(){
         }
     });
     return deferred.promise;
-});
+}));
 
 // Run svn tag
-gulp.task('svn-tag', ['svn-prompt-credentials'], function(){
+gulp.task('svn-tag', gulp.series('svn-prompt-credentials', function(){
     var deferred = Q.defer();
     plugins.svn2.tag('v' + gulpOptions.version, 'Release ' + gulpOptions.version,{
         cwd: p.distSVN,
@@ -609,13 +615,7 @@ gulp.task('svn-tag', ['svn-prompt-credentials'], function(){
         }
     });
     return deferred.promise;
-});
-
-gulp.task('svn-prompt-credentials', function(){
-    if(!gulpOptions.svn.username || !gulpOptions.svn.password) {
-        return promptUsernamePassword('svn');
-    }
-});
+}));
 
 // clean up all files in the target directories
 gulp.task('svn-clean', function(cb) {
@@ -707,7 +707,7 @@ gulp.task('release:production', function () {
     return deferred.promise;
 });
 
-gulp.task('vip', ['vip-clean'], function () {
+gulp.task('vip', gulp.series('vip-clean', function () {
     var deferred = Q.defer();
     runSequence(
         'build',
@@ -726,4 +726,4 @@ gulp.task('vip', ['vip-clean'], function () {
             }
         });
     return deferred.promise;
-});
+}));
