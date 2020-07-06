@@ -219,9 +219,9 @@ gulp.task('sniffphp', function() {
 // COMMANDS ------------------------------------------------------------------------------------------------------------
 gulp.task('default', gulp.series( 'clean', 'img-build', 'css-watch', 'js-watch', function() {
     // watch for changes
-    gulp.watch(p.allfiles,          ['fileformat']);
-    gulp.watch(p.srcSCSS,           ['css-watch']);
-    gulp.watch(p.srcJS + '*.js',    ['js-watch']);
+    gulp.watch(p.allfiles,          gulp.series('fileformat'));
+    gulp.watch(p.srcSCSS,           gulp.series('css-watch'));
+    gulp.watch(p.srcJS + '*.js',    gulp.series('js-watch'));
 }));
 
 // check code quality before git commit
