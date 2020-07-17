@@ -42,7 +42,7 @@
     "gulp4-run-sequence": "^1.0.1",
     "jshint": "^2.11.1",
     "jshint-stylish": "^2.2.1",
-    "lodash": ">=4.17.15",
+    "lodash": ">=4.17.19",
     "minimist": "^1.2.5",
     "prompt": "^1.0.0",
     "q": "^1.5.1"
