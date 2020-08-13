@@ -62,7 +62,7 @@
 .lp_toggle__input {
     left: 0;
     @include opacity(0);
-    position: absolute;
+    position: absolute !important;
     top: 0;
 
     /*

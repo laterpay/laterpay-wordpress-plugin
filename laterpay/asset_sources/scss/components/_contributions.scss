@@ -204,6 +204,7 @@
 	}
 
 	.lp-powered-by {
+		margin-top: 30px;
 		padding-bottom: 18px;
 		color: rgb(65, 65, 65);
 		font-size: 14px;
@@ -214,11 +215,10 @@
 			color: inherit;
 			font-family: inherit;
 			position: relative;
-			font-size: 85px;
-			top: 25px;
-			left: 5px;
+			font-size: 18px;
 			box-shadow: none;
 			outline: 0 none;
+			vertical-align: top;
 			text-decoration: none !important;
 		}
 	}

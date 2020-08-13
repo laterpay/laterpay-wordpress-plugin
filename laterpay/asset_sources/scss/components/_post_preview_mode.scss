@@ -39,7 +39,7 @@
     font-style: normal;
     font-weight: normal;
     line-height: 1;
-    margin: $fs--05 0 $fs ($fs * 9);
+    margin: $fs--125 0 $fs ($fs * 8);
 
     /**
      * LaterPay logo
@@ -47,9 +47,9 @@
      */
     &:before {
         display: block;
-        font-size: round($fs * 7.5);
+        font-size: $fs--15;
         height: 0;
-        left: -($fs * 8); /* 1 */
+        left: -($fs * 7); /* 1 */
         line-height: 0;
         position: relative;
         top: 8px; /* 1 */
