@@ -358,8 +358,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
                 $html_button = '<a href="' . esc_url( $button_page_url ) . '" ' .
                     'class="lp_js_purchaseLink lp_purchase-button lp_purchase-button--shortcode" ' .
-                    'rel="prefetch" ' .
-                    'data-icon="b">' .
+                    'rel="prefetch">' .
                     esc_html( $button_label ) .
                     '</a>';
             } else {
