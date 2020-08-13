@@ -1103,7 +1103,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $event->set_result(
                 array(
                     'success' => false,
-                    'message' => esc_html__( 'Unable to update LaterPay Enabled Post Type(s).', 'laterpay' ),
+                    'message' => esc_html__( 'Unable to update Laterpay Enabled Post Type(s).', 'laterpay' ),
                 )
             );
 
@@ -1115,7 +1115,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $event->set_result(
             array(
                 'success' => true,
-                'message' => esc_html__( 'Successfully Updated LaterPay Enabled Post Type(s).', 'laterpay' ),
+                'message' => esc_html__( 'Successfully Updated Laterpay Enabled Post Type(s).', 'laterpay' ),
             )
         );
     }

@@ -1,4 +1,4 @@
-=== LaterPay ===
+=== Laterpay ===
 
 Contributors: laterpay, dominik-rodler, mihail-turalenka, avahura, ahryb
 Donate link: https://laterpay.net
@@ -12,20 +12,20 @@ Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
-Monetize your blog and content with LaterPay. We offer a frictionless transaction experience that helps you increase your revenue streams, conversion rates and online customer interactions.
+Monetize your blog and content with Laterpay. We offer a frictionless transaction experience that helps you increase your revenue streams, conversion rates and online customer interactions.
 
 == Description ==
 
 = Overview =
-The LaterPay WordPress plugin is a content monetization solution for your WordPress page. We enable you to collect voluntary financial contributions from your audience, sell individual pieces of content, timed access to your website or individual sections, recurring subscriptions, or ad-free access to your site.
+The Laterpay WordPress plugin is a content monetization solution for your WordPress page. We enable you to collect voluntary financial contributions from your audience, sell individual pieces of content, timed access to your website or individual sections, recurring subscriptions, or ad-free access to your site.
 
 Our unique ‘pay later’ model takes the upfront friction out of the transaction and allows your users to access content instantly by agreeing to pay for it later.
 
-You can offer content priced as low as $0.05 or 0.05€ and audiences can purchase that content with just a click or two - without having to register or provide payment until they reach a $5 or 5€ threshold on their LaterPay tab. At this point we ask them to register and pay and we have found that about 85% of users will do so. Once they become registered LaterPay users, the transactions become even more effortless - in fact, repeat purchases are 2-2.5X higher with the ‘pay later’ model over ‘pay now.’
+You can offer content priced as low as $0.05 or 0.05€ and audiences can purchase that content with just a click or two - without having to register or provide payment until they reach a $5 or 5€ threshold on their Laterpay tab. At this point we ask them to register and pay and we have found that about 85% of users will do so. Once they become registered Laterpay users, the transactions become even more effortless - in fact, repeat purchases are 2-2.5X higher with the ‘pay later’ model over ‘pay now.’
 
 Although we recommend using the ‘pay later’ model because of the results mentioned above, you are of course free to choose the ‘pay now’ model if it better suits your needs. [Read more about the difference between ‘pay later’ and ‘pay now’.](https://www.laterpay.net/academy/getting-started-with-laterpay-the-difference-between-pay-now-pay-later)
 
-The LaterPay WordPress plugin is easy to implement and offers a user interface that gives you complete control over pricing, look and feel, as well as the features you choose to use.
+The Laterpay WordPress plugin is easy to implement and offers a user interface that gives you complete control over pricing, look and feel, as well as the features you choose to use.
 
 = Our core features include: =
 * Single post sales
@@ -37,7 +37,7 @@ The LaterPay WordPress plugin is easy to implement and offers a user interface t
 * Pay later option
 * Pay now option
 
-= LaterPay will handle: =
+= Laterpay will handle: =
 * Transaction validation
 * Chargebacks and disputes
 * Tracking
@@ -47,7 +47,7 @@ The LaterPay WordPress plugin is easy to implement and offers a user interface t
 
 = What it costs you: =
 
-LaterPay is performance-based and works on a revenue sharing basis - for a limited time we’re charging a rate of 15% of actual revenue generated with LaterPay, ALL-INCLUSIVE.
+Laterpay is performance-based and works on a revenue sharing basis - for a limited time we’re charging a rate of 15% of actual revenue generated with Laterpay, ALL-INCLUSIVE.
 
 * No payment processing fees
 * No chargeback fees
@@ -56,7 +56,7 @@ LaterPay is performance-based and works on a revenue sharing basis - for a limit
 * No maintenance fees
 
 = Documentation and instructions: =
-* [Getting Started with the LaterPay WordPress Plugin](https://www.laterpay.net/academy/getting-started-with-the-laterpay-wordpress-plugin)
+* [Getting Started with the Laterpay WordPress Plugin](https://www.laterpay.net/academy/getting-started-with-the-laterpay-wordpress-plugin)
 * [Charge for Downloadable Content](https://www.laterpay.net/academy/how-to-charge-for-downloadable-content-in-the-laterpay-wordpress-plugin)
 * [Create a Subscription Button](https://www.laterpay.net/academy/how-to-create-a-subscription-button-in-the-laterpay-wordpress-plugin)
 
@@ -64,11 +64,11 @@ LaterPay is performance-based and works on a revenue sharing basis - for a limit
 == Frequently Asked Questions ==
 
 = Contextual Help =
-The LaterPay WordPress Plugin supports contextual help, so you will have all the information at hand right where and
+The Laterpay WordPress Plugin supports contextual help, so you will have all the information at hand right where and
 when you need it. Contextual help for the current page is available via the ‘Help’ tab on the top of the respective page.
 
 = Knowledge Base =
-You can find further information about LaterPay and the LaterPay WordPress plugin in the [LaterPay Knowledge Base](https://www.laterpay.net/academy).
+You can find further information about Laterpay and the Laterpay WordPress plugin in the [Laterpay Knowledge Base](https://www.laterpay.net/academy).
 
 = Is this plugin crawler friendly? =
 
@@ -81,13 +81,13 @@ Yes!
 
 == Screenshots ==
 
-1. The LaterPay WordPress plugin lets you easily configure a paywall to monetize content on your site.
+1. The Laterpay WordPress plugin lets you easily configure a paywall to monetize content on your site.
 2. In the WordPress editor, you can set a static or dynamic price for your posts, pages and other content types as well as utilize our custom blocks to take advantage of additional features.
 3. On the Paywall tab, you can set default prices for the entire website or specific categories. You can create time passes to offer time-limited access to all your content or a category, or even offer subscriptions.
 4. Visit the Appearance tab to customize the layout of your paywall or customize colors to ensure that your product offerings blend seamlessly with your brand.
 5. Use the Contributions tab to create a contributions dialog or button to request support from your followers in just a few clicks.
-6. Use the Account tab to link the plugin to your LaterPay account, switch between test and live mode, and choose your currency ($ or €).
-7. The plugin provides a variety of advanced settings to customize the LaterPay plugin and adjust it to your needs.
+6. Use the Account tab to link the plugin to your Laterpay account, switch between test and live mode, and choose your currency ($ or €).
+7. The plugin provides a variety of advanced settings to customize the Laterpay plugin and adjust it to your needs.
 
 == Changelog ==
 = 2.9.5 ( May 28, 2020 ) =

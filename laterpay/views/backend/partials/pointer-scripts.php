@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     // plugin menu pointer
 $admin_menu_pointer = in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $laterpay['pointers'], true );
 if ( $admin_menu_pointer ) :
-    $pointer_title = __( 'Welcome to LaterPay', 'laterpay' );
+    $pointer_title = __( 'Welcome to Laterpay', 'laterpay' );
     $pointer_body = __( 'Set the most appropriate settings for you.', 'laterpay' );
     ?>
 <script>

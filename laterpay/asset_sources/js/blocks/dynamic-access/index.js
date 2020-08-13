@@ -12,7 +12,7 @@ import Edit from './edit';
 const blockDescription = (
 	<Fragment>
 		<p>
-			{ __( 'Use this block to show or hide the content in the block based on which LaterPay product the user has purchased.', 'laterpay' ) }
+			{ __( 'Use this block to show or hide the content in the block based on which Laterpay product the user has purchased.', 'laterpay' ) }
 		</p>
 		<p>
 			{ __( 'IMPORTANT: This should not be used to hide the content you would like behind the paywall. That will be done automatically once you have set a price for this article.', 'laterpay' ) }
@@ -24,7 +24,7 @@ const blockDescription = (
  * Register Dynamic Access Block.
  */
 registerBlockType( 'laterpay/dynamic-access', {
-	title: __( 'LaterPay Dynamic Access', 'laterpay' ),
+	title: __( 'Laterpay Dynamic Access', 'laterpay' ),
 	icon: Icon.dynamicAccess,
 	category: 'laterpay-blocks',
 	description: blockDescription,

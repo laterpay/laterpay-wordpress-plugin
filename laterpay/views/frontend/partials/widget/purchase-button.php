@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $args = array_merge( array(
     'href'                          => '#',
     'class'                         => 'lp_js_doPurchase lp_purchase-button lp_purchase_button',
-    'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
+    'title'                         => __( 'Buy now with Laterpay', 'laterpay' ),
     'data-icon'                     => 'b',
     'data-laterpay'                 => esc_url( $laterpay['link'] ),
     'data-post-id'                  => $laterpay['post_id'],

@@ -232,7 +232,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
         } else {
             // Don't render the shortcode, if the target page has a post type for which LaterPay is disabled.
             if ( ! in_array( $lpMedia->post_type, $this->config->get( 'content.enabled_post_types' ), true ) ) {
-                return $this->maybe_return_error_message( esc_html__( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' ) );
+                return $this->maybe_return_error_message( esc_html__( 'Laterpay has been disabled for the post type of the target page.', 'laterpay' ) );
             }
 
             // Supported content data types.
@@ -279,7 +279,7 @@ class LaterPay_Controller_Admin_Post_Blocks extends LaterPay_Controller_Admin_Ba
                 // Build anchor text for premium link.
                 $anchor_text   = empty( $mediaDescription ) ? $mediaTitle : sprintf( '%s - %s', $mediaTitle, $mediaDescription );
                 $lp_premiumBox = '<a class="lp_js_premium-file-box lp_premium_link lp_premium_link_anchor" title="'
-                                 . esc_html__( 'Buy now with LaterPay', 'laterpay' )
+                                 . esc_html__( 'Buy now with Laterpay', 'laterpay' )
                                  . '" data-content-type="'
                                  . esc_attr( $content_type )
                                  . '" data-post-id="'

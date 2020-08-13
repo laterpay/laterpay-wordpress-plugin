@@ -64,7 +64,7 @@ gulp.task('makepot', function () {
     return gulp.src(p.phpfiles)
         .pipe(wpPot( {
             domain: 'laterpay',
-            package: 'LaterPay'
+            package: 'Laterpay'
         } ))
         .pipe(gulp.dest( p.distPlugin + 'languages/' + 'laterpay.po'));
 });

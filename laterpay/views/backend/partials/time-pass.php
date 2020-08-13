@@ -28,7 +28,7 @@ if ( ! is_wp_error( $category ) && ! empty( $category ) && 0 !== $laterpay_pass[
         <p class="lp_js_timePassPreviewDescription lp_time-pass__description"><?php echo esc_html( $laterpay_pass['description'] ); ?></p>
         <div class="lp_time-pass__actions">
             <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button"
-               title="<?php esc_attr_e( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b"
+               title="<?php esc_attr_e( 'Buy now with Laterpay', 'laterpay' ); ?>" data-icon="b"
                data-laterpay="<?php echo ( isset( $laterpay_pass['url'] ) ? esc_url( $laterpay_pass['url'] ) : '' ); ?>"
                data-preview-as-visitor="<?php echo ( isset( $laterpay_pass['preview_post_as_visitor'] ) ? esc_attr( $laterpay_pass['preview_post_as_visitor'] ) : '' ); ?>"><?php
                 /* translators: %1$s formatted price, %2$s currency tpye */

@@ -1,9 +1,9 @@
 <?php
 /*
- * Plugin Name: LaterPay
+ * Plugin Name: Laterpay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
- * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
- * Author: LaterPay
+ * Description: Sell digital content with Laterpay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
+ * Author: Laterpay
  * Version: 2.9.5
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay

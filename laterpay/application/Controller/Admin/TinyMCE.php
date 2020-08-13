@@ -121,7 +121,7 @@ class LaterPay_Controller_Admin_TinyMCE extends LaterPay_Controller_Admin_Base {
             'laterpay_shortcode_generator_labels',
             array(
                 'button'                       => array(
-                    'text'  => esc_html__( 'LaterPay ShortCodes', 'laterpay' ),
+                    'text'  => esc_html__( 'Laterpay ShortCodes', 'laterpay' ),
                     'clear' => esc_html__( 'Clear', 'laterpay' ),
                 ),
                 'preview_images'               => array(

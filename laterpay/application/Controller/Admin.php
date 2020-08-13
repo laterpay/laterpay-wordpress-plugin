@@ -70,8 +70,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $plugin_page = 'laterpay-account-tab';
         }
         add_menu_page(
-            __( 'LaterPay Plugin Settings', 'laterpay' ),
-            'LaterPay',
+            __( 'Laterpay Plugin Settings', 'laterpay' ),
+            'Laterpay',
             'moderate_comments', // allow Super Admin, Admin, and Editor to view the settings page
             $plugin_page,
             array( $this, 'run' ),
@@ -84,7 +84,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
             $slug    = $page['url'];
             $page_id = add_submenu_page(
                 $plugin_page,
-                $page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
+                $page['title'] . ' | ' . __( 'Laterpay Plugin Settings', 'laterpay' ),
                 $page['title'],
                 $page['cap'],
                 $slug,
@@ -94,7 +94,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 $sub_page   = $page['submenu'];
                 add_submenu_page(
                     $sub_page['name'],
-                    $sub_page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
+                    $sub_page['title'] . ' | ' . __( 'Laterpay Plugin Settings', 'laterpay' ),
                     $sub_page['title'],
                     $page['cap'],
                     $sub_page['url'],
@@ -273,7 +273,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         $screen = get_current_screen();
         $screen->add_help_tab( array(
             'id'      => 'laterpay_add_edit_post_page_help',
-            'title'   => __( 'LaterPay', 'laterpay' ),
+            'title'   => __( 'Laterpay', 'laterpay' ),
             'content' => __( '
             <p>
                 <strong>Setting Prices</strong><br>
@@ -293,19 +293,19 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 <strong>Teaser</strong><br>
                 The teaser should give your visitors a first impression of the content you want to sell.<br>
                 You don\'t have to provide a teaser for every single post on your site:<br>
-                by default, the LaterPay plugin uses the first 60 words of each post as teaser content.
+                by default, the Laterpay plugin uses the first 60 words of each post as teaser content.
                 <br>
                 Nevertheless, we highly recommend manually creating the teaser for each post, to increase your sales.
             </p>
             <p>
                 <strong>Pay Later</strong><br>
-                If you choose to sell your content as <strong>Pay Later</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 (EUR or USD).<br>
-                LaterPay <strong>recommends</strong> Pay Later for all prices up to 5.00 as they deliver the <strong>best purchase experience</strong> for your users.<br>
+                If you choose to sell your content as <strong>Pay Later</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his Laterpay invoice and he has to log in to Laterpay and pay, once his invoice has reached 5.00 (EUR or USD).<br>
+                Laterpay <strong>recommends</strong> Pay Later for all prices up to 5.00 as they deliver the <strong>best purchase experience</strong> for your users.<br>
                 PPU is possible for prices between (including) <strong>0.05</strong> and (including) <strong>5.00</strong>.
             </p>
             <p>
                 <strong>Pay Now</strong><br>
-                If you sell your content as <strong>Pay Now</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
+                If you sell your content as <strong>Pay Now</strong>, a user has to <strong>log in</strong> to Laterpay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
                 Pay Now are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
                 Pay Now are possible for prices between (including) <strong>1.00 € (in Europe) / $ 1.99 (in the U.S.)</strong> and (including) <strong>149.99</strong>.
             </p>', 'laterpay'
@@ -324,9 +324,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         // Add LaterPay content contextual help.
         $screen->add_help_tab( array(
                 'id'      => 'laterpay_pricing_tab_help_content',
-                'title'   => __( 'LaterPay Content', 'laterpay' ),
+                'title'   => __( 'Laterpay Content', 'laterpay' ),
                 'content' => sprintf( __(
-                    '%1$sUse the LaterPay Content section to select what types of WordPress content you would like to sell using LaterPay. %3$s The most common types are Pages, Posts, and Media but additional options may be available depending on the other plugins that you have installed.%2$s
+                    '%1$sUse the Laterpay Content section to select what types of WordPress content you would like to sell using Laterpay. %3$s The most common types are Pages, Posts, and Media but additional options may be available depending on the other plugins that you have installed.%2$s
                     %1$s%4$sTIP:%5$s If you are not sure what kind of content you would like to sell, we recommend starting with Posts & Media. This should ensure that your Pages (typically your Home Page, About Us Page, etc) remain free while you can monetize the majority of your other content (typically Posts).%2$s',
                     'laterpay' ),
                     '<p>',
@@ -344,7 +344,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 'title'   => __( 'Global Default Price', 'laterpay' ),
                 'content' => sprintf( __(
                     '%1$sSetting the Global Default Price will determine the standard behavior of your monetized content. There are three options to choose from and we will go through each one in detail and provide a few examples to help determine which is the best option based on your strategy:%2$s
-                    %6$s 
+                    %6$s
                     %8$s%4$sFREE unless price is set on post page or by category%5$s%9$s
                         %4$sDescription:%5$s All articles will be free by default. Time Passes & Subscriptions will only be displayed if the article matches a Category Default Price or has an Individual Article Price set on the Post Page.%3$s%3$s
                     %8$s%4$sPosts cannot be purchased individually%5$s%9$s
@@ -387,7 +387,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 'id'      => 'laterpay_pricing_tab_help_time_passes',
                 'title'   => __( 'Time Passes', 'laterpay' ),
                 'content' => sprintf( __(
-                    '%1$sWith time passes, you can offer your users time-limited access to your content. You can define which content a time pass should cover and for which period of time it should be valid. A time pass can be valid for all LaterPay content%2$s
+                    '%1$sWith time passes, you can offer your users time-limited access to your content. You can define which content a time pass should cover and for which period of time it should be valid. A time pass can be valid for all Laterpay content%2$s
                     %6$s
                         %8$son your entire website,%9$s
                         %8$sin specific category/ies, or%9$s
@@ -466,7 +466,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                     %6$s
                         %8$sNavigate to the post you would like to override%9$s
                         %8$sChoose to Edit that post using the WordPress Admin%9$s
-                        %8$sIn the right sidebar you should see a LaterPay section where you can select to use the Global Default Price, a Category Default Price (when applicable), or to set an Individual Price. By selecting the Individual Price, you will be able to override any other defaults for this specific post.%9$s
+                        %8$sIn the right sidebar you should see a Laterpay section where you can select to use the Global Default Price, a Category Default Price (when applicable), or to set an Individual Price. By selecting the Individual Price, you will be able to override any other defaults for this specific post.%9$s
                     %7$s
                     Check out other advanced pricing options on the %10$sAdvanced Tab%11$s',
                     'laterpay' ),
@@ -526,7 +526,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                         %9$s
 
                         %8$s
-                        %6$sShow LaterPay Introduction%7$s - In the Purchase Overlay, provide information describing LaterPay to your customers.
+                        %6$sShow Laterpay Introduction%7$s - In the Purchase Overlay, provide information describing Laterpay to your customers.
                         %9$s
 
                         %8$s
@@ -566,7 +566,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 'id'      => 'laterpay_appearance_tab_help_customize_colors',
                 'title'   => __( 'Customize Colors', 'laterpay' ),
                 'content' => sprintf( __(
-                    '%1$sUse the lower half of this page to customize the colors of the LaterPay elements. This section can be used to ensure that the color scheme matches your %3$s theme and brand. The following customizations are available:%2$s
+                    '%1$sUse the lower half of this page to customize the colors of the Laterpay elements. This section can be used to ensure that the color scheme matches your %3$s theme and brand. The following customizations are available:%2$s
                      %4$s
                         %8$s
                         %6$sHeader background color%7$s - The header background color defines a custom color used as the background of the Purchase Overlay header.
@@ -597,7 +597,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                         %9$s
 
                         %8$s
-                        %6$sLink main color%7$s - The link main color defines the text color for all links added by the LaterPay plugin.
+                        %6$sLink main color%7$s - The link main color defines the text color for all links added by the Laterpay plugin.
                         %9$s
 
                         %8$s
@@ -609,7 +609,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                         %9$s
 
                         %8$s
-                        %6$sRestore default values%7$s - By clicking "Restore default values," all colors will be restored to the original LaterPay default values.
+                        %6$sRestore default values%7$s - By clicking "Restore default values," all colors will be restored to the original Laterpay default values.
                         %9$s
                      %5$s
                     ',
@@ -641,12 +641,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 'id'      => 'laterpay_account_tab_help_api_credentials',
                 'title'   => __( 'API Credentials', 'laterpay' ),
                 'content' => sprintf( __(
-                    '%1$sIn order to receive payments, you first need a LaterPay account. %3$sOnce this is set up, you need LaterPay API credentials, consisting of the following to link your WordPress plugin to your LaterPay account.%2$s
+                    '%1$sIn order to receive payments, you first need a Laterpay account. %3$sOnce this is set up, you need Laterpay API credentials, consisting of the following to link your WordPress plugin to your Laterpay account.%2$s
                     %10$s
                     %8$s %6$sMerchant ID%7$s (a 22-character string) and%9$s
                     %8$s %6$sAPI Key%7$s (a 32-character string).%9$s
                     %11$s
-                    %4$sVisit our website to read more about how to become a content provider or to sign up with LaterPay.%5$s',
+                    %4$sVisit our website to read more about how to become a content provider or to sign up with Laterpay.%5$s',
                     'laterpay' ),
                     '<p>',
                     '</p>',
@@ -668,7 +668,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                 'id'      => 'laterpay_account_tab_help_plugin_mode',
                 'title'   => __( 'Plugin Mode', 'laterpay' ),
                 'content' => sprintf( __(
-                    '%1$sYou can run the LaterPay plugin in two modes:%2$s
+                    '%1$sYou can run the Laterpay plugin in two modes:%2$s
                     %4$s
                         %8$s
                         %6$sTest Mode%7$s - This allows you to test your plugin configuration.%3$s
@@ -680,7 +680,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                         All payments are actually processed.%3$s
                         %9$s
                     %5$s
-                        %1$s Using the LaterPay plugin usually requires some adjustments of your theme. Therefore, we recommend installing, configuring, and testing the LaterPay plugin on a test system before activating it on your production system.%2$s',
+                        %1$s Using the Laterpay plugin usually requires some adjustments of your theme. Therefore, we recommend installing, configuring, and testing the Laterpay plugin on a test system before activating it on your production system.%2$s',
                     'laterpay' ),
                     '<p>',
                     '</p>',
@@ -698,7 +698,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         // Add a sidebar for general help.
         $screen->set_help_sidebar(
             '<br/><p><strong>' . esc_html__( 'Need additional help?', 'laterpay' ) . '</strong></p>' .
-            '<p>' . sprintf( esc_html__( 'Check out the %sLaterPay WordPress Plugin Knowledge Base here.%s', 'laterpay' ), '<a href="https://www.laterpay.net/academy/tag/wordpress" target="_blank">', '</a>' ) . '</p>'
+            '<p>' . sprintf( esc_html__( 'Check out the %Laterpay WordPress Plugin Knowledge Base here.%s', 'laterpay' ), '<a href="https://www.laterpay.net/academy/tag/wordpress" target="_blank">', '</a>' ) . '</p>'
         );
     }
 

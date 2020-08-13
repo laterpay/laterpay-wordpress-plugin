@@ -1,7 +1,7 @@
 laterpay-wordpress-plugin
 =========================
 
-This is the official LaterPay plugin for selling digital content with WordPress.
+This is the official Laterpay plugin for selling digital content with WordPress.
 
 Feel free to fork the plugin and adapt it to your needs.
 
@@ -53,9 +53,9 @@ All pull requests are automatically linted with JSHint and the [.jshintrc](https
 
 ## Versioning
 
-The LaterPay WordPress plugin uses [Semantic Versioning 2.0.0](http://semver.org)
+The Laterpay WordPress plugin uses [Semantic Versioning 2.0.0](http://semver.org)
 
 
 ## Copyright
 
-Copyright 2019 LaterPay GmbH – Released under MIT License
+Copyright 2020 Laterpay GmbH – Released under MIT License

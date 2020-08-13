@@ -202,7 +202,7 @@ class LaterPay_Controller_Admin_Advanced extends LaterPay_Controller_Admin_Base 
         $event->set_result(
             array(
                 'success' => true,
-                'message' => __( 'Updated LaterPay tracking mode.', 'laterpay' ),
+                'message' => __( 'Updated Laterpay tracking mode.', 'laterpay' ),
             )
         );
 

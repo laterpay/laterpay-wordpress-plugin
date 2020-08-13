@@ -78,7 +78,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
     <p class="account_setup_warning" data-icon="n">
         <?php
         printf( '%1s <a href="%2$s">%3$s</a> %4$s',
-            esc_html__( 'Your LaterPay Plugin is currently invisible to viewers. Click', 'laterpay' ),
+            esc_html__( 'Your Laterpay Plugin is currently invisible to viewers. Click', 'laterpay' ),
             esc_url( add_query_arg( LaterPay_Helper_Request::laterpay_encode_url_params( array( 'page' => 'laterpay-account-tab' ) ), admin_url( 'admin.php' ) ) ),
             esc_html__( 'here', 'laterpay' ),
             esc_html__( 'to toggle visibility.', 'laterpay' ) );
@@ -139,7 +139,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
                 printf( '%1$s="%2$s"', 'data-tooltip', esc_html__( 'Please select a category from the "Categories" panel below to enable Category Default Pricing.', 'laterpay' ) );
             } ?>
             <?php if ( 1 === $post_price_behaviour ) {
-                printf( '%1$s="%2$s"', 'data-tooltip', esc_html__( 'To allow articles to be purchased individually, visit the LaterPay Pricing tab & adjust your Global Default Price.', 'laterpay' ) );
+                printf( '%1$s="%2$s"', 'data-tooltip', esc_html__( 'To allow articles to be purchased individually, visit the Laterpay Pricing tab & adjust your Global Default Price.', 'laterpay' ) );
             } ?>>
             <a href="#"
                id="lp_js_useCategoryDefaultPrice"
@@ -150,7 +150,7 @@ $is_in_live_mode = (bool) get_option( 'laterpay_plugin_is_in_live_mode' );
                id="lp_js_setPostFree"
                class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Make Article Free', 'laterpay' ); ?></a>
         </li>
-        <li class="lp_price-type__item <?php echo esc_attr( $individual_selected_class . ' ' . $type_one_disabled_class ); ?>" data-tooltip="<?php echo esc_attr__( 'To allow articles to be purchased individually, visit the LaterPay Pricing tab & adjust your Global Default Price.', 'laterpay' ); ?>">
+        <li class="lp_price-type__item <?php echo esc_attr( $individual_selected_class . ' ' . $type_one_disabled_class ); ?>" data-tooltip="<?php echo esc_attr__( 'To allow articles to be purchased individually, visit the Laterpay Pricing tab & adjust your Global Default Price.', 'laterpay' ); ?>">
             <a href="#"
                id="lp_js_useIndividualPrice"
                class="lp_js_priceTypeButton lp_price-type__link"><?php esc_html_e( 'Individual Price', 'laterpay' ); ?></a>
