@@ -201,9 +201,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <li><?php esc_html_e( 'Give unrestricted access to specific user roles', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $access_url ); ?>" target="_blank">
-                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
-                    </a>
                 </div>
             </div>
 
@@ -273,9 +270,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <li><?php esc_html_e( 'Length of blurred content displayed behind paywall', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $appearance_url ); ?>" target="_blank">
-                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
-                    </a>
                 </div>
             </div>
 
@@ -348,9 +342,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <li><?php esc_html_e( 'Define fallback behavior in case LaterPay API is not responding', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $technical_url ); ?>" target="_blank">
-                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
-                    </a>
                 </div>
             </div>
 
