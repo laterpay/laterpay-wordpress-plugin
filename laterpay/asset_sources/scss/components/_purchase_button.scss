@@ -78,14 +78,13 @@
      * 2. Nullify line-height to avoid icon overlapping other elements
      */
     &:before {
-        font-size: 49px !important; /* 1 */
+        font-size: 30px !important; /* 1 */
         line-height: .5 !important; /* 2 */
         margin: 0 (-$fs--05) 0 0 !important;
         position: absolute !important;
         width: (round($fs * 4.35));
-        left: 0;
-        top: $fs--08;
-
+        left: 13px;
+        top: 14px;
     }
 
     &:hover,
