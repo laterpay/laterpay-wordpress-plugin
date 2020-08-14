@@ -43,14 +43,14 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
                     <li class="lp_benefits__list-item lp_benefit--pay-later">
                         <h3 class="lp_benefit__title lp_purchase-overlay-option__title"><?php esc_html_e( 'Pay Later', 'laterpay' ); ?></h3>
                         <p class="lp_benefit__text lp_purchase-overlay-option__description">
-                            <?php printf( '%s<br> %s', esc_html__( 'Buy with LaterPay until you reach a total of 5 USD.', 'laterpay' ),esc_html__( 'Only then do you have to register and pay.', 'laterpay' ) ); ?>
+                            <?php printf( '%s<br> %s', esc_html__( 'Buy with Laterpay until you reach a total of 5 USD.', 'laterpay' ),esc_html__( 'Only then do you have to register and pay.', 'laterpay' ) ); ?>
                         </p>
                     </li>
                 </ul>
                 <div class="lp_benefits__action" id="lp_explanatory_button" style="<?php echo 1 === $lp_show_tp_sub_below_modal ? '' : 'display:none'; ?>">
                     <div class="lp_purchase-button-wrapper">
                         <div>
-                            <a href="#" class="lp_js_doPurchase lp_purchase-button lp_purchase_button" title="Buy now with LaterPay" data-icon="b">0.49
+                            <a href="#" class="lp_js_doPurchase lp_purchase-button lp_purchase_button" title="Buy now with Laterpay" data-icon="b">0.49
                                 <small class="lp_purchase-link__currency">USD</small>
                             </a></div>
                         <div><a class="lp_bought_notification"><?php esc_html_e( 'I already bought this', 'laterpay' ); ?></a></div>
@@ -142,7 +142,7 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
     </div>
 </div>
 <div id="lp_purchase_link" style="<?php echo  ( 1 === absint( $lp_show_purchase_overlay ) && 1 === absint( $lp_show_tp_sub_below_modal ) ) ? 'display:none' : ''; ?>">
-    <a href="#" class="lp_purchase-link" title="Buy now with LaterPay" data-icon="b">Buy now for 0.49
+    <a href="#" class="lp_purchase-link" title="Buy now with Laterpay" data-icon="b">Buy now for 0.49
         <small class="lp_purchase-link__currency">USD</small>
         and pay later</a>
 </div>
@@ -152,7 +152,7 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
             <h4 class="lp_js_timePassPreviewTitle lp_time-pass__title">24-Hour Pass</h4>
             <p class="lp_js_timePassPreviewDescription lp_time-pass__description">24 hours access to all content on this website</p>
             <div class="lp_time-pass__actions">
-                <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button" title="Buy now with LaterPay" data-icon="b" data-laterpay="https://web.sandbox.uselaterpaytest.com/dialog/add?article_id=tlp_2&amp;cp=xswcBCpR6Vk6jTPw8si7KN&amp;expiry=%2B86400&amp;pricing=USD99&amp;require_login=0&amp;return_lptoken=1&amp;title=24-Hour%20Pass&amp;ts=1557316771&amp;url=https%3A%2F%2Flpold.test%2F2019%2F03%2F29%2Fss%2F%3Fpass_id%3Dtlp_2%26buy%3D1&amp;hmac=bb94f88c70d1153e3a06b933beb6ac9f1370303855a63ad2d5ecffc2" data-preview-as-visitor="0">0.99
+                <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button" title="Buy now with Laterpay" data-icon="b" data-laterpay="https://web.sandbox.uselaterpaytest.com/dialog/add?article_id=tlp_2&amp;cp=xswcBCpR6Vk6jTPw8si7KN&amp;expiry=%2B86400&amp;pricing=USD99&amp;require_login=0&amp;return_lptoken=1&amp;title=24-Hour%20Pass&amp;ts=1557316771&amp;url=https%3A%2F%2Flpold.test%2F2019%2F03%2F29%2Fss%2F%3Fpass_id%3Dtlp_2%26buy%3D1&amp;hmac=bb94f88c70d1153e3a06b933beb6ac9f1370303855a63ad2d5ecffc2" data-preview-as-visitor="0">0.99
                     <small class="lp_purchase-link__currency">USD</small>
                 </a><a href="#" class="lp_js_flipTimePass lp_time-pass__terms">Terms</a></div>
         </section>
@@ -190,7 +190,7 @@ $laterpay_show_body_text_area = 1 === $laterpay_body_text['enabled'] ? '' : 'dis
             <h4 class="lp_js_subscriptionPreviewTitle lp_time-pass__title">1 Month Subscription</h4>
             <p class="lp_js_subscriptionPreviewDescription lp_time-pass__description">1 month access to all content on this website (cancellable anytime)</p>
             <div class="lp_time-pass__actions">
-                <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button" title="Buy now with LaterPay" data-icon="b" data-laterpay="https://web.sandbox.uselaterpaytest.com/dialog/subscribe?article_id=sub_2&amp;cp=xswcBCpR6Vk6jTPw8si7KN&amp;period=2678400&amp;pricing=USD399&amp;return_lptoken=1&amp;sub_id=sub_2&amp;title=1%20Month%20Subscription&amp;ts=1557316771&amp;url=https%3A%2F%2Flpold.test%2F2019%2F03%2F29%2Fss%2F&amp;hmac=96054f76cc89230581d6f72473912981554a3f4256cec17226215326" data-preview-as-visitor="0">3.99
+                <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button" title="Buy now with Laterpay" data-icon="b" data-laterpay="https://web.sandbox.uselaterpaytest.com/dialog/subscribe?article_id=sub_2&amp;cp=xswcBCpR6Vk6jTPw8si7KN&amp;period=2678400&amp;pricing=USD399&amp;return_lptoken=1&amp;sub_id=sub_2&amp;title=1%20Month%20Subscription&amp;ts=1557316771&amp;url=https%3A%2F%2Flpold.test%2F2019%2F03%2F29%2Fss%2F&amp;hmac=96054f76cc89230581d6f72473912981554a3f4256cec17226215326" data-preview-as-visitor="0">3.99
                     <small class="lp_purchase-link__currency">USD</small>
                 </a><a href="#" class="lp_js_flipSubscription lp_time-pass__terms">Terms</a></div>
         </section>

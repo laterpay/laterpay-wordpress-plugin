@@ -49,7 +49,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                     <div class="lp_advanced_info">
                         <p>
                             <?php
-                            esc_html_e( 'LaterPay\'s Analytics Dashboard helps track your sales over time so that you can easily see how your content is performing and which posts are driving the highest revenues.', 'laterpay' );
+                            esc_html_e( 'Laterpay\'s Analytics Dashboard helps track your sales over time so that you can easily see how your content is performing and which posts are driving the highest revenues.', 'laterpay' );
                             ?>
                         </p>
                         <a id='lp_js_showMerchantDashboard' href="#" target='_blank' data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login' class='lp_info_link'><?php esc_html_e( 'Click here to view your dashboard.', 'laterpay' ); ?></a>
@@ -136,7 +136,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <?php
                             printf(
                                 esc_html__(
-                                    'Create a customized experience with our newest %1$sshortcode%2$s & %3$sfunction%2$s. Using LaterPay\'s Dynamic Access feature, you can show or hide content - ads, promotional pop-ups, bonus features, virtually anything you can imagine - based on the level of access a user has purchased.', 'laterpay' ),
+                                    'Create a customized experience with our newest %1$sshortcode%2$s & %3$sfunction%2$s. Using Laterpay\'s Dynamic Access feature, you can show or hide content - ads, promotional pop-ups, bonus features, virtually anything you can imagine - based on the level of access a user has purchased.', 'laterpay' ),
                                 '<a href="https://en.support.wordpress.com/shortcodes/" target="_blank" class="lp_info_link_black">',
                                 '</a>',
                                 '<a href="https://codex.wordpress.org/Function_Reference/" target="_blank" class="lp_info_link_black">'
@@ -191,7 +191,7 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             printf(
                                 "<a href='%s' target='_blank' class='lp_info_link'>%s</a> %s",
                                 esc_url( $access_url ),
-                                esc_html__( 'Click here to adjust your LaterPay user access settings.', 'laterpay' ),
+                                esc_html__( 'Click here to adjust your Laterpay user access settings.', 'laterpay' ),
                                 esc_html__( 'Within these setting you can:', 'laterpay' )
                             );
                             ?>
@@ -201,9 +201,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <li><?php esc_html_e( 'Give unrestricted access to specific user roles', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $access_url ); ?>" target="_blank">
-                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
-                    </a>
                 </div>
             </div>
 
@@ -235,17 +232,17 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                                         <span class="lp_toggle__handle"></span>
                                     </label>
                                 </form>
-                            </div><?php esc_html_e( 'LaterPay to view my settings.', 'laterpay' ); ?>
+                            </div><?php esc_html_e( 'Laterpay to view my settings.', 'laterpay' ); ?>
                         </div>
                         <p>
-                            <?php esc_html_e( 'If you are also interested in making data informed decisions, additional analytics available through LaterPay include:', 'laterpay' ); ?>
+                            <?php esc_html_e( 'If you are also interested in making data informed decisions, additional analytics available through Laterpay include:', 'laterpay' ); ?>
                         </p>
                         <ul>
                             <li>
                                 <a href="<?php echo esc_url( $analytics_url ); ?>" class="lp_info_link"><?php esc_html_e( 'Google Analytics Events', 'laterpay' ); ?></a>
                             </li>
                             <li>
-                                <a href="#lp_analytics_info" class="lp_info_link"><?php esc_html_e( 'LaterPay\'s Analytics Dashboard', 'laterpay' ); ?></a>
+                                <a href="#lp_analytics_info" class="lp_info_link"><?php esc_html_e( 'Laterpay\'s Analytics Dashboard', 'laterpay' ); ?></a>
                             </li>
                         </ul>
                     </div>
@@ -273,9 +270,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <li><?php esc_html_e( 'Length of blurred content displayed behind paywall', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $appearance_url ); ?>" target="_blank">
-                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
-                    </a>
                 </div>
             </div>
 
@@ -297,13 +291,13 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                             <?php
                             if ( true === $is_vip ) {
                                 printf(
-                                    esc_html__( '%sWarning!%s This operation deletes ALL LaterPay plugin data.', 'laterpay' ),
+                                    esc_html__( '%sWarning!%s This operation deletes ALL Laterpay plugin data.', 'laterpay' ),
                                     "<b>",
                                     "</b>"
                                 );
                             } else {
                                 printf(
-                                    esc_html__( '%sWarning!%s This operation deactivates the LaterPay plugin and deletes ALL its data.', 'laterpay' ),
+                                    esc_html__( '%sWarning!%s This operation deactivates the Laterpay plugin and deletes ALL its data.', 'laterpay' ),
                                     "<b>",
                                     "</b>"
                                 );
@@ -315,11 +309,11 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
                         <div id="lp_plugin_disable_modal_id" style="display:none;">
                             <?php if ( $is_vip ) { ?>
-                                <p><?php esc_html_e( 'Are you sure you want to delete ALL LaterPay Plugin data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
+                                <p><?php esc_html_e( 'Are you sure you want to delete ALL Laterpay Plugin data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
                             <?php } else { ?>
-                                <p><?php esc_html_e( 'Are you sure you want to deactivate LaterPay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
+                                <p><?php esc_html_e( 'Are you sure you want to deactivate Laterpay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone.', 'laterpay' ); ?></p>
                             <?php } ?>
-                            <button class="lp_js_disablePluginConfirm button button-primary lp_mt- lp_mb-"><?php echo( ( $is_vip ) ? esc_html__( 'Delete LaterPay Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate LaterPay Plugin', 'laterpay' ) ); ?></button>
+                            <button class="lp_js_disablePluginConfirm button button-primary lp_mt- lp_mb-"><?php echo( ( $is_vip ) ? esc_html__( 'Delete Laterpay Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Laterpay Plugin', 'laterpay' ) ); ?></button>
                             <button type="button" class="button button-secondary lp_mt- lp_mb- lp_js_ga_cancel"><?php esc_html_e( 'Cancel', 'laterpay' ); ?></button>
                         </div>
                         <button class="lp_js_disablePlugin button button-primary lp_mt- lp_mb-"><?php echo( ( $is_vip ) ? esc_html__( 'Delete Plugin Data', 'laterpay' ) : esc_html__( 'Deactivate Plugin & Delete Data', 'laterpay' ) ); ?></button>
@@ -345,12 +339,9 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         </p>
                         <ul>
                             <li><?php esc_html_e( 'Enable caching compatibility mode', 'laterpay' ); ?></li>
-                            <li><?php esc_html_e( 'Define fallback behavior in case LaterPay API is not responding', 'laterpay' ); ?></li>
+                            <li><?php esc_html_e( 'Define fallback behavior in case Laterpay API is not responding', 'laterpay' ); ?></li>
                         </ul>
                     </div>
-                    <a href="<?php echo esc_url( $technical_url ); ?>" target="_blank">
-                        <img class="lp_advanced_info_img_wide" src="<?php echo esc_url( $this->config->get( 'image_url' ) . 'laterpay-icon-right.svg' ); ?>">
-                    </a>
                 </div>
             </div>
 

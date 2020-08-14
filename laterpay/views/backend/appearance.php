@@ -76,7 +76,7 @@ $settings_url = admin_url( 'options-general.php?page=laterpay#lpappearance' );
                                 </div>
                                 <div class="lp_button-group__hint"<?php if ( ! $laterpay_purchase_button_positioned_manually ) : ?> style="display:none;"<?php endif; ?> id="lp_purchase_button_hint">
                                     <p>
-                                        <?php esc_html_e( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button at that position.', 'laterpay' ); ?>
+                                        <?php esc_html_e( 'Call action \'laterpay_purchase_button\' in your theme to render the Laterpay purchase button at that position.', 'laterpay' ); ?>
                                     </p>
                                     <code>
                                         <?php echo esc_html( "<?php do_action( 'laterpay_purchase_button' ); ?>" ); ?>
@@ -95,7 +95,7 @@ $settings_url = admin_url( 'options-general.php?page=laterpay#lpappearance' );
                             </div>
 
                             <div class="appearance_option_single">
-                                <label><?php esc_html_e( 'Show LaterPay Introduction', 'laterpay' ); ?></label>
+                                <label><?php esc_html_e( 'Show Laterpay Introduction', 'laterpay' ); ?></label>
                                 <input type="checkbox" id="lp_show_introduction" name="show_introduction" value="<?php echo esc_attr( $laterpay_show_introduction ); ?>" <?php if ( 1 === $laterpay_show_introduction ) : echo 'checked'; endif; ?>>
                             </div>
 

@@ -12,7 +12,7 @@ import Edit from './edit';
  * Register Premium Download Box Block.
  */
 registerBlockType( 'laterpay/premium-download-box', {
-	title: __( 'LaterPay Premium Download Box', 'laterpay' ),
+	title: __( 'Laterpay Premium Download Box', 'laterpay' ),
 	icon: Icon.premiumBox,
 	category: 'laterpay-blocks',
 	keywords: [

@@ -48,10 +48,10 @@ class LaterPay_Compatibility_Migrate extends LaterPay_Controller_Base {
 
         if ( ! laterpay_check_is_vip() && ! laterpay_is_migration_complete() ) {
             printf( '<div id="lp_migration_notice" class="notice notice-error"><p>%s <a id="lp_js_startDataMigration" href="#">%s</a> %s</p> <p>%s</p> </br.> %s <a id="lp_js_startDataMigrationTwo" href="#">%s</a> %s</div>',
-                esc_html__( 'LaterPay has updated their plugin to remove dependencies on custom tables. Please', 'laterpay' ),
+                esc_html__( 'Laterpay has updated their plugin to remove dependencies on custom tables. Please', 'laterpay' ),
                 esc_html__( 'migrate your data', 'laterpay' ),
                 esc_html__( 'today.', 'laterpay' ),
-                esc_html__( 'This will be required before you can update to future versions of LaterPay and will not result in any visible changes to your site or your plugin set up.', 'laterpay' ),
+                esc_html__( 'This will be required before you can update to future versions of Laterpay and will not result in any visible changes to your site or your plugin set up.', 'laterpay' ),
                 esc_html__( 'Click', 'laterpay' ),
                 esc_html__( 'here', 'laterpay' ),
                 esc_html__( 'to migrate data.', 'laterpay' ) );

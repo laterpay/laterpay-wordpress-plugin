@@ -203,7 +203,7 @@ class Edit extends Component {
 				</div>
 			</div>
 		) : (
-			<button className="lp_js_premium-file-box lp_premium_link lp_premium_link_anchor" title={ __( 'Buy now with LaterPay', 'laterpay' ) } >
+			<button className="lp_js_premium-file-box lp_premium_link lp_premium_link_anchor" title={ __( 'Buy now with Laterpay', 'laterpay' ) } >
 				{ linkAnchorText }
 			</button>
 		);

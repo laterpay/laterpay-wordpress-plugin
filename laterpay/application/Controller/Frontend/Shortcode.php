@@ -151,7 +151,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
         if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ), true ) ) {
-            $error_reason   = esc_html__( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
+            $error_reason   = esc_html__( 'Laterpay has been disabled for the post type of the target page.', 'laterpay' );
             $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= esc_html__( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
@@ -221,7 +221,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             $anchor_text = empty( $description ) ? $heading : sprintf( '%s - %s', $heading, $description );
 
             $html = '<a class="lp_js_premium-file-box lp_premium_link lp_premium_link_anchor" title="'
-                    . esc_html__( 'Buy now with LaterPay', 'laterpay' )
+                    . esc_html__( 'Buy now with Laterpay', 'laterpay' )
                     . '" data-content-type="'
                     . esc_attr( $content_type )
                     . '" data-post-id="'
@@ -358,8 +358,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
                 $html_button = '<a href="' . esc_url( $button_page_url ) . '" ' .
                     'class="lp_js_purchaseLink lp_purchase-button lp_purchase-button--shortcode" ' .
-                    'rel="prefetch" ' .
-                    'data-icon="b">' .
+                    'rel="prefetch">' .
                     esc_html( $button_label ) .
                     '</a>';
             } else {

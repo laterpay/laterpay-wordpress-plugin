@@ -56,7 +56,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="lp_layout lp_mb++ lp_content_space">
 
             <div class="lp_enabled_post_types lp_layout__item lp_1/2 lp_pdr">
-                <h2><?php esc_html_e( 'LaterPay Content', 'laterpay' ); ?></h2>
+                <h2><?php esc_html_e( 'Laterpay Content', 'laterpay' ); ?></h2>
                 <div id="lp_js_laterpayContentElements" class="lp_greybox lp_price-panel">
                     <div id="lp_js_laterpayContentInfo">
                     <span id="lp_js_salablePostInfo">
@@ -68,7 +68,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             }
                             ?>
                         </span>
-                        <span><?php esc_html_e( 'are currently available to be sold with LaterPay', 'laterpay' ); ?></span>
+                        <span><?php esc_html_e( 'are currently available to be sold with Laterpay', 'laterpay' ); ?></span>
 
                         <div class="lp_price-panel__buttons">
                             <a href="#" id="lp_js_editLaterPayEnabledContent" class="lp_edit-link--bold lp_change-link lp_rounded--right" data-icon="d"></a>
@@ -76,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </div>
                 <div id="lp_js_globalEnabledPostTypeShowElements" class="lp_greybox--outline lp_mb-" style="display:none;">
-                    <p><?php esc_html_e( 'Which content would you like to sell with LaterPay?', 'laterpay' ); ?></p>
+                    <p><?php esc_html_e( 'Which content would you like to sell with Laterpay?', 'laterpay' ); ?></p>
 
                     <form id="lp_js_globalEnabledPostTypesForm" method="post" action="">
                         <input type="hidden" name="form" value="update_enabled_post_types">
@@ -321,7 +321,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <div class="lp_show_revenue_info">
                                             <?php
                                             printf(
-                                                esc_html__( '%sTIP:%s "Pay Later" is LaterPay\'s patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice. %sClick here to learn more.%s', 'laterpay' ),
+                                                esc_html__( '%sTIP:%s "Pay Later" is Laterpay\'s patented revenue model which allows your customers to purchase content with a single click, dramatically reducing their barriers to entry. Once they have purchased $5 or 5€ worth of content, they will be asked to settle their invoice. %sClick here to learn more.%s', 'laterpay' ),
                                                 "<b>",
                                                 "</b>",
                                                 "<a href='https://www.laterpay.net/academy/getting-started-with-laterpay-the-difference-between-pay-now-pay-later' target='_blank'>",

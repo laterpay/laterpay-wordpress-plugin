@@ -1,7 +1,6 @@
 .idea/
 .sublime-gulp.cache
 laterpay/built_assets/css
-laterpay/built_assets/fonts
 laterpay/built_assets/img/*
 # Allow PNG files inside img folder
 !laterpay/built_assets/img/*.png
@@ -17,3 +16,4 @@ selenium-tests/*
 svn-working-copy/*
 composer.lock
 laterpay.zip
+.DS_Store

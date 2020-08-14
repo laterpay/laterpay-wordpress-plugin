@@ -36,7 +36,7 @@ $is_vip = laterpay_check_is_vip();
 
         <div class="lp_main_area">
             <div class="lp_greybox lp_mt lp_mr lp_mb">
-                <?php esc_html_e( 'The LaterPay plugin is in', 'laterpay' ); ?>
+                <?php esc_html_e( 'The Laterpay plugin is in', 'laterpay' ); ?>
                 <div class="lp_toggle">
                     <form id="laterpay_plugin_mode" method="post">
                         <input type="hidden" name="form" value="laterpay_plugin_mode">
@@ -56,13 +56,13 @@ $is_vip = laterpay_check_is_vip();
                         </label>
                     </form>
                 </div><?php esc_html_e( 'mode.', 'laterpay' ); ?>
-                <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'In Test mode, only WordPress administrators will be able to see the LaterPay paywall. You must complete step 3 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments.', 'laterpay' ); ?>">
+                <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'In Test mode, only WordPress administrators will be able to see the Laterpay paywall. You must complete step 3 below to enable Live mode. This will display the paywall to your followers and allow you to begin accepting payments.', 'laterpay' ); ?>">
                     <span data-icon="m" class="lp_js_postPriceSpan"></span>
                 </p>
             </div>
 
             <div class="lp_clearfix" id="lp_cache_warning" style="<?php echo 1 === absint( get_option( 'laterpay_show_cache_msg' ) ) ? '' : 'display:none;' ?>">
-                <p class="live-success-msg"><?php esc_html_e( 'Congratulations, you are now accepting payments through LaterPay!', 'laterpay' ); ?></p>
+                <p class="live-success-msg"><?php esc_html_e( 'Congratulations, you are now accepting payments through Laterpay!', 'laterpay' ); ?></p>
                 <p data-icon="n" class="live-cache-warning">
                     <?php
                     printf(
@@ -123,12 +123,12 @@ $is_vip = laterpay_check_is_vip();
             <div class="lp_clearfix">
                 <label class="lp_step_label">
                     <span class="lp_step_span"><?php esc_html_e( 'Step 3', 'laterpay' ); ?>:</span>
-                    <?php esc_html_e( 'Link to LaterPay', 'laterpay' ); ?>
+                    <?php esc_html_e( 'Link to Laterpay', 'laterpay' ); ?>
                 </label>
                 <div class="lp_info_div">
                     <p>
                         <?php
-                        esc_html_e( 'A LaterPay Account is required to process financial transaction (so that we can pay you).', 'laterpay' );
+                        esc_html_e( 'A Laterpay Account is required to process financial transaction (so that we can pay you).', 'laterpay' );
                         ?>
                     </p>
                     <a class="lp_purchase-overlay__submit" id="lp_account_login" target="_blank" href="#" data-href-eu='https://web.laterpay.net/dialog/entry/?redirect_to=/merchant/#/login' data-href-us='https://web.uselaterpay.com/dialog/entry/?redirect_to=/merchant/#/login'>
@@ -163,7 +163,7 @@ $is_vip = laterpay_check_is_vip();
                                            alt="<?php esc_attr_e( 'Paste Live Merchant ID here', 'laterpay' ); ?>"
                                            placeholder="<?php esc_attr_e( 'Merchant ID', 'laterpay' ); ?>">
                                     </label>
-                                    <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'This is required in order to ensure that you receive payments. Log in to your LaterPay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes.', 'laterpay' ); ?>">
+                                    <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'This is required in order to ensure that you receive payments. Log in to your Laterpay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes.', 'laterpay' ); ?>">
                                         <span data-icon="m" class="lp_js_postPriceSpan"></span>
                                     </p>
                                 </form>
@@ -186,7 +186,7 @@ $is_vip = laterpay_check_is_vip();
                                            alt="<?php esc_attr_e( 'Paste Live API Key here', 'laterpay' ); ?>"
                                            placeholder="<?php esc_attr_e( 'API Key', 'laterpay' ); ?>">
                                     </label>
-                                    <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'This is required in order to ensure that you receive payments. Log in to your LaterPay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes.', 'laterpay' ); ?>">
+                                    <p class="lp_tooltip lp_tooltip_p lp_tooltip_account_p" data-tooltip="<?php esc_attr_e( 'This is required in order to ensure that you receive payments. Log in to your Laterpay account, navigate to the Developer tab & copy and paste the information into the corresponding boxes.', 'laterpay' ); ?>">
                                         <span data-icon="m" class="lp_js_postPriceSpan"></span>
                                     </p>
                                 </form>
@@ -210,7 +210,7 @@ $is_vip = laterpay_check_is_vip();
                     <ul class="lp_go_live">
                         <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Set up your Pricing', 'laterpay' ); ?></li>
                         <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Preview your site while logged into WordPress to ensure everything is displayed as expected', 'laterpay' ); ?></li>
-                        <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Create and link to your LaterPay account so that all revenue can be sent to your bank account', 'laterpay' ); ?></li>
+                        <li><input type="checkbox">&nbsp;<?php esc_html_e( 'Create and link to your Laterpay account so that all revenue can be sent to your bank account', 'laterpay' ); ?></li>
                     </ul>
                     <p>
                         <?php
@@ -229,12 +229,12 @@ $is_vip = laterpay_check_is_vip();
         <div class="lp_side_area">
             <div class="lp_clearfix lp_info">
                 <div class="lp_side_info">
-                    <h2><?php esc_html_e( 'Who is LaterPay?', 'laterpay' ); ?></h2>
+                    <h2><?php esc_html_e( 'Who is Laterpay?', 'laterpay' ); ?></h2>
                     <p>
                         <?php printf(
                             esc_html__( 'Meet the online payment system that cares about the user experience as much as you do %1$s %1$s
-                    With LaterPay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s
-                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. LaterPay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. Only then, once your content’s value is firmly established, is the customer asked to register and pay. This results in shopping cart conversion rates of over 80%%. LaterPay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
+                    With Laterpay, your users can purchase digital content and services, or make contributions and donations, with a single click—a frictionless experience that turns traffic into transactions.%1$s %1$s
+                    Requiring upfront registration and payment results in customer abandon rates of up to 98%%. Laterpay\'s patented Pay Later revenue model instead defers the registration process until a customer’s purchases reach a $5 threshold. Only then, once your content’s value is firmly established, is the customer asked to register and pay. This results in shopping cart conversion rates of over 80%%. Laterpay’s frictionless customer onboarding helps you turn traffic into transactions.', 'laterpay' ),
                             "<br/>"
                         ); ?>
                     </p>

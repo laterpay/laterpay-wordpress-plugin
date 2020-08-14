@@ -12,7 +12,7 @@ import Edit from './edit';
  * Register Contribution Block.
  */
 registerBlockType( 'laterpay/contribution', {
-	title: __( 'LaterPay Contribution', 'laterpay' ),
+	title: __( 'Laterpay Contribution', 'laterpay' ),
 	icon: Icon.heart,
 	category: 'laterpay-blocks',
 	keywords: [
