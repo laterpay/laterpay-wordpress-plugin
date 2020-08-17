@@ -11,10 +11,6 @@ class LaterPay_Controller_Admin_Notice extends LaterPay_Controller_Base
                 array( 'laterpay_on_admin_view', 200 ),
                 array( 'render_wpengine_notice' ),
             ),
-           'laterpay_marketing_notice' => array(
-                array( 'laterpay_on_admin_view', 200 ),
-                array( 'customize_marketing_notice' ),
-            ),
             'wp_ajax_laterpay_save_wpengine_status' => array(
                 array( 'laterpay_on_plugin_is_working', 200 ),
                 array( 'laterpay_on_ajax_send_json', 300 ),
@@ -84,17 +80,6 @@ class LaterPay_Controller_Admin_Notice extends LaterPay_Controller_Base
                 'UnSavedWpNoticeData' => esc_html( esc_js( __( 'Error saving data' ,'laterpay' ) ) ),
             )
         );
-    }
-
-    /**
-     * Customize Marketing text for wisdom tracking.
-     *
-     * @param LaterPay_Core_Event $event
-     *
-     * @return void
-     */
-    public function customize_marketing_notice( LaterPay_Core_Event $event ) {
-        $event->set_result( esc_attr__( 'Thank you for opting in to tracking! May we contact you to provide updates or request feedback?', 'laterpay' ) );
     }
 
     /**

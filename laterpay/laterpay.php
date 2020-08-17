@@ -278,26 +278,3 @@ function laterpay_whitelisted_attributes( $args, $whitelisted_keys ) {
         echo $key . '="' . esc_attr( $value ) . '" '; // phpcs:ignore
     }
 }
-
-/**
- * Add Wisdom Tracking Library for plugin tracking.
- */
-if ( ! class_exists( 'Plugin_Usage_Tracker' ) ) {
-    require_once dirname( __FILE__ ) . '/tracking/class-plugin-usage-tracker.php';
-}
-
-if ( ! function_exists( 'laterpay_start_plugin_tracking' ) ) {
-    function laterpay_start_plugin_tracking() {
-        $wisdom = new Plugin_Usage_Tracker(
-            __FILE__,
-            'https://laterpayplugin.cloudaccess.host',
-            [ 'lp_wisdom_tracking_info' ],
-            true,
-            true,
-            2
-        );
-        return $wisdom;
-    }
-
-    laterpay_start_plugin_tracking();
-}

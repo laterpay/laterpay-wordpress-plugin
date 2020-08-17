@@ -424,9 +424,6 @@ class LaterPay_Helper_Config {
         delete_option( 'lp_pass_count' );
         delete_option( 'lp_sub_count' );
 
-        // unset wisdom tracking data.
-        LaterPay_Controller_Admin_Advanced::unset_wisdom_tracking_info();
-
         // Delete Post Price Display Behaviour Option.
         delete_option( 'laterpay_post_price_behaviour' );
 
