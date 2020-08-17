@@ -250,6 +250,11 @@
             }
         }
     }
+
+    .lp_price-type__details {
+        position: relative;
+        z-index: 99;
+    }
 }
 
 .lp_dynamic-pricing-toggle,
