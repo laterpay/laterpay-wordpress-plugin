@@ -12,7 +12,6 @@
                 pluginDelete              : $('.lp_js_disablePlugin'),
                 pluginDeleteConfirm       : $('.lp_js_disablePluginConfirm'),
                 modalClose                : $('button.lp_js_ga_cancel'),
-                pluginTrackingToggle      : $('#lp_js_toggleWisdomTracking'),
                 lpGoodByeForm             : $('#put-goodbye-form-laterpay'),
             },
 
