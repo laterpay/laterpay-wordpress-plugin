@@ -16,20 +16,6 @@ class LaterPay_Form_TrackingMode extends LaterPay_Form_Abstract {
      */
     public function init() {
         $this->set_field(
-            'form',
-            array(
-                'validators' => array(
-                    'is_string',
-                    'cmp' => array(
-                        array(
-                            'eq' => 'laterpay_wisdom_optinout',
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->set_field(
             'action',
             array(
                 'validators' => array(
@@ -53,19 +39,6 @@ class LaterPay_Form_TrackingMode extends LaterPay_Form_Abstract {
                             'ne' => null,
                         ),
                     ),
-                ),
-            )
-        );
-
-        $this->set_field(
-            'is_wisdom_tracking_allowed',
-            array(
-                'validators' => array(
-                    'is_int',
-                    'in_array' => array( 0, 1 ),
-                ),
-                'filters'    => array(
-                    'to_int',
                 ),
             )
         );

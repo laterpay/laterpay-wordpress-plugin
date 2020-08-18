@@ -213,27 +213,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
                         <p>
                             <?php esc_html_e( 'In order to make informed decisions about improvements to our plugin, we would like to gather information on a few of your WordPress settings. We do not record any sensitive information; only data points in regards to your WordPress environment and plugin settings.', 'laterpay' ); ?>
                         </p>
-                        <div class="lp_greybox lp_mt lp_mr lp_mb">
-                            <div class="lp_toggle">
-                                <form id="laterpay_wisdom_optinout" method="post">
-                                    <input type="hidden" name="form" value="laterpay_wisdom_optinout">
-                                    <input type="hidden" name="action" value="laterpay_advanced">
-                                    <?php wp_nonce_field( 'laterpay_form' ); ?>
-                                    <label class="lp_toggle__label">
-                                        <input type="checkbox"
-                                               id="lp_js_toggleWisdomTracking"
-                                               class="lp_toggle__input"
-                                               name="is_wisdom_tracking_allowed"
-                                               value="1"
-                                            <?php if ( $laterpay['is_wisdom_tracking_allowed'] ) {
-                                                echo 'checked';
-                                            } ?>>
-                                        <span class="lp_toggle__text" data-on="<?php esc_attr_e( 'ALLOW', 'laterpay' ); ?>" data-off="<?php esc_attr_e( 'DISALLOW', 'laterpay' ); ?>"></span>
-                                        <span class="lp_toggle__handle"></span>
-                                    </label>
-                                </form>
-                            </div><?php esc_html_e( 'Laterpay to view my settings.', 'laterpay' ); ?>
-                        </div>
                         <p>
                             <?php esc_html_e( 'If you are also interested in making data informed decisions, additional analytics available through Laterpay include:', 'laterpay' ); ?>
                         </p>
