@@ -223,7 +223,10 @@
                                 $($o.revenueModelMultipleItems).each(function (idx) {
                                     var inputId = idx + 1;
                                     var $inputElement = $('#lp_multiple_contribution_input_' + inputId);
-                                    var price = $inputElement.val().length ? $inputElement.val() : 0.00;
+
+                                    var price = parseInt( $inputElement.val(), 10 );
+                                    price     = price.toFixed( 2 );
+
                                     var revenueModel = $('#post_price_revenue_model_' + inputId)
                                         .find('input:checked').val();
 
@@ -235,7 +238,7 @@
                                     }
 
                                     // Only add if price is greater than 0.00
-                                    if (parseFloat(price) > 0.00) {
+                                    if (0.00 < price) {
                                         var priceInfo = {
                                             price      : price * 100,
                                             revenue    : revenueModel,
