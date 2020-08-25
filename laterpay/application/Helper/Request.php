@@ -187,7 +187,7 @@ class LaterPay_Helper_Request {
             ) {
                 self::$lp_api_availability = true;
             } else {
-                throw new Exception( 'Unable to reach LaterPay API' );
+                throw new Exception( 'Unable to reach Laterpay API' );
             }
 
         } catch (Exception $exception) {

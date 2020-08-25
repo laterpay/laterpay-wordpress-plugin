@@ -48,16 +48,14 @@ html body .lp_purchase-overlay {
     }
 
     .lp_purchase-overlay__copy {
+      margin-top: 15px;
       font-size: $fs--07 !important;
-      text-align: center !important;
       line-height: 2 !important;
+      text-align: center !important;
 
       & span:before {
-        font-size: $fs--45 !important;
-        line-height: 0 !important;
-        padding: 0 !important;
-        position: relative !important;
-        top: 0.38em !important;
+        font-size: $fs--125 !important;
+        vertical-align: top !important;
       }
     }
   }
@@ -197,14 +195,6 @@ html body .lp_purchase-overlay {
       text-decoration: none !important;
       color: $purchase-button-text;
     }
-
-    & span:before {
-      font-size: $fs--2 !important;
-      line-height: 0 !important;
-      position: relative !important;
-      top: $fs--055 !important;
-      padding: 0 !important;
-    }
   }
 
   &__purchase {
@@ -223,11 +213,9 @@ html body .lp_purchase-overlay {
     }
 
     & span:before {
-      font-size: 40px !important;
+      font-size: 25px !important;
       line-height: 0 !important;
-      position: relative !important;
-      top: 9px !important;
-      padding: 0 !important;
+      padding: 0 5px 0 0 !important;
     }
   }
 
@@ -267,7 +255,7 @@ html body .lp_purchase-overlay {
 
   .lp_purchase-overlay-icon {
     display: table !important;
-    line-height: 2 !important;
+    line-height: 1 !important;
 
     &:after {
       background-repeat: no-repeat !important;
@@ -338,11 +326,10 @@ html body .lp_paid-content {
         font-size: $fs !important;
 
         & span:before {
-          font-size: $fs--6 !important;
-          line-height: 0 !important;
           padding: 0 !important;
-          position: relative !important;
-          top: 0.37em !important;
+          font-size: $fs--125 !important;
+          position: relative;
+          top: 0.25em !important;
         }
       }
 
@@ -424,10 +411,6 @@ html body .lp_paid-content {
     &__submit {
       font-size: $fs--125 !important;
       text-decoration: none;
-
-      & span:before {
-        top: $fs--04 !important;
-      }
     }
 
     &__notification {

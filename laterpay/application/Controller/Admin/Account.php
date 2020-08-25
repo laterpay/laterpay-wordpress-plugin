@@ -37,9 +37,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
     public function load_assets() {
         parent::load_assets();
 
-        // Update Wisdom opt_out status if necessary.
-        $this->lp_update_optout_value();
-
         // Get data for GA.
         $merchant_key = LaterPay_Controller_Admin::get_merchant_id_for_ga();
         $site_url     = get_site_url();
@@ -64,9 +61,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             'lpVars',
             array(
                 'ajaxUrl'               => admin_url( 'admin-ajax.php' ),
-                'i18nApiKeyInvalid'     => __( 'The API key you entered is not a valid LaterPay API key!', 'laterpay' ),
-                'i18nMerchantIdInvalid' => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay' ),
-                'i18nPreventUnload'     => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
+                'i18nApiKeyInvalid'     => __( 'The API key you entered is not a valid Laterpay API key!', 'laterpay' ),
+                'i18nMerchantIdInvalid' => __( 'The Merchant ID you entered is not a valid Laterpay Merchant ID!', 'laterpay' ),
+                'i18nPreventUnload'     => __( 'Laterpay does not work properly with invalid API credentials.', 'laterpay' ),
                 'gaData'                => array(
                     'sandbox_merchant_id' => ( ! empty( $merchant_key ) ) ? esc_js( $merchant_key ) : '',
                     'site_url'            => ( ! empty( $site_url ) ) ? esc_url( $site_url ) : '',
@@ -178,7 +175,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 array(
                     'success' => false,
                     'message' => sprintf(
-                        __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
+                        __( 'The Merchant ID you entered is not a valid Laterpay %s Merchant ID!', 'laterpay' ),
                         ucfirst( $merchant_id_type )
                     ),
                 )
@@ -236,7 +233,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 array(
                     'success' => false,
                     'message' => sprintf(
-                        __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
+                        __( 'The Merchant ID you entered is not a valid Laterpay %s Merchant ID!', 'laterpay' ),
                         ucfirst( $api_key_type )
                     ),
                 )
@@ -299,7 +296,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                     array(
                         'success'   => true,
                         'mode'      => 'live',
-                        'message'   => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' ),
+                        'message'   => __( 'The Laterpay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' ),
                     )
                 );
                 return;
@@ -309,7 +306,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 array(
                     'success'   => true,
                     'mode'      => 'test',
-                    'message'   => __( 'The LaterPay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
+                    'message'   => __( 'The Laterpay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
                 )
             );
             return;
@@ -319,7 +316,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             array(
                 'success'   => false,
                 'mode'      => 'test',
-                'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
+                'message'   => __( 'The Laterpay plugin needs valid API credentials to work.', 'laterpay' ),
             )
         );
     }
@@ -369,7 +366,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
             array(
                 'success' => true,
                 'creds'   => LaterPay_Helper_Config::prepare_sandbox_creds(),
-                'message' => __( 'The LaterPay region was changed successfully.', 'laterpay' ),
+                'message' => __( 'The Laterpay region was changed successfully.', 'laterpay' ),
             )
         );
     }
@@ -400,7 +397,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 array(
                     'success' => true,
                     'is_vip'  => false,
-                    'message' => esc_html__( 'LaterPay has been successfully uninstalled. It can be re-activated from the plugins page.', 'laterpay' ),
+                    'message' => esc_html__( 'Laterpay has been successfully uninstalled. It can be re-activated from the plugins page.', 'laterpay' ),
                 )
             );
         } else {
@@ -408,7 +405,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                 array(
                     'success' => true,
                     'is_vip'  => true,
-                    'message' => esc_html__( 'LaterPay data has been erased successfully.', 'laterpay' ),
+                    'message' => esc_html__( 'Laterpay data has been erased successfully.', 'laterpay' ),
                 )
             );
         }
@@ -461,7 +458,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                     array(
                         'success' => false,
                         'mode'    => 'test',
-                        'message' => sprintf( __( 'Your LaterPay account is restricted to sell content in %s. Please update your currency or contact sales@laterpay.net.', 'laterpay' ), $region_text ),
+                        'message' => sprintf( __( 'Your Laterpay account is restricted to sell content in %s. Please update your currency or contact sales@laterpay.net.', 'laterpay' ), $region_text ),
                     )
                 );
             } else {
@@ -469,7 +466,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Admin_Base {
                     array(
                         'success' => false,
                         'mode'    => 'test',
-                        'message' => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
+                        'message' => __( 'The Laterpay plugin needs valid API credentials to work.', 'laterpay' ),
                     )
                 );
             }

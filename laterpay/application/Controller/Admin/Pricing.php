@@ -60,9 +60,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
     public function load_assets() {
         parent::load_assets();
 
-        // Update Wisdom opt_out status if necessary.
-        $this->lp_update_optout_value();
-
         // Get data for GA.
         $merchant_key      = LaterPay_Controller_Admin::get_merchant_id_for_ga();
         $data_for_localize = [
@@ -1103,7 +1100,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             $event->set_result(
                 array(
                     'success' => false,
-                    'message' => esc_html__( 'Unable to update LaterPay Enabled Post Type(s).', 'laterpay' ),
+                    'message' => esc_html__( 'Unable to update Laterpay Enabled Post Type(s).', 'laterpay' ),
                 )
             );
 
@@ -1115,7 +1112,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $event->set_result(
             array(
                 'success' => true,
-                'message' => esc_html__( 'Successfully Updated LaterPay Enabled Post Type(s).', 'laterpay' ),
+                'message' => esc_html__( 'Successfully Updated Laterpay Enabled Post Type(s).', 'laterpay' ),
             )
         );
     }

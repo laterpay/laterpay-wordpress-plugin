@@ -11,11 +11,8 @@ i.mce-i-laterpay-logo:before,
 #adminmenu div.wp-menu-image.dashicons-laterpay-logo:before { // WordPress selector
     content: 'b' !important;
     font-family: laterpay-wordpress-icons !important;
-    font-size: 33px !important;
     font-weight: 400 !important;
-    line-height: 0.6 !important;
-    left: -5px !important;
-    position: relative !important;
+    vertical-align: middle;
 }
 
 // add red color icon for

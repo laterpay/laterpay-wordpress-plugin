@@ -12,7 +12,7 @@ import Edit from './edit';
  * Register Purchase Button Block.
  */
 registerBlockType( 'laterpay/sub-pass-purchase-button', {
-	title: __( 'LaterPay Purchase Button', 'laterpay' ),
+	title: __( 'Laterpay Purchase Button', 'laterpay' ),
 	icon: Icons.logo,
 	category: 'laterpay-blocks',
 	keywords: [

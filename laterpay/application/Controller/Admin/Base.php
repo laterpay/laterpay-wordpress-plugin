@@ -48,49 +48,4 @@ class LaterPay_Controller_Admin_Base extends LaterPay_Controller_Base
     public function render_faq_support() {
         $this->render( 'backend/partials/faq-support' );
     }
-
-    /**
-     * Check if laterpay wisdom is allowed tracking.
-     *
-     * @return bool
-     */
-    public function lp_is_wisdom_tracking_allowed() {
-        $lp_wisdom_allowed_tracking = get_option( 'wisdom_allow_tracking' );
-        if ( false === $lp_wisdom_allowed_tracking ) {
-            return false;
-        } elseif ( isset( $lp_wisdom_allowed_tracking['laterpay'] ) && 'laterpay' === $lp_wisdom_allowed_tracking['laterpay'] ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Custom code to get opt out value since wisdom_opt_out can't be used with custom usage.
-     * @return bool
-     */
-    public function lp_update_optout_value() {
-        if ( $this->lp_is_wisdom_tracking_allowed() ) {
-            $lp_wisdom_tracking_info = get_option( 'lp_wisdom_tracking_info' );
-            if ( false === $lp_wisdom_tracking_info ) {
-                return false;
-            }
-
-            if ( isset( $lp_wisdom_tracking_info['wisdom_opt_out'] ) ) {
-                if ( 0 === absint( $lp_wisdom_tracking_info['wisdom_opt_out'] ) ) {
-                    return false;
-                } else {
-                    $lp_wisdom_tracking_info['wisdom_opt_out']    = 0;
-                    $lp_wisdom_tracking_info['lp_wisdom_opt_out'] = 0;
-                }
-            } else {
-                $lp_wisdom_tracking_info['wisdom_opt_out']    = 0;
-                $lp_wisdom_tracking_info['lp_wisdom_opt_out'] = 0;
-            }
-
-            return update_option( 'lp_wisdom_tracking_info', $lp_wisdom_tracking_info );
-        }
-
-        return false;
-    }
 }

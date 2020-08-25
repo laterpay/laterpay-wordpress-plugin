@@ -690,7 +690,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 'post_id'               => ! empty( $post ) ? $post->ID : false,
                 'caching'               => (bool) $this->config->get( 'caching.compatible_mode' ),
                 'i18n'                  => array(
-                    'alert'             => __( "Your site is in LIVE mode, your visitors would now see the LaterPay purchase dialog. \n\nTo experience this behavior, view this page either by logging out of WordPress or using an user account with non-admin privileges. \n\nNote: You will be charged for purchases made while in LIVE mode.", 'laterpay' ),
+                    'alert'             => __( "Your site is in LIVE mode, your visitors would now see the Laterpay purchase dialog. \n\nTo experience this behavior, view this page either by logging out of WordPress or using an user account with non-admin privileges. \n\nNote: You will be charged for purchases made while in LIVE mode.", 'laterpay' ),
                     'validVoucher'      => __( 'Voucher code accepted.', 'laterpay' ),
                     'invalidVoucher'    => __( ' is not a valid voucher code!', 'laterpay' ),
                     'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),

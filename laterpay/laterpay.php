@@ -1,10 +1,10 @@
 <?php
 /*
- * Plugin Name: LaterPay
+ * Plugin Name: Laterpay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
- * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
- * Author: LaterPay
- * Version: 2.9.5
+ * Description: Sell digital content with Laterpay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
+ * Author: Laterpay
+ * Version: 2.9.6
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay
  * Domain Path: /languages
@@ -277,27 +277,4 @@ function laterpay_whitelisted_attributes( $args, $whitelisted_keys ) {
     foreach ( $new_args as $key => $value ) {
         echo $key . '="' . esc_attr( $value ) . '" '; // phpcs:ignore
     }
-}
-
-/**
- * Add Wisdom Tracking Library for plugin tracking.
- */
-if ( ! class_exists( 'Plugin_Usage_Tracker' ) ) {
-    require_once dirname( __FILE__ ) . '/tracking/class-plugin-usage-tracker.php';
-}
-
-if ( ! function_exists( 'laterpay_start_plugin_tracking' ) ) {
-    function laterpay_start_plugin_tracking() {
-        $wisdom = new Plugin_Usage_Tracker(
-            __FILE__,
-            'https://laterpayplugin.cloudaccess.host',
-            [ 'lp_wisdom_tracking_info' ],
-            true,
-            true,
-            2
-        );
-        return $wisdom;
-    }
-
-    laterpay_start_plugin_tracking();
 }

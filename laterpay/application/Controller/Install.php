@@ -73,7 +73,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $installed_wp_is_compatible     = version_compare( $installed_wp_version, $required_wp_version, '>=' );
 
         $notices = array();
-        $template = __( '<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>', 'laterpay' );
+        $template = __( '<p>Laterpay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>', 'laterpay' );
 
         // check PHP compatibility
         if ( ! $installed_php_is_compatible ) {
@@ -91,8 +91,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
             printf(
                 '<div class="notice notice-error is-dismissible"> <p>%s</p> <p>%s</p> <p>%s</p> <p>%s <a href="%s" target="_blank">%s</a> %s</p></div>',
-                esc_html__( 'WARNING! Your LaterPay plugin has been disabled.', 'laterpay' ),
-                esc_html__( 'LaterPay has updated their plugin to remove dependencies on custom tables. You must migrate your data before you can re-activate your plugin.', 'laterpay' ),
+                esc_html__( 'WARNING! Your Laterpay plugin has been disabled.', 'laterpay' ),
+                esc_html__( 'Laterpay has updated their plugin to remove dependencies on custom tables. You must migrate your data before you can re-activate your plugin.', 'laterpay' ),
                 esc_html__( 'To complete this process, please Rollback your plugin to v.2.3.0 and click the header to migrate your data. Once this is complete you will be free to successfully update and re-activate your plugin.', 'laterpay' ),
                 esc_html__( 'If you do not have a preferred Rollback method, we recommend', 'laterpay' ),
                 'https://wordpress.org/plugins/wp-rollback/',
@@ -106,7 +106,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             // suppress 'Plugin activated' notice
             unset( $_GET['activate'] ); // WPCS: input var ok.
             deactivate_plugins( $this->config->plugin_base_name );
-            $notices[] = __( 'The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay' );
+            $notices[] = __( 'The Laterpay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay' );
         }
 
         return $notices;
@@ -495,7 +495,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         $this->add_update_highlights();
         $this->add_tabular_info_option();
         $this->setup_overlay_options_order();
-        $this->add_merchant_id_wisdom_tracking();
 
     }
 
@@ -737,24 +736,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                     'purchase_selection' => 0,
                 ]
             );
-        }
-    }
-
-    /**
-     * Setup an option with Merchant ID information for wisdom tracking.
-     *
-     * @since 2.6.1
-     *
-     * @return void
-     */
-    public function add_merchant_id_wisdom_tracking() {
-        if ( false === get_option( 'lp_wisdom_tracking_info' ) ) {
-            $wisdom_id_data = [
-                'sandbox_id'                => get_option( 'laterpay_sandbox_merchant_id', '' ),
-                'live_id'                   => get_option( 'laterpay_live_merchant_id', '' ),
-                'wisdom_registered_setting' => 1
-            ];
-            update_option( 'lp_wisdom_tracking_info', $wisdom_id_data );
         }
     }
 }

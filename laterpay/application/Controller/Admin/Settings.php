@@ -90,8 +90,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
      */
     public function add_laterpay_advanced_settings_page() {
         add_options_page(
-            __( 'LaterPay Advanced Settings', 'laterpay' ),
-            'LaterPay',
+            __( 'Laterpay Advanced Settings', 'laterpay' ),
+            'Laterpay',
             'manage_options',
             'laterpay',
             array( $this, 'render_advanced_settings_page' )
@@ -107,7 +107,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
         $this->load_assets();
         // pass variables to template
         $view_args = array(
-            'settings_title' => __( 'LaterPay Advanced Settings', 'laterpay' ),
+            'settings_title' => __( 'Laterpay Advanced Settings', 'laterpay' ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -189,7 +189,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
      */
     public function get_access_section_description() {
         echo '<p>';
-        esc_html_e( 'While most content access is controlled by LaterPay, in this section you can require users to log in prior to purchase or allow unlimited access to specific WordPress user roles (this feature can be useful for giving free access to existing subscribers or other stakeholders). We recommend the plugin \'User Role Editor\' for adding custom roles to WordPress.', 'laterpay' );
+        esc_html_e( 'While most content access is controlled by Laterpay, in this section you can require users to log in prior to purchase or allow unlimited access to specific WordPress user roles (this feature can be useful for giving free access to existing subscribers or other stakeholders). We recommend the plugin \'User Role Editor\' for adding custom roles to WordPress.', 'laterpay' );
         echo '</p>';
     }
 
@@ -242,7 +242,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
         // Add LaterPay GA Section.
         add_settings_field(
             'laterpay_tracking_data',
-            __( 'LaterPay Google Analytics:', 'laterpay' ),
+            __( 'Laterpay Google Analytics:', 'laterpay' ),
             array( $this, 'get_ga_field_markup' ),
             'laterpay',
             'laterpay_analytics',
@@ -255,7 +255,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
                     'modal'       => array(
                         'id'         => 'lp_ga_modal_id',
                         'message'    => sprintf( '%1$s <br/><br/> %2$s',
-                            esc_html__( 'LaterPay collects this information to improve our products and
+                            esc_html__( 'Laterpay collects this information to improve our products and
                                         services and also so that you can determine the effectiveness of your pricing
                                         strategy using our Merchant Analytics dashboard.', 'laterpay' ),
                             esc_html__( 'Are you sure you would like to disable this feature?', 'laterpay' ) ),
@@ -286,8 +286,8 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     public function get_analytics_section_description() {
         echo '<p>';
         printf(
-            esc_html__( 'LaterPay is not in the business of selling data. This tracking information is for your benefit so that you can determine the effectiveness of your pricing strategy. %s
-            To view your analytics, log in to your LaterPay account at %slaterpay.net%s to view your Merchant Analytics dashboard.', 'laterpay' ),
+            esc_html__( 'Laterpay is not in the business of selling data. This tracking information is for your benefit so that you can determine the effectiveness of your pricing strategy. %s
+            To view your analytics, log in to your Laterpay account at %slaterpay.net%s to view your Merchant Analytics dashboard.', 'laterpay' ),
             "<br/>",
             "<a href='https://www.laterpay.net/' target='_blank'/>",
             "</a>"
@@ -328,7 +328,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
                 'title'   => esc_html__( 'Teaser Content Word Count', 'laterpay' ),
                 'modal'   => array(
                     'id'      => 'teaser_word_count_id',
-                    'message' => sprintf( esc_html__( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post without teaser content. %1$s %1$s While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED. %1$s %1$s If you really, really want to have NO teaser content for a post, enter one space into the teaser content editor for that post.', 'laterpay' ), '<br/>' ),
+                    'message' => sprintf( esc_html__( 'The Laterpay WordPress plugin automatically generates teaser content for every paid post without teaser content. %1$s %1$s While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED. %1$s %1$s If you really, really want to have NO teaser content for a post, enter one space into the teaser content editor for that post.', 'laterpay' ), '<br/>' ),
                     'style'   => 'font-size:24px',
                 ),
             )
@@ -411,7 +411,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
      */
     public function get_appearance_section_description() {
         echo '<p>';
-        esc_html_e( 'Our most common configuration options are found under the LaterPay plugin’s Appearance tab. Here you can adjust the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall.', 'laterpay' );
+        esc_html_e( 'Our most common configuration options are found under the Laterpay plugin’s Appearance tab. Here you can adjust the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall.', 'laterpay' );
         echo '</p>';
     }
 
@@ -460,7 +460,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
 
         add_settings_field(
             'laterpay_api_fallback_behavior',
-            __( 'In the case that the LaterPay API becomes unresponsive:', 'laterpay' ),
+            __( 'In the case that the Laterpay API becomes unresponsive:', 'laterpay' ),
             array( $this, 'get_select_field_markup' ),
             'laterpay',
             'laterpay_technical',
@@ -505,7 +505,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
     public function add_contact_section() {
         add_settings_section(
             'laterpay_contact',
-            sprintf( esc_html__( '%s Contact LaterPay Support %s', 'laterpay' ), '<a href="#lpcontact" class="lp_options_a"><div id="lpcontact">', '</div></a>' ),
+            sprintf( esc_html__( '%s Contact Laterpay Support %s', 'laterpay' ), '<a href="#lpcontact" class="lp_options_a"><div id="lpcontact">', '</div></a>' ),
             array( $this, 'get_contact_section_description' ),
             'laterpay'
         );
@@ -517,7 +517,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
      * @return void
      */
     public function get_contact_section_description() {
-        printf( esc_html__( 'Have questions or feature requests? %1$sClick here to contact LaterPay support%2$s', 'laterpay' ), '<a href="https://www.laterpay.net/contact-support">', '</a>' );
+        printf( esc_html__( 'Have questions or feature requests? %1$sClick here to contact Laterpay support%2$s', 'laterpay' ), '<a href="https://www.laterpay.net/contact-support">', '</a>' );
     }
 
     /**
@@ -869,7 +869,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
             array(
                 'value'       => '0',
                 'text'        => esc_html__( 'Do nothing', 'laterpay' ),
-                'description' => esc_html__( 'No user can access premium content while the LaterPay API is not responding.', 'laterpay' ),
+                'description' => esc_html__( 'No user can access premium content while the Laterpay API is not responding.', 'laterpay' ),
             ),
             array(
                 'value'       => '1',
