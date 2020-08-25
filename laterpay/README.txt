@@ -6,7 +6,7 @@ Tags: contribution, conversion, earn-money, micropayment, monetization, monetize
 Requires at least: 4.6
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 2.9.5
+Stable tag: 2.9.6
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -90,6 +90,12 @@ Yes!
 7. The plugin provides a variety of advanced settings to customize the Laterpay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.9.6 ( August 25, 2020 ) =
+* Updated Laterpay logo.
+* Updated 'Tested up to' tag to WordPress 5.5.
+* Fixed minor issue with Contributions not rendering correct amounts in EU.
+* Fixed issue when dynamic pricing sliders were not working properly because of overlapping element.
+
 = 2.9.5 ( May 28, 2020 ) =
 * Added proper validation for custom voucher codes.
 * Fixes minor issue with cache validation message.
@@ -713,6 +719,9 @@ KNOWN BUGS:
 * Changed treatment of search engine bots to avoid cloaking penalties; removed toggle for search engine visibility from appearance tab
 
 == Upgrade notice ==
+
+= 2.9.6 =
+Updated Laterpay logo and compatibility with WordPress 5.5.
 
 = 2.9.5 =
 Added proper validation for custom voucher codes.
