@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-08-25T10:43:56+00:00\n"
+"POT-Creation-Date: 2020-10-07T13:06:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: laterpay\n"
@@ -401,7 +401,7 @@ msgid "Contributions"
 msgstr ""
 
 #: application/Controller/Admin.php:835
-#: views/backend/advanced.php:233
+#: views/backend/advanced.php:209
 msgid "Appearance"
 msgstr ""
 
@@ -518,12 +518,12 @@ msgid "Your Laterpay account is restricted to sell content in %s. Please update 
 msgstr ""
 
 #: application/Controller/Admin/Advanced.php:59
-#: views/backend/advanced.php:298
+#: views/backend/advanced.php:274
 msgid "Delete Plugin Data"
 msgstr ""
 
 #: application/Controller/Admin/Advanced.php:59
-#: views/backend/advanced.php:298
+#: views/backend/advanced.php:274
 msgid "Deactivate Plugin & Delete Data"
 msgstr ""
 
@@ -1159,161 +1159,125 @@ msgstr ""
 msgid "Laterpay Advanced Settings"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:142
+#: application/Controller/Admin/Settings.php:141
 msgid "%s Access %s"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:150
+#: application/Controller/Admin/Settings.php:149
 msgid "Require User Login before Purchase"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:159
+#: application/Controller/Admin/Settings.php:158
 msgid "Require Login Information"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:162
+#: application/Controller/Admin/Settings.php:161
 msgid "Please choose if you want to require a login for \"Pay Later\" purchases."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:170
+#: application/Controller/Admin/Settings.php:169
 msgid "Enable Vouchers for Single Article Purchases"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:192
+#: application/Controller/Admin/Settings.php:191
 msgid "While most content access is controlled by Laterpay, in this section you can require users to log in prior to purchase or allow unlimited access to specific WordPress user roles (this feature can be useful for giving free access to existing subscribers or other stakeholders). We recommend the plugin 'User Role Editor' for adding custom roles to WordPress."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:204
+#: application/Controller/Admin/Settings.php:203
 msgid "%s Analytics %s"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:221
+#: application/Controller/Admin/Settings.php:220
 msgid "Your Google Analytics:"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:245
-msgid "Laterpay Google Analytics:"
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:258
-msgid ""
-"Laterpay collects this information to improve our products and\n"
-"                                        services and also so that you can determine the effectiveness of your pricing\n"
-"                                        strategy using our Merchant Analytics dashboard."
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:261
-msgid "Are you sure you would like to disable this feature?"
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:262
-msgid "Yes, Disable Tracking"
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:263
-#: views/backend/advanced.php:296
-#: views/backend/appearance.php:154
-#: views/backend/appearance.php:295
-#: views/backend/pricing.php:113
-#: views/backend/pricing.php:196
-#: views/backend/pricing.php:356
-#: views/backend/pricing.php:476
-#: views/backend/pricing.php:596
-#: views/backend/pricing.php:628
-#: views/backend/pricing.php:790
-#: views/backend/pricing.php:843
-#: views/backend/pricing.php:990
-#: views/frontend/partials/widget/purchase-overlay.php:146
-msgid "Cancel"
-msgstr ""
-
-#: application/Controller/Admin/Settings.php:289
+#: application/Controller/Admin/Settings.php:253
 msgid ""
 "Laterpay is not in the business of selling data. This tracking information is for your benefit so that you can determine the effectiveness of your pricing strategy. %s\n"
 "            To view your analytics, log in to your Laterpay account at %slaterpay.net%s to view your Merchant Analytics dashboard."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:298
+#: application/Controller/Admin/Settings.php:262
 msgid "Enabled"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:300
+#: application/Controller/Admin/Settings.php:264
 msgid "Google Analytics \"UA-ID\""
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:312
+#: application/Controller/Admin/Settings.php:276
 msgid "%s Appearance %s"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:320
+#: application/Controller/Admin/Settings.php:284
 msgid "Default Teaser Content Word Count"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:328
+#: application/Controller/Admin/Settings.php:292
 msgid "Teaser Content Word Count"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:331
+#: application/Controller/Admin/Settings.php:295
 msgid "The Laterpay WordPress plugin automatically generates teaser content for every paid post without teaser content. %1$s %1$s While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED. %1$s %1$s If you really, really want to have NO teaser content for a post, enter one space into the teaser content editor for that post."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:341
+#: application/Controller/Admin/Settings.php:305
 msgid "Percentage of Post Blurred behind Overlay"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:349
+#: application/Controller/Admin/Settings.php:313
 msgid "Percentage of Post Content"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:352
+#: application/Controller/Admin/Settings.php:316
 msgid "Percentage of content to be extracted; 20 means \"extract 20% of the total number of words of the post\"."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:361
+#: application/Controller/Admin/Settings.php:325
 msgid "Minimum Number of Words Blurred behind Overlay"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:369
+#: application/Controller/Admin/Settings.php:333
 msgid "Minimum Number of Words"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:372
+#: application/Controller/Admin/Settings.php:336
 msgid "Applied if number of words as percentage of the total number of words is less than this value."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:381
+#: application/Controller/Admin/Settings.php:345
 msgid "Maximum Number of Words Blurred behind Overlay"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:389
+#: application/Controller/Admin/Settings.php:353
 msgid "Maximum Number of Words"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:392
+#: application/Controller/Admin/Settings.php:356
 msgid "Applied if number of words as percentage of the total number of words exceeds this value."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:414
+#: application/Controller/Admin/Settings.php:378
 msgid "Our most common configuration options are found under the Laterpay plugin’s Appearance tab. Here you can adjust the number of characters automatically generated as your teaser content, and also the length of the content preview blurred behind our paywall."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:426
+#: application/Controller/Admin/Settings.php:390
 msgid "%s Technical %s"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:433
+#: application/Controller/Admin/Settings.php:397
 msgid "I am using a caching plugin (e.g. WP Super Cache or Cachify)"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:447
+#: application/Controller/Admin/Settings.php:411
 msgid "Disable content access check queries on Home Page"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:463
+#: application/Controller/Admin/Settings.php:427
 msgid "In the case that the Laterpay API becomes unresponsive:"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:489
+#: application/Controller/Admin/Settings.php:453
 msgid ""
 "You MUST enable caching compatibility mode, if you are using a caching solution\n"
 "           that caches entire HTML pages. %1$s In caching compatibility mode, the plugin works\n"
@@ -1323,59 +1287,59 @@ msgid ""
 "           and replaces the teaser with the full content, if required."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:508
+#: application/Controller/Admin/Settings.php:472
 msgid "%s Contact Laterpay Support %s"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:520
+#: application/Controller/Admin/Settings.php:484
 msgid "Have questions or feature requests? %1$sClick here to contact Laterpay support%2$s"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:536
+#: application/Controller/Admin/Settings.php:500
 msgid "none"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:537
+#: application/Controller/Admin/Settings.php:501
 msgid "all"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:594
+#: application/Controller/Admin/Settings.php:558
 msgid "WordPress User Role"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:596
+#: application/Controller/Admin/Settings.php:560
 msgid "Receives unlimited access to:"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:601
+#: application/Controller/Admin/Settings.php:565
 msgid "Please add a custom role first."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:871
+#: application/Controller/Admin/Settings.php:835
 msgid "Do nothing"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:872
+#: application/Controller/Admin/Settings.php:836
 msgid "No user can access premium content while the Laterpay API is not responding."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:876
+#: application/Controller/Admin/Settings.php:840
 msgid "Give full access"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:877
+#: application/Controller/Admin/Settings.php:841
 msgid "All users have full access to premium content in order to not disappoint paying users."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:881
+#: application/Controller/Admin/Settings.php:845
 msgid "Hide premium content"
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:882
+#: application/Controller/Admin/Settings.php:846
 msgid "Premium content is hidden from users. Direct access would be blocked."
 msgstr ""
 
-#: application/Controller/Admin/Settings.php:962
+#: application/Controller/Admin/Settings.php:926
 msgid "auto detected"
 msgstr ""
 
@@ -2096,112 +2060,108 @@ msgstr ""
 msgid "Give unrestricted access to specific user roles"
 msgstr ""
 
-#: views/backend/advanced.php:209
-msgid "Analytics & Usage Data"
-msgstr ""
-
-#: views/backend/advanced.php:214
-msgid "In order to make informed decisions about improvements to our plugin, we would like to gather information on a few of your WordPress settings. We do not record any sensitive information; only data points in regards to your WordPress environment and plugin settings."
-msgstr ""
-
-#: views/backend/advanced.php:217
-msgid "If you are also interested in making data informed decisions, additional analytics available through Laterpay include:"
-msgstr ""
-
-#: views/backend/advanced.php:221
-msgid "Google Analytics Events"
-msgstr ""
-
-#: views/backend/advanced.php:224
-msgid "Laterpay's Analytics Dashboard"
-msgstr ""
-
-#: views/backend/advanced.php:242
+#: views/backend/advanced.php:218
 msgid "Click here to access additional appearance configurations,"
 msgstr ""
 
-#: views/backend/advanced.php:243
-#: views/backend/advanced.php:315
+#: views/backend/advanced.php:219
+#: views/backend/advanced.php:291
 msgid "including:"
 msgstr ""
 
-#: views/backend/advanced.php:248
+#: views/backend/advanced.php:224
 msgid "Length of default teaser content"
 msgstr ""
 
-#: views/backend/advanced.php:249
+#: views/backend/advanced.php:225
 msgid "Length of blurred content displayed behind paywall"
 msgstr ""
 
-#: views/backend/advanced.php:259
+#: views/backend/advanced.php:235
 msgid "%sDelete%s Account"
 msgstr ""
 
-#: views/backend/advanced.php:273
+#: views/backend/advanced.php:249
 msgid "%sWarning!%s This operation deletes ALL Laterpay plugin data."
 msgstr ""
 
-#: views/backend/advanced.php:279
+#: views/backend/advanced.php:255
 msgid "%sWarning!%s This operation deactivates the Laterpay plugin and deletes ALL its data."
 msgstr ""
 
-#: views/backend/advanced.php:286
+#: views/backend/advanced.php:262
 msgid "You will lose all appearance settings and pricing configurations. This cannot be undone."
 msgstr ""
 
-#: views/backend/advanced.php:291
+#: views/backend/advanced.php:267
 msgid "Are you sure you want to delete ALL Laterpay Plugin data? You will loose all pricing configurations. This cannot be undone."
 msgstr ""
 
-#: views/backend/advanced.php:293
+#: views/backend/advanced.php:269
 msgid "Are you sure you want to deactivate Laterpay plugin and delete ALL its data? You will loose all pricing configurations. This cannot be undone."
 msgstr ""
 
-#: views/backend/advanced.php:295
+#: views/backend/advanced.php:271
 msgid "Delete Laterpay Plugin Data"
 msgstr ""
 
-#: views/backend/advanced.php:295
+#: views/backend/advanced.php:271
 msgid "Deactivate Laterpay Plugin"
 msgstr ""
 
-#: views/backend/advanced.php:305
+#: views/backend/advanced.php:272
+#: views/backend/appearance.php:154
+#: views/backend/appearance.php:295
+#: views/backend/pricing.php:113
+#: views/backend/pricing.php:196
+#: views/backend/pricing.php:356
+#: views/backend/pricing.php:476
+#: views/backend/pricing.php:596
+#: views/backend/pricing.php:628
+#: views/backend/pricing.php:790
+#: views/backend/pricing.php:843
+#: views/backend/pricing.php:990
+#: views/frontend/partials/widget/purchase-overlay.php:146
+msgid "Cancel"
+msgstr ""
+
+#: views/backend/advanced.php:281
 msgid "Technical"
 msgstr ""
 
-#: views/backend/advanced.php:314
+#: views/backend/advanced.php:290
 msgid "Click here for more technical configuration options,"
 msgstr ""
 
-#: views/backend/advanced.php:320
+#: views/backend/advanced.php:296
 msgid "Enable caching compatibility mode"
 msgstr ""
 
-#: views/backend/advanced.php:321
+#: views/backend/advanced.php:297
 msgid "Define fallback behavior in case Laterpay API is not responding"
 msgstr ""
 
-#: views/backend/advanced.php:327
+#: views/backend/advanced.php:303
 #: views/backend/partials/faq-support.php:25
 msgid "Support"
 msgstr ""
 
-#: views/backend/advanced.php:330
+#: views/backend/advanced.php:306
 #: views/backend/partials/faq-support.php:10
 msgid "Having Trouble with Page Cache? %sClick here.%s"
 msgstr ""
 
-#: views/backend/advanced.php:336
+#: views/backend/advanced.php:312
 #: views/backend/partials/faq-support.php:16
 msgid "Having Trouble on WPEngine? %sClick here.%s"
 msgstr ""
 
-#: views/backend/advanced.php:341
+#: views/backend/advanced.php:317
 #: views/backend/partials/faq-support.php:21
 msgid "The new version of the plugin is not compatible with my site. How can I rollback? %sClick here.%s"
 msgstr ""
 
-#: views/backend/advanced.php:346
+#: views/backend/advanced.php:322
 #: views/backend/partials/faq-support.php:29
 msgid "%1$sClick here%3$s or email %2$ssupport@laterpay.net%3$s to provide feedback or to reach our customer service team."
 msgstr ""
