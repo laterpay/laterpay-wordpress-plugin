@@ -125,7 +125,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
         // add sections with fields
         $this->add_access_settings();
         $this->add_unlimited_access_settings();
-        $this->add_analytics_settings();
         $this->add_appearance_settings();
         $this->add_technical_settings();
         $this->add_contact_section();
@@ -239,42 +238,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base {
             )
         );
 
-        // Add LaterPay GA Section.
-        add_settings_field(
-            'laterpay_tracking_data',
-            __( 'Laterpay Google Analytics:', 'laterpay' ),
-            array( $this, 'get_ga_field_markup' ),
-            'laterpay',
-            'laterpay_analytics',
-            array(
-                array(
-                    'name'        => 'laterpay_ga_enabled_status',
-                    'value'       => 1,
-                    'type'        => 'checkbox',
-                    'parent_name' => 'laterpay_tracking_data',
-                    'modal'       => array(
-                        'id'         => 'lp_ga_modal_id',
-                        'message'    => sprintf( '%1$s <br/><br/> %2$s',
-                            esc_html__( 'Laterpay collects this information to improve our products and
-                                        services and also so that you can determine the effectiveness of your pricing
-                                        strategy using our Merchant Analytics dashboard.', 'laterpay' ),
-                            esc_html__( 'Are you sure you would like to disable this feature?', 'laterpay' ) ),
-                        'saveText'   => esc_html__( 'Yes, Disable Tracking', 'laterpay' ),
-                        'cancelText' => esc_html__( 'Cancel', 'laterpay' ),
-                    ),
-                ),
-                array(
-                    'name'        => 'laterpay_ga_ua_id',
-                    'type'        => 'text',
-                    'classes'     => [ 'lp_ga-input' ],
-                    'readonly'    => true,
-                    'parent_name' => 'laterpay_tracking_data',
-                )
-            )
-        );
-
         register_setting( 'laterpay', 'laterpay_user_tracking_data' );
-        register_setting( 'laterpay', 'laterpay_tracking_data' );
 
     }
 

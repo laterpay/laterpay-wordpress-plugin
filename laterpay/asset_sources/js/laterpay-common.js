@@ -68,53 +68,13 @@
             return matches ? decodeURIComponent(matches[1]) : undefined;
         },
 
-        // Injects Google Analytics Script.
+        /**
+         * Injects Google Analytics Script.
+         *
+         * Removed in 2.9.7. Always returns false.
+         */
         injectGAScript = function ( injectNow ) {
-            if ( true === injectNow ) {
-                // This injector script is for GA have made minor modifications to fix linting issue.
-                (function(i, s, o, g, r, a, m) {
-                    i.GoogleAnalyticsObject = r;
-                    i[r] = i[r] || function() {
-                        (i[r].q = i[r].q || []).push(arguments);
-                    }; i[r].l = 1 * new Date();
-                    a = s.createElement(o);
-                    m = s.getElementsByTagName(o)[0];
-                    a.async = 1;
-                    a.src = g;
-                    m.parentNode.insertBefore(a, m);
-                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'lpga');
-                return window[window.GoogleAnalyticsObject || 'lpga'];
-            }
-        },
-
-        // Send event to LaterPay GA.
-        sendParentEvent = function( injectNow, eventlabel, eventAction, eventCategory, eventValue, eventInteraction ) {
-            var lpga = injectGAScript( injectNow );
-            if (typeof lpga === 'function') {
-                lpga( 'create', lpCommonVar.lp_tracking_id, 'auto', 'lpParentTracker' );
-                lpga('lpParentTracker.send', 'event', {
-                    eventCategory  : eventCategory,
-                    eventAction    : eventAction,
-                    eventLabel     : eventlabel,
-                    eventValue     : eventValue,
-                    nonInteraction : eventInteraction,
-                });
-            }
-        },
-
-        // Send event to User GA.
-        sendUserEvent = function( injectNow, eventlabel, eventAction, eventCategory, eventValue, eventInteraction ) {
-            var lpga = injectGAScript( injectNow );
-            if (typeof lpga === 'function') {
-                lpga( 'create', lpCommonVar.lp_user_tracking_id, 'auto', 'lpUserTracker' );
-                lpga( 'lpUserTracker.send', 'event', {
-                    eventCategory  : eventCategory,
-                    eventAction    : eventAction,
-                    eventLabel     : eventlabel,
-                    eventValue     : eventValue,
-                    nonInteraction : eventInteraction,
-                });
-            }
+            return false;
         },
 
         // Read Post Purchased Cookie.
@@ -125,26 +85,6 @@
                 lpGlobal.sendLPGAEvent( 'Paid Content Purchase Complete', 'LaterPay WordPress Plugin', eventlabel );
                 lp_delete_cookie('lp_ga_purchased');
             }
-        },
-
-        // Detect if GA is Enabled by MonsterInsights Plugin.
-        detectMonsterInsightsGA = function () {
-            if ( typeof window.mi_track_user === 'boolean' && true === window.mi_trac_user ) {
-                return window[window.GoogleAnalyticsObject || '__gaTracker'];
-            }
-        },
-
-        // Create a tracker and send event to GA.
-        createTrackerAndSendEvent = function ( gaTracker, trackingId, trackerName, eventAction, eventLabel,
-                                               eventCategory, eventValue, eventInteraction ) {
-            gaTracker( 'create', trackingId, 'auto', trackerName );
-            gaTracker( trackerName + '.send', 'event', {
-                eventCategory  : eventCategory,
-                eventAction    : eventAction,
-                eventLabel     : eventLabel,
-                eventValue     : eventValue,
-                nonInteraction : eventInteraction,
-            });
         },
 
         daysPassedSinceEvent = function( date1, date2 ) {
@@ -361,81 +301,13 @@
 
         window.lpGlobal = {
 
-            // Send GA Event conditionally.
+            /**
+             * Send GA Event conditionally.
+             *
+             * Removed in 2.9.7, always returns false.
+             */
             sendLPGAEvent: function ( eventAction, eventCategory, eventLabel, eventValue, eventInteraction ) {
-
-                if ( 'undefined' === typeof eventInteraction ) {
-                    eventInteraction = false;
-                }
-
-                var sentUserEvent = false;
-                var __gaTracker   = detectMonsterInsightsGA();
-                var trackers      = '';
-                var userUAID      = lpCommonVar.lp_user_tracking_id;
-                var lpUAID        = lpCommonVar.lp_tracking_id;
-
-                if( userUAID.length > 0 && lpUAID.length > 0 ) {
-
-                    if (typeof __gaTracker === 'function' ) {
-                        trackers = __gaTracker.getAll();
-                        trackers.forEach(function(tracker) {
-                            if ( userUAID === tracker.get('trackingId') ) {
-                                sentUserEvent = true;
-                                var trackerName = tracker.get('name');
-                                __gaTracker( trackerName + '.send', 'event', {
-                                    eventCategory  : eventCategory,
-                                    eventAction    : eventAction,
-                                    eventLabel     : eventLabel,
-                                    eventValue     : eventValue,
-                                    nonInteraction : eventInteraction,
-                                });
-                            }
-                        });
-
-                        if ( true === sentUserEvent ) {
-                            createTrackerAndSendEvent( lpUAID, 'lpParentTracker', eventAction, eventLabel,
-                                eventCategory, eventValue, eventInteraction );
-                        } else {
-                            createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction,
-                                eventLabel, eventCategory, eventValue, eventInteraction );
-                            createTrackerAndSendEvent( __gaTracker, userUAID, 'lpUserTracker', eventAction,
-                                eventLabel, eventCategory, eventValue, eventInteraction );
-                        }
-                    } else {
-                        sendParentEvent( true, eventLabel, eventAction, eventCategory, eventValue, eventInteraction );
-                        sendUserEvent( true, eventLabel, eventAction, eventCategory, eventValue, eventInteraction );
-                    }
-                } else if( userUAID.length > 0 && lpUAID.length === 0 ) {
-                    if (typeof __gaTracker === 'function') {
-                        trackers = __gaTracker.getAll();
-                        trackers.forEach(function (tracker) {
-                            if (userUAID === tracker.get('trackingId')) {
-                                sentUserEvent = true;
-                                var trackerName = tracker.get('name');
-                                __gaTracker(trackerName + '.send', 'event', {
-                                    eventCategory  : eventCategory,
-                                    eventAction    : eventAction,
-                                    eventLabel     : eventLabel,
-                                    eventValue     : eventValue,
-                                    nonInteraction : eventInteraction,
-                                });
-                            }
-                        });
-
-                        if (true !== sentUserEvent) {
-                            sendUserEvent(true, eventLabel, eventAction, eventCategory, eventValue,eventInteraction);
-                        }
-                    } else {
-                        sendUserEvent(true, eventLabel, eventAction, eventCategory, eventValue,eventInteraction);
-                    }
-                } else if( userUAID.length === 0 && lpUAID.length > 0 ) {
-                    if (typeof __gaTracker === 'function' ) {
-                        createTrackerAndSendEvent( __gaTracker, lpUAID, 'lpParentTracker', eventAction, eventLabel,
-                            eventCategory, eventValue, eventInteraction );
-                    } else{
-                        sendParentEvent( true, eventLabel, eventAction, eventCategory, eventValue, eventInteraction );
-                    }
-                }
+                return false;
             }
         };
 

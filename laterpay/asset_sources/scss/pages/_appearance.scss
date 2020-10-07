@@ -84,9 +84,7 @@
             font-size: 15px !important;
 
             &:before {
-                font-size: 30px !important;
-                left: 10px;
-                top: 6px;
+                font-size: 20px !important;
             }
         }
 
@@ -179,10 +177,10 @@
             display: inline-block !important;
             float: none !important;
             margin-bottom: 5px !important;
-            font-size: $fs !important;
+            font-size: $fs--2 !important;
             &:before {
-                font-size: 30px !important;
-                top: 6px;
+                font-size: 28px !important;
+                top: 3px;
             }
         }
 

@@ -96,8 +96,8 @@
  * 1. Take up full available width, i.e. 100% - padding of .lp_timePass
  */
 .lp_time-pass__actions {
-    bottom: 1em;
-    position: absolute;
+    display: flex;
+    position: relative;
     width: 80%; /* 1 - fallback for browsers that don't support calc */
     width: calc(100% - 4em); /* 1 */
 
@@ -352,7 +352,7 @@ input.lp_voucher__code {
     }
 
     .lp_time-pass__actions {
-        bottom: 0.8em !important;
+        display: flex;
         width: 80% !important; /* 1 - fallback for browsers that don't support calc */
         width: calc(100% - 2em) !important; /* 1 */
         margin-left: 3px !important;
@@ -361,9 +361,8 @@ input.lp_voucher__code {
             font-size: $fs--15 !important;
 
             &:before {
-                font-size: 36px !important;
-                left: -1px !important;
-                top: 10px !important;
+                font-size: 25px !important;
+                top: 4px !important;
             }
         }
 

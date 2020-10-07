@@ -206,30 +206,6 @@ $settings_url   = admin_url( 'options-general.php?page=laterpay' );
 
             <div class="lp_clearfix">
                 <label class="lp_step_label">
-                    <span class="lp_step_span"><?php esc_html_e( 'Analytics & Usage Data', 'laterpay' ); ?></span>
-                </label>
-                <div class="lp_info_div">
-                    <div class="lp_advanced_info">
-                        <p>
-                            <?php esc_html_e( 'In order to make informed decisions about improvements to our plugin, we would like to gather information on a few of your WordPress settings. We do not record any sensitive information; only data points in regards to your WordPress environment and plugin settings.', 'laterpay' ); ?>
-                        </p>
-                        <p>
-                            <?php esc_html_e( 'If you are also interested in making data informed decisions, additional analytics available through Laterpay include:', 'laterpay' ); ?>
-                        </p>
-                        <ul>
-                            <li>
-                                <a href="<?php echo esc_url( $analytics_url ); ?>" class="lp_info_link"><?php esc_html_e( 'Google Analytics Events', 'laterpay' ); ?></a>
-                            </li>
-                            <li>
-                                <a href="#lp_analytics_info" class="lp_info_link"><?php esc_html_e( 'Laterpay\'s Analytics Dashboard', 'laterpay' ); ?></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="lp_clearfix">
-                <label class="lp_step_label">
                     <span class="lp_step_span"><?php esc_html_e( 'Appearance', 'laterpay' ); ?></span>
                 </label>
                 <div class="lp_info_div">

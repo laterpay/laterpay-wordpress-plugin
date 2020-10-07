@@ -6,7 +6,7 @@ Tags: contribution, micropayment, paywall, sell content, subscription, conversio
 Requires at least: 4.6
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 2.9.6
+Stable tag: 2.9.7
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -90,6 +90,10 @@ Yes!
 7. The plugin provides a variety of advanced settings to customize the Laterpay plugin and adjust it to your needs.
 
 == Changelog ==
+= 2.9.7 ( October 7, 2020 ) =
+* Fixed alignment and size of Laterpay logo in various buttons.
+* Removed Google Analytics integration to comply with latest EU laws.
+
 = 2.9.6 ( August 25, 2020 ) =
 * Updated Laterpay logo.
 * Updated 'Tested up to' tag to WordPress 5.5.
@@ -719,6 +723,9 @@ KNOWN BUGS:
 * Changed treatment of search engine bots to avoid cloaking penalties; removed toggle for search engine visibility from appearance tab
 
 == Upgrade notice ==
+
+= 2.9.7 =
+Fixed Laterpay logo appearance, removed GA integration.
 
 = 2.9.6 =
 Updated Laterpay logo and compatibility with WordPress 5.5.
