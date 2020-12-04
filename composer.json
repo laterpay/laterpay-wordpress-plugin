@@ -12,7 +12,8 @@
             "type": "package",
             "package": {
                 "name": "automattic/vipwpcs",
-                "version": "master",
+                "version": "2.2.0",
+                "canonical": false,
                 "type": "phpcodesniffer-standard",
                 "source": {
                     "url": "https://github.com/Automattic/VIP-Coding-Standards.git",
@@ -32,9 +33,9 @@
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "*",
-        "automattic/vipwpcs": "^2",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-        "phpcompatibility/phpcompatibility-wp": "^2.0"
+        "automattic/vipwpcs": "^2.2.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "phpcompatibility/phpcompatibility-wp": "*"
     },
     "scripts": {
         "post-install-cmd": "find laterpay/vendor/ -type d -name \".git\" | xargs rm -rf",

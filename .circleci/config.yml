@@ -42,6 +42,11 @@ jobs:
           paths:
             - ./node_modules
       - run:
+          name: UPDATE COMPOSER
+          command: |
+            composer update
+            composer install
+      - run:
           name: RUN GULP BUILD IN PROJECT
           command: gulp build
       - restore_cache:
