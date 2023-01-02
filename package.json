@@ -5,7 +5,7 @@
   "main": "index.js",
   "devDependencies": {
     "@octokit/rest": "18.5.3",
-    "@wordpress/scripts": "^15.0.1",
+    "@wordpress/scripts": "^25.1.0",
     "dateformat": "^4.5.1",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
